@@ -61,6 +61,35 @@ Then, per chapter:
 
 Other commands: `/novel-status`, `/novel-plan`, `/novel-character`, `/novel-recap`, `/novel-toggle`.
 
+## What it costs to run
+
+Measured on a real run — one Naruto fan fiction, Claude Sonnet 5, scaffold plus five revised
+chapters. Full method, raw tables and caveats in [docs/benchmark.md](docs/benchmark.md).
+
+| | |
+|---|---|
+| Setup — interview + full scaffold, one-time | **~$21**, ~40 min |
+| Each chapter after that | **~$1.90**, ~4 min, ~1,600 words |
+| A 30-chapter arc, end to end | **~$115**, ~3 hours |
+
+Three things worth knowing before you start:
+
+- **You are not paying for prose.** Output was 3% of the bill. The other 97% is the model reading
+  state back in. Cheap chapters come from a small read-set, not from short chapters.
+- **Setup is most of your first day's spend** — about eleven chapters' worth. It buys a bible, a
+  cast with a voice matrix and a competence grid, an arc plan and twelve planned chapters.
+- **Cost per chapter is flat only if you start a fresh session periodically.** Inside one long
+  session it climbs with conversation length: cache reads rose ~34% over three consecutive
+  chapters. The *read-set* is bounded; the *session* is not. `/novel-write` in a new session
+  picks up from the state files, and that is the cheap path.
+
+Run [`docs/check-chapters.sh`](docs/check-chapters.sh) on your own chapters to check dialogue
+share, word count against target, MTL artifacts and ledger integrity independently of the model
+that wrote them.
+
+**These are numbers from one run of one genre**, stopped deliberately at chapter 5 when it turned
+up two defects worth fixing. It is a rough order of magnitude, not a quote.
+
 ## The skills
 
 **Core loop** — `novel-init`, `mc-design`, `story-bible`, `chapter-plan`, `continuity-summary`,

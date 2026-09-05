@@ -56,6 +56,12 @@ Hold these while writing:
   mid-chapter unless `pov-switch` says a switch is happening.
 - **Dialogue.** Every named speaker's lines must satisfy their speech fingerprint
   (`dialogue-voice`). If you cannot tell two characters apart with the tags removed, fix it now.
+- **Enough dialogue to audit.** Target **25–40% of the chapter in quotation marks**
+  (`dialogue-voice` §How much dialogue). Under 10% is a defect: the cast has become scenery and
+  every voice check in this toolkit silently no-ops, because there are no lines to tell apart.
+  When two people are in a room, the beat belongs to what they *say* to each other — not to the
+  POV character concluding it on their behalf. An analytical POV voice is the usual cause; it is
+  pleasant to write and it quietly eats the scene.
 - **Voice spread.** Hold each speaker's matrix row while writing (`voice-separation`): their turn
   length, their articulacy — which is *not* their intelligence — and whether wit is theirs at all.
   Nobody except a declared mirror reasons at the MC's speed by default; somebody in this chapter is
@@ -97,6 +103,9 @@ Hold these while writing:
 | Break | — | `* * *` |
 | Scene 2 | 700–900 | Consequence of the turn; the chapter's cost lands. |
 | Hook | 50–120 | The last beat. See `hook-and-pacing`. |
+
+Across those sections, **25–40% of the words should be spoken aloud**, and the chapter should land
+near `chapters.target_words` — not against `min_words`, which is a floor, not a destination.
 
 Deviate freely when the material wants it — but never end without a hook if
 `chapters.hook_required` is true.
@@ -177,6 +186,8 @@ The draft wins if it is better, but the plan must be updated, not ignored:
 |---|---|---|
 | Chapter reads as "stuff happened" | no turn | `scene-craft` |
 | Characters sound identical | fingerprints not loaded | `dialogue-voice` |
+| One mind narrating; nobody talks | analytical POV voice ate the scene; dialogue under 10% | `dialogue-voice` §How much dialogue — give the beat to the people in the room |
+| Every chapter lands just over `min_words` | the floor is being treated as the target | `hook-and-pacing` §Chapter length — aim at `target_words` ±15% |
 | Everyone reasons and jokes like the MC | the cast was never placed on the matrix; the MC is the model's calibration point | `voice-separation` §1, §3 — straddle the tier, cap the wit, hold the turn lengths |
 | The allies are interchangeable | they share intel + articulacy + wit | `voice-separation` §3 — change one axis or merge the characters |
 | Beats are all nods, shrugs and sighs | the default gesture set | `voice-separation` §4 — beats come from the hands field |

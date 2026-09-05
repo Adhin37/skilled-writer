@@ -165,6 +165,10 @@ cultural material it adds is still audited by Pass 6.
 - [ ] Emotions carried by behaviour or decision, not named
 - [ ] One non-visual sensory detail per scene
 - [ ] No dead stage business
+- [ ] **Dialogue share is 25–40% of the chapter's words** (`dialogue-voice` §How much dialogue).
+      Under 10% fails the pass: measure it, do not eyeball it. The fix is to give the beats to
+      the people in the room, never to bolt on small talk
+- [ ] Nobody was present in a scene, silent, while the POV character narrated their inner state
 
 ## Pass 9 — Opening and hook (`hook-and-pacing`)
 
@@ -172,7 +176,9 @@ cultural material it adds is still audited by Pass 6.
 - [ ] Re-anchoring is one clause
 - [ ] Chapter ends on its last strong beat
 - [ ] Hook concrete, final position, type rotated
-- [ ] Word count inside range without padding
+- [ ] Word count **at `target_words` ±15%**, not merely inside `min_words`–`max_words`. Chapters
+      landing repeatedly within ~60 words of a bound mean the target is being ignored
+      (`hook-and-pacing` §Chapter length)
 
 ## Pass 10 — Mechanics
 

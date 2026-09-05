@@ -21,6 +21,12 @@ Set in `novel.md` → `chapters:`. Platform default: **~2,000 words**, floor 1,6
   chapter abandoned mid-way is worse than one not started.
 - Higher release cadence supports shorter chapters. Weekly releases need more substance per
   chapter and a stronger recap clause.
+- **`target_words` is the target; the floor and ceiling are tolerances, not goals.** Aim for
+  `target_words` ±15%. A run of chapters all landing within a few dozen words of `min_words` is
+  not consistency — it is the target being quietly ignored, and readers who were promised ~2,000
+  words are getting a fifth less book per chapter. Check the trend across the last five chapters,
+  not just the current one: the defect is invisible in any single chapter that is technically
+  "in range".
 - **Never pad to a word count.** If the chapter's material ends at 1,500 words, either pull
   material forward from the next chapter or ship at 1,500. Padding is visible and it is the
   fastest way to train readers to skim.
@@ -126,3 +132,5 @@ each chapter, name the one thing a reader would miss. If you cannot, merge it wi
 - [ ] Pace varies within the chapter
 - [ ] The chapter passes the skim test
 - [ ] Word count within `min_words`–`max_words`, with no padding
+- [ ] Word count near `target_words` (±15%), not parked against a bound
+- [ ] The last five chapters are not all clustered at the same bound

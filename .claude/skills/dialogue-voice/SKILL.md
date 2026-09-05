@@ -166,8 +166,41 @@ Never write these. See `mtl-detox` for the full list.
 - Crowd reaction blocks: bystanders narrating how impressive the MC is
 - A character explaining the power system to someone who already lives in it
 
+## How much dialogue
+
+The fingerprints in this skill only reach the reader through lines that actually get spoken. A
+chapter can pass every test above and still fail, because the test never ran: if the cast barely
+speaks, there is nothing to tell apart.
+
+**Target 25–40% of the chapter's words inside quotation marks.** That is the register of the
+format. It is not a stylistic preference — it is what makes a chapter feel like events happening
+between people rather than one mind narrating its own analysis.
+
+| share | what it reads as | verdict |
+|---|---|---|
+| under 10% | interior monologue with quotes attached | **defect** — the cast is scenery |
+| 10–20% | literary-introspective | allowed only as a deliberate, occasional chapter |
+| 25–40% | the serialized format | target |
+| over 55% | radio play; setting and interiority starve | pull back |
+
+**The diagnostic.** A POV character with a strong analytical voice is the usual cause: the model
+routes every beat through their reasoning because that voice is enjoyable to write. The tell is a
+scene where a second person is physically present and says nothing, or says one line and is
+narrated *about* for three paragraphs. Whenever another character is in the room, ask what they
+would say — and let them say it instead of having the POV character infer it.
+
+**Interiority is not a substitute for a scene.** If the POV character concludes something about
+another person, the stronger version is almost always that the other person does or says the thing
+and the reader concludes it. Give the deduction a surface to land on.
+
+Two structural consequences worth holding while drafting: a chapter with only one speaking
+character is a chapter `voice-separation` cannot audit, and a walk-on who never opens their mouth
+cannot pass the swap test in `character-profile`. Both skills quietly no-op on a silent cast.
+
 ## Self-check
 
+- [ ] Dialogue is 25–40% of the chapter's words; under 10% is a defect, not a style
+- [ ] No character stood in a scene without speaking while being narrated about
 - [ ] Tags stripped — is every tier-A and tier-B speaker identifiable?
 - [ ] Transplant test — the MC's best line does not fit anyone else's mouth
 - [ ] At least one speaker differs from the MC on two or more axes
