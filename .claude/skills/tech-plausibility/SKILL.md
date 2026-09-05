@@ -95,6 +95,15 @@ If the story includes artificial minds, decide early and record: are they people
 who profits from the answer? Do not let the story be vague about it while borrowing the emotional
 weight of both answers.
 
+**An ASI is not omniscient, it is differently ignorant.** Declare it `knowledge_scope: broad` with
+`scope_kind: artificial`, and fill the boundary (`competence-map` §6): it was trained on what
+somebody fed it, it has no embodied knowledge — it has never lifted anything, been cold, or waited
+— and it interpolates confidently across its blank regions without being able to tell those regions
+from the rest. Its recall is superhuman and its judgement about people is a guess dressed as a
+number. Then bound the **access** rather than the knowledge: latency, an airgap, a bad channel, a
+query budget, an operator who chooses the questions. An unbounded oracle dissolves every mystery in
+the book, and the limit belongs in this file alongside the other capability limits.
+
 ## Handoff to the world
 
 The second-order effects worked out here are recorded and extended in `bible/society.md` via
@@ -112,4 +121,6 @@ In science fiction those consequences *are* the genre; do not leave them as a li
 - [ ] Antagonists have comparable access to the tech
 - [ ] Nothing was solved this chapter by an unestablished capability
 - [ ] No character explained their own technology to someone who lives with it
+- [ ] Users know how to *use* it, not how it works — the technicians are separate people
+- [ ] Any artificial mind has a declared boundary and a bounded access channel
 - [ ] Every new term is in the lexicon with a plain meaning

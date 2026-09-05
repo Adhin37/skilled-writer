@@ -145,6 +145,13 @@ Then fill in, in this order:
    two rows share intel + articulacy + wit. This is the step that decides the book will not be one
    voice in several costumes, and it is far cheaper here than in chapter 40. Delete §5 (Mirrors) if
    nothing in the novel duplicates a person.
+5c. **`bible/cast/_competence.md`** via `competence-map` — the same move for knowledge. A row per
+   character: domain, level, and **where the edge is**, plus a referral each, and §3, *what nobody
+   in this cast knows*. Fill it as a grid so the distribution is visible: does anyone read, who is
+   the only one who can fight, what would this cast have to buy? Unlisted is `none`, which is what
+   gives arc 1 its errands and its wrong answers. Fill §4 only if the book contains gods, immortals,
+   cultivators or artificial minds — their boundary and their access bound are required fields, not
+   decoration, because an unbounded oracle dissolves every mystery you have planned.
 6. **`plan/timeline.md`** via `timeline-engine` — the drivers with their reaction profiles, the
    world track for arcs 1–3, standing clocks, and the point-of-no-return watch. For fanfic, the
    canon track and the first deliberate divergence. Keep this coarse for original fiction: the
@@ -174,6 +181,9 @@ Show the user:
   in one block, so the user can see at a glance who is cleverer than the MC, who is slower, who is
   the only funny one, and who talks too much. This is the cheapest thing on the list to correct now
   and the most expensive to correct at chapter 40
+- **the competence grid**, the same way — one line per character, their domain and where it stops,
+  plus what nobody in the cast knows. That last list is the most interesting thing you can show a
+  writer at this stage: it is where arc 2 comes from
 - **the ending contract** back in their own words, plus the reactivity dial, so they can see the
   deal: this hard, and it ends there
 - for fanfic: the first deliberate divergence — which canon event, which chapter, what the MC
@@ -219,3 +229,6 @@ offering every configuration.
   `_voices.md` as a table and check the three rules in §2 — somebody below the MC's tier, at most
   two funny people, no duplicate intel/articulacy/wit triples. Left undone at init, this defect is
   invisible for twenty chapters and then permanent.
+- **Don't** give anyone an open-ended competence. Three domains for the MC, two for a principal,
+  one for a supporting character, and everything unlisted is `none`. A cast where everyone can
+  answer everything has no errands, no referrals and no reason for half its members to exist.

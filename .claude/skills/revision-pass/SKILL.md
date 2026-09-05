@@ -1,6 +1,6 @@
 ---
 name: revision-pass
-description: Quality gate for a drafted chapter — runs continuity, character, voice-separation, intelligence, structure, world-delivery, bias, MTL-artifact and prose checks in a fixed order and fixes what it finds. Use after drafting any chapter, and when the user says /novel-revise.
+description: Quality gate for a drafted chapter — runs continuity, character, voice-separation, intelligence, knowledge-and-competence, structure, world-delivery, bias, MTL-artifact and prose checks in a fixed order and fixes what it finds. Use after drafting any chapter, and when the user says /novel-revise.
 ---
 
 # revision-pass
@@ -74,7 +74,12 @@ because the fingerprints differ and the minds behind them do not:
 - [ ] Anyone at a third appearance, or who changed the plot, is promoted and profiled
 - [ ] Every named walk-on has a roster line and a lexicon entry
 
-## Pass 3 — MC intelligence (`mc-intel-meter`)
+## Pass 3 — Intelligence and knowledge (`mc-intel-meter`, `competence-map`)
+
+Two different things, and the pass fails most often at the seam: a high tier waved through as a
+licence to know facts.
+
+**Intelligence**
 
 - [ ] Every MC decision passes the trace test — name the on-page fact behind it
 - [ ] None of the seven floor rules violated
@@ -82,6 +87,22 @@ because the fingerprints differ and the minds behind them do not:
 - [ ] No narration asserting the MC is clever
 - [ ] Nobody was made stupid to make the MC look smart
 - [ ] Tier-appropriate: no deduction above tier, no obtuseness below it
+
+**Knowledge** — every character in the chapter, not just the MC:
+
+- [ ] Provenance test on every stated fact: taught it, did it, was told it, read it, or openly
+      guessing. "They're intelligent" is not a provenance
+- [ ] Nobody answered inside a domain their row in `bible/cast/_competence.md` does not list —
+      unlisted is `none`, not "probably fine"
+- [ ] Someone in this chapter said they did not know, went to their referral, or was confidently
+      wrong. If nobody did, the cast is reading as omniscient
+- [ ] No exposition handed to a convenient mouth: nobody explained a subject outside their map
+- [ ] Nobody improvised a second specialty where a referral existed
+- [ ] Any skill practised advanced by a teacher, a reference, or a costly failure — never by
+      elapsed time; a stage transition got a scene and ordinary practice got a clause
+- [ ] Practice cost something namable this chapter
+- [ ] Broad-knowledge characters (`knowledge_scope: broad`) stayed inside their declared shape,
+      hit their declared boundary, and had their **access** bounded rather than their knowledge
 
 ## Pass 4 — Structure
 
@@ -173,6 +194,10 @@ cultural material it adds is still audited by Pass 6.
 - **When a fix reveals a bible gap** (an unnamed thing, an undefined rule, a social fact the
   scene assumed), add it to `bible/world.md`, `bible/society.md` or `bible/lexicon.md` in the
   same pass and say so.
+- **When Pass 3 finds a knowledge gap**, prefer the cheap fix in this order: give the line to
+  someone whose map covers it · have the character ask their referral · let them be *wrong* about
+  it, which usually improves the scene · and only last, add the domain to their map, which is a
+  permanent change to who they are.
 
 Set `status: revised` in the frontmatter when all ten passes are clean.
 
@@ -191,5 +216,6 @@ needs to know that the default was reaching for it.
 ## Standalone use
 
 `/novel-revise <n>` runs this on an existing chapter. Load that chapter, its CCS block, the two
-before it, the matrix rows in `bible/cast/_voices.md` for its speakers, and the profiles of
-everyone in it — then run all ten passes.
+before it, the matrix rows in `bible/cast/_voices.md` and the competence rows in
+`bible/cast/_competence.md` for its speakers, and the profiles of everyone in it — then run all
+ten passes.

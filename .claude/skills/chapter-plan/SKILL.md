@@ -36,6 +36,12 @@ as a chapter surprises you, and stale rows are worse than no rows: they get foll
    MC's axes. Any character the arc introduces as a recurring presence gets their matrix row now,
    placed against the existing cast, not invented in isolation when they first speak.
 8. Assign **threads**: opened, paid, carried forward.
+8b. Check the arc's **expertise**: does it turn on knowledge nobody in the cast has
+   (`bible/cast/_competence.md` §3)? If so, decide now which it is — a character to introduce, a
+   referral the MC has to buy, or a skill someone starts climbing. Deciding this at the scene means
+   inventing a physician on the spot. If an arc *is* a learning arc for someone, place the stage
+   transitions on specific chapters and leave the practice as clauses in between
+   (`competence-map` §5).
 9. Run `timeline-engine`: which world-track events fire in this arc, on which chapters, and how
    each reaches the MC. **Confirm the arc moves at least one of them** — moved, prevented,
    altered or created. An arc that leaves the world track untouched is an arc the MC was a
@@ -110,3 +116,4 @@ could belong to any chapter of any novel ("Revelations", "The Beginning", "Awake
 - [ ] Every open thread has a `due` chapter within the planning horizon
 - [ ] No three consecutive rows share a chapter type
 - [ ] The five pillar chapters escalate what is *lost*, not what is *fought*
+- [ ] Any expertise the arc requires is on someone's map, or is planned to be acquired or bought

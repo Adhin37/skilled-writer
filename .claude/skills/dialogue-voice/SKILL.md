@@ -113,6 +113,17 @@ formal, being intimate, or being cold. Not every third line.
 they do not explain it to each other. Give the information to someone who genuinely lacks it, or
 carry it in narration, or let the reader infer it.
 
+**And nobody explains a subject they were never taught.** The other half of the same rule: before
+assigning an explanation, check the speaker's row in `bible/cast/_competence.md`. Exposition handed
+to whoever is standing there is how a whole cast ends up omniscient. Three better moves — give the
+line to the person whose domain it is, let the speaker say they do not know and name who does, or
+let them be confidently **wrong**, which is usually the best scene of the three
+(`competence-map` §2, §3).
+
+**"I don't know" is a strong line.** So is "that's not my end", "ask Dael", and "I'd guess, but
+it's a guess". They read as competence, not weakness — a character who knows the edge of their own
+knowledge is more credible than one who always has an answer.
+
 ## Development and voice
 
 Apply every accumulated voice delta from `state/growth.md`. This is the concrete mechanism by
@@ -168,3 +179,5 @@ Never write these. See `mtl-detox` for the full list.
 - [ ] Voice deltas applied?
 - [ ] `said`/`asked` unless a stronger verb genuinely earns its place?
 - [ ] No dialogue explaining what both speakers already know?
+- [ ] Nobody explained a subject their competence map does not cover?
+- [ ] Did anyone say they did not know, defer to someone, or turn out to be wrong?

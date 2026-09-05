@@ -45,6 +45,10 @@ Load exactly this. Not more.
     for the POV character and §5 if a mirror is on the page. Profiles are read one at a time and
     sameness is only visible side by side; this is the file that keeps the cast from converging on
     the MC. It is a table, and it is cheap.
+9c. `bible/cast/_competence.md` §1 and §2 — **the rows for this chapter's characters, always**, plus
+    §4 if a broad-knowledge character is on the page. A few lines each, and they are what stop
+    everyone in the chapter from answering every question. Load §3 (what nobody here knows) when
+    the chapter turns on an expertise.
 10. `state/body.md` §1 and §2 — **whenever any character in this chapter has `form_locked: true`.**
     No description of their body, reach, voice or capability may be written without it.
 11. `plan/timeline.md` §4 (scheduled for this arc) — always. It is short, and it is how the
@@ -55,7 +59,7 @@ Load exactly this. Not more.
     court, a custom, who is allowed where). Load the relevant section, never the file.
 
 If the read-set exceeds what you can hold, drop items 4 and 3-oldest first. Never drop 1, 5, 6, 9,
-9b, 10, 12.
+9b, 9c, 10, 12.
 
 ---
 
@@ -174,6 +178,11 @@ done> the things that can never be undone
 8. Add a matrix row to `bible/cast/_voices.md` for anyone promoted this chapter, placed against the
    existing cast (`voice-separation` §1). Nothing else in that file changes per chapter — it is
    revised at arc rollup, not per chapter.
+9. Log any **skill stage** that advanced in the skill-ladder table of `state/growth.md`, with what
+   caused it (a teacher, a reference, a costly failure) and what the practice is costing. Add a
+   competence row to `bible/cast/_competence.md` for anyone promoted, and for any domain a character
+   genuinely acquired on the page. If the chapter needed an expertise nobody in the cast had, put it
+   in §3 of that file — that is a person the story is missing (`competence-map`).
 
 ## Procedure — arc rollup
 
@@ -186,6 +195,10 @@ Triggered when a chapter completes an arc.
     read side by side. If the axes have compressed toward the MC's, restore them and log it in §6
     of `bible/cast/_voices.md`. A serial converges slowly enough that only a periodic side-by-side
     catches it.
+3c. Run the **competence audits** on `bible/cast/_competence.md`: has anyone quietly accumulated
+    domains past their budget across the arc, and do the `none` rows sort by gender, class or
+    people (`bias-guard`, `competence-map` §7)? Both defects arrive one convenient line at a time
+    and are only visible in aggregate. Log the redeal in §5.
 4. Leave the chapter blocks in place — they are cheap and occasionally needed. Do not delete.
 
 ## Self-check

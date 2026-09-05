@@ -89,10 +89,20 @@ Keep them separate; conflating them is what produces the insufferable protagonis
 
 - **Intelligence** (fixed by tier): speed and depth of inference.
 - **Knowledge** (grows): what they have been told or have seen. Tracked in CCS `kno>`.
+- **Expertise** (narrow, and earned): what they have been *trained* in. Bounded by domain in
+  `bible/cast/_competence.md` (`competence-map`).
 - **Wisdom** (their arc): whether they act well on what they know. This *should* be low early.
 
 A tier-5 MC with low wisdom is the best version of the genre: he is right about the plan and
 wrong about what the plan is for.
+
+**A high tier is not a licence to know things.** This is the defect the split above exists to
+prevent, and it is the one most often waved through: a brilliant MC infers faster, but they cannot
+infer a fact they were never given, and they cannot practise a craft they never learned. A tier-5
+strategist who has never held a hammer does not identify the forge-mark; they reason from what the
+mark's *existence* implies, or they ask someone. Every fact the MC states still passes
+`competence-map`'s provenance test — taught, did, told, read, or openly guessing — and "they're
+smart" is not one of the five.
 
 ## Interaction with other characters
 
@@ -128,6 +138,8 @@ scene is to be wrong so the MC can be right is the floor rule broken from the ot
 - [ ] No narration asserting the MC is smart
 - [ ] No character was made stupid to make the MC look smart
 - [ ] No character was made *as clever as the MC* by default — the cast straddles the tier
+- [ ] No fact was known because the character is intelligent — every one has a provenance
+- [ ] Nobody answered inside a domain their competence map does not list
 - [ ] Deduction dramatised, not monologued
 - [ ] If tier ≥ 4: the reader could have reached the conclusion from planted material
 - [ ] If tier ≤ 2: the MC has not suddenly deduced something above their tier

@@ -55,6 +55,23 @@ Three constraints, checked in that file and not in this one:
 Copies of a person — clones, avatars, doubles, body-snatches — are exempt, and declare it with the
 `mirror:` block in the frontmatter. See `voice-separation` §7 and the Mirrors section below.
 
+## And on the competence grid, for the same reason
+
+`bible/cast/_competence.md` is the second cast-wide table, and it fails the same way: written one
+profile at a time, every character comes out able to answer any question at the same confident
+depth. Put the new character on the grid — **domain, level, and where the edge is** — and read the
+columns (`competence-map` §1).
+
+- An **unlisted domain is `none`**, never "probably fine". This one rule does most of the work.
+- Above `professional` is budgeted: 3 for the MC, 2 for other tier A, 1 for tier B, 1 for a walk-on
+  and it is their job.
+- Every character has a **referral** — who they go to when it runs out, and what asking costs.
+- Update §3, *what nobody here knows*. A cast-wide gap is a plot generator, and it stops a later
+  chapter from quietly inventing a physician because it needed one.
+
+Gods, immortals, cultivators and artificial minds are the exception here, and they declare it with
+`knowledge_scope: broad` plus a shape and a boundary (`competence-map` §6).
+
 ---
 
 ## Tier C — the three-stroke sketch
@@ -69,6 +86,10 @@ Three strokes, invented on the spot, recorded as one line. This is the entire me
    something that changed at their work last month. **This is the stroke that matters.** It turns
    a function in a scene into a window onto the world — and it is where thread seeds, foreshadowing
    and world texture enter the story without an exposition scene.
+   It is also their **entire competence map**: a walk-on knows their job and not the thing standing
+   next to it. The toll clerk knows the levy and not why it was raised; the ferryman knows the river
+   and not the town on the far bank. That edge is what stops an extra from becoming a convenient
+   mouth for whatever the scene needs explained (`competence-map` §3).
 
 Plus **one axis off default** (`voice-separation` §8) — not a fingerprint, one way of being unlike
 everyone else in the scene: the one who will not stop talking, the one who answers in three words,
@@ -130,7 +151,7 @@ they reappear, they are a new sketch.
 | thumbnail | one sentence, a stance toward the world, not a description |
 | job in the story | why the story needs this person; if it is "explains things to the MC", redesign |
 | want, this arc | concrete and pursuable in a scene |
-| one incompetence | one is enough at this tier |
+| one domain | the single thing they know well, where that expertise stops, one incompetence, and who they refer to outside it. One above-`professional` domain is the whole budget at this tier |
 | voice axes | intel · artic · wit · turn length, plus hands, pressure move and first move. The matrix row, not a fingerprint |
 | three speech fields | contractions · one vocabulary tell · one syntax tic. Not eight |
 | one calibration line | their voice under pressure. Not three |
@@ -155,8 +176,15 @@ the promotion signal. Take it — promotions are how a cast stays alive.
    "someone for the MC to explain things to", redesign — that is not a character.
 2. **Want / Need / Fear / Lie.** The Lie is the engine; development is its erosion. Want must be
    pursuable inside a scene ("get the loan renewed"), not a mood ("be respected").
-3. **Competence, with at least two incompetences.** Anything above `professional` requires a
-   scene showing how it was acquired, scheduled or already written.
+3. **Competence, with edges** (`competence-map` §1). Every domain row carries *where the expertise
+   stops*, and an unlisted domain is `none` rather than "probably fine" — that default is the
+   difference between a specialist and the generalist-with-no-edges the model writes by itself.
+   At least two incompetences, and that is a floor; the interesting ones sit *adjacent* to the
+   expertise, because those are the ones a reader assumes the character has. Budget: **two** domains
+   above `professional` (three for the MC), each paid for with a scene showing how it was acquired,
+   scheduled or already written. Add the **referral** — who they go to when it runs out, and what
+   asking costs them. If this character is a god, an immortal, a cultivator or an artificial mind,
+   set `knowledge_scope: broad` and fill the shape *and* the boundary (`competence-map` §6).
 4. **Behaviour rules** — five to eight if/then rules, phrased so another writer could run them.
    These make the character predictable enough that breaking a rule reads as a *event*.
 5. **Voice axes, then the speech fingerprint.** The axes first — intel, articulacy, wit and its
@@ -205,7 +233,10 @@ Same template, plus:
   their case that would convince a reasonable reader.
 - They must be **right about something** the MC is wrong about.
 - They must have **a cost they are paying** for their position.
-- Their competence is real and demonstrated before they lose anything.
+- Their competence is real and demonstrated before they lose anything — and **narrow**, like
+  everyone else's. The antagonist who is a master strategist, swordsman, poisoner and administrator
+  is the omniscience defect wearing a black coat; their edge is what the MC eventually gets in
+  through (`competence-map` §1).
 
 A villain who exists to be defeated is a chore. A villain whose defeat costs the reader something
 is the arc.
@@ -248,6 +279,10 @@ Canon characters get a normal profile, derived from the source, plus:
 5. **Divergence-driven change only** (at `ooc_budget: low`): any behaviour that differs from
    canon must trace to the divergence point through events shown on the page.
 6. **Log every reinterpretation** in `bible/canon.md`'s table, with in-story justification.
+7. **Canon competence has edges too.** Derive the domains from what the source shows them doing,
+   and mark everything else `none` — fandom quietly promotes a character to expert in whatever a
+   fic needs. They also do not know the parts of canon they were never present for, and they do not
+   know the future the writer knows (`competence-map` §1, §3).
 
 Set `canon: true` in the frontmatter. OCs get `canon: false` and must pass the OC test: name the
 job they do, and why no canon character could do it.
@@ -277,7 +312,9 @@ Profiles change; they are not carved. Amend when a chapter reveals or changes so
 - [ ] Do they differ from the MC on at least two voice axes — or are they a declared mirror?
 - [ ] Is there something conversational they cannot do that the MC does easily?
 - [ ] Do they want something the MC's success would cost them?
-- [ ] Do they have at least two incompetences?
+- [ ] Do they have at least two incompetences, one of them adjacent to their expertise?
+- [ ] Does every competence row name **where the edge is**, and is the above-`professional` budget
+      respected — with a referral for what lies outside?
 - [ ] Is there something they are wrong about that they will not stop being wrong about soon?
 - [ ] Have you avoided defining them by appearance, ethnicity, or their relationship to the MC?
 
@@ -285,6 +322,7 @@ Profiles change; they are not carved. Amend when a chapter reveals or changes so
 
 - [ ] Ten fields filled, none of them a paragraph
 - [ ] Their matrix row is in `_voices.md` and differs from every other row on at least two axes
+- [ ] One domain, one edge, one referral — and everything else is `none`
 - [ ] Their one calibration line is not interchangeable with any principal's
 - [ ] The shift names a trigger and a voice delta
 - [ ] They want something for a reason that predates the MC

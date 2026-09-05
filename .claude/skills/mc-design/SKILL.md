@@ -56,6 +56,19 @@ Also collect, in the same round or immediately after: **competence domains** (wh
 applies at full strength) and **at least two blind spots**. The blind spots are mandatory —
 without them `mc-intel-meter` cannot make a smart MC fail legitimately.
 
+**Cap the domains at three**, and name the edge of each — where the expertise stops
+(`competence-map` §1). The tier is how fast the MC thinks; it is not a licence to know things.
+Everything off that list is `none`, which is what gives the MC people to ask, things to get wrong,
+and skills to actually learn over the next two hundred chapters. Ask the user directly: *what is
+your MC simply not good at, that most protagonists are?* It is one of the most productive answers
+in this whole interview.
+
+A note for the ambitious build: **parallel minds, accelerated thought and clone-swarms grant
+throughput, not breadth.** A mind that runs six trains of thought still had to learn all six
+subjects, one at a time, and a thousand copies of an ignorant person are a thousand ignorant
+people. If the advantage is meant to confer knowledge as well as speed, that is a different and
+much more expensive golden finger, and §"the cost" applies with force.
+
 ### 4. Origin
 
 | origin | what it means | what it obliges |
@@ -224,4 +237,6 @@ Three MC-specific additions:
 - [ ] No final-form detail appears anywhere in an earlier stage's description
 - [ ] The MC's appearance is recorded as how the world reads them, not as an inventory
 - [ ] The MC has a `_voices.md` row, and the cast was dealt around it rather than up to it
+- [ ] At most three competence domains, each with its edge named; everything else is `none`
+- [ ] If the advantage installs skill, what it does *not* install is written down
 - [ ] Any duplicate the advantage produces has a `mirror:` block, a convergence level and a tell

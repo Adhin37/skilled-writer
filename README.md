@@ -68,8 +68,8 @@ Other commands: `/novel-status`, `/novel-plan`, `/novel-character`, `/novel-reca
 
 **World** — `story-bible`, `social-fabric`, `world-texture`
 
-**Character** — `character-profile`, `voice-separation`, `character-development`, `mc-intel-meter`,
-`dialogue-voice`, `lead-interest`
+**Character** — `character-profile`, `voice-separation`, `competence-map`, `character-development`,
+`mc-intel-meter`, `dialogue-voice`, `lead-interest`
 
 **Craft** — `narrator-voice`, `pov-switch`, `scene-craft`, `conflict-engine`, `plot-threads`,
 `timeline-engine`, `hook-and-pacing`, `prose-quality`, `mtl-detox`, `bias-guard`
@@ -80,7 +80,29 @@ Other commands: `/novel-status`, `/novel-plan`, `/novel-character`, `/novel-reca
 `combat-choreography`, `litrpg-system`, `mystery-clues`, `comedy-levity`,
 `grimdark-consequences`, `slice-of-life-texture`
 
-Ten of these deserve a note:
+Eleven of these deserve a note:
+
+- **`competence-map`** fixes the other half of the same problem: the AI character is a **generalist
+  with no edges** who answers every question at the same confident depth, so nobody ever says *I
+  don't know*, *that's not my end*, or *ask Dael*. Real people are narrow — a decade on one thing,
+  passable at three adjacent ones, tourists everywhere else — and that narrowness is where scenes
+  come from, because it forces someone to ask, to trust, to guess, and to be wrong. So every
+  character gets domains with a **named edge**, a budget on deep expertise (three for the MC, one
+  for a supporting character), a **referral** for what lies outside it and what asking costs them,
+  and one governing default: **an unlisted domain is `none`, not "probably fine."** Every stated
+  fact then passes a provenance test — taught it, did it, was told it, read it, or openly guessing —
+  and "they're intelligent" is not a provenance, because a high tier makes you infer faster, not
+  know more. Ignorance comes in four flavours and the skill prefers the productive one: a character
+  who is *wrong* acts, while a character who is blank just stalls. Skills are acquired the honest
+  way, on a five-stage ladder — can't → fails knowingly → unreliable → competent → fluent — where
+  advances come from a teacher, a text or a costly failure and never from chapters having passed,
+  with a plateau around stage 2 and a rule that keeps it affordable in a serial: **transitions get a
+  scene, practice gets a clause.** The deliberate exception is settings with gods, immortals,
+  cultivators or an ASI in them: those declare `knowledge_scope: broad` and are handled on the
+  principle that **even omniscience has a shape** — a god of wisdom is not a god of people, an
+  immortal's breadth is era-locked, an ASI has never lifted anything and interpolates confidently
+  across its own blank regions — and that you bound the *access*, not the knowledge, because an
+  unbounded oracle dissolves every mystery in the book.
 
 - **`voice-separation`** attacks the defect that gives AI-written fiction away fastest: every
   character reasons as quickly as the MC, argues as fluently, and lands the same dry jokes, because

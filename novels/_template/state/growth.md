@@ -16,6 +16,25 @@ important column. If it is empty for a character who has advanced a rung, that i
 
 ---
 
+## Skill ladders
+
+Maintained by `competence-map` §5. A **different axis** from the belief ladder above, and both can
+be in motion: a character at belief rung 2 can be at cooking stage 3. Not only the MC.
+
+| character | skill | stage | since ch | source of the last advance | what practice is costing |
+|---|---|---|---|---|---|
+
+**stage**: 0 can't · 1 fails knowingly · 2 unreliable · 3 competent · 4 fluent
+
+**source**: a teacher · a reference · a failure that cost something. Never elapsed time — a stage
+that advanced because chapters passed is the montage defect.
+
+**Stage transitions get a scene; the practice between them gets a clause.** 2 → 3 is the long one,
+and it is where stories cheat. Most characters stop at 3 in most things, correctly. Expect a
+plateau around stage 2 where repetition stops working and something else has to change.
+
+---
+
 ## MC pain ledger
 
 The MC must face adversity that costs. One line per chapter where something was taken.

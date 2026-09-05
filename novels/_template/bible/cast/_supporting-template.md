@@ -27,8 +27,18 @@ Ten fields. **If this file needs an eleventh, they are a tier-A character** — 
 ## Want, this arc
 <!-- Concrete, pursuable inside a scene, and true for a reason that predates the MC. -->
 
-## Incompetence
-<!-- One. At this tier, one is enough. -->
+## Competence — one domain, one edge, one referral
+
+At this tier they know **one** thing well and everything else is `none` (`competence-map` §1).
+
+| | |
+|---|---|
+| **domain** | the one thing, at `professional` or `exceptional` — the budget here is one |
+| **the edge** | where that expertise stops. Usually the adjacent thing a reader would assume |
+| **incompetence** | one. At this tier, one is enough |
+| **referral** | who they go to outside their domain, and what asking costs them |
+
+Copy the row into `bible/cast/_competence.md`.
 
 ## Voice axes
 

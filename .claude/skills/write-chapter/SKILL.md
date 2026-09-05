@@ -39,6 +39,7 @@ Write these down for yourself. Ten lines, not a document.
 | **The offstage question**: what the world does this chapter that the MC doesn't know | `timeline-engine` → `plan/timeline.md` §4 |
 | **The world channel**: the one thing about the world this chapter makes concrete, and whether a consequence, a friction or an assumed reference carries it | `world-texture` §1 |
 | What the MC deduces, and from which on-page clue | `mc-intel-meter` |
+| **Who has to ask**: the thing this chapter needs known, whose map actually covers it, and who must go to someone else for it | `competence-map` §1, §4 → `bible/cast/_competence.md` |
 | Opening line strategy, closing hook | `hook-and-pacing` |
 
 **Gate.** If "what this chapter costs" is empty, the chapter is not ready. Go back to
@@ -69,6 +70,14 @@ Hold these while writing:
   a profile mid-draft — sketch them, and log the line in step 5.
 - **Intelligence.** Every MC decision passes the `mc-intel-meter` trace test: the reader can name
   the on-page fact it came from.
+- **Knowledge.** Every *fact* anyone states passes the `competence-map` provenance test: they were
+  taught it, did it, were told it, read it, or are openly guessing. An unlisted domain is `none`,
+  so somebody in this chapter says they do not know, asks the person who does, or is confidently
+  wrong — and a character being wrong is more useful than a character being blank. Nobody explains
+  a subject their map does not cover, however convenient their mouth is.
+- **Learning.** If anyone is practising something, it appears as a clause, not a scene — unless a
+  stage transition fires this chapter, which earns one. Either way the practice took time from
+  something else and the chapter says what.
 - **Ground the scene.** `world-texture`. Two to four concrete sensory details per scene, at least
   one non-visual, drawn from the location's signature in `bible/world.md` and hit within 100 words
   of arriving. Never a paragraph of description — details placed in motion, and **filtered through
@@ -121,7 +130,13 @@ Cast bookkeeping, same pass: every walk-on who appeared gets their roster line i
 `bible/cast/_extras.md` (or their appearance chapter appended to an existing one), every named
 person goes in `lexicon.md`, and anyone who hit a third appearance or changed the plot is promoted
 now — with their profile built from what is already on the page. A promotion also earns a row in
-`bible/cast/_voices.md`, placed against the existing cast rather than invented in isolation.
+`bible/cast/_voices.md` and one in `bible/cast/_competence.md`, both placed against the existing
+cast rather than invented in isolation.
+
+Knowledge bookkeeping, same pass: a skill stage that advanced goes in the skill-ladder table of
+`state/growth.md` with what caused it; a genuinely new domain a character acquired on the page goes
+on the competence grid. If the chapter had to invent an expertise nobody had, record it — and say
+so in the report, because it usually means the cast is missing a person.
 
 ## Step 6 — Report
 
@@ -172,6 +187,9 @@ The draft wins if it is better, but the plan must be updated, not ignored:
 | World has spectacular magic and generic peasants | rule never propagated | `social-fabric` §2 |
 | MC solves it too easily | no cost budgeted | `conflict-engine` |
 | MC misses the obvious | plot needs delay | `mc-intel-meter` — change the *information*, never the intelligence |
+| Everyone can answer any question | unlisted domains treated as "probably fine" | `competence-map` §1 — unlisted is `none`; somebody asks, or is wrong |
+| A convenient character explains the thing | exposition assigned to whoever is standing there | `competence-map` §3 — nobody explains a domain they do not have |
+| Bad at it Tuesday, good at it Friday | the training montage | `competence-map` §5 — five stages, a named source per advance |
 | Reader has no reason for the next chapter | weak hook | `hook-and-pacing` |
 | Contradicts chapter 30 | read-set skipped | `continuity-summary` |
 | Prose feels translated | genre-corpus default | `mtl-detox` |

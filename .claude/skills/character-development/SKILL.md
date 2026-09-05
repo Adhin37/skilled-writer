@@ -105,6 +105,32 @@ about becoming like the MC: then somebody on the page says so, and it reads as l
 **The drift check, once per arc.** Put one recent line from each recurring character side by side.
 If the axes have compressed, restore them and log it in §6 of `bible/cast/_voices.md`.
 
+## The other ladder — skills
+
+Beliefs are not the only thing that moves. Characters also **acquire competence**, and that runs on
+its own ladder in the skill section of `state/growth.md` (`competence-map` §5). The two are
+independent: a character at belief rung 2 can be at cooking stage 3, and progress on one does not
+imply progress on the other.
+
+```
+stage 0  can't                  does not know what they do not know
+stage 1  fails knowingly        can see the gap now — this is progress, write it as progress
+stage 2  unreliable             works sometimes; they cannot tell in advance which times
+stage 3  competent              works, slowly, with their whole attention
+stage 4  fluent                 works while thinking about something else
+```
+
+Three rules, and they mirror the belief ladder's:
+
+- **A stage advances from a teacher, a reference, or a failure that cost something** — never from
+  elapsed time. Time passing is the montage defect, the skill equivalent of narrating growth.
+- **Stage transitions get a scene; the practice between them gets a clause.** The learning rides in
+  the margins of chapters about something else. 2 → 3 is the long stretch and where stories cheat.
+- **Practice is a cost** (`conflict-engine`): the hours went somewhere, and the chapter says where.
+
+This is not an MC privilege. A supporting character quietly getting good at something across an arc
+is one of the cheapest ways to make a serial feel like time is passing.
+
 ## Regression
 
 Growth that cannot be lost is not growth. Every profile lists regression conditions — usually:
@@ -151,7 +177,11 @@ Called by `write-chapter`, step 1.
 3. If a trigger fires: write the advance **as a scene beat**, not narration. The character does
    something their rung-1 self would not have done, and someone notices.
 4. Apply every accumulated voice delta to their dialogue. This is the step that gets skipped.
-5. After drafting, update `growth.md`: rung, since-ch, next trigger, voice delta.
+5. Check the skill-ladder rows for anyone practising something: does a stage advance this chapter,
+   and if so what taught them — a person, a text, or a failure that cost? If not, the practice is
+   still a clause on the page, and it still took time from something else.
+6. After drafting, update `growth.md`: rung, since-ch, next trigger, voice delta, and any skill
+   stage that moved.
 
 ## Anti-patterns
 
@@ -159,6 +189,8 @@ Called by `write-chapter`, step 1.
 |---|---|---|
 | Narrating growth: "she had grown so much since Ashfall" | tells the reader to feel a change they were not shown | let her make a choice her old self could not |
 | Growth by power gain | levels are not beliefs | a new capability creates a new problem; the *problem* moves the rung |
+| The training montage | bad at it Tuesday, good at it Friday | the five stages, with the plateau around 2, and a named source for each advance |
+| A skill acquired for free | the reader values what was paid for | name what the practice took — hours, a hand, a relationship, the thing they did not do instead |
 | The instant epiphany | one speech converts a decade-old belief | crack it, let them defend it anyway, break it later |
 | Everyone develops at once | flattens the cast; no contrast | stagger triggers; a rate-1 character who *doesn't* change is the measuring stick |
 | Tier-A characters frozen at rung 1 | the world feels like a set | every principal gets at least one rung per two arcs, every tier-B their one shift per arc |
@@ -171,6 +203,7 @@ Called by `write-chapter`, step 1.
 - [ ] Every advance was caused by one of the four triggers
 - [ ] Every advance has a recorded voice delta, and the delta is in the dialogue
 - [ ] No delta moved a character onto the MC's voice axes
+- [ ] Any skill stage that advanced names a teacher, a reference or a costly failure — not time
 - [ ] The MC's pain ledger has an entry for this chapter
 - [ ] No tier-A character has been at rung 1 for two full arcs while on-page
 - [ ] No tier-C walk-on was given a rung, an epiphany or an interior life

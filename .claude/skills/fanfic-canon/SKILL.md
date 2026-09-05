@@ -114,6 +114,17 @@ Everything else in the toolkit does. In particular:
   frequently written smarter or dumber than canon to fit a plot; that is the same defect.
 - `character-development` — canon characters get ladders too. A fanfic where nobody changes is a
   transcript.
+- `voice-separation` — canon characters go on the matrix like anyone else, derived from how they
+  actually speak in the source. A fic where the whole cast has flattened into one narrator's voice
+  is the most common thing readers mean by "OOC" without being able to point at a line.
+- `competence-map` — **canon competence has edges, and fandom quietly erases them.** Derive each
+  character's domains from what the source depicts them *doing*, mark everything else `none`, and
+  resist the promotion a scene wants. Two knowledge boundaries are specific to this genre and are
+  broken constantly: a canon character does not know the parts of canon they were not present for,
+  and **nobody knows the future the writer knows.** A reader can feel the difference between a
+  character reasoning from what they have seen and a character quoting the wiki. The MC's
+  foreknowledge, if they have any, is the exception the story is *about* — and `mc-design` already
+  requires a chapter where it first turns out to be wrong.
 
 ## Self-check
 
@@ -123,5 +134,6 @@ Everything else in the toolkit does. In particular:
 - [ ] Each major canon character's riot trait intact
 - [ ] Every departure from canon behaviour logged with in-story justification
 - [ ] Speech fingerprints derived from canon patterns, calibration lines original
+- [ ] No canon character knows a canon event they were not present for, or anything from the future
 - [ ] Every OC passes the OC test
 - [ ] Canon scope respected throughout

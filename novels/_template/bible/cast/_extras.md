@@ -8,7 +8,10 @@ interchangeable — not to understand them. Three strokes:
 - **wants** — what they are trying to get through in the next five minutes. A five-minute goal.
 - **tic** — one habit, physical or verbal, small enough to repeat if they come back.
 - **carries** — one piece of the world: a price, a grievance, a rule they enforce, a rumour,
-  something that changed at their work. This is the stroke that does the work.
+  something that changed at their work. This is the stroke that does the work — and it is also
+  their **whole competence map** (`competence-map` §7). A walk-on knows their job and not the thing
+  standing next to it: the toll clerk knows the levy and not why it was raised, the ferryman knows
+  the river and not the town on the far bank.
 
 And **one axis off default** (`voice-separation` §8): a walk-on gets no matrix row and no
 fingerprint, but they get one way of being unlike everyone else in the scene — the one who will not

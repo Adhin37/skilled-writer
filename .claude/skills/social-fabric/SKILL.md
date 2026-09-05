@@ -31,7 +31,14 @@ Answer in one or two sentences each. This is the whole file's spine.
 | 5 | **Belief** — what do people think the world is, and what do they do on the days that matter? | ritual, oaths, taboo — the cheapest authenticity there is |
 | 6 | **Mobility** — can a person change their position, and by which route? | whether the MC's ambition is even legible to the people around them |
 
-Question 4 is the one most drafts skip and most need: **information speed is a hard constraint.**
+Question 4 is where the society layer meets the cast: it decides **who was allowed to become
+competent at what**, which is the constraint `competence-map` builds individual maps inside. What
+costs money to learn, what is guild secret, what is only ever spoken aloud, who is barred from the
+schools — those answers assign the whole cast's expertise before any single character is designed,
+and in a world with 8% literacy the number of people who could have read that ledger is a plot
+constraint rather than a background detail.
+
+It is also the one most drafts skip and most need: **information speed is a hard constraint.**
 Write down how long news takes to cross the map, and never let a plan violate it.
 
 ## 2. The propagation test — the core procedure

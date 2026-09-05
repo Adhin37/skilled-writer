@@ -81,6 +81,17 @@ yes, it is the book's view, not a character's. Fix the framing, not the characte
   with a shorter causal chain and ordinary grammar, is competent at their own work, and is right
   about something concrete. One who exists only to be corrected by the MC has failed this check
   whatever their demographics.
+- **Nor is ignorance.** Every character's competence map is mostly `none` (`competence-map` §1),
+  so the question is never whether someone is ignorant but *which* ignorance the book handed to
+  whom. Read the `none` and `passable` rows of `bible/cast/_competence.md` as a block: if the
+  people who cannot read, cannot fight, cannot count or cannot cook line up with a gender, a class
+  or a nation, that pattern is the book's argument. The fix is not to make everyone equally able —
+  narrowness is the point — it is to redeal *which* narrowness. And where a character's ignorance
+  is genuinely a consequence of the world, that is `social-fabric`'s question 4 doing its job:
+  show who barred them, and let it cost the barrier something.
+- **A character learning a skill from stage 0** does so because of their life and their want, never
+  because their category is expected to be bad at it. Watch this especially in a domestic or
+  romantic subplot, where the default reaches for the oldest joke it knows.
 
 ## Structural checks — the ones that catch what phrase-level checks miss
 
@@ -124,6 +135,7 @@ where nobody is casteist is a lie. To depict it:
 - [ ] No physical trait signalling moral quality
 - [ ] No accent or dialect marking stupidity or villainy
 - [ ] No character's low intelligence or articulacy carried by class, ethnicity, body or age
+- [ ] The `none` rows of the competence map do not sort by gender, class or people
 - [ ] Nobody is a reward
 - [ ] Anonymous casualties are not drawn from one group
 - [ ] Any prejudice on the page belongs to a character and costs someone something

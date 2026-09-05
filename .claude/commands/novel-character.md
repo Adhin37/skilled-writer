@@ -5,10 +5,11 @@ argument-hint: "<name> [or: <name> — what changed]"
 
 Work on a character.
 
-Resolve the active novel, then invoke the `character-profile` skill — and `voice-separation` with
-it, which places this person on the cast voice matrix. Do that placement **before** writing the
-profile: a character designed in isolation comes out as quick, as articulate and as wry as the MC,
-because the MC is the calibration point.
+Resolve the active novel, then invoke the `character-profile` skill — with `voice-separation` and
+`competence-map` alongside it, which place this person on the two cast-wide tables. Do both
+placements **before** writing the profile: a character designed in isolation comes out as quick, as
+articulate and as wry as the MC, and able to answer any question, because the MC is the calibration
+point and unlisted domains default to "probably fine".
 
 **Decide the tier first.** Ask, or infer it from the plan, before writing anything:
 
@@ -47,6 +48,11 @@ Register tier-A and tier-B characters in `state/growth.md` (rung 1, or `B1`) and
 Then run the three matrix checks in §2 of `_voices.md`: the cast straddles the MC's intel tier, at
 most two characters have wit, and no two rows share intel + articulacy + wit. If the new character
 collides with an existing one, change an axis or say plainly that the two should be merged.
+
+Add their competence row to `bible/cast/_competence.md` too — domain, level, **where the edge is**,
+and who they refer to outside it. Respect the budget above `professional` (3 MC · 2 tier A · 1 tier
+B · 1 walk-on, which is their job), and treat every unlisted domain as `none`. If this character
+closes a gap in §3 of that file, say so; if they open a new one, add it.
 
 If this character is a **clone, avatar, double or body-snatch**, they are exempt from those checks
 and instead get the `mirror:` block — source, kind, convergence level, and the chapter they became

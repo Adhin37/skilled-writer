@@ -11,6 +11,16 @@ current_rung: 1         # position on the ladder below
 pov_eligible: false
 canon: false            # fanfic: is this a canon character?
 
+# ── KNOWLEDGE SCOPE ──────────────────────────────────────────────────────────
+# `narrow` for every mortal, however wise. `broad` ONLY for gods, immortals,
+# cultivators, ASI and bound spirits. See competence-map §6 — the boundary and
+# the bound on access are both required, because an unbounded oracle dissolves
+# every mystery in the book.
+knowledge_scope: narrow # narrow | broad
+scope_kind: ""          # domain-god | long-lived | artificial | borrowed
+scope_shape: ""         # what is actually broad, in one sentence
+scope_boundary: ""      # what still bites — required when scope is broad
+
 # ── MIRROR ───────────────────────────────────────────────────────────────────
 # Only for clones, avatars, doubles and body-snatches. These four fields are the
 # exemption from voice-separation §3 — a copy of a person may sound like them.
@@ -44,13 +54,34 @@ The Lie is the engine. Development is the slow, costly erosion of the Lie.
 
 ## Competence
 
-| domain | level | evidence the reader has seen |
-|---|---|---|
+Owned by `competence-map`. Copy these rows into `bible/cast/_competence.md` and read the grid, not
+the row — the useful facts are distributional.
+
+| domain | level | where the edge is | evidence the reader has seen |
+|---|---|---|---|
 
 Levels: `none` `passable` `professional` `exceptional` `best alive`. Anything above
-`professional` must be paid for with a scene showing how it was acquired.
+`professional` must be paid for with a scene showing how it was acquired, and the budget is
+**two** above `professional` for a tier-A character, three for the MC.
 
-**Incompetence** — at least two. A character good at everything is not a character.
+**An unlisted domain is `none`, not "probably fine."** If a scene needs this character to know
+something absent from the table, either they do not know it — which is the scene — or they learn it
+on the page and it is added here.
+
+**Incompetence** — at least two, and that is a floor. The interesting ones sit *adjacent* to the
+expertise, because those are the ones a reader assumes the character has. A character good at
+everything is not a character.
+
+**Referral** — when it is outside their domain, who do they go to, and what does asking cost them?
+
+**Learning** — any skill currently being acquired goes in the skill-ladder table of
+`state/growth.md`: stage 0 can't → 1 fails knowingly → 2 unreliable → 3 competent → 4 fluent, with
+the source of each advance (a teacher, a reference, a costly failure — never elapsed time).
+
+**Broad knowledge** — only for gods, immortals, cultivators, ASI and bound spirits. Set
+`knowledge_scope: broad` in the frontmatter and fill `scope_kind`, `scope_shape` and
+`scope_boundary`. The boundary is required, and the *access* is what gets bounded, not the
+knowledge. See `competence-map` §6.
 
 ## Behaviour rules
 

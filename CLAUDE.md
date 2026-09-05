@@ -24,17 +24,18 @@ MC intel tier, optional-skill toggles, and chapter length. Never write a word be
 ## 2. The pipeline
 
 ```
-novel-init -> mc-design -> lead-interest -> character-profile -> voice-separation --+
-                       \                                                           |
-                        +-> story-bible -> power-system|tech-plausibility|canon     |
-                                                    -> social-fabric               |
-                                                                                   v
-                                                                              chapter-plan
-                                                                                   |
-                        +----------------------------------------------------------+
+novel-init -> mc-design -> lead-interest -> character-profile -----------+
+                       \  [voice-separation] [competence-map]            |
+                        +-> story-bible -> power-system|tech-plausibility|canon
+                                                    -> social-fabric     |
+                                                                         v
+                                                                    chapter-plan
+                                                                         |
+                        +------------------------------------------------+
                         v
         continuity-summary (read)  ->  write-chapter  ->  revision-pass
                                     [voice-separation]   [pass 2: voices]
+                                    [competence-map]     [pass 3: knowledge]
                                     [world-texture]      [pass 5: world]
                         ^                                      |
                         +-------- continuity-summary (write) <--+
@@ -46,13 +47,17 @@ does to labour, money, law, knowledge, belief and mobility · `world-texture` de
 reaches the page, and at what budget. A fact is written once, in the right file, and delivered as
 consequence.
 
-**The voice layer.** Two skills, two jobs: `voice-separation` decides *who these people are as
-minds* — intelligence, articulacy, wit, heat, turn length, body idiom — and holds them apart from
-the MC and from each other; `dialogue-voice` writes the lines. The order matters. Eight
-fingerprint fields painted onto minds that all reason at the protagonist's speed produce a cast of
-labelled clones, which is this format's second-most-common defect after a stage-set world. The
-matrix lives in `bible/cast/_voices.md` and is read as a *table*, because sameness is invisible
-one profile at a time.
+**The character layer.** Three cast-wide tables, three questions, and all three are read as
+*tables* because their defects are distributional and invisible one profile at a time.
+`voice-separation` asks **who these people are as minds** — intelligence, articulacy, wit, heat,
+turn length, body idiom — and holds them apart from the MC and from each other, with the mirror
+clause exempting declared clones and doubles. `competence-map` asks **what they actually know** —
+narrow domains with named edges, a referral for what lies outside, and a five-stage ladder for
+skills acquired the slow way — with the broad-knowledge clause covering gods, immortals and
+artificial minds. `dialogue-voice` then writes the lines. That order matters: eight fingerprint
+fields painted onto minds that all reason at the protagonist's speed and answer every question
+produce a cast of labelled clones, which is this format's second-most-common defect after a
+stage-set world.
 
 `write-chapter` is the main loop. It is the only skill that produces prose.
 
@@ -78,6 +83,7 @@ one profile at a time.
 |---|---|
 | `character-profile` | Creating or amending any named character. Owns the cast tiers — full profiles for principals, a short file for supporting, one roster line for walk-ons. |
 | `voice-separation` | Keeping every character distinct from the MC and from each other in speech, thought and body. Owns the cast voice matrix and the mirror clause for clones and doubles. |
+| `competence-map` | Bounding what each character knows and can do — domains, edges, referrals — and running skill acquisition over chapters of failure. Owns the broad-knowledge clause for gods, immortals and ASI. |
 | `character-development` | Advancing a character's arc; called by `write-chapter` every chapter. |
 | `mc-intel-meter` | Any MC decision, deduction, plan, or failure. Hard gate against idiot-ball writing. |
 | `dialogue-voice` | Writing any line of dialogue. |
@@ -131,6 +137,13 @@ one profile at a time.
    on it, at most two characters are funny, and no two speakers in a scene share intel +
    articulacy + wit (`voice-separation` §3). The one exemption is a declared `mirror:` — a clone,
    avatar, double or body-snatch may sound like the person they copy (§7).
+   Corollary — **and nobody knows everything.** Being clever is not knowing things. Expertise is
+   narrow, declared per domain in `bible/cast/_competence.md`, and **an unlisted domain is `none`**,
+   never "probably fine". Every fact a character states passes the provenance test — taught, did,
+   told, read, or openly guessing — and skills are acquired across chapters of failure, never by
+   elapsed time (`competence-map` §1, §3, §5). The exemption is `knowledge_scope: broad` for gods,
+   immortals, cultivators and artificial minds, who still need a declared shape, a declared
+   boundary, and bounded *access* (§6).
 5. **The body on the page is the body in the ledger.** If any character has `form_locked: true`,
    no sentence describes their body, reach, voice or capability except from the CURRENT FORM row
    in `state/body.md`. A reborn child does not have their adult form's height, presence or voice.
@@ -166,6 +179,11 @@ live in `mtl-detox` and `bias-guard`. The short form:
 - No cast of protagonists: allies, rivals, clerks and villains do not all reason at the MC's speed,
   argue as fluently, or land the same jokes. Somebody is slower, somebody is worse at saying it,
   and both are right about something.
+- No universal experts. Nobody answers every question at the same confident depth; people are
+  narrow, say so, ask someone, or are wrong. "I don't know" and "that's not my end" are strong
+  lines, and a character who is confidently mistaken beats one who is conveniently informed.
+- No instant mastery. A skill goes can't → fails knowingly → unreliable → competent → fluent, and
+  it advances by a teacher, a text or a costly failure — never by chapters having passed.
 - No default gesture set. Nodding, shrugging, sighing, raised eyebrows, crossed arms and released
   breaths belong to every character and identify none; a beat comes from that person's hands.
 
@@ -182,6 +200,7 @@ novels/<slug>/
     lexicon.md          spellings, names, terms, honorifics, units
     cast/<char>.md      one profile per tier-A/tier-B character
     cast/_voices.md     cast voice matrix — every speaker's axes in one table, plus mirrors
+    cast/_competence.md who knows what, where the edge is, who they ask, what nobody knows
     cast/_extras.md     tier-C walk-on roster — one line each, never a profile
   plan/
     arcs.md             arc-level design
