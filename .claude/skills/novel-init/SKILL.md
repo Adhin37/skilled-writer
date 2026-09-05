@@ -114,6 +114,13 @@ cp -r novels/_template novels/<slug>
 If `cp` is unavailable, create the directories and write each template file out instead; the
 tree is small and the file list is in `CLAUDE.md` §6. Do not rely on any one shell being present.
 
+**Copy first, then read.** Do not read the template files before copying them — copy the tree, then
+open only the file you are about to fill, one at a time. Reading all eleven up front costs a turn
+each and teaches you nothing the copy did not already put on disk.
+
+`cp` (and `mkdir`) must be permitted for this step. If the shell refuses them, say so rather than
+silently falling back — a denied `cp` is a settings problem, not a reason to hand-write the tree.
+
 Slug is kebab-case from the title, or from the premise if untitled.
 
 Note for the user, once, at the end: `novels/` is gitignored except the template, so their book

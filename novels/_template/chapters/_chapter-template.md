@@ -3,7 +3,7 @@ number: 0
 title: ""
 pov: ""
 arc: 0
-wordcount: 0
+wordcount: 0            # measured, never estimated; re-measure after any revision
 status: drafted        # drafted | revised | published
 in_world_day: ""
 threads: []            # ids touched, e.g. ["^T03", "~T11", "vT07"]

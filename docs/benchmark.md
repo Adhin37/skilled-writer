@@ -139,11 +139,11 @@ this run neither file was ever in context.
 |---|---|---|---|
 | 0 | `novel-init` instructs `cp -r`, but shipped `settings.json` allowed only `ls/wc/find/grep/rg` — the repo denied its own documented happy path | medium | fixed (permissions) |
 | 3 | Setup burns ~$21 and 42 min before chapter 1 exists | medium | documented, not a bug |
-| 4 | `novel-init` reads all 11 template files individually before copying the tree | low | open |
+| 4 | `novel-init` reads all 11 template files individually before copying the tree | low | **fixed** — copy-first instruction added |
 | 5 | **Dialogue starvation** — chapters ran **2-5% dialogue** against a 25-40% format norm | **high** | **fixed** |
 | 6 | **Chapters cluster at the word floor** — 1600/1619/1619/1643/1659 against `target_words: 2000` | **high** | **fixed** |
 | 8 | One supporting character's line was more logically sophisticated than her declared articulacy rating | low | open, chapter-level |
-| 9 | **Four "never optional" skills never loaded** (above) | **high** | open — architectural |
+| 9 | **Four "never optional" skills never loaded** (above) | **high** | **fixed** — `revision-pass` now names which passes must open their source skill; `CLAUDE.md` §8 carves out the exception to self-sufficiency |
 
 ### Finding 5 — dialogue starvation
 
@@ -171,8 +171,33 @@ target was never enforced. The defect is invisible in any single chapter and obv
 Fixed by making `hook-and-pacing` state that the floor is a tolerance rather than a goal (target
 ±15%), adding a five-chapter trend check, and updating Pass 9 to check against target.
 
-**Neither fix has been validated by a subsequent run.** They are reasoned corrections to the
-skill text, not measured improvements.
+### Both fixes validated
+
+A **cold agent** was then given only `/novel-revise 1-5` — no hint about dialogue, word counts, or
+what had changed. Unprompted, it reported:
+
+> "the dialogue share (2.4%-5.4%) and word counts (all within 60 words of the 1600 floor against a
+> 2000-word target) fail systematically across all five chapters"
+
+Both findings, measured rather than eyeballed, plus the systemic read. It then repaired them:
+
+| ch | dialogue before | after | of the words added |
+|---|---|---|---|
+| 1 | 2% | **25%** | +530 dialogue, +83 narration |
+| 2 | 3% | **25%** | +517 dialogue, +143 narration |
+| 3 | 4% | **25%** | +489 dialogue, +120 narration |
+
+~80% of the growth was dialogue: narrated beats converted into spoken ones, which is the repair
+`dialogue-voice` asks for and not the padding `hook-and-pacing` forbids. It also re-measured the
+stale `wordcount` frontmatter itself. **Before the fix these same chapters passed all ten passes
+with the defects untouched.**
+
+Chapters 4-5 were left unrevised — the fix was demonstrated and there was no reason to keep paying
+to re-demonstrate it.
+
+Caveat on the first attempt: it was killed by a session rate limit partway through chapter 1, and
+that partial state (5% dialogue) briefly looked like an under-repair. It was not. A five-chapter
+revision is large enough to hit a session limit; expect to resume.
 
 ## What worked
 

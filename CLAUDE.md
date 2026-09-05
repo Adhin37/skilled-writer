@@ -227,3 +227,9 @@ Chapter files carry YAML frontmatter (`number`, `title`, `pov`, `wordcount`, `ar
 Skills are written as **procedures for a model with limited budget**: numbered steps, explicit
 formats, concrete examples, hard checklists. Prefer a table over a paragraph. Keep each
 `SKILL.md` self-sufficient so it needs no follow-up reads.
+
+**One deliberate exception.** `revision-pass` is a dispatcher, and its condensed checklists must
+never become a substitute for the skills they summarise. A pass whose defects are *distributional*
+— `voice-separation`, `competence-map`, `bias-guard` — opens its source file every chapter. A
+summary is enough to check a string; it is not enough to audit a cast. See `revision-pass`
+§Before you start.

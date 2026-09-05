@@ -10,6 +10,35 @@ structural fixes invalidate line edits, so line editing goes last.
 
 Keep it mechanical. Each pass is a search-and-decide, not a re-read of the whole novel.
 
+## Before you start — which passes need their skill file open
+
+The checklists below are condensed on purpose, so the cheap passes stay cheap. That has one
+failure mode worth naming plainly, because it is silent: a model that reads only this file runs
+*every* pass at checklist depth, and skills `CLAUDE.md` calls non-optional never load at all.
+Measured on a real run — `bias-guard`, `voice-separation`, `competence-map` and `prose-quality`
+were read **zero** times across 200 turns, while their boxes were ticked on every chapter.
+
+A checklist is sufficient for a **mechanical** defect — one you find by searching for a string or
+counting something. It is not sufficient for a **distributional** defect, which is invisible in
+any single line and only appears across a whole cast, chapter or arc.
+
+| pass | kind of defect | load the source skill? |
+|---|---|---|
+| 1 Continuity | mechanical | no — the read-set is the authority |
+| 2 Character + voice | **distributional** | **yes — `voice-separation`**, for the matrix and the axes |
+| 3 Intelligence + knowledge | **distributional** | **yes — `competence-map`**, for provenance and the ladder |
+| 4 Structure | mechanical | no |
+| 5 World | judgement | `world-texture` if anything fails |
+| 6 Bias | **distributional** | **yes — `bias-guard`, every chapter.** Non-negotiable means the file gets read |
+| 7 MTL detox | mechanical | no — the banned list here is complete |
+| 8 Prose | judgement | `prose-quality` if anything fails |
+| 9 Opening + hook | mechanical | no |
+| 10 Mechanics | mechanical | no |
+
+Three files, every chapter: `voice-separation`, `competence-map`, `bias-guard`. If that does not
+fit the budget, rotate them on a fixed schedule — but then **say in the report which passes ran at
+checklist depth**, so a ticked box is never mistaken for an audit that did not happen.
+
 ---
 
 ## Pass 1 — Continuity (structural)
@@ -184,6 +213,9 @@ cultural material it adds is still audited by Pass 6.
 
 - [ ] Frontmatter complete and accurate; word count real — measured (`wc -w` where available),
       not estimated
+- [ ] **If any pass changed the body length, `wordcount:` was re-measured and rewritten.** A
+      revision that edits prose and leaves the old number behind fails this pass — the frontmatter
+      is what every later tool reads instead of counting for itself
 - [ ] Scene breaks use `* * *`
 - [ ] POV label present if the chapter switches and `label_switches` is true
 - [ ] No headings, author notes or stray markdown inside the prose body
