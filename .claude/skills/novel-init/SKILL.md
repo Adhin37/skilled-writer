@@ -1,0 +1,187 @@
+---
+name: novel-init
+description: Start a new webnovel. Interviews the user for premise, genre, POV, MC intelligence tier, tone and optional mechanics, then scaffolds novels/<slug>/ with config, bible, cast, arc plan and chapter list. Use when the user wants to begin a novel, says /novel-new, or when no novel workspace exists yet.
+---
+
+# novel-init
+
+Turn a user's idea into a working novel workspace. The user may know very little about their own
+story — your job is to ask few enough questions that they stay engaged, and infer the rest.
+
+**Budget: at most 6 rounds of questions.** Everything not asked, you decide and state.
+
+---
+
+## Step 1 — Get the premise in the user's words
+
+If they have not already described it, ask in plain chat (not a multiple-choice tool):
+
+> Tell me the story in a few sentences — who it follows, what goes wrong, and what makes it
+> different from the last thing I read. Rough is fine.
+
+If they answer with only a genre or a vibe ("cultivation but good"), ask exactly one follow-up:
+what the protagonist *wants*, and who stops them.
+
+## Step 2 — Structured interview
+
+Ask with `AskUserQuestion`, batching up to 4 questions per call. Always lead each option list
+with the choice you recommend for this premise, marked `(Recommended)`.
+
+**Round A — the shape**
+
+| question | options |
+|---|---|
+| Genre | Fantasy · Science fiction · Fan fiction |
+| Point of view | Single POV throughout · Dual POV (MC + one other) · Rotating cast |
+| Chapter length | ~2000 words (platform standard) · ~1500 (fast, high release rate) · ~2800 (denser, slower) |
+| Release cadence | Daily · Several times a week · Weekly (affects arc pacing) |
+
+**Round B — the main character** → run `mc-design` for this round
+
+Five questions, each with a **"Surprise me"** option: gender and pronouns · appearance (as *how
+the world reads them*, never a body inventory) · intellect (the `mc-intel-meter` tier table, shown
+with what each tier costs the author) · origin (native, reincarnator, transmigrator, regressor,
+isekai, revenant) · the central advantage or golden finger.
+
+Collect competence domains and **at least two blind spots** in the same round.
+
+If the origin means the MC does not start in their final body, `mc-design` sets
+`mc.form_locked: true` and builds `state/body.md`. Do not skip that — it is what keeps a reborn
+child's description from drifting into their adult form.
+
+**Round C — the love interest** → run `lead-interest` for this round
+
+**Only after Round B.** Ask configuration, not just "is there romance": with a male MC the default
+offered is a female lead; with a female MC the default is a male lead, **with a female lead
+offered as an equally available option**; non-binary and no-romance are always on the list, and
+so is "decide later", which is often the best answer — a lead who emerges from the cast at chapter
+20 is usually better than one designed cold.
+
+Ask the amount of romance here too — None · Background subplot · Central — since it decides
+whether the rest of the round happens at all. Set `content.romance` from the answer, and skip
+straight to Round D if it is None.
+
+**Round D — texture, the world clock, and the ending**
+
+| question | options |
+|---|---|
+| Tone | Grounded and costly · Adventurous and warm · Bleak · Wry and comic |
+| Content ceiling | Teen · Mature (violence and consequence on the page) |
+| How much does the world push back? | Responsive — it notices and adapts *(recommended)* · Ripples — mostly local changes · Adaptive — the opposition plans around you specifically · Predatory — the world reorganises around you |
+
+Then ask, in chat because it needs free text: **what does a good ending look like for this
+story?** Record the answer verbatim in `ending.contract`, and ask who or what must survive
+(`ending.non_negotiables`). Say plainly what this buys them: the world may cost the MC enormously,
+but `timeline-engine` will never let it close the road to that ending, and nothing on the
+non-negotiables list can be taken.
+
+For fanfic this round matters most — see `timeline-engine`. Set `fanfic.footprint` here too.
+
+**Round E — genre module** (only the one that applies)
+
+- *Fantasy*: what is magic made of, who controls it, and what does using it cost? Offer three
+  concrete systems built from their premise rather than a menu of generic ones.
+- *Scifi*: how far from now, and what is the one technology the story actually argues about?
+- *Fanfic*: source work, which canon material counts, the exact divergence point, and the
+  OOC budget. Ask these in chat — they need free text.
+
+**Round F — optional mechanics** (multi-select)
+
+Present the optional skills as reader-facing features, not filenames:
+
+- No harem — love interests are people with their own goals *(on by default)*
+- Romance arc structure — beats, obstacles, payoff scheduling
+- Detailed combat choreography
+- Game-like system / status screens (LitRPG)
+- Fair-play mystery clue tracking
+- Comic relief scheduling
+- Grimdark consequence enforcement — no plot armour
+- Slice-of-life texture — food, work, weather, downtime
+
+## Step 3 — Scaffold
+
+```
+cp -r novels/_template novels/<slug>
+```
+
+Slug is kebab-case from the title, or from the premise if untitled.
+
+Then fill in, in this order:
+
+1. **`novel.md`** — every frontmatter field. No field left as a placeholder. Write the premise,
+   the platform blurb (60–120 words, ends on a threat or a question), tone references, themes
+   and the ending target. Delete the `fanfic:` block for non-fanfic.
+2. **`bible/world.md`** via `story-bible`. Enough to write 25 chapters, not a gazetteer.
+3. **`bible/lexicon.md`** — names and terms invented so far, plus house style decisions.
+4. **`bible/power-system.md`** via `power-system` (fantasy/scifi) or **`bible/canon.md`** via
+   `fanfic-canon`. Delete the file that does not apply.
+5. **`bible/cast/`** — the MC's profile first, via `mc-design` + `character-profile`. Then the
+   love interest via `lead-interest`, if there is one. Then 3–5 other characters who appear in
+   arc 1, **each at its tier**: full profiles only for principals, the short file for supporting
+   characters, and nothing at all for people arc 1 merely walks past — they get sketched when
+   they are written. Keep `_character-template.md`, `_supporting-template.md` and the empty
+   `_extras.md` in place; they are the references for future characters.
+6. **`plan/timeline.md`** via `timeline-engine` — the drivers with their reaction profiles, the
+   world track for arcs 1–3, standing clocks, and the point-of-no-return watch. For fanfic, the
+   canon track and the first deliberate divergence. Keep this coarse for original fiction: the
+   antagonist's plan plus two or three clocks is enough.
+7. **`plan/arcs.md`** via `chapter-plan` — arc 1 in full, arcs 2–3 in one line each.
+8. **`plan/chapters.md`** via `chapter-plan` — the first 12 rows, fully specified.
+9. **`state/`** — initialise `continuity.md` book digest, seed `threads.md` with the threads
+   arc 1 opens (including the romance thread if there is one), seed `growth.md` with every tier-A
+   character at rung 1 and every tier-B at `B1`, set the calendar in `timeline.md`. If `mc.form_locked` is true, fill in
+   `body.md` completely — every stage, its limits and its transition chapter — before chapter 1 is
+   written. If nothing in the novel changes form, delete `body.md`.
+
+## Step 4 — Report
+
+Show the user:
+
+- the path, and a tree of what was created
+- the blurb you wrote (this is the thing they will actually react to)
+- the first 12 chapter titles with a one-line goal each
+- **the MC in a paragraph** — gender, how the world reads them, tier, the two blind spots,
+  origin, and their central advantage with the problem it creates
+- if `form_locked`: the form stages and the chapters they change on, so the user can see the
+  body plan up front
+- **the love interest**, if any — who they are, what they want that is not the MC, and their
+  reason to refuse
+- **the ending contract** back in their own words, plus the reactivity dial, so they can see the
+  deal: this hard, and it ends there
+- for fanfic: the first deliberate divergence — which canon event, which chapter, what the MC
+  removes from it
+- which optional skills are on
+- **three things you decided for them**, each with a one-line "change this if…"
+
+Then: *"`/novel-write` starts chapter 1. `/novel-toggle` changes any of the options."*
+
+---
+
+## Defaults when the user won't decide
+
+| field | default | why |
+|---|---|---|
+| pov.mode | `single` | Cheapest to keep consistent, strongest reader attachment. |
+| mc.intel_tier | `3` | Smart enough to be satisfying, no plot-engineering burden. |
+| target_words | `2000` | Platform standard. |
+| arc_length | `25` | Roughly a month of daily releases. |
+| narration | third-limited, past, close | Widest tolerance, easiest voice to hold. |
+| mc.origin | `native` | No form ledger, no foreknowledge decay; the MC learns as the reader does. |
+| mc.golden_finger | `none` | An advantage is easy to add at chapter 30; removing one is not. |
+| romance.configuration | `undecided` | A lead chosen from the existing cast at chapter 20 is almost always better than one designed cold. |
+| timeline.reactivity | `3` | The world notices and adapts without becoming a grind. |
+| ending.tone | `hopeful` | Never default the *contract* — ask for it in the user's words. |
+| optional | only `no-harem` and `combat-choreography` on | Adding mechanics later is easy; removing them mid-serial is not. |
+
+Never default `mc.gender` — ask it. Never infer `romance.lead_gender` from the MC's gender without
+offering every configuration.
+
+## Failure modes
+
+- **Don't** interrogate. If the user gives short answers, stop asking and start building; they
+  will correct a draft far more readily than they will fill in a form.
+- **Don't** accept "make it like <popular novel>" as a spec. Ask which single element they want
+  borrowed, and write that element down in tone references.
+- **Don't** invent a 5000-word bible. Everything in `bible/` must be needed by arc 1 or by a
+  decision you have already made.
+- **Don't** leave `blind_spots` empty. Two minimum, or `mc-intel-meter` cannot do its job.

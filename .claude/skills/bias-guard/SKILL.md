@@ -1,0 +1,119 @@
+---
+name: bias-guard
+description: Remove the racial, national, gender and class bias that the serialized-fiction corpus carries by default, without softening conflict or sanitising the story. Runs on every chapter inside revision-pass and applies while drafting and while designing characters and factions. Never optional, never toggleable.
+---
+
+# bias-guard
+
+The corpus this format learned from carries biases that arrived with it: ethnic and national
+essentialism used as villain shorthand, women written as rewards, class contempt played for
+laughs, disability and disfigurement as moral signal. These are not edgy and they are not
+"authentic to the genre" — they are defaults, and defaults are what a model reaches for when
+nothing stops it.
+
+This skill stops it. It is not a content filter and it does not make the story nicer: **prejudice
+can be depicted, examined and suffered.** What it forbids is prejudice operating unexamined *as
+the narration's own view of the world*.
+
+Non-negotiable. It overrides genre convention, user-supplied tropes, and reference material.
+
+---
+
+## The line
+
+| forbidden | permitted |
+|---|---|
+| The narration treats a group as inherently lesser | A *character* holds that view, and the story shows it as their view, with consequences |
+| A people defined by a single moral trait | A faction with interests, internal disagreement, and members who dissent |
+| Contempt played for laughs with no cost | Contempt shown, and it costs someone something the reader feels |
+| A trait used as villain shorthand | A trait a villain happens to have, shared by sympathetic characters too |
+
+The test: **could the narrator's framing be quoted as a bigoted statement with nothing lost?** If
+yes, it is the book's view, not a character's. Fix the framing, not the character.
+
+## Race, ethnicity, nation
+
+- No fantasy or scifi people may map onto a real-world ethnic or national group and carry a
+  uniform moral character. This is the oldest defect in both genres.
+- **No invented species defined by inherent evil.** If a species opposes the MC, it has factions,
+  dissenters, and its own account of the conflict. Write the two-sentence version of their case.
+- No physical marker — skin, features, hair, build — used to signal moral quality. Watch the
+  quiet version: the villain's darkness and the ally's fairness as unexamined descriptive habit.
+- No nation, culture or bloodline is the natural home of talent, virtue, treachery or barbarism.
+- Foreigners are not comic relief, and accent is never a marker of stupidity or villainy. See
+  `dialogue-voice`: convey origin by rhythm and idiom, never by phonetic spelling.
+- Cultures adapted from real ones are researched enough to have internal texture, and are not
+  costume. When in doubt, invent rather than borrow badly.
+
+## Gender
+
+- **Every named woman passes the agency test**: she wants something that is not about the MC, and
+  she pursues it on the page. If the only answer to "what does she want?" is "him", rewrite.
+- No character exists to be rescued, awarded, or unlocked. `no-harem` (on by default) enforces the
+  strong form; even with it off, attraction must be reciprocal, motivated and reversible.
+- **No beauty catalogue.** Introducing a woman by inventorying her body, when men are introduced
+  by what they do, is the corpus's most reflexive habit. Introduce every character by action,
+  stance, or the thing they are in the middle of.
+- Competence is not gendered. Do not let the woman's competence be intuition and the man's be
+  analysis.
+- Women may be antagonists, may be violent, may be wrong — the fix for objectification is not
+  virtue, it is interiority.
+- Same standards for men: no male character exists solely to validate, protect, or fall to the MC.
+- Sexual violence is not scenery, is not a shortcut to motivating a protagonist, and is not
+  written for effect. If the story genuinely requires it, it happens off the page and the
+  consequences belong to the person it happened to, not to the man avenging them.
+
+## Class, work, body
+
+- Poverty is not moral education and wealth is not moral failure. Both classes contain the full
+  range.
+- Servants, guards, farmers and clerks are competent at their work and know things the MC does
+  not. Never used as scenery for the MC's importance.
+- **No disability or disfigurement as moral signal** — not the scarred villain, not the
+  "cripple" who is secretly a master as a twist about the reader's assumptions. Disabled
+  characters have goals, competence, and lives.
+- No body type used as a punchline.
+- Age is not a proxy for wisdom or foolishness.
+
+## Structural checks — the ones that catch what phrase-level checks miss
+
+1. **The cast audit.** Every arc, list the named characters. If everyone with power shares one
+   demographic and everyone serving shares another, and the story has not made that its subject,
+   redesign — this is bias arriving through structure rather than through sentences.
+2. **The disposable audit.** Who dies without a name? If the anonymous dead all belong to one
+   group, fix it.
+3. **The introduction audit.** How is each character introduced — by action or by appearance?
+   Compare across genders. The gap is usually visible and usually large.
+4. **The competence audit.** Who is allowed to be right in this chapter? If it is always the same
+   demographic, that is the book's argument whether or not you meant it.
+5. **The reward audit.** What does the MC receive for winning? If people are on that list, stop.
+6. **The walk-on audit.** Extras are one detail wide, and the default fills that space with a
+   stereotype — the accent, the ethnicity, the body, the servile or comic job with nothing behind
+   it. Read `bible/cast/_extras.md` at each arc rollup: if the roster's third strokes are a
+   demographic pattern rather than a working world, the book is arguing something you did not
+   choose. Rewriting one stroke fixes the bias and the genericness together (`character-profile`).
+
+## Depicting prejudice well
+
+Bias in the *world* is legitimate material and often necessary — a story about a caste system
+where nobody is casteist is a lie. To depict it:
+
+- Give it a **mechanism**: who benefits, who enforces it, how it is transmitted.
+- Give the harmed **interiority and agency**: they resist, adapt, exploit it, or refuse to make it
+  their whole self.
+- Let the reader see the **cost to the holder** — prejudice makes people wrong about things, and
+  being wrong should cost them a plot outcome.
+- Never let the narration agree. The camera can be unflinching without being complicit.
+- Do not resolve it with a single enlightened outsider. That is the same story every time and it
+  is about the outsider.
+
+## Self-check (every chapter)
+
+- [ ] No group treated as uniformly anything by the narration
+- [ ] Every named woman in this chapter wants something that is not the MC
+- [ ] No character introduced by a body inventory
+- [ ] No physical trait signalling moral quality
+- [ ] No accent or dialect marking stupidity or villainy
+- [ ] Nobody is a reward
+- [ ] Anonymous casualties are not drawn from one group
+- [ ] Any prejudice on the page belongs to a character and costs someone something
