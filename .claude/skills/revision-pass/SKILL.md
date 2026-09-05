@@ -110,7 +110,8 @@ Against the read-set from `continuity-summary`.
 
 ## Pass 9 — Mechanics
 
-- [ ] Frontmatter complete and accurate; word count real (`wc -w`)
+- [ ] Frontmatter complete and accurate; word count real — measured (`wc -w` where available),
+      not estimated
 - [ ] Scene breaks use `* * *`
 - [ ] POV label present if the chapter switches and `label_switches` is true
 - [ ] No headings, author notes or stray markdown inside the prose body

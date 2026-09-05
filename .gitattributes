@@ -1,0 +1,3 @@
+# Normalise line endings. This repo is shared between Windows and Linux, and every file
+# in it is text. Storing LF in the repo keeps diffs clean regardless of who committed.
+* text=auto eol=lf

@@ -100,11 +100,20 @@ Present the optional skills as reader-facing features, not filenames:
 
 ## Step 3 — Scaffold
 
-```
+Copy the scaffold. Use paths relative to the repo root, never absolute ones — this repo is used
+on both Windows and Linux.
+
+```bash
 cp -r novels/_template novels/<slug>
 ```
 
+If `cp` is unavailable, create the directories and write each template file out instead; the
+tree is small and the file list is in `CLAUDE.md` §6. Do not rely on any one shell being present.
+
 Slug is kebab-case from the title, or from the premise if untitled.
+
+Note for the user, once, at the end: `novels/` is gitignored except the template, so their book
+is not committed to the toolkit repo by default.
 
 Then fill in, in this order:
 

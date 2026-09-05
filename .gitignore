@@ -1,0 +1,72 @@
+# ---------------------------------------------------------------------------
+# Generated novels
+#
+# Everything under novels/ except the scaffold is *your book* — produced by the
+# toolkit, not part of it. It stays out of this repo so the toolkit can be shared
+# and updated without dragging manuscripts along.
+#
+# To version a novel anyway, either force-add it once:
+#     git add -f novels/my-slug
+# or, better, keep the novel in its own repo and this one as a clean upstream.
+# ---------------------------------------------------------------------------
+novels/*
+!novels/_template/
+!novels/README.md
+
+# ---------------------------------------------------------------------------
+# Per-machine tool state
+#
+# settings.local.json holds machine-specific permissions Claude Code writes for
+# you. Shared settings belong in .claude/settings.json, which IS tracked and
+# uses project-relative paths so it works on Windows and Linux alike.
+# ---------------------------------------------------------------------------
+.claude/settings.local.json
+.claude/*.local.json
+.claude/projects/
+.claude/todos/
+.claude/shell-snapshots/
+.claude/statsig/
+CLAUDE.local.md
+
+# ---------------------------------------------------------------------------
+# Exports — chapters converted for upload or reading
+# ---------------------------------------------------------------------------
+/export/
+/exports/
+*.epub
+*.docx
+*.odt
+*.pdf
+
+# ---------------------------------------------------------------------------
+# Scratch and backups
+# ---------------------------------------------------------------------------
+/scratch/
+/tmp/
+*.tmp
+*.bak
+*.orig
+*.rej
+*~
+
+# ---------------------------------------------------------------------------
+# OS cruft — Windows and macOS both litter shared directories
+# ---------------------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# ---------------------------------------------------------------------------
+# Editors
+# ---------------------------------------------------------------------------
+.vscode/
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo

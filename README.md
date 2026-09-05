@@ -23,6 +23,25 @@ This toolkit keeps the *engine* of the format — fast hooks, escalating stakes,
 serial cadence — and explicitly strips the rest. Two skills, `mtl-detox` and `bias-guard`, run on
 every chapter and are not optional.
 
+## Setup
+
+Clone the repo and open it with [Claude Code](https://claude.com/claude-code). There is nothing
+to install and no build step — the toolkit is markdown. Claude Code discovers `.claude/skills/`
+and `.claude/commands/` automatically, and reads `CLAUDE.md` on every session.
+
+```bash
+git clone <this-repo> skilled-writer
+cd skilled-writer
+claude
+```
+
+Works on Windows, macOS and Linux. Nothing in the repo hardcodes a path, a drive or a shell:
+`.claude/settings.json` uses project-relative permission rules, `.gitattributes` normalises line
+endings to LF, and `.gitignore` keeps generated books, per-machine tool state and OS cruft out.
+
+Your novels live in `novels/<slug>/` and are **gitignored by default** — see
+[novels/README.md](novels/README.md) if you want to version one.
+
 ## Quick start
 
 ```
@@ -114,10 +133,12 @@ hand or via `/novel-toggle`. Optional skills read their own key and no-op if it 
 ## Layout
 
 ```
+CLAUDE.md                         the operating contract, loaded every session
 .claude/skills/<name>/SKILL.md    the skills
 .claude/commands/*.md             the slash commands
+.claude/settings.json             shared permissions (relative paths — portable)
 novels/_template/                 the per-novel scaffold
-novels/<slug>/                    your novel: config, bible, plan, state, chapters
+novels/<slug>/                    your novel: config, bible, plan, state, chapters (gitignored)
 ```
 
 See [CLAUDE.md](CLAUDE.md) for the full operating contract.
