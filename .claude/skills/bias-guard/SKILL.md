@@ -74,6 +74,13 @@ yes, it is the book's view, not a character's. Fix the framing, not the characte
   characters have goals, competence, and lives.
 - No body type used as a punchline.
 - Age is not a proxy for wisdom or foolishness.
+- **Intelligence is never carried by a demographic marker.** A cast needs characters slower and
+  less articulate than the MC (`voice-separation` §3) — and the default fills those slots with an
+  accent, a dialect spelling, a rural job, a servant, a foreigner, or the fat friend. It shows in
+  the aggregate: check who in this book is allowed to be quick. A low-intel character is written
+  with a shorter causal chain and ordinary grammar, is competent at their own work, and is right
+  about something concrete. One who exists only to be corrected by the MC has failed this check
+  whatever their demographics.
 
 ## Structural checks — the ones that catch what phrase-level checks miss
 
@@ -85,7 +92,9 @@ yes, it is the book's view, not a character's. Fix the framing, not the characte
 3. **The introduction audit.** How is each character introduced — by action or by appearance?
    Compare across genders. The gap is usually visible and usually large.
 4. **The competence audit.** Who is allowed to be right in this chapter? If it is always the same
-   demographic, that is the book's argument whether or not you meant it.
+   demographic, that is the book's argument whether or not you meant it. Read it beside the intel
+   and articulacy columns of `bible/cast/_voices.md`: if the low rows and the high rows sort by
+   demographic, the matrix is encoding a prejudice and needs redealing.
 5. **The reward audit.** What does the MC receive for winning? If people are on that list, stop.
 6. **The walk-on audit.** Extras are one detail wide, and the default fills that space with a
    stereotype — the accent, the ethnicity, the body, the servile or comic job with nothing behind
@@ -114,6 +123,7 @@ where nobody is casteist is a lie. To depict it:
 - [ ] No character introduced by a body inventory
 - [ ] No physical trait signalling moral quality
 - [ ] No accent or dialect marking stupidity or villainy
+- [ ] No character's low intelligence or articulacy carried by class, ethnicity, body or age
 - [ ] Nobody is a reward
 - [ ] Anonymous casualties are not drawn from one group
 - [ ] Any prejudice on the page belongs to a character and costs someone something

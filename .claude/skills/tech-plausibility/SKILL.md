@@ -95,8 +95,17 @@ If the story includes artificial minds, decide early and record: are they people
 who profits from the answer? Do not let the story be vague about it while borrowing the emotional
 weight of both answers.
 
+## Handoff to the world
+
+The second-order effects worked out here are recorded and extended in `bible/society.md` via
+**`social-fabric`** — that skill takes the central speculation down through institution, market
+and household, names the occupation it destroyed and the workaround people use where it fails.
+In science fiction those consequences *are* the genre; do not leave them as a list here.
+`world-texture` governs how they reach the page: consequence and friction, never a briefing.
+
 ## Self-check
 
+- [ ] The central speculation has been propagated through `social-fabric` §2
 - [ ] One central speculation, stated in one sentence
 - [ ] Two hard limits recorded
 - [ ] Four second-order effects worked out, including the poor version

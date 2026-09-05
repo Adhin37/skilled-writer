@@ -97,12 +97,28 @@ wrong about what the plan is for.
 ## Interaction with other characters
 
 Raising the MC by lowering everyone else is the cheapest and most damaging shortcut in the genre.
+The opposite shortcut is just as common and harder to see: **giving everyone the MC's tier**, so
+that every ally reasons at the protagonist's speed and the whole cast becomes one mind with several
+names.
 
 - The antagonist's effective tier is **MC tier or higher** at least once per arc.
 - At least one recurring ally out-thinks the MC in their own domain, on the page.
 - Ordinary people are competent at their own lives. A guard who has stood that gate for ten years
   knows things the MC does not.
 - Never write a scene whose only function is other characters being astonished at the MC.
+
+**The rest of the cast is tiered too.** This ladder applies to every named character, not just the
+protagonist; their tiers are declared in `bible/cast/_voices.md` and the cast must **straddle** the
+MC's — somebody above it, somebody below. `voice-separation` owns that table, along with the axis
+this skill deliberately does not measure: **articulacy**, which is independent of intelligence.
+The character who is right and cannot prove it, and the character who is wrong and can out-argue
+anyone, are both built by separating those two numbers.
+
+**Low tiers are written without contempt.** A tier-1 character has a shorter causal chain — they
+stop at the first sufficient explanation and act on it. They do not have worse grammar, an accent,
+or a class marker (`bias-guard`), they are competent at their own work, and they are right about
+something concrete that the clever ones have abstracted past. A character whose only function in a
+scene is to be wrong so the MC can be right is the floor rule broken from the other direction.
 
 ## Review checklist (run in `revision-pass`)
 
@@ -111,6 +127,7 @@ Raising the MC by lowering everyone else is the cheapest and most damaging short
 - [ ] Any MC failure uses information / opposed will / cost / established blind spot
 - [ ] No narration asserting the MC is smart
 - [ ] No character was made stupid to make the MC look smart
+- [ ] No character was made *as clever as the MC* by default — the cast straddles the tier
 - [ ] Deduction dramatised, not monologued
 - [ ] If tier ≥ 4: the reader could have reached the conclusion from planted material
 - [ ] If tier ≤ 2: the MC has not suddenly deduced something above their tier

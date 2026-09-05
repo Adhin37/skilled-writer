@@ -37,6 +37,26 @@ the **primary love interest** (`lead-interest`).
 
 ---
 
+## Place them on the voice matrix before writing the file
+
+A profile written in isolation produces a character who is as quick, as articulate and as wry as
+the MC — because the MC is what the model calibrates against. Before filling in any template,
+open `bible/cast/_voices.md` and put this person on it: **intel, articulacy, wit, heat, turn
+length, hands, pressure, first move** (`voice-separation` §1). Read down the columns, not across
+the row: you are deciding who they are *relative to the cast that already exists*.
+
+Three constraints, checked in that file and not in this one:
+
+- The cast **straddles** the MC — somebody above their intel tier, somebody below.
+- At most **two** characters have wit other than `none`. Ordinary is the correct default.
+- No two characters share **intel + articulacy + wit**. If a new character's row already exists
+  under another name, change one of them or merge them.
+
+Copies of a person — clones, avatars, doubles, body-snatches — are exempt, and declare it with the
+`mirror:` block in the frontmatter. See `voice-separation` §7 and the Mirrors section below.
+
+---
+
 ## Tier C — the three-stroke sketch
 
 Three strokes, invented on the spot, recorded as one line. This is the entire method.
@@ -50,16 +70,21 @@ Three strokes, invented on the spot, recorded as one line. This is the entire me
    a function in a scene into a window onto the world — and it is where thread seeds, foreshadowing
    and world texture enter the story without an exposition scene.
 
+Plus **one axis off default** (`voice-separation` §8) — not a fingerprint, one way of being unlike
+everyone else in the scene: the one who will not stop talking, the one who answers in three words,
+the one who thinks this is funny, the one who does not look up from their hands. A walk-on without
+it speaks in the narrator's register, and the narrator's register is the MC's.
+
 Recorded in `bible/cast/_extras.md`, one line:
 
 ```
 Marek Oss — toll clerk, Ashfall east gate — ch 12, 19 — alive
   wants: to close early | tic: stamps twice, checks the second | carries: the gate levy doubled
-  last month and nobody was told why
+  last month and nobody was told why | voice: answers in three words or fewer
 ```
 
 That is all of it. No thumbnail, no want/need/fear/lie, no competence table, no ladder, no
-calibration lines, no growth row.
+calibration lines, no growth row, no matrix row.
 
 **The swap test.** Not the tag-removal test — that is for tier A and B. Ask: *could this scene be
 handed to any other extra with no edit?* If yes, they are generic. One stroke fixes it, and it is
@@ -98,7 +123,7 @@ they reappear, they are a new sketch.
 
 ## Tier B — the short file
 
-`_supporting-template.md`. Nine fields, and no more:
+`_supporting-template.md`. Ten fields, and no more:
 
 | field | note |
 |---|---|
@@ -106,6 +131,7 @@ they reappear, they are a new sketch.
 | job in the story | why the story needs this person; if it is "explains things to the MC", redesign |
 | want, this arc | concrete and pursuable in a scene |
 | one incompetence | one is enough at this tier |
+| voice axes | intel · artic · wit · turn length, plus hands, pressure move and first move. The matrix row, not a fingerprint |
 | three speech fields | contractions · one vocabulary tell · one syntax tic. Not eight |
 | one calibration line | their voice under pressure. Not three |
 | one behaviour rule | *under pressure, they →* |
@@ -133,10 +159,17 @@ the promotion signal. Take it — promotions are how a cast stays alive.
    scene showing how it was acquired, scheduled or already written.
 4. **Behaviour rules** — five to eight if/then rules, phrased so another writer could run them.
    These make the character predictable enough that breaking a rule reads as a *event*.
-5. **Speech fingerprint** — all eight fields, plus three calibration lines in three emotional
-   states. See `dialogue-voice`. This is the field most often skipped and most often regretted.
-6. **Body & habit** — two or three behaviours, gestures rather than portraiture. Describe what
-   the body *does*. No beauty catalogue. See `bias-guard`. If this character's body changes over
+5. **Voice axes, then the speech fingerprint.** The axes first — intel, articulacy, wit and its
+   trigger, heat, turn length, the conversational blind spot, and the thought fields if
+   `pov_eligible` (`voice-separation` §1, §5). Then all eight fingerprint fields and three
+   calibration lines in three emotional states (`dialogue-voice`). In that order: eight surface
+   habits laid over a mind identical to the MC's produce a labelled clone, which is the defect the
+   axes exist to prevent. This is the step most often skipped and most often regretted.
+6. **Body & habit** — the three body fields (`voice-separation` §4): default state, **the hands**,
+   and the pressure move — plus, for tier A, their habitual standing distance and what they do when
+   someone crosses it. Gestures rather than portraiture; describe what the body *does*. Nothing
+   from the banned set (nodded, shrugged, sighed, raised an eyebrow, crossed their arms) — those
+   identify nobody. No beauty catalogue; see `bias-guard`. If this character's body changes over
    the novel — a child growing, a shapeshifter, someone maimed or restored — set
    `form_locked: true` and give them a stage table in `state/body.md` (`mc-design`).
 7. **Relationships**, including the `unspoken` column — what each pair is not saying.
@@ -176,6 +209,29 @@ Same template, plus:
 
 A villain who exists to be defeated is a chore. A villain whose defeat costs the reader something
 is the arc.
+
+## Mirrors — clones, avatars and doubles
+
+A character who is a copy of another is the one case where sharing a voice is correct. Give them a
+normal profile at their tier, plus the `mirror:` block in the frontmatter — `mirror`, `mirror_kind`,
+`convergence`, `diverged_ch` — and a row in §5 of `_voices.md`. The rest of the profile is filled
+from the source character's, changed only where their separate life has changed them.
+
+Three things the profile must still answer, because they are what makes a double a character rather
+than a duplicate file (`voice-separation` §7):
+
+- **What has diverged since `diverged_ch`**, and at what rate. Different experiences make different
+  people; a copy who has lived thirty chapters apart and sounds identical is a puppet, which is
+  legitimate only if the story says so and somebody notices.
+- **The tell** — the one thing that does not copy, and who could detect it. Plant it before it is
+  needed (`plot-threads`). If nothing fails to copy, record `none — deliberate`.
+- **Who the reader tracks in a shared scene** — the physical tag or POV anchor that keeps two
+  mirrors apart on the page, unless the confusion is the intended effect.
+
+A double with a different body is also `form_locked: true` with its own stage row in
+`state/body.md`. The exemption covers declared mirrors only: a protégé, a sibling or a rival who
+"is like a younger version of the MC" is not a mirror, it is a cast with two of the same person in
+it.
 
 ## Fan fiction
 
@@ -218,6 +274,8 @@ Profiles change; they are not carved. Amend when a chapter reveals or changes so
 
 - [ ] Could another writer run this character from the file alone?
 - [ ] Are their three sample lines distinguishable from every other character's, tags removed?
+- [ ] Do they differ from the MC on at least two voice axes — or are they a declared mirror?
+- [ ] Is there something conversational they cannot do that the MC does easily?
 - [ ] Do they want something the MC's success would cost them?
 - [ ] Do they have at least two incompetences?
 - [ ] Is there something they are wrong about that they will not stop being wrong about soon?
@@ -225,7 +283,8 @@ Profiles change; they are not carved. Amend when a chapter reveals or changes so
 
 **Tier B**
 
-- [ ] Nine fields filled, none of them a paragraph
+- [ ] Ten fields filled, none of them a paragraph
+- [ ] Their matrix row is in `_voices.md` and differs from every other row on at least two axes
 - [ ] Their one calibration line is not interchangeable with any principal's
 - [ ] The shift names a trigger and a voice delta
 - [ ] They want something for a reason that predates the MC
@@ -233,6 +292,7 @@ Profiles change; they are not carved. Amend when a chapter reveals or changes so
 **Tier C**
 
 - [ ] Three strokes, one line, no interiority
+- [ ] One axis off default, so they do not speak in the MC's register
 - [ ] Passes the swap test — stroke 3 is specific to them
 - [ ] Named ones are in `lexicon.md`
 - [ ] If they die soon, they were sketched in an earlier chapter and not inflated

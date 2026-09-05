@@ -10,6 +10,16 @@ development_rate: 3     # 1 glacial .. 5 volatile   (MC always 5)
 current_rung: 1         # position on the ladder below
 pov_eligible: false
 canon: false            # fanfic: is this a canon character?
+
+# ── MIRROR ───────────────────────────────────────────────────────────────────
+# Only for clones, avatars, doubles and body-snatches. These four fields are the
+# exemption from voice-separation §3 — a copy of a person may sound like them.
+# Delete the block for anyone who is not a duplicate. See voice-separation §7.
+mirror: ""              # slug of the source character
+mirror_kind: ""         # clone | avatar | projection | doppelganger | body-snatch |
+                        # split-self | time-double | copy-mind | shapeshifter
+convergence: ""         # identical | drifting | inverted
+diverged_ch: null       # the chapter they became separate people
 ---
 
 # <Name>
@@ -53,6 +63,33 @@ surprising. Write them so another writer could run the character correctly.
 - When someone is kind to them, they →
 - When they are wrong, they →
 - When they are winning, they →
+
+## Voice axes
+
+The layer under the fingerprint. Fill this **before** the eight fields below — surface habits on an
+undifferentiated mind are labels, not voices. Copy this row into `bible/cast/_voices.md` and check
+it against the rest of the cast there. See `voice-separation` §1.
+
+| axis | value |
+|---|---|
+| intel | 1–5, the `mc-intel-meter` ladder. May be above or below the MC's |
+| articulacy | 1–5. Independent of intel — the pairing is the character |
+| wit | none / dry / warm / clowning / cruel, **and the pressure that triggers it** |
+| heat | flat / banked / quick / volatile |
+| turn length | default words per speaking turn. A number. Hold it |
+| conversational blind spot | the one thing they cannot do that the MC does easily |
+
+**Thought fields** — only if `pov_eligible: true`. The thought unit is this character's metaphor
+source in narration (`narrator-voice`); no two POV characters may share one.
+
+| field | value |
+|---|---|
+| thought unit | images / words / numbers / bodies / rules / people / money |
+| thought speed | ahead of the scene / with it / one beat behind |
+| facing an unknown | test it / avoid it / name it / ask someone / assume the worst |
+
+**First move** — what they reach for or look at first when a situation changes. This is how their
+mind reaches the page inside someone else's POV, without interiority.
 
 ## Speech fingerprint
 

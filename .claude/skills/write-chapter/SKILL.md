@@ -33,9 +33,11 @@ Write these down for yourself. Ten lines, not a document.
 | What this chapter costs the POV character | `conflict-engine` — never zero |
 | Which thread ops fire | `plot-threads` |
 | Which character sounds different today, and how | `character-development` → `state/growth.md` |
-| Anyone new on the page: their **cast tier**, decided before they speak | `character-profile` — default C, three strokes, one roster line |
+| **The voice spread**: this chapter's speakers as matrix rows, side by side — and which of them differs from the MC on two or more axes | `voice-separation` §1, §3 → `bible/cast/_voices.md` |
+| Anyone new on the page: their **cast tier**, decided before they speak | `character-profile` — default C, three strokes, one roster line, one off-default axis |
 | Which bodies are locked, and what they cannot do today | `mc-design` → `state/body.md` §1–§2 |
 | **The offstage question**: what the world does this chapter that the MC doesn't know | `timeline-engine` → `plan/timeline.md` §4 |
+| **The world channel**: the one thing about the world this chapter makes concrete, and whether a consequence, a friction or an assumed reference carries it | `world-texture` §1 |
 | What the MC deduces, and from which on-page clue | `mc-intel-meter` |
 | Opening line strategy, closing hook | `hook-and-pacing` |
 
@@ -53,13 +55,26 @@ Hold these while writing:
   mid-chapter unless `pov-switch` says a switch is happening.
 - **Dialogue.** Every named speaker's lines must satisfy their speech fingerprint
   (`dialogue-voice`). If you cannot tell two characters apart with the tags removed, fix it now.
+- **Voice spread.** Hold each speaker's matrix row while writing (`voice-separation`): their turn
+  length, their articulacy — which is *not* their intelligence — and whether wit is theirs at all.
+  Nobody except a declared mirror reasons at the MC's speed by default; somebody in this chapter is
+  slower than the MC, or worse at saying it, and is right about something anyway. Beats come from
+  each character's hands and pressure move, never from the default gesture set.
+- **Other minds, no interiority.** Non-POV characters think through their **first move** — what
+  they reach for or look at first when the situation changes. That is the whole mechanism; the
+  narration never enters a second head.
 - **Walk-ons.** A new minor character gets three strokes and no more: a five-minute want, one
-  habit, and one piece of their working world. No interiority, no backstory paragraph, no ladder.
-  Do not stop to build a profile mid-draft — sketch them, and log the line in step 5.
+  habit, and one piece of their working world — plus one axis off default, so they do not speak in
+  the narrator's register. No interiority, no backstory paragraph, no ladder. Do not stop to build
+  a profile mid-draft — sketch them, and log the line in step 5.
 - **Intelligence.** Every MC decision passes the `mc-intel-meter` trace test: the reader can name
   the on-page fact it came from.
-- **Ground the scene.** Two concrete sensory details per scene, drawn from the location's
-  signature in `bible/world.md`. Not a paragraph of description — two details, placed in motion.
+- **Ground the scene.** `world-texture`. Two to four concrete sensory details per scene, at least
+  one non-visual, drawn from the location's signature in `bible/world.md` and hit within 100 words
+  of arriving. Never a paragraph of description — details placed in motion, and **filtered through
+  the POV character**: they notice what their job, wound and want make salient, and they do not
+  notice what is normal to them. The world's *rules* reach the reader by biting someone or by
+  being worked around, not by being narrated.
 - **Cut the connective tissue.** Enter scenes late, leave early. No arrivals, no farewells, no
   walking between locations unless something happens on the way.
 - **Optional skills.** Apply each `on` skill's rules as you write, not afterwards.
@@ -98,10 +113,15 @@ Fix what it finds, in the file. Set `status: revised`.
 Run `continuity-summary` in **write mode**: CCS block, threads, growth, timeline, any new bible
 facts. This step is not optional and not deferrable to "later".
 
+World bookkeeping, same pass: any new location anchor or durable social fact goes into `set>`,
+then into `bible/world.md` or `bible/society.md`. An anchor invented on the page and never
+recorded will drift by its third appearance.
+
 Cast bookkeeping, same pass: every walk-on who appeared gets their roster line in
 `bible/cast/_extras.md` (or their appearance chapter appended to an existing one), every named
 person goes in `lexicon.md`, and anyone who hit a third appearance or changed the plot is promoted
-now — with their profile built from what is already on the page.
+now — with their profile built from what is already on the page. A promotion also earns a row in
+`bible/cast/_voices.md`, placed against the existing cast rather than invented in isolation.
 
 ## Step 6 — Report
 
@@ -142,8 +162,14 @@ The draft wins if it is better, but the plan must be updated, not ignored:
 |---|---|---|
 | Chapter reads as "stuff happened" | no turn | `scene-craft` |
 | Characters sound identical | fingerprints not loaded | `dialogue-voice` |
+| Everyone reasons and jokes like the MC | the cast was never placed on the matrix; the MC is the model's calibration point | `voice-separation` §1, §3 — straddle the tier, cap the wit, hold the turn lengths |
+| The allies are interchangeable | they share intel + articulacy + wit | `voice-separation` §3 — change one axis or merge the characters |
+| Beats are all nods, shrugs and sighs | the default gesture set | `voice-separation` §4 — beats come from the hands field |
 | Minor characters are wallpaper | sketched with a job and nothing else | `character-profile` — three strokes, especially the third |
 | A one-scene shopkeeper got a backstory | tier not assigned before writing | `character-profile` — default C, and C has no interior |
+| Scene could be anywhere; swap the nouns and nothing breaks | world lives only in `bible/` | `world-texture` §1 — add consequence and friction, not description |
+| Readers skim the openings | establishing paragraphs, scenery blocks | `world-texture` §2, §7 |
+| World has spectacular magic and generic peasants | rule never propagated | `social-fabric` §2 |
 | MC solves it too easily | no cost budgeted | `conflict-engine` |
 | MC misses the obvious | plot needs delay | `mc-intel-meter` — change the *information*, never the intelligence |
 | Reader has no reason for the next chapter | weak hook | `hook-and-pacing` |

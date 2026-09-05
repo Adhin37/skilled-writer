@@ -90,6 +90,21 @@ Rule: **a reader who skipped 50 chapters should be able to tell this line is fro
 The delta is cumulative and irreversible except by regression. Once a character has stopped
 saying "my lord", going back to it is a *scene*, not a slip.
 
+### Deltas must not converge the cast
+
+Every channel in that table pushes the same direction — shorter, surer, more direct — which is the
+direction of the MC. Applied to a whole cast over 200 chapters, growth quietly merges everyone
+into the protagonist, and by the late arcs the book has one voice in it.
+
+**A voice delta may not move a character onto the MC's axes** (`voice-separation` §6). If the
+obvious delta would raise a character's articulacy to the MC's level, or hand them the MC's wit,
+choose a different one — growth also runs toward *more oblique*, *slower*, *quieter*, *funnier in a
+worse way*, *unable to stop explaining*. The single exception is a character whose arc is genuinely
+about becoming like the MC: then somebody on the page says so, and it reads as loss or as threat.
+
+**The drift check, once per arc.** Put one recent line from each recurring character side by side.
+If the axes have compressed, restore them and log it in §6 of `bible/cast/_voices.md`.
+
 ## Regression
 
 Growth that cannot be lost is not growth. Every profile lists regression conditions — usually:
@@ -155,6 +170,7 @@ Called by `write-chapter`, step 1.
 - [ ] `state/growth.md` is current for everyone in this chapter
 - [ ] Every advance was caused by one of the four triggers
 - [ ] Every advance has a recorded voice delta, and the delta is in the dialogue
+- [ ] No delta moved a character onto the MC's voice axes
 - [ ] The MC's pain ledger has an entry for this chapter
 - [ ] No tier-A character has been at rung 1 for two full arcs while on-page
 - [ ] No tier-C walk-on was given a rung, an epiphany or an interior life

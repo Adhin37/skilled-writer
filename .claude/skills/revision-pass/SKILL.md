@@ -1,6 +1,6 @@
 ---
 name: revision-pass
-description: Quality gate for a drafted chapter — runs continuity, character, intelligence, bias, MTL-artifact and prose checks in a fixed order and fixes what it finds. Use after drafting any chapter, and when the user says /novel-revise.
+description: Quality gate for a drafted chapter — runs continuity, character, voice-separation, intelligence, structure, world-delivery, bias, MTL-artifact and prose checks in a fixed order and fixes what it finds. Use after drafting any chapter, and when the user says /novel-revise.
 ---
 
 # revision-pass
@@ -21,7 +21,8 @@ Against the read-set from `continuity-summary`.
 - [ ] Names, terms, titles and spellings match `bible/lexicon.md` exactly
 - [ ] In-world time is consistent with `state/timeline.md`; travel times plausible
 - [ ] Objects, injuries and possessions persist (the coat, the scar, the debt)
-- [ ] Nothing contradicts an established rule in `bible/world.md` or `bible/power-system.md`
+- [ ] Nothing contradicts an established rule in `bible/world.md`, `bible/society.md` or
+      `bible/power-system.md`
 - [ ] Character positions match where the last chapter left them
 
 **Form check** — only if any character in the chapter has `form_locked: true`. Read
@@ -40,12 +41,34 @@ Against the read-set from `continuity-summary`.
 - [ ] Tag-removal test: speakers identifiable without attributions
 - [ ] No character acted out of character for the plot's convenience
 - [ ] Any rung advance was triggered, dramatised, and is audible in dialogue
+- [ ] No voice delta moved a character onto the MC's axes
 - [ ] Antagonists present want something and are competent at something
+
+**Voice separation** (`voice-separation`) — the defect that survives a clean tag-removal test,
+because the fingerprints differ and the minds behind them do not:
+
+- [ ] Transplant test — the MC's most characteristic line does not fit any other character's mouth
+- [ ] At least one speaker differs from the MC on two or more axes (intel, articulacy, wit, heat,
+      turn length, body)
+- [ ] No two speakers in a scene share intel + articulacy + wit
+- [ ] Turn lengths held; nobody drifted toward the MC's
+- [ ] Wit is confined to the characters who have it, at the pressure that triggers it — nobody
+      became funny because the scene had room
+- [ ] Every action beat is that character's hand-habit or pressure move; zero instances of *nodded,
+      shrugged, sighed, raised an eyebrow, crossed their arms, let out a breath* as identification
+- [ ] Non-POV minds shown through first moves; no second head entered
+- [ ] Narration draws its metaphors from this POV's thought unit
+- [ ] Any low-intel character is competent at their own work and right about something concrete —
+      nobody exists in this chapter to be corrected
+- [ ] **Mirrors**: a clone, avatar or double sharing the original's voice is declared with
+      `mirror:` and `convergence:`; what has diverged since `diverged_ch` shows; the reader can
+      tell which is speaking, or a character on the page cannot either
 
 **Walk-ons** — for every minor character in the chapter:
 
 - [ ] Swap test: their scene could not be handed to a different extra unchanged
 - [ ] Three strokes present — a want inside the scene, one habit, one piece of their working world
+- [ ] One axis off default, so they are not speaking in the narrator's register
 - [ ] No interiority, no backstory paragraph, no arc granted to a tier-C character
 - [ ] Nobody was over-characterised on the way to dying; a death this chapter was set up earlier
 - [ ] Anyone at a third appearance, or who changed the plot, is promoted and profiled
@@ -72,7 +95,29 @@ Against the read-set from `continuity-summary`.
 - [ ] Crisis count is within `timeline.crisis_cap`; nothing here took an `ending.non_negotiable`
 - [ ] Skim test: name the one thing a reader would miss if they skipped this chapter
 
-## Pass 5 — Bias (`bias-guard`) — never skipped, never negotiable
+## Pass 5 — World (`world-texture`)
+
+Runs after structure (description placement follows scene shape) and before bias, so any world or
+cultural material it adds is still audited by Pass 6.
+
+- [ ] Every world detail is load-bearing — it characterises the noticer, sets up a later beat,
+      anchors a location, carries a social fact, or creates friction. Cut the rest
+- [ ] At least two beats of consequence / friction / assumed reference for every sentence of
+      direct description
+- [ ] 2–4 sensory details per scene, at least one non-visual, none delivered as a block
+- [ ] No establishing paragraph; no run over three descriptive sentences; no gazetteer sentence,
+      history lecture, or explanation of a reference made two pages earlier
+- [ ] Every location hit its `bible/world.md` sensory signature within 100 words of arrival, and
+      a revisited place was not re-explained
+- [ ] Observations belong to the POV character — nothing noticed that is normal to them, nothing
+      noticed that their job, wound or state would not make salient
+- [ ] ≤1 new invented term, and it recurs this chapter; every proper noun matches `lexicon.md`
+- [ ] Nothing contradicts `bible/society.md`; any social rule used bit someone rather than being
+      narrated
+- [ ] One or two things referred to and left unexplained, with the scene still comprehensible
+- [ ] New anchors and durable social facts are queued for `set>`
+
+## Pass 6 — Bias (`bias-guard`) — never skipped, never negotiable
 
 - [ ] No group treated as uniformly anything by the narration
 - [ ] Every named woman in the chapter wants something that is not the MC
@@ -81,7 +126,7 @@ Against the read-set from `continuity-summary`.
 - [ ] Nobody is a reward
 - [ ] Any prejudice on the page belongs to a character and costs someone something
 
-## Pass 6 — MTL detox (`mtl-detox`)
+## Pass 7 — MTL detox (`mtl-detox`)
 
 - [ ] Zero banned phrases
 - [ ] Zero exclamation marks in narration
@@ -90,7 +135,7 @@ Against the read-set from `continuity-summary`.
 - [ ] No face-slap loop; every confrontation cost the winner something
 - [ ] No paragraph saying the same thing three ways
 
-## Pass 7 — Prose (`prose-quality`)
+## Pass 8 — Prose (`prose-quality`)
 
 - [ ] No phrase from the AI-default cut list
 - [ ] Filter verbs removed
@@ -100,7 +145,7 @@ Against the read-set from `continuity-summary`.
 - [ ] One non-visual sensory detail per scene
 - [ ] No dead stage business
 
-## Pass 8 — Opening and hook (`hook-and-pacing`)
+## Pass 9 — Opening and hook (`hook-and-pacing`)
 
 - [ ] Opening avoids the banned patterns
 - [ ] Re-anchoring is one clause
@@ -108,7 +153,7 @@ Against the read-set from `continuity-summary`.
 - [ ] Hook concrete, final position, type rotated
 - [ ] Word count inside range without padding
 
-## Pass 9 — Mechanics
+## Pass 10 — Mechanics
 
 - [ ] Frontmatter complete and accurate; word count real — measured (`wc -w` where available),
       not estimated
@@ -125,10 +170,11 @@ Against the read-set from `continuity-summary`.
 - **Structural defects can require a rewrite of a scene.** Do it. A chapter with no cost or no
   turn cannot be repaired at the sentence level.
 - **When a fix contradicts the plan**, change the plan row and re-check the next three rows.
-- **When a fix reveals a bible gap** (an unnamed thing, an undefined rule), add it to `bible/` in
-  the same pass and say so.
+- **When a fix reveals a bible gap** (an unnamed thing, an undefined rule, a social fact the
+  scene assumed), add it to `bible/world.md`, `bible/society.md` or `bible/lexicon.md` in the
+  same pass and say so.
 
-Set `status: revised` in the frontmatter when all nine passes are clean.
+Set `status: revised` in the frontmatter when all ten passes are clean.
 
 ## Reporting
 
@@ -139,10 +185,11 @@ Revised ch 42: cut a crowd-reaction paragraph, applied Dael's rung-3 voice delta
 replaced the ending (it ran three paragraphs past the hook). 1,840 → 1,795 w.
 ```
 
-If a pass found nothing, do not list it. If Pass 5 found something, always say what — the user
+If a pass found nothing, do not list it. If Pass 6 found something, always say what — the user
 needs to know that the default was reaching for it.
 
 ## Standalone use
 
 `/novel-revise <n>` runs this on an existing chapter. Load that chapter, its CCS block, the two
-before it, and the profiles of everyone in it — then run all nine passes.
+before it, the matrix rows in `bible/cast/_voices.md` for its speakers, and the profiles of
+everyone in it — then run all ten passes.

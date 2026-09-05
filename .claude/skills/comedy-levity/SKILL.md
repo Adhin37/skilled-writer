@@ -9,6 +9,13 @@ description: Optional (default off). Place humour deliberately — character-sou
 belongs to a character's fingerprint is still fine — this skill governs *scheduled* levity, not
 voice.
 
+**Who is allowed to be funny is not decided here.** The `wit` axis in `bible/cast/_voices.md`
+decides that, on or off: at most two of the recurring cast have wit other than `none`, each with a
+named register (dry, warm, clowning, cruel) and a named pressure that triggers it
+(`voice-separation` §1). This skill places the comic beats; it never hands a joke to a character
+whose axis says `none`, and it never lets a scene make everyone funny because the scene had room.
+A cast where anyone can land the line is a cast with one voice in it.
+
 ---
 
 ## Where humour comes from

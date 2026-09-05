@@ -51,6 +51,9 @@ makes it real — what it smells like, what it does with its weight, what it ign
 
 **Description in motion.** Deliver setting through a character doing something in it. Never stop
 the story to describe a room. Two sensory details, placed inside action, out-perform a paragraph.
+This skill owns the *sentence*; `world-texture` owns **which** details are allowed on the page and
+how many. If the two seem to disagree, the budget wins — a beautifully written detail that is not
+load-bearing is still cut.
 
 **Sentence rhythm mirrors pressure.** Long, subordinated sentences for control and deliberation.
 Short ones when things go wrong. Fragments at the moment of impact. Then a long one afterwards,
@@ -61,6 +64,12 @@ a single-line paragraph is the strongest position on the page.
 
 **Cut the obvious stage business.** Characters standing up, opening doors, walking across rooms,
 nodding. If it does not change something, delete it. Nodding is the single most common dead beat.
+
+**A beat that identifies nobody is stage business.** *Nodded · shrugged · sighed · raised an
+eyebrow · crossed their arms · ran a hand through their hair · clenched their jaw · let out a
+breath · looked away · smiled slightly* — the default gesture set, available to every character
+and therefore attached to none. Replace with that character's own hand-habit or pressure move
+(`voice-separation` §4), or cut the beat: a line with no beat beats a line with a generic one.
 
 ## Filter verbs and telling
 

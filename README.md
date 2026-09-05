@@ -66,8 +66,10 @@ Other commands: `/novel-status`, `/novel-plan`, `/novel-character`, `/novel-reca
 **Core loop** — `novel-init`, `mc-design`, `story-bible`, `chapter-plan`, `continuity-summary`,
 `write-chapter`, `revision-pass`
 
-**Character** — `character-profile`, `character-development`, `mc-intel-meter`, `dialogue-voice`,
-`lead-interest`
+**World** — `story-bible`, `social-fabric`, `world-texture`
+
+**Character** — `character-profile`, `voice-separation`, `character-development`, `mc-intel-meter`,
+`dialogue-voice`, `lead-interest`
 
 **Craft** — `narrator-voice`, `pov-switch`, `scene-craft`, `conflict-engine`, `plot-threads`,
 `timeline-engine`, `hook-and-pacing`, `prose-quality`, `mtl-detox`, `bias-guard`
@@ -78,7 +80,41 @@ Other commands: `/novel-status`, `/novel-plan`, `/novel-character`, `/novel-reca
 `combat-choreography`, `litrpg-system`, `mystery-clues`, `comedy-levity`,
 `grimdark-consequences`, `slice-of-life-texture`
 
-Seven of these deserve a note:
+Ten of these deserve a note:
+
+- **`voice-separation`** attacks the defect that gives AI-written fiction away fastest: every
+  character reasons as quickly as the MC, argues as fluently, and lands the same dry jokes, because
+  the protagonist is what the model calibrates against. Fingerprints do not fix it — contractions
+  and a vocabulary tell painted over identical minds produce *labelled* clones. So the whole cast
+  goes on a matrix instead: **intelligence** (the `mc-intel-meter` ladder, applied to everyone),
+  **articulacy** as a separate axis — the character who is right and cannot prove it and the one
+  who is wrong and can out-talk anyone are built by pulling those two numbers apart — plus wit,
+  emotional heat, a default words-per-turn budget, and a body idiom whose one hand-habit does more
+  tag-free identification than any amount of dialect. The cast must **straddle** the MC's tier, at
+  most two people are funny, no two speakers share intel + articulacy + wit, and the MC's best line
+  must not fit anyone else's mouth. Thought is a channel too: POV characters get a **thought unit**
+  (images, numbers, bodies, money) that becomes their metaphor source, and everyone else's mind
+  reaches the page through their **first move** — three people enter a room, one checks the door,
+  one checks the faces, one checks the exit — with no interiority at all. Over a long serial the
+  skill also blocks the slow merge, since growth deltas all push toward the MC's register by
+  default. One deliberate exemption: **clones, avatars, doubles and body-snatches** declare a
+  `mirror:` and are allowed to sound like the person they copy — with the questions that make a
+  double interesting still enforced, namely what has diverged since they split, and which single
+  thing failed to copy.
+
+- **The world trio.** `story-bible` records what is true and where things are. **`social-fabric`**
+  works out the society under it — labour, money, law, knowledge, belief, mobility — and runs the
+  **propagation test**: every hard rule of the magic or technology is forced down through
+  institution, market and household, then asked what occupation it destroyed and what people do in
+  the gap where it stops working. That gap is where most plots live, and skipping this step is how
+  you get a spectacular magic system sitting on top of generic medieval wallpaper.
+  **`world-texture`** then governs delivery, which is the half most drafts get wrong in both
+  directions at once: flat *and* bloated. It ranks four channels by cost — a rule biting someone,
+  a character working around the world, an unexplained passing reference, and only last, actual
+  description — puts a hard budget on the last one, requires every detail to be load-bearing,
+  filters what is noticed through the POV character's job and wound, and reserves one or two
+  things per chapter that are referred to and never explained. That reserve is what makes a world
+  feel bigger than the page.
 
 - **`timeline-engine`** runs the world on its own clock. For most genres it stays coarse — the
   antagonist's plan and two or three standing clocks. For **fan fiction it is the centre of the

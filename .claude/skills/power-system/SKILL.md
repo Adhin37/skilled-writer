@@ -108,8 +108,18 @@ If the novel uses a cultivation frame, keep the structure and drop the corpus ha
 - Sects are institutions: budgets, factions, obligations, people who are bad at their jobs.
 - The elder who exists to be impressed by the MC does not exist here.
 
+## Handoff to the world
+
+A power system that has not changed how ordinary people live is a game mechanic, not a world. As
+soon as the rules here are stable, run **`social-fabric`** and propagate each hard rule down to
+institution, market and household — who monopolised it, what job it created, what an ordinary
+family does differently, what craft it made obsolete, and what people do in the gap where it does
+not work. That gap is where most plots live. `world-texture` then decides how any of it reaches
+the page: a rule biting someone, never a lecture.
+
 ## Self-check
 
+- [ ] Every hard rule has been propagated through `social-fabric` §2
 - [ ] Cost, limits, learning curve and counter all written down
 - [ ] Every ability used this chapter paid its stated cost, on the page
 - [ ] Nothing was resolved by a capability the reader had not seen used and seen fail

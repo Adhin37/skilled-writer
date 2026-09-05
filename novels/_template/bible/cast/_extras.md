@@ -10,11 +10,17 @@ interchangeable — not to understand them. Three strokes:
 - **carries** — one piece of the world: a price, a grievance, a rule they enforce, a rumour,
   something that changed at their work. This is the stroke that does the work.
 
+And **one axis off default** (`voice-separation` §8): a walk-on gets no matrix row and no
+fingerprint, but they get one way of being unlike everyone else in the scene — the one who will not
+stop talking, the one who answers in three words, the one who thinks this is funny, the one who
+will not look up from what their hands are doing. It costs a clause. Without it, every extra in the
+book speaks in the narrator's register, which is the MC's.
+
 Format:
 
 ```
 <Name> — <what they do, where> — ch <appearances> — <status>
-  wants: … | tic: … | carries: …
+  wants: … | tic: … | carries: … | voice: …
 ```
 
 Promote to a real profile on a third appearance, or the moment they make a decision that changes
@@ -29,7 +35,7 @@ profile *from what is already on the page*.
 
 Marek Oss — toll clerk, Ashfall east gate — ch 12, 19 — alive
   wants: to close early | tic: stamps twice, checks the second | carries: the gate levy doubled
-  last month and nobody was told why
+  last month and nobody was told why | voice: answers in three words or fewer
 
 -->
 

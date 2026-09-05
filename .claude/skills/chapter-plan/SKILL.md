@@ -31,15 +31,23 @@ as a chapter surprises you, and stale rows are worse than no rows: they get foll
    not "a stronger enemy" — it is a *worse thing to lose*.
 5. Fix the **midpoint reversal**: the chapter where the MC's understanding is proven wrong.
 6. Fix the **cost**: what the MC permanently loses. Required. Not "almost".
-7. Assign **character rungs**: who advances, on which chapter, and what audibly changes.
+7. Assign **character rungs**: who advances, on which chapter, and what audibly changes. Check each
+   planned voice delta against `voice-separation` §6 — growth must not walk a character onto the
+   MC's axes. Any character the arc introduces as a recurring presence gets their matrix row now,
+   placed against the existing cast, not invented in isolation when they first speak.
 8. Assign **threads**: opened, paid, carried forward.
 9. Run `timeline-engine`: which world-track events fire in this arc, on which chapters, and how
    each reaches the MC. **Confirm the arc moves at least one of them** — moved, prevented,
    altered or created. An arc that leaves the world track untouched is an arc the MC was a
    tourist in. Then run the point-of-no-return check: does anything scheduled here make
    `ending.contract` unreachable, or take a `non_negotiable`? If so, rescale, delay or redirect it.
-10. Write the **exit hook**.
-11. Fill the arc template in `plan/arcs.md`, and §4 of `plan/timeline.md`.
+10. Name the arc's **world layer**: which part of the world this arc makes concrete — a place, an
+    institution, a class, a trade — and the two or three chapters that show it working. If it is
+    a layer the story has not entered before (court, slum, army, temple, ship), run `social-fabric`
+    for half a page on it *before* the rows are written, not while drafting. An arc set entirely
+    in already-established territory answers "nothing new", which is a legitimate answer once.
+11. Write the **exit hook**.
+12. Fill the arc template in `plan/arcs.md`, and §4 of `plan/timeline.md`.
 
 ## Procedure — chapter rows
 
@@ -60,7 +68,7 @@ Work in batches of 10–12.
 | chapters | function | temperature |
 |---|---|---|
 | 1–3 | new situation, new want, first obstacle | rising |
-| 4–8 | pursue and complicate; the arc's world gets specific | steady |
+| 4–8 | pursue and complicate; the arc's world gets specific (`world-texture` — through consequence, not description) | steady |
 | 9–11 | first pillar; a win with a price | hot |
 | 12–14 | midpoint reversal — the MC was wrong about the problem | hot |
 | 15–17 | fallout; the cost lands; relationships shift | cool, but not idle |

@@ -181,17 +181,35 @@ The ledger takes any character who changes form: a child growing across 300 chap
 shapeshifter, someone maimed, someone restored. Add a row. Long serials get ages wrong constantly,
 and the ledger is cheap.
 
----
+### Copies of the MC
+
+If the golden finger produces duplicates — clones, avatars, projections, a split self, a mind
+copied into another body — or if the story gives the MC a doppelganger, each copy is its own
+character file with a `mirror:` block, and it is the one case where sharing a voice is correct
+rather than a defect. `voice-separation` §7 owns that: the convergence level (identical / drifting
+/ inverted), the chapter they became separate people, and **the tell** — the one thing that does
+not copy, and who could notice it.
+
+Two things this ledger contributes. A copy with a different body is `form_locked: true` with its
+own stage table here, so its reach and voice come from its own row and not the original's. And a
+copy that can be *destroyed and remade* needs its `now costs` column filled like any other
+transition: an advantage that spawns free bodies is a golden finger with no cost, which §"the cost"
+already forbids.
 
 ## Writing the MC's profile
 
 Fill `bible/cast/<mc>.md` from the template with everything above, plus the standard requirements
-(`character-profile`): want/need/fear/lie, behaviour rules, all eight speech-fingerprint fields,
-three original calibration lines, at least two incompetences, and a five-rung ladder.
+(`character-profile`): want/need/fear/lie, behaviour rules, the voice axes, all eight
+speech-fingerprint fields, three original calibration lines, at least two incompetences, and a
+five-rung ladder.
 
-Two MC-specific additions:
+Three MC-specific additions:
 
 - `development_rate: 5`, always. The story concentrates its pressure here.
+- The MC's row in `bible/cast/_voices.md` is written first and is **the calibration point, not the
+  ceiling**. `mc.intel_tier` fills the intel column; articulacy, wit, heat and turn length are
+  chosen here like anyone else's, and the rest of the cast is then dealt around it — somebody
+  quicker, somebody slower, and at most one other person who is funny (`voice-separation` §1).
 - The **wound** should predate the origin event where possible. A reincarnator whose only defining
   experience is having died is thin; what they were like *before* they died is the character.
 
@@ -205,3 +223,5 @@ Two MC-specific additions:
 - [ ] Every form stage lists its absolute limits and its transition chapter
 - [ ] No final-form detail appears anywhere in an earlier stage's description
 - [ ] The MC's appearance is recorded as how the world reads them, not as an inventory
+- [ ] The MC has a `_voices.md` row, and the cast was dealt around it rather than up to it
+- [ ] Any duplicate the advantage produces has a `mirror:` block, a convergence level and a tell

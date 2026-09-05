@@ -24,14 +24,35 @@ MC intel tier, optional-skill toggles, and chapter length. Never write a word be
 ## 2. The pipeline
 
 ```
-novel-init  ->  mc-design -> lead-interest -> story-bible + character-profile  ->  chapter-plan
-                                                          |
-                        +---------------------------------+
+novel-init -> mc-design -> lead-interest -> character-profile -> voice-separation --+
+                       \                                                           |
+                        +-> story-bible -> power-system|tech-plausibility|canon     |
+                                                    -> social-fabric               |
+                                                                                   v
+                                                                              chapter-plan
+                                                                                   |
+                        +----------------------------------------------------------+
                         v
         continuity-summary (read)  ->  write-chapter  ->  revision-pass
+                                    [voice-separation]   [pass 2: voices]
+                                    [world-texture]      [pass 5: world]
                         ^                                      |
                         +-------- continuity-summary (write) <--+
 ```
+
+**The world layer.** Three skills, three jobs, never mixed: `story-bible` records what is true and
+where things are · `social-fabric` works out what the world's central rule (magic, tech, canon)
+does to labour, money, law, knowledge, belief and mobility · `world-texture` decides how any of it
+reaches the page, and at what budget. A fact is written once, in the right file, and delivered as
+consequence.
+
+**The voice layer.** Two skills, two jobs: `voice-separation` decides *who these people are as
+minds* — intelligence, articulacy, wit, heat, turn length, body idiom — and holds them apart from
+the MC and from each other; `dialogue-voice` writes the lines. The order matters. Eight
+fingerprint fields painted onto minds that all reason at the protagonist's speed produce a cast of
+labelled clones, which is this format's second-most-common defect after a stage-set world. The
+matrix lives in `bible/cast/_voices.md` and is read as a *table*, because sameness is invisible
+one profile at a time.
 
 `write-chapter` is the main loop. It is the only skill that produces prose.
 
@@ -43,17 +64,20 @@ novel-init  ->  mc-design -> lead-interest -> story-bible + character-profile  -
 |---|---|
 | `novel-init` | New novel. Interviews the user, scaffolds `novels/<slug>/`. |
 | `mc-design` | Designing the MC: gender, appearance, intellect, origin, golden finger. Also owns the form ledger for a non-final-form MC. Runs before all other cast work. |
-| `story-bible` | Building or amending world, factions, lexicon. |
+| `story-bible` | Building or amending world, factions, locations, lexicon. |
+| `social-fabric` | The society layer — labour, money, law, knowledge, belief, mobility — and propagating the power/tech rule into ordinary life. |
+| `world-texture` | Delivering the world on the page: consequence over description, sensory anchors, the description budget. Runs while drafting and inside `revision-pass`. |
 | `chapter-plan` | Producing/extending the arc grid and the chapter construction name list. |
 | `continuity-summary` | Before every chapter (read) and after every chapter (write). Compressed, machine-only. |
 | `write-chapter` | Drafting a chapter. Orchestrates everything else. |
-| `revision-pass` | QC gate. A chapter is not done until this passes. |
+| `revision-pass` | QC gate, ten passes. A chapter is not done until this passes. |
 
 **Character** — always in play:
 
 | Skill | Use when |
 |---|---|
 | `character-profile` | Creating or amending any named character. Owns the cast tiers — full profiles for principals, a short file for supporting, one roster line for walk-ons. |
+| `voice-separation` | Keeping every character distinct from the MC and from each other in speech, thought and body. Owns the cast voice matrix and the mirror clause for clones and doubles. |
 | `character-development` | Advancing a character's arc; called by `write-chapter` every chapter. |
 | `mc-intel-meter` | Any MC decision, deduction, plan, or failure. Hard gate against idiot-ball writing. |
 | `dialogue-voice` | Writing any line of dialogue. |
@@ -96,8 +120,17 @@ novel-init  ->  mc-design -> lead-interest -> story-bible + character-profile  -
    A chapter written without this is a bug.
 3. **Never invent bible facts silently.** If a needed fact is absent, add it to `bible/` in the
    same turn and say so. Contradicting an existing bible fact is a defect.
+   Corollary — **the world is delivered, not described.** Every world fact reaches the reader as
+   a consequence, a friction or an assumed reference before it is ever reached as narration, and
+   direct description is budgeted (`world-texture` §1–§2). A world whose central rule has not
+   propagated into ordinary labour, money and law is a stage set (`social-fabric` §2).
 4. **The MC is never stupid.** See `mc-intel-meter`. Failures come from missing information,
    opposed will, or cost — never from the MC forgetting what they already know.
+   Corollary — **and nobody else is the MC.** Intelligence, articulacy and wit are per-character
+   axes, declared in `bible/cast/_voices.md`; the cast straddles the MC's tier rather than sitting
+   on it, at most two characters are funny, and no two speakers in a scene share intel +
+   articulacy + wit (`voice-separation` §3). The one exemption is a declared `mirror:` — a clone,
+   avatar, double or body-snatch may sound like the person they copy (§7).
 5. **The body on the page is the body in the ledger.** If any character has `form_locked: true`,
    no sentence describes their body, reach, voice or capability except from the CURRENT FORM row
    in `state/body.md`. A reborn child does not have their adult form's height, presence or voice.
@@ -126,6 +159,15 @@ live in `mtl-detox` and `bias-guard`. The short form:
 - No stock beats: "his expression changed drastically", "as expected of", "unexpectedly",
   "in the next instant", "trash!", "you dare?", "little did he know".
 - No exposition dumps of rank ladders. Power is shown through cost and consequence.
+- No establishing paragraphs, gazetteer sentences or history lectures. Enter scenes in motion;
+  the world arrives inside the action or not at all.
+- No wallpaper societies: if the world's central rule would have changed how people eat, work,
+  travel or are judged, it has, and the story shows it.
+- No cast of protagonists: allies, rivals, clerks and villains do not all reason at the MC's speed,
+  argue as fluently, or land the same jokes. Somebody is slower, somebody is worse at saying it,
+  and both are right about something.
+- No default gesture set. Nodding, shrugging, sighing, raised eyebrows, crossed arms and released
+  breaths belong to every character and identify none; a beat comes from that person's hands.
 
 ## 6. File conventions
 
@@ -133,11 +175,13 @@ live in `mtl-detox` and `bias-guard`. The short form:
 novels/<slug>/
   novel.md              config + premise. YAML frontmatter is authoritative.
   bible/
-    world.md            setting, factions, rules of the world
+    world.md            setting, locations + sensory signatures, factions, rules of the world
+    society.md          labour, money, law, knowledge, belief, mobility; rule propagation
     power-system.md     (genre module) hard rules, costs, progression
     canon.md            (fanfic) canon facts, divergence point, OOC budget
     lexicon.md          spellings, names, terms, honorifics, units
     cast/<char>.md      one profile per tier-A/tier-B character
+    cast/_voices.md     cast voice matrix — every speaker's axes in one table, plus mirrors
     cast/_extras.md     tier-C walk-on roster — one line each, never a profile
   plan/
     arcs.md             arc-level design

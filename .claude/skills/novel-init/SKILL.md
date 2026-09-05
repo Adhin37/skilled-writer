@@ -82,6 +82,10 @@ For fanfic this round matters most — see `timeline-engine`. Set `fanfic.footpr
 - *Fantasy*: what is magic made of, who controls it, and what does using it cost? Offer three
   concrete systems built from their premise rather than a menu of generic ones.
 - *Scifi*: how far from now, and what is the one technology the story actually argues about?
+
+Then one further question, in every genre, because it is the highest-value worldbuilding answer
+there is and users enjoy it: **who does the work, and who lost out when this rule arrived?** One
+sentence is enough — `social-fabric` derives the rest at step 3.
 - *Fanfic*: source work, which canon material counts, the exact divergence point, and the
   OOC budget. Ask these in chat — they need free text.
 
@@ -124,12 +128,23 @@ Then fill in, in this order:
 3. **`bible/lexicon.md`** — names and terms invented so far, plus house style decisions.
 4. **`bible/power-system.md`** via `power-system` (fantasy/scifi) or **`bible/canon.md`** via
    `fanfic-canon`. Delete the file that does not apply.
+4b. **`bible/society.md`** via `social-fabric` — **after** step 4, never before: the six
+   questions, and one propagation test taking the most important rule down into institution,
+   market and household. This is the step that stops a spectacular magic system from sitting on
+   top of generic medieval wallpaper. Keep it under 1,000 words; write only the social layer
+   arc 1 actually enters.
 5. **`bible/cast/`** — the MC's profile first, via `mc-design` + `character-profile`. Then the
    love interest via `lead-interest`, if there is one. Then 3–5 other characters who appear in
    arc 1, **each at its tier**: full profiles only for principals, the short file for supporting
    characters, and nothing at all for people arc 1 merely walks past — they get sketched when
    they are written. Keep `_character-template.md`, `_supporting-template.md` and the empty
    `_extras.md` in place; they are the references for future characters.
+5b. **`bible/cast/_voices.md`** via `voice-separation` — a matrix row for every character written
+   in step 5, filled in **together, as a table**, not one at a time. Then run the three checks in
+   §2 of that file: the cast straddles the MC's intel tier, at most two characters have wit, and no
+   two rows share intel + articulacy + wit. This is the step that decides the book will not be one
+   voice in several costumes, and it is far cheaper here than in chapter 40. Delete §5 (Mirrors) if
+   nothing in the novel duplicates a person.
 6. **`plan/timeline.md`** via `timeline-engine` — the drivers with their reaction profiles, the
    world track for arcs 1–3, standing clocks, and the point-of-no-return watch. For fanfic, the
    canon track and the first deliberate divergence. Keep this coarse for original fiction: the
@@ -155,6 +170,10 @@ Show the user:
   body plan up front
 - **the love interest**, if any — who they are, what they want that is not the MC, and their
   reason to refuse
+- **the voice matrix as a table** — every named character's intel, articulacy, wit and turn length
+  in one block, so the user can see at a glance who is cleverer than the MC, who is slower, who is
+  the only funny one, and who talks too much. This is the cheapest thing on the list to correct now
+  and the most expensive to correct at chapter 40
 - **the ending contract** back in their own words, plus the reactivity dial, so they can see the
   deal: this hard, and it ends there
 - for fanfic: the first deliberate divergence — which canon event, which chapter, what the MC
@@ -193,4 +212,10 @@ offering every configuration.
   borrowed, and write that element down in tone references.
 - **Don't** invent a 5000-word bible. Everything in `bible/` must be needed by arc 1 or by a
   decision you have already made.
+- **Don't** ship a world whose central rule changed nothing about how people live. One
+  propagation test at init is the minimum (`social-fabric` §2), and it costs six lines.
 - **Don't** leave `blind_spots` empty. Two minimum, or `mc-intel-meter` cannot do its job.
+- **Don't** build a starting cast where everyone is as quick and as articulate as the MC. Fill
+  `_voices.md` as a table and check the three rules in §2 — somebody below the MC's tier, at most
+  two funny people, no duplicate intel/articulacy/wit triples. Left undone at init, this defect is
+  invisible for twenty chapters and then permanent.

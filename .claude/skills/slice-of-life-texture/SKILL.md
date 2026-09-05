@@ -7,6 +7,13 @@ description: Optional (default off). Add downtime, work, food, weather and ordin
 
 **Gate.** Applies only if `novel.md` → `optional.slice-of-life-texture` is `on`.
 
+**Relation to the always-on world skills.** `world-texture` runs in every novel and governs how
+much of the world may reach the page at all — its budget still binds here. This skill deepens one
+band of that work: the household layer, expanded from an occasional detail into a deliberate
+recurring channel. The domestic facts it uses come from `bible/society.md` (`social-fabric`) —
+what things cost, who does which work, what a family does on the days that matter — so that
+downtime is specific to *this* world rather than generically cosy.
+
 Constant peril numbs. Texture is what the danger is *for*: a reader can only fear the loss of a
 life they have seen someone living.
 

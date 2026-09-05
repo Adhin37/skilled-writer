@@ -15,11 +15,18 @@ Every entry must be **falsifiable on the page** — something a scene could cont
 `sensory signature` = the two details that identify it instantly. Reuse them; that is how a
 reader learns a place.
 
+`sensory signature` is not a starting point to vary from — **reuse it at every visit**. See
+`world-texture` §4.
+
 ## Social order
 
 - Who has power, and what is the power *made of* (land, violence, information, capital, magic)?
 - How does an ordinary person get hurt by that order?
 - What does the MC's position in it cost them daily?
+
+Everything below that headline — labour, money, law, knowledge, belief, mobility, and what the
+power system did to ordinary life — lives in `society.md` (`social-fabric`). Do not duplicate it
+here.
 
 ## Factions
 

@@ -7,6 +7,12 @@ description: Build and maintain the world bible and lexicon — setting, faction
 
 `bible/world.md` and `bible/lexicon.md`. The bible's job is **consistency, not completeness.**
 
+**Scope.** This skill owns *what is true and where things are*: the constraint, the power
+question, locations, factions, scarcity, rules, names. It does **not** own the society layer —
+labour, money, law, knowledge, belief, mobility and what the power system did to daily life go in
+`bible/society.md` via `social-fabric`. It does not own delivery either: how any of this reaches
+the page, and how much of it may, belongs to `world-texture`. Write each fact once, in one file.
+
 The failure mode at setup is a 6,000-word gazetteer of nations and calendars, none of which
 affects a sentence. The failure mode mid-serial is the opposite: facts invented in chapters and
 never recorded, contradicted forty chapters later.
@@ -34,14 +40,17 @@ words total. It grows as the story does.
 1. **The constraint.** One sentence: what makes life in this world hard. Everything else hangs
    here. *Water is owned. Magic is a debt. The ship cannot turn around.*
 2. **The power question.** Who has power, what it is made of (land, violence, information,
-   capital, magic), and how an ordinary person gets hurt by it.
+   capital, magic), and how an ordinary person gets hurt by it. Headline only — the machinery
+   underneath it is `social-fabric`'s, and runs after the power system exists.
 3. **Three scarcities.** What is scarce is what plots are made of. Name three; at least one
-   should be non-material — reputation, safe passage, a name in good standing.
+   should be non-material — reputation, safe passage, a name in good standing. Scarcity is the
+   hinge between this file and `society.md`: what is scarce decides who works, who pays and who
+   is excluded.
 4. **The MC's position** in that order, and what it costs them daily. This is where premise
    becomes story.
 5. **Three or four locations** that arc 1 uses, each with a **sensory signature**: the two
-   details that identify it instantly. Reuse them at every visit — that repetition is how a reader
-   learns a place, and it costs nothing.
+   details that identify it instantly, at least one of them non-visual. Reuse them at every visit —
+   that repetition is how a reader learns a place, and it costs nothing (`world-texture` §4).
 6. **Two or three factions**, each with wants / method / fears / posture toward the MC. No faction
    is uniformly anything, and none maps onto a real-world ethnic or national group (`bias-guard`).
 7. **Numbered rules of the world** — the hard constraints the story may never break. Five is
@@ -49,7 +58,9 @@ words total. It grows as the story does.
 8. **Open questions** — deliberate unknowns, recorded so two chapters do not fill them in
    differently.
 
-Then the power system (`power-system`) or the canon file (`fanfic-canon`), whichever applies.
+Then the power system (`power-system`) or the canon file (`fanfic-canon`), whichever applies —
+and **then `social-fabric`**, which takes that rule and works out what it did to ordinary life.
+That order is not negotiable: society cannot be derived from a rule that does not exist yet.
 
 ## The lexicon
 
@@ -91,7 +102,8 @@ reader as consequence.
 | A rank/tier recital | show what a rank buys and what it costs |
 
 The rule: **the reader needs to know a thing only in the sentence before it matters.** Introduce
-constraints when they bind, not when they are defined.
+constraints when they bind, not when they are defined. `world-texture` owns the mechanics of this
+— the four delivery channels and the per-chapter description budget.
 
 ## Maintenance
 
@@ -119,7 +131,9 @@ Do not restate the source's setting — record the divergence and its consequenc
 - [ ] Every entry passes the inclusion test
 - [ ] The world's constraint is stated in one sentence
 - [ ] Three scarcities named
-- [ ] Every location has a sensory signature
+- [ ] Every location has a sensory signature, at least one sense of it non-visual
 - [ ] No faction is uniformly good or evil; none maps onto a real-world group
 - [ ] Every invented term is in the lexicon
 - [ ] Nothing in the bible has been dumped as exposition into a chapter
+- [ ] `society.md` exists and the central rule has been propagated through it (`social-fabric`)
+- [ ] No social-layer material duplicated between `world.md` and `society.md`

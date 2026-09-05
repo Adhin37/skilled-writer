@@ -61,6 +61,18 @@ that only restates what just happened or what the reader already concluded.
 Rule of thumb: one interior beat per page, at the moment of choice. That is where thought is
 dramatic; everywhere else it is filler.
 
+**Interiority is the POV character's, not the narrator's.** Every POV-eligible character has a
+**thought unit** — images, words, numbers, bodies, rules, people, money — recorded in
+`bible/cast/_voices.md` §3, along with their thought speed and what they do facing an unknown
+(`voice-separation` §5). Two POV characters who think in the same unit narrate identically however
+different their dialogue is, and that is the head-hopping smell readers notice without being able
+to name it.
+
+**Everyone else thinks through their first move.** Non-POV characters get no interiority at all —
+their minds reach the page through what they reach for, look at, or say first when the situation
+changes. Three people enter the same room; one checks the door, one checks the faces, one checks
+the exit they came in by. Three minds, one POV, no head-hopping.
+
 ## Filtering — the most common defect in AI-written prose
 
 In close third or first, remove filter verbs. The POV *is* the camera; saying so doubles the
@@ -91,7 +103,9 @@ mother and did nothing.*
    A narrator who says "aforementioned" in one chapter and "vibe" in the next has no voice.
 4. **Metaphor domain.** Draw comparisons from what this narrator would know — a smuggler's
    narrator reaches for weights, tides and prices; a scholar's for texts and taxonomy. Consistent
-   metaphor sourcing is 80% of what readers call "a strong voice".
+   metaphor sourcing is 80% of what readers call "a strong voice". In a novel with more than one
+   POV, the domain is **the POV character's thought unit**, not a house style: a character who
+   thinks in money does not reach for a tide simile because the last chapter's narrator did.
 
 ## Chapter-opening lines
 
@@ -111,6 +125,7 @@ wrong detail (something present that should not be) · a flat declarative that i
 - [ ] No knowledge on the page that the POV character could not have
 - [ ] Filter verbs removed except where perceiving is the point
 - [ ] Distance tightens at the chapter's hottest moment
-- [ ] Metaphors drawn from the narrator's own world
+- [ ] Metaphors drawn from the narrator's own world — and from *this* POV's thought unit
 - [ ] Interiority is decision and reaction, not transcript
+- [ ] Non-POV characters shown through first moves, never through interiority
 - [ ] The three voice rules hold

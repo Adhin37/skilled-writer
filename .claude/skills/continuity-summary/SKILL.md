@@ -41,13 +41,21 @@ Load exactly this. Not more.
    one**. Walk-ons have no file: if one appears in row N, load their line from
    `bible/cast/_extras.md` (the relevant section only, if the roster is split)
 9. `bible/lexicon.md` (always — it is small and prevents the most common defect)
+9b. `bible/cast/_voices.md` §1 — **the matrix rows for this chapter's speakers, always**, plus §3
+    for the POV character and §5 if a mirror is on the page. Profiles are read one at a time and
+    sameness is only visible side by side; this is the file that keeps the cast from converging on
+    the MC. It is a table, and it is cheap.
 10. `state/body.md` §1 and §2 — **whenever any character in this chapter has `form_locked: true`.**
     No description of their body, reach, voice or capability may be written without it.
 11. `plan/timeline.md` §4 (scheduled for this arc) — always. It is short, and it is how the
     chapter knows what the world is doing behind the MC's back.
+12. `bible/world.md` — **the location rows for this chapter's locations only**, for their sensory
+    signatures. Not the whole file. A chapter written without them re-invents the place.
+13. `bible/society.md` — **only if the chapter turns on a social rule** (a licence, a debt, a
+    court, a custom, who is allowed where). Load the relevant section, never the file.
 
 If the read-set exceeds what you can hold, drop items 4 and 3-oldest first. Never drop 1, 5, 6, 9,
-10.
+9b, 10, 12.
 
 ---
 
@@ -84,7 +92,7 @@ open> who paid the forger / why the Guild tolerates it
 | `obj>` | current objective, and the next concrete step | yes |
 | `bod>` | form state for any `form_locked` character: current stage, whether it changed this chapter, and any limit the chapter ran into. On a transition, record what it now enables and what it costs. Omit only if nobody is locked | conditional |
 | `wld>` | **the offstage question**: what the world did this chapter that the POV character does not know about. Driver moves, world-track events fired or moved, clocks advancing. See `timeline-engine`. Omit only if genuinely nothing moved | yes |
-| `set>` | new world/possession facts introduced. Feeds `bible/` later. Omit if none | no |
+| `set>` | new world/possession facts introduced — location anchors, social facts, what a thing costs. Feeds `bible/world.md` and `bible/society.md` later. Omit if none | no |
 | `hook>` | the chapter's final beat | yes |
 | `open>` | questions the chapter deliberately left unanswered | no |
 
@@ -155,11 +163,17 @@ done> the things that can never be undone
 4. Append to `state/timeline.md` if in-world time advanced. If time advanced enough to age a
    `form_locked` character, check `state/body.md` §3 — a stage may be due.
 5. If a form changed, update `state/body.md` §1, §2 and §4, and log any masking slip in §5.
-6. Move any `set>` facts that will recur into `bible/world.md` or `bible/lexicon.md`.
-7. Update `bible/cast/_extras.md`: a roster line for each new walk-on, an appended chapter number
-   for each returning one, a row in **Dead** for any who died. Promote anyone at a third
-   appearance or who changed the plot (`character-profile`), and add every named person to
-   `lexicon.md`.
+6. Move any `set>` facts that will recur into the right file: location anchors and world rules to
+   `bible/world.md`, social facts (a price, a licence, who may testify, what a custom obliges) to
+   the log at the foot of `bible/society.md`, names and terms to `bible/lexicon.md`. An anchor or
+   a social fact invented on the page and left unrecorded is a contradiction waiting to happen.
+7. Update `bible/cast/_extras.md`: a roster line for each new walk-on — including their one
+   off-default axis — an appended chapter number for each returning one, a row in **Dead** for any
+   who died. Promote anyone at a third appearance or who changed the plot (`character-profile`),
+   and add every named person to `lexicon.md`.
+8. Add a matrix row to `bible/cast/_voices.md` for anyone promoted this chapter, placed against the
+   existing cast (`voice-separation` §1). Nothing else in that file changes per chapter — it is
+   revised at arc rollup, not per chapter.
 
 ## Procedure — arc rollup
 
@@ -168,6 +182,10 @@ Triggered when a chapter completes an arc.
 1. Write the ARC DIGEST from that arc's chapter blocks.
 2. Compress the arc digest that is now two arcs old down to 40 words.
 3. Rewrite the BOOK DIGEST.
+3b. Run the **drift check** (`voice-separation` §6): one recent line from each recurring character,
+    read side by side. If the axes have compressed toward the MC's, restore them and log it in §6
+    of `bible/cast/_voices.md`. A serial converges slowly enough that only a periodic side-by-side
+    catches it.
 4. Leave the chapter blocks in place — they are cheap and occasionally needed. Do not delete.
 
 ## Self-check

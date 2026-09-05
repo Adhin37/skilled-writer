@@ -13,7 +13,7 @@ canon: false            # fanfic: is this a canon character?
 
 # <Name>
 
-Nine fields. **If this file needs a tenth, they are a tier-A character** — promote them and use
+Ten fields. **If this file needs an eleventh, they are a tier-A character** — promote them and use
 `_character-template.md`. Keep every field to a line or two; the whole file should stay near
 150 words.
 
@@ -29,6 +29,20 @@ Nine fields. **If this file needs a tenth, they are a tier-A character** — pro
 
 ## Incompetence
 <!-- One. At this tier, one is enough. -->
+
+## Voice axes
+
+Fill this before the speech fields. Copy the row into `bible/cast/_voices.md` and read it against
+the rest of the cast. See `voice-separation` §1.
+
+| axis | value |
+|---|---|
+| intel · artic | 1–5 each, independent. At least one supporting character sits below the MC's tier |
+| wit | none / dry / warm / clowning / cruel — `none` is the correct answer for most of the cast |
+| turn length | default words per speaking turn. A number |
+| hands | the one thing their hands do |
+| pressure | still / bigger / smaller / busy / closer / leaves |
+| first move | what they look at or reach for first when the situation changes |
 
 ## Speech — three fields
 
