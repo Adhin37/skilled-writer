@@ -1,7 +1,11 @@
 ---
 # ── IDENTITY ─────────────────────────────────────────────────────────────────
-title: "Untitled"
-slug: "untitled"
+# Filled by title-craft, once, before the scaffold exists.
+title: "Untitled"         # fanfic: the source work goes in the title line —
+                          #   "Naruto: The New God of Shinobi"
+title_alternates: []      # screened runners-up, kept for a rename at an arc boundary
+slug: "untitled"          # kebab-case, 4-5 words. PERMANENT: the title may change,
+                          #   the directory every path hangs off does not
 genre: fantasy            # fantasy | scifi | fanfic
 subgenre: ""              # progression | cultivation | space-opera | cyberpunk | isekai | ...
 status: planning          # planning | drafting | hiatus | complete
@@ -151,8 +155,11 @@ fanfic:
 
 # Hook (platform blurb)
 
-<!-- 60–120 words. This is what appears on the novel's landing page. Ends on a question or a
-     threat, never on a summary sentence. -->
+<!-- Written by title-craft, after the title and against it. 60–120 words. This is what appears
+     on the novel's landing page. Anchor (who, where, what kind of world) before you threaten;
+     one want and one concrete obstruction; ends on a question or a threat, never on a summary.
+     At most two proper nouns beyond the MC. No rank ladder, no tag brackets, no stock phrases.
+     Promise only what the first ten chapters deliver. -->
 
 # Tone references
 

@@ -8,7 +8,9 @@ description: Start a new webnovel. Interviews the user for premise, genre, POV, 
 Turn a user's idea into a working novel workspace. The user may know very little about their own
 story — your job is to ask few enough questions that they stay engaged, and infer the rest.
 
-**Budget: at most 6 rounds of questions.** Everything not asked, you decide and state.
+**Budget: at most 6 rounds of questions.** Everything not asked, you decide and state. The title
+pick in Step 2b does not count against that budget — it presents candidates you generated rather
+than asking the user to supply anything.
 
 ---
 
@@ -89,9 +91,11 @@ For fanfic this round matters most — see `timeline-engine`. Set `fanfic.footpr
 Then fill the **`opening:`** block, mostly without asking — the defaults are right nearly always
 and `story-opening` owns them. Two things are not defaults:
 
-- **`opening.promise`** — write it from the hook blurb the user just gave you, in one sentence, in
-  their words. This is the contract readers arrive holding, and the page has to keep it by
-  `promise_touched_by_ch`. Read it back and let them correct it.
+- **`opening.promise`** — write it from the premise, in one sentence, in the user's own words. This
+  is the contract readers arrive holding, and the page has to keep it by `promise_touched_by_ch`.
+  Read it back and let them correct it. **The blurb does not exist yet** — `title-craft` writes it
+  at Step 2b — so write the promise now and re-check it against the blurb when that step lands. If
+  they disagree, the blurb moves: the promise was confirmed by the user and the blurb was not.
 - **`opening.stakes_ceiling`** — one sentence naming the worst thing allowed to happen before the
   reader can price it. Derive it from the premise; do not ask. For a story whose danger is
   institutional, it is usually *"the MC can be noticed, but nothing may act on it until the reader
@@ -122,6 +126,29 @@ Present the optional skills as reader-facing features, not filenames:
 - Grimdark consequence enforcement — no plot armour
 - Slice-of-life texture — food, work, weather, downtime
 
+## Step 2b — Name the book → run `title-craft`
+
+**Before the scaffold, because the slug is derived from the title and there is no rename path.**
+`sw.py newnovel` refuses to overwrite an existing directory; renaming afterwards means moving the
+tree by hand and fixing every path that points at it.
+
+Ask nothing new. Everything `title-craft` needs — premise, genre, MC origin and golden finger,
+`opening.promise`, `ending.contract`, tone, `fanfic.source` — exists by the end of Round F.
+Generate five candidates across five distinct strategies, screen them, and present the three
+survivors with what each promises **and** what each costs. Then write the 60–120 word platform
+blurb against the chosen title.
+
+For **fan fiction the source work must be in the title line** — `Naruto: The New God of Shinobi`.
+Readers browse fanfic by fandom; a title without the source name is invisible to its only
+audience. This is a discoverability fact, not a style preference, and it is the one thing in this
+step you say plainly even if the user overrules you.
+
+Record `title`, `title_alternates` and `slug`, and hold the blurb for step 3.
+
+**Then re-check `opening.promise` against the blurb you just wrote.** Round D set the promise from
+the premise, before the blurb existed. If the two now promise different books, the blurb is the one
+that changes — the user confirmed the promise out loud and did not confirm the blurb.
+
 ## Step 3 — Scaffold
 
 Copy the scaffold. Use paths relative to the repo root, never absolute ones — this repo is used
@@ -148,16 +175,19 @@ each and teaches you nothing the copy did not already put on disk.
 The copy step must be permitted. If the shell refuses it, say so rather than silently falling
 back — a denied copy is a settings problem, not a reason to hand-write the tree.
 
-Slug is kebab-case from the title, or from the premise if untitled.
+Slug is the one `title-craft` derived in Step 2b — kebab-case, 4–5 words. **It is permanent.**
+The title may change at a later arc boundary; the directory every path hangs off does not.
+Never scaffold under `untitled`: if Step 2b was skipped, go back and run it.
 
 Note for the user, once, at the end: `novels/` is gitignored except the template, so their book
 is not committed to the toolkit repo by default.
 
 Then fill in, in this order:
 
-1. **`novel.md`** — every frontmatter field. No field left as a placeholder. Write the premise,
-   the platform blurb (60–120 words, ends on a threat or a question), tone references, themes
-   and the ending target. Delete the `fanfic:` block for non-fanfic.
+1. **`novel.md`** — every frontmatter field. No field left as a placeholder. `title`,
+   `title_alternates` and `slug` come from Step 2b; paste the blurb `title-craft` wrote into
+   `# Hook (platform blurb)` rather than writing a second one. Write the premise, tone
+   references, themes and the ending target. Delete the `fanfic:` block for non-fanfic.
 2. **`bible/world.md`** via `story-bible`. Enough to write 25 chapters, not a gazetteer.
 3. **`bible/lexicon.md`** — names and terms invented so far, plus house style decisions.
 4. **`bible/power-system.md`** via `power-system` (fantasy/scifi) or **`bible/canon.md`** via
@@ -206,8 +236,10 @@ Then fill in, in this order:
 
 Show the user:
 
+- **the title, with the two runners-up underneath** — this is the first thing they will react to,
+  and the cheapest thing in the whole workspace to change now
 - the path, and a tree of what was created
-- the blurb you wrote (this is the thing they will actually react to)
+- the blurb (this and the title are what a stranger in a library grid actually sees)
 - the first 12 chapter titles with a one-line goal each
 - **the MC in a paragraph** — gender, how the world reads them, tier, the two blind spots,
   origin, and their central advantage with the problem it creates
@@ -249,6 +281,7 @@ Then: *"`/novel-write` starts chapter 1. `/novel-toggle` changes any of the opti
 | romance.configuration | `undecided` | A lead chosen from the existing cast at chapter 20 is almost always better than one designed cold. |
 | timeline.reactivity | `3` | The world notices and adapts without becoming a grind. |
 | ending.tone | `hopeful` | Never default the *contract* — ask for it in the user's words. |
+| title | never defaulted | Always show three screened candidates. `"Untitled"` reaching the scaffold is a bug. |
 | optional | only `no-harem` and `combat-choreography` on | Adding mechanics later is easy; removing them mid-serial is not. |
 
 Never default `mc.gender` — ask it. Never infer `romance.lead_gender` from the MC's gender without
@@ -269,6 +302,9 @@ offering every configuration.
   `_voices.md` as a table and check the three rules in §2 — somebody below the MC's tier, at most
   two funny people, no duplicate intel/articulacy/wit triples. Left undone at init, this defect is
   invisible for twenty chapters and then permanent.
+- **Don't** scaffold before the book has a name. The slug is derived from the title and is
+  permanent; a workspace built under `untitled` is a directory rename later for no reader-visible
+  gain. And **don't** ship a fanfic whose title omits the source work — it is the search term.
 - **Don't** give anyone an open-ended competence. Three domains for the MC, two for a principal,
   one for a supporting character, and everything unlisted is `none`. A cast where everyone can
   answer everything has no errands, no referrals and no reason for half its members to exist.

@@ -50,9 +50,9 @@ makes it real — what it smells like, what it does with its weight, what it ign
 **One image per beat.** A paragraph with three metaphors has none.
 
 **Description in motion.** Deliver setting through a character doing something in it. Never stop
-the story to describe a room. Two sensory details, placed inside action, out-perform a paragraph.
-This skill owns the *sentence*; `world-texture` owns **which** details are allowed on the page and
-how many. If the two seem to disagree, the budget wins — a beautifully written detail that is not
+the story to describe a room. A few details placed inside action out-perform a paragraph. This
+skill owns the *sentence*; `world-texture` owns **which** details are allowed on the page and how
+many, and it is the only file that states the number. A beautifully written detail that is not
 load-bearing is still cut.
 
 **Sentence rhythm mirrors pressure.** Long, subordinated sentences for control and deliberation.

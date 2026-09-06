@@ -25,8 +25,8 @@ automatically when only one novel exists.
 
 | command | what it does | writes? |
 |---|---|---|
-| `readset <novel> -c N` | Assembles the bounded read-set for chapter N — the sliced rows, not the whole files. `--chars`, `--locs`, `--society`, `--out` | no |
-| `lint <novel> [-c N]` | Sweeps one chapter: MTL banned phrases, the AI-default cut list, narration exclamation marks, the four channels, thought budget, apostrophe collisions, stray markup, frontmatter, anchor vocabulary, ledger agreement | no |
+| `readset <novel> -c N` | Assembles the bounded read-set for chapter N — the sliced rows, not the whole files. `--chars`, `--locs`, `--society`, `--out` | only with `--out` |
+| `lint <novel> [-c N \| --all]` | Sweeps one chapter, or every chapter with `--all`: MTL banned phrases, the AI-default cut list, narration exclamation marks, the four channels, thought budget, apostrophe collisions, stray markup, frontmatter, anchor vocabulary, ledger agreement | no |
 | `cast <novel>` | Audits `_voices.md` and `_competence.md` as tables: the straddle rule, the wit cap, the three-way clash, turn and hand-habit collisions, the deep-expertise budget, missing rows and referrals | no |
 | `state <novel>` | Ledger against chapters, required CCS lines, block length, thread tension against last use, plan-row completeness, the promotion trigger, book-digest staleness | no |
 | `status <novel>` | Progress aggregation for `/novel-status` | no |

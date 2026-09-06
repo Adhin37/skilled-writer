@@ -25,11 +25,12 @@ MC intel tier, optional-skill toggles, and chapter length. Never write a word be
 
 ```
 novel-init -> mc-design -> lead-interest -> character-profile -----------+
-                       \  [meta-knowledge] [voice-separation]            |
-                        \  [competence-map]                              |
-                        +-> story-bible -> power-system|tech-plausibility|canon
-                                                    -> social-fabric     |
-                                                                         v
+     |                 \  [meta-knowledge] [voice-separation]            |
+     |                  \  [competence-map]                              |
+     |                  +-> story-bible -> power-system|tech-plausibility|canon
+     |                                              -> social-fabric     |
+     +-> title-craft -> [scaffold]                                       |
+         (title, blurb, slug)                                            v
                                                         story-opening -> chapter-plan
                                                                          |
                         +------------------------------------------------+
@@ -49,6 +50,15 @@ novel-init -> mc-design -> lead-interest -> character-profile -----------+
 want, friction, **change**, cost, next — and never on its word count. `chapters.length_band` is a
 printer's note. Every prior attempt to gate on length was gamed: chapters clustered on the floor,
 then on the tolerance, then landed on the declared minimum to the word.
+
+**The shelf comes before the page.** `title-craft` runs once, at the end of the `novel-init`
+interview and before the scaffold, and owns the two things every reader sees *before* chapter 1
+exists for them: the **title** and the **platform blurb**. It generates five candidates across
+five distinct strategies rather than five rewordings of one, screens them on truncation,
+collision, promise-match and whether the name survives to chapter 100, and for fan fiction puts
+the source work in the title line — `Naruto: The New God of Shinobi` — because fanfic is browsed
+by fandom and a title without it is invisible. The slug is derived here and is **permanent**; the
+title is not.
 
 **The opening is its own problem.** `story-opening` owns chapters 1 through
 `opening.contract_by_ch + 2`, because chapter 1 is a conversion event — about 60% of readers who
@@ -96,6 +106,7 @@ turned its narrator into a thought bubble.
 | Skill | Use when |
 |---|---|
 | `novel-init` | New novel. Interviews the user, scaffolds `novels/<slug>/`. |
+| `title-craft` | Naming the book and writing the platform blurb. Once, inside `novel-init`, before the scaffold — the slug comes from the title. Owns the fanfic source-in-title rule. |
 | `mc-design` | Designing the MC: gender, appearance, intellect, origin, golden finger. Also owns the form ledger for a non-final-form MC. Runs before all other cast work. |
 | `story-bible` | Building or amending world, factions, locations, lexicon. |
 | `social-fabric` | The society layer — labour, money, law, knowledge, belief, mobility — and propagating the power/tech rule into ordinary life. |
@@ -163,8 +174,9 @@ turned its narrator into a thought bubble.
 4. **A chapter is judged by what it delivers, not its length.** `revision-pass` Pass 9 —
    want, friction, **change**, cost, next — and `change` names a difference, not a summary of
    events. `chapters.length_band` is a printer's note; nothing gates on it, nothing is padded or
-   trimmed to reach it, and no report quotes a word count. Every length gate this repo has tried
-   was optimised into the prose within five chapters.
+   trimmed to reach it. Every length gate this repo has tried was optimised into the prose within
+   five chapters. A word count is a **measured fact, reported and never scored** — `sw.py` prints
+   one and `hook-and-pacing` reads one as a diagnosis; neither may decide whether a chapter ships.
 5. **The reader is oriented before they are threatened.** By `opening.anchor_by_ch` a reader knows
    what kind of world this is, what kind of place they are in, what the MC wants — and for fanfic
    or transmigration, **which story they are in and roughly when**. Anchor vocabulary is
@@ -239,6 +251,9 @@ live in `mtl-detox` and `bias-guard`. The short form:
 - No foreknowledge that only ever fails, and none that never appears. An MC who knows the future
   makes a plan — an adequate one, from incomplete information — and the reader watches it work
   before they watch it break.
+- No noun-stack titles. *Shadow Blade Chronicles: Legacy of the Eternal Flame* is four hundred
+  other books; strip the filler and name what is actually on offer. And no fanfic title that omits
+  the source work — it is the search term the entire audience uses.
 - No chapter padded, trimmed, or shipped because of its length.
 - No cast of protagonists: allies, rivals, clerks and villains do not all reason at the MC's speed,
   argue as fluently, or land the same jokes. Somebody is slower, somebody is worse at saying it,
@@ -255,7 +270,8 @@ live in `mtl-detox` and `bias-guard`. The short form:
 
 ```
 novels/<slug>/
-  novel.md              config + premise. YAML frontmatter is authoritative.
+  novel.md              config + premise + blurb. YAML frontmatter is authoritative.
+                        `title` may change at an arc boundary; `slug` never does.
   bible/
     world.md            setting, locations + sensory signatures, factions, rules of the world
     society.md          labour, money, law, knowledge, belief, mobility; rule propagation
@@ -292,8 +308,11 @@ gate. `wordcount` is a measured fact that later tools read, never a target.
 ## 8. Style of this repo
 
 Skills are written as **procedures for a model with limited budget**: numbered steps, explicit
-formats, concrete examples, hard checklists. Prefer a table over a paragraph. Keep each
-`SKILL.md` self-sufficient so it needs no follow-up reads.
+formats, concrete examples, hard checklists. Prefer a table over a paragraph.
+
+**Cite sections, never line numbers.** `hook-and-pacing` §Openings survives an edit;
+`hook-and-pacing:38-39` rots the moment a paragraph is added above it, and rots silently — the
+citation still resolves, to the wrong text.
 
 **One deliberate exception to self-sufficiency.** `revision-pass` is a dispatcher, and its condensed checklists must
 never become a substitute for the skills they summarise. A pass whose defects are *distributional*
@@ -323,6 +342,7 @@ reference in [scripts/README.md](scripts/README.md).
 | `stamp <novel> -c N` | `revision-pass` Pass 10 · `write-chapter` step 4 |
 | `newnovel <slug>` | `novel-init` step 3 |
 | `audit <novel>` | the independent whole-novel gate |
+| `doctor` | start here when anything behaves oddly — Python version, repo root, novels found |
 
 Three rules govern how they are used, and all three exist to stop a tool becoming an alibi:
 

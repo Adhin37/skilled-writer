@@ -14,7 +14,12 @@ is cheap, and skipping one is what produces the drift that ruins long serials.
 
 1. Resolve the active novel (see `CLAUDE.md` §1). Read `novels/<slug>/novel.md`.
 2. Note: `genre`, `narration.*`, `pov.*`, `mc.intel_tier`, `chapters.*`, `content.*`,
-   and which `optional:` keys are `on`. Only `on` skills apply.
+   and which `optional:` keys are `on`. Only `on` skills apply, and an `on` key means the skill
+   is consulted this chapter, not merely permitted: `no-harem` on any attraction beat ·
+   `romance-arc` on any romantic line · `combat-choreography` on any fight · `litrpg-system` on
+   any system text · `mystery-clues` when a clue is planted or spent · `comedy-levity` when a
+   scene is carrying humour · `grimdark-consequences` on any injury or death ·
+   `slice-of-life-texture` on downtime.
 3. Determine the chapter number: highest existing file in `chapters/` + 1, unless told otherwise.
 4. Run `continuity-summary` in **read mode** — `python3 scripts/sw.py readset novels/<slug> -c <N>`
    assembles it in one call, sliced rather than whole-file. You now have the read-set and the

@@ -17,15 +17,22 @@ Invoke the `novel-init` skill and follow it exactly:
      candidates rather than a random pick.
    - Round C is `lead-interest`, and it runs **only after** the MC exists. Offer every
      configuration; never infer the lead's gender from the MC's.
-3. Copy `novels/_template/` to `novels/<slug>/` and fill in every file in the order the skill
+3. Run `title-craft` **before** the scaffold — the slug is derived from the title and cannot be
+   changed once the tree exists. Five candidates across five distinct strategies, screened, three
+   presented with what each promises and what each costs; then the 60–120 word blurb written
+   against the chosen title. For fan fiction the source work goes in the title line
+   (`Naruto: The New God of Shinobi`) — readers browse by fandom, and a title without it is
+   invisible to its only audience.
+4. Copy `novels/_template/` to `novels/<slug>/` and fill in every file in the order the skill
    specifies — `novel.md` first, then bible, MC, love interest, rest of cast, arc plan, chapter
    list, state seeds.
-4. Delete the files that do not apply: `bible/canon.md` for non-fanfic,
+5. Delete the files that do not apply: `bible/canon.md` for non-fanfic,
    `bible/power-system.md` for a genre with no power system, `state/body.md` if nothing in the
    novel changes form. If `mc.form_locked` is true, fill `body.md` completely — every stage, its
    absolute limits, and its transition chapter — before any chapter is written.
-5. Report: the tree, the blurb, the first 12 chapter titles, the MC in a paragraph (tier, blind
-   spots, origin, advantage and the problem it creates), the form stages if locked, the love
+6. Report: the title with its two runners-up, the tree, the blurb, the first 12 chapter
+   titles, the MC in a paragraph (tier, blind spots, origin, advantage and the problem it
+   creates), the form stages if locked, the love
    interest and what they want that is not the MC, which optional skills are on, and three
    decisions you made for them.
 

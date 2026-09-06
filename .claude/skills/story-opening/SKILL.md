@@ -196,9 +196,9 @@ delivered somewhere by other people fails regardless of prose quality — reader
 momentum as authorial competence.
 
 **Openings to avoid** are in `hook-and-pacing` §Openings; that list still governs. This skill adds
-one: **do not open on a date-and-place stamp** to solve the anchor problem. `hook-and-pacing:38-39`
-bans it and is right. The sanctioned alternatives are §1's channels 1–3 — a rule biting someone, a
-character working around the world, an assumed reference.
+one: **do not open on a date-and-place stamp** to solve the anchor problem. `hook-and-pacing`
+§Openings bans it and is right. The sanctioned alternatives are §1's channels 1–3 — a rule biting
+someone, a character working around the world, an assumed reference.
 
 ## 6. Integration
 

@@ -233,7 +233,6 @@ rhythm or spot a named emotion, so the judgement boxes stay yours.
 - [ ] Sentence and paragraph lengths visibly varied
 - [ ] No paragraph opens with the same word as the one before it
 - [ ] Emotions carried by behaviour or decision, not named
-- [ ] One non-visual sensory detail per scene
 - [ ] No dead stage business
 - [ ] **Dialogue share is 25–40% of the chapter's words** (`dialogue-voice` §How much dialogue).
       Under 10% fails the pass: measure it, do not eyeball it. The fix is to give the beats to
