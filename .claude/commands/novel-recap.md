@@ -17,14 +17,21 @@ Interpret `$ARGUMENTS`:
 
   ```bash
   python3 scripts/sw.py arc novels/<slug> [-a N] --show note
+  python3 scripts/sw.py curve novels/<slug>            # the whole book's power curve
   ```
 
-  That prints the countable half — the per-chapter table of words, dialogue share, anchor count,
-  ledger presence and POV; the dialogue trend; the length spread; hooks; cast rotation; thread
-  operations; and the foreknowledge ledger. Read its findings, then answer the questions under
-  **the judged half** by reading the arc: the dramatic question, consistency, voice drift, whether
-  the blurb still describes this book, the shape of the arc's tension, and whether its ending was
-  predictable from its first chapter.
+  The first prints the countable half — the per-chapter table of words, dialogue share, anchor
+  count, ledger presence and POV; the dialogue trend; the length spread; hooks; cast rotation;
+  thread operations; the foreknowledge ledger; and this arc's pressure range and gains. The second
+  is the whole-book view, and an arc boundary is the only place the curve's slow failures are
+  visible: a flat middle, gains drifting closer together, ten fights in one band, or pressure
+  falling while the MC's tier rises. Check the arc you just closed against its row in
+  `state/power.md` §6, and set the next arc's band before planning it.
+
+  Read both sets of findings, then answer the questions under **the judged half** by reading the
+  arc: the dramatic question, consistency, voice drift, whether the blurb still describes this
+  book, the shape of the arc's tension, and whether its ending was predictable from its first
+  chapter.
 
   **Report what you found; never score the arc.** A number attached to an arc is a number the next
   arc gets written toward, and judged scores on prose agree with human preference about 73% of the

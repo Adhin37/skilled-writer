@@ -184,6 +184,11 @@ holding it.
 *present*, so a reader who came for the promised thing can see it exists. One scene where the MC
 tries to use the advantage and gets a partial result is enough.
 
+The complement is `power-scaling`'s **first limit**: after the advantage has won legibly, it must
+hit a wall it cannot climb, by `scaling.first_limit_by_ch`. The ordering is enforced —
+`opening.first_win_by_ch` < `scaling.first_limit_by_ch` — because a reader will not invest in a
+climb until they have seen the ceiling, and an advantage that only ever wins has no curve.
+
 On win-before-failure — the hard version of this rule, and the ordering constraint that goes with
 it — see `meta-knowledge` §4. It applies to any central advantage, not only foreknowledge.
 

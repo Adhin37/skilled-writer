@@ -98,6 +98,7 @@ def run(novel, arc=None):
     _hooks(rep, blocks)
     _threads(novel, rep, blocks, lo, hi)
     _foreknowledge(novel, rep, blocks)
+    _curve(novel, rep, lo, hi)
     _judged(novel, rep, arc)
     return rep
 
@@ -251,6 +252,43 @@ def _foreknowledge(novel, rep, blocks):
                    "foreknowledge_fails_ch (%d) - the advantage is scheduled to be corrected "
                    "before it has ever worked" % (win, fails),
                    path=novel.path("novel.md"))
+
+
+def _curve(novel, rep, lo, hi):
+    """The arc's power trend. `sw curve` judges the whole book; this is the slice."""
+    if not novel.has_scaling:
+        return
+    rows = []
+    for r in novel.pressure_rows():
+        ch = _first_int(r)
+        p = _first_int(r, "P")
+        if ch is not None and p is not None and lo <= ch <= hi:
+            rows.append((ch, p))
+    gains = [(_first_int(r), r.get("from → to")) for r in novel.gain_rows()
+             if _first_int(r) is not None and lo <= _first_int(r) <= hi]
+
+    if not rows:
+        rep.info("power curve", ["   no confrontations logged in this arc"])
+        return
+    ps = [p for _, p in rows]
+    rep.info("power curve", [
+        "   confrontations: %d   pressure %+d..%+d   mean %+.1f"
+        % (len(ps), min(ps), max(ps), sum(ps) / float(len(ps))),
+        "   gains this arc: %s" % (", ".join("ch %d %s" % (c, m.strip()) for c, m in gains)
+                                   or "none"),
+    ])
+    if len(set(ps)) == 1:
+        rep.warn("arc-curve", "every confrontation in this arc sat at P=%+d - the arc has one "
+                 "gear (power-scaling section 1)" % ps[0])
+    if not gains and len(rows) >= 4 and max(ps) <= 0:
+        rep.warn("arc-curve", "no tier advance and nothing above P=0 across the arc - a "
+                 "progression reader has no reason to start the next one")
+
+
+def _first_int(row, column=None):
+    text = row.get(column) if column else row.first()
+    m = re.search(r"[+-]?\d+", str(text))
+    return int(m.group(0)) if m else None
 
 
 def _judged(novel, rep, arc):

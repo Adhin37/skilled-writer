@@ -139,6 +139,20 @@ class Novel(object):
         return bool(self.get("mc.form_locked"))
 
     @property
+    def scaling_shape(self):
+        """climb | inverted | regression | plateau-late | none. Default climb."""
+        s = str(self.get("scaling.shape", "climb") or "climb").strip().lower()
+        return s if s in ("climb", "inverted", "regression", "plateau-late", "none") else "climb"
+
+    @property
+    def has_scaling(self):
+        return self.scaling_shape != "none"
+
+    def scaling_int(self, key, default):
+        n = self.get("scaling.%s" % key, default)
+        return n if isinstance(n, int) else default
+
+    @property
     def arc_length(self):
         n = self.get("chapters.arc_length", 25)
         return n if isinstance(n, int) and n > 0 else 25
@@ -266,6 +280,36 @@ class Novel(object):
     @_memo
     def skill_rows(self):
         t = self._table_by_headers(self._text("state", "growth.md"), "character", "skill", "stage")
+        return t.rows if t else []
+
+    @_memo
+    def standing_rows(self):
+        t = self._table_by_headers(self._text("state", "power.md"), "character", "tier", "the edge")
+        return t.rows if t else []
+
+    @_memo
+    def ladder_rows(self):
+        t = self._table_by_headers(self._text("state", "power.md"), "tier", "how many alive")
+        return t.rows if t else []
+
+    @_memo
+    def pressure_rows(self):
+        t = self._table_by_headers(self._text("state", "power.md"), "ch", "opposition", "p")
+        return t.rows if t else []
+
+    @_memo
+    def gain_rows(self):
+        t = self._table_by_headers(self._text("state", "power.md"), "ch", "source", "new problem")
+        return t.rows if t else []
+
+    @_memo
+    def boost_rows(self):
+        t = self._table_by_headers(self._text("state", "power.md"), "ch", "boost", "the debt")
+        return t.rows if t else []
+
+    @_memo
+    def curve_plan_rows(self):
+        t = self._table_by_headers(self._text("state", "power.md"), "arc", "pressure band")
         return t.rows if t else []
 
     @_memo

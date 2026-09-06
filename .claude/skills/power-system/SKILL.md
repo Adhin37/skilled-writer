@@ -50,10 +50,13 @@ The genre's core pleasure is watching someone get stronger. Its core failure is 
 outruns story: by chapter 100 nothing can threaten the MC, so the author invents a bigger sky, and
 the reader stops caring about magnitudes.
 
-**The escalation budget** — log every permanent gain in `bible/power-system.md`:
+**The curve itself belongs to `power-scaling`**, which owns the ladder, the distance between the
+MC and the opposition, the size of a single gain and the price of a temporary boost. The gain log
+lives in `state/power.md` §4, where it is in the read-set and `sw curve` can check it — a table in
+`bible/` was never read by anything. This skill owns what a power *is*; that one owns how far
+ahead of the MC the world stays.
 
-| ch | gain | what it obsoletes | new problem it creates |
-|---|---|---|---|
+What stays here is the rule the gain log enforces:
 
 **Every gain must create a new problem.** If it only solves problems, do not grant it. Examples:
 
@@ -67,9 +70,9 @@ the reader stops caring about magnitudes.
 new power **cannot address**. That is what keeps the escalation axis on stakes (see
 `conflict-engine`) instead of on numbers.
 
-**Pace.** A meaningful gain every 15–25 chapters. More often and gains stop registering; less
-often and progression-genre readers leave. Between gains, growth is in *skill* — new applications
-of the same capability, which is cheaper and reads as intelligence.
+**Pace.** A meaningful gain every 15–25 chapters (`scaling.gain_gap_min`). More often and gains
+stop registering; less often and progression-genre readers leave. Between gains, growth is in
+*skill* — new applications of the same capability, which is cheaper and reads as intelligence.
 
 ## Tiers
 
@@ -136,6 +139,8 @@ the page: a rule biting someone, never a lecture.
 - [ ] Cost, limits, learning curve and counter all written down
 - [ ] Every ability used this chapter paid its stated cost, on the page
 - [ ] Nothing was resolved by a capability the reader had not seen used and seen fail
-- [ ] Any permanent gain is in the escalation budget with a new problem attached
+- [ ] Any permanent gain is a row in `state/power.md` §4 — +1 tier, with a source, a price paid
+      first, a setup, and a new problem attached (`power-scaling` §3)
 - [ ] No rank recital, no mechanics explained mid-action
 - [ ] A weaker character could still, in principle, win — name how
+- [ ] The MC's position on `state/power.md` §2's ladder is what the page shows it to be

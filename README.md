@@ -157,8 +157,8 @@ up two defects worth fixing. It is a rough order of magnitude, not a quote.
 **Character** — `character-profile`, `voice-separation`, `competence-map`, `meta-knowledge`,
 `character-development`, `mc-intel-meter`, `dialogue-voice`, `lead-interest`
 
-**Craft** — `narrator-voice`, `pov-switch`, `scene-craft`, `conflict-engine`, `plot-threads`,
-`timeline-engine`, `hook-and-pacing`, `prose-quality`, `mtl-detox`, `bias-guard`
+**Craft** — `narrator-voice`, `pov-switch`, `scene-craft`, `conflict-engine`, `power-scaling`,
+`plot-threads`, `timeline-engine`, `hook-and-pacing`, `prose-quality`, `mtl-detox`, `bias-guard`
 
 **Genre modules** — `power-system`, `tech-plausibility`, `fanfic-canon`
 
@@ -166,7 +166,7 @@ up two defects worth fixing. It is a rough order of magnitude, not a quote.
 `combat-choreography`, `litrpg-system`, `mystery-clues`, `comedy-levity`,
 `grimdark-consequences`, `slice-of-life-texture`
 
-Fourteen of these deserve a note:
+Fifteen of these deserve a note:
 
 - **`title-craft`** runs once, before the workspace directory even exists, and owns the two
   things a stranger sees *before* chapter 1 is available to them: the **title** and the
@@ -212,6 +212,32 @@ Fourteen of these deserve a note:
   makes decay a consequence the MC caused rather than a decree at a scheduled chapter, and it hands
   a foreknowing MC the graceful exit — events butterfly, but *people's natures* do not, so what
   they end up trading on is character rather than plot.
+
+- **`power-scaling`** owns the thing four other skills each touch and none of them keep: the
+  **shape of the MC's power over hundreds of chapters**. `power-system` writes the rules a
+  capability obeys, `conflict-engine` escalates the stake and refuses on principle to escalate
+  power, `timeline-engine` caps how hard the world hits back, `story-opening` stops a threat
+  outrunning the reader's ability to price it — and in the gap between them nothing forbade an MC
+  who is unbeatable in chapter 1, or a single gain that took them from cannon fodder to god, or a
+  curve that had quietly gone flat by chapter 80. Its one idea is that **scaling is relative**:
+  what a reader tracks is the distance between what the MC can do and what the chapter demands, not
+  the MC's magnitude. So the tracked number is **pressure** — the opposition's tier minus the MC's
+  — banded from *hopeless* to *trivial*, and that band is the RPG shape stated honestly: the
+  beginner village is P≈0 at tier 1, the late raid boss is P≈+1 at tier 5, the MC climbs five tiers
+  and the fights stay hard. Around that sit the rules that keep the climb believable: a permanent
+  gain is **+1 tier** and needs a source with its own interests, a price paid *before* it lands, a
+  setup three chapters back and a new problem; a **boost** — the borrowed technique, the dying
+  mentor's gift, plot armour by its right name — is allowed but carries an expiry and a debt that
+  comes due, and may decide an arc's climax exactly **once per novel**; and the golden finger is
+  priced in tiers and closes a gap of **at most one**, which is precisely the advantage a
+  cultivation MC has over ordinary cultivators without being unbeatable. The counterweight to an
+  overpowered opening is an ordering rule borrowed from foreknowledge: the advantage wins legibly
+  first, *then* hits a wall it cannot climb, because a reader will not invest in a climb until they
+  have seen the ceiling. An MC who really is unbeatable from page one is a supported configuration
+  — it is *One Punch Man* — but `shape: inverted` demands you write down what the story runs on
+  instead, and a blank there is a defect rather than a style. Five ways a curve dies are countable,
+  so `sw curve` finds them: the flat stretch, gains too close together, ten fights in one band, the
+  trivial budget blown, and pressure falling while tier rises — which is power creep, measured.
 
 - **`competence-map`** fixes the other half of the same problem: the AI character is a **generalist
   with no edges** who answers every question at the same confident depth, so nobody ever says *I

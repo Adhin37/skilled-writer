@@ -50,6 +50,7 @@ Write these down for yourself. Ten lines, not a document.
 | **What this chapter delivers**: the one thing that is materially different at the end | `scene-craft` — this becomes `delivers:` in the frontmatter |
 | **The anchor debt** (chapters ≤ `opening.contract_by_ch + 2` only): what a reader still cannot answer about world, place or canon position — and which beat pays it | `story-opening` §1 , §4 |
 | **The ceiling check** (opening arc only): if this chapter escalates, is the mechanism that makes it dangerous already on the page? | `story-opening` §3 — if not, the escalation waits |
+| **The pressure**: what gap between the MC and this chapter's opposition does the arc want — and only then, who is that opposition? | `power-scaling` §1 → `state/power.md` §1, §6 |
 | **The foreknowledge spend** (if `mc.foreknowledge` is set): what the MC knows that bears on today, at what grain, what using it costs, and what it invalidates | `meta-knowledge` §1 , §5 → `state/foreknowledge.md` |
 | **Who has to ask**: the thing this chapter needs known, whose map actually covers it, and who must go to someone else for it | `competence-map` §1 , §4 → `bible/cast/_competence.md` |
 | Opening line strategy, closing hook | `hook-and-pacing` |
@@ -192,6 +193,13 @@ Foreknowledge bookkeeping, same pass, if `mc.foreknowledge` is set: every spend 
 plot-changing spend moves at least one *other* row toward `invalidated` (§4, the observer paradox).
 The chapter's CCS block carries an `fk>` line. A chapter that spent foreknowledge and left the
 ledger untouched is the same class of bug as one that skipped its CCS block.
+
+Power-curve bookkeeping, same pass, unless `scaling.shape` is `none`: every confrontation gets a
+row in `state/power.md` §3 with its pressure and, at P ≥ +1, what the win cost. A permanent tier
+advance goes in §4 with all four requirements — source, the chapter the price was paid, the chapter
+it was set up in, and the new problem — and §1 moves with it. A boost goes in §5 with its expiry,
+its debt and the chapter that debt is due. The chapter's CCS block carries a `pwr>` line, and it
+must agree with §3; `sw curve` checks that it does.
 
 Knowledge bookkeeping, same pass: a skill stage that advanced goes in the skill-ladder table of
 `state/growth.md` with what caused it; a genuinely new domain a character acquired on the page goes

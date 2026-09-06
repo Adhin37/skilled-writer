@@ -134,6 +134,43 @@ The non-obvious collision: a thought containing a contraction breaks a naive par
 speech running across paragraphs, which opens a quote on each paragraph and closes only on the
 last. Both are handled in `swlib/textstats.py` and pinned by `tests/test_channels.py`.
 
+## The power curve is a gap, not a magnitude
+
+Four skills touched power progression before `power-scaling` existed, and each of them, correctly,
+did something else. `power-system` wrote the rules a capability obeys. `conflict-engine` escalated
+the stake and refused on principle to escalate the enemy. `timeline-engine` governed how hard the
+world hits back. `story-opening` stopped a consequence outrunning the reader's ability to price it.
+Between them there was no owner for the question a progression reader actually asks, which is *how
+far ahead of me is the next thing, and is that distance still interesting.*
+
+Three artifacts of that gap were visible in the repo. `mc.starting_power` sat in the template with
+no skill anywhere mentioning it — a write-once field with no reader and no updater. The escalation
+budget lived in `bible/power-system.md`, which the read-set never loads, no revision pass opens and
+no script validates: `state/body.md` and `state/growth.md` both had machine checks; the power
+ledger had none, so it drifted silently. And opponent strength was deliberately not an axis
+anywhere, which is the right call for *escalation* and leaves nothing at all watching for an MC who
+has outgrown their own book.
+
+The governing decision is that **scaling is relative**. What a reader experiences is the distance
+between what the MC can do and what the chapter demands, never the absolute tier — which is why
+tracking magnitude has never worked and why the tracked quantity here is **pressure**, the
+opposition's tier minus the MC's. It is also why *One Punch Man* is not a counterexample but a
+configuration: it inverts the distance deliberately and relocates the tension, so `shape: inverted`
+is supported and demands `substitute_tension` in writing.
+
+Two consequences follow that are worth stating because they look like duplication and are not. The
+ladder moved from `bible/` to `state/power.md` §2, because you cannot judge pressure without it and
+`state/` is what the read-set loads; and the escalation budget moved with it into §4, widened with
+the columns that make a gain checkable — source, the chapter the price was paid, the chapter it was
+set up in. A table nothing reads is not a rule, it is a note.
+
+The one place this skill deliberately does *not* go is severity. Whether a loss hurts belongs to
+`conflict-engine`'s stake ladder, and the two axes move independently: raising both every arc is
+arithmetically a working curve and dramatically nothing, because the reader never experiences a
+tier, only the gap. That failure has a name in `power-scaling/references/failure-modes.md` — the
+treadmill — along with the six other ways a curve dies, five of which are countable and therefore
+belong to `sw curve` rather than to a checklist nobody rereads.
+
 ## Why the scripts do not judge
 
 Three rules govern `scripts/sw.py`, and all three exist to stop a tool becoming an alibi.

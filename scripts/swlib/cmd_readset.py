@@ -26,11 +26,31 @@ CONFIG_KEYS = [
     "chapters.scenes_per_chapter",
     "opening.anchor_by_ch", "opening.contract_by_ch", "opening.promise_touched_by_ch",
     "opening.first_win_by_ch", "opening.promise", "opening.stakes_ceiling",
+    "scaling.shape", "scaling.tiers", "scaling.ceiling_tier", "scaling.endgame",
+    "scaling.edge_worth", "scaling.edge_price", "scaling.substitute_tension",
+    "scaling.first_limit_by_ch", "scaling.trivial_per_arc", "scaling.boost_debt_due",
     "theme.controlling_idea", "theme.counter_case",
     "timeline.reactivity", "timeline.crisis_cap",
     "content.rating", "content.romance",
     "ending.contract",
 ]
+
+
+def _recent_pressure(novel, number, window=5):
+    """The last few pressure rows. The whole log would grow without bound; the shape does not."""
+    rows = [r for r in novel.pressure_rows()
+            if _first_int(r) is not None and _first_int(r) < number]
+    rows.sort(key=_first_int)
+    if not rows:
+        return "### THE PRESSURE LOG (recent)\n(no confrontations logged yet)"
+    tail = rows[-window:]
+    return "### THE PRESSURE LOG (last %d)\n%s" % (
+        len(tail), _table_block(tail[0]._headers, tail))
+
+
+def _first_int(row):
+    m = re.search(r"\d+", row.first())
+    return int(m.group(0)) if m else None
 
 
 def _names_from_chg(block):
@@ -236,6 +256,14 @@ def build(novel, number, chars=None, locs=None, want_society=False):
         add("\n## 14. SOCIETY")
         add(novel._text("bible", "society.md").strip())
 
+    if novel.has_scaling:
+        ptext = novel._text("state", "power.md")
+        add("\n## 15. POWER CURVE (scaling.shape is %s)" % novel.scaling_shape)
+        add(mdio.section(ptext, "CURRENT STANDING") or "(missing)")
+        add(mdio.section(ptext, "THE LADDER") or "")
+        add(_recent_pressure(novel, number))
+        add(mdio.section(ptext, "ACTIVE BOOSTS") or "")
+
     add("\n## NOT LOADED (deliberately - ask for these by name if the chapter needs them)")
     missing = [
         "bible/world.md beyond the location rows above",
@@ -249,5 +277,8 @@ def build(novel, number, chars=None, locs=None, want_society=False):
         missing.insert(1, "bible/society.md - pass --society if the chapter turns on a social rule")
     if novel.has_foreknowledge:
         missing.append("state/foreknowledge.md sections 4-6 (observer paradox, arc, who suspects)")
+    if novel.has_scaling:
+        missing.append("state/power.md section 4 (the gain log) and section 6 (the curve plan) - "
+                       "the arc's band is in plan/arcs.md")
     add("\n".join("- " + m for m in missing))
     return "\n".join(out) + "\n"

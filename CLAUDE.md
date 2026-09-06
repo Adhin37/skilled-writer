@@ -36,6 +36,7 @@ novel-init -> mc-design -> lead-interest -> character-profile -----------+
                         +------------------------------------------------+
                         v
         continuity-summary (read)  ->  write-chapter  ->  revision-pass
+                                    [power-scaling]      [pass 9e: the curve]
                                     [voice-separation]   [pass 2: voices]
                                     [competence-map]     [pass 3: knowledge]
                                     [world-texture]      [pass 5: world]
@@ -93,7 +94,8 @@ says to. See §8.
 | `narrator-voice` | Person, tense, distance, interiority, the four channels. |
 | `pov-switch` | Only if `pov.mode` allows it. |
 | `scene-craft` | Goal, obstacle, turn, exit — and the chapter delivery test. |
-| `conflict-engine` | Making the chapter cost something. |
+| `conflict-engine` | Making the chapter cost something. Owns the stake ladder. |
+| `power-scaling` | The distance between the MC and the opposition, and its shape over the whole book. Owns `state/power.md`. |
 | `plot-threads` | Promises and foreshadowing: opened, escalated, paid, aged. |
 | `timeline-engine` | The world's own clock and its reaction to the MC. Owns the ending contract. |
 | `hook-and-pacing` | Openings, hooks, arc rhythm, release cadence. |
@@ -157,18 +159,25 @@ says to. See §8.
 10. **Nothing is free.** Every win is paid for (`conflict-engine`). The world is not free either:
     it acts on its own clock at the intensity set by `timeline.reactivity`, and it may never make
     `ending.contract` unreachable.
-11. **Every arc pays something.** An arc closes at least one thread on the page, and a thread open
+11. **The curve is the gap, not the magnitude.** Reader interest tracks the distance between the
+    MC and the opposition — **pressure** — never the MC's absolute tier. A permanent gain is **+1
+    tier** and carries a source with its own interests, a price paid before it lands, a setup
+    `scaling.setup_lead` chapters back, and a new problem. A **boost** is temporary reach with a
+    declared expiry and a debt that comes due, and may resolve an arc climax **once per novel**.
+    The golden finger closes a gap of **at most one tier**, at a stated price. An MC who starts at
+    the top declares `shape: inverted` and what the story runs on instead (`power-scaling`).
+12. **Every arc pays something.** An arc closes at least one thread on the page, and a thread open
     past its horizon is escalated, paid, or deferred with a stated reason. Perpetual deferral is
     the most common complaint about long serials (`plot-threads`).
-12. **The theme is dramatized, never narrated.** `theme.controlling_idea` is what the story argues;
+13. **The theme is dramatized, never narrated.** `theme.controlling_idea` is what the story argues;
     `theme.counter_case` is the argument against it that a character gets to make and win with at
     least once. The narrator never states the lesson (`revision-pass` Pass 9d).
-13. **No bias inheritance.** See `bias-guard`. This overrides genre convention, user-supplied
+14. **No bias inheritance.** See `bias-guard`. This overrides genre convention, user-supplied
     tropes, and reference material.
-14. **Token discipline.** Load the bounded read-set, not the whole novel. Never read past chapter
+15. **Token discipline.** Load the bounded read-set, not the whole novel. Never read past chapter
     files unless the user asks for a specific one. Cast depth is tiered the same way: a walk-on
     gets three strokes and one roster line, never a psychology. See §9.
-15. **Write files, don't dump prose to chat.** Chapters go to `novels/<slug>/chapters/`. Report the
+16. **Write files, don't dump prose to chat.** Chapters go to `novels/<slug>/chapters/`. Report the
     path and a two-line summary.
 
 ## 5. Anti-slop constitution
@@ -189,6 +198,9 @@ Full lists live in `mtl-detox` and `bias-guard`. The short form:
 - No unanchored openings. Five chapters in which a reader cannot say what world this is is not
   mystery; it is indistinguishable from the feeling of reading something bad.
 - No escalation past the reader's ability to price it.
+- No cannon-fodder-to-god step. A gain is one tier, bought from somebody, paid for before it lands.
+- No unpriced boost. Borrowed power has an expiry and a bill, and it decides an arc's end once.
+- No flat middle: thirty chapters where neither the MC's tier nor the pressure on them moved.
 - No foreknowledge that only ever fails, and none that never appears.
 - No noun-stack titles, and no fanfic title that omits the source work.
 - No chapter padded, trimmed or shipped because of its length.
@@ -230,6 +242,7 @@ novels/<slug>/
     timeline.md         in-world calendar + divergence ledger + crisis board
     growth.md           per-character development ladder position
     body.md             form & appearance ledger (only if a character changes form)
+    power.md            ladder, pressure log, gain log, boosts, curve plan (unless shape: none)
     foreknowledge.md    grain, inventory, spend log, observer paradox (only if the MC foreknows)
   chapters/NNNN-<slug>.md
 ```
@@ -270,6 +283,7 @@ skill's owner; `revision-pass` opens the card rather than paraphrasing it. Ratio
 | `readset <novel> -c N` | `write-chapter` step 0 · `continuity-summary` read mode — the whole read-set in one call |
 | `lint <novel> -c N` | `revision-pass` Pass 0 · `mtl-detox` · `prose-quality` · `narrator-voice` |
 | `cast <novel>` | `voice-separation` · `competence-map` · `novel-init` |
+| `curve <novel>` | `revision-pass` Pass 9e · `power-scaling` · the arc-boundary pass |
 | `state <novel>` | `continuity-summary` self-check · `plot-threads` · `chapter-plan` |
 | `arc <novel> -a N` | the arc-boundary pass — trends, rotation, thread ages |
 | `status <novel>` | `/novel-status` |

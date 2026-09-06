@@ -125,6 +125,11 @@ For whichever is chosen, fill in and record in `novel.md` and `bible/power-syste
 - `golden_finger` — one sentence a reader could repeat
 - `gf_cost` — what each use takes, measurable
 - `gf_limit` — two sentences beginning "this can never…"
+- **what it is worth in tiers** — `scaling.edge_worth`, `0` or `1` and never 2, with
+  `scaling.edge_price` for what closing that gap costs every time. An advantage closes at most one
+  tier of the gap between the MC and the opposition; above that it stops being an advantage and
+  becomes a second ladder (`power-scaling` §2). `0` is a real answer: an advantage that is
+  information, nerve or reputation closes no gap at all.
 - **the problem it creates** — mandatory. An advantage that only solves problems flattens the
   novel. Visible power makes the MC identifiable; a system makes them legible to whoever built
   it; foreknowledge makes them act on a future that no longer exists.

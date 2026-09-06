@@ -107,6 +107,23 @@ and `story-opening` owns them. Two things are not defaults:
   institutional, it is usually *"the MC can be noticed, but nothing may act on it until the reader
   has seen the machinery take someone else."*
 
+Then the **`scaling:`** block. Ask exactly one question — the rest is derived:
+
+| question | options |
+|---|---|
+| Where does the MC start, and where does this end up? | Bottom of the ladder, climbing *(recommended)* · Already at the top, and the story is about something else · Starts strong, loses it, earns it back · Climbs, then the ladder stops mattering |
+
+Those are `scaling.shape` — `climb` · `inverted` · `regression` · `plateau-late`. For a novel with
+no capability ladder at all, set `none` and the skill and its ledger switch off; before reaching
+for it, note that an ordinary MC still has a curve (`power-scaling/references/curve-shapes.md` §7).
+
+Then, without asking: `start_tier` from the shape (1–2 for `climb`), `tiers` and `ceiling_tier`
+from the premise's scope, and **`scaling.endgame`** — the final opposition and its tier, in one
+line, derived from `ending.contract`. Write it down now even if it changes; a ladder with no top
+is how the escalating sky starts. If the shape is `inverted`, `substitute_tension` is **required**
+and is a real question: what is the story about when power is not in question? Once
+`mc.golden_finger` is set, `mc-design` fills `edge_worth` and `edge_price`.
+
 Then the **`theme:`** block, and do not ask for it either — propose it and let them correct it.
 Read back the premise and the ending contract and say what the book appears to be arguing, in one
 sentence: *"Loyalty you inherited is not loyalty you chose."* Then name the **counter-case** —

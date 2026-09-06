@@ -35,6 +35,10 @@ as a chapter surprises you, and stale rows are worse than no rows: they get foll
    If you cannot, redesign; a cannon-fodder antagonist ruins 25 chapters.
 4. Build the **escalation ladder**: five rungs, each raising the cost of failure. Escalation is
    not "a stronger enemy" — it is a *worse thing to lose*.
+4b. Set the arc's **pressure band** and its gain, into `state/power.md` §6: the MC's tier at entry
+   and exit, the top opposition tier, and where the gain lands. Open near +2 so the arc has a wall,
+   hold +1 through the middle, place the gain about two-thirds through, land the climax at +1
+   *after* it. The ladder in step 4 is stakes; this is the distance (`power-scaling` §1, §4).
 5. Fix the **midpoint reversal**: the chapter where the MC's understanding is proven wrong.
 6. Fix the **cost**: what the MC permanently loses. Required. Not "almost".
 7. Assign **character rungs**: who advances, on which chapter, and what audibly changes. Check each
@@ -126,6 +130,10 @@ Before planning a chapter in which being noticed is dangerous, find the earlier 
 reader learned what being noticed costs here. If there is no such row, insert one — usually a
 bystander losing to the machinery — or move the escalation later. A threat the reader cannot price
 does not read as tension; it reads as an adult being strict.
+
+**The pressure follows the plan, not the draft.** A chapter's opposition is derived from the arc's
+band in `state/power.md` §6, never invented at the strength the scene turned out to need. That
+inversion is what produces cannon fodder in one direction and the god-step in the other.
 
 **No all-failure ladders.** An arc-1 escalation ladder whose every rung is the MC's advantage
 letting them down is not a ladder, it is a slide. At least one rung is a win that advantage bought.

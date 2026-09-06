@@ -47,6 +47,12 @@ Escalate the **stake** instead:
 A rung-5 threat with a weak opponent beats a rung-1 threat with a god. Design each arc's ladder
 along this axis, and let opponent strength follow the story rather than lead it.
 
+**These are two axes and they move independently.** The stake rung is this skill's; the *distance*
+between the MC and the opposition is `power-scaling`'s, and it is called pressure. The mistake that
+produces the treadmill is raising both together every arc — arithmetically a working curve, and
+dramatically nothing, because the reader never experiences a tier, only the gap. An arc that
+raises the stake rung while holding the tier still is usually the better arc.
+
 **A stake only counts if the reader can price it.** Every rung above assumes the reader knows what
 losing that thing would mean *here* — what this institution does to people, what a debt costs in
 this economy, what happens to someone who gets noticed. Early in a novel that knowledge does not

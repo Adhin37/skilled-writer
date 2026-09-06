@@ -57,12 +57,31 @@ mc:
   gf_limit: ""            # two sentences beginning "this can never…"
   gf_problem: ""          # the new problem it creates — mandatory
   gf_known_by: []         # who has guessed
-  starting_power: ""      # relative to the world, in one line
+  # where the MC starts relative to the world is scaling.start_tier, below.
 
   # form: set true if the MC does not start in their final body (reborn infant,
   # transmigrated, sealed, pre-evolution). Requires state/body.md. See mc-design.
   form_locked: false
   final_form_reached_ch: null
+
+# ── POWER SCALING ────────────────────────────────────────────────────────────
+# The distance between the MC and the opposition, and its shape over the whole book.
+# Owned by power-scaling; the ledger is state/power.md. shape: none turns it all off.
+scaling:
+  shape: climb            # climb | inverted | regression | plateau-late | none
+  tiers: 7                # size of the ladder in state/power.md section 2
+  start_tier: 1           # where the MC starts. Must be <= 2 when shape: climb
+  ceiling_tier: 6         # the highest tier the MC may reach
+  endgame: ""             # the final opposition and its tier, in one line. Set at init.
+  edge_worth: 1           # tiers the golden finger closes. 0 or 1. Never 2.
+  edge_price: ""          # what closing that gap costs, every time
+  substitute_tension: ""  # REQUIRED when shape: inverted - what the story runs on instead
+  first_limit_by_ch: 8    # the advantage hits a wall. Must be > opening.first_win_by_ch
+  gain_gap_min: 15        # minimum chapters between tier advances
+  setup_lead: 3           # chapters a gain's mechanism must precede the gain
+  flat_max: 12            # max chapters with no tier movement and no pressure variation
+  trivial_per_arc: 2      # max confrontations at P <= -2 per arc
+  boost_debt_due: 5       # chapters a boost's debt may go unpaid
 
 # ── ROMANCE ──────────────────────────────────────────────────────────────────
 # Filled by lead-interest, AFTER mc-design. Governed by content.romance below.

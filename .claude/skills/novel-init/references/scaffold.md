@@ -102,6 +102,11 @@ Then fill in, in this order:
 | mc.golden_finger | `none` | An advantage is easy to add at chapter 30; removing one is not. |
 | romance.configuration | `undecided` | A lead chosen from the existing cast at chapter 20 is almost always better than one designed cold. |
 | timeline.reactivity | `3` | The world notices and adapts without becoming a grind. |
+| scaling.shape | `climb` | The genre's default and the only one that needs no extra justification. |
+| scaling.start_tier | `1` | Nobody has ever complained that a protagonist started too weak. |
+| scaling.tiers | `7` | Enough room for five gains and two tiers the MC never reaches. |
+| scaling.edge_worth | `1` if there is a golden finger, else `0` | One tier is an advantage; two is a second ladder. |
+| scaling.endgame | never defaulted | Derive it from `ending.contract` and write it down at init. |
 | ending.tone | `hopeful` | Never default the *contract* — ask for it in the user's words. |
 | title | never defaulted | Always show three screened candidates. `"Untitled"` reaching the scaffold is a bug. |
 | optional | only `no-harem` and `combat-choreography` on | Adding mechanics later is easy; removing them mid-serial is not. |

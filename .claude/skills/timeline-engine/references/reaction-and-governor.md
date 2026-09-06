@@ -14,7 +14,7 @@ rather than by a schedule.
 | **Strategist** | Patient. Gathers information before moving. Revises the plan correctly. Treats the MC as a variable to be used first, removed second. | slow (4–10 ch) | high — reads the MC's actions accurately | the informed, charismatic long-game villain: e.g. All For One in *My Hero Academia* |
 | **Chaotic** | Fast, disproportionate, personal. May fixate on the MC for a reason that isn't strategic. Cannot be negotiated with reliably. Escalates when frustrated. | fast (1–3 ch) | low — often wrong about what the MC did, which is its own danger | the volatile heir with something to prove: e.g. Shigaraki |
 | **Institution** | Procedural, slow, and it never forgets. Opens a file. Responds with policy, not violence. | very slow (10+ ch) | high but rigid — reads the record, not the person | a hero commission, a guild, a state |
-| **Rival** | Matches the MC's growth curve. Reacts to being surpassed. | medium (2–5 ch) | high in their shared domain, blind outside it | the peer who was supposed to be first |
+| **Rival** | Matches the MC's growth curve (`state/power.md` §1). Reacts to being surpassed. | medium (2–5 ch) | high in their shared domain, blind outside it | the peer who was supposed to be first |
 | **Indifferent** | Does not react at all. A plague, a market, a season, a prophecy already in motion. | n/a | n/a | the pressure that doesn't care who you are |
 
 **A world needs at least two profiles in play, and one of them should be Indifferent.** A world

@@ -29,11 +29,12 @@ automatically when only one novel exists.
 | `lint <novel> [-c N \| --all]` | Sweeps one chapter, or every chapter with `--all`: MTL banned phrases, the AI-default cut list, narration exclamation marks, the four channels, thought budget, apostrophe collisions, stray markup, frontmatter, anchor vocabulary, ledger agreement | no |
 | `arc <novel> [-a N]` | The distributional pass over one arc: per-chapter words, dialogue share, anchor count and ledger presence; the dialogue trend; the length spread; hooks; cast rotation; thread operations; foreknowledge. Ends with the judged half it cannot do | no |
 | `cast <novel>` | Audits `_voices.md` and `_competence.md` as tables: the straddle rule, the wit cap, the three-way clash, turn and hand-habit collisions, the deep-expertise budget, missing rows and referrals | no |
+| `curve <novel>` | The power curve: gain step size and cadence, the four requirements on every gain, unpaid boost debts, a second climax boost, pressure monotony, the trivial budget, the flat stretch, tier rising while pressure falls, and the `pwr>` line's agreement with `state/power.md`. No-ops when `scaling.shape` is `none` | no |
 | `state <novel>` | Ledger against chapters, required CCS lines, block length, thread tension against last use, plan-row completeness, the promotion trigger, book-digest staleness | no |
 | `status <novel>` | Progress aggregation for `/novel-status` | no |
 | `stamp <novel> [-c N]` | Measures the body and writes `wordcount:`. `--status`, `--ledger` | **yes** |
 | `newnovel <slug>` | Copies `novels/_template` to `novels/<slug>` | **yes** |
-| `audit <novel>` | Inventory plus `lint --all`, `cast` and `state` in one pass — the independent whole-novel gate | no |
+| `audit <novel>` | Inventory plus `lint --all`, `cast`, `state` and `curve` in one pass — the independent whole-novel gate | no |
 | `doctor` | Python version, repo root, novels found | no |
 
 ### Exit codes

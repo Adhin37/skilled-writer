@@ -84,7 +84,8 @@ and is competent at their own job. The one-scene thug still has a reason to be a
 ### Other structural habits to drop
 
 - **The treasure/technique escalator** — a stronger artifact every ten chapters, obsoleting the
-  last. See `power-system`'s escalation budget: every gain must create a new problem.
+  last. Every gain must create a new problem; the log is `state/power.md` §4 and `sw curve` finds
+  the cadence (`power-scaling` §3).
 - **Sect/academy tournament arcs** as the default mid-book structure. Allowed, but the bracket is
   not a plot; the thing at stake outside the bracket is.
 - **The overheard conversation** as an information-delivery mechanism, more than once a novel.

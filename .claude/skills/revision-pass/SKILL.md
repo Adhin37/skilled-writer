@@ -35,6 +35,7 @@ the owner, so nothing here is a paraphrase.
 | 9b Opening | **judgement** | `story-opening/references/audit-card.md`, chapters in range only |
 | 9c Foreknowledge | **distributional** | `meta-knowledge/references/audit-card.md`, if `mc.foreknowledge` |
 | 9d Theme | judgement | nothing — the restraint test is here in full |
+| 9e Power curve | judgement | `power-scaling/references/audit-card.md`, if `scaling.shape` is not `none` |
 | 10 Mechanics | mechanical | nothing |
 
 **Run Pass 0 first.** It settles every mechanical row in seconds and for no tokens, which is what
@@ -52,13 +53,15 @@ future. Each guards a defect invisible in one chapter and unrecoverable once ten
 ```bash
 python3 scripts/sw.py lint novels/<slug> -c <n>     # this chapter
 python3 scripts/sw.py cast novels/<slug>            # the two cast tables, as tables
+python3 scripts/sw.py curve novels/<slug>           # the power curve, if scaling.shape is set
 ```
 
 `lint` covers Pass 7 in full, the countable half of Pass 8, Pass 10 in full, the default-gesture
 sweep in Pass 2, the anchor count in Pass 9b, and the ledger's agreement with the chapter. `cast`
 settles the arithmetic in Passes 2 and 3 — the straddle rule, the wit cap, the three-way clash,
-the deep-expertise budget. The sweep tells you **where** to look and never **whether** it is a
-problem.
+the deep-expertise budget. `curve` settles the arithmetic in Pass 9e — step size, gain cadence,
+unpaid boost debts, pressure monotony and the `pwr>` line's agreement with the ledger. The sweep
+tells you **where** to look and never **whether** it is a problem.
 
 Findings print as `LEVEL path:line: [check] message`. A **DEFECT** is a named gate failure; a
 **warn** wants a decision.
@@ -191,6 +194,16 @@ not an absent theme but a **narrated** one: AI narrators state the story's meani
 - [ ] `theme.counter_case` is alive: somebody in this arc argues the other side and is allowed to
       be persuasive. If the counter-case has never won a scene, the theme is a sermon
 - [ ] The chapter tests the idea through a choice rather than through a conversation about it
+
+## Pass 9e — The power curve — only if `scaling.shape` is not `none`
+
+Open **`power-scaling/references/audit-card.md`**. Run `sw curve` first if you have not: it finds
+the step-size, cadence, unpaid-debt, monotony and ledger-agreement defects, which leaves the card
+the three things a script cannot see — whether the gain was earned on the page, whether the
+opponent is a person or a number, and whether the win felt free.
+
+This pass sits after delivery because a chapter that delivers nothing has no curve to audit, and
+before Pass 10 so a corrected tier still reaches the frontmatter and the CCS `pwr>` line.
 
 ## Pass 10 — Mechanics
 

@@ -18,8 +18,8 @@ Where the power comes from, and who controls the supply.
 
 ## Progression ladder
 
-| tier | name | what it lets you do | what it costs to reach | how many alive | MC reaches at ch |
-|---|---|---|---|---|---|
+Lives in `state/power.md` §2, not here — the ladder is needed in the read-set for every chapter,
+and `bible/` is never loaded. Names for the tiers, if the world has them, go in `bible/lexicon.md`.
 
 Keep tier *names* out of the prose as much as possible. Show tier through what a character can
 and cannot do. Never open a chapter with a rank recital.
@@ -33,12 +33,8 @@ The last column is mandatory. An ability the reader has never seen fail is not y
 
 ## Escalation budget
 
-To avoid power creep outrunning the story, log every permanent power gain here.
-
-| ch | gain | what it obsoletes | new problem it creates |
-|---|---|---|---|
-
-Every gain must create a new problem. If it only solves problems, do not grant it.
+Lives in `state/power.md` §4, where it is in the read-set and `sw curve` checks it. Every gain is
++1 tier and carries a source, a price paid first, a setup, and a new problem (`power-scaling` §3).
 
 ## Known unknowns
 What even experts in-world do not understand. This is where late-story reveals come from.

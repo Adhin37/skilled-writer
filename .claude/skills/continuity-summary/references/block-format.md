@@ -14,7 +14,7 @@ One block per chapter. Fixed key order. Lowercase keys, `>` separator, ` / ` bet
 dlv> Rin can no longer use the Guild archive, and knows who closed it to her
 ev> buys forged map / spots guild seal is a fake / tails the forger / hides in undercroft
 chg> Rin: wary->suspicious(Guild) ; Dael: admits debt, -2 trust w/Rin
-pwr> Rin: Echo-step x2 (nosebleed, 6h lock) / limit shown: fails indoors
+pwr> P=+1 vs the Warden's man (T4 vs Rin T3) survived, ribs / Echo-step x2 (nosebleed, 6h lock) / limit shown: fails indoors
 kno> Rin+{seal forged} Rin-{who paid} ; reader+{Dael paid} ; Dael-{Rin saw him}
 thr> ~T14(forged-seal) ^T03(father-debt) vT09(oath to Mira: she forgives him)
 obj> get the buyer's name -> next: read the Guild ledger
@@ -34,7 +34,7 @@ open> who paid the forger / why the Guild tolerates it
 | `dlv>` | **what is materially different at the end.** One clause, a difference and not a summary of events. Mirrors the chapter's `delivers:` frontmatter and is what `revision-pass` Pass 9 gated on | yes |
 | `ev>` | events, in order, as verb phrases. Max 6. Only what changed the situation. | yes |
 | `chg>` | per-character state change: emotional, positional, relational. `->` for transitions, `±n` for trust/standing deltas | yes |
-| `pwr>` | abilities used, cost paid, limits demonstrated. Omit line if genre has no power system | genre |
+| `pwr>` | **`P=±n` first**, with both tiers and the outcome, then abilities used, cost paid, limits demonstrated. The `P` value must match `state/power.md` §3 for this chapter — `sw curve` compares them. Omit only if `scaling.shape` is `none`; a chapter with no confrontation still records the abilities it spent | conditional |
 | `kno>` | **the most valuable line.** Who knows what now. `+{}` gained, `-{}` still lacks. Track `reader` as an entity. | yes |
 | `thr>` | thread ops: `~` opened, `^` advanced, `v` paid, `x` abandoned. Ids from `threads.md` | yes |
 | `obj>` | current objective, and the next concrete step | yes |

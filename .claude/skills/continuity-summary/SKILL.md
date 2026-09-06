@@ -75,6 +75,9 @@ Load exactly this. Not more.
     the chapter turns on an expertise.
 10. `state/body.md` §1 and §2 — **whenever any character in this chapter has `form_locked: true`.**
     No description of their body, reach, voice or capability may be written without it.
+10b. `state/power.md` §1, §2 and §5 plus the last five §3 rows — **unless `scaling.shape` is
+    `none`**. The chapter's opposition is derived from the arc's band, and no sentence may make
+    anyone more or less capable than §1 and §2 say they are.
 11. `plan/timeline.md` §4 (scheduled for this arc) — always. It is short, and it is how the
     chapter knows what the world is doing behind the MC's back.
 12. `bible/world.md` — **the location rows for this chapter's locations only**, for their sensory
@@ -83,7 +86,7 @@ Load exactly this. Not more.
     court, a custom, who is allowed where). Load the relevant section, never the file.
 
 If the read-set exceeds what you can hold, drop items 4 and 3-oldest first. Never drop 1, 5, 6, 9,
-9b, 9c, 10, 12.
+9b, 9c, 10, 10b, 12.
 
 ---
 
@@ -105,6 +108,10 @@ If the read-set exceeds what you can hold, drop items 4 and 3-oldest first. Neve
 4. Append to `state/timeline.md` if in-world time advanced. If time advanced enough to age a
    `form_locked` character, check `state/body.md` §3 — a stage may be due.
 5. If a form changed, update `state/body.md` §1, §2 and §4, and log any masking slip in §5.
+5b. Unless `scaling.shape` is `none`: a row in `state/power.md` §3 for every confrontation, with
+    its `P` and — at P ≥ +1 — what the win cost; a row in §4 for a tier advance, with all four
+    requirements, and §1 moved to match; a row in §5 for any boost, with its expiry, debt and due
+    chapter. The `pwr>` line must agree with §3.
 6. Move any `set>` facts that will recur into the right file: location anchors and world rules to
    `bible/world.md`, social facts (a price, a licence, who may testify, what a custom obliges) to
    the log at the foot of `bible/society.md`, names and terms to `bible/lexicon.md`. An anchor or

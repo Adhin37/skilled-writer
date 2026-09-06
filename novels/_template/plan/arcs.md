@@ -32,6 +32,10 @@ their own seat. If you cannot argue their case in two sentences, the arc is not 
 4.
 5.
 
+**Power curve.** MC tier at entry → exit · top opposition tier · the arc's pressure band · the
+gain and where it lands. Copy this into `state/power.md` §6. The ladder above escalates the
+*stake*; this is the *distance*, and the two move independently (`power-scaling` §1).
+
 **Midpoint reversal.** The chapter where the MC's understanding of the problem is proven wrong.
 
 **Cost.** What the MC permanently loses. Not "almost loses." Required.

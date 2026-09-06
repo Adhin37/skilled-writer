@@ -47,6 +47,10 @@ def _files(novel, rep):
     if novel.form_locked and not os.path.isfile(novel.path("state", "body.md")):
         rep.defect("state-files", "mc.form_locked is true but state/body.md is missing - no "
                    "sentence may describe a locked body without it", path=novel.path("novel.md"))
+    if novel.has_scaling and not os.path.isfile(novel.path("state", "power.md")):
+        rep.defect("state-files", "scaling.shape is `%s` but state/power.md is missing - the "
+                   "power curve cannot be tracked without it" % novel.scaling_shape,
+                   path=novel.path("novel.md"))
 
 
 def _ledger(novel, rep, chapters, blocks):

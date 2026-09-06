@@ -20,8 +20,8 @@ import tempfile
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from swlib import (cmd_arc, cmd_cast, cmd_lint, cmd_readset,  # noqa: E402
-                   cmd_state, cmd_status, cmd_write)
+from swlib import (cmd_arc, cmd_cast, cmd_curve, cmd_lint,  # noqa: E402
+                   cmd_readset, cmd_state, cmd_status, cmd_write)
 from swlib.novelio import Novel, resolve  # noqa: E402
 from swlib.report import Report  # noqa: E402
 
@@ -116,6 +116,10 @@ def do_cast(args):
     return _emit(cmd_cast.run(_novel(args)), args)
 
 
+def do_curve(args):
+    return _emit(cmd_curve.run(_novel(args)), args)
+
+
 def do_state(args):
     return _emit(cmd_state.run(_novel(args)), args)
 
@@ -166,6 +170,7 @@ def do_audit(args):
     rep.extend(cmd_lint.run(novel, None))
     rep.extend(cmd_cast.run(novel))
     rep.extend(cmd_state.run(novel))
+    rep.extend(cmd_curve.run(novel))
     return _emit(rep, args)
 
 
@@ -240,6 +245,8 @@ def build_parser():
 
     novel_arg(sub.add_parser("cast", help="voice matrix and competence grid audits")
               ).set_defaults(func=do_cast)
+    novel_arg(sub.add_parser("curve", help="power curve - step size, boosts, pressure")
+              ).set_defaults(func=do_curve)
     novel_arg(sub.add_parser("state", help="ledger, threads, plan and roster integrity")
               ).set_defaults(func=do_state)
     novel_arg(sub.add_parser("status", help="progress aggregation for /novel-status")
