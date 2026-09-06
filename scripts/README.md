@@ -61,6 +61,22 @@ them, `-q` for defects only).
 - **A clean run is not a passed revision.** It means the mechanical passes found nothing. Passes
   2, 3, 5, 6, 8 and 9 still need their skill files open. `revision-pass` says which.
 
+## Tests
+
+```bash
+python3 -m unittest discover tests
+```
+
+Stdlib `unittest`, no dependency to install, and no novel required: every fixture is built in a
+temp directory from the real `novels/_template`, so a test fails when the template drifts away
+from the parsers.
+
+The suite exists because these measurements are trusted by a gate that cannot see the prose. A
+parser that under-detects does not look like a broken parser — it looks like a clean chapter.
+Each case in `tests/test_channels.py` names, in its docstring, the wrong behaviour it pins down:
+multi-paragraph speech counted as narration, curly thought marks invisible, an unmatched quote
+spanning a whole file, `'twas` reported as an unterminated thought.
+
 ## Layout
 
 ```
@@ -71,4 +87,6 @@ scripts/swlib/textstats.py  chapter body: the four channels, paragraphs, sentenc
 scripts/swlib/rules.py    the searchable rule sets, each citing the skill it comes from
 scripts/swlib/report.py   findings and rendering
 scripts/swlib/cmd_*.py    one module per command
+scripts/swlib/__init__.py
+tests/                    fixtures plus one module per surface
 ```

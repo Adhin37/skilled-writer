@@ -16,6 +16,7 @@ Exit codes: 0 clean - 1 findings that need a decision - 2 bad usage or missing f
 import argparse
 import os
 import sys
+import tempfile
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -52,13 +53,37 @@ def _emit(rep, args):
 
 # --------------------------------------------------------------------- commands
 
+def _checked_out_path(target):
+    """Where `--out` is allowed to write: under the repo, or under the system temp dir.
+
+    This is the only command that takes a destination from the caller, and it is documented as
+    writing nothing. An unconstrained path with no overwrite guard is how a read-only tool ends
+    up truncating a chapter.
+    """
+    dest = os.path.abspath(target)
+    allowed = [os.path.abspath(REPO_ROOT), os.path.abspath(tempfile.gettempdir())]
+    if not any(dest == root or dest.startswith(root + os.sep) for root in allowed):
+        sys.stderr.write("--out must be inside the repo or the system temp directory; "
+                         "%s is neither\n" % dest)
+        sys.exit(USAGE_ERROR)
+    if os.path.exists(dest):
+        sys.stderr.write("--out refuses to overwrite an existing file: %s\n" % dest)
+        sys.exit(USAGE_ERROR)
+    parent = os.path.dirname(dest) or "."
+    if not os.path.isdir(parent):
+        sys.stderr.write("--out directory does not exist: %s\n" % parent)
+        sys.exit(USAGE_ERROR)
+    return dest
+
+
 def do_readset(args):
     novel = _novel(args)
     chars = args.chars.split(",") if args.chars else None
     locs = args.locs.split(",") if args.locs else None
     text = cmd_readset.build(novel, args.chapter, chars, locs, want_society=args.society)
     if args.out:
-        with open(args.out, "w", encoding="utf-8", newline="\n") as fh:
+        dest = _checked_out_path(args.out)
+        with open(dest, "w", encoding="utf-8", newline="\n") as fh:
             fh.write(text)
         print("read-set for chapter %d written to %s (%d bytes)"
               % (args.chapter, args.out, len(text)))
@@ -72,9 +97,13 @@ def do_lint(args):
     numbers = None
     if args.chapter is not None:
         numbers = [args.chapter]
-    elif not args.all:
+    else:
         chs = [c.number for c in novel.chapters() if c.number]
-        numbers = [max(chs)] if chs else None
+        if not chs:
+            sys.stderr.write("no chapters to lint in %s\n" % novel.path("chapters"))
+            return USAGE_ERROR
+        if not args.all:
+            numbers = [max(chs)]
     return _emit(cmd_lint.run(novel, numbers), args)
 
 
@@ -129,7 +158,7 @@ def do_audit(args):
     inv.append("   nothing - only whether the recorded number is true.")
     rep.info("inventory", inv)
 
-    rep.extend(cmd_lint.run(novel, None if args.all else [c.number for c in chapters]))
+    rep.extend(cmd_lint.run(novel, None))
     rep.extend(cmd_cast.run(novel))
     rep.extend(cmd_state.run(novel))
     return _emit(rep, args)
@@ -214,9 +243,8 @@ def build_parser():
                     help="also correct wc: in the chapter's CCS block")
     sp.set_defaults(func=do_stamp)
 
-    sp = novel_arg(sub.add_parser("audit", help="independent whole-novel pass"))
-    sp.add_argument("--all", action="store_true", help=argparse.SUPPRESS)
-    sp.set_defaults(func=do_audit)
+    novel_arg(sub.add_parser("audit", help="independent whole-novel pass")
+              ).set_defaults(func=do_audit)
 
     sp = sub.add_parser("newnovel", help="copy novels/_template to novels/<slug>")
     sp.add_argument("slug")

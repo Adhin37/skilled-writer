@@ -24,8 +24,11 @@ parser defects were re-executed against `swlib` rather than taken on report.
 **~30,200 tokens** of skill text per chapter before a word of story state is read. That is the
 cause of benchmark finding 9, and W2 is the fix.
 
-**The single most dangerous number:** the linter reports a **40%** dialogue share where the true
-value is near **70%**, on prose using the standard multi-paragraph speech convention.
+**The single most dangerous number:** on prose using the standard multi-paragraph speech
+convention, the linter under-reports dialogue share. On the sample now committed as a test
+fixture it read **72.1%** against a true **86.9%**, and the size of the error grows with how much
+of the speech sits in the middle paragraphs. Dialogue share is the metric that caught run #1's
+flagship defect.
 
 ---
 
@@ -62,7 +65,7 @@ below are observed, not inferred.
 | # | defect | site | observed effect |
 |---|---|---|---|
 | 1 | Curly `‘…’` thought marks are invisible | `textstats.py:18-23` | Straight marks score 1 hit, curly score **0**. The 1–3 thought budget silently never trips and `lint` reports `thought 0/3` |
-| 2 | Multi-paragraph dialogue mis-pairs | `textstats.py:16` | A three-paragraph speech yields **2 spans**; paragraph three's dialogue falls into *narration* and is fed to the exclamation, gesture, rhetorical-question and filter-verb sweeps. Share reported 40% against a true ~70% |
+| 2 | Multi-paragraph dialogue mis-pairs | `textstats.py:16` | A three-paragraph speech yields **2 spans**; the last paragraph's dialogue falls into *narration* and is fed to the exclamation, gesture, rhetorical-question and filter-verb sweeps. Share read 72.1% against a true 86.9% on the test sample |
 | 3 | An unmatched double quote spans greedily | `textstats.py:16` | `[^”"]*` matches newlines, so one span swallows narration to the next quote anywhere in the file |
 | 4 | Elisions raise DEFECT-level findings | `textstats.py:108` | `'twas`, `'em` and `'99` each match `unterminated_thoughts`. `Rock 'n' roll` correctly does not |
 | 5 | A UTF-8 BOM defeats frontmatter parsing | `mdio.py:18,29` | `split_frontmatter` returns empty; every chapter reads as "no YAML frontmatter at all". The repo explicitly targets Windows |
@@ -223,6 +226,13 @@ Run with `python3 -m unittest discover tests`. Document it in `scripts/README.md
 
 **Acceptance:** every row of §3.1 has a failing test before the fix and a passing one after. The
 multi-paragraph case reports a share within 2 points of hand-count.
+
+> **Done.** 46 tests, `python3 -m unittest discover tests`. Two defects beyond the table were
+> found and fixed while writing them: the YAML reader lost all nesting under tab indentation, and
+> an unclosed quote in `novel.md` swallowed every following config key. Both are now covered.
+> One plan item was not carried out as written — `docs/benchmark.md`'s "37 skills" is historical
+> narration of run #1 and is accurate, so it stands; the unreproducible audit command next to it
+> is what changed.
 
 ### W2 — Context economy
 

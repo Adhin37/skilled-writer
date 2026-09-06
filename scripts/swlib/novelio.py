@@ -8,7 +8,7 @@ import os
 import re
 
 from . import mdio
-from .textstats import Chapter, load_chapters
+from .textstats import Channels, Chapter, load_chapters
 
 
 class CCSBlock(object):
@@ -122,9 +122,17 @@ class Novel(object):
 
     # --------------------------------------------------------------- chapters
 
+    @property
+    def channels(self):
+        """The four marks this novel declares. `channels:` in novel.md, not a literal here."""
+        if "channels" not in self._cache:
+            self._cache["channels"] = Channels.from_novel(self)
+        return self._cache["channels"]
+
     def chapters(self):
         if "chapters" not in self._cache:
-            self._cache["chapters"] = load_chapters(self.path("chapters"))
+            self._cache["chapters"] = load_chapters(self.path("chapters"),
+                                                    channels=self.channels)
         return self._cache["chapters"]
 
     def chapter(self, number):
