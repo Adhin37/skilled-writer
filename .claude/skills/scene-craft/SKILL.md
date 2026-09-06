@@ -102,8 +102,9 @@ throat-clearing. This is true more often than it is comfortable.
 ## Grounding
 
 Every scene needs, in its first 100 words: **where, who, and what is wrong**. Not as a list —
-woven in. Then two sensory details from that location's signature in `bible/world.md`. Reuse the
-same signature details across visits; that is how a reader learns a place.
+woven in. Then sensory details from that location's signature in `bible/world.md` — `world-texture`
+owns how many and which. Reuse the same signature details across visits; that is how a reader
+learns a place.
 
 Keep bodies in space. In any scene with more than two people, the reader must be able to draw the
 room. One spatial anchor per paragraph in action; one every three exchanges in dialogue.
@@ -115,7 +116,7 @@ room. One spatial anchor per paragraph in action; one every three exchanges in d
 | Conversation | two people exchanging information | give each a different want, and let one lie |
 | Fight | choreography without stakes | decide before writing what is lost by the end. See `combat-choreography` |
 | Travel | a montage of distance | either something happens on the road, or it is one sentence |
-| Training | a montage of competence | show the cost and the failure, not the progression. One stage of the ladder per scene at most, and only when a stage actually turns over — practice between stages is a clause, not a scene (`competence-map` §5) |
+| Training | a montage of competence | show the cost and the failure, not the progression. One stage of the ladder per scene at most, and only when a stage actually turns over — practice between stages is a clause, not a scene (`competence-map/references/acquisition-ladder.md`) |
 | Discovery | a lecture | the POV character wants something *else*; discovery interrupts it |
 | Aftermath | drifting reflection | make it a decision scene: what will they do now |
 | Political | names and titles the reader can't hold | ground in one concrete thing on the table |
@@ -144,7 +145,7 @@ Expensive in serials: readers are dipping in weekly and a flashback breaks the f
 - [ ] Every scene enters late and leaves early
 - [ ] Where/who/what's wrong established in the first 100 words
 - [ ] Bodies locatable in space
-- [ ] Two sensory details per scene, drawn from the location's signature
+- [ ] Sensory details drawn from the location's signature, at `world-texture`'s budget
 - [ ] The follow-through ends on a decision
 - [ ] The chapter answers want / friction / **change** / cost / next
 - [ ] `delivers:` names a difference, not a summary of events

@@ -14,6 +14,12 @@ happened, generate a summary for them separately — do not soften the ledger.
 
 ---
 
+## What lives in `references/`
+
+| file | open it when |
+|---|---|
+| `references/block-format.md` | writing a block or a digest. The line reference, the notation legend and the hard rules |
+
 ## The three tiers
 
 | tier | scope | cap | rewritten |
@@ -81,108 +87,6 @@ If the read-set exceeds what you can hold, drop items 4 and 3-oldest first. Neve
 
 ---
 
-## CCS block format
-
-One block per chapter. Fixed key order. Lowercase keys, `>` separator, ` / ` between items,
-` ; ` between characters.
-
-```
-=C0042= pov:Rin | loc:Ashfall Market>Guild undercroft | t:D12 dusk | wc:1840 | arc:2
-dlv> Rin can no longer use the Guild archive, and knows who closed it to her
-ev> buys forged map / spots guild seal is a fake / tails the forger / hides in undercroft
-chg> Rin: wary->suspicious(Guild) ; Dael: admits debt, -2 trust w/Rin
-pwr> Rin: Echo-step x2 (nosebleed, 6h lock) / limit shown: fails indoors
-kno> Rin+{seal forged} Rin-{who paid} ; reader+{Dael paid} ; Dael-{Rin saw him}
-thr> ~T14(forged-seal) ^T03(father-debt) vT09(oath to Mira: she forgives him)
-obj> get the buyer's name -> next: read the Guild ledger
-bod> Rin: F2 juvenile, unchanged / could not reach the top shelf, stacked crates instead
-wld> Vesh: opens a file on Rin (institution, latency 10, fires ~ch52) / W04 grain levy unmoved
-fk> spent K3(forger's name) to place herself in the undercroft -> K3 spent ; K7,K9 now suspect (she was never there in the remembered version)
-set> undercroft: wet chalk smell, one lamp / Rin owns Dael's coat now
-hook> the ledger's first line is her father's name
-open> who paid the forger / why the Guild tolerates it
-```
-
-### Line reference
-
-| key | contents | required |
-|---|---|---|
-| `=CNNNN=` | header: chapter no, `pov`, `loc` (`>` for movement), `t` in-world time, `wc` (a measured fact, never a target), `arc` | yes |
-| `dlv>` | **what is materially different at the end.** One clause, a difference and not a summary of events. Mirrors the chapter's `delivers:` frontmatter and is what `revision-pass` Pass 9 gated on | yes |
-| `ev>` | events, in order, as verb phrases. Max 6. Only what changed the situation. | yes |
-| `chg>` | per-character state change: emotional, positional, relational. `->` for transitions, `±n` for trust/standing deltas | yes |
-| `pwr>` | abilities used, cost paid, limits demonstrated. Omit line if genre has no power system | genre |
-| `kno>` | **the most valuable line.** Who knows what now. `+{}` gained, `-{}` still lacks. Track `reader` as an entity. | yes |
-| `thr>` | thread ops: `~` opened, `^` advanced, `v` paid, `x` abandoned. Ids from `threads.md` | yes |
-| `obj>` | current objective, and the next concrete step | yes |
-| `bod>` | form state for any `form_locked` character: current stage, whether it changed this chapter, and any limit the chapter ran into. On a transition, record what it now enables and what it costs. Omit only if nobody is locked | conditional |
-| `wld>` | **the offstage question**: what the world did this chapter that the POV character does not know about. Driver moves, world-track events fired or moved, clocks advancing. See `timeline-engine`. Omit only if genuinely nothing moved | yes |
-| `set>` | new world/possession facts introduced — location anchors, social facts, what a thing costs. Feeds `bible/world.md` and `bible/society.md` later. Omit if none | no |
-| `fk>` | foreknowledge spent this chapter, what it cost, and which other items it invalidated. Omit only if `mc.foreknowledge` is unset. See `meta-knowledge` §5 | conditional |
-| `hook>` | the chapter's final beat | yes |
-| `open>` | questions the chapter deliberately left unanswered | no |
-
-### Notation legend
-
-```
-->     transition            +{x}   now knows x
-±n     delta on a scale      -{x}   still does not know x
-~      opened                >      movement / sequence
-^      advanced              x      abandoned
-v      paid off              ()     parenthetical cost or qualifier
-```
-
-### Hard rules for writing a block
-
-1. **No adjectives of quality.** `ev> a brutal, desperate fight` is wrong. `ev> fights Karth to a
-   draw / breaks two ribs` is right. Record facts, not impressions.
-2. **No prose sentences.** No articles where they can be dropped. No "then", "and then".
-3. **Never omit `kno>`.** Dramatic irony, reveals and idiot-ball prevention all run off it.
-   **Never omit `dlv>` either** — a block whose `dlv>` restates its `ev>` is recording a chapter
-   that did not change anything, and that is a defect worth seeing in the ledger.
-   `mc-intel-meter` reads this line to check the MC is not acting on information they lack.
-4. **Costs go in parentheses** attached to what caused them.
-5. **Names exactly as in `lexicon.md`.** No pronouns. No "the protagonist".
-6. **One block per chapter, appended.** Do not rewrite history to make it tidier.
-7. **`chg>` is for tier A and B.** A walk-on earns a `chg>` entry only if they died, or did
-   something that changed the situation — in which case they are being promoted anyway. Extras
-   who merely appeared belong in the roster, not in the ledger.
-
-## Arc digest format
-
-```
-=ARC2= ch26-50 | q:can Rin buy back her father's name? | a:no, she burns it instead
-ev> guild ledger names father / Rin trades the map to Vesh / undercroft raid / Dael dies
-chg> Rin: rung2->rung4 (stops asking permission) ; Vesh: ally->creditor
-kno> Rin+{father sold the seal willingly} ; reader+{Vesh ordered the raid}
-thr> paid:T03,T09 open:T14,T21 new:T27(Vesh's claim on Rin)
-cost> Dael dead / Rin's name blacklisted in Ashfall / left hand scarred
-end> Rin leaves Ashfall owing Vesh a favour she cannot define
-```
-
-## Book digest format
-
-```
-prem> one sentence
-mc> Rin | tier3 | want:clear father's name | need:stop defining herself by it | wound:abandoned at 9
-world> three lines max: the constraint, the power, the scarcity
-arc> 1:<six words> 2:<six words> 3:<six words>
-open> the standing questions, ids only
-done> the things that can never be undone
-```
-
-**The book digest goes stale silently, and it is the most expensive file to have wrong** — it is
-read first and trusted most. Two rules:
-
-- **`done>` is updated in the same pass as any chapter that makes something irreversible.** A
-  digest still reading `(none — no chapters drafted yet)` after five drafted chapters is not a
-  cosmetic lapse; every later read-set inherits it, and a model assembling context from it will
-  believe the book has not started.
-- **Re-read the digest against reality at every arc rollup.** `prem>`, `mc>` and `world>` are
-  written once and then quietly diverge from what the novel actually became.
-
----
-
 ## Procedure — before drafting (read mode)
 
 1. Assemble the read-set above — `sw readset novels/<slug> -c <N>`, or by hand.
@@ -221,6 +125,20 @@ read first and trusted most. Two rules:
 ## Procedure — arc rollup
 
 Triggered when a chapter completes an arc.
+
+0. Run the **arc-boundary pass** before compressing anything, while the chapter blocks are still
+   at full detail:
+
+   ```bash
+   python3 scripts/sw.py arc novels/<slug> --show note
+   ```
+
+   It lines the arc's chapters up next to each other and prints what only appears in aggregate:
+   the dialogue trend, the length spread, hooks side by side, cast rotation, thread operations,
+   repeated deliveries, and the foreknowledge ledger. Every high-severity finding in benchmark
+   run #1 was of this kind — invisible in the chapter it appeared in, obvious across five. The
+   command ends with the judged half it cannot do; answer those by reading, and **do not score
+   the arc**. See `/novel-recap review`.
 
 1. Write the ARC DIGEST from that arc's chapter blocks.
 2. Compress the arc digest that is now two arcs old down to 40 words.

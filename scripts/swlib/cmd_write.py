@@ -14,58 +14,80 @@ from .report import Report
 from .textstats import Chapter
 
 
+# The frontmatter block, matched against the file exactly as it sits on disk: BOM kept,
+# CRLF kept. Everything after group 2 is the prose body and is never touched.
+_FM_RAW = re.compile(r"\A(\ufeff)?---[ \t]*\r?\n(.*?\r?\n)---[ \t]*\r?\n?", re.S)
+
+
+def _set_field(fm, name, value, changes):
+    """Replace or append one `name: value` line. Operates on LF-normalised text."""
+    new, n = re.subn(r"(?m)^%s:.*$" % name, "%s: %s" % (name, value), fm)
+    if n == 0:
+        return fm.rstrip("\n") + "\n%s: %s\n" % (name, value), changes + [
+            "added %s: %s" % (name, value)]
+    if new != fm:
+        old = re.search(r"(?m)^%s:\s*(\S+)" % name, fm)
+        return new, changes + ["%s %s -> %s" % (name, old.group(1) if old else "?", value)]
+    return new, changes
+
+
 def stamp(novel, number, status=None, sync_ledger=False):
-    """Measure the body and write `wordcount:` (and optionally `status:`) into frontmatter."""
+    """Measure the body and write `wordcount:` (and optionally `status:`) into frontmatter.
+
+    Only the frontmatter block is rewritten. The body goes back byte for byte, with the file's
+    own line endings, because a bookkeeping command that silently reflows someone's prose is a
+    worse bug than the wrong word count it was fixing.
+    """
     rep = Report("stamp - %s" % novel.title)
     ch = novel.chapter(number)
     if ch is None:
         rep.defect("usage", "no chapter file numbered %d" % number)
         return rep, False
 
-    text = mdio.read_text(ch.path)
-    fm, body = mdio.split_frontmatter(text)
-    if not fm:
+    raw, newline, decoded = mdio.read_text_raw(ch.path)
+    if not decoded:
+        rep.defect("encoding", "chapter %d is not valid UTF-8 - refusing to rewrite it, "
+                               "because saving it back would replace the bad bytes with U+FFFD"
+                   % number, path=ch.path)
+        return rep, False
+
+    m = _FM_RAW.match(raw)
+    if not m:
         rep.defect("frontmatter", "chapter %d has no frontmatter to stamp" % number,
                    path=ch.path)
         return rep, False
 
-    measured = len(body.split())
+    bom = m.group(1) or ""
+    fm = m.group(2).replace("\r\n", "\n").replace("\r", "\n")
+    body_raw = raw[m.end():]
+
+    measured = len(body_raw.split())
     changes = []
 
-    new_fm, n = re.subn(r"(?m)^wordcount:.*$", "wordcount: %d" % measured, fm)
-    if n == 0:
-        new_fm = fm.rstrip("\n") + "\nwordcount: %d" % measured
-        changes.append("added wordcount: %d" % measured)
-    elif new_fm != fm:
-        old = re.search(r"(?m)^wordcount:\s*(\S+)", fm)
-        changes.append("wordcount %s -> %d" % (old.group(1) if old else "?", measured))
-
+    new_fm, changes = _set_field(fm, "wordcount", measured, changes)
     if status:
-        new_fm2, n2 = re.subn(r"(?m)^status:.*$", "status: %s" % status, new_fm)
-        if n2 == 0:
-            new_fm2 = new_fm.rstrip("\n") + "\nstatus: %s" % status
-            changes.append("added status: %s" % status)
-        elif new_fm2 != new_fm:
-            old = re.search(r"(?m)^status:\s*(\S+)", new_fm)
-            changes.append("status %s -> %s" % (old.group(1) if old else "?", status))
-        new_fm = new_fm2
+        new_fm, changes = _set_field(new_fm, "status", status, changes)
 
     wrote = False
     if changes:
-        with open(ch.path, "w", encoding="utf-8", newline="\n") as fh:
-            fh.write("---\n" + new_fm + "\n---\n" + body)
+        out = bom + "---" + newline + new_fm.replace("\n", newline) + "---" + newline + body_raw
+        with open(ch.path, "w", encoding="utf-8", newline="") as fh:
+            fh.write(out)
         wrote = True
 
     if sync_ledger:
         block = novel.block(number)
         lpath = novel.path("state", "continuity.md")
         if block and block.wc is not None and block.wc != measured:
-            ltext = mdio.read_text(lpath)
-            lines = ltext.split("\n")
+            ltext, lnl, lok = mdio.read_text_raw(lpath)
+            if not lok:
+                rep.defect("encoding", "state/continuity.md is not valid UTF-8", path=lpath)
+                return rep, wrote
+            lines = ltext.replace("\r\n", "\n").replace("\r", "\n").split("\n")
             idx = block.line_no - 1
             lines[idx] = re.sub(r"\bwc:\d+", "wc:%d" % measured, lines[idx])
-            with open(lpath, "w", encoding="utf-8", newline="\n") as fh:
-                fh.write("\n".join(lines))
+            with open(lpath, "w", encoding="utf-8", newline="") as fh:
+                fh.write(lnl.join(lines))
             changes.append("ledger =C%04d= wc:%d -> wc:%d" % (number, block.wc, measured))
             wrote = True
 

@@ -12,11 +12,39 @@ import re
 
 
 def read_text(path):
-    """Read a file as UTF-8 with normalised newlines. Returns '' if it does not exist."""
+    """Read a file as UTF-8 with normalised newlines. Returns '' if it does not exist.
+
+    A UTF-8 BOM is stripped. Without that, `\\A---` never matches and every chapter written by
+    a Windows editor reads as having no frontmatter at all.
+    """
     if not os.path.isfile(path):
         return ""
     with open(path, encoding="utf-8", errors="replace") as fh:
-        return fh.read().replace("\r\n", "\n").replace("\r", "\n")
+        text = fh.read()
+    if text.startswith("﻿"):
+        text = text[1:]
+    return text.replace("\r\n", "\n").replace("\r", "\n")
+
+
+def read_text_raw(path):
+    """Read a file with newlines and BOM intact, and say whether it decoded cleanly.
+
+    Returns (text, newline, ok). `stamp` needs this: it rewrites the frontmatter block and must
+    put the body back exactly as it found it, rather than converting a CRLF file to LF or
+    writing U+FFFD over bytes it could not decode.
+    """
+    if not os.path.isfile(path):
+        return "", "\n", True
+    with open(path, "rb") as fh:
+        raw = fh.read()
+    try:
+        text = raw.decode("utf-8")
+        ok = True
+    except UnicodeDecodeError:
+        text = raw.decode("utf-8", errors="replace")
+        ok = False
+    newline = "\r\n" if "\r\n" in text else "\n"
+    return text, newline, ok
 
 
 def read_lines(path):
@@ -107,6 +135,18 @@ def _unterminated_quote(v):
     return not (len(v) > 1 and v.rstrip().endswith(q))
 
 
+_NEXT_KEY = re.compile(r"^[ \t]*(?:-\s|[A-Za-z0-9_.\-]+:(?:\s|$))")
+
+
+def _continues_scalar(line):
+    """False when the line is plainly the next key, not more of an unterminated scalar.
+
+    A missing closing quote used to swallow every following line, so one typo in `novel.md`
+    silently deleted the rest of the config.
+    """
+    return not _NEXT_KEY.match(line)
+
+
 def parse_yaml(text):
     """Minimal YAML reader for this repo's frontmatter.
 
@@ -117,7 +157,9 @@ def parse_yaml(text):
     root = {}
     # stack of (indent, container)
     stack = [(-1, root)]
-    lines = text.split("\n")
+    # Indent is measured in spaces. A hand-edited file indented with tabs used to lose its
+    # nesting silently - `mc:` came back empty and `mc.name` came back None.
+    lines = text.expandtabs(2).split("\n")
     i = 0
     while i < len(lines):
         raw = lines[i]
@@ -137,7 +179,8 @@ def parse_yaml(text):
         if stripped.startswith("- "):
             val = stripped[2:].strip()
             if isinstance(container, list):
-                while _unterminated_quote(val) and i < len(lines):
+                while (_unterminated_quote(val) and i < len(lines)
+                       and _continues_scalar(lines[i])):
                     val = val + " " + lines[i].strip()
                     i += 1
                 container.append(_scalar(val))
@@ -160,7 +203,8 @@ def parse_yaml(text):
             stack.append((indent, child))
             continue
 
-        while _unterminated_quote(val) and i < len(lines):
+        while (_unterminated_quote(val) and i < len(lines)
+               and _continues_scalar(lines[i])):
             val = val + " " + _strip_comment(lines[i]).strip()
             i += 1
         container[key] = _scalar(val)

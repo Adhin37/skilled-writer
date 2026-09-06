@@ -156,11 +156,51 @@ def _threads(novel, rep, blocks, last_ch):
                        "chapters ago - re-tension it or pay it"
                        % (tid, tension, seen, last_ch - seen), path=tpath, line=r.line_no)
 
+    # Ageing. plot-threads section Ageing: a promise past its `due` is the mechanism behind
+    # perpetual deferral, which is the complaint readers actually drop long serials over.
+    ages = []
+    for tid, r in sorted(declared.items()):
+        if str(r.get("status", "")).strip().lower() not in ("open", "escalated"):
+            continue
+        opened = re.sub(r"\D", "", str(r.get("opened", "")))
+        due = re.sub(r"\D", "", str(r.get("due", "")))
+        age = last_ch - int(opened) if opened.isdigit() else None
+        if age is not None:
+            ages.append((tid, age))
+        if due.isdigit() and last_ch > int(due):
+            carried = str(r.get("carried", "")).strip()
+            level = rep.warn if carried else rep.defect
+            level("threads", "%s is past its due chapter (%s, now ch %d)%s"
+                  % (tid, due, last_ch,
+                     " - carried: %s" % carried if carried
+                     else " and carries no deferral reason - pay it, escalate it, or record why"),
+                  path=tpath, line=r.line_no)
+
+    # Did the last completed arc close anything on the page?
+    arc_len = novel.arc_length
+    if last_ch >= arc_len:
+        closed = last_ch // arc_len * arc_len
+        lo = closed - arc_len + 1
+        paid = set()
+        for b in blocks:
+            if b.number is None or not (lo <= b.number <= closed):
+                continue
+            for line in b.keys().get("thr", []):
+                paid.update(re.findall(r"v(T\d+)", line))
+        if not paid:
+            rep.defect("threads", "arc chapters %d-%d closed without paying a single thread - "
+                       "an arc that only defers is how a serial loses readers "
+                       "(plot-threads section Ageing)" % (lo, closed), path=tpath)
+
     open_count = sum(1 for r in rows
                      if str(r.get("status", "")).strip().lower() in ("open", "escalated"))
-    rep.info("threads", ["   %d open/escalated; last touched: %s" % (
-        open_count,
-        ", ".join("%s@ch%d" % (t, c) for t, c in sorted(last_seen.items())) or "none")])
+    oldest = ", ".join("%s %dch" % (t, a) for t, a in sorted(ages, key=lambda x: -x[1])[:5])
+    rep.info("threads", [
+        "   %d open/escalated; last touched: %s" % (
+            open_count,
+            ", ".join("%s@ch%d" % (t, c) for t, c in sorted(last_seen.items())) or "none"),
+        "   oldest open: %s" % (oldest or "none"),
+    ])
 
 
 def _plan(novel, rep, chapters, last_ch):

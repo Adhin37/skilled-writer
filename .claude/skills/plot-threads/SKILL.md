@@ -14,6 +14,12 @@ that the story forgot its own chapter-12 mystery.
 
 ---
 
+## What lives in `references/`
+
+| file | open it when |
+|---|---|
+| `references/foreshadowing.md` | planting a setup, paying a thread, or auditing the novel for forgotten promises |
+
 ## Thread anatomy
 
 | field | notes |
@@ -47,6 +53,35 @@ forget. `due` may be revised, but only deliberately, and only forward once.
 **Touch cadence.** A thread should be *referenced* — not necessarily advanced — at least every
 15 chapters, or it goes cold. One clause is enough.
 
+### Ageing — the anti-deferral rule
+
+The most common complaint about long-running web serials is not bad prose. It is **perpetual
+deferral**: hundreds of chapters in which everything is pending and nothing has landed. It does
+not arrive as a decision. It accumulates one reasonable postponement at a time, and each
+individual postponement is defensible.
+
+Three rules stop it, and all three are checkable:
+
+1. **Every arc closes at least one thread on the page.** Not advanced, not recontextualised —
+   **paid**, with the payoff visible to a reader who is not tracking thread ids. An arc that only
+   defers has taught the reader that nothing here resolves. `sw state` reports an arc that closed
+   without a `v` operation in its ledger blocks.
+2. **A thread past its `due` gets a reason, in the `carried` column, in the same pass.** One
+   clause and a new `due`. *"Carried to 78: the informant's price rose and she cannot pay it yet."*
+   An unexplained overrun is a forgotten promise wearing a deadline.
+3. **A thread carried twice is escalated or abandoned.** Escalated means the reader can *see* it
+   moving — the debt grows, the threat acquires a name, the secret is now known by one more
+   person. Abandoned means it is retired on the page, deliberately, and somebody notices.
+
+**The reader's clock is not the author's.** A thread opened in chapter 3 and paid in chapter 200
+was open for a year and a half of their life. Novel-level threads earn that; a chapter-level
+thread that has been running for forty chapters was mis-tiered when it was opened.
+
+**What counts as payment.** The promise the reader was made, answered — not a different, smaller
+promise answered in its place. A mystery paid by revealing that the answer is another mystery has
+not been paid; it has been renamed. Subversion is legitimate and is not this: a subverted thread
+answers the question and the answer is not what was expected.
+
 **At most two active subplots per arc**, alongside the main line. The counts above are all
 threads including the chapter-level ones that supply momentum; *subplots* are the arc-level lines
 that need their own scenes and their own escalation. A third competes for the same page space and
@@ -79,73 +114,6 @@ words in which the MC never thinks about the future is a broken promise, not a s
 | abandon | `xT21` | deliberate retirement — requires a written reason and, usually, an on-page acknowledgement |
 
 Record ops in the chapter's CCS `thr>` line and update the ledger.
-
-## Foreshadowing
-
-**Plant three times, in decreasing subtlety.** The reader should feel they *could* have seen it.
-
-1. **Ambient** — the detail appears as texture, doing another job entirely.
-2. **Noticed** — a character remarks on it and moves on; nothing is made of it.
-3. **Loaded** — it appears at a moment of tension without explanation.
-
-Then it pays. A payoff planted once feels arbitrary; planted four times, telegraphed.
-
-**Plant early, pay late.** The best material was planted before you knew what it was for. When
-drafting, deliberately place one concrete, unexplained detail per chapter — an object, a habit, a
-name, a scar. Log them in a `setup` thread with a far-off `due`. Later chapters will find uses,
-and a story that pays off its own accidents feels designed.
-
-**Never explain the foreshadowing on payoff.** No "she suddenly remembered the old man's words".
-The reader makes the connection; that pleasure is the whole point.
-
-## Payoff quality
-
-A payoff must be:
-
-- **Surprising and inevitable** — not what the reader predicted, but consistent with everything
-  they were given.
-- **Earned by cost** — the answer should hurt someone, or change what the MC must do next.
-- **Load-bearing** — it changes the situation. A reveal that changes nothing is trivia.
-- **Question-generating** — closing a big thread should open a smaller, sharper one. See
-  `conflict-engine`.
-
-**Never** pay off with information the reader could not have reached: a hidden twin, an unmentioned
-faction, a rule of the world introduced in the same chapter it becomes decisive.
-
-## Audit procedure
-
-```bash
-python3 scripts/sw.py state novels/<slug>
-```
-
-Cross-references the board against the ledger: which thread each block operated on, how long ago
-each open thread was last touched, whether that matches its declared `tension`, and any id
-operated on in the ledger with no row on the board. Run it before the manual audit below — it
-finds the dropped thread, and you decide what to do about it.
-
-
-Run at every arc boundary, and whenever the user asks what is unresolved.
-
-1. List every thread with status `open`/`escalated`.
-2. Flag any `cold` for 25+ chapters → quarantine section of `threads.md`.
-3. For each quarantined thread choose: **schedule** a payoff in the next arc, **subvert** it
-   deliberately on the page, or **retire** it with an in-story acknowledgement (a character notes
-   it no longer matters, and the reason is interesting).
-4. Check the mix: at least one novel-level, two arc-level, three chapter-level.
-5. Check for over-promising: more than 12 open threads means the next arc pays some off rather
-   than opening more.
-6. Check every thread's `due` is inside the planning horizon or explicitly novel-level.
-
-## Anti-patterns
-
-| pattern | fix |
-|---|---|
-| The forgotten mystery | the ledger, audited every arc |
-| The instantly-resolved question | give every mystery at least one arc of life |
-| Foreshadowing with a flashing arrow ("she'd remember that later") | plant it doing another job |
-| Payoff by exposition — a character explains the whole answer | dramatise it: the reveal should happen *to* someone |
-| The reveal that changes nothing | attach a consequence before writing it |
-| Too many threads opened in one arc | opening is easy; budget payoffs first, then open |
 
 ## Self-check
 

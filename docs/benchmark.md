@@ -265,11 +265,18 @@ presence, wordcount accuracy, MTL banned phrases, narration exclamation marks, t
 set, the cast tables, and CCS ledger integrity — the mechanical half of `revision-pass`, run
 independently so the gate cannot mark its own homework. Length is reported and never scored.
 
-Run against this benchmark's own novel it reproduces findings 6, 10 and 12 mechanically:
+**This benchmark's own novel is gone.** `novels/small-enough-to-miss` was never committed —
+`.gitignore` excludes everything under `novels/` except the template — so the numbers above are
+the only surviving artifact of run #1, and the audit command that used to be printed here could
+not be run by anyone. What replaces it is the test suite, which plants findings 6, 10 and 12 into
+a synthetic novel in a temp directory and asserts that the audit catches them:
 
 ```bash
-python3 scripts/sw.py audit novels/small-enough-to-miss
+python3 -m unittest discover tests
 ```
+
+Counts in this document are as of run #1 (37 skills). The repo has grown since; `docs/upgrade-plan.md`
+carries the current inventory.
 
 > **Note, added after run #1.** This was originally `docs/check-chapters.sh`, a bash + awk + perl
 > + python script. It has been replaced by `scripts/sw.py audit`, which is stdlib Python and runs

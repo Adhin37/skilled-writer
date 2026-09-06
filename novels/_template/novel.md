@@ -1,7 +1,11 @@
 ---
 # ── IDENTITY ─────────────────────────────────────────────────────────────────
-title: "Untitled"
-slug: "untitled"
+# Filled by title-craft, once, before the scaffold exists.
+title: "Untitled"         # fanfic: the source work goes in the title line —
+                          #   "Naruto: The New God of Shinobi"
+title_alternates: []      # screened runners-up, kept for a rename at an arc boundary
+slug: "untitled"          # kebab-case, 4-5 words. PERMANENT: the title may change,
+                          #   the directory every path hangs off does not
 genre: fantasy            # fantasy | scifi | fanfic
 subgenre: ""              # progression | cultivation | space-opera | cyberpunk | isekai | ...
 status: planning          # planning | drafting | hiatus | complete
@@ -96,6 +100,27 @@ opening:
   first_win_by_ch: 5        # the central advantage lands one legible win, before it fails
   stakes_ceiling: ""        # the worst thing allowed to happen before the frame is on the page
 
+# ── THEME ────────────────────────────────────────────────────────────────────
+# What the book argues, and the best argument against it. Both are for the author:
+# the narrator never states either one. See revision-pass Pass 9d.
+# Leave both empty for a book that is not arguing anything - the pass then skips.
+theme:
+  controlling_idea: ""      # one sentence. What this story turns out to be true about.
+                            # "Loyalty you inherited is not loyalty you chose."
+  counter_case: ""          # the strongest argument against it, which a character makes
+                            # and wins with at least once. If nobody can, it is a sermon.
+  tested_in_arcs: []        # arcs where a choice puts the idea under real pressure
+
+# ── PLATFORM ─────────────────────────────────────────────────────────────────
+# How the book is listed and released. See title-craft and hook-and-pacing.
+platform:
+  site: ""                  # royalroad | webnovel | scribblehub | other | none
+  tags: []                  # 5-7. The primary genre tag from chapter 1; a secondary tag
+                            # is added when that element actually becomes prominent.
+  cadence: ""               # daily | 5x-week | 3x-week | 2x-week | weekly
+  launch_stock: 0           # chapters banked before the first goes up
+  cover_brief: ""           # one sentence an illustrator could work from
+
 # ── WORLD CLOCK ──────────────────────────────────────────────────────────────
 # How much the world runs on its own and reacts to the MC. See timeline-engine.
 # The world track itself lives in plan/timeline.md.
@@ -151,8 +176,11 @@ fanfic:
 
 # Hook (platform blurb)
 
-<!-- 60–120 words. This is what appears on the novel's landing page. Ends on a question or a
-     threat, never on a summary sentence. -->
+<!-- Written by title-craft, after the title and against it. 60–120 words. This is what appears
+     on the novel's landing page. Anchor (who, where, what kind of world) before you threaten;
+     one want and one concrete obstruction; ends on a question or a threat, never on a summary.
+     At most two proper nouns beyond the MC. No rank ladder, no tag brackets, no stock phrases.
+     Promise only what the first ten chapters deliver. -->
 
 # Tone references
 

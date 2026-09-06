@@ -72,7 +72,7 @@ asleep and the chapter needs filling.
 3. **Different eyes see different things.** A soldier entering a room registers exits and hands.
    A merchant registers cloth and prices. If the new POV notices the same details the last one
    would, the switch bought nothing.
-   Two mechanical checks (`voice-separation` §5): their **thought unit** — images, words, numbers,
+   Two mechanical checks (`voice-separation/references/channels.md`): their **thought unit** — images, words, numbers,
    bodies, rules, people, money — supplies this chapter's metaphors, and no two POV characters may
    share one. Their **thought speed** — ahead of the scene, with it, one beat behind — sets whether
    the narration arrives at conclusions before or after the reader does. A POV character whose

@@ -27,6 +27,18 @@ has nothing to find out.
 
 ---
 
+## Sections that live in `references/`
+
+Section numbers are stable — other skills cite them — so the gaps below are deliberate. Open one
+when its trigger fires, not by default.
+
+| § | file | open it when |
+|---|---|---|
+| 5 | `references/acquisition-ladder.md` | somebody is learning something across chapters, or a skill has advanced and you need to know what that cost |
+| 6 | `references/broad-knowledge.md` | the character is a god, an immortal, a cultivator with centuries, or an artificial mind — `knowledge_scope: broad` |
+
+The revision-time check is `references/audit-card.md`, opened by `revision-pass` Pass 3.
+
 ## 1. The knowledge map
 
 Every tier-A and tier-B character has a competence table in their profile, and a row in the
@@ -149,95 +161,6 @@ instead of having them improvise a second specialty.
 **The cast-wide gap is an asset.** Keep a short list in `_competence.md` of what **nobody** in the
 current cast knows. That list is a plot generator and a guard against the moment when a chapter
 needs a physician and one is quietly invented.
-
-## 5. Learning — the acquisition ladder
-
-Characters do acquire skills, and not only the MC. The failure here is the opposite of §1: the
-montage, in which somebody is bad at a thing on Tuesday and good at it on Friday.
-
-| stage | what it looks like on the page |
-|---|---|
-| **0 — can't** | does not know what they do not know. The failure surprises them |
-| **1 — fails knowingly** | knows what should happen and cannot make it happen. They can now *see* the gap, which is itself progress and should be written as progress |
-| **2 — unreliable** | works sometimes, and they cannot tell in advance which times |
-| **3 — competent** | works, slowly, with their whole attention |
-| **4 — fluent** | works while they are thinking about something else |
-
-Stage 2 → 3 is where stories cheat, and it is the longest stretch in life. Stage 4 is rare; most
-characters stop at 3 in most things, and that is correct.
-
-**The three legal sources.** A stage advance comes from a teacher, a reference, or a failure that
-cost something. Never from time passing.
-
-**The montage rule.** A serial cannot spend twenty chapters on cooking. So: **stage transitions get
-a scene; the practice between them gets a clause.** The learning happens in the margins of chapters
-about something else — one line of a burnt pan, a hand that has stopped shaking — and only the
-transition earns page time. That is also what makes the transition land.
-
-**Practice is a cost.** Time spent learning is time not spent on the thing the chapter is about,
-and `conflict-engine` applies: name what the practice took. A character who acquires a skill for
-free has acquired nothing the reader will value.
-
-**The plateau.** Somewhere around stage 2, more repetition stops working and something else has to
-change — a different teacher, an admission, a piece of equipment, a reason. Use it; it is the most
-truthful thing about learning anything and it makes an excellent mid-arc beat.
-
-Worked, five chapters apart, in the margins of five chapters about something else: *she cannot
-cook* → *she can tell the bread is wrong before she cuts it, which is new* → *the third loaf in a
-row is edible and she does not know why this one worked* → *she makes the thing her mother made,
-slowly, and gets it right* → *she makes it while arguing about something that matters, without
-looking.* Five clauses, one scene at the fourth.
-
-**Record it.** Skill ladders live in the skill section of `state/growth.md`, beside the belief
-ladders — they are a different axis and both can be in motion. A character at belief rung 2 can be
-at cooking stage 3.
-
-**Golden fingers that grant skill.** If the MC's advantage installs competence directly
-(`mc-design`), this ladder is where its **cost** goes: what the skill did not come with — judgement,
-context, the calluses, knowing which of two right answers this situation wants. A hand that has
-never burnt itself does not know when the pan is too hot. Otherwise the advantage deletes the
-character's capacity to learn anything, which is most of what a serial is made of.
-
-## 6. The broad-knowledge clause — gods, immortals, cultivators, ASI
-
-Some settings contain minds that genuinely do know enormously more than a person, and §1 must not
-flatten them into a blacksmith with a long memory. Declare it in the profile:
-
-```yaml
-knowledge_scope: broad      # narrow (default) | broad
-scope_kind: domain-god      # domain-god | long-lived | artificial | borrowed
-scope_shape: ""             # what is actually broad, in one sentence
-scope_boundary: ""          # what still bites, in one sentence — required
-```
-
-**Even omniscience has a shape, and the shape is the character.**
-
-| kind | what is genuinely broad | the boundary that still bites |
-|---|---|---|
-| **domain god** — of wisdom, war, the harvest, the sea | everything inside the domain, natively, without having learned it | outside it they are *worse* than a mortal, because they have never had to acquire anything and do not know how ignorance feels. A god of wisdom is not a god of people |
-| **long-lived** — immortal, cultivator, elf, revenant | breadth accumulated across centuries | it is **era-locked**: they know the world of four hundred years ago in extraordinary detail and this one badly. They have also forgotten more than they kept, and they mistake the forgotten for the unimportant |
-| **artificial** — ASI, oracle, system core | recall and inference at a scale no person matches | trained on what someone fed it. No embodied knowledge — it has never lifted anything. It interpolates confidently across its blank regions, and cannot tell those regions from the rest |
-| **borrowed** — a system, a library, a bound spirit | access, not knowledge | it must be *queried*: that takes time, costs something, and returns what was asked rather than what was needed. The character's real skill is knowing what to ask |
-
-### The three rules that still apply
-
-1. **Breadth is not depth is not applicability.** Knowing everything recorded about metallurgy is
-   not knowing which of these two smiths is lying to you. The gap between knowledge and judgement
-   is where these characters are written.
-2. **Bound the access, not the knowledge.** An unbounded oracle is a plot solvent — every mystery
-   dies at its feet. So the god answers three questions a year; the immortal is asleep, or bored,
-   or forbidden to intervene; the ASI is airgapped and speaks through a bad channel; the system
-   charges. This is a `power-system` / `tech-plausibility` limit and it goes in that file too.
-3. **They are still wrong about people.** `mc-intel-meter`'s tier-5 error profile applies with
-   more force here: what cannot be modelled — grief, loyalty, spite, being loved — is where a mind
-   like this fails, and failing there is the only thing that makes it a character rather than a
-   reference work.
-
-**Everyone else in that setting is still narrow.** A world with gods in it is not a world where the
-farmers know cosmology. A cultivation sect with an 800-year-old patriarch still has disciples who
-cannot read. The clause is per-character and does not leak downward — if anything, a setting with
-broad-knowledge beings in it should be *more* stratified, because knowledge is a possession there
-and possessions are guarded (`social-fabric`).
 
 ## 7. Where this runs
 

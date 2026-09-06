@@ -11,30 +11,12 @@ nothing is pushing back.
 
 ---
 
-## The AI-default tells
+## What lives in `references/`
 
-These are the phrases and shapes that mark machine-written fiction. Hunt them explicitly.
-
-**Phrases to cut**
-
-*a mix of X and Y* · *a testament to* · *something shifted in the air* · *the weight of X settled
-over* · *a moment that stretched* · *she couldn't shake the feeling* · *little did she know* ·
-*for the first time in a long time* · *a silence stretched between them* · *emotions warred within
-her* · *the air was thick with tension* · *a chill ran down his spine* · *time seemed to slow* ·
-*he let out a breath he didn't know he was holding* · *this changes everything*
-
-**Shapes to break**
-
-| shape | example | fix |
-|---|---|---|
-| The tricolon habit | "It was cold, it was quiet, and it was wrong." | Two items, or four. Three is the model's default cadence. |
-| Balanced antithesis every paragraph | "Not a threat. A promise." | Once per chapter, maximum. It is a strong move that goes stale fast. |
-| Em-dash appositive on every other sentence | "She ran — because running was all she had left." | Vary the connector, or cut the second clause. |
-| Uniform sentence length | 14, 15, 13, 16 words | Deliberately write a three-word sentence and a thirty-word one. |
-| Every paragraph the same length | four lines, forever | Let a one-line paragraph carry a beat. |
-| Ending every scene on a portentous fragment | "And then, silence." | Earn it or cut it. |
-| Naming the emotion after showing it | "...her hands shook. She was terrified." | Keep the hands. Cut the sentence. |
-| Summarising the scene's meaning at its close | "It was the moment everything changed." | The reader decides that. Delete. |
+| file | open it when |
+|---|---|
+| `references/ai-default-tells.md` | `sw lint` is unavailable, or a phrase feels stale and you want the full cut list |
+| `references/audit-card.md` | never, by you. `revision-pass` Pass 8 opens it |
 
 ## Positive standards
 
@@ -50,9 +32,9 @@ makes it real — what it smells like, what it does with its weight, what it ign
 **One image per beat.** A paragraph with three metaphors has none.
 
 **Description in motion.** Deliver setting through a character doing something in it. Never stop
-the story to describe a room. Two sensory details, placed inside action, out-perform a paragraph.
-This skill owns the *sentence*; `world-texture` owns **which** details are allowed on the page and
-how many. If the two seem to disagree, the budget wins — a beautifully written detail that is not
+the story to describe a room. A few details placed inside action out-perform a paragraph. This
+skill owns the *sentence*; `world-texture` owns **which** details are allowed on the page and how
+many, and it is the only file that states the number. A beautifully written detail that is not
 load-bearing is still cut.
 
 **Sentence rhythm mirrors pressure.** Long, subordinated sentences for control and deliberation.
@@ -69,7 +51,7 @@ nodding. If it does not change something, delete it. Nodding is the single most 
 eyebrow · crossed their arms · ran a hand through their hair · clenched their jaw · let out a
 breath · looked away · smiled slightly* — the default gesture set, available to every character
 and therefore attached to none. Replace with that character's own hand-habit or pressure move
-(`voice-separation` §4), or cut the beat: a line with no beat beats a line with a generic one.
+(`voice-separation/references/channels.md`), or cut the beat: a line with no beat beats a line with a generic one.
 
 ## Filter verbs and telling
 
@@ -124,6 +106,49 @@ own kind of wall.
 - **Sensory balance**: sight dominates by default. Deliberately place one non-visual detail per
   scene. Smell is the most underused and the most memorable.
 
+## Microtension
+
+The measured signature of machine-written fiction is not bad sentences. It is an **even surface**:
+flatter arousal curves and less narrative tension than human prose, page by page, holding even
+when the plot is eventful. Readers describe it as an eerie placidity — technically competent, and
+nothing pulls them forward.
+
+Microtension is the fix, and it is a line-level property, not a plot one. It does not come from
+stakes: a chapter can have a city burning in it and still read flat. **It comes from two feelings
+that do not fit, inside one person, right now.** A character who wants the job and despises the
+person offering it. A man reassuring his daughter while counting what is left. Relief that arrives
+with a small, unwelcome disappointment attached.
+
+That is the whole mechanism. Everything below is how to get it onto the page.
+
+**Where it lives.** Anywhere, which is the point — it is not a beat you schedule.
+
+| carrier | what it looks like |
+|---|---|
+| Interiority | the POV character notices something that undercuts what they just decided |
+| Dialogue | one speaker wants the conversation to end and the other does not (`dialogue-voice` §Subtext) |
+| Description | a detail that is pleasant and slightly wrong, filtered through someone with a reason to mind |
+| Action | the body does something the intention did not authorise — a hand that stays on the latch |
+| Anticipation | the reader knows something the POV character does not, and is waiting for the cost |
+
+**The three-point test.** Open the drafted chapter at three points at random. At each one, name
+the unresolved thing on that page. If the honest answer at any point is *nothing, everyone here
+feels one simple thing and the scene is going fine*, that page is where readers put the book down.
+
+**Repairs, in order of cheapness.**
+
+1. **Give one character a second feeling.** Not a new event — a second reaction to the event
+   already there. This fixes most flat pages in one sentence.
+2. **Withhold a beat.** Let a decision arrive a paragraph after the reader expects it.
+3. **Let the agreement cost something.** Someone concedes and minds conceding.
+4. **Make the pleasant detail slightly wrong**, and let the noticer be the one who would care.
+
+**What this is not.** It is not misery, and it is not withholding information from the reader for
+its own sake. A cheerful scene can carry it — a celebration where one person is doing arithmetic
+about the bill has more tension than a fight between people who feel exactly one thing each. And
+it is not an instruction to end every paragraph on a threat: a page where *everything* is fraught
+is as monotonous as a page where nothing is, and it is the more tiring of the two.
+
 ## Procedure
 
 ```bash
@@ -159,3 +184,5 @@ the act of perceiving is the point" is a decision about each one. Use `--show no
 - [ ] Paragraphs are phone-legible; the first screen is not a wall
 - [ ] Every speaker has their own paragraph
 - [ ] Italics do their one declared job and no other
+- [ ] **Three-point test passed** — the chapter opened at random has something unresolved on the
+      page each time, and no stretch of a page where everyone feels one simple thing

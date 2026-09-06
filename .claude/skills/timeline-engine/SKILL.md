@@ -21,6 +21,13 @@ ending the author declared.
 
 ---
 
+## What lives in `references/`
+
+| file | open it when |
+|---|---|
+| `references/reaction-and-governor.md` | a faction or canon power is about to react to the MC, or escalation is running hotter than the reader can carry |
+| `references/fanfic-mode.md` | the novel is a fanfic. This is where the world's clock does most of its work |
+
 ## Weight by genre
 
 | genre | how much of this runs |
@@ -68,32 +75,6 @@ axes; the governor controls the second one.
 
 ---
 
-## Reaction profiles
-
-Every driver on the world track gets a profile. This is what makes the world feel run by people
-rather than by a schedule.
-
-| profile | how it reacts | latency | fidelity | archetype |
-|---|---|---|---|---|
-| **Strategist** | Patient. Gathers information before moving. Revises the plan correctly. Treats the MC as a variable to be used first, removed second. | slow (4–10 ch) | high — reads the MC's actions accurately | the informed, charismatic long-game villain: e.g. All For One in *My Hero Academia* |
-| **Chaotic** | Fast, disproportionate, personal. May fixate on the MC for a reason that isn't strategic. Cannot be negotiated with reliably. Escalates when frustrated. | fast (1–3 ch) | low — often wrong about what the MC did, which is its own danger | the volatile heir with something to prove: e.g. Shigaraki |
-| **Institution** | Procedural, slow, and it never forgets. Opens a file. Responds with policy, not violence. | very slow (10+ ch) | high but rigid — reads the record, not the person | a hero commission, a guild, a state |
-| **Rival** | Matches the MC's growth curve. Reacts to being surpassed. | medium (2–5 ch) | high in their shared domain, blind outside it | the peer who was supposed to be first |
-| **Indifferent** | Does not react at all. A plague, a market, a season, a prophecy already in motion. | n/a | n/a | the pressure that doesn't care who you are |
-
-**A world needs at least two profiles in play, and one of them should be Indifferent.** A world
-where everything is a reaction to the MC is as unreal as one where nothing is.
-
-**Latency is a design tool, not a delay.** The gap between the MC's action and the world's answer
-is where dread lives, and it is where the MC gets to prepare. A strategist who responds instantly
-is just a chaotic with better manners.
-
-**Fidelity generates plot.** A driver that misreads what the MC did produces the best material in
-this whole system: the MC is punished for something they didn't do, or credited with something
-they didn't intend, and now has to decide whether to correct the record.
-
----
-
 ## The divergence ledger
 
 Lives in `state/timeline.md`. Every MC action that touches the world track gets a row.
@@ -136,40 +117,6 @@ unrecognisable by chapter 30 and nothing is at stake.
 
 ---
 
-## The governor — why this is not nightmare mode
-
-The user's story ends well. That is a constraint on the engine, not a hope. Six mechanical rules,
-all scaled by the dial:
-
-1. **Proportional response.** Opposition allocates attention by threat rank. The MC is rarely rank
-   one early, and the strongest driver on the board does not turn its full attention on them
-   simply because it could. Record who the driver's *actual* priority is; usually it is not the MC.
-
-2. **Latency is protection.** At dial 3, minimum reaction latency is 2 chapters. The MC always
-   gets room to see it coming and prepare. Instant retaliation is a dial-5 event and is spent, not
-   habitual.
-
-3. **Crisis cap.** Simultaneous unresolved crises may not exceed the dial number, hard-capped at
-   **3**. Before adding a fourth, resolve one — even partially, even badly. Compounding disaster
-   past three reads as authorial punishment and readers disengage.
-
-4. **The reciprocity rule.** Every escalation also opens something: an ally who steps forward, an
-   intelligence leak, an enemy's mistake, a resource that was not available before. Ratio 1:1,
-   logged in the ledger. This is the difference between *hard* and *hopeless*.
-
-5. **Wins stick.** A threat the MC defeats stays defeated for at least one arc. No retroactive
-   rescue of the opposition, no "it was a body double" — that is `grimdark-consequences`'
-   no-retroactive-rescue rule pointed the other way.
-
-6. **The recovery beat.** In the chapter after a major world escalation lands, the MC keeps
-   something: a relationship, a place, a small competence. `slice-of-life-texture` does this well
-   if enabled; a single grounded paragraph does it otherwise.
-
-Escalation ceiling per arc is `timeline.escalation_ceiling` (default: one stake-rung per arc, per
-`conflict-engine`'s ladder). The world escalates by one rung, not three.
-
----
-
 ## The ending contract
 
 Recorded at `novel-init` in `novel.md` → `ending:`. **In the user's own words** — "happy ending"
@@ -192,63 +139,6 @@ absolutely — the world can threaten it, and must never actually take it.
 
 That is not a cheat. Tension comes from the reader's belief that something *could* be lost, and
 that belief is sustained by near-misses and by real losses among things not on the list.
-
----
-
-## Fan fiction mode
-
-### MC footprint archetypes
-
-How much the MC's mere existence perturbs canon from chapter 1. Record in `novel.md` →
-`fanfic.footprint`.
-
-| archetype | footprint | the trap |
-|---|---|---|
-| **Self-insert** | Low at first — an extra person in a world that had a plot. | Ends up narrating canon. Give them a position that *touches* a canon event by chapter 5. |
-| **Replaced extra** | Medium — they occupy a minor canon character's slot, so that character's small canon actions are now theirs to take or refuse. | The slot's canon actions get taken identically. The first divergence should be the MC refusing one. |
-| **OC in canon** | Medium-high — a person canon did not account for, with their own relationships. | Solving canon characters' problems for them (`fanfic-canon`'s OC test). |
-| **Canon character, different choices** | High — the divergence point is theirs. | Drifting to OOC without logging it (`fanfic-canon`'s OOC budget). |
-| **Canon character, new circumstance** | High | Canon events firing on schedule despite a changed person. |
-
-### The canon track
-
-Record the source's plot as world-track entries in your own words: event, roughly when, who drives
-it, and — the important column — **what it needs to succeed**. That last one is where an MC
-intervenes. A canon event isn't prevented by the MC being strong; it is prevented by the MC
-removing one of the three things it needed.
-
-### Reading canon antagonists correctly
-
-The MHA case the user raised is the model. Two drivers in one setting, with opposite profiles:
-
-- A **strategist** who is patient, well-informed, charismatic, and whose plans are explicitly not
-  static — an MC who interferes gets studied, then recruited, then removed, in that order, over
-  many chapters.
-- A **chaotic** whose reactions are fast, personal and disproportionate, and who may target the MC
-  for reasons that make no strategic sense at all.
-
-An MC in that world faces real threat — which is the point — and the governor is what keeps it a
-story rather than a grind. Derive each canon antagonist's profile from **how they are depicted
-behaving in canon**, not from how powerful they are.
-
-### The static-canon defect
-
-Symptoms, all of which mean the dial is effectively 1 regardless of what the config says:
-
-- Canon events fire on their original chapters with the MC present as a witness
-- Canon characters treat the MC as background
-- The MC's victories are in fights canon never had, against opponents canon never used
-- Nothing in the divergence ledger has status `prevented` or `created`
-- The story could be summarised without mentioning the MC
-- **The MC's foreknowledge keeps working.** If canon knowledge is still reliable in arc 3, the
-  world is not moving — the future the MC remembers was the one in which they did nothing, so a
-  world that reacts must be invalidating that memory as it goes
-
-**Divergence and foreknowledge decay are the same event, seen from two sides.** A row here with
-status `prevented` or `created` is a row in `state/foreknowledge.md` moving toward `invalidated`.
-Cross-reference the ids rather than keeping two accounts of one fact; `meta-knowledge` §5 owns the
-other half. Doing this is what makes decay a consequence the MC caused instead of an authorial
-decree at a scheduled chapter.
 
 ---
 

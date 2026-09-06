@@ -15,7 +15,7 @@ from .report import Report
 
 # competence-map: deep-expertise budget, by cast tier.
 DEEP_LEVELS = ("exceptional", "best alive")
-DEEP_BUDGET = {"mc": 3, "a": 2, "b": 1, "c": 0}
+DEEP_BUDGET = {"mc": 3, "a": 2, "b": 1, "c": 1}
 
 
 def _int(val, default=None):

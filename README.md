@@ -53,6 +53,7 @@ whether the model remembered to look.
 
 ```bash
 python3 scripts/sw.py doctor        # start here; reports version and workspace
+python3 -m unittest discover tests  # the toolchain's own tests
 ```
 
 **Nothing breaks without it.** Every skill that names a command keeps its manual checklist
@@ -148,8 +149,8 @@ up two defects worth fixing. It is a rough order of magnitude, not a quote.
 
 ## The skills
 
-**Core loop** — `novel-init`, `mc-design`, `story-bible`, `story-opening`, `chapter-plan`,
-`continuity-summary`, `write-chapter`, `revision-pass`
+**Core loop** — `novel-init`, `title-craft`, `mc-design`, `story-bible`, `story-opening`,
+`chapter-plan`, `continuity-summary`, `write-chapter`, `revision-pass`
 
 **World** — `story-bible`, `social-fabric`, `world-texture`
 
@@ -165,7 +166,20 @@ up two defects worth fixing. It is a rough order of magnitude, not a quote.
 `combat-choreography`, `litrpg-system`, `mystery-clues`, `comedy-levity`,
 `grimdark-consequences`, `slice-of-life-texture`
 
-Thirteen of these deserve a note:
+Fourteen of these deserve a note:
+
+- **`title-craft`** runs once, before the workspace directory even exists, and owns the two
+  things a stranger sees *before* chapter 1 is available to them: the **title** and the
+  **platform blurb**. Asked for five titles, a model reliably produces five rewordings of one
+  idea, so the skill demands five *strategies* — role-plus-fracture, first-person claim,
+  mechanism, understated flat, destination — and forbids two candidates from sharing a strategy
+  or a first noun. The survivors are screened: truncate at 30 characters and see what is left,
+  say it aloud and try to spell it back, name three books you would confuse it with, hold it
+  against `opening.promise`, and ask whether it is still true at chapter 100. For **fan fiction
+  the source work goes in the title line** — *Naruto: The New God of Shinobi* — because fanfic is
+  browsed by fandom and a title that omits the search term is invisible to the only audience it
+  has. The slug is derived here and is permanent; the title is not, and the runners-up are kept
+  in `title_alternates` for the rename at chapter 40.
 
 - **`story-opening`** exists because chapter 1 is not the first chapter of a book, it is a
   **conversion event**: roughly 60% of the people who open it reach chapter 2, and from chapter 5
@@ -312,7 +326,8 @@ hand or via `/novel-toggle`. Optional skills read their own key and no-op if it 
 | command | what it does |
 |---|---|
 | `readset <novel> -c N` | assembles the bounded read-set for chapter N — sliced rows, not whole files |
-| `lint <novel> [-c N]` | one chapter: MTL phrases, the AI-default cut list, the four channels, thought budget, apostrophe collisions, stray markup, frontmatter, anchor vocabulary |
+| `lint <novel> [-c N \| --all]` | one chapter, or every chapter: MTL phrases, the AI-default cut list, the four channels, thought budget, apostrophe collisions, stray markup, frontmatter, anchor vocabulary |
+| `arc <novel> [-a N]` | the distributional pass over one arc: dialogue trend, length spread, hooks, cast rotation, thread ops, anchor coverage |
 | `cast <novel>` | the voice matrix and competence grid as tables: straddle, wit cap, three-way clash, expertise budget |
 | `state <novel>` | ledger against chapters, required CCS lines, thread tension against last use, plan-row completeness, promotion triggers |
 | `status <novel>` | progress aggregation for `/novel-status` |
@@ -335,10 +350,12 @@ nothing, and says nothing about delivery, voice separation, competence or bias.
 
 ```
 CLAUDE.md                         the operating contract, loaded every session
-.claude/skills/<name>/SKILL.md    the skills
+.claude/skills/<name>/SKILL.md    the skills - the procedure a model executes
+.claude/skills/<name>/references/ examples, catalogues, long tables, audit cards
 .claude/commands/*.md             the slash commands
 .claude/settings.json             shared permissions (relative paths — portable)
 scripts/sw.py                     the mechanical toolkit (optional, Python 3.8+)
+tests/                            unittest suite for the toolchain (stdlib, no novel needed)
 novels/_template/                 the per-novel scaffold
 novels/<slug>/                    your novel: config, bible, plan, state, chapters (gitignored)
 ```

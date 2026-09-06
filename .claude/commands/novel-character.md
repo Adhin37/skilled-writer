@@ -57,7 +57,7 @@ closes a gap in §3 of that file, say so; if they open a new one, add it.
 If this character is a **clone, avatar, double or body-snatch**, they are exempt from those checks
 and instead get the `mirror:` block — source, kind, convergence level, and the chapter they became
 separate people — plus a row in §5. Name the tell: the one thing that does not copy, and who could
-notice it. `voice-separation` §7.
+notice it. `voice-separation/references/mirror-clause.md`.
 
 Report: for tier A, the thumbnail, the want/need/fear/lie, the matrix row against the MC's, the
 three calibration lines, and — if this is an antagonist — the two-sentence version of their case.

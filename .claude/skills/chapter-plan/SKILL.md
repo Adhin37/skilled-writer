@@ -10,6 +10,12 @@ does). A serial fails at the planning layer long before it fails at the sentence
 
 ---
 
+## What lives in `references/`
+
+| file | open it when |
+|---|---|
+| `references/titles-and-replanning.md` | filling the title column for a run of rows, or the draft has diverged and you are deciding whether to replan |
+
 ## Planning horizon
 
 | layer | how far ahead | how firm |
@@ -41,7 +47,7 @@ as a chapter surprises you, and stale rows are worse than no rows: they get foll
    referral the MC has to buy, or a skill someone starts climbing. Deciding this at the scene means
    inventing a physician on the spot. If an arc *is* a learning arc for someone, place the stage
    transitions on specific chapters and leave the practice as clauses in between
-   (`competence-map` §5).
+   (`competence-map/references/acquisition-ladder.md`).
 9. Run `timeline-engine`: which world-track events fire in this arc, on which chapters, and how
    each reaches the MC. **Confirm the arc moves at least one of them** — moved, prevented,
    altered or created. An arc that leaves the world track untouched is an arc the MC was a
@@ -52,8 +58,18 @@ as a chapter surprises you, and stale rows are worse than no rows: they get foll
     a layer the story has not entered before (court, slum, army, temple, ship), run `social-fabric`
     for half a page on it *before* the rows are written, not while drafting. An arc set entirely
     in already-established territory answers "nothing new", which is a legitimate answer once.
-11. Write the **exit hook**.
-12. Fill the arc template in `plan/arcs.md`, and §4 of `plan/timeline.md`.
+10b. **Pay something.** Name the thread this arc **closes on the page**, not the ones it advances.
+    An arc that opens four threads and pays none is how a serial acquires the one complaint
+    readers actually drop books over — perpetual deferral. Every thread carried past this arc
+    gets a reason recorded next to it in `state/threads.md`, and a thread carried twice is either
+    escalated into something the reader can see moving or abandoned outright (`plot-threads`
+    §Ageing). "It pays off eventually" is not a plan; it is the absence of one.
+11. **Test the idea.** If `theme.controlling_idea` is set, decide whether this arc puts it under
+    pressure, and how — a **choice**, never a conversation about it. If it does, add the arc
+    number to `theme.tested_in_arcs`. At least one arc in three should be on that list, and at
+    least one of them is an arc where `theme.counter_case` gets the better of the argument.
+12. Write the **exit hook**.
+13. Fill the arc template in `plan/arcs.md`, and §4 of `plan/timeline.md`.
 
 ## Procedure — chapter rows
 
@@ -124,35 +140,6 @@ A widely-used serial roadmap, useful when `arc_length` is near 30 and worth know
 measurable · **16–25** compounding stakes, subplots intersecting, the first approach proving
 insufficient · **26–30** resolution of the arc's goal, with its consequences opening the next.
 Keep **at most two active subplots** alongside the main line; a third is how threads get dropped.
-
-## Titles
-
-Rules and a pattern bank live in `plan/chapters.md` (the template's own header). Enforce:
-
-- 2–7 words; concrete over abstract; never spoil the turn
-- no colons stacking two ideas; no arc/part numbering in the title
-- vary the grammatical shape across any five consecutive titles
-- fanfic: never reuse a canon episode or chapter title
-- read the run aloud as a list — that is how a reader meets it, scrolling on a phone
-
-**Anti-pattern check.** If more than two titles in ten begin with "The", rewrite. If any title
-could belong to any chapter of any novel ("Revelations", "The Beginning", "Awakening"), rewrite.
-
-## Replanning triggers
-
-`python3 scripts/sw.py state novels/<slug>` reports the first trigger below without reading the
-plan: how many specified rows remain ahead of the draft line, and any row within reach of
-drafting that has a blank goal, obstacle, turn, delivers, cost or hook. `write-chapter` will not
-draft from an incomplete row, so this is the cheapest way to find out before it stops.
-
-
-| trigger | action |
-|---|---|
-| Fewer than 8 planned rows ahead of the draft line | extend by 10 |
-| A chapter went somewhere else | amend that row, re-check the next 3 |
-| A thread has been `cold` for 20 chapters | schedule its payoff or its deliberate retirement |
-| A character reached their rung 5 early | give them a new ladder or move them off-stage with dignity |
-| The user is bored | look for a `cool` stretch that lost its goal; that is almost always where |
 
 ## Self-check
 

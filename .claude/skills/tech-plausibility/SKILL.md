@@ -96,7 +96,7 @@ who profits from the answer? Do not let the story be vague about it while borrow
 weight of both answers.
 
 **An ASI is not omniscient, it is differently ignorant.** Declare it `knowledge_scope: broad` with
-`scope_kind: artificial`, and fill the boundary (`competence-map` §6): it was trained on what
+`scope_kind: artificial`, and fill the boundary (`competence-map/references/broad-knowledge.md`): it was trained on what
 somebody fed it, it has no embodied knowledge — it has never lifted anything, been cold, or waited
 — and it interpolates confidently across its blank regions without being able to tell those regions
 from the rest. Its recall is superhuman and its judgement about people is a guess dressed as a
