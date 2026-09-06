@@ -62,6 +62,26 @@ class CCSBlock(object):
         return self.header_field("pov")
 
 
+def _memo(fn):
+    """Cache a no-argument accessor on the instance.
+
+    The text was already cached; the *parse* was not, so every caller rebuilt every Row. One
+    `readset` re-parsed the plan table five times and the thread table three, and `sw state`
+    re-parsed the plan table once per chapter — the only genuinely quadratic path in the
+    toolkit.
+    """
+    key = "memo:" + fn.__name__
+
+    def wrapper(self):
+        if key not in self._cache:
+            self._cache[key] = fn(self)
+        return self._cache[key]
+
+    wrapper.__name__ = fn.__name__
+    wrapper.__doc__ = fn.__doc__
+    return wrapper
+
+
 class Novel(object):
     def __init__(self, root):
         self.root = os.path.normpath(root)
@@ -136,10 +156,9 @@ class Novel(object):
         return self._cache["chapters"]
 
     def chapter(self, number):
-        for c in self.chapters():
-            if c.number == number:
-                return c
-        return None
+        if "chapter_index" not in self._cache:
+            self._cache["chapter_index"] = {c.number: c for c in reversed(self.chapters())}
+        return self._cache["chapter_index"].get(number)
 
     # ----------------------------------------------------------------- ledger
 
@@ -174,10 +193,9 @@ class Novel(object):
         return out
 
     def block(self, number):
-        for b in self.blocks():
-            if b.number == number:
-                return b
-        return None
+        if "block_index" not in self._cache:
+            self._cache["block_index"] = {b.number: b for b in reversed(self.blocks())}
+        return self._cache["block_index"].get(number)
 
     def book_digest(self):
         sec = mdio.section(self.ledger_text, "BOOK DIGEST")
@@ -223,38 +241,51 @@ class Novel(object):
                 return table
         return None
 
+    @_memo
     def threads(self):
         t = self._table_by_headers(self._text("state", "threads.md"), "id", "thread", "status")
         return t.rows if t else []
 
+    @_memo
     def growth_rows(self):
         t = self._table_by_headers(self._text("state", "growth.md"), "character", "rung")
         return t.rows if t else []
 
+    @_memo
     def skill_rows(self):
         t = self._table_by_headers(self._text("state", "growth.md"), "character", "skill", "stage")
         return t.rows if t else []
 
+    @_memo
     def plan_rows(self):
         t = self._table_by_headers(self._text("plan", "chapters.md"), "#", "title", "delivers")
         return t.rows if t else []
 
-    def plan_row(self, number):
+    @_memo
+    def _plan_index(self):
+        out = {}
         for r in self.plan_rows():
-            if re.sub(r"\D", "", r.first()) == str(number):
-                return r
-        return None
+            digits = re.sub(r"\D", "", r.first())
+            if digits:
+                out.setdefault(int(digits), r)
+        return out
 
+    def plan_row(self, number):
+        return self._plan_index().get(number)
+
+    @_memo
     def voice_rows(self):
         t = self._table_by_headers(
             self._text("bible", "cast", "_voices.md"), "character", "intel", "artic", "wit")
         return t.rows if t else []
 
+    @_memo
     def competence_rows(self):
         t = self._table_by_headers(
             self._text("bible", "cast", "_competence.md"), "character", "domain", "level")
         return t.rows if t else []
 
+    @_memo
     def referral_rows(self):
         text = self._text("bible", "cast", "_competence.md")
         for table in mdio.parse_tables(text):
@@ -263,6 +294,7 @@ class Novel(object):
                 return table.rows
         return []
 
+    @_memo
     def extras_rows(self):
         rows = []
         for t in mdio.parse_tables(self._text("bible", "cast", "_extras.md")):
@@ -281,6 +313,7 @@ class Novel(object):
 
     # --------------------------------------------------------------- lexicon
 
+    @_memo
     def anchor_terms(self):
         """Terms flagged `anchor? = yes` in bible/lexicon.md, aliases split out.
 
@@ -308,6 +341,7 @@ class Novel(object):
                     out.append((alias, rx))
         return out
 
+    @_memo
     def lexicon_names(self):
         out = []
         for table in mdio.parse_tables(self._text("bible", "lexicon.md")):
@@ -322,6 +356,7 @@ class Novel(object):
 
     # ----------------------------------------------------------------- world
 
+    @_memo
     def location_rows(self):
         rows = []
         for t in mdio.parse_tables(self._text("bible", "world.md")):
