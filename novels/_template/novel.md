@@ -100,6 +100,27 @@ opening:
   first_win_by_ch: 5        # the central advantage lands one legible win, before it fails
   stakes_ceiling: ""        # the worst thing allowed to happen before the frame is on the page
 
+# ── THEME ────────────────────────────────────────────────────────────────────
+# What the book argues, and the best argument against it. Both are for the author:
+# the narrator never states either one. See revision-pass Pass 9d.
+# Leave both empty for a book that is not arguing anything - the pass then skips.
+theme:
+  controlling_idea: ""      # one sentence. What this story turns out to be true about.
+                            # "Loyalty you inherited is not loyalty you chose."
+  counter_case: ""          # the strongest argument against it, which a character makes
+                            # and wins with at least once. If nobody can, it is a sermon.
+  tested_in_arcs: []        # arcs where a choice puts the idea under real pressure
+
+# ── PLATFORM ─────────────────────────────────────────────────────────────────
+# How the book is listed and released. See title-craft and hook-and-pacing.
+platform:
+  site: ""                  # royalroad | webnovel | scribblehub | other | none
+  tags: []                  # 5-7. The primary genre tag from chapter 1; a secondary tag
+                            # is added when that element actually becomes prominent.
+  cadence: ""               # daily | 5x-week | 3x-week | 2x-week | weekly
+  launch_stock: 0           # chapters banked before the first goes up
+  cover_brief: ""           # one sentence an illustrator could work from
+
 # ── WORLD CLOCK ──────────────────────────────────────────────────────────────
 # How much the world runs on its own and reacts to the MC. See timeline-engine.
 # The world track itself lives in plan/timeline.md.

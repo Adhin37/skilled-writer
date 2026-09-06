@@ -101,6 +101,16 @@ and `story-opening` owns them. Two things are not defaults:
   institutional, it is usually *"the MC can be noticed, but nothing may act on it until the reader
   has seen the machinery take someone else."*
 
+Then the **`theme:`** block, and do not ask for it either — propose it and let them correct it.
+Read back the premise and the ending contract and say what the book appears to be arguing, in one
+sentence: *"Loyalty you inherited is not loyalty you chose."* Then name the **counter-case** —
+the strongest version of the opposite, which somebody in the story gets to make and win with at
+least once. A controlling idea nobody can argue against is a sermon, and readers can hear one.
+
+Both fields are for the author. Say so plainly when you present them: **the narrator will never
+state either one.** If the user does not want the book to argue anything, leave both empty and the
+theme pass skips. That is a legitimate answer for a comfort serial and a bad one for most books.
+
 **Round E — genre module** (only the one that applies)
 
 - *Fantasy*: what is magic made of, who controls it, and what does using it cost? Offer three
@@ -143,7 +153,12 @@ Readers browse fanfic by fandom; a title without the source name is invisible to
 audience. This is a discoverability fact, not a style preference, and it is the one thing in this
 step you say plainly even if the user overrules you.
 
-Record `title`, `title_alternates` and `slug`, and hold the blurb for step 3.
+Then run `title-craft` §Step 7 for the **listing**: 5–7 tags, a one-sentence cover brief, the
+release cadence and the launch stock. These go in `platform:`. Present them as decisions with
+consequences rather than as questions — the cadence in particular is chosen for a bad week, not a
+good one, and the opening arc is written into it.
+
+Record `title`, `title_alternates`, `slug` and `platform:`, and hold the blurb for step 3.
 
 **Then re-check `opening.promise` against the blurb you just wrote.** Round D set the promise from
 the premise, before the blurb existed. If the two now promise different books, the blurb is the one

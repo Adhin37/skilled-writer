@@ -8,6 +8,9 @@ answer. The novel is a stack of arcs; each ends with the MC changed and a larger
 | # | title | chapters | question | answer | cost to MC | thread opened | thread paid |
 |---|---|---|---|---|---|---|---|
 
+A row whose **thread paid** cell is empty is an arc that deferred everything. Fix the arc, not
+the cell.
+
 ---
 
 ## Arc template (copy per arc)
@@ -35,6 +38,12 @@ their own seat. If you cannot argue their case in two sentences, the arc is not 
 
 **Character rungs advanced.** Which cast members move on their ladder, and on which chapter.
 
-**Threads.** Opened here / paid here / deliberately left hanging into the next arc.
+**Threads.** Opened here / **paid here** / deliberately left hanging into the next arc.
+At least one thread is paid *on the page* in this arc — not advanced, paid, and visible to a
+reader who is not tracking ids. Anything carried gets its reason in the `carried` column of
+`state/threads.md`. See `plot-threads` §Ageing.
+
+**Idea under pressure.** If `theme.controlling_idea` is set: does this arc test it, and through
+which *choice*? Add the arc number to `theme.tested_in_arcs` if so. The narrator never states it.
 
 **Exit hook.** The image or line that makes a reader start the next arc immediately.

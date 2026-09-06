@@ -124,6 +124,49 @@ own kind of wall.
 - **Sensory balance**: sight dominates by default. Deliberately place one non-visual detail per
   scene. Smell is the most underused and the most memorable.
 
+## Microtension
+
+The measured signature of machine-written fiction is not bad sentences. It is an **even surface**:
+flatter arousal curves and less narrative tension than human prose, page by page, holding even
+when the plot is eventful. Readers describe it as an eerie placidity — technically competent, and
+nothing pulls them forward.
+
+Microtension is the fix, and it is a line-level property, not a plot one. It does not come from
+stakes: a chapter can have a city burning in it and still read flat. **It comes from two feelings
+that do not fit, inside one person, right now.** A character who wants the job and despises the
+person offering it. A man reassuring his daughter while counting what is left. Relief that arrives
+with a small, unwelcome disappointment attached.
+
+That is the whole mechanism. Everything below is how to get it onto the page.
+
+**Where it lives.** Anywhere, which is the point — it is not a beat you schedule.
+
+| carrier | what it looks like |
+|---|---|
+| Interiority | the POV character notices something that undercuts what they just decided |
+| Dialogue | one speaker wants the conversation to end and the other does not (`dialogue-voice` §Subtext) |
+| Description | a detail that is pleasant and slightly wrong, filtered through someone with a reason to mind |
+| Action | the body does something the intention did not authorise — a hand that stays on the latch |
+| Anticipation | the reader knows something the POV character does not, and is waiting for the cost |
+
+**The three-point test.** Open the drafted chapter at three points at random. At each one, name
+the unresolved thing on that page. If the honest answer at any point is *nothing, everyone here
+feels one simple thing and the scene is going fine*, that page is where readers put the book down.
+
+**Repairs, in order of cheapness.**
+
+1. **Give one character a second feeling.** Not a new event — a second reaction to the event
+   already there. This fixes most flat pages in one sentence.
+2. **Withhold a beat.** Let a decision arrive a paragraph after the reader expects it.
+3. **Let the agreement cost something.** Someone concedes and minds conceding.
+4. **Make the pleasant detail slightly wrong**, and let the noticer be the one who would care.
+
+**What this is not.** It is not misery, and it is not withholding information from the reader for
+its own sake. A cheerful scene can carry it — a celebration where one person is doing arithmetic
+about the bill has more tension than a fight between people who feel exactly one thing each. And
+it is not an instruction to end every paragraph on a threat: a page where *everything* is fraught
+is as monotonous as a page where nothing is, and it is the more tiring of the two.
+
 ## Procedure
 
 ```bash
@@ -159,3 +202,5 @@ the act of perceiving is the point" is a decision about each one. Use `--show no
 - [ ] Paragraphs are phone-legible; the first screen is not a wall
 - [ ] Every speaker has their own paragraph
 - [ ] Italics do their one declared job and no other
+- [ ] **Three-point test passed** — the chapter opened at random has something unresolved on the
+      page each time, and no stretch of a page where everyone feels one simple thing

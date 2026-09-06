@@ -58,6 +58,62 @@ class TestLedger(unittest.TestCase):
             self.assertIn("threads", checks(rep))
 
 
+LEDGER = """# Thread ledger
+
+| id | thread | opened | type | tension | due | carried | status | payoff |
+|---|---|---|---|---|---|---|---|---|
+| T01 | the permit refusal | 1 | mystery | hot | %s | %s | %s |  |
+"""
+
+
+def novel_with_threads(fx, chapters, due="10", carried="", status="open"):
+    for i in range(1, chapters + 1):
+        fx.add_chapter(i, BODY)
+    fx.add_ledger(list(range(1, chapters + 1)))
+    fx.write("state/threads.md", LEDGER % (due, carried, status))
+
+
+class TestThreadAgeing(unittest.TestCase):
+    """plot-threads section Ageing — the mechanism behind perpetual deferral."""
+
+    def test_overdue_thread_without_a_reason_is_a_defect(self):
+        with NovelFixture() as fx:
+            novel_with_threads(fx, 25, due="10")
+            msgs = [f.message for f in cmd_state.run(fx.novel()).findings]
+            self.assertTrue(any("past its due chapter" in m and "no deferral reason" in m
+                                for m in msgs))
+
+    def test_a_recorded_reason_downgrades_it_to_a_warning(self):
+        with NovelFixture() as fx:
+            novel_with_threads(fx, 25, due="10", carried="to 40: the informant's price rose")
+            findings = [f for f in cmd_state.run(fx.novel()).findings
+                        if "past its due" in f.message]
+            self.assertEqual(len(findings), 1)
+            self.assertEqual(findings[0].level, "warn")
+
+    def test_an_arc_that_pays_nothing_is_a_defect(self):
+        with NovelFixture() as fx:
+            novel_with_threads(fx, 25, due="99")
+            msgs = [f.message for f in cmd_state.run(fx.novel()).findings]
+            self.assertTrue(any("closed without paying a single thread" in m for m in msgs))
+
+    def test_an_arc_that_pays_one_is_clean(self):
+        with NovelFixture() as fx:
+            novel_with_threads(fx, 25, due="99")
+            with open(fx.path("state", "continuity.md"), encoding="utf-8") as fh:
+                text = fh.read()
+            fx.write("state/continuity.md", text.replace("thr> ~T01(permit-refused)",
+                                                         "thr> vT01(permit-refused)", 1))
+            msgs = [f.message for f in cmd_state.run(fx.novel()).findings]
+            self.assertFalse(any("without paying a single thread" in m for m in msgs))
+
+    def test_no_arc_check_before_the_first_arc_closes(self):
+        with NovelFixture() as fx:
+            novel_with_threads(fx, 5, due="99")
+            msgs = [f.message for f in cmd_state.run(fx.novel()).findings]
+            self.assertFalse(any("without paying a single thread" in m for m in msgs))
+
+
 class TestEmptyNovel(unittest.TestCase):
 
     def test_state_survives_a_novel_with_no_chapters(self):

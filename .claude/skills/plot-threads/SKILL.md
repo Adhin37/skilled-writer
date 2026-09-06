@@ -47,6 +47,35 @@ forget. `due` may be revised, but only deliberately, and only forward once.
 **Touch cadence.** A thread should be *referenced* — not necessarily advanced — at least every
 15 chapters, or it goes cold. One clause is enough.
 
+### Ageing — the anti-deferral rule
+
+The most common complaint about long-running web serials is not bad prose. It is **perpetual
+deferral**: hundreds of chapters in which everything is pending and nothing has landed. It does
+not arrive as a decision. It accumulates one reasonable postponement at a time, and each
+individual postponement is defensible.
+
+Three rules stop it, and all three are checkable:
+
+1. **Every arc closes at least one thread on the page.** Not advanced, not recontextualised —
+   **paid**, with the payoff visible to a reader who is not tracking thread ids. An arc that only
+   defers has taught the reader that nothing here resolves. `sw state` reports an arc that closed
+   without a `v` operation in its ledger blocks.
+2. **A thread past its `due` gets a reason, in the `carried` column, in the same pass.** One
+   clause and a new `due`. *"Carried to 78: the informant's price rose and she cannot pay it yet."*
+   An unexplained overrun is a forgotten promise wearing a deadline.
+3. **A thread carried twice is escalated or abandoned.** Escalated means the reader can *see* it
+   moving — the debt grows, the threat acquires a name, the secret is now known by one more
+   person. Abandoned means it is retired on the page, deliberately, and somebody notices.
+
+**The reader's clock is not the author's.** A thread opened in chapter 3 and paid in chapter 200
+was open for a year and a half of their life. Novel-level threads earn that; a chapter-level
+thread that has been running for forty chapters was mis-tiered when it was opened.
+
+**What counts as payment.** The promise the reader was made, answered — not a different, smaller
+promise answered in its place. A mystery paid by revealing that the answer is another mystery has
+not been paid; it has been renamed. Subversion is legitimate and is not this: a subverted thread
+answers the question and the answer is not what was expected.
+
 **At most two active subplots per arc**, alongside the main line. The counts above are all
 threads including the chapter-level ones that supply momentum; *subplots* are the arc-level lines
 that need their own scenes and their own escalation. A third competes for the same page space and

@@ -52,8 +52,18 @@ as a chapter surprises you, and stale rows are worse than no rows: they get foll
     a layer the story has not entered before (court, slum, army, temple, ship), run `social-fabric`
     for half a page on it *before* the rows are written, not while drafting. An arc set entirely
     in already-established territory answers "nothing new", which is a legitimate answer once.
-11. Write the **exit hook**.
-12. Fill the arc template in `plan/arcs.md`, and §4 of `plan/timeline.md`.
+10b. **Pay something.** Name the thread this arc **closes on the page**, not the ones it advances.
+    An arc that opens four threads and pays none is how a serial acquires the one complaint
+    readers actually drop books over — perpetual deferral. Every thread carried past this arc
+    gets a reason recorded next to it in `state/threads.md`, and a thread carried twice is either
+    escalated into something the reader can see moving or abandoned outright (`plot-threads`
+    §Ageing). "It pays off eventually" is not a plan; it is the absence of one.
+11. **Test the idea.** If `theme.controlling_idea` is set, decide whether this arc puts it under
+    pressure, and how — a **choice**, never a conversation about it. If it does, add the arc
+    number to `theme.tested_in_arcs`. At least one arc in three should be on that list, and at
+    least one of them is an arc where `theme.counter_case` gets the better of the argument.
+12. Write the **exit hook**.
+13. Fill the arc template in `plan/arcs.md`, and §4 of `plan/timeline.md`.
 
 ## Procedure — chapter rows
 

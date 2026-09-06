@@ -143,6 +143,12 @@ each chapter, name the one thing a reader would miss. If you cannot, merge it wi
   continue. Open the next arc's question *before* the current one closes.
 - **Titles are pacing too.** The chapter list is read as a scroll; a run of flat titles reads as a
   flat stretch of story. See `chapter-plan`.
+- **Cadence is a setting, not a mood.** `platform.cadence` is chosen once, in `title-craft` §Step 7,
+  and everything here is written into it: higher cadence supports shorter chapters and lighter
+  re-anchoring, weekly needs more substance per chapter and a stronger recap clause. Missing the
+  declared cadence costs more than choosing a slower one — on platforms that rank by recent
+  activity, a serial that drops below one chapter a week typically loses its trending position
+  within a fortnight, and the readers who left do not come back for the catch-up.
 
 ## Self-check
 

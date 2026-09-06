@@ -26,6 +26,7 @@ CONFIG_KEYS = [
     "chapters.scenes_per_chapter",
     "opening.anchor_by_ch", "opening.contract_by_ch", "opening.promise_touched_by_ch",
     "opening.first_win_by_ch", "opening.promise", "opening.stakes_ceiling",
+    "theme.controlling_idea", "theme.counter_case",
     "timeline.reactivity", "timeline.crisis_cap",
     "content.rating", "content.romance",
     "ending.contract",

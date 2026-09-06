@@ -119,6 +119,18 @@ class Novel(object):
         return self.get("title") or self.slug
 
     @property
+    def blurb(self):
+        """The platform blurb, from the body of novel.md rather than a frontmatter field.
+
+        It is multi-line prose and belongs where a human edits it; duplicating it into the
+        frontmatter would give the book two blurbs that drift apart.
+        """
+        body = mdio.split_frontmatter(self._text("novel.md"))[1]
+        sec = mdio.section(body, "Hook")
+        return "\n".join(l for l in sec.split("\n")[1:]
+                         if l.strip() and not l.strip().startswith("<!--")).strip()
+
+    @property
     def has_foreknowledge(self):
         return bool(self.get("mc.foreknowledge"))
 
