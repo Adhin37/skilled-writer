@@ -222,6 +222,20 @@ read first and trusted most. Two rules:
 
 Triggered when a chapter completes an arc.
 
+0. Run the **arc-boundary pass** before compressing anything, while the chapter blocks are still
+   at full detail:
+
+   ```bash
+   python3 scripts/sw.py arc novels/<slug> --show note
+   ```
+
+   It lines the arc's chapters up next to each other and prints what only appears in aggregate:
+   the dialogue trend, the length spread, hooks side by side, cast rotation, thread operations,
+   repeated deliveries, and the foreknowledge ledger. Every high-severity finding in benchmark
+   run #1 was of this kind — invisible in the chapter it appeared in, obvious across five. The
+   command ends with the judged half it cannot do; answer those by reading, and **do not score
+   the arc**. See `/novel-recap review`.
+
 1. Write the ARC DIGEST from that arc's chapter blocks.
 2. Compress the arc digest that is now two arcs old down to 40 words.
 3. Rewrite the BOOK DIGEST.

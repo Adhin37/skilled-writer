@@ -326,6 +326,7 @@ hand or via `/novel-toggle`. Optional skills read their own key and no-op if it 
 |---|---|
 | `readset <novel> -c N` | assembles the bounded read-set for chapter N — sliced rows, not whole files |
 | `lint <novel> [-c N \| --all]` | one chapter, or every chapter: MTL phrases, the AI-default cut list, the four channels, thought budget, apostrophe collisions, stray markup, frontmatter, anchor vocabulary |
+| `arc <novel> [-a N]` | the distributional pass over one arc: dialogue trend, length spread, hooks, cast rotation, thread ops, anchor coverage |
 | `cast <novel>` | the voice matrix and competence grid as tables: straddle, wit cap, three-way clash, expertise budget |
 | `state <novel>` | ledger against chapters, required CCS lines, thread tension against last use, plan-row completeness, promotion triggers |
 | `status <novel>` | progress aggregation for `/novel-status` |

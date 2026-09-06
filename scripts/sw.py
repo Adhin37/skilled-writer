@@ -20,7 +20,8 @@ import tempfile
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from swlib import cmd_cast, cmd_lint, cmd_readset, cmd_state, cmd_status, cmd_write  # noqa: E402
+from swlib import (cmd_arc, cmd_cast, cmd_lint, cmd_readset,  # noqa: E402
+                   cmd_state, cmd_status, cmd_write)
 from swlib.novelio import Novel, resolve  # noqa: E402
 from swlib.report import Report  # noqa: E402
 
@@ -105,6 +106,10 @@ def do_lint(args):
         if not args.all:
             numbers = [max(chs)]
     return _emit(cmd_lint.run(novel, numbers), args)
+
+
+def do_arc(args):
+    return _emit(cmd_arc.run(_novel(args), args.arc), args)
 
 
 def do_cast(args):
@@ -228,6 +233,10 @@ def build_parser():
     sp.add_argument("--chapter", "-c", type=int, help="default: the latest chapter")
     sp.add_argument("--all", action="store_true", help="every chapter")
     sp.set_defaults(func=do_lint)
+
+    sp = novel_arg(sub.add_parser("arc", help="the distributional pass over one arc"))
+    sp.add_argument("--arc", "-a", type=int, help="default: the latest arc")
+    sp.set_defaults(func=do_arc)
 
     novel_arg(sub.add_parser("cast", help="voice matrix and competence grid audits")
               ).set_defaults(func=do_cast)
