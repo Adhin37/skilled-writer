@@ -43,6 +43,37 @@ does not, the reason must be traceable to the change.
 **Canon timeline anchors.** Keep the table of canon events with: does it happen here, and when
 relative to this story. Readers track this closely.
 
+### Canon position on the page
+
+The anchors table above tells *you* where you are. It does nothing for the reader, and the gap
+between those two facts is this genre's most reliable structural failure.
+
+> **By `opening.anchor_by_ch`, the reader knows which canon this is and roughly when in it.**
+
+The failure is invisible from the inside: you know the source so thoroughly that its absence in
+your own prose does not register. A first arc can be well-written, well-paced and completely
+unplaceable — a real measured example ran five chapters and 10,000 words with **zero** occurrences
+of its source's setting name, its central power, its factions, or any canon proper noun. Readers
+who arrived from a blurb naming a canon character got no contact with that promise at all.
+
+**The mechanical check, run on chapters 1–5: count your five biggest canon nouns. Zero is a bug.**
+
+Placing yourself in canon time is not a licence to open on a date stamp — `hook-and-pacing` and
+`narrator-voice` both ban that and are right. The sanctioned ways, cheapest first:
+
+| how | example shape |
+|---|---|
+| A canon institution behaving normally | the village's own bureaucracy processes the MC, and it is named |
+| A canon-consequence biting an ordinary person | rationing, because of a war the reader now knows happened |
+| An assumed reference nobody explains | "You'll test for the Academy like everyone else" |
+| A canon character seen at their canon-correct age, doing something ordinary | places the reader in time without a single date |
+
+The last is the strongest and the most underused: **age is a calendar.** A character the audience
+knows, at an age they can compute, dates the story precisely and costs one sentence.
+
+For the anchor rules in general, the genre contract, and the ceiling that stops escalation
+outrunning the reader's frame, see `story-opening`. For fanfic it is not optional.
+
 **The canon plot is a live timeline, not a backdrop.** `timeline-engine` owns it: the canon track
 in `plan/timeline.md`, each canon antagonist's reaction profile, and the rule that every arc must
 move at least one canon event. It also holds the governor that keeps a reactive canon world from
@@ -122,9 +153,13 @@ Everything else in the toolkit does. In particular:
   resist the promotion a scene wants. Two knowledge boundaries are specific to this genre and are
   broken constantly: a canon character does not know the parts of canon they were not present for,
   and **nobody knows the future the writer knows.** A reader can feel the difference between a
-  character reasoning from what they have seen and a character quoting the wiki. The MC's
-  foreknowledge, if they have any, is the exception the story is *about* — and `mc-design` already
-  requires a chapter where it first turns out to be wrong.
+  character reasoning from what they have seen and a character quoting the wiki.
+- `meta-knowledge` — **the MC's foreknowledge is the exception the story is *about*, and it has
+  its own skill.** Grain, the inventory scene where the MC actually makes a plan from what they
+  know, the rule that it must *work* legibly before it is ever shown failing, and the observer
+  paradox that decays it as a consequence of being used. A self-insert who never once refers to
+  knowing what is coming has wasted the premise; one whose foreknowledge only ever malfunctions
+  has sold the reader something the blurb did not describe.
 
 ## Self-check
 
@@ -137,3 +172,6 @@ Everything else in the toolkit does. In particular:
 - [ ] No canon character knows a canon event they were not present for, or anything from the future
 - [ ] Every OC passes the OC test
 - [ ] Canon scope respected throughout
+- [ ] **The reader knows which canon this is and roughly when, by `opening.anchor_by_ch`**
+- [ ] Canon-noun count across chapters 1–5 is not zero
+- [ ] If the MC has foreknowledge, `meta-knowledge` ran — it has been used before it is broken

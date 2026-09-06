@@ -47,6 +47,20 @@ Escalate the **stake** instead:
 A rung-5 threat with a weak opponent beats a rung-1 threat with a god. Design each arc's ladder
 along this axis, and let opponent strength follow the story rather than lead it.
 
+**A stake only counts if the reader can price it.** Every rung above assumes the reader knows what
+losing that thing would mean *here* — what this institution does to people, what a debt costs in
+this economy, what happens to someone who gets noticed. Early in a novel that knowledge does not
+exist yet, and a rung-4 threat delivered to a reader with no frame lands as a rung-1 one. The
+opening arc therefore caps escalation at the reader's understanding: see `story-opening` §3, which
+owns that ceiling. The usual fix is one scene of the machinery consuming a stranger, which prices
+every threat that follows for the rest of the book.
+
+**A ladder may not be all-failure.** Five rungs of the MC's central advantage letting them down is
+not escalation; it is a slide, and it reads as an author embarrassed by their own premise. At
+least one rung is a win that advantage bought — paid for, costly, but a win. This matters most for
+a foreknowing MC, where the temptation to schedule the correction before the thing being corrected
+has ever worked is strongest (`meta-knowledge` §4).
+
 ## Sources of conflict — use all four
 
 Relying on external violence alone is why long serials go flat.

@@ -92,9 +92,19 @@ Keep them separate; conflating them is what produces the insufferable protagonis
 - **Expertise** (narrow, and earned): what they have been *trained* in. Bounded by domain in
   `bible/cast/_competence.md` (`competence-map`).
 - **Wisdom** (their arc): whether they act well on what they know. This *should* be low early.
+- **Foreknowledge** (given, and decaying): facts about a future they did not earn. Bounded by
+  grain in `state/foreknowledge.md` (`meta-knowledge`). A separate axis again — a tier-2 MC with
+  perfect foreknowledge still reasons like a tier-2 MC and will misuse good information, while a
+  tier-5 MC with `impressions` reasons brilliantly from almost nothing.
 
 A tier-5 MC with low wisdom is the best version of the genre: he is right about the plan and
 wrong about what the plan is for.
+
+**And foreknowledge is not a licence to be stupid.** The mirror of the rule below, and the more
+tempting error: an author worried that foreknowledge trivialises the plot writes an MC who forgets
+what they know, fails to plan, or never thinks about the future at all. That is the idiot ball
+with extra steps. A competent person who wakes up knowing what is coming *makes a plan* — the
+right way to keep tension is an incomplete map, not a dulled protagonist. See `meta-knowledge` §2.
 
 **A high tier is not a licence to know things.** This is the defect the split above exists to
 prevent, and it is the one most often waved through: a brilliant MC infers faster, but they cannot

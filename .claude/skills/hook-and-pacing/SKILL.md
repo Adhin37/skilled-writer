@@ -11,25 +11,40 @@ positions that do that work: the first 100 words and the last 100.
 
 ---
 
-## Chapter length
+## Chapter length is not a quality metric
 
-Set in `novel.md` → `chapters:`. Platform default: **~2,000 words**, floor 1,600, ceiling 2,600.
+**A chapter is judged by what it delivers, not by how long it is.** The gate is
+`revision-pass` Pass 9 — want, friction, **change**, cost, next — and this skill has nothing to
+add to it. `novel.md` → `chapters.length_band` is a printer's note: the range outside which a
+chapter is worth a second look, and nothing more.
 
-- **Consistency matters more than the number.** Readers form an expectation from your first ten
-  chapters and feel short-changed by deviation.
-- Under 1,200 reads as a fragment. Over 3,000 gets abandoned mid-chapter on a commute — and a
-  chapter abandoned mid-way is worse than one not started.
+This is a correction, and the history is worth knowing because the failure repeats. This skill
+used to carry a target with tolerances. Chapters then clustered against the floor. The tolerance
+was tightened to ±15% of target; chapters clustered against the new implied floor, and one landed
+on the declared minimum **to the word**. A number that gates publication gets optimised, and prose
+optimised toward a length is padded or truncated prose. There is no version of this rule that
+does not get gamed, so there is no rule.
+
+What the band is still good for:
+
+- Under ~1,200 words a chapter reads as a fragment — usually a real signal that the material was
+  split in the wrong place, not that it needs padding.
+- Over ~3,000 it gets abandoned mid-chapter on a commute, and a chapter abandoned halfway is worse
+  than one never started.
+- **Consistency is a reader expectation, not a target.** Readers form a sense of your chapter size
+  from the first ten and feel short-changed by sudden deviation. A chapter at half your usual size
+  needs a reason; it does not need filler.
 - Higher release cadence supports shorter chapters. Weekly releases need more substance per
   chapter and a stronger recap clause.
-- **`target_words` is the target; the floor and ceiling are tolerances, not goals.** Aim for
-  `target_words` ±15%. A run of chapters all landing within a few dozen words of `min_words` is
-  not consistency — it is the target being quietly ignored, and readers who were promised ~2,000
-  words are getting a fifth less book per chapter. Check the trend across the last five chapters,
-  not just the current one: the defect is invisible in any single chapter that is technically
-  "in range".
-- **Never pad to a word count.** If the chapter's material ends at 1,500 words, either pull
-  material forward from the next chapter or ship at 1,500. Padding is visible and it is the
-  fastest way to train readers to skim.
+
+**Never pad, and never trim to a number.** If the chapter's material ends, it ends. If it runs
+long and every scene is delivering, ship it long. The only length question worth asking is the
+skim test (§Pacing across an arc): *would a reader lose anything by skipping this?*
+
+**What to do when a chapter comes out short.** Not padding — diagnosis. A short chapter almost
+always means one of: the turn happened offstage, the cost was skipped, or a scene ended at its
+first obstacle instead of its consequence. Fix the delivery and the length follows. Pulling
+material forward from the next chapter is legitimate; adding sentences is not.
 
 ## Openings
 
@@ -110,10 +125,18 @@ each chapter, name the one thing a reader would miss. If you cannot, merge it wi
 
 ## Serial-specific practices
 
+- **Chapter 1 is a conversion event, not an opening.** Roughly 60% of readers who open chapter 1
+  go on to chapter 2; from chapter 5 onward retention runs 80% or better. Nearly all of your
+  attrition happens at one join, and it is decided in the first few hundred words. The opening arc
+  therefore has its own skill — **`story-opening`** owns the anchor, the genre contract, the
+  promise ledger and the stakes ceiling for everything up to `opening.contract_by_ch + 2`.
 - **Front-load the promise.** Chapters 1–3 must establish the MC's want, the world's constraint,
   and the tone. Readers decide by chapter 3, sometimes by chapter 1.
 - **Chapter 1 is not a prologue.** Prologues are skipped. If the prologue material matters, it is
   chapter 1; if it does not, cut it.
+- **Story velocity is read as competence.** The perceived rate at which meaningful things happen
+  is what readers actually score, largely independent of prose quality. A beautiful chapter in
+  which nothing changes reads as worse writing than a plain one in which something does.
 - **Batch endings.** If releasing several chapters at once, the last of the batch carries the
   strongest hook; interior chapters can end softer.
 - **Arc breaks are drop-off points.** The end of an arc is where readers decide whether to
@@ -131,6 +154,6 @@ each chapter, name the one thing a reader would miss. If you cannot, merge it wi
 - [ ] No cliffhanger if one fired within the last 8 chapters
 - [ ] Pace varies within the chapter
 - [ ] The chapter passes the skim test
-- [ ] Word count within `min_words`–`max_words`, with no padding
-- [ ] Word count near `target_words` (±15%), not parked against a bound
-- [ ] The last five chapters are not all clustered at the same bound
+- [ ] The chapter delivers a **change** — `revision-pass` Pass 9, not a word count
+- [ ] Nothing was padded, and nothing was trimmed, to reach a number
+- [ ] If the chapter is far outside `length_band`, that was a decision and not an accident

@@ -1,6 +1,6 @@
 ---
 name: plot-threads
-description: Open, track, escalate and pay off every promise made to the reader — mysteries, debts, threats, oaths, foreshadowing and setups — using the thread ledger. Use when planning chapters, when drafting, and when auditing a novel for forgotten setups.
+description: Open, track, escalate and pay off every promise made to the reader — mysteries, debts, threats, oaths, foreshadowing and setups, plus the opening arc's promise ledger — using the thread ledger. Use when planning chapters, when drafting, and when auditing a novel for forgotten setups.
 ---
 
 # plot-threads
@@ -46,6 +46,28 @@ forget. `due` may be revised, but only deliberately, and only forward once.
 
 **Touch cadence.** A thread should be *referenced* — not necessarily advanced — at least every
 15 chapters, or it goes cold. One clause is enough.
+
+**At most two active subplots per arc**, alongside the main line. The counts above are all
+threads including the chapter-level ones that supply momentum; *subplots* are the arc-level lines
+that need their own scenes and their own escalation. A third competes for the same page space and
+is how threads get dropped — the reader does not notice a subplot vanish, they notice the story
+losing shape. Track each one's status at every arc boundary as resolved, paused or escalated.
+
+### The promise ledger — arc 1 only
+
+The blurb makes a promise, and readers arrive holding it. Four threads open before chapter 1 is
+written and are tracked like any other, but they are due earlier than anything else in the book:
+
+| thread | due | source |
+|---|---|---|
+| The world anchor — what kind of story, and for fanfic which one and when | `opening.anchor_by_ch` | `story-opening` §1 |
+| The genre contract | `opening.contract_by_ch` | `story-opening` §2 |
+| `opening.promise` touched on the page | `opening.promise_touched_by_ch` | `story-opening` §4 |
+| The central advantage's first legible win | `opening.first_win_by_ch` | `meta-knowledge` §4 |
+
+**These are promises to a reader who has not yet decided to keep reading**, so they cannot be
+paid late the way an ordinary thread can. A blurb promising foreknowledge attached to ten thousand
+words in which the MC never thinks about the future is a broken promise, not a slow burn.
 
 ## The four operations
 

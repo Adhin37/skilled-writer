@@ -1,6 +1,6 @@
 ---
 name: revision-pass
-description: Quality gate for a drafted chapter — runs continuity, character, voice-separation, intelligence, knowledge-and-competence, structure, world-delivery, bias, MTL-artifact and prose checks in a fixed order and fixes what it finds. Use after drafting any chapter, and when the user says /novel-revise.
+description: Quality gate for a drafted chapter — runs continuity, character, voice-separation, intelligence, knowledge-and-competence, structure, world-delivery, bias, MTL-artifact, prose, delivery, opening-anchor, foreknowledge and channel-mechanics checks in a fixed order and fixes what it finds. A chapter passes on what it delivers, never on its length. Use after drafting any chapter, and when the user says /novel-revise.
 ---
 
 # revision-pass
@@ -32,12 +32,17 @@ any single line and only appears across a whole cast, chapter or arc.
 | 6 Bias | **distributional** | **yes — `bias-guard`, every chapter.** Non-negotiable means the file gets read |
 | 7 MTL detox | mechanical | no — the banned list here is complete |
 | 8 Prose | judgement | `prose-quality` if anything fails |
-| 9 Opening + hook | mechanical | no |
+| 9 Delivery | judgement | no — the five questions are here in full |
+| 9b Opening | **judgement** | **yes — `story-opening`**, on chapters in range. §1 and §3 cannot be checklisted |
+| 9c Foreknowledge | **distributional** | **yes — `meta-knowledge`**, if `mc.foreknowledge` is set |
 | 10 Mechanics | mechanical | no |
 
-Three files, every chapter: `voice-separation`, `competence-map`, `bias-guard`. If that does not
-fit the budget, rotate them on a fixed schedule — but then **say in the report which passes ran at
-checklist depth**, so a ticked box is never mistaken for an audit that did not happen.
+Three files, every chapter: `voice-separation`, `competence-map`, `bias-guard`. Two more
+conditionally: `story-opening` while the novel is inside its opening arc, `meta-knowledge` whenever
+the MC knows the future. If that does not fit the budget, rotate the unconditional three on a fixed
+schedule — but then **say in the report which passes ran at checklist depth**, so a ticked box is
+never mistaken for an audit that did not happen. **The conditional two are not rotatable**: they
+each guard a defect that is invisible in a single chapter and unrecoverable once ten are written.
 
 ---
 
@@ -199,27 +204,87 @@ cultural material it adds is still audited by Pass 6.
       the people in the room, never to bolt on small talk
 - [ ] Nobody was present in a scene, silent, while the POV character narrated their inner state
 
-## Pass 9 — Opening and hook (`hook-and-pacing`)
+## Pass 9 — Delivery (`scene-craft`, `conflict-engine`, `hook-and-pacing`)
 
-- [ ] Opening avoids the banned patterns
-- [ ] Re-anchoring is one clause
-- [ ] Chapter ends on its last strong beat
-- [ ] Hook concrete, final position, type rotated
-- [ ] Word count **at `target_words` ±15%**, not merely inside `min_words`–`max_words`. Chapters
-      landing repeatedly within ~60 words of a bound mean the target is being ignored
-      (`hook-and-pacing` §Chapter length)
+**This is the pass that decides whether the chapter is finished.** It replaces the old word-count
+check entirely. Length is not evidence of anything: a 1,600-word chapter that moves a relationship
+is finished, and a 2,400-word chapter in which everyone talks and nothing changes is not.
+
+Answer all five in one sentence each. Write the third into the chapter's `delivers:` frontmatter.
+
+| | question | fails when |
+|---|---|---|
+| **Want** | What did the POV character want in this chapter? | The honest answer is "to react to things." A chapter with no want is a chapter of weather |
+| **Friction** | What person, rule or scarcity stood in the way? | The only obstacle is the MC's own hesitation, twice running |
+| **Change** | **What is materially different at the end?** | The exit state equals the entry state. This is the load-bearing question |
+| **Cost** | What was paid, by whom? | Nothing. See `conflict-engine` — nothing is free |
+| **Next** | What does the reader now need to see? | The hook asks a question the chapter already answered |
+
+- [ ] All five answered without straining
+- [ ] **Change** names a difference, not a summary of events. *"She asks about the recount"* is
+      events; *"she is now someone Tsuru watches on purpose"* is a delivery
+- [ ] `delivers:` in the frontmatter matches what the chapter actually did
+- [ ] If something repeated from an earlier chapter, it **escalated** — a second refusal, a second
+      failure, a second interrogation must cost more than the first or one of them is cut
+- [ ] The chapter passes the skim test: a reader who skipped it would lose something nameable
+- [ ] Opening avoids the banned patterns; re-anchoring is one clause
+- [ ] Chapter ends on its last strong beat; hook concrete, final position, type rotated
+
+**Length**, for completeness: if the chapter is far outside `chapters.length_band`, look at it once
+and ask whether the material was split in the wrong place. Then move on. Do not pad, do not trim,
+and do not record a length judgement in the report.
+
+## Pass 9b — The opening (`story-opening`) — chapters ≤ `opening.contract_by_ch + 2` only
+
+Skip entirely outside that range. Inside it, **open `story-opening`** — §1 and §3 are judgement
+calls that a checklist cannot make, and this is exactly the pass that silently no-ops if you work
+from the summary.
+
+- [ ] **The anchor test.** Could a stranger reading only this chapter say what kind of story it is,
+      where and when it happens, and what the POV character wants? Three shrugs is a fail
+- [ ] For fanfic/transmigration: does the reader know **which** story and roughly **when** in it?
+- [ ] Anchor-vocabulary count for this chapter is not zero (`lexicon.md`, `anchor? yes` terms).
+      Across chapters 1–5 collectively, zero is a hard failure
+- [ ] **The stakes ceiling.** Has any consequence escalated past the reader's ability to price it?
+      Before a threat is dangerous, the mechanism must be on the page — not in the bible
+- [ ] `opening.promise` has been touched by `promise_touched_by_ch`
+- [ ] The central advantage lands a legible win by `first_win_by_ch`, before any failure
+- [ ] Chapter 1 only: the MC acts; they are not delivered through the chapter by other people
+
+## Pass 9c — Foreknowledge (`meta-knowledge`) — only if `mc.foreknowledge` is set
+
+**Open `meta-knowledge`.** §4 is distributional — whether the advantage has ever won cannot be
+seen from one chapter, and that is precisely the defect it exists to catch.
+
+- [ ] Nothing was known at a precision `foreknowledge_grain` does not license
+- [ ] Every fact stated from foreknowledge passes the provenance test
+- [ ] Any spend is in `state/foreknowledge.md`, with its cost and what it invalidated
+- [ ] A plot-changing spend moved at least one other row toward `invalidated` (§5, observer paradox)
+- [ ] `foreknowledge_first_win_ch` < `foreknowledge_fails_ch`, and the win is on the page first
+- [ ] Foreknowledge did not stand in for a skill the MC has not learned
+- [ ] The `fk>` CCS line is written
 
 ## Pass 10 — Mechanics
 
-- [ ] Frontmatter complete and accurate; word count real — measured (`wc -w` where available),
-      not estimated
-- [ ] **If any pass changed the body length, `wordcount:` was re-measured and rewritten.** A
-      revision that edits prose and leaves the old number behind fails this pass — the frontmatter
-      is what every later tool reads instead of counting for itself
+- [ ] Frontmatter complete, including `delivers:`
+- [ ] `wordcount:` is **measured** (`wc -w` where available), never estimated, and re-measured if
+      any pass changed the body. It is a recorded fact that later tools read, not a target — but a
+      wrong fact propagates into `state/continuity.md` and corrupts every share computed from it
 - [ ] Scene breaks use `* * *`
 - [ ] POV label present if the chapter switches and `label_switches` is true
-- [ ] No headings, author notes or stray markdown inside the prose body
-- [ ] Dialogue punctuation and house style per `lexicon.md`
+
+**The four channels** (`narrator-voice` §The four channels; house style in `lexicon.md`):
+
+- [ ] Speech in `"…"`, direct thought in `'…'`, meta in `[…]`, free indirect **unmarked**
+- [ ] Direct thought is **budgeted — 1–3 per chapter**, at moments of decision. A chapter where
+      every interior beat wears quote marks has flattened its narrator into a thought bubble;
+      convert the surplus back to free indirect discourse
+- [ ] **No apostrophe was mistaken for a thought mark.** `don't`, `she'd`, `the boys' room` are
+      not thought. Every `'…'` opens at a word boundary and closes before punctuation or space
+- [ ] Every `'…'` **inside** a `"…"` pair is an ordinary nested quotation, not thought
+- [ ] Meta blocks match the format in `lexicon.md`; none opens a chapter; no two run consecutively
+- [ ] Italics do the **one** job `lexicon.md` assigns them, and no other
+- [ ] Nothing else is markup — no headings, bold, lists, links or author notes in the prose body
 
 ---
 
@@ -237,16 +302,20 @@ cultural material it adds is still audited by Pass 6.
   it, which usually improves the scene · and only last, add the domain to their map, which is a
   permanent change to who they are.
 
-Set `status: revised` in the frontmatter when all ten passes are clean.
+Set `status: revised` in the frontmatter when every pass is clean.
 
 ## Reporting
 
 Two lines, unless something structural was rewritten:
 
 ```
-Revised ch 42: cut a crowd-reaction paragraph, applied Dael's rung-3 voice delta,
-replaced the ending (it ran three paragraphs past the hook). 1,840 → 1,795 w.
+Revised ch 42 — delivers: Dael now owes the house a favour he cannot pay.
+Cut a crowd-reaction paragraph, applied Dael's rung-3 voice delta, replaced the ending
+(it ran three paragraphs past the hook).
 ```
+
+**Lead with what the chapter delivers.** Do not report a word count or a word delta — it is not a
+quality signal and putting it in the report is what trained the drafting model to aim at it.
 
 If a pass found nothing, do not list it. If Pass 6 found something, always say what — the user
 needs to know that the default was reaching for it.
@@ -256,4 +325,4 @@ needs to know that the default was reaching for it.
 `/novel-revise <n>` runs this on an existing chapter. Load that chapter, its CCS block, the two
 before it, the matrix rows in `bible/cast/_voices.md` and the competence rows in
 `bible/cast/_competence.md` for its speakers, and the profiles of everyone in it — then run all
-ten passes.
+the passes.

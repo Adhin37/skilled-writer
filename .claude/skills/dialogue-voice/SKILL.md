@@ -90,6 +90,11 @@ back. Straight answers are a choice with meaning.
 **Interruption and overlap.** Em dash for interruption, ellipsis for trailing off. Pick the house
 convention in `lexicon.md` and hold it.
 
+**Punctuation and channels.** Speech goes in `"…"`. A quotation *inside* a line of speech takes
+single marks as normal English — `"He actually said 'no comment' to my face."` — and this does not
+collide with the direct-thought channel, because thought is a `'…'` that stands outside any `"…"`
+pair. The full rule set is `narrator-voice` §The four channels; this skill defers to it.
+
 **Tags: `said` and `asked`.** Almost always. `Hissed`, `growled`, `chuckled`, `smirked` are the
 prose asking the reader to feel something the line failed to earn. An action beat beats an adverb:
 not *"Fine," he said angrily* but *"Fine." He put the cup down harder than he meant to.*
@@ -172,9 +177,14 @@ The fingerprints in this skill only reach the reader through lines that actually
 chapter can pass every test above and still fail, because the test never ran: if the cast barely
 speaks, there is nothing to tell apart.
 
-**Target 25–40% of the chapter's words inside quotation marks.** That is the register of the
-format. It is not a stylistic preference — it is what makes a chapter feel like events happening
-between people rather than one mind narrating its own analysis.
+**Target 25–40% of the chapter's words inside double quotation marks** — spoken aloud, to another
+person. That is the register of the format. It is not a stylistic preference; it is what makes a
+chapter feel like events happening between people rather than one mind narrating its own analysis.
+
+**Speech only.** Direct thought (`'…'`) and meta text (`[…]`) are different channels and do not
+count toward this share — see `narrator-voice` §The four channels. A chapter can be 40% marked
+text and still be one person alone in their own head, which is the exact defect this target
+exists to catch. Measure what is inside `"…"` and nothing else.
 
 | share | what it reads as | verdict |
 |---|---|---|
@@ -199,7 +209,8 @@ cannot pass the swap test in `character-profile`. Both skills quietly no-op on a
 
 ## Self-check
 
-- [ ] Dialogue is 25–40% of the chapter's words; under 10% is a defect, not a style
+- [ ] Spoken dialogue is 25–40% of the chapter's words; under 10% is a defect, not a style
+- [ ] The share counts `"…"` only — thought and meta are not dialogue
 - [ ] No character stood in a scene without speaking while being narrated about
 - [ ] Tags stripped — is every tier-A and tier-B speaker identifiable?
 - [ ] Transplant test — the MC's best line does not fit anyone else's mouth

@@ -1,6 +1,6 @@
 ---
 name: chapter-plan
-description: Build and extend the arc plan and the chapter construction name list — chapter numbers, titles, goal/obstacle/turn/cost, thread operations and hooks. Use when starting a novel, when fewer than 8 planned chapters remain ahead of the draft line, when an arc ends, or when the user says /novel-plan.
+description: Build and extend the arc plan and the chapter construction name list — chapter numbers, titles, goal/obstacle/turn/delivers/cost, thread operations and hooks, plus the opening arc's anchor, contract, promise and first-win rows. Use when starting a novel, when fewer than 8 planned chapters remain ahead of the draft line, when an arc ends, or when the user says /novel-plan.
 ---
 
 # chapter-plan
@@ -64,8 +64,12 @@ Work in batches of 10–12.
 2. Between pillars, chapters do one of: **pursue** (progress toward the pillar), **complicate**
    (a new obstacle), **cost** (pay for the last pillar), **reveal** (information changes the
    situation), **relate** (a relationship shifts — still with a goal and a turn).
-3. For each row fill, **in this order**: goal → obstacle → turn → cost → threads → hook → title.
-   The title comes last. A title invented first is a title the chapter has to serve.
+3. For each row fill, **in this order**: goal → obstacle → turn → **delivers** → cost → threads →
+   hook → title. The title comes last. A title invented first is a title the chapter has to serve.
+   **`delivers`** is what is materially different at the end — a fact learned, a relationship
+   moved, a position lost. If a row's `delivers` restates its `goal` or narrates its events, the
+   chapter has no reason to exist and gets merged with a neighbour. This is the same test
+   `revision-pass` Pass 9 applies to the draft, moved forward to where it is cheap.
 4. Vary the chapter *type* — never three `pursue` rows in a row.
 5. Check the arc's rhythm against the shape below.
 
@@ -84,6 +88,42 @@ Work in batches of 10–12.
 
 The `cool` stretch is load-bearing. Serials that run hot for 25 straight chapters exhaust the
 reader and flatten the climax. But *cool ≠ idle*: chapter 16 still has a goal, a turn and a cost.
+
+### Arc 1 is different — the opening arc has jobs no other arc has
+
+Rows 1–5 of the very first arc are planned against `story-opening`, not against the rhythm table
+above, because they are doing something the rest of the book never has to do again: converting a
+stranger into a reader. About 60% of the people who open chapter 1 reach chapter 2; from chapter 5
+onward, retention runs 80% or better. Nearly all the attrition is at one join.
+
+Four beats are **planned rows, not hoped-for outcomes** — each one names a chapter:
+
+| beat | by | what the row must say |
+|---|---|---|
+| The anchor | `opening.anchor_by_ch` | which beat tells the reader what world this is — and for fanfic, which story and roughly when in it |
+| The genre contract | `opening.contract_by_ch` | what makes the subgenre unmistakable |
+| The promise touched | `opening.promise_touched_by_ch` | where the blurb's promise first reaches the page |
+| The first win | `opening.first_win_by_ch` | where the MC's central advantage *works*, legibly |
+
+**The frame rule.** *An escalation rung may not be scheduled before the frame it depends on.*
+Before planning a chapter in which being noticed is dangerous, find the earlier row where the
+reader learned what being noticed costs here. If there is no such row, insert one — usually a
+bystander losing to the machinery — or move the escalation later. A threat the reader cannot price
+does not read as tension; it reads as an adult being strict.
+
+**No all-failure ladders.** An arc-1 escalation ladder whose every rung is the MC's advantage
+letting them down is not a ladder, it is a slide. At least one rung is a win that advantage bought.
+This is the commonest way a strong premise gets planned into a weak first arc: the author, wary of
+an overpowered MC, schedules the correction before the thing being corrected has ever worked. See
+`meta-knowledge` §4 and `conflict-engine`.
+
+### The volume shape, for reference
+
+A widely-used serial roadmap, useful when `arc_length` is near 30 and worth knowing when it is not:
+**1–5** hook and world entry · **6–15** the progression loop, where gains are visible and
+measurable · **16–25** compounding stakes, subplots intersecting, the first approach proving
+insufficient · **26–30** resolution of the arc's goal, with its consequences opening the next.
+Keep **at most two active subplots** alongside the main line; a third is how threads get dropped.
 
 ## Titles
 

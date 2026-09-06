@@ -70,6 +70,7 @@ One block per chapter. Fixed key order. Lowercase keys, `>` separator, ` / ` bet
 
 ```
 =C0042= pov:Rin | loc:Ashfall Market>Guild undercroft | t:D12 dusk | wc:1840 | arc:2
+dlv> Rin can no longer use the Guild archive, and knows who closed it to her
 ev> buys forged map / spots guild seal is a fake / tails the forger / hides in undercroft
 chg> Rin: wary->suspicious(Guild) ; Dael: admits debt, -2 trust w/Rin
 pwr> Rin: Echo-step x2 (nosebleed, 6h lock) / limit shown: fails indoors
@@ -78,6 +79,7 @@ thr> ~T14(forged-seal) ^T03(father-debt) vT09(oath to Mira: she forgives him)
 obj> get the buyer's name -> next: read the Guild ledger
 bod> Rin: F2 juvenile, unchanged / could not reach the top shelf, stacked crates instead
 wld> Vesh: opens a file on Rin (institution, latency 10, fires ~ch52) / W04 grain levy unmoved
+fk> spent K3(forger's name) to place herself in the undercroft -> K3 spent ; K7,K9 now suspect (she was never there in the remembered version)
 set> undercroft: wet chalk smell, one lamp / Rin owns Dael's coat now
 hook> the ledger's first line is her father's name
 open> who paid the forger / why the Guild tolerates it
@@ -87,7 +89,8 @@ open> who paid the forger / why the Guild tolerates it
 
 | key | contents | required |
 |---|---|---|
-| `=CNNNN=` | header: chapter no, `pov`, `loc` (`>` for movement), `t` in-world time, `wc`, `arc` | yes |
+| `=CNNNN=` | header: chapter no, `pov`, `loc` (`>` for movement), `t` in-world time, `wc` (a measured fact, never a target), `arc` | yes |
+| `dlv>` | **what is materially different at the end.** One clause, a difference and not a summary of events. Mirrors the chapter's `delivers:` frontmatter and is what `revision-pass` Pass 9 gated on | yes |
 | `ev>` | events, in order, as verb phrases. Max 6. Only what changed the situation. | yes |
 | `chg>` | per-character state change: emotional, positional, relational. `->` for transitions, `±n` for trust/standing deltas | yes |
 | `pwr>` | abilities used, cost paid, limits demonstrated. Omit line if genre has no power system | genre |
@@ -97,6 +100,7 @@ open> who paid the forger / why the Guild tolerates it
 | `bod>` | form state for any `form_locked` character: current stage, whether it changed this chapter, and any limit the chapter ran into. On a transition, record what it now enables and what it costs. Omit only if nobody is locked | conditional |
 | `wld>` | **the offstage question**: what the world did this chapter that the POV character does not know about. Driver moves, world-track events fired or moved, clocks advancing. See `timeline-engine`. Omit only if genuinely nothing moved | yes |
 | `set>` | new world/possession facts introduced — location anchors, social facts, what a thing costs. Feeds `bible/world.md` and `bible/society.md` later. Omit if none | no |
+| `fk>` | foreknowledge spent this chapter, what it cost, and which other items it invalidated. Omit only if `mc.foreknowledge` is unset. See `meta-knowledge` §5 | conditional |
 | `hook>` | the chapter's final beat | yes |
 | `open>` | questions the chapter deliberately left unanswered | no |
 
@@ -116,6 +120,8 @@ v      paid off              ()     parenthetical cost or qualifier
    draw / breaks two ribs` is right. Record facts, not impressions.
 2. **No prose sentences.** No articles where they can be dropped. No "then", "and then".
 3. **Never omit `kno>`.** Dramatic irony, reveals and idiot-ball prevention all run off it.
+   **Never omit `dlv>` either** — a block whose `dlv>` restates its `ev>` is recording a chapter
+   that did not change anything, and that is a defect worth seeing in the ledger.
    `mc-intel-meter` reads this line to check the MC is not acting on information they lack.
 4. **Costs go in parentheses** attached to what caused them.
 5. **Names exactly as in `lexicon.md`.** No pronouns. No "the protagonist".
@@ -146,6 +152,16 @@ arc> 1:<six words> 2:<six words> 3:<six words>
 open> the standing questions, ids only
 done> the things that can never be undone
 ```
+
+**The book digest goes stale silently, and it is the most expensive file to have wrong** — it is
+read first and trusted most. Two rules:
+
+- **`done>` is updated in the same pass as any chapter that makes something irreversible.** A
+  digest still reading `(none — no chapters drafted yet)` after five drafted chapters is not a
+  cosmetic lapse; every later read-set inherits it, and a model assembling context from it will
+  believe the book has not started.
+- **Re-read the digest against reality at every arc rollup.** `prem>`, `mc>` and `world>` are
+  written once and then quietly diverge from what the novel actually became.
 
 ---
 
@@ -203,8 +219,12 @@ Triggered when a chapter completes an arc.
 
 ## Self-check
 
-- [ ] Every block has `kno>` and `hook>`
-- [ ] No block exceeds 13 lines
+- [ ] Every block has `dlv>`, `kno>` and `hook>`
+- [ ] `dlv>` names a difference, not a summary of events, and matches the chapter's `delivers:`
+- [ ] `fk>` present on every chapter that spent foreknowledge, with what it invalidated
+- [ ] `wc:` matches the chapter file's measured `wordcount:` — a stale number here corrupts
+      every share computed from it later
+- [ ] No block exceeds 15 lines
 - [ ] No adjectives of quality anywhere in the ledger
 - [ ] Thread ids in the ledger all exist in `threads.md`
 - [ ] Names match `lexicon.md` exactly

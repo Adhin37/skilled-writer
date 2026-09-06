@@ -80,11 +80,23 @@ much more expensive golden finger, and §"the cost" applies with force.
 | `isekai` | pulled bodily into another world | no form problem; a culture and language problem instead |
 | `revenant` | returned changed — undead, restored, rebuilt | the form ledger, plus what the new body cannot do |
 
-**Foreknowledge decays.** For `reincarnator` and `regressor`: the MC's knowledge of what will
-happen must start diverging early and often. Record in the profile: what they know, how precise
-it is, and **the first chapter where it is wrong**. A story where foreknowledge stays reliable has
-no tension after chapter 20. Foreknowledge is also not intelligence — `mc-intel-meter` tiers
-still apply, and a tier-2 MC with perfect foreknowledge still reasons like a tier-2 MC.
+**If the MC knows what happens next, run `meta-knowledge` now** — reincarnator, regressor,
+transmigrator into a known story, fanfic self-insert. It owns the whole mechanic and builds
+`state/foreknowledge.md`. Collect three things in this round:
+
+- **`foreknowledge`** — what they know, in one sentence.
+- **`foreknowledge_grain`** — `episode-precise` · `major-beats` · `impressions` ·
+  `fandom-corrupted`. A hard ceiling on every plan they are allowed to make.
+- **`foreknowledge_first_win_ch`**, then **`foreknowledge_fails_ch`**, and **in that order.**
+
+That ordering is the part designers get backwards. Foreknowledge does have to decay — a story
+where it stays reliable has no tension after chapter 20 — but **decay scheduled before the first
+use is a bait-and-switch**: the reader was promised an advantage in the blurb and shown only a
+malfunction. It works, then it costs, then it frays, then it betrays.
+
+Foreknowledge is also not intelligence — `mc-intel-meter` tiers still apply, and a tier-2 MC with
+perfect foreknowledge still reasons like a tier-2 MC — and it is not competence: knowing that a
+technique exists is not being able to perform it.
 
 ### 5. The central advantage (golden finger)
 
@@ -93,7 +105,7 @@ What the MC has that others do not. Offer these, plus "Surprise me" and "None".
 | archetype | shape | must not |
 |---|---|---|
 | **System / interface** | quantified feedback, quests, ranks | narrate the story or resolve fights. See `litrpg-system` |
-| **Past-life knowledge** | knows techniques, events, or a craft from before | stay accurate; it must fail and mislead |
+| **Past-life knowledge** | knows techniques, events, or a craft from before | stay accurate forever — but it must **work first**, legibly, before it fails. See `meta-knowledge` |
 | **Bound entity** | a spirit, AI, or passenger with its own agenda | be a mentor who supplies answers. See below |
 | **Anomalous body** | regeneration, adaptation, immunity | remove physical stakes; give it a visible cost |
 | **One broken rule** | a single law of the world does not apply to them | be broad. The narrower the rule, the better the story |
@@ -231,7 +243,8 @@ Three MC-specific additions:
 - [ ] Gender, pronouns, appearance, tier, origin and advantage all recorded in `novel.md`
 - [ ] At least two blind spots
 - [ ] The advantage has a cost, two limits, and a problem it creates
-- [ ] For reincarnator/regressor: the chapter where foreknowledge first fails is chosen
+- [ ] For any foreknowing MC: grain declared, and `state/foreknowledge.md` built
+- [ ] The chapter where foreknowledge first **works** is chosen, and precedes the one where it fails
 - [ ] If the MC does not start in final form, `form_locked: true` and `state/body.md` exists
 - [ ] Every form stage lists its absolute limits and its transition chapter
 - [ ] No final-form detail appears anywhere in an earlier stage's description

@@ -43,16 +43,23 @@ channel 3   "Not on a levy day," he said, and that was the end of the plan.
 
 ## 2. The description budget
 
-Per chapter, at `chapters.target_words: 2000`. Scale linearly.
+Expressed per scene and per chapter, so it holds at any length. Chapters are not written to a word
+count (`revision-pass` Pass 9), so neither is their description.
 
 | item | budget |
 |---|---|
+| Direct description (channel 4) | **≤8% of the chapter's words.** Above that it is a travelogue |
 | Sensory details **per scene** | 2–4, placed in motion, never in a block |
 | Consecutive sentences of pure description | **3 maximum**, and only once per chapter |
 | New proper nouns introduced | 2–3 (see `story-bible` naming; the lexicon is authoritative) |
 | New invented terms | ≤1, and it must be used a second time within the chapter or cut |
 | Paragraphs of world history | **0.** Always. History reaches the reader as a character's grudge |
 | Chapters opening on setting | 0 — see `hook-and-pacing`'s banned openings |
+
+**The opening arc is the exception in one direction only.** Early chapters owe the reader an
+anchor — what kind of world this is, and for fan fiction which one and when (`story-opening` §1).
+That debt is paid through channels 1–3, *not* by raising the channel-4 budget. A reader who does
+not know where they are needs a rule biting someone, not a paragraph of scenery.
 
 A location the reader has already visited gets **fewer** details, not the same ones re-explained:
 its anchor (§4), and only what has changed since.

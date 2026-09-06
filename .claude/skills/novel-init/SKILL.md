@@ -33,8 +33,11 @@ with the choice you recommend for this premise, marked `(Recommended)`.
 |---|---|
 | Genre | Fantasy · Science fiction · Fan fiction |
 | Point of view | Single POV throughout · Dual POV (MC + one other) · Rotating cast |
-| Chapter length | ~2000 words (platform standard) · ~1500 (fast, high release rate) · ~2800 (denser, slower) |
 | Release cadence | Daily · Several times a week · Weekly (affects arc pacing) |
+
+Do **not** ask for a chapter length. Chapters are judged by what they deliver, not their size
+(`revision-pass` Pass 9); `chapters.length_band` keeps its default and is a printer's note.
+Offering the number as a setup question is what makes it read as a target.
 
 **Round B — the main character** → run `mc-design` for this round
 
@@ -48,6 +51,12 @@ Collect competence domains and **at least two blind spots** in the same round.
 If the origin means the MC does not start in their final body, `mc-design` sets
 `mc.form_locked: true` and builds `state/body.md`. Do not skip that — it is what keeps a reborn
 child's description from drifting into their adult form.
+
+If the origin or the golden finger means **the MC knows what happens next** — reincarnator,
+regressor, transmigrator into a known story, fanfic self-insert — run `meta-knowledge` here too.
+Collect the **grain** (`episode-precise` · `major-beats` · `impressions` · `fandom-corrupted`) and
+build `state/foreknowledge.md`. Ask where it first **works** before asking where it first fails:
+an advantage the reader only ever watches malfunction is a bait-and-switch on the blurb.
 
 **Round C — the love interest** → run `lead-interest` for this round
 
@@ -76,6 +85,17 @@ but `timeline-engine` will never let it close the road to that ending, and nothi
 non-negotiables list can be taken.
 
 For fanfic this round matters most — see `timeline-engine`. Set `fanfic.footprint` here too.
+
+Then fill the **`opening:`** block, mostly without asking — the defaults are right nearly always
+and `story-opening` owns them. Two things are not defaults:
+
+- **`opening.promise`** — write it from the hook blurb the user just gave you, in one sentence, in
+  their words. This is the contract readers arrive holding, and the page has to keep it by
+  `promise_touched_by_ch`. Read it back and let them correct it.
+- **`opening.stakes_ceiling`** — one sentence naming the worst thing allowed to happen before the
+  reader can price it. Derive it from the premise; do not ask. For a story whose danger is
+  institutional, it is usually *"the MC can be noticed, but nothing may act on it until the reader
+  has seen the machinery take someone else."*
 
 **Round E — genre module** (only the one that applies)
 
@@ -169,7 +189,10 @@ Then fill in, in this order:
    arc 1 opens (including the romance thread if there is one), seed `growth.md` with every tier-A
    character at rung 1 and every tier-B at `B1`, set the calendar in `timeline.md`. If `mc.form_locked` is true, fill in
    `body.md` completely — every stage, its limits and its transition chapter — before chapter 1 is
-   written. If nothing in the novel changes form, delete `body.md`.
+   written. If nothing in the novel changes form, delete `body.md`. If `mc.foreknowledge` is set,
+   fill `foreknowledge.md` — the grain, the inventory of what the MC believes, and §5's arc of the
+   advantage with the inventory scene, the first win and the first failure placed **in that
+   order**. If nobody knows the future, delete `foreknowledge.md`.
 
 ## Step 4 — Report
 
@@ -208,7 +231,9 @@ Then: *"`/novel-write` starts chapter 1. `/novel-toggle` changes any of the opti
 |---|---|---|
 | pov.mode | `single` | Cheapest to keep consistent, strongest reader attachment. |
 | mc.intel_tier | `3` | Smart enough to be satisfying, no plot-engineering burden. |
-| target_words | `2000` | Platform standard. |
+| chapters.length_band | `1500-2600` | A printer's note, never a gate. Do not raise it as a question. |
+| opening.anchor_by_ch | `1` | The reader is oriented before they are threatened. |
+| mc.foreknowledge_grain | `major-beats` | If the MC knows the future at all. Precise enough to plan on, loose enough to be wrong. |
 | arc_length | `25` | Roughly a month of daily releases. |
 | narration | third-limited, past, close | Widest tolerance, easiest voice to hold. |
 | mc.origin | `native` | No form ledger, no foreknowledge decay; the MC learns as the reader does. |

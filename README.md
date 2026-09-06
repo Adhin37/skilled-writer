@@ -23,6 +23,14 @@ This toolkit keeps the *engine* of the format — fast hooks, escalating stakes,
 serial cadence — and explicitly strips the rest. Two skills, `mtl-detox` and `bias-guard`, run on
 every chapter and are not optional.
 
+**A chapter is judged by what it delivers, not by how long it is.** The gate is five questions —
+what did the POV character want, what stood in the way, **what is materially different at the
+end**, what did it cost, and what does the reader now need to see. Word count is recorded as a
+fact and scored on nothing. That is a correction: earlier versions gated on a target with
+tolerances, and chapters clustered against the floor, then against the tightened floor, then
+landed on the declared minimum to the word. Any number that decides whether a chapter ships gets
+optimised, and prose optimised toward a length is padded or truncated prose.
+
 ## Setup
 
 Clone the repo and open it with [Claude Code](https://claude.com/claude-code). There is nothing
@@ -69,7 +77,7 @@ chapters. Full method, raw tables and caveats in [docs/benchmark.md](docs/benchm
 | | |
 |---|---|
 | Setup — interview + full scaffold, one-time | **~$21**, ~40 min |
-| Each chapter after that | **~$1.90**, ~4 min, ~1,600 words |
+| Each chapter after that | **~$1.90**, ~4 min |
 | A 30-chapter arc, end to end | **~$115**, ~3 hours |
 
 Three things worth knowing before you start:
@@ -83,22 +91,24 @@ Three things worth knowing before you start:
   chapters. The *read-set* is bounded; the *session* is not. `/novel-write` in a new session
   picks up from the state files, and that is the cheap path.
 
-Run [`docs/check-chapters.sh`](docs/check-chapters.sh) on your own chapters to check dialogue
-share, word count against target, MTL artifacts and ledger integrity independently of the model
-that wrote them.
+Run [`docs/check-chapters.sh`](docs/check-chapters.sh) on your own chapters to check the four
+channel shares, anchor vocabulary in the opening arc, `delivers:` presence, MTL artifacts and
+ledger integrity — independently of the model that wrote them. It reports word count as a fact
+and scores only whether the recorded number is *true*, because a wrong one propagates into the
+continuity ledger.
 
 **These are numbers from one run of one genre**, stopped deliberately at chapter 5 when it turned
 up two defects worth fixing. It is a rough order of magnitude, not a quote.
 
 ## The skills
 
-**Core loop** — `novel-init`, `mc-design`, `story-bible`, `chapter-plan`, `continuity-summary`,
-`write-chapter`, `revision-pass`
+**Core loop** — `novel-init`, `mc-design`, `story-bible`, `story-opening`, `chapter-plan`,
+`continuity-summary`, `write-chapter`, `revision-pass`
 
 **World** — `story-bible`, `social-fabric`, `world-texture`
 
-**Character** — `character-profile`, `voice-separation`, `competence-map`, `character-development`,
-`mc-intel-meter`, `dialogue-voice`, `lead-interest`
+**Character** — `character-profile`, `voice-separation`, `competence-map`, `meta-knowledge`,
+`character-development`, `mc-intel-meter`, `dialogue-voice`, `lead-interest`
 
 **Craft** — `narrator-voice`, `pov-switch`, `scene-craft`, `conflict-engine`, `plot-threads`,
 `timeline-engine`, `hook-and-pacing`, `prose-quality`, `mtl-detox`, `bias-guard`
@@ -109,7 +119,39 @@ up two defects worth fixing. It is a rough order of magnitude, not a quote.
 `combat-choreography`, `litrpg-system`, `mystery-clues`, `comedy-levity`,
 `grimdark-consequences`, `slice-of-life-texture`
 
-Eleven of these deserve a note:
+Thirteen of these deserve a note:
+
+- **`story-opening`** exists because chapter 1 is not the first chapter of a book, it is a
+  **conversion event**: roughly 60% of the people who open it reach chapter 2, and from chapter 5
+  retention runs 80% or better. Nearly all your attrition is at one join. The skill owns everything
+  up to `opening.contract_by_ch + 2` and enforces four things a first arc owes a reader — the
+  **anchor** (what kind of world, what kind of place, what the MC wants, and for fan fiction
+  *which story and roughly when in it*), the **genre contract** by chapter 3, the **promise
+  ledger** that holds the blurb to the page, and the **stakes ceiling**, which is the one most
+  drafts miss: *a consequence may not escalate past the reader's ability to price it.* An opening
+  can be well-written, well-paced and completely unplaceable — a measured run of this toolkit
+  produced five chapters and ten thousand words containing zero occurrences of its source's
+  setting, factions or central power, while its suspicion plot escalated to "an adult is now
+  certain something is wrong with her." Every beat was earned; none of it landed, because the
+  machinery that made it dangerous had never been on the page. Anchor vocabulary is therefore
+  front-loaded by rule, and escalation waits for the frame it depends on.
+
+- **`meta-knowledge`** runs any MC who knows what happens next — self-inserts, transmigrators into
+  a novel, regressors, reincarnators — and it exists because the mechanic fails in two opposite
+  directions. The **oracle** has accurate, unlimited, free foreknowledge and no tension after
+  chapter 20. The **handicap** is subtler, commoner in careful writing, and worse: foreknowledge
+  introduced as already-unreliable, whose every appearance is a malfunction, so the reader was
+  promised an advantage in the blurb and shown only a disability. The fix is an order —
+  **it works, then it costs, then it frays, then it betrays** — enforced as
+  `foreknowledge_first_win_ch` < `foreknowledge_fails_ch`. Around that sit a declared **grain**
+  (`episode-precise` · `major-beats` · `impressions` · `fandom-corrupted`) that caps what any plan
+  may assume, the **inventory scene** where the MC actually sits down and triages what they know —
+  the beat readers came for, and the one whose absence says loudest that the author does not intend
+  to use the premise — and the **observer paradox**: acting on foreknowledge is the fastest way to
+  destroy it, because the future the MC remembers is the one in which they did not act. That last
+  makes decay a consequence the MC caused rather than a decree at a scheduled chapter, and it hands
+  a foreknowing MC the graceful exit — events butterfly, but *people's natures* do not, so what
+  they end up trading on is character rather than plot.
 
 - **`competence-map`** fixes the other half of the same problem: the AI character is a **generalist
   with no edges** who answers every question at the same confident depth, so nobody ever says *I

@@ -25,11 +25,12 @@ MC intel tier, optional-skill toggles, and chapter length. Never write a word be
 
 ```
 novel-init -> mc-design -> lead-interest -> character-profile -----------+
-                       \  [voice-separation] [competence-map]            |
+                       \  [meta-knowledge] [voice-separation]            |
+                        \  [competence-map]                              |
                         +-> story-bible -> power-system|tech-plausibility|canon
                                                     -> social-fabric     |
                                                                          v
-                                                                    chapter-plan
+                                                        story-opening -> chapter-plan
                                                                          |
                         +------------------------------------------------+
                         v
@@ -37,9 +38,23 @@ novel-init -> mc-design -> lead-interest -> character-profile -----------+
                                     [voice-separation]   [pass 2: voices]
                                     [competence-map]     [pass 3: knowledge]
                                     [world-texture]      [pass 5: world]
+                                    [narrator-voice]     [pass 9: DELIVERY]
+                                    [story-opening]      [pass 9b: opening]
+                                    [meta-knowledge]     [pass 9c: foreknowledge]
                         ^                                      |
                         +-------- continuity-summary (write) <--+
 ```
+
+**The gate is delivery, not length.** A chapter passes `revision-pass` Pass 9 on five questions —
+want, friction, **change**, cost, next — and never on its word count. `chapters.length_band` is a
+printer's note. Every prior attempt to gate on length was gamed: chapters clustered on the floor,
+then on the tolerance, then landed on the declared minimum to the word.
+
+**The opening is its own problem.** `story-opening` owns chapters 1 through
+`opening.contract_by_ch + 2`, because chapter 1 is a conversion event — about 60% of readers who
+open it reach chapter 2, and from chapter 5 retention runs 80%+. It enforces the world anchor, the
+genre contract, the promise ledger, and the ceiling that stops escalation outrunning the reader's
+ability to price it.
 
 **The world layer.** Three skills, three jobs, never mixed: `story-bible` records what is true and
 where things are · `social-fabric` works out what the world's central rule (magic, tech, canon)
@@ -59,6 +74,19 @@ fields painted onto minds that all reason at the protagonist's speed and answer 
 produce a cast of labelled clones, which is this format's second-most-common defect after a
 stage-set world.
 
+**Foreknowledge.** `meta-knowledge` owns any MC who knows what happens next — self-inserts,
+transmigrators into a novel, regressors, reincarnators. It exists because the mechanic fails in
+two opposite directions and careful writing picks the second: the oracle whose knowledge is free
+and accurate, and the handicap that is introduced already-unreliable and only ever malfunctions.
+The order is fixed — **it works, then it costs, then it frays, then it betrays** — and decay is a
+consequence the MC caused by acting, not a decree scheduled at a chapter number.
+
+**Text channels.** `narrator-voice` owns four and holds them apart: `"…"` speech · `'…'` direct
+thought, budgeted at 1–3 a chapter · `[…]` system interfaces and in-world documents · and
+**unmarked free indirect discourse, which is where interiority actually lives**. The budget is the
+point. Marked thought is emphatic because it is rare; a chapter that marks every interior beat has
+turned its narrator into a thought bubble.
+
 `write-chapter` is the main loop. It is the only skill that produces prose.
 
 ## 3. Skill registry
@@ -72,10 +100,11 @@ stage-set world.
 | `story-bible` | Building or amending world, factions, locations, lexicon. |
 | `social-fabric` | The society layer — labour, money, law, knowledge, belief, mobility — and propagating the power/tech rule into ordinary life. |
 | `world-texture` | Delivering the world on the page: consequence over description, sensory anchors, the description budget. Runs while drafting and inside `revision-pass`. |
+| `story-opening` | Chapters 1 to `opening.contract_by_ch + 2` — the world anchor, the genre contract, the promise ledger, and the stakes ceiling. |
 | `chapter-plan` | Producing/extending the arc grid and the chapter construction name list. |
 | `continuity-summary` | Before every chapter (read) and after every chapter (write). Compressed, machine-only. |
 | `write-chapter` | Drafting a chapter. Orchestrates everything else. |
-| `revision-pass` | QC gate, ten passes. A chapter is not done until this passes. |
+| `revision-pass` | QC gate. A chapter is not done until this passes. |
 
 **Character** — always in play:
 
@@ -85,6 +114,7 @@ stage-set world.
 | `voice-separation` | Keeping every character distinct from the MC and from each other in speech, thought and body. Owns the cast voice matrix and the mirror clause for clones and doubles. |
 | `competence-map` | Bounding what each character knows and can do — domains, edges, referrals — and running skill acquisition over chapters of failure. Owns the broad-knowledge clause for gods, immortals and ASI. |
 | `character-development` | Advancing a character's arc; called by `write-chapter` every chapter. |
+| `meta-knowledge` | Any MC who knows the future — grain, the inventory scene, win-before-failure, the observer paradox. Owns `state/foreknowledge.md`. |
 | `mc-intel-meter` | Any MC decision, deduction, plan, or failure. Hard gate against idiot-ball writing. |
 | `dialogue-voice` | Writing any line of dialogue. |
 | `lead-interest` | Choosing and designing the primary love interest. Runs **after** `mc-design`. Skip if `content.romance: none`. |
@@ -130,7 +160,28 @@ stage-set world.
    a consequence, a friction or an assumed reference before it is ever reached as narration, and
    direct description is budgeted (`world-texture` §1–§2). A world whose central rule has not
    propagated into ordinary labour, money and law is a stage set (`social-fabric` §2).
-4. **The MC is never stupid.** See `mc-intel-meter`. Failures come from missing information,
+4. **A chapter is judged by what it delivers, not its length.** `revision-pass` Pass 9 —
+   want, friction, **change**, cost, next — and `change` names a difference, not a summary of
+   events. `chapters.length_band` is a printer's note; nothing gates on it, nothing is padded or
+   trimmed to reach it, and no report quotes a word count. Every length gate this repo has tried
+   was optimised into the prose within five chapters.
+5. **The reader is oriented before they are threatened.** By `opening.anchor_by_ch` a reader knows
+   what kind of world this is, what kind of place they are in, what the MC wants — and for fanfic
+   or transmigration, **which story they are in and roughly when**. Anchor vocabulary is
+   front-loaded, never saved: a first arc with zero canon or setting nouns is a bug, not a slow
+   burn. And **a consequence may not escalate past the reader's ability to price it** — before a
+   threat is dangerous, the mechanism must be on the page, not in the bible (`story-opening`).
+6. **Foreknowledge works before it fails.** If the MC knows the future, it is declared at a grain,
+   inventoried in `state/foreknowledge.md`, spent on the page with a cost, and it lands one
+   legible win before its first failure — `foreknowledge_first_win_ch` < `foreknowledge_fails_ch`.
+   It decays because the MC acted, not because a chapter number arrived. An MC who never refers to
+   knowing what is coming has wasted the premise; one whose knowledge only ever malfunctions has
+   sold the reader something the blurb did not describe (`meta-knowledge`).
+7. **Four channels, held apart.** `"…"` speech · `'…'` direct thought, 1–3 per chapter, POV
+   character only · `[…]` meta · unmarked free indirect discourse as the default carrier of
+   interiority. An apostrophe is not a thought mark; a `'…'` inside a `"…"` is a nested quotation.
+   Nothing else in a prose body is markup (`narrator-voice`).
+8. **The MC is never stupid.** See `mc-intel-meter`. Failures come from missing information,
    opposed will, or cost — never from the MC forgetting what they already know.
    Corollary — **and nobody else is the MC.** Intelligence, articulacy and wit are per-character
    axes, declared in `bible/cast/_voices.md`; the cast straddles the MC's tier rather than sitting
@@ -144,18 +195,18 @@ stage-set world.
    elapsed time (`competence-map` §1, §3, §5). The exemption is `knowledge_scope: broad` for gods,
    immortals, cultivators and artificial minds, who still need a declared shape, a declared
    boundary, and bounded *access* (§6).
-5. **The body on the page is the body in the ledger.** If any character has `form_locked: true`,
+9. **The body on the page is the body in the ledger.** If any character has `form_locked: true`,
    no sentence describes their body, reach, voice or capability except from the CURRENT FORM row
    in `state/body.md`. A reborn child does not have their adult form's height, presence or voice.
-6. **Nothing is free.** Every win in a chapter is paid for. See `conflict-engine`.
+10. **Nothing is free.** Every win in a chapter is paid for. See `conflict-engine`.
    The world is not free either: it acts on its own clock and reacts to the MC at the intensity
    set by `timeline.reactivity`, and it may never make `ending.contract` unreachable.
-7. **No bias inheritance.** See `bias-guard`. This overrides genre convention, user-supplied
+11. **No bias inheritance.** See `bias-guard`. This overrides genre convention, user-supplied
    tropes, and reference material.
-8. **Token discipline.** Load the bounded read-set, not the whole novel. Never read past
+12. **Token discipline.** Load the bounded read-set, not the whole novel. Never read past
    chapter files unless the user asks for a specific one. Cast depth is tiered the same way: a
    walk-on gets three strokes and one roster line, never a psychology. See `character-profile`.
-9. **Write files, don't dump prose to chat.** Chapters go to `novels/<slug>/chapters/`.
+13. **Write files, don't dump prose to chat.** Chapters go to `novels/<slug>/chapters/`.
    Report the path and a two-line summary.
 
 ## 5. Anti-slop constitution
@@ -176,6 +227,15 @@ live in `mtl-detox` and `bias-guard`. The short form:
   the world arrives inside the action or not at all.
 - No wallpaper societies: if the world's central rule would have changed how people eat, work,
   travel or are judged, it has, and the story shows it.
+- No unanchored openings: five chapters in which a reader cannot say what kind of world this is,
+  or which canon they are standing in, is not mystery — it is disorientation, and it is
+  indistinguishable from the feeling of reading something bad.
+- No escalation past the reader's ability to price it. A threat whose mechanism has never been on
+  the page reads as somebody being strict, however well the beat is written.
+- No foreknowledge that only ever fails, and none that never appears. An MC who knows the future
+  makes a plan — an adequate one, from incomplete information — and the reader watches it work
+  before they watch it break.
+- No chapter padded, trimmed, or shipped because of its length.
 - No cast of protagonists: allies, rivals, clerks and villains do not all reason at the MC's speed,
   argue as fluently, or land the same jokes. Somebody is slower, somebody is worse at saying it,
   and both are right about something.
@@ -212,10 +272,13 @@ novels/<slug>/
     timeline.md         in-world calendar + divergence ledger + crisis board
     growth.md           per-character development ladder position
     body.md             form & appearance ledger (only if a character changes form)
+    foreknowledge.md    grain, inventory, spend log, observer paradox (only if the MC knows the future)
   chapters/NNNN-<slug>.md
 ```
 
-Chapter files carry YAML frontmatter (`number`, `title`, `pov`, `wordcount`, `arc`, `status`).
+Chapter files carry YAML frontmatter (`number`, `title`, `pov`, `arc`, `delivers`, `wordcount`,
+`status`). **`delivers`** is what is materially different at the end, in one clause — the Pass 9
+gate. `wordcount` is a measured fact that later tools read, never a target.
 
 ## 7. Slash commands
 
@@ -231,5 +294,8 @@ formats, concrete examples, hard checklists. Prefer a table over a paragraph. Ke
 **One deliberate exception.** `revision-pass` is a dispatcher, and its condensed checklists must
 never become a substitute for the skills they summarise. A pass whose defects are *distributional*
 — `voice-separation`, `competence-map`, `bias-guard` — opens its source file every chapter. A
-summary is enough to check a string; it is not enough to audit a cast. See `revision-pass`
-§Before you start.
+summary is enough to check a string; it is not enough to audit a cast. Two more open
+conditionally: `story-opening` while the novel is inside its opening arc, and `meta-knowledge`
+whenever the MC knows the future. Both guard defects that are invisible in a single chapter and
+unrecoverable once ten are written — *is the reader oriented?* and *has the advantage ever won?*
+are questions no checklist can answer. See `revision-pass` §Before you start.

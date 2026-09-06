@@ -1,6 +1,6 @@
 ---
 name: scene-craft
-description: Build individual scenes with a goal, an obstacle, a turn and a changed exit state, and sequence them into a chapter. Use when structuring any chapter before drafting, and when a drafted chapter reads as "things happened" without momentum.
+description: Build individual scenes with a goal, an obstacle, a turn and a changed exit state, sequence them into a chapter, and apply the chapter-level want/friction/change delivery test that decides whether a chapter is finished. Use when structuring any chapter before drafting, and when a drafted chapter reads as "things happened" without momentum.
 ---
 
 # scene-craft
@@ -32,10 +32,37 @@ Exit state has four legal values:
 
 Never **plain yes**. A scene the POV character simply wins is a scene the reader skims.
 
+### The chapter-level version: want, friction, change
+
+The scene table above, collapsed to the level a whole chapter is judged at. Same three ideas —
+`goal` becomes **want**, `obstacle` becomes **friction**, and `exit state` becomes **change** —
+and it is the exact test `revision-pass` Pass 9 runs on the finished draft, so build to it:
+
+| | the question | fails when |
+|---|---|---|
+| **Want** | what the POV character is after in this chapter | the answer is "to react to things" |
+| **Friction** | the person, rule or scarcity in the way | the only obstacle is the MC's own hesitation, twice running |
+| **Change** | **what is materially different at the end** | the exit state equals the entry state |
+| **Cost** | what was paid, and by whom | nothing — see `conflict-engine` |
+| **Next** | what the reader now needs to see | the hook asks something the chapter already answered |
+
+**Change is the load-bearing one, and it is not a summary of events.** *"She asks about the
+recount"* is events. *"She is now someone the matron watches on purpose"* is a change. The
+difference is whether you could state it without narrating the chapter — and a chapter that cannot
+be stated that way is one a reader could skip.
+
+This is what the toolkit gates on. Chapter **length is not a quality signal** and is not checked:
+a short chapter that moves a relationship is finished, and a long one where everybody talks and
+nothing shifts is not.
+
+**Repeats must escalate.** If a beat recurs — a second refusal, a second interrogation, a second
+failed attempt — the second must cost more than the first. A repeat that does not build is
+repetition, and one of the two instances gets cut.
+
 ## The follow-through
 
 After a hard scene, a short passage of reaction → dilemma → decision. This is where readers
-metabolise what happened, and where character work happens. Keep it to 150–300 words in a
+metabolise what happened, and where character work happens. Keep it short in a
 serialized chapter — long enough to feel the cost, short enough to keep the page turning. It ends
 on a **decision**, which is the next scene's goal.
 
@@ -47,13 +74,15 @@ like the story has stopped.
 Default two-scene chapter:
 
 ```
-cold open      in motion, no throat-clearing              100–200 w
-scene 1        goal → obstacle → turn                     700–900 w
-follow-through reaction → dilemma → decision              150–300 w
+cold open      in motion, no throat-clearing              ~7%
+scene 1        goal → obstacle → turn                     ~40%
+follow-through reaction → dilemma → decision              ~8%
 * * *
-scene 2        the decision acted on; the cost lands      700–900 w
-hook           final beat                                  50–120 w
+scene 2        the decision acted on; the cost lands      ~40%   ← the change lands here
+hook           final beat                                  ~5%
 ```
+
+Proportions, not word counts — the chapter is as long as its material, and no longer.
 
 One-scene chapters suit sustained pressure — an interrogation, a duel, a negotiation.
 Three-scene chapters suit parallel lines converging; keep each scene short and do not switch POV
@@ -117,3 +146,6 @@ Expensive in serials: readers are dipping in weekly and a flashback breaks the f
 - [ ] Bodies locatable in space
 - [ ] Two sensory details per scene, drawn from the location's signature
 - [ ] The follow-through ends on a decision
+- [ ] The chapter answers want / friction / **change** / cost / next
+- [ ] `delivers:` names a difference, not a summary of events
+- [ ] Any repeated beat escalated on its second appearance

@@ -39,12 +39,22 @@ Write these down for yourself. Ten lines, not a document.
 | **The offstage question**: what the world does this chapter that the MC doesn't know | `timeline-engine` → `plan/timeline.md` §4 |
 | **The world channel**: the one thing about the world this chapter makes concrete, and whether a consequence, a friction or an assumed reference carries it | `world-texture` §1 |
 | What the MC deduces, and from which on-page clue | `mc-intel-meter` |
+| **What this chapter delivers**: the one thing that is materially different at the end | `scene-craft` — this becomes `delivers:` in the frontmatter |
+| **The anchor debt** (chapters ≤ `opening.contract_by_ch + 2` only): what a reader still cannot answer about world, place or canon position — and which beat pays it | `story-opening` §1, §4 |
+| **The ceiling check** (opening arc only): if this chapter escalates, is the mechanism that makes it dangerous already on the page? | `story-opening` §3 — if not, the escalation waits |
+| **The foreknowledge spend** (if `mc.foreknowledge` is set): what the MC knows that bears on today, at what grain, what using it costs, and what it invalidates | `meta-knowledge` §1, §5 → `state/foreknowledge.md` |
 | **Who has to ask**: the thing this chapter needs known, whose map actually covers it, and who must go to someone else for it | `competence-map` §1, §4 → `bible/cast/_competence.md` |
 | Opening line strategy, closing hook | `hook-and-pacing` |
 
-**Gate.** If "what this chapter costs" is empty, the chapter is not ready. Go back to
-`conflict-engine`. A chapter where the POV character only gains is filler regardless of how
-much happens in it.
+**Two gates, both before drafting.**
+
+1. If **"what this chapter costs"** is empty, the chapter is not ready. Go back to
+   `conflict-engine`. A chapter where the POV character only gains is filler regardless of how
+   much happens in it.
+2. If **"what this chapter delivers"** is a description of events rather than a difference, the
+   chapter is not ready either. *"She asks Tsuru about the recount"* is events; *"she is now
+   someone Tsuru watches on purpose"* is a delivery. Length will not fix a chapter that has
+   nothing to deliver, and length is not what it will be judged on.
 
 ## Step 2 — Draft
 
@@ -56,7 +66,13 @@ Hold these while writing:
   mid-chapter unless `pov-switch` says a switch is happening.
 - **Dialogue.** Every named speaker's lines must satisfy their speech fingerprint
   (`dialogue-voice`). If you cannot tell two characters apart with the tags removed, fix it now.
-- **Enough dialogue to audit.** Target **25–40% of the chapter in quotation marks**
+- **The four channels.** `"…"` speech · `'…'` direct thought, **1–3 for the whole chapter**, at
+  decisions · `[…]` system text and in-world documents · and **unmarked free indirect discourse,
+  which is where interiority actually lives** (`narrator-voice` §The four channels). Do not tag a
+  marked thought with *she thought* — the mark already said it. Do not let an apostrophe become a
+  thought mark. A `'…'` inside a `"…"` is a nested quotation, not thought.
+- **Enough dialogue to audit.** Target **25–40% of the chapter inside `"…"`** — spoken aloud, to
+  another person; thought and meta do not count
   (`dialogue-voice` §How much dialogue). Under 10% is a defect: the cast has become scenery and
   every voice check in this toolkit silently no-ops, because there are no lines to tell apart.
   When two people are in a room, the beat belongs to what they *say* to each other — not to the
@@ -94,21 +110,24 @@ Hold these while writing:
   walking between locations unless something happens on the way.
 - **Optional skills.** Apply each `on` skill's rules as you write, not afterwards.
 
-### Chapter anatomy (default, 2000 words)
+### Chapter anatomy
 
-| section | words | job |
+Proportions, not word counts — a chapter is judged on what it delivers, so the shape is what
+matters and the length is whatever the material needs.
+
+| section | share | job |
 |---|---|---|
-| Cold open | 100–200 | In motion. A line of dialogue, an action, or a wrong-feeling detail. Never weather, never waking up, never a recap. |
-| Scene 1 | 700–900 | Goal pursued, obstacle met, first turn. |
+| Cold open | ~7% | In motion. A line of dialogue, an action, or a wrong-feeling detail. Never weather, never waking up, never a recap. |
+| Scene 1 | ~40% | Goal pursued, obstacle met, first turn. |
 | Break | — | `* * *` |
-| Scene 2 | 700–900 | Consequence of the turn; the chapter's cost lands. |
-| Hook | 50–120 | The last beat. See `hook-and-pacing`. |
+| Scene 2 | ~40% | Consequence of the turn; the chapter's cost lands. **The delivery lands here.** |
+| Hook | ~5% | The last beat. See `hook-and-pacing`. |
 
-Across those sections, **25–40% of the words should be spoken aloud**, and the chapter should land
-near `chapters.target_words` — not against `min_words`, which is a floor, not a destination.
+**Chapter 1 has its own shape** — disruption, investment, world, cliffhanger — in
+`story-opening` §5. Use that instead for chapters inside the opening arc.
 
-Deviate freely when the material wants it — but never end without a hook if
-`chapters.hook_required` is true.
+Across those sections, **25–40% of the words are spoken aloud**. Deviate freely when the material
+wants it — but never end without a hook if `chapters.hook_required` is true.
 
 ### Recap discipline
 
@@ -119,7 +138,9 @@ paragraph. Never "As you'll remember".
 ## Step 3 — Write the file
 
 `novels/<slug>/chapters/NNNN-<kebab-title>.md`, four-digit padded, with the frontmatter from
-`chapters/_chapter-template.md` filled in. Prose only in the body — no headings, no author notes.
+`chapters/_chapter-template.md` filled in — including **`delivers:`**, which is the decision you
+already made in Step 1. Measure `wordcount:` (`wc -w` on the body); it is a recorded fact, not a
+target. Prose only in the body — the four channels and nothing else. No headings, no author notes.
 
 ## Step 4 — Revise
 
@@ -142,6 +163,12 @@ now — with their profile built from what is already on the page. A promotion a
 `bible/cast/_voices.md` and one in `bible/cast/_competence.md`, both placed against the existing
 cast rather than invented in isolation.
 
+Foreknowledge bookkeeping, same pass, if `mc.foreknowledge` is set: every spend gets a row in
+`state/foreknowledge.md` §3 with its cost and what it invalidated, statuses move in §2, and any
+plot-changing spend moves at least one *other* row toward `invalidated` (§4, the observer paradox).
+The chapter's CCS block carries an `fk>` line. A chapter that spent foreknowledge and left the
+ledger untouched is the same class of bug as one that skipped its CCS block.
+
 Knowledge bookkeeping, same pass: a skill stage that advanced goes in the skill-ladder table of
 `state/growth.md` with what caused it; a genuinely new domain a character acquired on the page goes
 on the competence grid. If the chapter had to invent an expertise nobody had, record it — and say
@@ -149,14 +176,18 @@ so in the report, because it usually means the cast is missing a person.
 
 ## Step 6 — Report
 
-Four lines to the user, no more:
+Five lines to the user, no more:
 
 ```
-Ch 42 — "The Ledger Room" (1,840 w) → novels/<slug>/chapters/0042-the-ledger-room.md
+Ch 42 — "The Ledger Room" → novels/<slug>/chapters/0042-the-ledger-room.md
+Delivers: Rin can no longer use the Guild's archive, and knows who closed it to her.
 Cost: Rin loses Dael's trust; Echo-step now known to the Guild.
 Threads: opened T14 (forged seal), paid T09 (oath to Mira).
 Next: ch 43 is planned — she reads the ledger. Say go, or tell me what to change.
 ```
+
+**Lead with the delivery, and do not report a word count.** Reporting length is what taught the
+drafting model to aim at it; the number lives in the frontmatter, where tools can read it.
 
 Do not paste the chapter into chat unless asked.
 
@@ -187,7 +218,16 @@ The draft wins if it is better, but the plan must be updated, not ignored:
 | Chapter reads as "stuff happened" | no turn | `scene-craft` |
 | Characters sound identical | fingerprints not loaded | `dialogue-voice` |
 | One mind narrating; nobody talks | analytical POV voice ate the scene; dialogue under 10% | `dialogue-voice` §How much dialogue — give the beat to the people in the room |
-| Every chapter lands just over `min_words` | the floor is being treated as the target | `hook-and-pacing` §Chapter length — aim at `target_words` ±15% |
+| Chapters cluster at one end of `length_band` | length is being treated as a goal | It is not a gate. `revision-pass` Pass 9 — did the chapter deliver a change? |
+| The chapter is short and feels unfinished | the turn happened offstage, or a scene ended at its first obstacle | Fix the delivery, not the length. Never pad |
+| `delivers:` reads as a summary of events | no actual change happened | `scene-craft` — a chapter with no difference at the end is filler however busy it is |
+| Every interior beat is in `'…'` | the direct-thought channel is being used as the interiority vehicle | `narrator-voice` §The four channels — free indirect is the default; budget is 1–3 |
+| Contractions counted as thought; nested quotes read as thought | collision rules ignored | `narrator-voice` §The three collision rules |
+| Five chapters in and a reader still cannot name the setting | the anchor was deferred | `story-opening` §1. Count your anchor nouns; zero is a bug |
+| A threat lands flat despite careful escalation | the mechanism that makes it dangerous is in the bible, not on the page | `story-opening` §3 — price the threat with a bystander first |
+| The MC never mentions knowing the future | foreknowledge lives in `novel.md` and nowhere else | `meta-knowledge` §2 — the inventory scene, by `first_win_by_ch` |
+| Foreknowledge appears only to be wrong | decay was scheduled before use | `meta-knowledge` §4 — a legible win comes first, always |
+| The MC's plan needs a precision they were never given | the grain was not held | `meta-knowledge` §1 — an `impressions` MC cannot name a date |
 | Everyone reasons and jokes like the MC | the cast was never placed on the matrix; the MC is the model's calibration point | `voice-separation` §1, §3 — straddle the tier, cap the wit, hold the turn lengths |
 | The allies are interchangeable | they share intel + articulacy + wit | `voice-separation` §3 — change one axis or merge the characters |
 | Beats are all nods, shrugs and sighs | the default gesture set | `voice-separation` §4 — beats come from the hands field |

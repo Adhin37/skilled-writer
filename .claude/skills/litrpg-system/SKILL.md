@@ -42,7 +42,11 @@ that changes nothing about how the MC solves problems is a receipt, not a beat.
 - Blocks are **short**: 3–8 lines. A full character sheet appears at most a few times in a novel —
   after major transitions — and never as a substitute for a scene.
 - **Never repeat unchanged values.** Show the delta only.
-- Set the block format in `bible/lexicon.md` and never vary it.
+- **System text is the meta channel, `[…]`** — `narrator-voice` §The four channels owns the
+  convention; `bible/lexicon.md` §Meta block format holds this novel's exact shape. Set it once
+  and never vary it. Skill and spell names appear in brackets in the narrative the same way, which
+  is what lets a reader's eye skip a block they have already absorbed.
+- **Never two meta blocks in a row**, and never one in place of a scene.
 - **The system does not narrate the story.** No "Congratulations! You have defeated…" flattery,
   no system commentary standing in for the MC's reaction. If the system has a voice, it is a
   character with an agenda, and it is used sparingly.
@@ -50,9 +54,12 @@ that changes nothing about how the MC solves problems is a receipt, not a beat.
 Recommended minimal form:
 
 ```
-    Echo-step — Rank 2 (was 1)
-    Cost: 6 hours' recovery, down from 12
+[ Echo-step — Rank 2 (was 1)
+  Cost: 6 hours' recovery, down from 12 ]
 ```
+
+Inline, mid-sentence, for a single value or a named skill: `[Echo-step]`, `[Rank 2]`. The block
+form is for a delta the reader has to stop and read; the inline form is for a name.
 
 ## Narrative rules
 
@@ -82,4 +89,4 @@ something goes wrong.
 - [ ] No system flattery, no system narrating the reader's reaction
 - [ ] The chapter's conflict was resolved by a choice, not by a stat
 - [ ] Any gain created a new problem
-- [ ] The block format matches `lexicon.md`
+- [ ] The block format matches `lexicon.md`, and uses the `[…]` meta channel

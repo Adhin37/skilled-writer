@@ -221,6 +221,18 @@ Dael checks the room's faces. Mira checks the exit she came in by.*
 Three characters, one entrance, three minds, zero interiority. This is how the cast thinks
 differently inside a single POV.
 
+### Marked thought belongs to the POV character alone
+
+The direct-thought channel (`'…'`, `narrator-voice` §The four channels) does not create an
+exception to any of the above. **A non-POV character never gets one** — that is head-hopping with
+punctuation on it, and it is more conspicuous than the prose version, not less.
+
+When the POV character does get one, it obeys their matrix row like any other line they produce:
+their turn length, their articulacy, their register. A character whose spoken articulacy is 2 does
+not think in balanced clauses because the marks make it look like a caption. And the budget is a
+separation tool in its own right — at one to three per chapter, a marked thought is the most
+emphatic thing on the page, so it should be the sentence only *this* character would form.
+
 ---
 
 ## 6. Anti-convergence over a long serial
@@ -324,3 +336,4 @@ look smart.
 - [ ] Any voice delta applied does not move a character onto the MC's axes
 - [ ] Mirrors declared with `mirror`, `convergence` and `diverged_ch`; the tell is named
 - [ ] No difference carried by accent, dialect spelling or a demographic marker
+- [ ] No non-POV character got a marked `'…'` thought

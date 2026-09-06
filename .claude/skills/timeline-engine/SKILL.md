@@ -240,6 +240,15 @@ Symptoms, all of which mean the dial is effectively 1 regardless of what the con
 - The MC's victories are in fights canon never had, against opponents canon never used
 - Nothing in the divergence ledger has status `prevented` or `created`
 - The story could be summarised without mentioning the MC
+- **The MC's foreknowledge keeps working.** If canon knowledge is still reliable in arc 3, the
+  world is not moving — the future the MC remembers was the one in which they did nothing, so a
+  world that reacts must be invalidating that memory as it goes
+
+**Divergence and foreknowledge decay are the same event, seen from two sides.** A row here with
+status `prevented` or `created` is a row in `state/foreknowledge.md` moving toward `invalidated`.
+Cross-reference the ids rather than keeping two accounts of one fact; `meta-knowledge` §5 owns the
+other half. Doing this is what makes decay a consequence the MC caused instead of an authorial
+decree at a scheduled chapter.
 
 ---
 

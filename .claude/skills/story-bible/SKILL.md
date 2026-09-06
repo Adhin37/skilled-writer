@@ -69,9 +69,16 @@ same thing named three ways across 200 chapters.
 
 Record: canonical spellings · what a term means in plain English · forms of address, and **when
 they change** (a switch from "my lord" to a first name is a whole story beat — log it in
-`state/growth.md` when it happens) · units and currency · house style decisions (numbers,
-interior thought formatting, italics on invented words, chapter title case) · a per-novel banned
-word list.
+`state/growth.md` when it happens) · units and currency · house style decisions — **the four
+text channels** (`"…"` speech, `'…'` direct thought, `[…]` meta, unmarked free indirect discourse;
+owned by `narrator-voice`, mirrored in `novel.md` → `channels:`), the one job italics do, numbers,
+chapter title case — · a per-novel banned word list.
+
+**Anchor terms.** The terms table marks each entry `anchor? yes` when it tells a new reader what
+kind of story this is or which world they are in — the setting's name, the central power, the
+institution everyone answers to, a canon proper noun. **Anchor terms are front-loaded**: an
+`anchor? yes` term whose `first appears` is later than `opening.anchor_by_ch` is a defect, not a
+slow burn. Withholding the word that names the genre does not build mystery (`story-opening` §1).
 
 **Consult it before writing any proper noun.** It is cheap and always in the read-set.
 

@@ -105,6 +105,19 @@ If you cannot name one, they cannot say the line. This is the knowledge counterp
 `mc-intel-meter`'s trace test, and it catches the most common version of the defect: a character
 producing the correct technical answer because the *author* knows it.
 
+**Foreknowledge is a sixth provenance, and it is bounded like any other.** *They remember it from
+before* is a legal answer only when `mc.foreknowledge` is set, only at the declared
+`foreknowledge_grain`, and only for an item on the `state/foreknowledge.md` inventory. It is a
+declared domain on the competence grid with an edge like every other domain, and the same rule
+applies: **an unlisted item is `none`, not "probably fine."** An MC whose grain is `impressions`
+cannot produce a date; one whose grain is `fandom-corrupted` cannot tell what they read from what
+someone told them about it, and saying so on the page is a strength. `meta-knowledge` owns the
+mechanic, its decay, and what a spend costs.
+
+Note what foreknowledge is *not* provenance for: **a skill.** Remembering that a technique exists
+is not being able to perform it, and the acquisition ladder in §5 runs at its normal speed for a
+reincarnator. This is the commonest way foreknowledge is smuggled into competence it never earned.
+
 Two corollaries:
 
 - **Guessing is legal and should be visible.** A character who says "I'd assume it's a debt, but
@@ -250,7 +263,8 @@ category is expected to be bad at it.
 
 ## Self-check
 
-- [ ] Every fact stated on the page passes the provenance test — taught, did, told, read, guessing
+- [ ] Every fact stated on the page passes the provenance test — taught, did, told, read, guessing,
+      or remembered-from-before at its declared grain
 - [ ] No character answered inside a domain their map does not list
 - [ ] Nobody exceeded the above-`professional` budget for their tier
 - [ ] At least one character said they did not know, or asked someone, or was visibly wrong

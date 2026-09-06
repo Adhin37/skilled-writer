@@ -141,7 +141,10 @@ this run neither file was ever in context.
 | 3 | Setup burns ~$21 and 42 min before chapter 1 exists | medium | documented, not a bug |
 | 4 | `novel-init` reads all 11 template files individually before copying the tree | low | **fixed** — copy-first instruction added |
 | 5 | **Dialogue starvation** — chapters ran **2-5% dialogue** against a 25-40% format norm | **high** | **fixed** |
-| 6 | **Chapters cluster at the word floor** — 1600/1619/1619/1643/1659 against `target_words: 2000` | **high** | **fixed** |
+| 6 | **Chapters cluster at the word floor** — 1600/1619/1619/1643/1659 against `target_words: 2000` | **high** | fixed, then **superseded** — see below |
+| 10 | **No world anchor.** Zero occurrences of `Konoha`, `Uchiha`, `shinobi`, `chakra`, `ninja`, `village`, `Academy` or `Hokage` across 10,290 words. Nothing on the page identified the setting, the fandom, or the genre — while the suspicion plot escalated to `certain-something-is-off` by ch 4 | **high** | **fixed** — new `story-opening` skill |
+| 11 | **The MC's foreknowledge never appears, and was planned to fail before it worked.** Zero on-page references to knowing the future; the plan introduced it as doubtful at ch 6 and disproved it at ch 12, and four of arc 1's five escalation rungs were foreknowledge failures | **high** | **fixed** — new `meta-knowledge` skill |
+| 12 | **No convention for thought or meta text.** `lexicon.md` declared *italic, unquoted*; the prose used unmarked free indirect discourse throughout and italics for three other jobs at once | medium | **fixed** — four channels in `narrator-voice` |
 | 8 | One supporting character's line was more logically sophisticated than her declared articulacy rating | low | open, chapter-level |
 | 9 | **Four "never optional" skills never loaded** (above) | **high** | **fixed** — `revision-pass` now names which passes must open their source skill; `CLAUDE.md` §8 carves out the exception to self-sufficiency |
 
@@ -170,6 +173,19 @@ target was never enforced. The defect is invisible in any single chapter and obv
 
 Fixed by making `hook-and-pacing` state that the floor is a tolerance rather than a goal (target
 ±15%), adding a five-chapter trend check, and updating Pass 9 to check against target.
+
+### Finding 6, revisited — the fix was the wrong shape
+
+The ±15% repair worked, and then the defect moved. On the next reading, chapter 5 landed on
+**exactly 1,600 words** — the declared `min_words`, to the word — and chapter 4's frontmatter
+claimed 1,619 against an actual 1,887, a wrong number that had already propagated into
+`state/continuity.md`.
+
+The lesson is not that the tolerance was too loose. It is that **any number which decides whether
+a chapter ships will be optimised**, and prose optimised toward a length is padded or truncated
+prose. The word-count gate has since been removed entirely and replaced by a structural delivery
+test — want, friction, **change**, cost, next — with length kept only as a measured fact whose
+*accuracy* is checked, because a wrong one corrupts every share computed from it.
 
 ### Both fixes validated
 
@@ -244,9 +260,17 @@ Chapter QC (this ships with the repo):
 docs/check-chapters.sh novels/<your-slug>
 ```
 
-It measures dialogue share, word count against target, MTL banned phrases, narration exclamation
-marks, the default gesture set, and CCS ledger integrity — the mechanical half of `revision-pass`,
-run independently so the gate cannot mark its own homework.
+It measures the four channel shares, anchor vocabulary across the opening arc, `delivers:`
+presence, wordcount accuracy, MTL banned phrases, narration exclamation marks, the default gesture
+set, and CCS ledger integrity — the mechanical half of `revision-pass`, run independently so the
+gate cannot mark its own homework. Length is reported and never scored.
+
+Run against this benchmark's own novel it reproduces findings 6, 10 and 12 mechanically:
+
+```bash
+ANCHORS="Konoha,Uchiha,shinobi,chakra,ninja,Hokage,Academy,village,clan,jutsu" \
+  docs/check-chapters.sh novels/small-enough-to-miss
+```
 
 Cost accounting: subagent usage is **not** in the main session transcript. It lives at
 `~/.claude/projects/<escaped-cwd>/<session-id>/subagents/agent-<agentId>.jsonl`, one

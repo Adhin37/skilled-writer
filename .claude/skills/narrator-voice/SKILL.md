@@ -1,6 +1,6 @@
 ---
 name: narrator-voice
-description: Establish and hold the narrating voice — person, tense, narrative distance, interiority and filtering — so the novel sounds like one book across hundreds of chapters. Use when setting up a novel, when drafting any chapter, and when the prose starts feeling generic or inconsistent.
+description: Establish and hold the narrating voice — person, tense, narrative distance, interiority, filtering, and the four text channels (speech, direct thought, meta, and unmarked free indirect discourse) — so the novel sounds like one book across hundreds of chapters. Use when setting up a novel, when drafting any chapter, when marking thought or system text, and when the prose starts feeling generic or inconsistent.
 ---
 
 # narrator-voice
@@ -73,6 +73,76 @@ their minds reach the page through what they reach for, look at, or say first wh
 changes. Three people enter the same room; one checks the door, one checks the faces, one checks
 the exit they came in by. Three minds, one POV, no head-hopping.
 
+## The four channels
+
+**This skill is the authority on how the four kinds of text are marked.** The per-novel house style
+lives in `bible/lexicon.md` §House style and mirrors `novel.md` → `channels:`; change them
+together or not at all. `dialogue-voice` writes the speech; `litrpg-system` and `world-texture`
+write into the meta channel; this section decides what each looks like on the page.
+
+| channel | mark | carries | budget |
+|---|---|---|---|
+| Speech | `"…"` | anything said aloud | 25–40% of the chapter (`dialogue-voice`) |
+| Direct thought | `'…'` | the verbatim sentence a character says to themselves and not aloud | **1–3 per chapter**, at decisions |
+| Meta | `[…]` | system interfaces, status deltas, in-world documents, signs, letters, narrative adjustments | as needed; never two consecutive |
+| Free indirect | *unmarked* | **the default carrier of interiority** | unlimited |
+
+### Free indirect is the default, and it is not marked
+
+This is the rule that keeps the other three from ruining the prose. Interiority reaches the page
+*inside the narration*, in the character's idiom, with no typography at all:
+
+> She wasn't looking for anything to take. That was the part she'd have had trouble explaining, if
+> anyone had asked, which nobody had, yet.
+
+That is thought. It wears no marks, it needs none, and at `close` or `deep` distance it is
+indistinguishable from the narration by design — that seamlessness *is* the effect. Everything in
+§Interiority above describes this channel.
+
+### Direct thought is the exception, and it is budgeted
+
+`'…'` is for the one sentence a character puts to themselves in words — usually at a decision,
+usually when the free indirect voice would blur something that needs to be sharp:
+
+> The clerk turned the form around and tapped the empty line. Guardian. She looked at it for
+> longer than a four-year-old should need to look at a word.
+> *'Don't help them fill it in.'*
+> "I don't know," she said.
+
+**One to three per chapter.** Past that, the narrator stops being a mind and becomes a comic strip
+with thought bubbles, and the effect inverts: marked thought is emphatic *because* it is rare.
+
+Note the interaction with distance. At **deep** distance direct thought is nearly redundant — the
+prose already thinks in the character's voice — so it is used sparingly and lands hard. At
+**cool** or **medium** distance it is the only interiority available, and even then the budget
+holds; a cool narrator that suddenly quotes three thoughts a page has changed books.
+
+### The three collision rules
+
+Without these the convention breaks on contact with ordinary English.
+
+1. **Apostrophes are not thought marks.** A thought opens at a word boundary and closes before
+   punctuation or whitespace. `don't`, `she'd`, `the boys' room`, `'90s` are never thought. Any
+   tool counting thought must encode this, or it will report every contraction as interiority.
+   The converse matters just as much and is easy to miss: **a thought may contain contractions**,
+   and most will — `'Start with what you're sure of.'` is one thought, not a broken pair. What
+   distinguishes them is position, not the character: an apostrophe with a letter on both sides is
+   a contraction, wherever it appears. A thought that opens and never closes on the same line is
+   the error to look for, and it is usually a possessive that swallowed the closing mark.
+2. **A `'…'` inside a `"…"` pair is an ordinary nested quotation.** `"He actually said 'no
+   comment' to my face."` A `'…'` outside any `"…"` pair is thought. Position disambiguates and
+   no third mark is introduced.
+3. **Nothing else is markup.** No bold, headings, lists or links in the prose body. `*italic*` has
+   exactly one job, declared in `lexicon.md` — foreign words on first use, *or* a word used as an
+   object, *or* stress. Not two. Italics that mean three things mean nothing, and the commonest
+   way a draft loses its emphasis is by spending it everywhere.
+
+### Thought in non-POV heads
+
+**None.** The channel rules do not create an exception to §Interiority: a non-POV character never
+gets a `'…'`, because that would be head-hopping with punctuation on it. Their minds still reach
+the page through the first move.
+
 ## Filtering — the most common defect in AI-written prose
 
 In close third or first, remove filter verbs. The POV *is* the camera; saying so doubles the
@@ -91,6 +161,13 @@ seemed, decided, found herself, could see, was aware that*.
 
 Keep a filter verb only when the *act of perceiving* is the point: *She watched him lie to her
 mother and did nothing.*
+
+**`thought` and `wondered` have a second escape.** The reason they are banned is that
+*she thought that the ledger was a forgery* puts a narrator between the reader and the mind. The
+fix is usually free indirect discourse — *The ledger was a forgery. Of course it was.* — and
+occasionally the direct-thought channel, which needs no tag at all: `'The ledger's a forgery.'`
+What is never right is the tag plus the mark: `'The ledger's a forgery,' she thought.` says the
+same thing twice.
 
 ## Holding the voice across a serial
 
@@ -129,3 +206,9 @@ wrong detail (something present that should not be) · a flat declarative that i
 - [ ] Interiority is decision and reaction, not transcript
 - [ ] Non-POV characters shown through first moves, never through interiority
 - [ ] The three voice rules hold
+- [ ] Free indirect discourse carries the interiority; it is unmarked
+- [ ] Direct thought `'…'` used 1–3 times, at decisions, and never tagged with *she thought*
+- [ ] No non-POV character got a direct thought
+- [ ] No apostrophe read as a thought mark; no nested speech-quotation read as thought
+- [ ] Meta `[…]` matches the `lexicon.md` format; italics do their one declared job
+- [ ] Nothing else in the prose body is markup

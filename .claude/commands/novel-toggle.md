@@ -39,7 +39,9 @@ they are not optional, and offer instead to adjust `content.rating`, `content.vi
 
 - `pov.mode` or `narration.person`/`tense` — every prior chapter is now inconsistent
 - `mc.intel_tier` — past chapters established a level of competence readers have calibrated to
-- `chapters.target_words` — readers form expectations from the first ten chapters
+- `channels.*` — every written chapter uses the old convention; changing it means a mechanical
+  re-pass over all of them, and `bible/lexicon.md` must change in the same edit
+- `opening.promise` — this is the blurb's contract with readers who already arrived on it
 - `mc.gender` / `mc.pronouns` — every written chapter now misgenders the MC
 - `mc.origin` or `mc.form_locked` — changes what the MC's body could do in every prior chapter;
   if turning `form_locked` on mid-novel, build the stage table backwards from what has already

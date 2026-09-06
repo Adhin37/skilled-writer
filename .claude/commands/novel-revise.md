@@ -1,11 +1,11 @@
 ---
-description: Run the ten-pass quality gate on a chapter and fix what it finds
+description: Run the full quality gate on a chapter and fix what it finds
 argument-hint: "[chapter number, or a range like 40-45]"
 ---
 
 Revise a drafted chapter.
 
-Resolve the active novel, then invoke the `revision-pass` skill and run all ten passes in order.
+Resolve the active novel, then invoke the `revision-pass` skill and run every pass in order.
 
 Interpret `$ARGUMENTS`:
 

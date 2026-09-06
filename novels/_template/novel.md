@@ -40,8 +40,12 @@ mc:
 
   # origin: native | reincarnator | transmigrator | regressor | isekai | revenant
   origin: native
-  foreknowledge: ""       # reincarnator/regressor: what they know, and how precisely
-  foreknowledge_fails_ch: null   # the chapter where it is first wrong — required if set
+  # ── FOREKNOWLEDGE ── any MC who knows what happens next. See meta-knowledge.
+  foreknowledge: ""       # what they know, in one sentence
+  foreknowledge_grain: "" # episode-precise | major-beats | impressions | fandom-corrupted
+  foreknowledge_first_win_ch: null  # where it first WORKS, on the page, legibly
+  foreknowledge_fails_ch: null      # where it is first wrong. Must be > first_win_ch.
+  foreknowledge_known_by: []        # who has guessed the MC knows things they shouldn't
 
   # the central advantage / golden finger — "none" is a valid, strong answer
   golden_finger: ""       # one sentence a reader could repeat
@@ -65,13 +69,32 @@ romance:
   lead_introduced_ch: null
 
 # ── CHAPTER ECONOMY ──────────────────────────────────────────────────────────
+# A chapter is judged by what it DELIVERS, not by its length. See revision-pass Pass 9.
 chapters:
-  target_words: 2000
-  min_words: 1600
-  max_words: 2600
-  hook_required: true     # every chapter ends on a hook (see hook-and-pacing)
-  arc_length: 25          # chapters per arc
-  scenes_per_chapter: 2   # 1–3
+  length_band: "1500-2600"  # a printer's note, not a quality gate. Flagged only outside.
+  hook_required: true       # every chapter ends on a hook (see hook-and-pacing)
+  arc_length: 25            # chapters per arc
+  scenes_per_chapter: 2     # 1–3
+
+# ── TEXT CHANNELS ────────────────────────────────────────────────────────────
+# How the four kinds of text are marked on the page. Owned by narrator-voice.
+# Set once, never varied. The full house style lives in bible/lexicon.md.
+channels:
+  speech: '"…"'             # anything said aloud
+  thought: "'…'"            # DIRECT verbatim thought only — budget 1–3 per chapter
+  meta: "[…]"               # system interfaces, in-world documents, narrative adjustments
+  free_indirect: unmarked   # the default carrier of interiority — no marks at all
+
+# ── THE OPENING ──────────────────────────────────────────────────────────────
+# What the first chapters owe the reader, and when. See story-opening.
+# The reader is oriented before they are threatened.
+opening:
+  promise: ""               # the blurb's central promise, in one sentence
+  anchor_by_ch: 1           # reader knows what world, what place, what the MC wants
+  contract_by_ch: 3         # subgenre unmistakable; reader can predict ch 10's pleasures
+  promise_touched_by_ch: 3  # `promise` has reached the page, not just the blurb
+  first_win_by_ch: 5        # the central advantage lands one legible win, before it fails
+  stakes_ceiling: ""        # the worst thing allowed to happen before the frame is on the page
 
 # ── WORLD CLOCK ──────────────────────────────────────────────────────────────
 # How much the world runs on its own and reacts to the MC. See timeline-engine.

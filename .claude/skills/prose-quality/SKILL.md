@@ -89,6 +89,24 @@ emotional beat is usually a **decision**, not a sensation.
 - Dialogue-heavy stretches need a grounding beat every 3–4 exchanges; action stretches need one
   clear spatial anchor per paragraph.
 
+## Reading on a phone
+
+Serialized fiction is read on a screen about as wide as a hand, usually in a queue. Layout is not
+cosmetic here; it is the difference between a chapter that gets read and one that gets scrolled.
+
+- **Two to three lines per paragraph** as the working default. A paragraph that runs six lines on
+  a laptop is a wall on a phone, and readers skip walls rather than fight them.
+- **The first screen must not be an unbroken block.** Whatever else chapter openings do
+  (`hook-and-pacing`), they must *look* readable before they are read.
+- **A new paragraph for every speaker**, always, with no exceptions for one-word replies.
+- **Break exposition.** Never more than about three uninterrupted lines of explanation; put a beat,
+  a line of speech, or a physical action between them.
+- **Short sentences carry action.** Under pressure the paragraph shortens as well as the sentence.
+
+This is layout, not padding: the word count does not change, only where the breaks fall. And it is
+not licence to write in fragments — a page of one-line paragraphs reads as breathless and is its
+own kind of wall.
+
 ## Word-level
 
 - **Adverbs**: usually a symptom that the verb is wrong.
@@ -98,6 +116,11 @@ emotional beat is usually a **decision**, not a sensation.
 - **"That"**: delete where the sentence survives without it.
 - **Repeated distinctive words**: a striking word used twice in a chapter loses both uses. Track
   the ones you like — those are the ones you will overuse.
+- **Italics do exactly one job**, declared in `bible/lexicon.md`: invented words on first use, *or*
+  a word used as an object, *or* stress. Not two, and never three. Emphasis spent on everything is
+  emphasis that lands nowhere, and a draft that italicises stress, quoted terms and echoes at once
+  has no emphasis left when it needs some. Direct thought is not italics' job either — it has its
+  own channel, `'…'` (`narrator-voice` §The four channels).
 - **Sensory balance**: sight dominates by default. Deliberately place one non-visual detail per
   scene. Smell is the most underused and the most memorable.
 
@@ -121,3 +144,6 @@ emotional beat is usually a **decision**, not a sensation.
 - [ ] No emotion named where behaviour or decision would carry it
 - [ ] One non-visual sensory detail per scene
 - [ ] No dead stage business
+- [ ] Paragraphs are phone-legible; the first screen is not a wall
+- [ ] Every speaker has their own paragraph
+- [ ] Italics do their one declared job and no other
