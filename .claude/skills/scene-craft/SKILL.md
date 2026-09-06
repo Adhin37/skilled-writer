@@ -116,7 +116,7 @@ room. One spatial anchor per paragraph in action; one every three exchanges in d
 | Conversation | two people exchanging information | give each a different want, and let one lie |
 | Fight | choreography without stakes | decide before writing what is lost by the end. See `combat-choreography` |
 | Travel | a montage of distance | either something happens on the road, or it is one sentence |
-| Training | a montage of competence | show the cost and the failure, not the progression. One stage of the ladder per scene at most, and only when a stage actually turns over — practice between stages is a clause, not a scene (`competence-map` §5) |
+| Training | a montage of competence | show the cost and the failure, not the progression. One stage of the ladder per scene at most, and only when a stage actually turns over — practice between stages is a clause, not a scene (`competence-map/references/acquisition-ladder.md`) |
 | Discovery | a lecture | the POV character wants something *else*; discovery interrupts it |
 | Aftermath | drifting reflection | make it a decision scene: what will they do now |
 | Political | names and titles the reader can't hold | ground in one concrete thing on the table |

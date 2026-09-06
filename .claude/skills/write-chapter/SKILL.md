@@ -41,17 +41,17 @@ Write these down for yourself. Ten lines, not a document.
 | What this chapter costs the POV character | `conflict-engine` — never zero |
 | Which thread ops fire | `plot-threads` |
 | Which character sounds different today, and how | `character-development` → `state/growth.md` |
-| **The voice spread**: this chapter's speakers as matrix rows, side by side — and which of them differs from the MC on two or more axes | `voice-separation` §1, §3 → `bible/cast/_voices.md` |
+| **The voice spread**: this chapter's speakers as matrix rows, side by side — and which of them differs from the MC on two or more axes | `voice-separation` §1 , §3 → `bible/cast/_voices.md` |
 | Anyone new on the page: their **cast tier**, decided before they speak | `character-profile` — default C, three strokes, one roster line, one off-default axis |
 | Which bodies are locked, and what they cannot do today | `mc-design` → `state/body.md` §1–§2 |
 | **The offstage question**: what the world does this chapter that the MC doesn't know | `timeline-engine` → `plan/timeline.md` §4 |
 | **The world channel**: the one thing about the world this chapter makes concrete, and whether a consequence, a friction or an assumed reference carries it | `world-texture` §1 |
 | What the MC deduces, and from which on-page clue | `mc-intel-meter` |
 | **What this chapter delivers**: the one thing that is materially different at the end | `scene-craft` — this becomes `delivers:` in the frontmatter |
-| **The anchor debt** (chapters ≤ `opening.contract_by_ch + 2` only): what a reader still cannot answer about world, place or canon position — and which beat pays it | `story-opening` §1, §4 |
+| **The anchor debt** (chapters ≤ `opening.contract_by_ch + 2` only): what a reader still cannot answer about world, place or canon position — and which beat pays it | `story-opening` §1 , §4 |
 | **The ceiling check** (opening arc only): if this chapter escalates, is the mechanism that makes it dangerous already on the page? | `story-opening` §3 — if not, the escalation waits |
-| **The foreknowledge spend** (if `mc.foreknowledge` is set): what the MC knows that bears on today, at what grain, what using it costs, and what it invalidates | `meta-knowledge` §1, §5 → `state/foreknowledge.md` |
-| **Who has to ask**: the thing this chapter needs known, whose map actually covers it, and who must go to someone else for it | `competence-map` §1, §4 → `bible/cast/_competence.md` |
+| **The foreknowledge spend** (if `mc.foreknowledge` is set): what the MC knows that bears on today, at what grain, what using it costs, and what it invalidates | `meta-knowledge` §1 , §5 → `state/foreknowledge.md` |
+| **Who has to ask**: the thing this chapter needs known, whose map actually covers it, and who must go to someone else for it | `competence-map` §1 , §4 → `bible/cast/_competence.md` |
 | Opening line strategy, closing hook | `hook-and-pacing` |
 
 **Two gates, both before drafting.**
@@ -132,7 +132,7 @@ matters and the length is whatever the material needs.
 | Hook | ~5% | The last beat. See `hook-and-pacing`. |
 
 **Chapter 1 has its own shape** — disruption, investment, world, cliffhanger — in
-`story-opening` §5. Use that instead for chapters inside the opening arc.
+`story-opening/references/chapter-one.md`. Use that instead for chapters inside the opening arc.
 
 Across those sections, **25–40% of the words are spoken aloud**. Deviate freely when the material
 wants it — but never end without a hook if `chapters.hook_required` is true.

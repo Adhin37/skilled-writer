@@ -251,8 +251,8 @@ concrete examples, hard checklists. Prefer a table over a paragraph.
 **Procedure in the body, everything else in `references/`.** A `SKILL.md` holds what the skill
 owns, the procedure and the rules. Worked examples, failure catalogues, genre notes and long
 tables go to `references/<topic>.md`, cited with an explicit trigger — *open this when …*. Skills
-that `revision-pass` consults carry `references/audit-card.md`, written by the skill's owner;
-`revision-pass` opens the card rather than paraphrasing it. Rationale: [design notes](docs/design-notes.md).
+that `revision-pass` consults carry an **audit card** in their `references/`, written by that
+skill's owner; `revision-pass` opens the card rather than paraphrasing it. Rationale: [design notes](docs/design-notes.md).
 
 **Cite sections, never line numbers.** `hook-and-pacing` §Openings survives an edit;
 `hook-and-pacing:38-39` rots the moment a paragraph is added above it, and rots silently.

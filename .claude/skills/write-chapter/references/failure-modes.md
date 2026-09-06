@@ -20,19 +20,19 @@ of what is wrong, or when a report from `revision-pass` points at a symptom rath
 | The MC never mentions knowing the future | foreknowledge lives in `novel.md` and nowhere else | `meta-knowledge` §2 — the inventory scene, by `first_win_by_ch` |
 | Foreknowledge appears only to be wrong | decay was scheduled before use | `meta-knowledge` §4 — a legible win comes first, always |
 | The MC's plan needs a precision they were never given | the grain was not held | `meta-knowledge` §1 — an `impressions` MC cannot name a date |
-| Everyone reasons and jokes like the MC | the cast was never placed on the matrix; the MC is the model's calibration point | `voice-separation` §1, §3 — straddle the tier, cap the wit, hold the turn lengths |
+| Everyone reasons and jokes like the MC | the cast was never placed on the matrix; the MC is the model's calibration point | `voice-separation` §1 , §3 — straddle the tier, cap the wit, hold the turn lengths |
 | The allies are interchangeable | they share intel + articulacy + wit | `voice-separation` §3 — change one axis or merge the characters |
-| Beats are all nods, shrugs and sighs | the default gesture set | `voice-separation` §4 — beats come from the hands field |
+| Beats are all nods, shrugs and sighs | the default gesture set | `voice-separation/references/channels.md` — beats come from the hands field |
 | Minor characters are wallpaper | sketched with a job and nothing else | `character-profile` — three strokes, especially the third |
 | A one-scene shopkeeper got a backstory | tier not assigned before writing | `character-profile` — default C, and C has no interior |
 | Scene could be anywhere; swap the nouns and nothing breaks | world lives only in `bible/` | `world-texture` §1 — add consequence and friction, not description |
-| Readers skim the openings | establishing paragraphs, scenery blocks | `world-texture` §2, §7 |
+| Readers skim the openings | establishing paragraphs, scenery blocks | `world-texture` §2 and `world-texture/references/overbuilding.md` |
 | World has spectacular magic and generic peasants | rule never propagated | `social-fabric` §2 |
 | MC solves it too easily | no cost budgeted | `conflict-engine` |
 | MC misses the obvious | plot needs delay | `mc-intel-meter` — change the *information*, never the intelligence |
 | Everyone can answer any question | unlisted domains treated as "probably fine" | `competence-map` §1 — unlisted is `none`; somebody asks, or is wrong |
 | A convenient character explains the thing | exposition assigned to whoever is standing there | `competence-map` §3 — nobody explains a domain they do not have |
-| Bad at it Tuesday, good at it Friday | the training montage | `competence-map` §5 — five stages, a named source per advance |
+| Bad at it Tuesday, good at it Friday | the training montage | `competence-map/references/acquisition-ladder.md` — five stages, a named source per advance |
 | An arc ended and nothing closed | every thread was deferred to the next arc | `plot-threads` §Ageing — an arc pays something on the page |
 | Reader has no reason for the next chapter | weak hook | `hook-and-pacing` |
 | Contradicts chapter 30 | read-set skipped | `continuity-summary` |

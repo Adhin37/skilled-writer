@@ -11,30 +11,12 @@ nothing is pushing back.
 
 ---
 
-## The AI-default tells
+## What lives in `references/`
 
-These are the phrases and shapes that mark machine-written fiction. Hunt them explicitly.
-
-**Phrases to cut**
-
-*a mix of X and Y* · *a testament to* · *something shifted in the air* · *the weight of X settled
-over* · *a moment that stretched* · *she couldn't shake the feeling* · *little did she know* ·
-*for the first time in a long time* · *a silence stretched between them* · *emotions warred within
-her* · *the air was thick with tension* · *a chill ran down his spine* · *time seemed to slow* ·
-*he let out a breath he didn't know he was holding* · *this changes everything*
-
-**Shapes to break**
-
-| shape | example | fix |
-|---|---|---|
-| The tricolon habit | "It was cold, it was quiet, and it was wrong." | Two items, or four. Three is the model's default cadence. |
-| Balanced antithesis every paragraph | "Not a threat. A promise." | Once per chapter, maximum. It is a strong move that goes stale fast. |
-| Em-dash appositive on every other sentence | "She ran — because running was all she had left." | Vary the connector, or cut the second clause. |
-| Uniform sentence length | 14, 15, 13, 16 words | Deliberately write a three-word sentence and a thirty-word one. |
-| Every paragraph the same length | four lines, forever | Let a one-line paragraph carry a beat. |
-| Ending every scene on a portentous fragment | "And then, silence." | Earn it or cut it. |
-| Naming the emotion after showing it | "...her hands shook. She was terrified." | Keep the hands. Cut the sentence. |
-| Summarising the scene's meaning at its close | "It was the moment everything changed." | The reader decides that. Delete. |
+| file | open it when |
+|---|---|
+| `references/ai-default-tells.md` | `sw lint` is unavailable, or a phrase feels stale and you want the full cut list |
+| `references/audit-card.md` | never, by you. `revision-pass` Pass 8 opens it |
 
 ## Positive standards
 
@@ -69,7 +51,7 @@ nodding. If it does not change something, delete it. Nodding is the single most 
 eyebrow · crossed their arms · ran a hand through their hair · clenched their jaw · let out a
 breath · looked away · smiled slightly* — the default gesture set, available to every character
 and therefore attached to none. Replace with that character's own hand-habit or pressure move
-(`voice-separation` §4), or cut the beat: a line with no beat beats a line with a generic one.
+(`voice-separation/references/channels.md`), or cut the beat: a line with no beat beats a line with a generic one.
 
 ## Filter verbs and telling
 

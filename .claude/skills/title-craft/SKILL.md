@@ -24,6 +24,13 @@ the two promise the same book; the slug is derived last so it is derived from so
 
 ---
 
+## What lives in `references/`
+
+| file | open it when |
+|---|---|
+| `references/listing-kit.md` | the listing step: tags, cover brief, cadence, launch stock — and again when a secondary element becomes prominent enough to earn its tag |
+| `references/fanfic-and-renaming.md` | the novel is fan fiction (the source-in-title rule is mandatory there), or an arc boundary has left the title naming a state the story has left |
+
 ## The three jobs
 
 Every candidate is judged on all three. A title that does two is a rename waiting to happen.
@@ -77,35 +84,6 @@ Two hard constraints on the set:
 
 Strategy 4 will feel too small every time. Generate it anyway — understated titles outperform
 their apparent confidence, and it is the only row that reliably survives the truncation test.
-
-## Step 3 — The fanfic rule
-
-**If `genre: fanfic`, the title must carry `fanfic.source`. This is not optional and not a style
-preference.** Readers browse fan fiction *by fandom*: the source name is the search term, the
-filter, and the entire reason a stranger stops scrolling. A fanfic whose title omits it is
-invisible to the only audience it has.
-
-Default form — **prefix, colon, title**:
-
-```
-Naruto: The New God of Shinobi
-```
-
-| form | when | example |
-|---|---|---|
-| **Prefix + colon** *(default)* | almost always | *Naruto: The New God of Shinobi* |
-| **Embedded** | only when a canon proper noun sits naturally inside the title *and* is as searchable as the source name | *The Hokage Who Stayed Dead* · *Reborn in Konoha* |
-| **Prefix + embedded** | never — it stutters | ~~*Naruto: Reborn in Konoha*~~ |
-
-Choose embedded only if you can name the search term a reader would type and point to it in the
-title. *Konoha* qualifies. *Hogwarts* qualifies. A minor character's name does not.
-
-Use the **source's most-searched name**, not its most correct one — the form on the anime/manga
-cover a reader would recognise, matching `fanfic.source`. If the work is known by two names, use
-the one the fandom types.
-
-Keep the whole line short: the prefix eats characters that the grid will not give back. Aim for
-**≤ 40 characters after the colon.**
 
 ## Step 4 — Screen the five
 
@@ -196,45 +174,6 @@ slug: "naruto-new-god-of-shinobi"
 
 And write the blurb into the `# Hook (platform blurb)` section of `novel.md`.
 
-## Step 7 — The listing
-
-The title and blurb are two of the four things a reader sees before chapter 1. Here are the other
-two, plus the release plan they are launched into. All of it goes in `novel.md` → `platform:`.
-
-**Tags — 5 to 7.** Tags are how a browsing reader filters, and on platforms with per-genre
-discovery lists they are also how a new book is found at all: genre lists are far easier to enter
-than the front page, and a book with 77 followers can sit on a quiet genre's list.
-
-| rule | why |
-|---|---|
-| The **primary genre tag from chapter 1**, and it must be true of chapter 1 | A reader who arrives through a tag and does not find that thing in the first chapter rates the book down before leaving |
-| **Secondary tags added when the element becomes prominent**, not at launch | Tagging a romance that starts at chapter 40 recruits romance readers into 40 chapters of something else. Add it in chapter 38 |
-| **Mechanic tags earn their place** — LitRPG, dungeon, cultivation, transmigration | These are searched for deliberately. If the book has the mechanic, the tag is not optional |
-| **No aspirational tags.** Not what the book grows into; what a reader gets this week | |
-| For fanfic, the fandom is a tag **and** in the title | Different readers use each |
-
-**Cover brief — one sentence.** Not artwork; a sentence an illustrator or a generator could work
-from, naming the subject, the one colour that carries, and the mood. *"A young woman in a
-too-large official's coat standing in a flooded market at dusk, sodium-orange light, more tired
-than heroic."* Covers are read at thumbnail size: one figure or one object, high contrast, and
-title text that survives being 200 pixels wide.
-
-**Cadence and launch stock.** Decide both now, because the opening arc is written into them.
-
-| cadence | what it costs | what it buys |
-|---|---|---|
-| Daily | the hardest to sustain, and the most common cause of a dropped serial | the strongest discovery position on every platform that ranks by recent activity |
-| 3–5 a week | the common working compromise | most of the ranking benefit, and a schedule a person can hold for a year |
-| Weekly | sustainable alongside a job | slower growth, and each chapter must carry more, with a stronger re-anchoring clause |
-| Below weekly | — | ranking decays fast: on activity-ranked platforms a serial that drops below one a week typically loses its trending position within a fortnight |
-
-**Pick the cadence you can hold on a bad week, not a good one.** A serial that posts daily for
-three weeks and then stops has trained its readers to leave. Then bank **launch stock** against
-it: enough chapters to cover the first two or three weeks at the chosen cadence, so a launch that
-goes well is not immediately throttled by drafting speed.
-
-Say all of this once, plainly, and record it. Do not relitigate it every arc.
-
 ## The slug is permanent, the title is not
 
 The slug names the directory every path in the workspace hangs off. Once chapters exist, renaming
@@ -251,30 +190,6 @@ Derive it: kebab-case of the title, articles and prepositions dropped, **4–5 w
 
 Keep the fandom prefix in a fanfic slug — it is what makes a workspace legible at a glance when
 several novels sit side by side.
-
-## Renaming later
-
-`title:` may change. This is a one-time skill by default, but a serial that has found itself at
-chapter 40 sometimes needs a name that fits the book it actually became.
-
-Re-run **only at an arc boundary**, and only when the current title fails test 5 — it names a
-state the story has left. Then: pick from `title_alternates` or generate a fresh five, update
-`title:`, add the old name to `title_alternates`, rewrite the blurb against the new title, and
-**leave the slug alone.** Say once that published platforms treat a rename as a discoverability
-reset, so it is worth doing early or not at all.
-
-## Failure modes
-
-| pattern | example | why it fails |
-|---|---|---|
-| **The noun-stack** | *Shadow Blade Chronicles: Legacy of the Eternal Flame* | interchangeable with four hundred others; every word is genre wallpaper |
-| **The abstract** | *Ascension* · *Requiem* · *Legacy* | no shelf, no promise, and unsearchable — a reader cannot find it again |
-| **The MTL literal** | *The Strongest Big Boss Villain's Runaway Wife* | the corpus artifact `mtl-detox` exists to strip; it signals a translation, not a book |
-| **The spoiler** | naming the twist, the betrayal, or the final form | sells one surprise and spends it before chapter 1 |
-| **The in-joke** | a term the story invents at chapter 40 | means nothing at the only moment it has to work |
-| **The bait** | a grimdark title on a cosy book | converts, then loses the reader at chapter 2 feeling lied to — worse than a dull title, and it earns reviews that say so |
-| **The unsayable** | apostrophes, invented orthography, four abstract nouns | cannot be recommended out loud, which is how serials actually spread |
-| **The untitled** | `title: "Untitled"` reaching the scaffold | shipping this is the bug this skill exists to prevent |
 
 ## Self-check
 

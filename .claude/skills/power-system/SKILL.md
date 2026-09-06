@@ -119,7 +119,7 @@ free plot, and it is what stops the power system from being narrated by whoever 
 (`competence-map` §1–§3). Where the system contains genuine gods, immortals or thousand-year
 cultivators, they are declared `knowledge_scope: broad` with a shape *and* a boundary, and their
 **access** is what gets limited — the patriarch is sealed, asleep, or answers once a decade —
-because an unbounded oracle dissolves every mystery in the book (`competence-map` §6).
+because an unbounded oracle dissolves every mystery in the book (`competence-map/references/broad-knowledge.md`).
 
 As soon as the rules here are stable, run **`social-fabric`** and propagate each hard rule down to
 institution, market and household — who monopolised it, what job it created, what an ordinary
@@ -132,7 +132,7 @@ the page: a rule biting someone, never a lecture.
 - [ ] Every hard rule has been propagated through `social-fabric` §2
 - [ ] Practitioners' knowledge of the system is bounded — nobody explains the whole cosmology
 - [ ] Any god, immortal or long-lived cultivator has a declared shape *and* boundary, and their
-      access is bounded rather than their knowledge (`competence-map` §6)
+      access is bounded rather than their knowledge (`competence-map/references/broad-knowledge.md`)
 - [ ] Cost, limits, learning curve and counter all written down
 - [ ] Every ability used this chapter paid its stated cost, on the page
 - [ ] Nothing was resolved by a capability the reader had not seen used and seen fail

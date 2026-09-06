@@ -10,6 +10,12 @@ is speaking, the scene is broken.** This skill is how you pass that test cheaply
 
 ---
 
+## What lives in `references/`
+
+| file | open it when |
+|---|---|
+| `references/corpus-anti-patterns.md` | two characters will not separate however hard you push the fingerprints, or the dialogue is reading as machine-translated |
+
 ## The layer under this one
 
 The eight fields below are a **surface**. Contractions, a vocabulary tell and a syntax tic applied
@@ -24,7 +30,7 @@ Two rules from that skill bind every scene written here:
 - **The three-way clash** — no two speakers in a scene share intel + articulacy + wit.
 
 The exception is a declared **mirror** — a clone, avatar, double or body-snatch, who is permitted
-to share the original's fingerprint. See `voice-separation` §7.
+to share the original's fingerprint. See `voice-separation/references/mirror-clause.md`.
 
 ## Before writing a scene
 
@@ -101,7 +107,7 @@ not *"Fine," he said angrily* but *"Fine." He put the cup down harder than he me
 
 **Beats carry blocking, and the beat must be theirs.** Use action beats to keep bodies in space and
 to control rhythm — one every three to four exchanges, more in tense scenes, fewer in fast ones.
-Draw each from that character's **hands** field and **pressure move** (`voice-separation` §4), so
+Draw each from that character's **hands** field and **pressure move** (`voice-separation/references/channels.md`), so
 the beat identifies the speaker as well as the line does. Never from the default gesture set —
 *nodded, shrugged, sighed, raised an eyebrow, crossed their arms, ran a hand through their hair,
 clenched their jaw, let out a breath* — which belongs to everyone and therefore to nobody. A line
@@ -123,7 +129,7 @@ assigning an explanation, check the speaker's row in `bible/cast/_competence.md`
 to whoever is standing there is how a whole cast ends up omniscient. Three better moves — give the
 line to the person whose domain it is, let the speaker say they do not know and name who does, or
 let them be confidently **wrong**, which is usually the best scene of the three
-(`competence-map` §2, §3).
+(`competence-map` §2 , §3).
 
 **"I don't know" is a strong line.** So is "that's not my end", "ask Dael", and "I'd guess, but
 it's a guess". They read as competence, not weakness — a character who knows the edge of their own
@@ -135,41 +141,6 @@ Apply every accumulated voice delta from `state/growth.md`. This is the concrete
 which a reader *feels* that a character has changed. A character at rung 4 with a
 "drops the honorific" delta does not use the honorific — ever — unless they are regressing, and
 then the reader should notice.
-
-## Calibration procedure
-
-When a character's voice starts drifting mid-serial:
-
-1. Read their three calibration lines from the profile.
-2. Read their most recent five lines from the last chapter they appeared in.
-3. Ask: do these sound like the same person, plus the recorded deltas?
-4. If not, either fix the recent lines, or — if the drift is better than the profile — update the
-   profile and record it as a deliberate change.
-
-## Failure modes
-
-| symptom | fix |
-|---|---|
-| Everyone is witty | Wit is a fingerprint, not a default. Cap it at two characters and name the pressure that triggers each. `voice-separation` §1 |
-| Everyone is articulate | Articulacy is an axis, and it is independent of intelligence. Give someone artic 2 and let them be exactly right in five words. |
-| Every ally is as quick as the MC | The cast has to straddle the MC's tier, not sit on it. Put somebody below it and let them be correct about something concrete. |
-| Two characters are interchangeable | They share intel + artic + wit. Change one axis or merge the characters. |
-| The clone sounds like the original | Correct, if they are a declared mirror. Then ask what has diverged since they split, and what the tell is. `voice-separation` §7 |
-| Dialogue explains the plot | Move it to narration or delete it. The reader is smarter than this. |
-| Characters agree too fast | Someone should want the conversation to go somewhere else. |
-| A scene is two heads talking in a void | Add a beat: where the bodies are, what one of them is doing with their hands. |
-| Every walk-on is wise, or every walk-on is a wall | Give them the third stroke — one piece of their working world — and nothing else. |
-| Threat-speech from a villain | Villains persuade, negotiate, and are reasonable right up until they are not. |
-
-## Anti-patterns from the translated corpus
-
-Never write these. See `mtl-detox` for the full list.
-
-- "You dare?!" · "Trash!" · "Do you know who I am?" · "Court death!"
-- Villains announcing their own arrogance
-- Characters addressing themselves in the third person by title
-- Crowd reaction blocks: bystanders narrating how impressive the MC is
-- A character explaining the power system to someone who already lives in it
 
 ## How much dialogue
 
