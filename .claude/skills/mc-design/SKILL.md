@@ -170,6 +170,15 @@ Three MC-specific additions:
   quicker, somebody slower, and at most one other person who is funny (`voice-separation` §1).
 - The **wound** should predate the origin event where possible. A reincarnator whose only defining
   experience is having died is thin; what they were like *before* they died is the character.
+- Three fields carry the character's engine and are written here: **`mc.core_want`** (what they
+  pursue), **`mc.core_need`** (what they actually require, usually in conflict with the want) and
+  **`mc.core_wound`** (what made the two disagree). They also become the `mc>` line of the book
+  digest, which is how every later chapter gets them without reading this file.
+- **`mc.competence_domains`** records where the tier applies at full strength — at most three, and
+  the same three that get rows in `bible/cast/_competence.md` (`competence-map` §1). The paired
+  **`mc.blind_spots`** needs at least two.
+- **`mc.gf_known_by`** lists who has guessed what the advantage is. It starts empty, and every name
+  added to it is a plot event that also belongs in `state/threads.md`.
 
 ## Self-check
 

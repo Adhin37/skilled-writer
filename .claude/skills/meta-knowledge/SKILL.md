@@ -138,6 +138,10 @@ The full arc of the advantage, tracked in `state/foreknowledge.md` §5:
 failures has no ladder — it has a slide. At least one rung is a win the foreknowledge bought, or
 the arc is redesigned. See `conflict-engine`.
 
+**`mc.foreknowledge_known_by`** lists who has worked out that the MC knows things they should not.
+It starts empty. Every name added is a plot event, so it goes in `state/threads.md` as well, and
+the reasoning behind it belongs in §6 of `state/foreknowledge.md`.
+
 ## 5. The observer paradox
 
 > **Acting on foreknowledge is the fastest way to destroy it.** The future the MC remembers is the

@@ -222,11 +222,11 @@ def _pressure(novel, rep, ppath, gains, last_ch):
     series.sort()
 
     trivial_per_arc = novel.scaling_int("trivial_per_arc", 2)
-    arc_len = novel.arc_length
+    arc_of = _arc_index(novel)
     by_arc = {}
     for ch, p in series:
         if p <= -2:
-            by_arc.setdefault((ch - 1) // arc_len + 1, []).append(ch)
+            by_arc.setdefault(arc_of(ch), []).append(ch)
     for arc, chs in sorted(by_arc.items()):
         if len(chs) > trivial_per_arc:
             rep.warn("curve-pressure", "arc %d has %d confrontations at P <= -2 (ch %s); "
@@ -243,6 +243,22 @@ def _pressure(novel, rep, ppath, gains, last_ch):
     _flat(novel, rep, ppath, series, gains, last_ch)
     _drift(rep, ppath, series, gains)
     rep.info("curve", _render(series, gains))
+
+
+def _arc_index(novel):
+    """Which arc a chapter belongs to.
+
+    The ledger's `arc:` field is the authority, the same way `cmd_arc` treats it — arcs do not
+    reliably land on `chapters.arc_length` boundaries, and bucketing arithmetically would put a
+    confrontation in the wrong arc's budget. Chapters with no block fall back to the arithmetic.
+    """
+    known = {b.number: b.arc for b in novel.blocks()
+             if b.number is not None and b.arc is not None}
+    arc_len = novel.arc_length
+
+    def arc_of(ch):
+        return known.get(ch) or (ch - 1) // arc_len + 1
+    return arc_of
 
 
 def _ccs_agreement(novel, rep, lpath, by_ch):

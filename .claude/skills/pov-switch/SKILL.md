@@ -22,6 +22,12 @@ lose reader attachment. Every switch must be paid for.
 | `rotating` | 3–5 | chapter | ensemble, war, political fantasy | long gaps between visits; readers form favourites and skim |
 | `ensemble` | 6+ | chapter | epic scope | almost always a mistake in a serial — the reader has no one to follow |
 
+Record the chosen mode in `pov.mode` and the eligible viewpoints in **`pov.pov_characters`**,
+ordered, first is primary. That list is the authority: nobody outside it narrates, and adding a
+name to it mid-novel is an arc-boundary decision, never a chapter-level one. Each name on it also
+needs a `pov_eligible: true` row in `bible/cast/_voices.md` §3, because a POV character without a
+declared thought unit narrates in the MC's voice (`voice-separation`).
+
 **Recommend `single` unless the premise structurally requires otherwise.** A premise requires
 more than one POV only when the story depends on the reader knowing something the MC cannot —
 a conspiracy running in parallel, a second protagonist with equal claim, a rival whose choices

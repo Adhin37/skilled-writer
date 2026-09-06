@@ -30,11 +30,20 @@ This story is your own writing about existing characters and a shared setting.
   is only useful because it repeats a scene readers already have, it is not a chapter.
 - Keep the story recognisably transformative: your plot, your prose, your consequences.
 
+## What counts as canon
+
+Set **`fanfic.canon_scope`** at init and do not widen it later: which volumes, seasons, arcs or
+adaptations this story treats as true. It is the boundary that makes "that contradicts canon"
+answerable — without it every supplementary work, databook and adaptation is fair game for a
+reader's objection and for your own drift. Anything outside the declared scope is neither canon
+nor a contradiction; it simply is not in play. Record the reasoning in `bible/canon.md`.
+
 ## The divergence point
 
 The strongest structure for a fanfic is **one change, followed honestly.**
 
-Record in `bible/canon.md`:
+Record the one-line version in **`fanfic.divergence_point`** in `novel.md` — it is what every
+later chapter is measured against — and the full version in `bible/canon.md`:
 
 - **Where** — the precise canon moment the story departs.
 - **The change** — one thing. Resist a list; a second change halves the coherence of the first.

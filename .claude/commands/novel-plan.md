@@ -16,7 +16,7 @@ Interpret `$ARGUMENTS`:
 - anything else → treat as a direction the user wants the story to take; incorporate it, and say
   which existing plan rows it invalidates before you change them
 
-Always fill `goal → obstacle → turn → cost → threads → hook → title`, in that order, title last.
+Always fill `goal → obstacle → turn → delivers → cost → threads → hook → title`, in that order, title last.
 
 After planning, report: the arc question, the five pillar chapters, the permanent cost to the MC,
 and the new chapter titles as a list. Flag any thread whose `due` chapter has passed.

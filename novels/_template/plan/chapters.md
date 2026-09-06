@@ -5,8 +5,8 @@ Keep 10–15 rows planned ahead of the draft line, never the whole book — late
 
 **status**: `planned` · `drafted` · `revised` · `published`
 
-| # | title | pov | arc | goal | obstacle | turn | cost | threads | hook | status |
-|---|---|---|---|---|---|---|---|---|---|---|
+| # | title | pov | arc | goal | obstacle | turn | delivers | cost | threads | hook | status |
+|---|---|---|---|---|---|---|---|---|---|---|---|
 
 Column meanings — all seven middle columns are mandatory before a row may be drafted:
 
@@ -14,6 +14,9 @@ Column meanings — all seven middle columns are mandatory before a row may be d
   emotional. "Reach the ledger room", not "feel less afraid".
 - **obstacle** — what stands in the way, with a will of its own where possible.
 - **turn** — the thing that is not what the POV character expected. Every chapter turns.
+- **delivers** — what is materially *different* at the end, in one clause. A difference, not a
+  summary of events. This is the column `revision-pass` Pass 9 gates the finished chapter on, and
+  it is copied into the chapter's `delivers:` frontmatter and the CCS `dlv>` line.
 - **cost** — what this chapter takes. May be small (a lie told, an hour lost, an ally's respect)
   but never zero. See `conflict-engine`.
 - **threads** — ids from `state/threads.md`: `^` advance, `~` open, `v` pay.

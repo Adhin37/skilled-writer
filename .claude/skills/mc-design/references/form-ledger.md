@@ -49,6 +49,10 @@ read-set.
    them at stage 3 does not recognise them, or recognises them by something specific that
    persisted. Decide which, and record it.
 
+**`mc.final_form_reached_ch`** records the chapter the last transition lands, once it is known.
+It is the chapter after which `form_locked` no longer gates a description, and setting it is what
+closes the ledger.
+
 ### The CCS line
 
 When a form changes, add a `bod>` line to that chapter's CCS block:

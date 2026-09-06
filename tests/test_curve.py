@@ -287,6 +287,38 @@ class TestPressure(unittest.TestCase):
             self.assertIn("curve-flat", checks(build(fx)))
 
 
+class TestArcBucketing(unittest.TestCase):
+    """The trivial budget is per arc, and the ledger's `arc:` field decides which arc that is.
+
+    Arcs do not reliably land on `chapters.arc_length` boundaries. Bucketing arithmetically puts
+    a confrontation in the wrong arc's budget, and disagrees with what `sw arc` reports.
+    """
+
+    def _ledger(self, chs, arc):
+        return "\n".join(
+            "=C%04d= pov:Rin | loc:x | t:D1 | wc:3 | arc:%d\n"
+            "dlv> x\nev> x\nchg> Rin: a->b\npwr> P=-2\nkno> Rin+{x}\nthr> ~T01(x)\n"
+            "obj> x\nwld> x\nhook> x\n" % (c, arc) for c in chs)
+
+    def test_the_ledger_arc_field_overrides_the_arithmetic(self):
+        # arc_length is 25, so ch 1-5 look arithmetically like arc 1 - but the ledger says
+        # they are arc 2, and a per-arc budget must follow the ledger.
+        with NovelFixture() as fx:
+            chs = list(range(1, 6))
+            fx.write("state/continuity.md", self._ledger(chs, 2))
+            rows = "\n".join("| %d | thug | 1 | 3 | -2 | won | |" % c for c in chs)
+            fx.write("state/power.md", power_md(pressure=rows))
+            msg = messages(build(fx))
+            self.assertIn("arc 2 has 5 confrontations", msg)
+            self.assertNotIn("arc 1 has", msg)
+
+    def test_chapters_with_no_block_fall_back_to_the_arithmetic(self):
+        with NovelFixture() as fx:
+            rows = "\n".join("| %d | thug | 1 | 3 | -2 | won | |" % c for c in range(1, 6))
+            fx.write("state/power.md", power_md(pressure=rows))
+            self.assertIn("arc 1 has 5 confrontations", messages(build(fx)))
+
+
 class TestLedgerAgreement(unittest.TestCase):
     """The `pwr>` line and state/power.md must agree, the way `wc:` and the body must."""
 

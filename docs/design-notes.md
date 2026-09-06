@@ -171,6 +171,27 @@ tier, only the gap. That failure has a name in `power-scaling/references/failure
 treadmill — along with the six other ways a curve dies, five of which are countable and therefore
 belong to `sw curve` rather than to a checklist nobody rereads.
 
+## The template is half of every parser
+
+Tables are selected by their column names and sections by their heading text — deliberately, since
+heading prose gets edited and column names are load-bearing. The cost of that choice is a seam:
+the parser is in `scripts/`, the columns are in `novels/_template/`, and nothing was comparing
+them. `plan_rows()` selected on `("#", "title", "delivers")` while the shipped
+`plan/chapters.md` header ran `… | turn | cost | …`, so it returned `[]` against every novel ever
+scaffolded. Every plan check in `sw state` was dead, and the read-set's plan section always said
+"no plan rows in range" — advice to run `chapter-plan` on a plan the author had already written.
+
+It survived because every test that exercised plan rows built its own table. A fixture that
+supplies the thing under test cannot catch a template that does not supply it. So
+`tests/test_template_wiring.py` runs the accessors against `novels/_template` itself, and the same
+sweep covers the two neighbouring classes: a heading the read-set slices that no longer exists, and
+a `novel.md` key that no skill names and no script reads — the shape `mc.starting_power` had, sitting
+in the config for the life of the repo as a question asked at init whose answer went nowhere.
+
+One subtlety worth keeping: `docs/` is excluded from the ownership search. This file mentions
+`mc.starting_power` by name in order to explain it, and a key named only in its own post-mortem is
+not a key with an owner.
+
 ## Why the scripts do not judge
 
 Three rules govern `scripts/sw.py`, and all three exist to stop a tool becoming an alibi.

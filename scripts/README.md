@@ -79,6 +79,13 @@ Each case in `tests/test_channels.py` names, in its docstring, the wrong behavio
 multi-paragraph speech counted as narration, curly thought marks invisible, an unmatched quote
 spanning a whole file, `'twas` reported as an unterminated thought.
 
+`tests/test_template_wiring.py` guards the seam the other modules cannot see. Every other test
+supplies its own tables, so a parser can select on a column the **shipped template** does not have
+and every test still passes while the check is dead against every real novel — which is exactly
+what happened to `plan_rows()`, whose `delivers` column was missing from `plan/chapters.md` for the
+life of the repo. It also fails on a `novel.md` key that no skill names and no script reads, the
+defect `mc.starting_power` was.
+
 ## Layout
 
 ```

@@ -108,6 +108,11 @@ That is thought. It wears no marks, it needs none, and at `close` or `deep` dist
 indistinguishable from the narration by design — that seamlessness *is* the effect. Everything in
 §Interiority above describes this channel.
 
+This is why **`channels.free_indirect`** is set to `unmarked` in `novel.md` and stays there. The
+other three keys name a mark; this one names its absence, and it is in the config so that the
+absence is a declared decision rather than an omission. A novel that gives it a mark has three
+thought channels and no default.
+
 ### Direct thought is the exception, and it is budgeted
 
 `'…'` is for the one sentence a character puts to themselves in words — usually at a decision,

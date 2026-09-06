@@ -9,6 +9,12 @@ Open this at the listing step: tags, the cover brief, release cadence and launch
 The title and blurb are two of the four things a reader sees before chapter 1. Here are the other
 two, plus the release plan they are launched into. All of it goes in `novel.md` → `platform:`.
 
+**The destination first — `platform.site`.** Royal Road, webnovel.com, ScribbleHub, somewhere
+else, or none yet. Every other decision in this file is downstream of it: the tag vocabulary is
+per-site, the cadence that earns a ranking position is per-site, and title truncation happens at
+a different width on each. `none` is a valid answer for a book being written before it is placed —
+but then the tag rules below are advisory rather than binding, and say so.
+
 **Tags — 5 to 7.** Tags are how a browsing reader filters, and on platforms with per-genre
 discovery lists they are also how a new book is found at all: genre lists are far easier to enter
 than the front page, and a book with 77 followers can sit on a quiet genre's list.
@@ -21,8 +27,8 @@ than the front page, and a book with 77 followers can sit on a quiet genre's lis
 | **No aspirational tags.** Not what the book grows into; what a reader gets this week | |
 | For fanfic, the fandom is a tag **and** in the title | Different readers use each |
 
-**Cover brief — one sentence.** Not artwork; a sentence an illustrator or a generator could work
-from, naming the subject, the one colour that carries, and the mood. *"A young woman in a
+**Cover brief — one sentence**, into **`platform.cover_brief`**. Not artwork; a sentence an
+illustrator or a generator could work from, naming the subject, the one colour that carries, and the mood. *"A young woman in a
 too-large official's coat standing in a flooded market at dusk, sodium-orange light, more tired
 than heroic."* Covers are read at thumbnail size: one figure or one object, high contrast, and
 title text that survives being 200 pixels wide.
@@ -38,7 +44,7 @@ title text that survives being 200 pixels wide.
 
 **Pick the cadence you can hold on a bad week, not a good one.** A serial that posts daily for
 three weeks and then stops has trained its readers to leave. Then bank **launch stock** against
-it: enough chapters to cover the first two or three weeks at the chosen cadence, so a launch that
-goes well is not immediately throttled by drafting speed.
+it — **`platform.launch_stock`**, a chapter count: enough to cover the first two or three weeks at
+the chosen cadence, so a launch that goes well is not immediately throttled by drafting speed.
 
 Say all of this once, plainly, and record it. Do not relitigate it every arc.
