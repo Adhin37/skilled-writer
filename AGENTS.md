@@ -6,7 +6,8 @@ agent regardless of harness.
 
 ## 30-second orientation
 
-- Skills live in `.claude/skills/<name>/SKILL.md`. Each is a standalone procedure.
+- Skills live in `.claude/skills/<name>/`. `SKILL.md` is the procedure; `references/*.md` holds
+  examples, catalogues and long tables, opened only when the body says to.
 - Slash commands live in `.claude/commands/*.md`.
 - Stories live in `novels/<slug>/`. The scaffold is `novels/_template/`.
 - `novels/<slug>/novel.md` is the per-novel config: genre, POV mode, MC intel tier,

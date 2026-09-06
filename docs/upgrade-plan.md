@@ -375,6 +375,45 @@ The last two are the ones that matter. Everything above them is machinery.
 
 ---
 
+## 10. What was done
+
+Executed 2026-09-06, in the order set out in section 6. Every number below was measured the same
+way before and after (`wc -w` x 4/3), and `python3 -m unittest discover tests` is green at 67 tests.
+
+| workstream | outcome |
+|---|---|
+| **W0** Hygiene | All twelve items. `title-craft` landed with its five referencing files; the Round D ordering bug fixed; the sensory budget given one owner; the length contradiction resolved in favour of *reported, never scored*; the line-number citation, the duplicate Pass 8 check, the three command tables and the walk-on expertise budget all reconciled |
+| **W1** Trustworthy gate | Every row of section 3.1 fixed and covered. Two further defects surfaced while writing the tests: the YAML reader lost all nesting under tab indentation, and an unclosed quote in `novel.md` swallowed every following key |
+| **W2** Context economy | 25 skills split into body + `references/`. Per-chapter revision instructions **16,273 → 6,117 tokens**. `CLAUDE.md` 4,768 → 3,374 |
+| **W3** Craft features | All four, inside existing skills. No new skill file |
+| **W4** Arc-level gate | `sw arc`, wired into `continuity-summary`'s rollup and `/novel-recap review` |
+
+### Where the plan was wrong, and what happened instead
+
+- **`sw.py brief` was not built.** `readset` already emits exactly the consolidated pack the plan
+  described. A second command would have been a second name for the same thing.
+- **The `blurb:` frontmatter field was not added.** The blurb is multi-line prose that belongs in
+  the body; duplicating it into the frontmatter would give the book two blurbs that drift apart.
+  `Novel.blurb` reads the body section instead, which was the actual requirement.
+- **`docs/benchmark.md`'s "37 skills" stands.** It is historical narration of run #1 and is
+  accurate. The unreproducible audit command beside it is what changed.
+- **`CLAUDE.md` missed its 2,400-token target**, landing at 3,374. Reaching it would have meant
+  deleting the anti-slop list or the registry, both operative and cheap per token.
+- **Fifteen skills have no `references/`.** The largest is 1,371 words and none holds a catalogue,
+  a worked example or a long table. Splitting them would fragment a procedure and buy nothing.
+- **The split broke twenty cross-skill citations** — the silent rot section 8 warns about, caused
+  by the change meant to respect it. All twenty were repointed, and `tests/test_corpus.py` now
+  fails the build if it happens again.
+
+### Still open
+
+The two verification items in section 8 that need a live run, not a test:
+
+1. **The cold-agent test.** Write one chapter in a fresh session and read the transcript for which
+   `SKILL.md` and which `references/*.md` were actually opened. Until that is run, the claim that
+   the split changed the model's behaviour is a prediction, not a result.
+2. **One cold-session chapter costed** against run #1's $1.91 and 8.55M cache-read baseline.
+
 ## 9. Sources
 
 Craft:

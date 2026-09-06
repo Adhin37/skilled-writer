@@ -53,6 +53,7 @@ whether the model remembered to look.
 
 ```bash
 python3 scripts/sw.py doctor        # start here; reports version and workspace
+python3 -m unittest discover tests  # the toolchain's own tests
 ```
 
 **Nothing breaks without it.** Every skill that names a command keeps its manual checklist
@@ -349,10 +350,12 @@ nothing, and says nothing about delivery, voice separation, competence or bias.
 
 ```
 CLAUDE.md                         the operating contract, loaded every session
-.claude/skills/<name>/SKILL.md    the skills
+.claude/skills/<name>/SKILL.md    the skills - the procedure a model executes
+.claude/skills/<name>/references/ examples, catalogues, long tables, audit cards
 .claude/commands/*.md             the slash commands
 .claude/settings.json             shared permissions (relative paths — portable)
 scripts/sw.py                     the mechanical toolkit (optional, Python 3.8+)
+tests/                            unittest suite for the toolchain (stdlib, no novel needed)
 novels/_template/                 the per-novel scaffold
 novels/<slug>/                    your novel: config, bible, plan, state, chapters (gitignored)
 ```
