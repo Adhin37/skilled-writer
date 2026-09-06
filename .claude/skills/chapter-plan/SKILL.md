@@ -140,6 +140,12 @@ could belong to any chapter of any novel ("Revelations", "The Beginning", "Awake
 
 ## Replanning triggers
 
+`python3 scripts/sw.py state novels/<slug>` reports the first trigger below without reading the
+plan: how many specified rows remain ahead of the draft line, and any row within reach of
+drafting that has a blank goal, obstacle, turn, delivers, cost or hook. `write-chapter` will not
+draft from an incomplete row, so this is the cheapest way to find out before it stops.
+
+
 | trigger | action |
 |---|---|
 | Fewer than 8 planned rows ahead of the draft line | extend by 10 |

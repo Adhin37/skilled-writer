@@ -126,6 +126,18 @@ own kind of wall.
 
 ## Procedure
 
+```bash
+python3 scripts/sw.py lint novels/<slug> -c <n>
+```
+
+Steps 1-5 are that command: the cut-list phrases, filter verbs, `-ly` adverbs and hedges,
+repeated paragraph openings, and runs of same-length narration sentences. It also measures the
+dialogue share and flags paragraphs too long to read on a phone. Steps 6-8 are ear and
+judgement, and stay yours.
+
+Filter verbs and weasel words print as **notes** rather than defects, because "remove unless
+the act of perceiving is the point" is a decision about each one. Use `--show note` to see them.
+
 1. Search for each AI-default phrase. Cut or rewrite.
 2. Search filter verbs; remove or justify.
 3. Search adverbs ending `-ly`; keep the ones doing real work.

@@ -5,6 +5,14 @@ description: Remove the racial, national, gender and class bias that the seriali
 
 # bias-guard
 
+**There is no script for this one, deliberately.** Every other mechanical pass in this toolkit
+has a command behind it; this one does not, because its defects are distributional — a cast where
+the incompetent characters share a class, a narration that treats one group as uniformly
+anything, a woman whose only want is the MC. None of that is a string, and a green line from a
+linter must never be readable as a bias pass. `sw cast` prints the competence distribution and
+then says to come here.
+
+
 The corpus this format learned from carries biases that arrived with it: ethnic and national
 essentialism used as villain shorthand, women written as rewards, class contempt played for
 laughs, disability and disfigurement as moral signal. These are not edgy and they are not

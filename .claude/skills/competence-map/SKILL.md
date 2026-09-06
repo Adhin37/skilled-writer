@@ -241,6 +241,18 @@ and possessions are guarded (`social-fabric`).
 
 ## 7. Where this runs
 
+```bash
+python3 scripts/sw.py cast novels/<slug>
+```
+
+Settles the countable half: the deep-expertise budget per tier, anyone on the voice matrix with
+no competence row, anyone missing a referral, and the domain-count distribution.
+
+The distribution is printed and **not** judged. Whether the thin rows sort by gender, class or
+people is the §7 question, it is the one that matters, and it is not scriptable — the command
+prints the counts and then says to open `bias-guard` and make the call.
+
+
 | moment | what happens |
 |---|---|
 | `character-profile`, tier A/B | competence table with edges, the referral, the above-`professional` budget. Row into `_competence.md` |

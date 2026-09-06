@@ -28,6 +28,24 @@ matter how long the novel gets.
 
 ## The read-set (what to load before writing chapter N)
 
+```bash
+python3 scripts/sw.py readset novels/<slug> -c <N>
+```
+
+**One command assembles the whole list below**, sliced rather than whole-file: the five recent
+blocks and not the ledger, this chapter's matrix rows and not the matrix, this chapter's
+locations and not the world bible. It resolves the characters from the plan row's POV and the
+recent `chg>` lines, prints which ones it picked, and takes `--chars` when the chapter
+introduces somebody it could not know about. Pass `--society` when the chapter turns on a
+social rule, and `--locs` when it moves somewhere the plan row does not name.
+
+It ends with a **NOT LOADED** list. That list is the point: the read-set is bounded on purpose,
+and what is missing is missing deliberately. Ask for anything on it by name when the chapter
+needs it — do not open the source files for anything the bundle already contains.
+
+**If Python is unavailable**, load the list below by hand, in order, honouring every "rows
+only" instruction. That is what the command is doing.
+
 Load exactly this. Not more.
 
 1. BOOK DIGEST
@@ -167,7 +185,7 @@ read first and trusted most. Two rules:
 
 ## Procedure — before drafting (read mode)
 
-1. Assemble the read-set above.
+1. Assemble the read-set above — `sw readset novels/<slug> -c <N>`, or by hand.
 2. Produce a **chapter brief** — internal, ≤10 lines, not written to disk:
    - what the reader knows entering this chapter that the POV character does not, and vice versa
    - which threads are due
@@ -219,6 +237,16 @@ Triggered when a chapter completes an arc.
 
 ## Self-check
 
+```bash
+python3 scripts/sw.py state novels/<slug>
+```
+
+Checks every box below that is countable — required lines, block length, `wc:` against the
+measured body, thread ids against the board, the book digest's `done>` line — plus the plan
+rows and the promotion trigger. The two it cannot check are the last two: whether `dlv>` names
+a difference rather than a summary, and whether the ledger has drifted into adjectives of
+quality. Read those yourself.
+
 - [ ] Every block has `dlv>`, `kno>` and `hook>`
 - [ ] `dlv>` names a difference, not a summary of events, and matches the chapter's `delivers:`
 - [ ] `fk>` present on every chapter that spent foreknowledge, with what it invalidated
@@ -228,3 +256,5 @@ Triggered when a chapter completes an arc.
 - [ ] No adjectives of quality anywhere in the ledger
 - [ ] Thread ids in the ledger all exist in `threads.md`
 - [ ] Names match `lexicon.md` exactly
+- [ ] `fk>` is present on every block once `mc.foreknowledge` is set — including the chapters
+      that spent nothing, which record that they spent nothing

@@ -128,18 +128,25 @@ Copy the scaffold. Use paths relative to the repo root, never absolute ones — 
 on both Windows and Linux.
 
 ```bash
-cp -r novels/_template novels/<slug>
+python3 scripts/sw.py newnovel <slug>
 ```
 
-If `cp` is unavailable, create the directories and write each template file out instead; the
+This is the portable form: it needs no shell, refuses to overwrite an existing novel, rejects a
+slug that is not kebab-case, and prints the tree it created. Failing that:
+
+```bash
+cp -r novels/_template novels/<slug>          # macOS / Linux / Git Bash
+```
+
+If neither is available, create the directories and write each template file out instead; the
 tree is small and the file list is in `CLAUDE.md` §6. Do not rely on any one shell being present.
 
 **Copy first, then read.** Do not read the template files before copying them — copy the tree, then
 open only the file you are about to fill, one at a time. Reading all eleven up front costs a turn
 each and teaches you nothing the copy did not already put on disk.
 
-`cp` (and `mkdir`) must be permitted for this step. If the shell refuses them, say so rather than
-silently falling back — a denied `cp` is a settings problem, not a reason to hand-write the tree.
+The copy step must be permitted. If the shell refuses it, say so rather than silently falling
+back — a denied copy is a settings problem, not a reason to hand-write the tree.
 
 Slug is kebab-case from the title, or from the premise if untitled.
 
@@ -167,8 +174,9 @@ Then fill in, in this order:
    they are written. Keep `_character-template.md`, `_supporting-template.md` and the empty
    `_extras.md` in place; they are the references for future characters.
 5b. **`bible/cast/_voices.md`** via `voice-separation` — a matrix row for every character written
-   in step 5, filled in **together, as a table**, not one at a time. Then run the three checks in
-   §2 of that file: the cast straddles the MC's intel tier, at most two characters have wit, and no
+   in step 5, filled in **together, as a table**, not one at a time. Then run
+   `python3 scripts/sw.py cast novels/<slug>`, which checks both this file and step 5c's, or run
+   the three checks in §2 of that file by hand: the cast straddles the MC's intel tier, at most two characters have wit, and no
    two rows share intel + articulacy + wit. This is the step that decides the book will not be one
    voice in several costumes, and it is far cheaper here than in chapter 40. Delete §5 (Mirrors) if
    nothing in the novel duplicates a person.

@@ -124,6 +124,19 @@ from the shape of the thought, never from mangled English.
 
 ## 3. The separation rules
 
+```bash
+python3 scripts/sw.py cast novels/<slug>
+```
+
+The first four rules below are arithmetic over the matrix, and this settles them outright:
+the straddle, the wit cap, the three-way clash, plus turn-length and hand-habit collisions.
+Run it whenever a row changes, and at every arc rollup. The transplant test is not in it —
+that one needs the chapter.
+
+**It checks the table, not the prose.** A well-formed matrix that the drafted dialogue ignores
+passes this command and fails the book, which is why Pass 2 still opens this file.
+
+
 **The MC-contrast rule.** Every chapter contains at least one speaker who differs from the MC on
 **two or more axes**. This is the rule the user's complaint is actually about. A chapter where
 everyone matches the MC's intel and articulacy has one character in it.
@@ -236,6 +249,11 @@ emphatic thing on the page, so it should be the sentence only *this* character w
 ---
 
 ## 6. Anti-convergence over a long serial
+
+Start the drift check with `sw cast`: if two rows have converged on paper, it says so before you
+read a line. What it cannot see is the commoner case — rows that still differ while the dialogue
+under them has quietly merged. For that, the side-by-side below is the only instrument.
+
 
 A 300-chapter serial converges by default. Voice deltas (`character-development`) all push the
 same way — shorter sentences, fewer hedges, more directness — and by chapter 200 the cast has

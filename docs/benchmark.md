@@ -257,20 +257,28 @@ Read the numbers with these in mind:
 Chapter QC (this ships with the repo):
 
 ```bash
-docs/check-chapters.sh novels/<your-slug>
+python3 scripts/sw.py audit novels/<your-slug>
 ```
 
 It measures the four channel shares, anchor vocabulary across the opening arc, `delivers:`
 presence, wordcount accuracy, MTL banned phrases, narration exclamation marks, the default gesture
-set, and CCS ledger integrity — the mechanical half of `revision-pass`, run independently so the
-gate cannot mark its own homework. Length is reported and never scored.
+set, the cast tables, and CCS ledger integrity — the mechanical half of `revision-pass`, run
+independently so the gate cannot mark its own homework. Length is reported and never scored.
 
 Run against this benchmark's own novel it reproduces findings 6, 10 and 12 mechanically:
 
 ```bash
-ANCHORS="Konoha,Uchiha,shinobi,chakra,ninja,Hokage,Academy,village,clan,jutsu" \
-  docs/check-chapters.sh novels/small-enough-to-miss
+python3 scripts/sw.py audit novels/small-enough-to-miss
 ```
+
+> **Note, added after run #1.** This was originally `docs/check-chapters.sh`, a bash + awk + perl
+> + python script. It has been replaced by `scripts/sw.py audit`, which is stdlib Python and runs
+> on Windows without a POSIX shell. Three defects came over in the port: the shell version's
+> ledger `wc:`-versus-body comparison never ran at all (a mangled parameter expansion made it
+> match nothing, and it printed an empty section that read as a pass), its anchor matcher counted
+> `the Leaf` by looking for a bare case-insensitive `leaf`, and it printed the `fk>` line count
+> as neutral information rather than asserting it against the block count. On this novel that
+> last one is a real finding: chapters 4 and 5 have no `fk>` line, and `mc.foreknowledge` is set.
 
 Cost accounting: subagent usage is **not** in the main session transcript. It lives at
 `~/.claude/projects/<escaped-cwd>/<session-id>/subagents/agent-<agentId>.jsonl`, one

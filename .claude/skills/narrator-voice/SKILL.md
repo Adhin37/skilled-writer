@@ -119,6 +119,13 @@ holds; a cool narrator that suddenly quotes three thoughts a page has changed bo
 
 ### The three collision rules
 
+`python3 scripts/sw.py lint novels/<slug> -c <n>` enforces all three mechanically: it strips
+speech spans before counting thought, so a nested quotation can never register as thought; it
+requires a thought mark to open at a word boundary and close before punctuation, so `don't` and
+`the boys' room` cannot match; and it reports any mark that opens and never closes. It also
+counts the direct-thought budget and flags a chapter over three.
+
+
 Without these the convention breaks on contact with ordinary English.
 
 1. **Apostrophes are not thought marks.** A thought opens at a word boundary and closes before

@@ -5,6 +5,12 @@ One directory per novel. `_template/` is the scaffold — copy it, never write i
 `/novel-new` does the copying and fills it in from an interview. To do it by hand:
 
 ```bash
+python3 scripts/sw.py newnovel my-slug         # any OS, any shell
+```
+
+It refuses to overwrite an existing novel and prints the tree it created. Without Python:
+
+```bash
 cp -r novels/_template novels/my-slug          # macOS / Linux / Git Bash
 ```
 

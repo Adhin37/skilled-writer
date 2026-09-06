@@ -206,6 +206,10 @@ turned its narrator into a thought bubble.
 12. **Token discipline.** Load the bounded read-set, not the whole novel. Never read past
    chapter files unless the user asks for a specific one. Cast depth is tiered the same way: a
    walk-on gets three strokes and one roster line, never a psychology. See `character-profile`.
+   The read-set is specified as **slices** — this chapter's speakers, this chapter's locations,
+   blocks N−5…N−1 — and `python3 scripts/sw.py readset novels/<slug> -c <N>` emits exactly those.
+   Reading the whole file instead is how a bounded read-set turns into a ledger that grows
+   forever. See §9.
 13. **Write files, don't dump prose to chat.** Chapters go to `novels/<slug>/chapters/`.
    Report the path and a two-line summary.
 
@@ -291,7 +295,7 @@ Skills are written as **procedures for a model with limited budget**: numbered s
 formats, concrete examples, hard checklists. Prefer a table over a paragraph. Keep each
 `SKILL.md` self-sufficient so it needs no follow-up reads.
 
-**One deliberate exception.** `revision-pass` is a dispatcher, and its condensed checklists must
+**One deliberate exception to self-sufficiency.** `revision-pass` is a dispatcher, and its condensed checklists must
 never become a substitute for the skills they summarise. A pass whose defects are *distributional*
 — `voice-separation`, `competence-map`, `bias-guard` — opens its source file every chapter. A
 summary is enough to check a string; it is not enough to audit a cast. Two more open
@@ -299,3 +303,39 @@ conditionally: `story-opening` while the novel is inside its opening arc, and `m
 whenever the MC knows the future. Both guard defects that are invisible in a single chapter and
 unrecoverable once ten are written — *is the reader oriented?* and *has the advantage ever won?*
 are questions no checklist can answer. See `revision-pass` §Before you start.
+
+---
+
+## 9. The mechanical toolkit
+
+`scripts/sw.py` does the countable work: slicing the read-set, sweeping a chapter for banned
+strings and channel mechanics, auditing the cast tables as tables, checking the ledger against
+the chapters, and stamping a measured word count. **Python 3.8+, standard library only.** Full
+reference in [scripts/README.md](scripts/README.md).
+
+| command | use it in |
+|---|---|
+| `readset <novel> -c N` | `continuity-summary` read mode · `write-chapter` step 0 |
+| `lint <novel> -c N` | `revision-pass` Pass 0 · `mtl-detox` · `prose-quality` · `narrator-voice` · `story-opening` |
+| `cast <novel>` | `voice-separation` §3, §6 · `competence-map` §7 · `novel-init` step 5b |
+| `state <novel>` | `continuity-summary` self-check · `plot-threads` · `chapter-plan` · `character-profile` |
+| `status <novel>` | `/novel-status` |
+| `stamp <novel> -c N` | `revision-pass` Pass 10 · `write-chapter` step 4 |
+| `newnovel <slug>` | `novel-init` step 3 |
+| `audit <novel>` | the independent whole-novel gate |
+
+Three rules govern how they are used, and all three exist to stop a tool becoming an alibi:
+
+1. **An optimisation, never a dependency.** Every skill that names a command keeps its manual
+   checklist directly underneath. If Python is absent or the command errors, do the checks by
+   reading and **say so in the report** — a ticked box that was never checked is worse than an
+   unticked one.
+2. **They find, they do not judge.** A linter locates a string; whether that string is a defect
+   is a decision. Nothing here rewrites a prose body, because `mtl-detox` requires the sentence
+   rewritten rather than the synonym swapped, and an auto-fixer would do exactly the forbidden
+   thing. The only files they edit are frontmatter, the `wc:` field of a CCS block, and a fresh
+   scaffold.
+3. **A clean run is not a passed revision.** It means the mechanical passes found nothing. The
+   distributional ones — `voice-separation`, `competence-map`, `bias-guard` — and the judgement
+   ones — delivery, world, opening — are untouched by it. `bias-guard` has no script at all,
+   deliberately, so that no green line can ever be mistaken for a bias pass.

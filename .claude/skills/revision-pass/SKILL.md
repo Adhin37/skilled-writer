@@ -37,6 +37,12 @@ any single line and only appears across a whole cast, chapter or arc.
 | 9c Foreknowledge | **distributional** | **yes — `meta-knowledge`**, if `mc.foreknowledge` is set |
 | 10 Mechanics | mechanical | no |
 
+**Run the mechanical sweep first** (Pass 0 below). It settles every row marked *mechanical* in
+seconds and for no tokens, which is what buys the budget to open the three files that are not.
+A clean sweep is **not** a passed revision: it means passes 7, 10 and the countable half of 8
+found nothing. It says nothing about 2, 3, 5, 6 or 9, and a green line must never be read as a
+bias pass.
+
 Three files, every chapter: `voice-separation`, `competence-map`, `bias-guard`. Two more
 conditionally: `story-opening` while the novel is inside its opening arc, `meta-knowledge` whenever
 the MC knows the future. If that does not fit the budget, rotate the unconditional three on a fixed
@@ -45,6 +51,26 @@ never mistaken for an audit that did not happen. **The conditional two are not r
 each guard a defect that is invisible in a single chapter and unrecoverable once ten are written.
 
 ---
+
+## Pass 0 — Mechanical sweep
+
+```bash
+python3 scripts/sw.py lint novels/<slug> -c <n>     # this chapter
+python3 scripts/sw.py cast novels/<slug>            # the two cast tables, as tables
+```
+
+`lint` covers Pass 7 in full, the countable half of Pass 8, Pass 10 in full, the
+default-gesture sweep in Pass 2, the anchor count in Pass 9b, and the ledger's agreement with
+the chapter. `cast` settles the arithmetic in Pass 2 and Pass 3 — the straddle rule, the wit
+cap, the three-way clash, the deep-expertise budget. Read the findings, then work the passes
+below; the sweep tells you **where** to look and never **whether** it is a problem.
+
+Findings print as `LEVEL path:line: [check] message`. A **DEFECT** is a named gate failure; a
+**warn** wants a decision. Fix them in the file as you go, along with everything else.
+
+**If Python is unavailable**, or the command errors, run every pass below by reading, exactly
+as before, and say in the report that the sweep did not run. The scripts are an optimisation,
+never a dependency — nothing in this file depends on them existing.
 
 ## Pass 1 — Continuity (structural)
 
@@ -90,6 +116,8 @@ because the fingerprints differ and the minds behind them do not:
       became funny because the scene had room
 - [ ] Every action beat is that character's hand-habit or pressure move; zero instances of *nodded,
       shrugged, sighed, raised an eyebrow, crossed their arms, let out a breath* as identification
+      — `sw lint` lists every occurrence with its line; deciding which are identification and
+      which are incidental is the part it cannot do
 - [ ] Non-POV minds shown through first moves; no second head entered
 - [ ] Narration draws its metaphors from this POV's thought unit
 - [ ] Any low-intel character is competent at their own work and right about something concrete —
@@ -122,7 +150,8 @@ licence to know facts.
 - [ ] Nobody was made stupid to make the MC look smart
 - [ ] Tier-appropriate: no deduction above tier, no obtuseness below it
 
-**Knowledge** — every character in the chapter, not just the MC:
+**Knowledge** — every character in the chapter, not just the MC. `sw cast` has already checked
+the budget arithmetic and the missing rows; provenance is what is left, and it is the whole job:
 
 - [ ] Provenance test on every stated fact: taught it, did it, was told it, read it, or openly
       guessing. "They're intelligent" is not a provenance
@@ -183,6 +212,9 @@ cultural material it adds is still audited by Pass 6.
 
 ## Pass 7 — MTL detox (`mtl-detox`)
 
+`sw lint` searches the whole banned list and counts narration exclamation marks and rhetorical
+questions. The first two boxes are its output. The rest are structural and are yours.
+
 - [ ] Zero banned phrases
 - [ ] Zero exclamation marks in narration
 - [ ] No crowd-reaction block
@@ -191,6 +223,10 @@ cultural material it adds is still audited by Pass 6.
 - [ ] No paragraph saying the same thing three ways
 
 ## Pass 8 — Prose (`prose-quality`)
+
+`sw lint` finds the cut-list phrases, filter verbs, repeated paragraph openings, runs of
+same-length sentences, phone-illegible paragraphs and the dialogue share. It cannot hear
+rhythm or spot a named emotion, so the judgement boxes stay yours.
 
 - [ ] No phrase from the AI-default cut list
 - [ ] Filter verbs removed
@@ -244,7 +280,8 @@ from the summary.
       where and when it happens, and what the POV character wants? Three shrugs is a fail
 - [ ] For fanfic/transmigration: does the reader know **which** story and roughly **when** in it?
 - [ ] Anchor-vocabulary count for this chapter is not zero (`lexicon.md`, `anchor? yes` terms).
-      Across chapters 1–5 collectively, zero is a hard failure
+      Across chapters 1–5 collectively, zero is a hard failure. `sw lint` prints the count and
+      the terms it matched; a low but non-zero count is still a judgement call
 - [ ] **The stakes ceiling.** Has any consequence escalated past the reader's ability to price it?
       Before a threat is dangerous, the mechanism must be on the page — not in the bible
 - [ ] `opening.promise` has been touched by `promise_touched_by_ch`
@@ -267,9 +304,18 @@ seen from one chapter, and that is precisely the defect it exists to catch.
 ## Pass 10 — Mechanics
 
 - [ ] Frontmatter complete, including `delivers:`
-- [ ] `wordcount:` is **measured** (`wc -w` where available), never estimated, and re-measured if
-      any pass changed the body. It is a recorded fact that later tools read, not a target — but a
-      wrong fact propagates into `state/continuity.md` and corrupts every share computed from it
+- [ ] `wordcount:` is **measured**, never estimated, and re-measured if any pass changed the body.
+      It is a recorded fact that later tools read, not a target — but a wrong fact propagates into
+      `state/continuity.md` and corrupts every share computed from it. Run this last, after every
+      other fix has landed:
+
+      ```bash
+      python3 scripts/sw.py stamp novels/<slug> -c <n> --status revised --ledger
+      ```
+
+      It measures the body, writes `wordcount:` and `status:`, and corrects `wc:` in the CCS
+      block. It never touches the prose. Without Python, measure with `wc -w` on the body and
+      write both numbers by hand
 - [ ] Scene breaks use `* * *`
 - [ ] POV label present if the chapter switches and `label_switches` is true
 
@@ -318,11 +364,13 @@ Cut a crowd-reaction paragraph, applied Dael's rung-3 voice delta, replaced the 
 quality signal and putting it in the report is what trained the drafting model to aim at it.
 
 If a pass found nothing, do not list it. If Pass 6 found something, always say what — the user
-needs to know that the default was reaching for it.
+needs to know that the default was reaching for it. If the mechanical sweep did not run, say so;
+a ticked box that was never checked is the failure mode this whole section exists to prevent.
 
 ## Standalone use
 
-`/novel-revise <n>` runs this on an existing chapter. Load that chapter, its CCS block, the two
-before it, the matrix rows in `bible/cast/_voices.md` and the competence rows in
+`/novel-revise <n>` runs this on an existing chapter. Run `sw lint`, `sw cast` and `sw state`
+on it first — three commands, and they replace most of the loading below. Then load that
+chapter, its CCS block, the two before it, the matrix rows in `bible/cast/_voices.md` and the competence rows in
 `bible/cast/_competence.md` for its speakers, and the profiles of everyone in it — then run all
 the passes.

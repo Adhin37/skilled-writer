@@ -70,3 +70,10 @@ $RECYCLE.BIN/
 .idea/
 *.swp
 *.swo
+
+# ---------------------------------------------------------------------------
+# Python bytecode from scripts/ - the toolkit is stdlib-only and has no build
+# step, but running it leaves caches behind.
+# ---------------------------------------------------------------------------
+__pycache__/
+*.py[cod]

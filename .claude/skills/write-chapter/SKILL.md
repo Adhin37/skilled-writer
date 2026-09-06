@@ -16,7 +16,10 @@ is cheap, and skipping one is what produces the drift that ruins long serials.
 2. Note: `genre`, `narration.*`, `pov.*`, `mc.intel_tier`, `chapters.*`, `content.*`,
    and which `optional:` keys are `on`. Only `on` skills apply.
 3. Determine the chapter number: highest existing file in `chapters/` + 1, unless told otherwise.
-4. Run `continuity-summary` in **read mode**. You now have the read-set and the chapter brief.
+4. Run `continuity-summary` in **read mode** — `python3 scripts/sw.py readset novels/<slug> -c <N>`
+   assembles it in one call, sliced rather than whole-file. You now have the read-set and the
+   chapter brief. Steps 1 and 2 above are in its CONFIG block, so `novel.md` needs no separate
+   read. Without Python, load the list in `continuity-summary` by hand.
 5. Read the target row in `plan/chapters.md`. If it is missing or any of
    goal/obstacle/turn/cost/hook is blank, run `chapter-plan` for this row first. Do not draft
    from an incomplete row.
@@ -139,18 +142,34 @@ paragraph. Never "As you'll remember".
 
 `novels/<slug>/chapters/NNNN-<kebab-title>.md`, four-digit padded, with the frontmatter from
 `chapters/_chapter-template.md` filled in — including **`delivers:`**, which is the decision you
-already made in Step 1. Measure `wordcount:` (`wc -w` on the body); it is a recorded fact, not a
-target. Prose only in the body — the four channels and nothing else. No headings, no author notes.
+already made in Step 1. Prose only in the body — the four channels and nothing else. No headings,
+no author notes.
+
+Leave `wordcount:` at whatever the template holds; it is stamped from the measured body in Step 4,
+after revision has changed the text. It is a recorded fact, not a target.
 
 ## Step 4 — Revise
 
-Run `revision-pass`. It runs `prose-quality`, `mtl-detox`, `bias-guard`, and a continuity check.
-Fix what it finds, in the file. Set `status: revised`.
+Run `revision-pass`. It opens with the mechanical sweep —
+
+```bash
+python3 scripts/sw.py lint novels/<slug> -c <N>
+```
+
+— and then runs `prose-quality`, `mtl-detox`, `bias-guard`, voice separation, competence and a
+continuity check, which are judgement and are not in the sweep. Fix what it finds, in the file.
+
+When every pass is clean, stamp the measured count and the status in one call:
+
+```bash
+python3 scripts/sw.py stamp novels/<slug> -c <N> --status revised --ledger
+```
 
 ## Step 5 — Write state back
 
 Run `continuity-summary` in **write mode**: CCS block, threads, growth, timeline, any new bible
-facts. This step is not optional and not deferrable to "later".
+facts. This step is not optional and not deferrable to "later". When the block is written,
+`python3 scripts/sw.py state novels/<slug>` verifies it against the chapter on disk.
 
 World bookkeeping, same pass: any new location anchor or durable social fact goes into `set>`,
 then into `bible/world.md` or `bible/society.md`. An anchor invented on the page and never

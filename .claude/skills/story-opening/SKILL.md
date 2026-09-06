@@ -27,6 +27,13 @@ ceiling and the promise ledger. After that this skill is done and `hook-and-paci
 
 ## 1. The anchor
 
+`python3 scripts/sw.py lint novels/<slug> -c <n>` counts anchor vocabulary for any chapter
+inside the opening arc, using the `anchor? yes` rows of `bible/lexicon.md`, and fails the
+chapter on zero. That is the floor, not the test: a chapter can hit five anchor nouns and still
+leave a reader unable to say what kind of story this is. The count is mechanical; the anchor is
+not.
+
+
 > **By the end of chapter 1, a reader can say what kind of world this is, what kind of place they
 > are standing in, and what the POV character wants this week.** For fan fiction, transmigration
 > or any story set in a known world, they can also say **which story they are in and roughly when

@@ -1,0 +1,256 @@
+#!/usr/bin/env python3
+"""skilled-writer mechanical toolkit.
+
+    python3 scripts/sw.py <command> [novel] [options]
+
+Does the countable work the skills would otherwise spell out by hand: slicing the read-set,
+sweeping a chapter for banned strings and channel mechanics, auditing the cast tables,
+checking the ledger against the chapters, and stamping a measured word count.
+
+It is an optimisation and never a dependency. Every skill that names a command here keeps
+its manual checklist underneath, because the toolkit has to work with nothing installed.
+
+Exit codes: 0 clean - 1 findings that need a decision - 2 bad usage or missing files.
+"""
+
+import argparse
+import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+from swlib import cmd_cast, cmd_lint, cmd_readset, cmd_state, cmd_status, cmd_write  # noqa: E402
+from swlib.novelio import Novel, resolve  # noqa: E402
+from swlib.report import Report  # noqa: E402
+
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+USAGE_ERROR = 2
+
+
+def _novel(args):
+    n = resolve(getattr(args, "novel", None), REPO_ROOT)
+    if n is None:
+        target = getattr(args, "novel", None)
+        if target:
+            sys.stderr.write("no novel at %r (looked for novel.md there, under the repo root, "
+                             "and under novels/)\n" % target)
+        else:
+            sys.stderr.write("could not pick a novel: name one, e.g. "
+                             "`sw %s novels/<slug>`\n" % args.command)
+        sys.exit(USAGE_ERROR)
+    return n
+
+
+def _emit(rep, args):
+    show = "defect" if getattr(args, "quiet", False) else getattr(args, "show", "warn")
+    print(rep.render(show=show))
+    # A file or chapter that does not exist is bad usage, not a finding about the novel.
+    if any(f.check == "usage" for f in rep.findings):
+        return USAGE_ERROR
+    return rep.exit_code
+
+
+# --------------------------------------------------------------------- commands
+
+def do_readset(args):
+    novel = _novel(args)
+    chars = args.chars.split(",") if args.chars else None
+    locs = args.locs.split(",") if args.locs else None
+    text = cmd_readset.build(novel, args.chapter, chars, locs, want_society=args.society)
+    if args.out:
+        with open(args.out, "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(text)
+        print("read-set for chapter %d written to %s (%d bytes)"
+              % (args.chapter, args.out, len(text)))
+    else:
+        sys.stdout.write(text)
+    return 0
+
+
+def do_lint(args):
+    novel = _novel(args)
+    numbers = None
+    if args.chapter is not None:
+        numbers = [args.chapter]
+    elif not args.all:
+        chs = [c.number for c in novel.chapters() if c.number]
+        numbers = [max(chs)] if chs else None
+    return _emit(cmd_lint.run(novel, numbers), args)
+
+
+def do_cast(args):
+    return _emit(cmd_cast.run(_novel(args)), args)
+
+
+def do_state(args):
+    return _emit(cmd_state.run(_novel(args)), args)
+
+
+def do_status(args):
+    return _emit(cmd_status.run(_novel(args)), args)
+
+
+def do_stamp(args):
+    novel = _novel(args)
+    number = args.chapter
+    if number is None:
+        chs = [c.number for c in novel.chapters() if c.number]
+        if not chs:
+            sys.stderr.write("no chapters to stamp\n")
+            return USAGE_ERROR
+        number = max(chs)
+    rep, _wrote = cmd_write.stamp(novel, number, args.status, args.ledger)
+    return _emit(rep, args)
+
+
+def do_newnovel(args):
+    rep, _ok = cmd_write.newnovel(args.slug, REPO_ROOT)
+    return _emit(rep, args)
+
+
+def do_audit(args):
+    """The independent whole-novel pass. Replaces docs/check-chapters.sh."""
+    novel = _novel(args)
+    rep = Report("audit - %s" % novel.title)
+    chapters = novel.chapters()
+    if not chapters:
+        rep.defect("audit", "no chapters yet in %s" % novel.path("chapters"))
+        return _emit(rep, args)
+
+    inv = ["   %-38s %7s %7s %-9s %s" % ("file", "words", "fm_wc", "status", "delivers")]
+    total = 0
+    for c in chapters:
+        total += c.words
+        inv.append("   %-38s %7d %7s %-9s %s"
+                   % (c.name, c.words, c.meta.get("wordcount", "-"),
+                      c.meta.get("status", "-"), str(c.meta.get("delivers", ""))[:48]))
+    inv.append("   %d chapters, %d body words. Word count is a fact here and is scored on"
+               % (len(chapters), total))
+    inv.append("   nothing - only whether the recorded number is true.")
+    rep.info("inventory", inv)
+
+    rep.extend(cmd_lint.run(novel, None if args.all else [c.number for c in chapters]))
+    rep.extend(cmd_cast.run(novel))
+    rep.extend(cmd_state.run(novel))
+    return _emit(rep, args)
+
+
+def do_doctor(args):
+    rep = Report("doctor")
+    ok = sys.version_info >= (3, 8)
+    rep.info("environment", [
+        "   python %d.%d.%d at %s" % (sys.version_info[0], sys.version_info[1],
+                                      sys.version_info[2], sys.executable),
+        "   repo root %s" % REPO_ROOT.replace(os.sep, "/"),
+        "   %s" % ("stdlib only, no dependencies to install" if ok else "NEEDS Python 3.8+"),
+    ])
+    if not ok:
+        rep.defect("environment", "Python 3.8 or newer is required")
+
+    tpl = os.path.join(REPO_ROOT, "novels", "_template")
+    if not os.path.isdir(tpl):
+        rep.defect("scaffold", "novels/_template is missing")
+
+    nd = os.path.join(REPO_ROOT, "novels")
+    found = []
+    if os.path.isdir(nd):
+        for name in sorted(os.listdir(nd)):
+            p = os.path.join(nd, name)
+            if name.startswith("_") or not os.path.isdir(p):
+                continue
+            n = Novel(p)
+            if not n.exists():
+                continue
+            found.append("   %-28s %d chapters, %d CCS blocks%s%s"
+                         % (name, len(n.chapters()), len(n.blocks()),
+                            ", foreknowledge" if n.has_foreknowledge else "",
+                            ", form-locked" if n.form_locked else ""))
+    rep.info("novels", found or ["   none yet - run `sw newnovel <slug>`"])
+    return _emit(rep, args)
+
+
+# ---------------------------------------------------------------------- parsing
+
+def build_parser():
+    p = argparse.ArgumentParser(
+        prog="sw", description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter)
+    sub = p.add_subparsers(dest="command")
+
+    def novel_arg(sp):
+        sp.add_argument("novel", nargs="?",
+                        help="path or slug; omit when only one novel exists")
+        sp.add_argument("-q", "--quiet", action="store_true",
+                        help="show defects only")
+        sp.add_argument("--show", choices=["defect", "warn", "note"], default="warn",
+                        help="lowest level to print (default: warn)")
+        return sp
+
+    sp = novel_arg(sub.add_parser("readset", help="assemble the bounded read-set for a chapter"))
+    sp.add_argument("--chapter", "-c", type=int, required=True)
+    sp.add_argument("--chars", help="comma-separated characters on the page this chapter")
+    sp.add_argument("--locs", help="comma-separated locations this chapter")
+    sp.add_argument("--society", action="store_true",
+                    help="include bible/society.md (chapter turns on a social rule)")
+    sp.add_argument("--out", help="write to a file instead of stdout")
+    sp.set_defaults(func=do_readset)
+
+    sp = novel_arg(sub.add_parser("lint", help="mechanical sweep over a chapter's prose"))
+    sp.add_argument("--chapter", "-c", type=int, help="default: the latest chapter")
+    sp.add_argument("--all", action="store_true", help="every chapter")
+    sp.set_defaults(func=do_lint)
+
+    novel_arg(sub.add_parser("cast", help="voice matrix and competence grid audits")
+              ).set_defaults(func=do_cast)
+    novel_arg(sub.add_parser("state", help="ledger, threads, plan and roster integrity")
+              ).set_defaults(func=do_state)
+    novel_arg(sub.add_parser("status", help="progress aggregation for /novel-status")
+              ).set_defaults(func=do_status)
+
+    sp = novel_arg(sub.add_parser("stamp", help="measure the body, write wordcount/status"))
+    sp.add_argument("--chapter", "-c", type=int, help="default: the latest chapter")
+    sp.add_argument("--status", choices=list(cmd_lint.VALID_STATUS))
+    sp.add_argument("--ledger", action="store_true",
+                    help="also correct wc: in the chapter's CCS block")
+    sp.set_defaults(func=do_stamp)
+
+    sp = novel_arg(sub.add_parser("audit", help="independent whole-novel pass"))
+    sp.add_argument("--all", action="store_true", help=argparse.SUPPRESS)
+    sp.set_defaults(func=do_audit)
+
+    sp = sub.add_parser("newnovel", help="copy novels/_template to novels/<slug>")
+    sp.add_argument("slug")
+    sp.add_argument("-q", "--quiet", action="store_true")
+    sp.add_argument("--show", choices=["defect", "warn", "note"], default="note")
+    sp.set_defaults(func=do_newnovel)
+
+    sp = sub.add_parser("doctor", help="environment and workspace check")
+    sp.add_argument("-q", "--quiet", action="store_true")
+    sp.add_argument("--show", choices=["defect", "warn", "note"], default="warn")
+    sp.set_defaults(func=do_doctor)
+    return p
+
+
+def _force_utf8():
+    """Windows consoles default to a legacy code page; novel prose is full of em-dashes and
+    curly quotes, and printing one to cp1252 raises UnicodeEncodeError. Python 3.7+ can
+    retag the stream in place."""
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(encoding="utf-8", errors="replace")
+        except (AttributeError, ValueError):
+            pass
+
+
+def main(argv=None):
+    _force_utf8()
+    parser = build_parser()
+    args = parser.parse_args(argv)
+    if not getattr(args, "command", None):
+        parser.print_help()
+        return USAGE_ERROR
+    return args.func(args) or 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

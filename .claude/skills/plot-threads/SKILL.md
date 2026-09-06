@@ -114,6 +114,16 @@ faction, a rule of the world introduced in the same chapter it becomes decisive.
 
 ## Audit procedure
 
+```bash
+python3 scripts/sw.py state novels/<slug>
+```
+
+Cross-references the board against the ledger: which thread each block operated on, how long ago
+each open thread was last touched, whether that matches its declared `tension`, and any id
+operated on in the ledger with no row on the board. Run it before the manual audit below — it
+finds the dropped thread, and you decide what to do about it.
+
+
 Run at every arc boundary, and whenever the user asks what is unresolved.
 
 1. List every thread with status `open`/`escalated`.

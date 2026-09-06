@@ -124,6 +124,12 @@ from how much the reader knew about the corpse.
 
 ## Promotion and demotion
 
+`python3 scripts/sw.py state novels/<slug>` reads the roster in `bible/cast/_extras.md`, counts
+each walk-on's appearances **in drafted chapters only** — a planned future appearance is not an
+appearance — and flags anyone at three or more who still has no profile. The other trigger,
+*changed the plot*, is a judgement it cannot make; that one is yours.
+
+
 **Promotion is retroactive, and it is triggered, not scheduled.** Promote when either fires:
 
 - a third appearance, or

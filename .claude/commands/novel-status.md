@@ -4,8 +4,20 @@ description: Where the novel stands — progress, open threads, character arcs, 
 
 Report the state of the active novel. Read-only: change nothing.
 
-Read `novel.md`, `state/continuity.md` (book digest + current arc digest + last 3 chapter blocks),
-`state/threads.md`, `state/growth.md`, and the plan rows around the draft line.
+```bash
+python3 scripts/sw.py status novels/<slug>
+python3 scripts/sw.py state novels/<slug>     # for section 9, the health check
+```
+
+The first gathers everything sections 1-8 need: position, the last three `dlv>` lines, open
+threads with how long each has gone untouched, growth rungs and skill ladders, the next planned
+rows, the foreknowledge counters and the ending contract. The second finds what section 9 should
+lead on. Neither writes anything.
+
+Without Python, read `novel.md`, `state/continuity.md` (book digest + current arc digest + last 3
+chapter blocks), `state/threads.md`, `state/growth.md`, and the plan rows around the draft line.
+
+**Translate, do not paste.** The CCS is machine-only; section 2 is prose for a human.
 
 Report, for a human, in this order:
 

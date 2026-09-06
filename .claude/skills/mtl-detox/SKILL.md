@@ -121,7 +121,18 @@ and is competent at their own job. The one-scene thug still has a reason to be a
 
 Run over the drafted chapter:
 
-1. Search the draft for each banned phrase. Rewrite, don't substitute.
+```bash
+python3 scripts/sw.py lint novels/<slug> -c <n>
+```
+
+Steps 1-3 are that command: it holds the whole banned list above, counts exclamation marks and
+question marks outside dialogue, and reports each with its line. Steps 4-8 are structural and
+are yours — no script can see a crowd-reaction block or price a confrontation. Without Python,
+search for each phrase by hand.
+
+1. Search the draft for each banned phrase. Rewrite, don't substitute. The linter finds the
+   string; **you** rewrite the sentence, because swapping a synonym is the failure this list
+   exists to prevent.
 2. Count exclamation marks outside dialogue. Target zero.
 3. Count rhetorical questions in narration. Target zero, ceiling one.
 4. Find every paragraph describing a group reacting to the POV character. Delete or individuate.

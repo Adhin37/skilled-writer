@@ -43,9 +43,40 @@ cd skilled-writer
 claude
 ```
 
+### Optional: Python 3.8+
+
+The toolkit ships a small stdlib-only program, [`scripts/sw.py`](scripts/README.md), that does
+the countable work the skills would otherwise do by reading: slicing the read-set, sweeping a
+chapter for banned phrases and channel mechanics, auditing the cast tables, and checking the
+ledger against the chapters. It makes chapters cheaper and the mechanical QC independent of
+whether the model remembered to look.
+
+```bash
+python3 scripts/sw.py doctor        # start here; reports version and workspace
+```
+
+**Nothing breaks without it.** Every skill that names a command keeps its manual checklist
+directly underneath, and the model does the same checks by reading, exactly as before. No
+packages, no install, no build step — the standard library is the whole dependency.
+
+| OS | getting Python | note |
+|---|---|---|
+| **Linux** | preinstalled on nearly every distribution | `python3` |
+| **macOS** | `python3` ships as a Command Line Tools shim; the first run offers to install it | `python3` |
+| **Windows** | not preinstalled — `winget install Python.Python.3`, or the python.org installer (tick *Add to PATH*) | use `python` if `python3` is not found |
+
+### Portability
+
 Works on Windows, macOS and Linux. Nothing in the repo hardcodes a path, a drive or a shell:
 `.claude/settings.json` uses project-relative permission rules, `.gitattributes` normalises line
 endings to LF, and `.gitignore` keeps generated books, per-machine tool state and OS cruft out.
+
+**On Windows specifically**: Claude Code's Bash tool runs through Git Bash, which comes with
+[Git for Windows](https://git-scm.com/download/win). The scripts here sidestep that question
+entirely — they are invoked as `python3 scripts/sw.py …`, never shell out, and never build a
+path by hand, so they behave identically from bash, Git Bash, PowerShell or `cmd`. Output is
+forced to UTF-8, because novel prose is full of em-dashes and a legacy console code page would
+otherwise crash on the first one.
 
 Your novels live in `novels/<slug>/` and are **gitignored by default** — see
 [novels/README.md](novels/README.md) if you want to version one.
@@ -91,11 +122,26 @@ Three things worth knowing before you start:
   chapters. The *read-set* is bounded; the *session* is not. `/novel-write` in a new session
   picks up from the state files, and that is the cheap path.
 
-Run [`docs/check-chapters.sh`](docs/check-chapters.sh) on your own chapters to check the four
-channel shares, anchor vocabulary in the opening arc, `delivers:` presence, MTL artifacts and
-ledger integrity — independently of the model that wrote them. It reports word count as a fact
-and scores only whether the recorded number is *true*, because a wrong one propagates into the
-continuity ledger.
+Run the audit on your own chapters to check the four channel shares, anchor vocabulary in the
+opening arc, `delivers:` presence, MTL artifacts, the cast tables and ledger integrity —
+independently of the model that wrote them:
+
+```bash
+python3 scripts/sw.py audit novels/<slug>
+```
+
+It reports word count as a fact and scores only whether the recorded number is *true*, because a
+wrong one propagates into the continuity ledger.
+
+**On the read-set.** Most of the bill above is the model reading state back in, and the read-set
+is specified as *slices* — this chapter's speakers, this chapter's locations, the last five
+ledger blocks. A model cannot read half a file, so in practice it read all of them, and the
+ledger grows with every chapter written. `sw readset` emits the slices instead. Measured on the
+sample novel, as bytes handed to the model: **62% smaller at chapter 6, 81% at chapter 45**, and
+where the whole-file set grew by 107 KB across that span the sliced one grew by 5 KB. That is a
+measurement of the bundle, **not** of the dollar figures above — those came from a real
+instrumented run and are not revised here on the strength of a byte count. Benchmark run #2 will
+settle it.
 
 **These are numbers from one run of one genre**, stopped deliberately at chapter 5 when it turned
 up two defects worth fixing. It is a rough order of magnitude, not a quote.
@@ -259,6 +305,32 @@ Thirteen of these deserve a note:
 Everything user-tunable lives in the YAML frontmatter of `novels/<slug>/novel.md`. Edit it by
 hand or via `/novel-toggle`. Optional skills read their own key and no-op if it is `off`.
 
+## Scripts
+
+[`scripts/sw.py`](scripts/README.md) — Python 3.8+, standard library only.
+
+| command | what it does |
+|---|---|
+| `readset <novel> -c N` | assembles the bounded read-set for chapter N — sliced rows, not whole files |
+| `lint <novel> [-c N]` | one chapter: MTL phrases, the AI-default cut list, the four channels, thought budget, apostrophe collisions, stray markup, frontmatter, anchor vocabulary |
+| `cast <novel>` | the voice matrix and competence grid as tables: straddle, wit cap, three-way clash, expertise budget |
+| `state <novel>` | ledger against chapters, required CCS lines, thread tension against last use, plan-row completeness, promotion triggers |
+| `status <novel>` | progress aggregation for `/novel-status` |
+| `stamp <novel> -c N` | measures the body, writes `wordcount:` and `status:` |
+| `newnovel <slug>` | portable copy of `novels/_template` |
+| `audit <novel>` | the independent whole-novel gate |
+| `doctor` | environment and workspace check |
+
+Exit `0` clean, `1` findings that need a decision, `2` bad usage. Findings print one per line as
+`LEVEL path:line: [check] message`.
+
+Three things they deliberately do not do. **They never edit a prose body** — `mtl-detox` requires
+the sentence rewritten rather than the synonym swapped, so an auto-fixer would do precisely the
+forbidden thing; linters report, the model rewrites. **There is no script for `bias-guard`**,
+because its defects are distributional and a green line from a linter must never be readable as a
+bias pass. And **a clean run is not a passed revision** — it means the mechanical passes found
+nothing, and says nothing about delivery, voice separation, competence or bias.
+
 ## Layout
 
 ```
@@ -266,6 +338,7 @@ CLAUDE.md                         the operating contract, loaded every session
 .claude/skills/<name>/SKILL.md    the skills
 .claude/commands/*.md             the slash commands
 .claude/settings.json             shared permissions (relative paths — portable)
+scripts/sw.py                     the mechanical toolkit (optional, Python 3.8+)
 novels/_template/                 the per-novel scaffold
 novels/<slug>/                    your novel: config, bible, plan, state, chapters (gitignored)
 ```
