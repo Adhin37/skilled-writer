@@ -367,3 +367,38 @@ class TestFileGate(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestEmptyPressureLog(unittest.TestCase):
+    """Benchmark run #2, F2. `curve` printed its header and nothing else.
+
+    Its only `rep.info` sat inside `_pressure`, after `if not series: return`, so a novel whose
+    arc runs on institutional pressure rather than confrontations got a permanently clean curve —
+    and `_flat`, the enforcement of hard rule 11, never ran either. A command that says nothing
+    when it has nothing to complain about cannot be told from one whose parser is broken.
+    """
+
+    STANDING = "| Wren | 2 | 1 | a ledger nobody audits | a fight | no |"
+
+    def _run(self, chapters):
+        with NovelFixture(novel_md=novel_md()) as fx:
+            fx.write("state/power.md", power_md(standing=self.STANDING))
+            for n in range(1, chapters + 1):
+                fx.add_chapter(n, "She counted the sacks again.\n")
+            return cmd_curve.run(fx.novel())
+
+    def test_it_prints_a_position_section_with_no_pressure_rows(self):
+        """Was: header, `0 defect(s)`, and not one line between them."""
+        rep = self._run(3)
+        headings = [h for h, _ in rep.sections]
+        self.assertIn("standing", headings,
+                      "curve printed nothing against a populated power.md")
+        body = " ".join(l for _h, lines in rep.sections for l in lines)
+        self.assertIn("Wren", body)
+
+    def test_an_empty_log_past_the_horizon_is_a_finding(self):
+        """Was: silence. 300 chapters logging nothing read exactly like a healthy curve."""
+        self.assertIn("curve-empty", checks(self._run(14)))
+
+    def test_an_empty_log_early_is_not_yet_a_finding(self):
+        self.assertNotIn("curve-empty", checks(self._run(3)))

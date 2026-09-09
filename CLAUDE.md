@@ -298,12 +298,23 @@ small enough to be worth opening. Rationale: [design notes](docs/design-notes.md
 | `stamp <novel> -c N` | `revision-pass` Pass 10 · `write-chapter` step 4 |
 | `newnovel <slug>` | `novel-init` step 3 |
 | `audit <novel>` | the independent whole-novel gate |
+| `history <novel>` | the whole book as a series — dialogue and length trends, recurring lint checks, thread ages, the pressure series |
+| `trace [novel]` | what a run cost, and **which skill files it actually opened** — the finding-9 check |
+| `health` | the toolkit's own wiring: skills, cards, references, the template accessors, the docs |
+| `selftest` | the dry run — build a whole novel in a temp dir and run every command against it, clean and seeded |
 | `doctor` | start here when anything behaves oddly |
 
 Three rules, all of which exist to stop a tool becoming an alibi. **An optimisation, never a
 dependency** — every skill that names a command keeps its manual checklist underneath, and if the
 command is unavailable you do the checks by reading and say so in the report. **They find, they do
 not judge** — nothing here rewrites a prose body, and the only files they edit are chapter
-frontmatter, a CCS `wc:` field, and a fresh scaffold. **A clean run is not a passed revision** —
-the distributional and judgement passes are untouched by it, and `bias-guard` has no script at
-all, deliberately.
+frontmatter, a CCS `wc:` field, a fresh scaffold, and `selftest`'s own throwaway directory. **A
+clean run is not a passed revision** — the distributional and judgement passes are untouched by it,
+and `bias-guard` has no script at all, deliberately.
+
+The last four review the **process** rather than the novel, and the same rules bind them: `trace`
+measures a run and scores nothing, `history` prints trends and scores nothing, `health` checks
+wiring and says nothing about whether a skill's advice is good, and `selftest` proves the pipeline
+runs without proving any chapter is worth reading. `trace` is the only command that reads outside
+the repo; it takes usage, timestamps and tool names from Claude Code's transcripts and never
+prompt text, tool results or prose. See [scripts/README.md](scripts/README.md).

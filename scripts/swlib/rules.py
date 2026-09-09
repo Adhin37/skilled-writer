@@ -92,6 +92,12 @@ STRAY_MARKUP = _compile([
     (r"^\s{0,3}[-*+]\s+\S", "list bullet in prose body"),
     (r"^\s{0,3}\d+\.\s+\S", "numbered list in prose body"),
     (r"\*\*[^*\n]+\*\*", "bold in prose body"),
+    # Benchmark run #2, F3: there was a rule for bold and none for italics, so an italicised
+    # direct thought - the exact hard-rule-7 violation the four channels exist to prevent -
+    # passed silently. The look-arounds keep `**bold**` on the rule above, leave `3 * 4` and
+    # snake_case identifiers alone, and never reach `* * *` (skipped as a scene break first).
+    (r"(?<!\*)\*(?!\s)[^*\n]+(?<!\s)\*(?!\*)", "italics in prose body"),
+    (r"(?<![\w_])_(?!\s)[^_\n]+(?<!\s)_(?![\w_])", "italics in prose body"),
     (r"\[[^\]\n]*\]\([^)\n]*\)", "markdown link in prose body"),
     (r"^\s{0,3}>\s", "blockquote in prose body"),
     (r"^\s{0,3}```", "code fence in prose body"),
@@ -121,6 +127,7 @@ REQUIRED_CCS = ["dlv", "ev", "chg", "kno", "thr", "obj", "hook"]
 CCS_MAX_LINES = 15
 THOUGHT_BUDGET = 3
 SPEECH_FLOOR = 10.0
+SPEECH_WINDOW = 5
 SPEECH_TARGET_LOW = 25.0
 SPEECH_TARGET_HIGH = 40.0
 

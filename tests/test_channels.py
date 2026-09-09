@@ -105,3 +105,124 @@ class TestChannelsFromConfig(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestSceneBreaksAndMarkup(unittest.TestCase):
+    """Benchmark run #2, F3. Both checks existed and neither fired.
+
+    The scene-break check enumerated the wrong forms (`***`, `---`, `~~~`, `===`, `* * * *`) and
+    so missed a lone `*` — the malformation a real writing agent produced three times. And
+    `STRAY_MARKUP` had a rule for `**bold**` and none for `*italic*`, so an italicised direct
+    thought, the exact hard-rule-7 violation the four channels exist to prevent, passed silently.
+    """
+
+    def _checks(self, body):
+        from swlib import cmd_lint
+        with NovelFixture() as fx:
+            fx.add_chapter(1, body)
+            novel = fx.novel()
+            rep = cmd_lint.lint_chapter(novel, novel.chapters()[0])
+            return [(f.check, f.level) for f in rep.findings]
+
+    def test_a_lone_star_is_not_a_scene_break(self):
+        """Was: `breaks 0`, no finding — it matched neither the blocklist nor a list bullet."""
+        found = self._checks("She stopped.\n\n*\n\nThe corridor was empty.\n")
+        self.assertIn(("scene-break", "warn"), found)
+
+    def test_a_well_formed_break_stays_clean(self):
+        found = self._checks("She stopped.\n\n* * *\n\nThe corridor was empty.\n")
+        self.assertNotIn("scene-break", [c for c, _ in found])
+        self.assertNotIn("markup", [c for c, _ in found])
+
+    def test_other_break_shapes_are_still_caught(self):
+        for shape in ("***", "---", "~~~", "===", "* * * *", "___"):
+            found = self._checks("She stopped.\n\n%s\n\nIt was empty.\n" % shape)
+            self.assertIn(("scene-break", "warn"), found, "%r passed as a scene break" % shape)
+
+    def test_an_italicised_thought_is_markup(self):
+        """Was: `thought 0/3` and no finding — italics had no rule at all."""
+        found = self._checks("She ran.\n\n*She would not make it in time.*\n\nThe gate closed.\n")
+        self.assertIn(("markup", "defect"), found)
+
+    def test_underscore_italics_are_markup_but_snake_case_is_not(self):
+        self.assertIn(("markup", "defect"),
+                      self._checks("She ran.\n\n_She would not make it._\n\nIt closed.\n"))
+        self.assertNotIn("markup", [c for c, _ in
+                                    self._checks("He read the word some_file_name aloud.\n")])
+
+    def test_bold_still_reports_as_bold_not_italics(self):
+        """The italic rule sits after the bold rule and must not steal its hits."""
+        from swlib import cmd_lint
+        with NovelFixture() as fx:
+            fx.add_chapter(1, "She ran.\n\n**She would not make it.**\n\nIt closed.\n")
+            novel = fx.novel()
+            rep = cmd_lint.lint_chapter(novel, novel.chapters()[0])
+            detail = " ".join(str(f.message) + str(f.detail or "") for f in rep.findings
+                              if f.check == "markup")
+            self.assertIn("bold", detail)
+
+    def test_arithmetic_and_spaced_stars_are_not_italics(self):
+        for body in ("The answer was 3 * 4 * 5 and nothing else.\n",
+                     "She counted 2 * 2 again.\n"):
+            self.assertNotIn("markup", [c for c, _ in self._checks(body)], body)
+
+
+class TestDialogueTexture(unittest.TestCase):
+    """Benchmark run #2 shipped five chapters at a healthy 25% speech share that a reader called
+    stiff and unnatural — complete grammatical sentences, nobody ever cut off, every line
+    carrying exposition. Share says how *much* the cast speaks and nothing about how it sounds.
+
+    These are diagnostics and none of them is a gate: a number that decides whether a chapter
+    ships gets optimised, which this repo has now learned twice.
+    """
+
+    def _ch(self, body):
+        with NovelFixture() as fx:
+            fx.add_chapter(1, body)
+            return fx.novel().chapters()[0]
+
+    STIFF = ('"Tuesday\'s count was for the north wall kit." she said.\n\n'
+             '"That is not what the requisition record indicates."\n\n'
+             '"The record reflects the district set and not the perimeter set."\n')
+    REAL = ('"Tuesday\'s count—"\n\n"No."\n\n"What?"\n\n'
+            '"You heard me. Don\'t make me say it twice."\n')
+
+    def test_a_cut_off_line_is_counted(self):
+        self.assertEqual(self._ch(self.STIFF).speech_interruptions, 0)
+        self.assertGreater(self._ch(self.REAL).speech_interruptions, 0)
+
+    def test_fragments_are_distinguished_from_complete_sentences(self):
+        self.assertLess(self._ch(self.STIFF).speech_fragment_share, 40.0)
+        self.assertGreater(self._ch(self.REAL).speech_fragment_share, 60.0)
+
+    def test_contraction_rate_separates_the_two_registers(self):
+        self.assertLess(self._ch(self.STIFF).speech_contraction_rate,
+                        self._ch(self.REAL).speech_contraction_rate)
+
+    def test_narration_between_lines_measures_buried_dialogue(self):
+        buried = self._ch('"One."\n\n%s\n\n"Two."\n' % (" ".join(["word"] * 80)))
+        quick = self._ch('"One."\n\n"Two."\n')
+        self.assertGreater(buried.narration_between_speech, 50)
+        self.assertLess(quick.narration_between_speech, 10)
+
+    def test_an_exchange_needs_lines_that_are_actually_adjacent(self):
+        """A line, three paragraphs of analysis, another line is not a conversation."""
+        buried = self._ch('"One."\n\n%s\n\n"Two."\n' % (" ".join(["word"] * 80)))
+        quick = self._ch('"One."\n\n"Two."\n\n"Three."\n')
+        self.assertEqual(buried.speech_exchange_runs[1], 1)
+        self.assertEqual(quick.speech_exchange_runs[1], 3)
+
+    def test_line_length_spread_is_zero_for_uniform_lines(self):
+        self.assertEqual(self._ch('"One two three."\n\n"Four five six."\n').speech_line_spread,
+                         0.0)
+
+    def test_none_of_the_texture_findings_is_a_gate(self):
+        """They are notes. Making one a defect is how the dialogue share got gamed."""
+        from swlib import cmd_lint
+        with NovelFixture() as fx:
+            fx.add_chapter(1, self.STIFF * 3)
+            novel = fx.novel()
+            rep = cmd_lint.lint_chapter(novel, novel.chapters()[0])
+            levels = {f.level for f in rep.findings if f.check == "texture"}
+            self.assertTrue(levels, "no texture findings fired on deliberately stiff dialogue")
+            self.assertEqual(levels, {"note"})

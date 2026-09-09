@@ -52,11 +52,43 @@ def run(novel):
         return rep
 
     last_ch = max([c.number for c in novel.chapters() if c.number] or [0])
+    _standing(novel, rep)
     _config(novel, rep)
     gains = _gains(novel, rep, ppath)
     _boosts(novel, rep, ppath, last_ch)
     _pressure(novel, rep, ppath, gains, last_ch)
     return rep
+
+
+def _standing(novel, rep):
+    """Where the ladder stands and where it is going, printed whether or not anything is wrong.
+
+    Benchmark run #2, F2: this command printed its header and nothing else against a fully
+    populated state/power.md, because its only `rep.info` sat behind an early return in
+    `_pressure`. A command that prints nothing when it has nothing to complain about cannot be
+    told apart from one whose parser is broken - and every sibling command prints a position
+    section unconditionally.
+    """
+    lines = []
+    standing = novel.standing_rows()
+    if standing:
+        lines.append("   %-34s %-5s %-9s %s" % ("character", "tier", "since ch", "the edge"))
+        for r in standing:
+            lines.append("   %-34s %-5s %-9s %s"
+                         % (r.first()[:34], r.get("tier")[:5], r.get("since ch")[:9],
+                            r.get("the edge")[:44]))
+    plan = novel.curve_plan_rows()
+    if plan:
+        if lines:
+            lines.append("")
+        lines.append("   %-5s %-10s %-14s %s" % ("arc", "chapters", "tier entry->exit",
+                                                 "pressure band"))
+        for r in plan:
+            lines.append("   %-5s %-10s %-14s %s"
+                         % (r.first()[:5], r.get("chapters")[:10],
+                            r.get("MC tier entry → exit")[:14], r.get("pressure band")[:40]))
+    if lines:
+        rep.info("standing", lines)
 
 
 def _config(novel, rep):
@@ -218,6 +250,14 @@ def _pressure(novel, rep, ppath, gains, last_ch):
     _ccs_agreement(novel, rep, lpath, dict(series))
 
     if not series:
+        # The one failure mode this command exists to catch is a novel that logs nothing, and
+        # until run #2 that was the one case it reported as clean.
+        horizon = novel.scaling_int("flat_max", 12)
+        if last_ch >= horizon:
+            rep.warn("curve-empty",
+                     "%d chapters drafted and state/power.md logs no confrontation at all - the "
+                     "pressure log is what every check here reads, so an empty one is not a flat "
+                     "curve, it is an unmeasured one" % last_ch, path=ppath)
         return
     series.sort()
 

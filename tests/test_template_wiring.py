@@ -16,45 +16,17 @@ import unittest
 
 from fixtures import TEMPLATE
 
-from swlib import mdio
+from swlib import cmd_health, mdio
 from swlib.novelio import Novel
 
 
 TEMPLATE_NOVEL = Novel(TEMPLATE)
 
-# Every table a parser selects by column name, and the columns it selects on.
-TABLE_ACCESSORS = [
-    ("threads",         ("state", "threads.md"),            ("id", "thread", "status")),
-    ("growth_rows",     ("state", "growth.md"),              ("character", "rung")),
-    ("skill_rows",      ("state", "growth.md"),              ("character", "skill", "stage")),
-    ("standing_rows",   ("state", "power.md"),               ("character", "tier", "the edge")),
-    ("ladder_rows",     ("state", "power.md"),               ("tier", "how many alive")),
-    ("pressure_rows",   ("state", "power.md"),               ("ch", "opposition", "p")),
-    ("gain_rows",       ("state", "power.md"),               ("ch", "source", "new problem")),
-    ("boost_rows",      ("state", "power.md"),               ("ch", "boost", "the debt")),
-    ("curve_plan_rows", ("state", "power.md"),               ("arc", "pressure band")),
-    ("plan_rows",       ("plan", "chapters.md"),             ("#", "title", "delivers")),
-    ("voice_rows",      ("bible", "cast", "_voices.md"),     ("character", "intel", "artic",
-                                                              "wit")),
-    ("competence_rows", ("bible", "cast", "_competence.md"), ("character", "domain", "level")),
-]
-
-# Every section a parser slices out by heading text.
-SECTION_LOOKUPS = [
-    (("bible", "cast", "_voices.md"),    "POV THOUGHT"),
-    (("bible", "cast", "_voices.md"),    "MIRROR"),
-    (("plan", "timeline.md"),            "SCHEDULED FOR THIS ARC"),
-    (("state", "body.md"),               "CURRENT FORM"),
-    (("state", "body.md"),               "ABSOLUTE LIMITS"),
-    (("state", "foreknowledge.md"),      "THE GRAIN"),
-    (("state", "foreknowledge.md"),      "THE INVENTORY"),
-    (("state", "foreknowledge.md"),      "THE SPEND LOG"),
-    (("state", "power.md"),              "CURRENT STANDING"),
-    (("state", "power.md"),              "THE LADDER"),
-    (("state", "power.md"),              "ACTIVE BOOSTS"),
-    (("state", "continuity.md"),         "BOOK DIGEST"),
-    (("state", "continuity.md"),         "ARC DIGEST"),
-]
+# The two tables live in `swlib.cmd_health`, which is what `sw health` reports from. Importing
+# them rather than restating them is the point: a check that exists twice drifts, and the copy
+# nobody runs is the one that goes stale.
+TABLE_ACCESSORS = cmd_health.TABLE_ACCESSORS
+SECTION_LOOKUPS = cmd_health.SECTION_LOOKUPS
 
 
 class TestTableAccessors(unittest.TestCase):

@@ -20,13 +20,20 @@ import tempfile
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from swlib import (cmd_arc, cmd_cast, cmd_curve, cmd_lint,  # noqa: E402
-                   cmd_readset, cmd_state, cmd_status, cmd_write)
+from swlib import (cmd_arc, cmd_cast, cmd_curve, cmd_health,  # noqa: E402
+                   cmd_history, cmd_lint, cmd_readset, cmd_selftest, cmd_state,
+                   cmd_status, cmd_trace, cmd_write)
 from swlib.novelio import Novel, resolve  # noqa: E402
+from swlib.rates import Rates  # noqa: E402
 from swlib.report import Report  # noqa: E402
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 USAGE_ERROR = 2
+
+# Named once, so `sw health` can check the docs against the implementation rather than against
+# a second list that drifts.
+COMMANDS = ("readset", "lint", "arc", "cast", "curve", "state", "status", "stamp",
+            "audit", "newnovel", "doctor", "trace", "history", "health", "selftest")
 
 
 def _novel(args):
@@ -174,6 +181,50 @@ def do_audit(args):
     return _emit(rep, args)
 
 
+def _json_dump(data, args):
+    """`--json` prints the same content the report renders, for anything downstream."""
+    import json
+    print(json.dumps(data, indent=2, sort_keys=True, default=str))
+
+
+def do_trace(args):
+    rates = Rates()
+    if args.rates:
+        try:
+            rates = Rates.load(args.rates)
+        except (IOError, OSError, ValueError) as exc:
+            sys.stderr.write("could not read --rates %s: %s\n" % (args.rates, exc))
+            return USAGE_ERROR
+    novel = resolve(getattr(args, "novel", None), REPO_ROOT)
+    rep, data = cmd_trace.run(REPO_ROOT, novel=novel, rates=rates,
+                              transcript_root=args.transcripts,
+                              since=args.since, until=args.until,
+                              session=args.session)
+    if args.json:
+        _json_dump(data, args)
+        return 0
+    return _emit(rep, args)
+
+
+def do_history(args):
+    rep, data = cmd_history.run(_novel(args))
+    if args.json:
+        _json_dump(data, args)
+        return 0
+    return _emit(rep, args)
+
+
+def do_health(args):
+    return _emit(cmd_health.run(REPO_ROOT, commands=sorted(COMMANDS)), args)
+
+
+def do_selftest(args):
+    keep = _checked_out_path(args.keep) if args.keep else None
+    if keep:
+        os.makedirs(keep)
+    return _emit(cmd_selftest.run(REPO_ROOT, keep=keep), args)
+
+
 def do_doctor(args):
     rep = Report("doctor")
     ok = sys.version_info >= (3, 8)
@@ -267,6 +318,34 @@ def build_parser():
     sp.add_argument("-q", "--quiet", action="store_true")
     sp.add_argument("--show", choices=["defect", "warn", "note"], default="note")
     sp.set_defaults(func=do_newnovel)
+
+    sp = novel_arg(sub.add_parser("trace", help="what the run cost, and which skills it opened"))
+    sp.add_argument("--transcripts", help="Claude Code config root (default: $CLAUDE_CONFIG_DIR "
+                                          "or ~/.claude)")
+    sp.add_argument("--rates", help="JSON file of model -> rates, overriding the built-in table")
+    sp.add_argument("--since", help="ISO 8601 lower bound, e.g. 2026-09-09 - scope one run "
+                                    "instead of every session ever run in this repo")
+    sp.add_argument("--until", help="ISO 8601 upper bound")
+    sp.add_argument("--session", help="one transcript only, by session id, agent id or path "
+                                      "fragment - a time window alone still includes the "
+                                      "session that drove the agent")
+    sp.add_argument("--json", action="store_true", help="emit the measurements as JSON")
+    sp.set_defaults(func=do_trace)
+
+    sp = novel_arg(sub.add_parser("history", help="the whole book as a series, not one chapter"))
+    sp.add_argument("--json", action="store_true", help="emit the per-chapter rows as JSON")
+    sp.set_defaults(func=do_history)
+
+    sp = sub.add_parser("health", help="the toolkit's own wiring: skills, cards, template, docs")
+    sp.add_argument("-q", "--quiet", action="store_true")
+    sp.add_argument("--show", choices=["defect", "warn", "note"], default="warn")
+    sp.set_defaults(func=do_health)
+
+    sp = sub.add_parser("selftest", help="dry-run the whole pipeline on a throwaway novel")
+    sp.add_argument("--keep", help="build into this directory and leave it there")
+    sp.add_argument("-q", "--quiet", action="store_true")
+    sp.add_argument("--show", choices=["defect", "warn", "note"], default="warn")
+    sp.set_defaults(func=do_selftest)
 
     sp = sub.add_parser("doctor", help="environment and workspace check")
     sp.add_argument("-q", "--quiet", action="store_true")

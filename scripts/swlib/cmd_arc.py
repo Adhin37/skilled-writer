@@ -228,10 +228,18 @@ def _threads(novel, rep, blocks, lo, hi):
         "   abandoned: %s" % (", ".join(ops["x"]) or "none"),
     ])
     if not ops["v"] and not ops["x"]:
-        rep.defect("arc-payoff", "chapters %d-%d opened %d thread(s) and closed none - perpetual "
-                   "deferral is the complaint readers drop long serials over "
-                   "(plot-threads section Ageing)" % (lo, hi, len(ops["~"])),
-                   path=novel.path("state", "threads.md"))
+        # An arc still being written has not failed to pay off; it has not finished. Run at
+        # chapter 1 this fired as a DEFECT on a 25-chapter arc. Benchmark run #2, F6.
+        drafted = max([c.number for c in novel.chapters() if c.number] or [0])
+        msg = ("chapters %d-%d opened %d thread(s) and closed none - perpetual deferral is the "
+               "complaint readers drop long serials over (plot-threads section Ageing)"
+               % (lo, hi, len(ops["~"])))
+        path = novel.path("state", "threads.md")
+        if drafted < hi:
+            rep.note("arc-payoff", "%s. The arc is %d of %d chapters in, so this is a position, "
+                     "not yet a verdict" % (msg, max(drafted - lo + 1, 0), hi - lo + 1), path=path)
+        else:
+            rep.defect("arc-payoff", msg, path=path)
 
 
 def _foreknowledge(novel, rep, blocks):

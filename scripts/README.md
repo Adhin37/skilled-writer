@@ -35,6 +35,10 @@ automatically when only one novel exists.
 | `stamp <novel> [-c N]` | Measures the body and writes `wordcount:`. `--status`, `--ledger` | **yes** |
 | `newnovel <slug>` | Copies `novels/_template` to `novels/<slug>` | **yes** |
 | `audit <novel>` | Inventory plus `lint --all`, `cast`, `state` and `curve` in one pass — the independent whole-novel gate | no |
+| `history <novel>` | The whole book as a series rather than one chapter: per-chapter words, dialogue share, thought and meta counts, the dialogue and length trends, which lint checks recur across chapters, thread ages, the pressure series, and cadence from file mtimes. `--json` | no |
+| `trace [novel]` | What the run cost and **which skill files it actually opened**, from Claude Code's own transcripts: API responses, the four token classes, wall clock, cost, per-chapter attribution, tool counts. `--since`, `--until`, `--transcripts`, `--rates`, `--json` | no |
+| `health` | The toolkit's own wiring: skill frontmatter, uncited and dangling references, draft/audit cards against their dispatcher, `CLAUDE.md` section 3 against the directory listing, `optional:` toggles, orphan `novel.md` keys, every template accessor, documented commands against implemented ones, line-number citations | no |
+| `selftest` | Builds a complete novel in a throwaway directory and runs every command against it — twice, once clean and once with named defects planted. No model, no network, a few seconds. `--keep` | temp dir only |
 | `doctor` | Python version, repo root, novels found | no |
 
 ### Exit codes
@@ -49,6 +53,53 @@ Findings print one per line as `LEVEL path:line: [check] message`, at three leve
 (a named gate failure), **warn** (look at it), **note** (informational; `--show note` to see
 them, `-q` for defects only).
 
+## Scoping a run
+
+`trace` with no window aggregates **every** session that ever ran in this repo, because that is
+what matching on `cwd` means. On the machine that produced benchmark run #2 that was 22 sessions
+and $225 of toolkit development, none of it the run being measured. Bound the window:
+
+```bash
+python3 scripts/sw.py trace --since 2026-09-09T12:40 --until 2026-09-09T14:00
+```
+
+Responses outside the window are reported as a `(before --since)` row rather than folded into
+chapter 1. Without a window nothing is moved — the first chapter's bucket absorbs the setup that
+preceded it, as documented, and the report says so.
+
+**Per-chapter attribution anchors on each chapter file's last write.** That is right for a
+revision and wrong for an end-of-run cleanup sweep: touching five chapters in the last twenty
+seconds moves their real cost into whichever chapter was written before the sweep. `trace` warns
+when a chapter's bucket holds under thirty seconds of work. When it does, trust the run total and
+not the rows.
+
+## What `trace` reads, and what it does not
+
+`sw trace` is the only command that reads anything outside the repo. It opens the JSONL
+transcripts Claude Code writes under `$CLAUDE_CONFIG_DIR` (or `~/.claude`), and it extracts
+exactly these fields:
+
+`type` · `timestamp` · `cwd` · `requestId` · `message.id` · `message.model` · `message.usage` ·
+and the **names** and `file_path`s of tool calls.
+
+It never reads prompt text, tool results, or assistant prose, and it never prints them. It writes
+nothing anywhere. Transcripts are selected by comparing each row's `cwd` against this repo, so a
+session for a different project is not opened for measurement — and the escaped project-directory
+name is never reconstructed, because that escaping differs between Windows and POSIX.
+
+**Cost is computed, never read.** The transcripts carry no price field, so `trace` prices tokens
+from a small table of published rates in `swlib/rates.py` and prints that table underneath every
+dollar figure it reports. `--rates <file>` replaces it. If your rates differ, every figure scales
+linearly.
+
+One accounting rule is load-bearing and is the reason this command exists: Claude Code writes
+**one row per content block** of an API response and repeats the whole `usage` object on each of
+them. Summing rows bills one request as many. `docs/benchmark.md` was measured that way and
+overstated the run by 3.6x. `trace` groups rows into responses by `(requestId, message.id)`, takes
+the input-side fields once per group, and takes `output_tokens` — a streaming counter whose last
+row holds the total — as the group maximum. It prints the naive row-sum alongside the real one so
+the difference stays visible instead of merely fixed.
+
 ## What these scripts deliberately do not do
 
 - **They never edit a prose body.** `mtl-detox` says to rewrite the sentence rather than swap a
@@ -62,11 +113,18 @@ them, `-q` for defects only).
   and scores it on nothing except whether the recorded number is true.
 - **A clean run is not a passed revision.** It means the mechanical passes found nothing. Passes
   2, 3, 5, 6, 8 and 9 still need their skill files open. `revision-pass` says which.
+- **`trace` does not score a run.** There is no good number of skill loads and no target cost. Its
+  one judgement is that a skill `CLAUDE.md` section 3 calls always-in-play, in a run that opened
+  skills at all, should have been opened — and that is a warning, not a gate.
+- **`history` does not score a chapter.** It prints word counts and dialogue shares as a series
+  because the defects worth finding are distributional, and it repeats that length is scored on
+  nothing, because that table is the one most likely to be read as a scoreboard.
 
 ## Tests
 
 ```bash
-python3 -m unittest discover tests
+python3 -m unittest discover tests    # the suite
+python3 scripts/sw.py selftest        # the same thing end to end, through the real CLI
 ```
 
 Stdlib `unittest`, no dependency to install, and no novel required: every fixture is built in a
@@ -96,6 +154,30 @@ scripts/swlib/textstats.py  chapter body: the four channels, paragraphs, sentenc
 scripts/swlib/rules.py    the searchable rule sets, each citing the skill it comes from
 scripts/swlib/report.py   findings and rendering
 scripts/swlib/cmd_*.py    one module per command
+scripts/swlib/transcripts.py  Claude Code's own transcripts, read as measurements
+scripts/swlib/rates.py    model prices, and the arithmetic over them
+scripts/swlib/sample.py   the complete novel `selftest` builds, clean and seeded
 scripts/swlib/__init__.py
 tests/                    fixtures plus one module per surface
 ```
+
+## Proving it works on a new machine
+
+```bash
+git clone <this repo> && cd skilled-writer
+python3 scripts/sw.py selftest
+```
+
+`selftest` scaffolds a complete novel from the shipped `novels/_template` through the real
+`newnovel`, fills it with a finished six-chapter sample, and runs `readset`, `lint --all`, `cast`,
+`curve`, `state`, `status`, `arc`, `history`, `stamp`, `health` and `trace` against it. Every one
+must find nothing.
+
+Then it does it again with six defects planted — a banned MTL phrase, an exclamation mark in
+narration, a wrong word count, a missing `fk>` line, a pressure value contradicting its own tiers,
+and a cast with nobody below the MC — and **every one must be caught by the check that owns it**.
+That half is the point. A selftest that only asserts "no defects found" passes exactly as happily
+when every parser is dead, which is the failure this repo describes as *a parser that
+under-detects does not look like a broken parser, it looks like a clean chapter.*
+
+Exit 0 means the toolkit works here. `--keep <dir>` leaves the built novel behind to look at.

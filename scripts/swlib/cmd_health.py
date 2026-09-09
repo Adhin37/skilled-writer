@@ -1,0 +1,348 @@
+"""`sw health` - does the toolkit itself still hang together?
+
+Every check here used to exist only as an assertion inside `tests/`, which means somebody who
+clones the repo, edits a skill and breaks a pointer finds out by reading a stack trace, if at
+all. These are the same checks as a report. `tests/test_template_wiring.py` imports the tables
+below and asserts this command finds nothing, so the two cannot drift apart.
+
+It audits the repo, never a novel. Nothing here reads a chapter.
+"""
+
+import os
+import re
+
+from . import mdio
+from .novelio import Novel
+from .report import Report
+
+# Every table a parser selects by column name, and the columns it selects on. `plan_rows()`
+# selected on a `delivers` column the shipped `plan/chapters.md` did not have, and returned []
+# against every real novel for the life of the repo while every test passed.
+TABLE_ACCESSORS = [
+    ("threads",         ("state", "threads.md"),            ("id", "thread", "status")),
+    ("growth_rows",     ("state", "growth.md"),              ("character", "rung")),
+    ("skill_rows",      ("state", "growth.md"),              ("character", "skill", "stage")),
+    ("standing_rows",   ("state", "power.md"),               ("character", "tier", "the edge")),
+    ("ladder_rows",     ("state", "power.md"),               ("tier", "how many alive")),
+    ("pressure_rows",   ("state", "power.md"),               ("ch", "opposition", "p")),
+    ("gain_rows",       ("state", "power.md"),               ("ch", "source", "new problem")),
+    ("boost_rows",      ("state", "power.md"),               ("ch", "boost", "the debt")),
+    ("curve_plan_rows", ("state", "power.md"),               ("arc", "pressure band")),
+    ("plan_rows",       ("plan", "chapters.md"),             ("#", "title", "delivers")),
+    ("voice_rows",      ("bible", "cast", "_voices.md"),     ("character", "intel", "artic",
+                                                              "wit")),
+    ("competence_rows", ("bible", "cast", "_competence.md"), ("character", "domain", "level")),
+]
+
+# Every section a parser slices out by heading text. A renamed heading drops it silently.
+SECTION_LOOKUPS = [
+    (("bible", "cast", "_voices.md"),    "POV THOUGHT"),
+    (("bible", "cast", "_voices.md"),    "MIRROR"),
+    (("plan", "timeline.md"),            "SCHEDULED FOR THIS ARC"),
+    (("state", "body.md"),               "CURRENT FORM"),
+    (("state", "body.md"),               "ABSOLUTE LIMITS"),
+    (("state", "foreknowledge.md"),      "THE GRAIN"),
+    (("state", "foreknowledge.md"),      "THE INVENTORY"),
+    (("state", "foreknowledge.md"),      "THE SPEND LOG"),
+    (("state", "power.md"),              "CURRENT STANDING"),
+    (("state", "power.md"),              "THE LADDER"),
+    (("state", "power.md"),              "ACTIVE BOOSTS"),
+    (("state", "continuity.md"),         "BOOK DIGEST"),
+    (("state", "continuity.md"),         "ARC DIGEST"),
+]
+
+# A card is written by the skill that owns the defect and opened by the dispatcher that needs
+# the answer, so it is cited from there rather than from its own body. CLAUDE.md section 8.
+CARD_OWNERS = {"draft-card.md": "write-chapter", "audit-card.md": "revision-pass"}
+
+# `hook-and-pacing:38-39` rots the moment a paragraph is added above it, and rots silently.
+LINE_CITATION = re.compile(
+    r"`?\b([a-z][a-z0-9]*(?:-[a-z0-9]+)+|[A-Za-z0-9_./-]+\.md):(\d+)(?:-(\d+))?\b`?")
+
+
+def skills_dir(repo_root):
+    return os.path.join(repo_root, ".claude", "skills")
+
+
+def skill_names(repo_root):
+    d = skills_dir(repo_root)
+    if not os.path.isdir(d):
+        return []
+    return sorted(n for n in os.listdir(d)
+                  if os.path.isdir(os.path.join(d, n)) and not n.startswith("."))
+
+
+def run(repo_root, commands=None):
+    """`commands` is the dispatcher's own subcommand list, passed in to avoid importing sw.py."""
+    rep = Report("health - %s" % os.path.basename(os.path.abspath(repo_root)))
+    names = skill_names(repo_root)
+    if not names:
+        rep.defect("skills", "no .claude/skills/ directory under %s"
+                   % os.path.abspath(repo_root).replace(os.sep, "/"))
+        return rep
+
+    _skills(repo_root, names, rep)
+    _registry(repo_root, names, rep)
+    _template(repo_root, rep)
+    _commands(repo_root, commands, rep)
+    rep.info("scope", [
+        "   %d skills, %d template accessors, %d template sections checked"
+        % (len(names), len(TABLE_ACCESSORS), len(SECTION_LOOKUPS)),
+        "   This is wiring only. It says nothing about whether a skill's advice is any good.",
+    ])
+    return rep
+
+
+# --------------------------------------------------------------------- skills
+
+def _skills(repo_root, names, rep):
+    root = skills_dir(repo_root)
+    bodies = {}
+    for name in names:
+        path = os.path.join(root, name, "SKILL.md")
+        if not os.path.isfile(path):
+            rep.defect("skill-frontmatter", "%s/ has no SKILL.md - the skill cannot load" % name,
+                       path=path)
+            continue
+        text = mdio.read_text(path)
+        bodies[name] = text
+        fm, body = mdio.split_frontmatter(text)
+        if not fm:
+            rep.defect("skill-frontmatter", "%s/SKILL.md has no YAML frontmatter" % name,
+                       path=path, line=1)
+            continue
+        meta = mdio.parse_yaml(fm)
+        declared = str(meta.get("name", "") or "").strip()
+        if not declared:
+            rep.defect("skill-frontmatter", "%s/SKILL.md declares no `name:`" % name,
+                       path=path, line=1)
+        elif declared != name:
+            rep.defect("skill-frontmatter",
+                       "%s/SKILL.md declares `name: %s` - it must match the directory"
+                       % (name, declared), path=path, line=1)
+        if not str(meta.get("description", "") or "").strip():
+            rep.defect("skill-frontmatter",
+                       "%s/SKILL.md declares no `description:` - the dispatcher picks skills "
+                       "by description alone" % name, path=path, line=1)
+
+    _references(root, names, bodies, rep)
+    _line_citations(root, names, rep)
+
+
+def _references(root, names, bodies, rep):
+    for name in names:
+        refdir = os.path.join(root, name, "references")
+        body = bodies.get(name, "")
+        present = []
+        if os.path.isdir(refdir):
+            present = sorted(f for f in os.listdir(refdir) if f.endswith(".md"))
+
+        for fname in present:
+            owner = CARD_OWNERS.get(fname)
+            if owner:
+                cited_by = bodies.get(owner, "")
+                token = "%s/references/%s" % (name, fname)
+                if owner not in bodies:
+                    rep.defect("skill-card", "%s exists but its dispatcher `%s` is missing"
+                               % (token, owner))
+                elif token not in cited_by:
+                    rep.defect("skill-card",
+                               "%s is never named by %s/SKILL.md - a card the dispatcher does "
+                               "not open is a file nobody reads" % (token, owner),
+                               path=os.path.join(root, owner, "SKILL.md"))
+                continue
+            if ("references/%s" % fname) not in body:
+                rep.defect("skill-reference",
+                           "%s/references/%s is never cited by its own SKILL.md - a pointer "
+                           "without a trigger is not read" % (name, fname),
+                           path=os.path.join(refdir, fname))
+
+        # A citation is `references/x.md` for this skill's own, or `other/references/x.md` for
+        # another skill's. Reading the tail alone turns every cross-skill pointer into a false
+        # "does not exist" against the citing skill.
+        cites = re.findall(r"(?:([a-z][a-z0-9-]*)/)?references/([A-Za-z0-9._-]+\.md)", body)
+        for owner, cited in sorted(set(cites)):
+            target_skill = owner or name
+            path = os.path.join(root, target_skill, "references", cited)
+            if os.path.isfile(path):
+                continue
+            where = ("%s/references/%s" % (owner, cited)) if owner else ("references/%s" % cited)
+            rep.defect("skill-reference",
+                       "%s/SKILL.md cites %s, which does not exist" % (name, where),
+                       path=os.path.join(root, name, "SKILL.md"))
+
+
+def _line_citations(root, names, rep):
+    for name in names:
+        for dirpath, _dirs, files in os.walk(os.path.join(root, name)):
+            for fname in sorted(f for f in files if f.endswith(".md")):
+                path = os.path.join(dirpath, fname)
+                text = mdio.read_text(path)
+                for i, line in enumerate(text.split("\n"), 1):
+                    m = LINE_CITATION.search(line)
+                    if not m:
+                        continue
+                    rep.defect("line-citation",
+                               "cites `%s` by line number - cite the section instead, because "
+                               "a line number rots silently when a paragraph is added above it"
+                               % m.group(0).strip("`"), path=path, line=i)
+                    break
+
+
+# ------------------------------------------------------------------ registry
+
+def _registry(repo_root, names, rep):
+    claude = os.path.join(repo_root, "CLAUDE.md")
+    if not os.path.isfile(claude):
+        rep.warn("skill-registry", "no CLAUDE.md at the repo root - cannot check the registry")
+        return
+    text = mdio.read_text(claude)
+    registry = mdio.section(text, "Skill registry") or text
+
+    for name in names:
+        if ("`%s`" % name) not in registry:
+            rep.defect("skill-registry",
+                       "`%s` exists on disk but section 3 never names it - the registry is the "
+                       "contract, and a skill missing from it is a skill nobody dispatches"
+                       % name, path=claude)
+
+    listed = set()
+    for table in mdio.parse_tables(registry):
+        for row in table.rows:
+            m = re.match(r"^`([a-z][a-z0-9-]*)`$", row.first().strip())
+            if m:
+                listed.add(m.group(1))
+    for name in sorted(listed - set(names)):
+        rep.defect("skill-registry",
+                   "section 3 lists `%s`, which has no .claude/skills/%s/ directory"
+                   % (name, name), path=claude)
+    _dispatched(repo_root, registry, rep)
+
+
+def _dispatched(repo_root, registry, rep):
+    """A registry row that names a dispatcher must be named back by that dispatcher.
+
+    The check above this one is card-anchored: it asks whether every card that exists is opened
+    by its dispatcher. That leaves a blind spot for a skill with no card at all, and benchmark
+    run #2 fell into it - CLAUDE.md section 3 says `mtl-detox` runs "Inside `revision-pass`",
+    `revision-pass/SKILL.md` never mentioned it, and the skill loaded zero times in a real run
+    while `health` reported no defects. This is the converse, skill-anchored check.
+    """
+    for table in mdio.parse_tables(registry):
+        for row in table.rows:
+            m = re.match(r"^`([a-z][a-z0-9-]*)`$", row.first().strip())
+            if not m:
+                continue
+            name = m.group(1)
+            for dispatcher in sorted(set(CARD_OWNERS.values())):
+                if ("`%s`" % dispatcher) not in row.raw:
+                    continue
+                path = os.path.join(skills_dir(repo_root), dispatcher, "SKILL.md")
+                if not os.path.isfile(path):
+                    continue
+                if name not in mdio.read_text(path):
+                    rep.defect("skill-dispatch",
+                               "section 3 says `%s` runs inside `%s`, but %s/SKILL.md never "
+                               "names it - a skill its dispatcher does not name is a skill that "
+                               "never enters context" % (name, dispatcher, dispatcher),
+                               path=path)
+
+
+# ------------------------------------------------------------------ template
+
+def _template(repo_root, rep):
+    tpl = os.path.join(repo_root, "novels", "_template")
+    if not os.path.isdir(tpl):
+        rep.defect("template", "novels/_template is missing - `newnovel` has nothing to copy")
+        return
+    novel = Novel(tpl)
+
+    for accessor, parts, cols in TABLE_ACCESSORS:
+        text = novel._text(*parts)
+        if novel._table_by_headers(text, *cols) is None:
+            have = [t.headers for t in mdio.parse_tables(text)]
+            rep.defect("template-table",
+                       "`Novel.%s()` selects on %s, which %s does not have - it returns [] "
+                       "against every real novel"
+                       % (accessor, list(cols), "/".join(parts)),
+                       path=novel.path(*parts),
+                       detail="template has: %s" % (have or "no tables at all"))
+
+    for parts, heading in SECTION_LOOKUPS:
+        got = mdio.section(novel._text(*parts), heading)
+        if not (got and got.strip()):
+            rep.defect("template-section",
+                       "%s has no non-empty `%s` section - the read-set slices it by that "
+                       "heading and silently drops it" % ("/".join(parts), heading),
+                       path=novel.path(*parts))
+
+    missing = [k for k in (novel.cfg.get("optional") or {})
+               if not os.path.isdir(os.path.join(skills_dir(repo_root), k))]
+    for key in missing:
+        rep.defect("optional-toggle",
+                   "`optional: %s` has no .claude/skills/%s/ behind it - it never no-ops, it is "
+                   "simply never read" % (key, key), path=novel.path("novel.md"))
+
+    _orphan_keys(repo_root, novel, rep)
+
+
+def _orphan_keys(repo_root, novel, rep):
+    """A novel.md key nothing names is a question asked at init whose answer goes nowhere.
+
+    `docs/` is excluded deliberately: a key named only in a post-mortem is not a key with an
+    owner.
+    """
+    corpus = []
+    for rel in ("CLAUDE.md",):
+        p = os.path.join(repo_root, rel)
+        if os.path.isfile(p):
+            corpus.append(mdio.read_text(p))
+    for top in (".claude", "scripts"):
+        for dirpath, dirs, files in os.walk(os.path.join(repo_root, top)):
+            dirs[:] = [d for d in dirs if d != "__pycache__"]
+            for f in files:
+                if f.endswith((".md", ".py")):
+                    corpus.append(mdio.read_text(os.path.join(dirpath, f)))
+    text = "\n".join(corpus)
+
+    for key in sorted(_flatten(novel.cfg)):
+        leaf = key.split(".")[-1]
+        if key in text or re.search(r"\b%s\b" % re.escape(leaf), text):
+            continue
+        rep.defect("config-owner",
+                   "novel.md declares `%s` but no skill names it and no script reads it - wire "
+                   "it to an owner or drop it" % key, path=novel.path("novel.md"))
+
+
+def _flatten(data, prefix=""):
+    out = []
+    for k, v in (data or {}).items():
+        key = "%s.%s" % (prefix, k) if prefix else k
+        out += _flatten(v, key) if isinstance(v, dict) else [key]
+    return out
+
+
+# ------------------------------------------------------------------ commands
+
+def _commands(repo_root, commands, rep):
+    if not commands:
+        return
+    have = set(commands)
+    for rel, heading in (("CLAUDE.md", "mechanical toolkit"), ("scripts/README.md", "Commands")):
+        path = os.path.join(repo_root, *rel.split("/"))
+        if not os.path.isfile(path):
+            continue
+        text = mdio.read_text(path)
+        section = mdio.section(text, heading) or text
+        named = set()
+        for table in mdio.parse_tables(section):
+            for row in table.rows:
+                m = re.match(r"^`(?:sw(?:\.py)?\s+)?([a-z]+)\b", row.first().strip())
+                if m:
+                    named.add(m.group(1))
+        for name in sorted(named - have):
+            rep.defect("command-doc", "%s documents `%s`, which sw.py does not implement"
+                       % (rel, name), path=path)
+        for name in sorted(have - named):
+            rep.warn("command-doc", "sw.py implements `%s`, which %s does not document"
+                     % (name, rel), path=path)

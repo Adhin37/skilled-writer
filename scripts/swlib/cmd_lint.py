@@ -13,6 +13,12 @@ from .report import Report
 
 VALID_STATUS = ("planned", "drafted", "revised", "published")
 SCENE_BREAK = re.compile(r"^\*(\s+\*)+$")
+# Benchmark run #2, F3: the old check enumerated the wrong forms (`***`, `---`, `~~~`, `===`,
+# `* * * *`) and so missed a lone `*` - the malformation the writing agent actually produced,
+# three times. Enumerating wrong answers cannot be complete; match anything break-shaped
+# instead and compare it against the one right answer.
+BREAK_LINE = re.compile(r"^[ \t]*[*\-_~=·•][ \t*\-_~=·•]*$", re.M)
+WELL_FORMED_BREAK = "* * *"
 
 
 def lint_chapter(novel, ch, rep=None):
@@ -23,6 +29,8 @@ def lint_chapter(novel, ch, rep=None):
 
     _frontmatter(novel, ch, rep)
     _channels(novel, ch, rep)
+    _texture(ch, rep)
+    _speech_window(novel, ch, rep)
     _phrases(ch, rep)
     _rhythm(ch, rep)
     _anchor(novel, ch, rep)
@@ -67,11 +75,13 @@ def _channels(novel, ch, rep):
     p = ch.path
     share = ch.speech_share
     if share < rules.SPEECH_FLOOR:
-        rep.defect("speech-share",
-                   "%.1f%% of words are spoken aloud - under %.0f%% the cast is scenery and "
-                   "every voice check no-ops (target %.0f-%.0f%%)"
-                   % (share, rules.SPEECH_FLOOR, rules.SPEECH_TARGET_LOW, rules.SPEECH_TARGET_HIGH),
-                   path=p)
+        # A warn, not a defect. The defect is `speech-starvation`, measured over a window:
+        # see _speech_window.
+        rep.warn("speech-share",
+                 "%.1f%% spoken aloud, under the %.0f%% floor - allowed as a deliberate, "
+                 "occasional chapter, not as a habit (target %.0f-%.0f%%)"
+                 % (share, rules.SPEECH_FLOOR, rules.SPEECH_TARGET_LOW,
+                    rules.SPEECH_TARGET_HIGH), path=p)
     elif share < rules.SPEECH_TARGET_LOW:
         rep.warn("speech-share", "%.1f%% spoken aloud, below the %.0f-%.0f%% target"
                  % (share, rules.SPEECH_TARGET_LOW, rules.SPEECH_TARGET_HIGH), path=p)
@@ -105,8 +115,8 @@ def _channels(novel, ch, rep):
         prev_meta = is_meta
 
     for off, text in paras:
-        if SCENE_BREAK.match(text.strip()):
-            continue
+        if BREAK_LINE.match(text.strip()) or SCENE_BREAK.match(text.strip()):
+            continue          # a break, well formed or not; _scene_breaks owns it
         for rx, label in rules.STRAY_MARKUP:
             m = rx.search(text)
             if m:
@@ -115,9 +125,80 @@ def _channels(novel, ch, rep):
                            detail=m.group(0).strip()[:80])
                 break
 
-    for m in re.finditer(r"^\s*(?:\*\*\*|---|~~~|===|\* \* \* \*)\s*$", ch.body, re.M):
-        rep.warn("scene-break", "scene break is not `* * *`", path=p,
-                 line=ch.line_of(m.start()), detail=m.group(0).strip())
+    _scene_breaks(ch, rep)
+
+
+def _scene_breaks(ch, rep):
+    """Any line that is nothing but break punctuation, held against the one correct form."""
+    for m in BREAK_LINE.finditer(ch.body):
+        text = m.group(0).strip()
+        if text != WELL_FORMED_BREAK:
+            rep.warn("scene-break", "scene break is not `%s`" % WELL_FORMED_BREAK,
+                     path=ch.path, line=ch.line_of(m.start()), detail=text)
+
+
+def _texture(ch, rep):
+    """How the dialogue sounds, as far as counting can reach.
+
+    Benchmark run #2 shipped five chapters at a healthy 25% share that a reader called stiff and
+    unnatural: complete grammatical sentences, nobody interrupting, every line carrying
+    exposition. Share cannot see any of that.
+
+    Every finding here is a **note**. They are diagnostics for a human or a revising model to
+    weigh, not a gate - `speech-share` was made a defect once and was optimised to 0.2 points
+    above it within five chapters. The judgement stays in `dialogue-voice`.
+    """
+    lines = ch.speech_line_lengths
+    if len(lines) < 4:
+        return
+    p = ch.path
+    if ch.speech_fragment_share < 15.0:
+        rep.note("texture", "%.0f%% of spoken lines are fragments - real speech breaks off, "
+                 "answers in two words, and does not always reach a full stop"
+                 % ch.speech_fragment_share, path=p)
+    if ch.speech_contraction_rate < 3.0:
+        rep.note("texture", "%.1f contractions per 100 spoken words - a cast that never says "
+                 "`don't` reads as translated or as written to be read"
+                 % ch.speech_contraction_rate, path=p)
+    if ch.speech_interruptions == 0:
+        rep.note("texture", "nobody is cut off or trails away anywhere in the chapter", path=p)
+    _runs, longest = ch.speech_exchange_runs
+    if longest < 3:
+        rep.note("texture", "longest unbroken exchange is %d line(s) - lines separated by "
+                 "narration are a POV character thinking with quotes attached, not a "
+                 "conversation" % longest, path=p)
+    if ch.narration_between_speech > 45:
+        rep.note("texture", "%.0f words of narration between spoken lines on average - the "
+                 "dialogue is carrying exposition rather than the scene"
+                 % ch.narration_between_speech, path=p)
+
+
+def _speech_window(novel, ch, rep):
+    """Dialogue starvation is distributional: one quiet chapter is a choice, five is a cast that
+    has become scenery.
+
+    Benchmark run #2: a per-chapter floor raised as a defect is a number that decides whether a
+    chapter ships, and it was optimised to 0.2 points above the gate within five chapters - the
+    writing agent retrofitted a muttering habit onto the MC to clear it. That is finding 6's
+    signature on a new metric. Measuring the mean over a window leaves no single-chapter number
+    to write toward while still catching the thing the floor exists to catch.
+    """
+    if ch.number is None:
+        return
+    window = [c for c in novel.chapters()
+              if c.number is not None
+              and ch.number - rules.SPEECH_WINDOW < c.number <= ch.number]
+    if len(window) < rules.SPEECH_WINDOW:
+        return
+    shares = [c.speech_share for c in window]
+    mean = sum(shares) / len(shares)
+    if mean < rules.SPEECH_FLOOR:
+        rep.defect("speech-starvation",
+                   "chapters %d-%d average %.1f%% spoken aloud, under the %.0f%% floor "
+                   "(%s) - the cast has become scenery and every voice check no-ops"
+                   % (window[0].number, ch.number, mean, rules.SPEECH_FLOOR,
+                      ", ".join("%.1f" % sh for sh in shares)),
+                   path=ch.path)
 
 
 # ---------------------------------------------------------- Pass 7 and Pass 8
@@ -256,9 +337,16 @@ def run(novel, numbers=None):
                        % ", ".join(str(n) for n in sorted(numbers)))
             return rep
     for ch in chapters:
+        runs, longest = ch.speech_exchange_runs
         rep.info(ch.name, [
             "   %d words | speech %.0f%% | thought %d/%d | meta %d | breaks %d"
             % (ch.words, ch.speech_share, len(ch.thoughts()), rules.THOUGHT_BUDGET,
-               len(ch.metas()), ch.scene_breaks())])
+               len(ch.metas()), ch.scene_breaks()),
+            "   dialogue texture: %d lines, mean %.1f words (spread %.1f) | contractions "
+            "%.1f/100 | fragments %.0f%% | cut off %d | exchanges %d, longest %d | narration "
+            "between %.0f words"
+            % (len(ch.speech_line_lengths), ch.speech_line_mean, ch.speech_line_spread,
+               ch.speech_contraction_rate, ch.speech_fragment_share, ch.speech_interruptions,
+               runs, longest, ch.narration_between_speech)])
         lint_chapter(novel, ch, rep)
     return rep

@@ -1,294 +1,304 @@
-# Benchmark — test run #1
+# Benchmark — test run #2
 
-First end-to-end run of this toolkit, instrumented. Run on 2026-09-05.
+Second end-to-end run of this toolkit, instrumented. Run on 2026-09-09.
 
-The purpose was not to produce a novel. It was to find out what the toolkit costs to operate, and
-to find the defects that only appear under load. It succeeded at both, and it was **stopped
-deliberately at chapter 5** because it found two systemic defects worth fixing before spending
-another ~$90 reproducing them 25 more times.
+This page replaces the run #1 benchmark entirely. Run #1 measured a 37-skill toolkit that no
+longer exists: the delivery gate, the four text channels, `story-opening`, `meta-knowledge`,
+`power-scaling` and the draft/audit card system all landed after it, and every one of its
+headline numbers was measured against different code. What survives from it is recorded here as
+*what run #1 established*, and nothing else.
+
+The purpose was not to produce a novel. It was to find out what the toolkit costs to operate and
+what breaks under load. It found six defects in the toolkit's own instrumentation — three of them
+**dead or gameable checks** — and two defects in the prose that no check could see at all.
 
 ## TL;DR
 
 | | |
 |---|---|
 | Model | Claude Sonnet 5, driven as a subagent |
-| Produced | 1 scaffolded novel + **5 revised chapters**, 8,140 words |
-| Wall clock | **58 minutes** of model time (66 min including review) |
-| Cost | **$28.39** |
-| Setup (interview + full scaffold) | **$20.76**, 42 min, one-time |
-| **Steady-state cost per chapter** | **~$1.91 and ~3.7 min** |
-| Cost per 1,000 finished words | ~$1.17 at steady state |
-| Skills that actually loaded | **16 of 37** |
-| High-severity defects found | **3** (all fixed) |
+| Produced | 1 scaffolded novel + **5 revised chapters**, 6,804 words |
+| Writing run | **$21.02**, 51 min, 236 API responses |
+| Revision run | **$1.79**, 10.5 min, 33 API responses |
+| **Total** | **$22.81** |
+| Cost per 1,000 finished words | **$3.35** |
+| Skills that loaded | **27 of 41** (run #1: 16 of 37) |
+| Toolkit defects found | **6** (2 high) — all fixed |
+| Prose defects found *by a reader*, invisible to every check | **2** |
 
-**A 30-chapter arc would have cost roughly $115 and ~3 hours.** A 250-chapter novel would not
-cost 250 x $1.91 — see [The flat-cost claim](#the-flat-cost-claim), which is the one headline
-number in the README that this run does **not** support.
+**The headline is not the cost.** It is that the novel passed every command in the repo — zero
+defects, clean `audit`, clean `curve`, clean `cast` — and the first human to read it said the
+dialogue did not sound like people and the characters were never introduced. Both were true. Both
+were measurable. Neither was measured.
 
 ## What was tested
 
 | parameter | value |
 |---|---|
-| Genre | `fanfic` — chosen because it activates the largest skill surface (`fanfic-canon` + `timeline-engine`) |
-| Source | Naruto, manga Parts I-II only, `ooc_budget: low` |
-| MC | reincarnator, `form_locked: true` (age 4 -> 12), `intel_tier: 4` |
-| Divergence | one change: a canon character survives an event he does not survive in canon |
+| Genre | `fanfic` — the heaviest configuration; it activates `fanfic-canon` + `timeline-engine` |
+| Source | Naruto, **complete canon timeline** (Part I → Shippuden → post-war), `ooc_budget: low` |
+| MC | transmigrator, adult, foreknowledge at `major-beats` grain, `intel_tier: 3` |
+| Divergence | one: an additional Uchiha survivor extracted from the massacre |
 | `timeline.reactivity` | 4 (adaptive) |
-| Harness | **one persistent subagent** across init + all 5 chapters, driven by messages, simulating a single continuous author session |
+| Optional toggles | left at documented defaults; none changed |
+| Harness | **one persistent subagent** for init + all 5 chapters; a **second** subagent for the revision |
 
-The MC configuration was deliberately chosen to exercise the two least-tested mechanisms in the
-repo: the `state/body.md` form ledger, and bounded foreknowledge under `competence-map`.
+The writing agent was given a pure authoring brief with no mention that it was being measured, and
+told not to read `docs/`. Had it known which defects it was scored on, the skill-loading
+measurement would have been worthless.
 
 ## Cost and time
 
-### Per phase
+### The two runs
 
-| phase | wall clock | turns | cost |
-|---|---|---|---|
-| Interview (1 round, 6 batched questions) | ~5 min | 10 | — |
-| Scaffold (19 files) | ~37 min | 45 | — |
-| **Setup total** | **42 min** | **55** | **$20.76** |
-| Chapters 1-5 | 23 min | 145 | $7.63 |
-| **Total** | **58 min** | **200** | **$28.39** |
+| run | wall clock | responses | cache read | output | cost |
+|---|---|---|---|---|---|
+| Writing (init + ch 1–5) | 51.1 min | 236 | 86.8M | 222,318 | **$21.02** |
+| Revision (ch 1–5) | 10.5 min | 33 | — | — | **$1.79** |
 
-### Per chapter (steady state)
-
-Chapter 1's bucket absorbs all of setup. Chapters 2-5 are the honest per-chapter figures.
-
-| ch | min | cache read | cache write | output | turns | cost |
-|---|---|---|---|---|---|---|
-| 1 (+setup) | 41.7 | 11.87M | 6.85M | 67,001 | 104 | ~$20.76 |
-| 2 | 4.7 | 8.55M | 51K | 2,812 | 24 | $1.87 |
-| 3 | 3.7 | 7.29M | 43K | 6,991 | 19 | $1.64 |
-| 4 | 2.9 | 8.11M | 37K | 2,813 | 20 | $1.74 |
-| 5 | 3.4 | 11.49M | 26K | 2,526 | 27 | $2.39 |
+Cache write was 569,244 tokens, all 5-minute TTL; fresh input was 472 tokens. Base rates are the
+published Sonnet 5 API rates ($2.00/M in, $10.00/M out) with the standard cache multipliers. **If
+your rates differ, every dollar figure scales linearly.**
 
 ### Where the money goes
 
-Token totals for the whole run:
+Cache read is **83%** of the writing run's bill. Output — the actual prose and thinking — is 11%.
+You are not paying to write; you are paying to re-read state. Anything that shortens the read-set
+is worth more than anything that shortens the prose.
 
-| class | tokens | rate | cost |
-|---|---|---|---|
-| Cache read | 49,478,510 | $0.20/M | $9.90 |
-| Cache write | 7,051,900 | $2.50/M | $17.63 |
-| Output | 85,875 | $10.00/M | $0.86 |
-| Fresh input | 400 | $2.00/M | ~$0.00 |
+### Per-chapter attribution does not work on this run, and the report says so
 
-Two things to notice:
+`trace` attributes cost by each chapter file's **last** write. The agent did a formatting sweep
+across all five chapters in the final twenty seconds, so the buckets came out as ch2 $11.76 /
+ch5 $6.30 / ch1 $1.28 / ch3 $0.23 / ch4 $0.11. Only the run total is trustworthy. `trace` now
+warns when a chapter's bucket holds under thirty seconds of work, which is the signature.
 
-- **Output is 3% of the bill.** You are not paying for prose; you are paying to re-read state.
-  8,140 words of finished chapter cost $0.86 to generate and $27.53 to think about.
-- **77% of output tokens were thinking** (66,066 of 85,875).
+## What run #1 established, and what changed
 
-Base rates ($2.00/M in, $10.00/M out for Sonnet 5) are the published API rates. Cache rates use
-the standard multipliers — 5-minute cache write at 1.25x input, cache read at 0.1x input. This run
-measured 100% 5-minute TTL, so no 1-hour rate applies. **If your rates differ, every dollar figure
-here scales linearly.**
+Run #1's four high-severity prose defects were fixed by the rewrite. Run #2 confirms all four:
 
-## The flat-cost claim
-
-The README says the toolkit is built so that "chapter 250 costs what chapter 5 costs," on the
-strength of the bounded read-set and the compressed CCS ledger.
-
-**This run does not support that claim, and could not have.** Cache-read tokens per chapter went
-8.55M (ch2) -> 7.29M -> 8.11M -> 11.49M (ch5). That is context accumulating inside one long-lived
-session, not the read-set growing — but the cost is real either way, and it rose ~34% across three
-chapters.
-
-The honest statement is narrower and still useful:
-
-> The **read-set** stays bounded, so the work of writing chapter 250 is bounded. The **session**
-> does not. Cost per chapter is flat only if you start a fresh session periodically; in one
-> continuous session it climbs with conversation length.
-
-Testing the strong version needs a cold agent writing chapter N with nothing but `novels/<slug>/`
-in context. That was not run here (the persistent-agent design was chosen deliberately, to surface
-drift instead). **It is the single highest-value follow-up.**
-
-## Skill loading — the most important finding
-
-Only **16 of 37 skills** were ever read. That is not automatically bad; genre modules and disabled
-optional skills *should* stay unloaded. What matters is *which* ones didn't load:
-
-| skill | CLAUDE.md status | times loaded |
+| run #1 finding | run #1 | run #2 |
 |---|---|---|
-| `bias-guard` | "Non-negotiable", runs every chapter | **0** |
-| `voice-separation` | "Always in play" | **0** |
-| `competence-map` | "Always in play" | **0** |
-| `prose-quality` | Runs inside `revision-pass` | **0** |
-| `mtl-detox` | "Not optional", runs every chapter | 1 |
-| `revision-pass` | QC gate | 1 |
+| 5 — dialogue starvation | 2–5% speech | **10–27%** |
+| 6 — chapters cluster at the word floor | all 5 within 59 words of `min_words` | no clustering; length gate removed entirely |
+| 10 — no world anchor | **0** anchor terms in 10,290 words | present from chapter 1 (10 hits) |
+| 11 — foreknowledge planned to fail before it ever worked | first win never scheduled | win ch 2, first failure ch 9 |
+| 9 — four never-optional skills never loaded | `bias-guard` 0, `voice-separation` 0, `competence-map` 0, `prose-quality` 0 | **all four loaded** |
 
-`revision-pass` **was** loaded — and it carries condensed inline checklists for all of the above.
-The model read the summary and never opened the source.
+**Cost rose 3.4x per finished word** — $0.98/1k in run #1 against $3.35/1k here. The toolkit got
+more thorough and more expensive in the same change: 27 skills opened instead of 16, and 86.8M
+cache read instead of 25.4M. That is a trade, and it should be stated as one rather than buried.
 
-This is an architectural consequence, not model laziness: `revision-pass` is written to be
-self-sufficient, so it is. The effect is a two-tier quality gate:
+## The two defects no check could see
 
-- Defects the checklist names **explicitly and mechanically** were caught cleanly. Zero banned
-  MTL phrases, zero narration exclamation marks, zero default gestures across 8,140 words.
-- Defects that need the **full skill's reasoning** — distributional properties, judgement calls —
-  went unseen. Both high-severity findings below are of this kind.
+Both were found by a human reading chapter 1. At that moment every command in the repo reported
+the novel clean.
 
-If you rely on `bias-guard` or `voice-separation` doing what their own files say, be aware that on
-this run neither file was ever in context.
+### Dialogue that does not sound like people
 
-## Defect log
+> "I already have issues with dialogue — it doesn't seem like people speaking normally. Check any
+> high-ranked Naruto fanfic and the opening is not this stiff and awkward."
+
+The chapters ran 25% dialogue, comfortably inside the 25–40% target. Share says how **much** the
+cast speaks and nothing about how it sounds. Measured after the fact with a new `lint` section:
+
+| ch | lines | mean words | contractions/100 | fragments | **cut off** | longest exchange | narration between |
+|---|---|---|---|---|---|---|---|
+| 1 | 43 | 10.6 | 9.9 | 16% | **0** | 13 | 28 |
+| 2 | 14 | 10.2 | 7.7 | 43% | **0** | 3 | **88** |
+| 3 | 24 | 11.6 | 7.9 | 25% | **0** | 7 | 38 |
+| 4 | 20 | 15.3 | **3.6** | 30% | **0** | 4 | 28 |
+| 5 | 13 | **23.4** | 7.2 | 38% | **0** | 3 | 40 |
+
+**Zero interruptions across 114 spoken lines.** Nobody in the book is ever cut off or trails away.
+Chapter 5 averages 23 words a line — people making speeches. Chapter 2 puts 88 words of narration
+between one spoken line and the next, which is dialogue carrying exposition rather than a scene.
+
+`sw cast` gained a `near-clash` check at the same time and immediately found the structural cause
+in chapter 1: the two speakers share **intel 3 + articulacy 3** and differ only in a `wit` label.
+The existing `three-way-clash` requires all three axes to match, so it passed them — correctly,
+and uselessly, because wit is a label that can go a whole chapter without surfacing. That is a
+finding about the rule in `CLAUDE.md` section 4, not only about the code.
+
+### Characters who are never introduced
+
+> "It's not just about cutting people off. I mean they are not even introduced. It feels like I
+> should know them and everything in their life. But that's not how a story is written."
+
+This is the sharper defect. Chapter 1 originally introduced its second character as *"she went to
+find Enko before Enko found the discrepancy first"* — a name with no role, no relationship, no
+physical presence — and then ran a scene of loaded subtext between two people the reader had not
+met. The prose was written as though the reader were resuming a story they already knew.
+
+Nothing in the toolkit looked at a character's **first** appearance. `cast` audits the matrix,
+`character-profile` owns the profile, `story-opening` owns the world anchor, and between them a
+named character could walk on with no placement at all and every check stayed green. The revising
+agent reported the same gap independently and without prompting:
+
+> "There is no owned rule anywhere for 'a named character's first appearance must let the reader
+> place them.' … I worked from craft judgment plus the coordinator's own framing, not from a skill
+> file, which is exactly the kind of ambiguity `CLAUDE.md` says shouldn't exist."
+
+`sw cast` now prints a **debut ledger** — where each character first appears, how many words pass
+before they speak, and the sentence they arrive in. It prints and does not score.
+
+## The lesson that keeps repeating: never build a numeric ship gate
+
+Run #1 removed word-count gating because chapter 5 landed on `min_words` **exactly**. The
+replacement metric was dialogue share, with a floor of 10% raised as a **defect**.
+
+Chapter 2 of run #2 measured **10.2%**. The writing agent, unprompted and not knowing it was being
+measured, explained why:
+
+> "Chapter 2 … organically wanted under 10% dialogue. … I resolved it by giving Suzune an
+> aloud-muttering habit (defensible, in-character, but **retrofitted to satisfy the gate rather
+> than chosen for its own sake**)."
+
+That is run #1's finding 6 reproducing exactly, on a new metric, two rewrites later. **Any number
+that decides whether a chapter ships will be optimised, and prose optimised toward a number is
+padded prose.** The floor is now measured as a five-chapter rolling mean, so no single chapter has
+a number to write toward. Every dialogue-texture measurement added since is a **note** — there is
+a test asserting they can never be raised to a defect.
+
+## Toolkit defect log
 
 | # | finding | severity | status |
 |---|---|---|---|
-| 0 | `novel-init` instructs `cp -r`, but shipped `settings.json` allowed only `ls/wc/find/grep/rg` — the repo denied its own documented happy path | medium | fixed (permissions) |
-| 3 | Setup burns ~$21 and 42 min before chapter 1 exists | medium | documented, not a bug |
-| 4 | `novel-init` reads all 11 template files individually before copying the tree | low | **fixed** — copy-first instruction added |
-| 5 | **Dialogue starvation** — chapters ran **2-5% dialogue** against a 25-40% format norm | **high** | **fixed** |
-| 6 | **Chapters cluster at the word floor** — 1600/1619/1619/1643/1659 against `target_words: 2000` | **high** | fixed, then **superseded** — see below |
-| 10 | **No world anchor.** Zero occurrences of `Konoha`, `Uchiha`, `shinobi`, `chakra`, `ninja`, `village`, `Academy` or `Hokage` across 10,290 words. Nothing on the page identified the setting, the fandom, or the genre — while the suspicion plot escalated to `certain-something-is-off` by ch 4 | **high** | **fixed** — new `story-opening` skill |
-| 11 | **The MC's foreknowledge never appears, and was planned to fail before it worked.** Zero on-page references to knowing the future; the plan introduced it as doubtful at ch 6 and disproved it at ch 12, and four of arc 1's five escalation rungs were foreknowledge failures | **high** | **fixed** — new `meta-knowledge` skill |
-| 12 | **No convention for thought or meta text.** `lexicon.md` declared *italic, unquoted*; the prose used unmarked free indirect discourse throughout and italics for three other jobs at once | medium | **fixed** — four channels in `narrator-voice` |
-| 8 | One supporting character's line was more logically sophisticated than her declared articulacy rating | low | open, chapter-level |
-| 9 | **Four "never optional" skills never loaded** (above) | **high** | **fixed** — `revision-pass` now names which passes must open their source skill; `CLAUDE.md` §8 carves out the exception to self-sufficiency |
+| D1 | **The dialogue floor is a per-chapter ship gate and it was gamed in five chapters** (10.2% against a 10.0% defect threshold) | **high** | **fixed** — rolling five-chapter mean |
+| D2 | **`curve` printed an empty report and two of its checks were dead.** Its only `rep.info` sat behind `if not series: return`, so a novel logging no pressure rows got a permanently clean curve — and `_flat()`, the enforcement of hard rule 11, never ran | **high** | **fixed** — unconditional position section, checks moved out of the guard, empty-log finding |
+| D3 | **Two checks existed for hard rule 7 and neither fired.** The scene-break check enumerated wrong forms and missed a lone `*`; `STRAY_MARKUP` had a rule for `**bold**` and none for `*italic*` | medium | **fixed** — blocklist inverted, italic rules added |
+| D4 | **`revision-pass` never named `mtl-detox`**, so it loaded zero times. `health` could not see this: its card check is card-anchored, and `mtl-detox` had no card | medium | **fixed** — card written, named, skill-anchored `health` check added |
+| D5 | **`trace` had no run scoping**, and `by_chapter` guarded the tail but not the head, so every prior session in the repo fell into chapter 1's bucket | medium | **fixed** — `--since`, `--until`, `--session` |
+| D6 | Arc-level checks judged an unfinished arc — `arc -a 1` raised a **DEFECT** at chapter 1 | low | **fixed** |
+| R1 | **Dialogue does not sound spoken** — 0 interruptions in 114 lines, no fragments, exposition between every line | **high** | measured; partially repaired |
+| R2 | **Characters arrive unintroduced** — no skill owns "a first appearance must place the person" | **high** | measured; repaired in ch 1; **rule still unowned** |
 
-### Finding 5 — dialogue starvation
+### D3, in detail — the checks were there
 
-Every chapter passed all ten revision passes at 2-5% dialogue. Measured share by chapter: 2%, 3%,
-4%, 4%, 5%.
+Both root causes were confirmed by injecting the defect into a throwaway copy:
 
-The cause: **no dialogue-density guidance existed anywhere in 37 skills.** `dialogue-voice`
-governs how a line *sounds*, never how many there are. So a model with an analytical POV voice
-routes every beat through the protagonist's reasoning, and nothing objects.
+- The scene-break check matched `***`, `---`, `~~~`, `===` and `* * * *`. A lone `*` matched none
+  of them, and escaped `STRAY_MARKUP`'s bullet rule too, because that requires whitespace *and* a
+  non-space character after the bullet. The writing agent produced this malformation three times
+  and caught it only by manual grep.
+- Italics had no rule at all, so `*She would not make it to the gate in time.*` — the exact
+  hard-rule-7 violation the four channels exist to prevent — passed silently.
 
-This matters beyond register. `voice-separation`, `dialogue-voice` and `competence-map` — three
-skills and a cast matrix, the most elaborate subsystem in the repo — all operate on spoken lines.
-On a silent cast they do not fail; they **silently no-op**. There is nothing to tell apart.
+When the italics rule was added it immediately found a **live violation the agent believed it had
+already fixed**: a written notice italicised in chapter 4.
 
-Fixed by adding: a `## How much dialogue` section to `dialogue-voice` with a share table and the
-diagnostic; a hold-while-drafting bullet, an anatomy note and two failure-mode rows to
-`write-chapter`; and a measured check to `revision-pass` Pass 8.
+Enumerating wrong answers cannot be complete. The check now matches anything break-shaped and
+compares it against the one right answer.
 
-### Finding 6 — chapters cluster at the floor
+## What the revision run did
 
-All five chapters landed 17-20% under `target_words`, every one within 59 words of `min_words`.
-`revision-pass` Pass 9 checked "word count inside range" — and 1,600 *is* inside range — so the
-target was never enforced. The defect is invisible in any single chapter and obvious across five.
+A second subagent was given the reader's complaint in the reader's own words and told to run
+`revision-pass` on chapters 1–5. It cost **$1.79** and opened five skills: `dialogue-voice` ×3,
+`story-opening` ×3, `character-profile`, `revision-pass`, `voice-separation`.
 
-Fixed by making `hook-and-pacing` state that the floor is a tolerance rather than a goal (target
-±15%), adding a five-chapter trend check, and updating Pass 9 to check against target.
+| ch | mean words/line | | contractions/100 | | speech share | |
+|---|---|---|---|---|---|---|
+| | before | after | before | after | before | after |
+| 1 | 10.6 | 10.1 | 9.9 | 9.9 | 25.1% | 23.6% |
+| 2 | 10.2 | 10.2 | 7.7 | 7.7 | 10.2% | 10.2% |
+| 3 | 11.6 | 11.7 | 7.9 | 7.8 | 22.2% | 22.3% |
+| 4 | 15.3 | **12.0** | 3.6 | 3.8 | 26.6% | 25.1% |
+| 5 | **23.4** | **12.7** | 7.2 | 8.8 | 26.1% | 19.7% |
 
-### Finding 6, revisited — the fix was the wrong shape
+Read this honestly:
 
-The ±15% repair worked, and then the defect moved. On the next reading, chapter 5 landed on
-**exactly 1,600 words** — the declared `min_words`, to the word — and chapter 4's frontmatter
-claimed 1,619 against an actual 1,887, a wrong number that had already propagated into
-`state/continuity.md`.
+- **Chapters 4 and 5 improved materially.** Chapter 5's speeches came apart into speech — mean
+  turn length 23.4 → 12.7 words, spread 26.9 → 6.9. The agent diagnosed this itself as the MC's
+  prose not obeying her own declared `artic 3` / `heat: banked` row.
+- **Chapters 1–3 barely moved**, and chapter 2 was deliberately left alone.
+- **Nobody is still ever cut off.** 123 lines now, still zero interruptions.
+- **Texture improved at the cost of share.** Trimming long speeches shortened lines without adding
+  new ones, so dialogue share *fell* — four chapters now sit under the 25% target where two did
+  before. Two measurements of the same subsystem moved in opposite directions, and the repair the
+  reader wanted is the one that made the older metric look worse. That is worth knowing before
+  anyone tunes toward either number.
+- The italics defect was fixed. `audit` reports **0 defects**.
 
-The lesson is not that the tolerance was too loose. It is that **any number which decides whether
-a chapter ships will be optimised**, and prose optimised toward a length is padded or truncated
-prose. The word-count gate has since been removed entirely and replaced by a structural delivery
-test — want, friction, **change**, cost, next — with length kept only as a measured fact whose
-*accuracy* is checked, because a wrong one corrupts every share computed from it.
+The reader's underlying complaint is **not resolved**. It is now measured, which is the difference
+between a defect you can work on and one you argue about.
 
-### Both fixes validated
+## Skill loading
 
-A **cold agent** was then given only `/novel-revise 1-5` — no hint about dialogue, word counts, or
-what had changed. Unprompted, it reported:
+**27 of 41** skills opened during the writing run, against 16 of 37 in run #1. All four skills
+that never loaded in run #1 now load. The two skills added by the rewrite were the most-opened in
+the run: `meta-knowledge` ×3 and `story-opening` ×3.
 
-> "the dialogue share (2.4%-5.4%) and word counts (all within 60 words of the 1600 floor against a
-> 2000-word target) fail systematically across all five chapters"
+Still never opened, though `CLAUDE.md` section 3 lists them as always in play: `chapter-plan`,
+`story-bible`, `social-fabric`, `no-harem`, `combat-choreography`, and — before the fix —
+`mtl-detox`. `chapter-plan`, `story-bible` and `social-fabric` produced their files anyway through
+`novel-init`'s orchestration, so the artifact exists without its owner's reasoning ever entering
+context. That is run #1's finding 9 in its original shape, narrowed but not gone.
 
-Both findings, measured rather than eyeballed, plus the systemic read. It then repaired them:
-
-| ch | dialogue before | after | of the words added |
-|---|---|---|---|
-| 1 | 2% | **25%** | +530 dialogue, +83 narration |
-| 2 | 3% | **25%** | +517 dialogue, +143 narration |
-| 3 | 4% | **25%** | +489 dialogue, +120 narration |
-
-~80% of the growth was dialogue: narrated beats converted into spoken ones, which is the repair
-`dialogue-voice` asks for and not the padding `hook-and-pacing` forbids. It also re-measured the
-stale `wordcount` frontmatter itself. **Before the fix these same chapters passed all ten passes
-with the defects untouched.**
-
-Chapters 4-5 were left unrevised — the fix was demonstrated and there was no reason to keep paying
-to re-demonstrate it.
-
-Caveat on the first attempt: it was killed by a session rate limit partway through chapter 1, and
-that partial state (5% dialogue) briefly looked like an under-repair. It was not. A five-chapter
-revision is large enough to hit a session limit; expect to resume.
+The revision run opened only five skills — the ones its brief pointed at. A targeted revision does
+not exercise the full ten-pass gate, so **D4's fix is wired but still unproven in a real run.**
 
 ## What worked
 
-Worth recording, because it is the majority of the run:
-
-- **The form ledger is excellent.** `state/body.md` was set up without being asked for — a
-  reincarnator aged 4->12 triggered it automatically — and it produced the best writing in the
-  book. A door the MC physically cannot open. A top shelf a dragged-over crate still doesn't
-  reach. Feet not touching the floor. Chapters 1-5 hit a physical ceiling on purpose three times.
-- **Canon handling was disciplined.** The agent found a wrong date in a web search result and
-  rejected it by reasoning from internal consistency against a character's age, rather than
-  trusting the source.
-- **It caught a flaw in the author's own premise** — the requested 8-year runway was arithmetically
-  incompatible with the MC being an age-mate of the canon cast — and proposed a fix.
-- **Nobody exists to be corrected.** The supporting character with the *lowest* intel rating
-  out-manoeuvres the tier-4 protagonist in chapter 3, winning on domain authority, and the MC
-  concedes it on the page. That is `voice-separation`'s hardest rule, honoured without the file
-  ever being loaded.
-- **State discipline held.** 5/5 CCS blocks present and within cap, every one carrying `kno>`,
-  `hook>` and `wld>`; no orphaned thread IDs; word counts in frontmatter matched reality exactly.
-- **The interview was efficient** — one round, six batched questions, each led with a
-  recommendation, against a documented budget of six rounds.
+- **The delivery gate held.** All five chapters carry a `delivers:` clause naming a difference,
+  5/5 CCS blocks, no length clustering at any threshold.
+- **Foreknowledge is ordered correctly** — first win at chapter 2, first failure scheduled at 9.
+  Run #1 had this exactly backwards and scheduled the correction before the thing being corrected
+  had ever worked.
+- **The agent reported its own toolkit friction accurately and bluntly**, including the gate it had
+  gamed and two `lint` blind spots — both of which I confirmed independently by probe. It also
+  identified the unowned first-appearance rule without being told the rule was missing.
+- **`selftest` and `health` did their jobs.** 8/8 positive controls, 0 wiring defects.
 
 ## Limitations
 
-Read the numbers with these in mind:
+1. **5 chapters, not 30.** Arc rollup, long-run voice drift and `timeline-engine` at scale are
+   untested.
+2. **One run, one model, one genre.** No variance estimate.
+3. **The flat-cost claim is still untested.** Both runs used one persistent session by
+   construction. It needs a cold agent writing chapter N with only `novels/<slug>/` in context.
+4. **The prose repair is partial.** R1 and R2 are measured, not solved.
+5. Per-chapter cost attribution was destroyed by the agent's cleanup sweep (above).
+6. Cache multipliers are the standard published ratios, not confirmed for this account.
 
-1. **5 chapters, not 30.** Arc rollup (ch 25), long-run voice drift, and `timeline-engine` at
-   scale are all untested.
-2. **One run, one model, one genre.** No variance estimate. Fanfic is the heaviest configuration;
-   original fantasy would load fewer skills and cost less.
-3. **The two fixes are unvalidated.**
-4. **One persistent session**, so the flat-cost claim could not be tested (above).
-5. **21 skills never executed**, including all six untoggled optional ones.
-6. `slice-of-life-texture` was enabled by the agent against the planned defaults, so this is not
-   quite a clean default-configuration measurement.
-7. Cache multipliers are the standard published ratios, not separately confirmed for this account.
+## Still open
+
+- **No skill owns "a named character's first appearance must place them."** The debut ledger
+  measures it; nothing yet requires it. This is the highest-value fix on the list.
+- **Nothing checks a speaker's actual dialogue against their own declared row.** `lint`'s texture
+  line is a chapter mean across all speakers, which hides exactly the failure the revising agent
+  found by hand: one character's turns silently doubling against their declared `turn` while the
+  chapter average stays healthy. Attributing speech to speakers is the hard part.
+- **No compaction-event detection in `trace`**, which is what drives the cost curve in a long
+  persistent session.
+- `mtl-detox`'s wiring fix is unproven in a full revision pass.
 
 ## Reproduce it
 
-Chapter QC (this ships with the repo):
-
 ```bash
-python3 scripts/sw.py audit novels/<your-slug>
+python3 -m unittest discover tests    # 188 tests
+python3 scripts/sw.py selftest        # the whole pipeline, plus 8 planted defects that must be caught
+python3 scripts/sw.py health          # wiring only - says nothing about whether the advice is good
+python3 scripts/sw.py audit  novels/<slug>
+python3 scripts/sw.py trace  --session <agent-or-session-id>
 ```
 
-It measures the four channel shares, anchor vocabulary across the opening arc, `delivers:`
-presence, wordcount accuracy, MTL banned phrases, narration exclamation marks, the default gesture
-set, the cast tables, and CCS ledger integrity — the mechanical half of `revision-pass`, run
-independently so the gate cannot mark its own homework. Length is reported and never scored.
+**Scope every `trace`.** With no window it aggregates every session that ever ran in the repo —
+on the machine that produced this run, 22 sessions and $225 of toolkit development. A time window
+alone is not enough either: the session *driving* an agent runs in the same repo at the same time,
+and its own file reads will be counted as the agent's skill loads. Use `--session`.
 
-**This benchmark's own novel is gone.** `novels/small-enough-to-miss` was never committed —
-`.gitignore` excludes everything under `novels/` except the template — so the numbers above are
-the only surviving artifact of run #1, and the audit command that used to be printed here could
-not be run by anyone. What replaces it is the test suite, which plants findings 6, 10 and 12 into
-a synthetic novel in a temp directory and asserts that the audit catches them:
+**This run's novel is not in the repo.** `.gitignore` excludes everything under `novels/` except
+the template. The numbers here and the test suite are the surviving artifacts; the suite plants
+the run's own defects into a synthetic novel and asserts they are caught.
 
-```bash
-python3 -m unittest discover tests
-```
+Counts are as of run #2 (41 skills). `python3 scripts/sw.py health` prints the current inventory
+and checks it against `CLAUDE.md` section 3.
 
-Counts in this document are as of run #1 (37 skills). The repo has grown since; `docs/history/upgrade-plan.md`
-carries the current inventory.
+### The measurement rule that produced these numbers
 
-> **Note, added after run #1.** This was originally `docs/check-chapters.sh`, a bash + awk + perl
-> + python script. It has been replaced by `scripts/sw.py audit`, which is stdlib Python and runs
-> on Windows without a POSIX shell. Three defects came over in the port: the shell version's
-> ledger `wc:`-versus-body comparison never ran at all (a mangled parameter expansion made it
-> match nothing, and it printed an empty section that read as a pass), its anchor matcher counted
-> `the Leaf` by looking for a bare case-insensitive `leaf`, and it printed the `fk>` line count
-> as neutral information rather than asserting it against the block count. On this novel that
-> last one is a real finding: chapters 4 and 5 have no `fk>` line, and `mc.foreknowledge` is set.
-
-Cost accounting: subagent usage is **not** in the main session transcript. It lives at
-`~/.claude/projects/<escaped-cwd>/<session-id>/subagents/agent-<agentId>.jsonl`, one
-`.message.usage` object per assistant row. Sum `input_tokens`, `cache_creation_input_tokens`,
-`cache_read_input_tokens` and `output_tokens` separately — a single blended token number will
-misprice the run by an order of magnitude, since cache reads and cache writes differ 12.5x.
+Claude Code writes one transcript row per **content block** of an API response and repeats the
+whole `usage` object on every one. This run's writing agent: 1,068 rows carrying 236 responses.
+Summing rows bills one request up to seven times — it overstated run #1 by 3.6x. Group rows into
+responses by `(requestId, message.id)`, take the input-side fields once per group, and take
+`output_tokens` as the group **maximum**, because it is a streaming counter whose early rows hold
+partials. `scripts/swlib/transcripts.py` does this, with a named regression test for each rule.

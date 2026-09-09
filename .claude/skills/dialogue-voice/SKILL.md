@@ -159,10 +159,18 @@ exists to catch. Measure what is inside `"…"` and nothing else.
 
 | share | what it reads as | verdict |
 |---|---|---|
-| under 10% | interior monologue with quotes attached | **defect** — the cast is scenery |
+| under 10% | interior monologue with quotes attached | a warn on one chapter; a **defect** when the five-chapter mean falls here — the cast is scenery |
 | 10–20% | literary-introspective | allowed only as a deliberate, occasional chapter |
 | 25–40% | the serialized format | target |
 | over 55% | radio play; setting and interiority starve | pull back |
+
+**The floor is measured over five chapters, not one.** A single near-silent chapter is a
+legitimate choice — a solo infiltration, a character alone with a body. `sw lint` warns on it and
+moves on. The **defect** (`speech-starvation`) fires only when the mean of the trailing five
+chapters falls under 10%, because that is the shape of the real failure: a cast that has stopped
+speaking. Do not write toward the floor. A chapter inflated with muttering to clear a number is
+the padding this target exists to prevent, and it has happened — benchmark run #2, chapter 2, at
+10.2%.
 
 **The diagnostic.** A POV character with a strong analytical voice is the usual cause: the model
 routes every beat through their reasoning because that voice is enjoyable to write. The tell is a

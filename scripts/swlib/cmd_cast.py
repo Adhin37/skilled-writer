@@ -63,6 +63,7 @@ def run(novel):
 
     _mc_row(rep, rows, mc_name, mc_tier, vpath)
     _straddle(rep, rows, mc_name, mc_tier, vpath)
+    _debuts(novel, rep, rows)
     _wit_cap(rep, rows, vpath)
     _clash(rep, rows, vpath)
     _turns_and_hands(rep, rows, vpath)
@@ -128,6 +129,132 @@ def _clash(rep, rows, vpath):
                        path=vpath, line=x["line"])
         else:
             seen[key] = x["name"]
+    _near_clash(rep, rows, vpath)
+
+
+def _near_clash(rep, rows, vpath):
+    """Two speakers alike on intel AND articulacy, differing only in wit.
+
+    The three-way clash above is the rule as CLAUDE.md states it. This is the practical failure
+    underneath it: wit is the weakest of the three axes - it is a label, and it can go a whole
+    chapter without surfacing - while intel and articulacy decide how a line is built. Benchmark
+    run #2 shipped a two-hander in which both speakers were intel 3 / artic 3 and a reader
+    reported the dialogue as everyone sounding the same. `three-way-clash` passed it, correctly
+    and uselessly.
+
+    A warn, not a defect: two people can legitimately reason and speak at the same level, and a
+    declared `mirror:` is exactly that. It wants a decision, not a gate.
+    """
+    pairs = {}
+    for x in rows:
+        key = (x["intel"], x["artic"])
+        if None in key:
+            continue
+        pairs.setdefault(key, []).append(x)
+    for (intel, artic), group in sorted(pairs.items()):
+        if len(group) < 2:
+            continue
+        names = ", ".join(g["name"] for g in group)
+        rep.warn("near-clash",
+                 "%s share intel %s + artic %s and differ only in wit - wit is a label that can "
+                 "go a chapter without surfacing, so on the page these are one voice. Separate "
+                 "them on an axis that shapes a sentence, or declare a `mirror:`"
+                 % (names, intel, artic), path=vpath, line=group[-1]["line"])
+
+
+def _debuts(novel, rep, rows):
+    """Where each character first appears, and how long the reader has before they speak.
+
+    Benchmark run #2, reader report: "they are not even introduced. It feels like I should know
+    them and everything in their life." Nothing in the toolkit looked at a character's *first*
+    appearance - `cast` audits the matrix, `character-profile` owns the profile, `story-opening`
+    owns the world anchor, and between them a named character can walk on with no placement at
+    all and every check stays green. Chapter 1 of that run: "she went to find Enko before Enko
+    found the discrepancy first", and four lines later Enko is in a loaded argument.
+
+    This prints; it does not score. The `speaks after` column is the countable half of the
+    complaint - a small number means a name arrived and started talking before the reader could
+    place it. Whether that is a defect is a craft judgement and stays with the human.
+    """
+    chapters = [c for c in novel.chapters() if c.number]
+    if not chapters:
+        return
+    world = _world_terms(novel)
+    lines = ["   %-24s %-7s %-9s %-12s %-10s %s"
+             % ("character", "debut", "at word", "speaks after", "matched",
+                "the sentence they arrive in")]
+    found = False
+    for x in sorted(rows, key=lambda r: r["name"]):
+        hit = _first_mention(chapters, x["name"], world)
+        if not hit:
+            continue
+        found = True
+        ch, off, sentence, gap, tok = hit
+        lines.append("   %-24s ch %-4d %-9d %-12s %-10s %s"
+                     % (x["name"][:24], ch.number, len(ch.body[:off].split()),
+                        "-" if gap is None else "%d words" % gap, tok[:10], sentence[:46]))
+    if found:
+        lines.append("   `speaks after` is the words between a character's first mention and "
+                     "their first line.")
+        lines.append("   `matched` is the name token that was found - a clan name shared with "
+                     "the world (`Uchiha`) can")
+        lines.append("   match before the person does, and no counting rule separates the two. "
+                     "Read it and discount it.")
+        lines.append("   Printed, never scored: deferring a placement is a choice, and doing it "
+                     "to everyone is a habit.")
+        rep.info("debuts", lines)
+
+
+def _world_terms(novel):
+    """Capitalised nouns the world bible claims - clans, factions, places. Not people."""
+    out = {}
+    for parts in (("bible", "world.md"), ("bible", "lexicon.md")):
+        try:
+            with open(novel.path(*parts), encoding="utf-8") as fh:
+                text = fh.read()
+        except (IOError, OSError):
+            continue
+        for m in re.finditer(r"\b[A-Z][a-z]{2,}\b", text):
+            key = m.group(0).lower()
+            out[key] = out.get(key, 0) + 1
+    return out
+
+
+def _first_mention(chapters, name, world_terms=None):
+    """(chapter, offset, sentence, words until they first speak) for a cast name."""
+    world_terms = world_terms or {}
+    tokens = [t for t in re.split(r"[^\w']+", name) if len(t) >= 2]
+    if not tokens:
+        return None
+    # A clan or faction name is shared with the world: searching "Uchiha Tsumugi" on "Uchiha"
+    # finds the compound wall in paragraph two and reports a debut the character is not in. Drop
+    # the tokens the world bible already claims, then take the earliest of what is left - which
+    # is the name the prose actually calls the person by.
+    # Match on any token of the name, and report which one matched.
+    #
+    # Two cleverer rules were tried and both were silently wrong. Rarest-token picks `Kurogane`
+    # over `Suzune` for a protagonist who is only ever called Suzune. Scoring by how hard the
+    # world bible claims a token does not separate them either: in run #2 the bible claims
+    # `Suzune` 26 times and the clan name `Uchiha` 8, so no threshold exists. A shared clan name
+    # cannot be told from a protagonist by counting, and a debut ledger that is confidently wrong
+    # is worse than one that shows its working. So the matched token is printed and the reader
+    # discounts `Uchiha` for themselves.
+    pattern = re.compile(r"\b(?:%s)\b" % "|".join(re.escape(t) for t in tokens))
+    for ch in chapters:
+        m = pattern.search(ch.body)
+        if not m:
+            continue
+        start = ch.body.rfind("\n\n", 0, m.start()) + 1
+        stop = ch.body.find("\n\n", m.end())
+        para = ch.body[start:stop if stop != -1 else len(ch.body)]
+        sentence = " ".join(para.split())
+        gap = None
+        for sp_start, _sp_end in ch.speech_ranges:
+            if sp_start >= m.start():
+                gap = len(ch.body[m.start():sp_start].split())
+                break
+        return (ch, m.start(), sentence, gap, m.group(0))
+    return None
 
 
 def _turns_and_hands(rep, rows, vpath):

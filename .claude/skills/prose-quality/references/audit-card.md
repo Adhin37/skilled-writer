@@ -11,8 +11,9 @@ share. It cannot hear rhythm, spot a named emotion, or feel a flat page, so thos
 - [ ] Emotions carried by behaviour or decision, not named
 - [ ] No dead stage business
 - [ ] **Dialogue share is 25–40% of the chapter's words** (`dialogue-voice` §How much dialogue).
-      Under 10% fails the pass: measure it, do not eyeball it. The fix is to give the beats to the
-      people in the room, never to bolt on small talk
+      Measure it, do not eyeball it. One chapter under 10% is a warn; a five-chapter mean under
+      10% fails the pass. The fix is to give the beats to the people in the room, never to bolt on
+      small talk to clear a number
 - [ ] Nobody was present in a scene, silent, while the POV character narrated their inner state
 
 **Microtension** — the measured failure mode of machine-written fiction is an even, untroubled

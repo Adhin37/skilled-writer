@@ -29,7 +29,7 @@ the owner, so nothing here is a paraphrase.
 | 4 Structure | mechanical | nothing |
 | 5 World | judgement | `world-texture/references/audit-card.md` |
 | 6 Bias | **distributional** | `bias-guard/references/audit-card.md` — **every chapter, never rotated** |
-| 7 MTL detox | mechanical | nothing — the banned list is `sw lint`'s |
+| 7 MTL detox | **distributional** | `mtl-detox/references/audit-card.md` — the banned list is `sw lint`'s; the structural half is not |
 | 8 Prose + microtension | judgement | `prose-quality/references/audit-card.md` |
 | 9 Delivery | judgement | nothing — the five questions are here in full |
 | 9b Opening | **judgement** | `story-opening/references/audit-card.md`, chapters in range only |
@@ -124,8 +124,10 @@ anywhere in the toolkit, deliberately.
 
 ## Pass 7 — MTL detox
 
-`sw lint` searches the whole banned list and counts narration exclamation marks and rhetorical
-questions. The first two boxes are its output; the rest are structural and are yours.
+Open **`mtl-detox/references/audit-card.md`**. `sw lint` searches the whole banned list and
+counts narration exclamation marks and rhetorical questions — the first two boxes are its output.
+The rest are structural: no script can see a crowd-reaction block, price a confrontation, or hear
+translationese in a rhythm, and a clean sweep says nothing about any of them.
 
 - [ ] Zero banned phrases
 - [ ] Zero exclamation marks in narration

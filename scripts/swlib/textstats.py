@@ -40,6 +40,10 @@ _ELISION_RE = re.compile(
     re.I,
 )
 
+# An apostrophe with a letter on both sides is a contraction wherever it appears - the same rule
+# that keeps `'Start with what you're sure of.'` from breaking the thought parser.
+_CONTRACTION_RE = re.compile(r"\b\w+[\u2019']\w+\b")
+
 _PARA_SPLIT = re.compile(r"\n[ \t]*\n")
 SENTENCE_END = re.compile(r"[.!?]+[\"”'’)\]]*(?:\s+|$)")
 
@@ -281,6 +285,110 @@ class Chapter(object):
             if m and not _ELISION_RE.match(m.group(2)):
                 out.append((self.body_start_line + i, line.strip()))
         return out
+
+    # ------------------------------------------------------------ dialogue texture
+    #
+    # Benchmark run #2 shipped five chapters at a healthy 25% speech share that a reader
+    # nonetheless called stiff and unnatural. Share says how MUCH the cast speaks and nothing
+    # about whether it sounds like people. These are the countable halves of that: how long the
+    # lines are, how uniform, whether anyone ever speaks in a fragment, whether anyone is ever
+    # cut off, and how much narration sits between one line and the next.
+    #
+    # They are DIAGNOSTICS, printed as measurements. None of them is a gate. A number that
+    # decides whether a chapter ships gets optimised - that lesson cost this repo two rewrites.
+
+    @property
+    def speech_line_lengths(self):
+        return [len(s.split()) for s in self.speech_spans if s.split()]
+
+    @property
+    def speech_line_mean(self):
+        lens = self.speech_line_lengths
+        return (sum(lens) / float(len(lens))) if lens else 0.0
+
+    @property
+    def speech_line_spread(self):
+        """Population standard deviation of line length. Uniform lines read as written, not said."""
+        lens = self.speech_line_lengths
+        if len(lens) < 2:
+            return 0.0
+        mean = sum(lens) / float(len(lens))
+        return (sum((n - mean) ** 2 for n in lens) / float(len(lens))) ** 0.5
+
+    @property
+    def speech_contraction_rate(self):
+        """Contractions per 100 spoken words. Formal registers cluster near zero."""
+        words = self.speech_words
+        if not words:
+            return 0.0
+        n = sum(len(_CONTRACTION_RE.findall(s)) for s in self.speech_spans)
+        return n * 100.0 / words
+
+    @property
+    def speech_fragment_share(self):
+        """Share of spoken lines that are not one or more complete sentences.
+
+        A fragment is a line that does not end in terminal punctuation, or that has no verb-like
+        run at all. Real speech is full of them; prose written to be read aloud is not.
+        """
+        spans = [s.strip() for s in self.speech_spans if s.strip()]
+        if not spans:
+            return 0.0
+        frag = 0
+        for s in spans:
+            inner = s.strip('"\u201c\u201d\u2018\u2019\'').strip()
+            if not inner:
+                continue
+            if not re.search(r"[.!?\u2026]$", inner) or len(inner.split()) <= 3:
+                frag += 1
+        return frag * 100.0 / len(spans)
+
+    @property
+    def speech_interruptions(self):
+        """Lines that break off mid-thought - an em dash or ellipsis at the end."""
+        n = 0
+        for s in self.speech_spans:
+            inner = s.strip().strip('"\u201c\u201d').strip()
+            if re.search(r"[\u2014\u2013-]{1,2}$|\u2026$|\.\.\.$", inner):
+                n += 1
+        return n
+
+    @property
+    def speech_exchange_runs(self):
+        """(runs, longest) over consecutive spoken lines with no paragraph of narration between.
+
+        Two people talking is a run. A line, three paragraphs of analysis, another line is not an
+        exchange - it is a POV character thinking with quotes attached.
+        """
+        marks = []
+        for start, end in self.speech_ranges:
+            marks.append((start, end))
+        if not marks:
+            return (0, 0)
+        runs, longest, cur = 0, 0, 0
+        prev_end = None
+        for start, end in marks:
+            if prev_end is None:
+                cur = 1
+            else:
+                between = self.body[prev_end:start]
+                cur = cur + 1 if len(between.split()) <= 25 else 1
+            if cur == 2:
+                runs += 1
+            longest = max(longest, cur)
+            prev_end = end
+        return (runs, longest)
+
+    @property
+    def narration_between_speech(self):
+        """Mean words of narration between one spoken line and the next."""
+        gaps = []
+        prev_end = None
+        for start, end in self.speech_ranges:
+            if prev_end is not None:
+                gaps.append(len(self.body[prev_end:start].split()))
+            prev_end = end
+        return (sum(gaps) / float(len(gaps))) if gaps else 0.0
 
     def nested_thought_in_speech(self):
         """`'...'` pairs living inside a `"..."` span - legal, but worth counting."""

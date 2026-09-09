@@ -142,3 +142,44 @@ class TestLintAndAudit(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestDialogueStarvation(unittest.TestCase):
+    """Benchmark run #2, F1. A per-chapter floor raised as a defect is a number that decides
+    whether a chapter ships, and it was optimised within five chapters: ch2 landed at 10.2%
+    against a 10.0% gate, and the writing agent volunteered that it had retrofitted a muttering
+    habit onto the MC to clear it. That is finding 6's signature on a new metric. The defect is
+    now measured over a five-chapter mean, so there is no single-chapter number to write toward.
+    """
+
+    QUIET = ("She counted the sacks again and wrote the number down in the second column "
+             "where nobody would look for it until the quarter closed.\n")
+    LOUD = ('"Shut the door," she said. "And then tell me what you actually saw, all of it, '
+            'in the order it happened, and do not tidy it up for me on the way."\n')
+
+    def _findings(self, shares):
+        """`shares` is one 'quiet'/'loud' word per chapter."""
+        from swlib import cmd_lint
+        with NovelFixture() as fx:
+            for n, kind in enumerate(shares, start=1):
+                fx.add_chapter(n, self.QUIET if kind == "quiet" else self.LOUD)
+            novel = fx.novel()
+            rep = cmd_lint.run(novel, None)
+            return {(f.check, f.level) for f in rep.findings}
+
+    def test_one_quiet_chapter_is_a_warn_not_a_defect(self):
+        """Was: a defect on any single chapter under 10%, so the number got written toward."""
+        found = self._findings(["quiet"])
+        self.assertIn(("speech-share", "warn"), found)
+        self.assertNotIn(("speech-share", "defect"), found)
+
+    def test_five_quiet_chapters_are_a_defect(self):
+        """Run #1's real shares were 2, 3, 4, 4, 5% and every chapter passed the gate."""
+        self.assertIn(("speech-starvation", "defect"), self._findings(["quiet"] * 5))
+
+    def test_a_talking_cast_never_trips_it(self):
+        self.assertNotIn(("speech-starvation", "defect"), self._findings(["loud"] * 5))
+
+    def test_it_waits_for_a_full_window(self):
+        """Four quiet chapters is not yet evidence; the check must not fire early."""
+        self.assertNotIn(("speech-starvation", "defect"), self._findings(["quiet"] * 4))
