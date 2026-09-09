@@ -1,6 +1,6 @@
 ---
 name: mystery-clues
-description: Optional (default off). Run fair-play mystery mechanics — clue planting, red herrings, the reader-versus-detective knowledge gap, and reveal construction — for novels with investigation plots. Use only while this skill is enabled.
+description: Optional (default off). Run fair-play mystery mechanics - clue planting, red herrings, the knowledge gap, reveal construction. Use only while this skill is enabled.
 ---
 
 # mystery-clues

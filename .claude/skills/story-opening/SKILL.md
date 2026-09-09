@@ -1,6 +1,6 @@
 ---
 name: story-opening
-description: Own the first chapters — the world anchor that tells a reader which story they are in, the genre contract that tells them what kind of pleasure to expect, the promise ledger that holds the blurb to the page, and the stakes ceiling that stops escalation outrunning the reader's ability to price it. Use when planning or drafting any chapter up to opening.contract_by_ch + 2, when the opening arc is being planned, and inside revision-pass for early chapters.
+description: Own the first chapters - world anchor, genre contract, promise ledger, stakes ceiling. Use when planning or drafting any chapter up to opening.contract_by_ch + 2, and inside revision-pass.
 ---
 
 # story-opening

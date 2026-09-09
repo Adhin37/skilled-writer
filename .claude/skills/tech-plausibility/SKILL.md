@@ -1,6 +1,6 @@
 ---
 name: tech-plausibility
-description: Keep science-fiction technology coherent and consequential — one central speculation, honest second-order social effects, consistent limits, and no hand-waving at the climax. Use for scifi novels when designing the setting and when any technology matters to a scene.
+description: Keep science-fiction technology coherent and consequential - one speculation, honest second-order effects, no hand-waving. Use for scifi when designing the setting or when tech matters.
 ---
 
 # tech-plausibility

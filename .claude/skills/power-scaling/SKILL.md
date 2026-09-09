@@ -1,6 +1,6 @@
 ---
 name: power-scaling
-description: Hold the distance between the MC and the opposition at an entertaining width across hundreds of chapters — the starting position, the size of a single gain, the price of a temporary boost, and the shape of the curve from beginner to endgame. Use when designing the MC's advantage, when planning an arc's opposition, whenever a character gains or loses capability on the page, and inside revision-pass.
+description: Hold the gap between the MC and the opposition at an entertaining width. Use when designing the advantage, planning an arc's opposition, on any capability change, and inside revision-pass.
 ---
 
 # power-scaling

@@ -1,6 +1,6 @@
 ---
 name: pov-switch
-description: Decide whether a novel switches viewpoint at all, and if so who is eligible, when a switch is allowed, and how to execute it cleanly. Use when setting up a novel, when planning chapters, and before any chapter that changes POV character.
+description: Decide whether a novel switches viewpoint, who is eligible, and how to execute it. Use when setting up a novel, planning chapters, and before any chapter that changes POV character.
 ---
 
 # pov-switch

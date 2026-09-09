@@ -9,7 +9,7 @@ import subprocess
 import sys
 import unittest
 
-from fixtures import REPO, NovelFixture
+from fixtures import NOVEL_MD, REPO, NovelFixture
 
 SW = os.path.join(REPO, "scripts", "sw.py")
 BODY = "The room was cold.\n\n\"Shut it,\" she said.\n\nHe shut it.\n"
@@ -74,6 +74,50 @@ class TestReadsetOut(unittest.TestCase):
             self.assertEqual(code, 0)
             self.assertTrue(os.path.isfile(target))
             self.assertIn("written to", out)
+
+
+class TestReadsetModules(unittest.TestCase):
+    """write-chapter step 0.2 opens the listed modules and no others, so the list must be exact.
+
+    Every assertion is scoped to the block: skill names also occur in the lexicon and in the
+    prose of other sections, and a whole-output search reports those as active modules.
+    """
+
+    @staticmethod
+    def modules_block(out):
+        return out.split("### active modules", 1)[1].split("\n##", 1)[0]
+
+    def test_genre_switches_a_module_on_and_off_modules_are_absent(self):
+        with NovelFixture() as fx:          # genre: fantasy, no `optional:` block
+            fx.add_chapter(1, BODY)
+            code, out, _err = run("readset", fx.root, "-c", "1")
+            self.assertEqual(code, 0)
+            block = self.modules_block(out)
+            self.assertIn("power-system", block)          # fantasy switches it on
+            self.assertNotIn("tech-plausibility", block)  # scifi only
+            self.assertNotIn("litrpg-system", block)      # optional, and off
+
+    def test_an_optional_toggle_puts_its_module_in_the_list(self):
+        novel_md = NOVEL_MD.replace("status: drafting",
+                                    "status: drafting\n\noptional:\n  litrpg-system: on")
+        with NovelFixture(novel_md=novel_md) as fx:
+            fx.add_chapter(1, BODY)
+            code, out, _err = run("readset", fx.root, "-c", "1")
+            self.assertEqual(code, 0)
+            block = self.modules_block(out)
+            self.assertIn("litrpg-system", block)
+            self.assertNotIn("mystery-clues", block)
+
+    def test_every_listed_entry_point_exists_on_disk(self):
+        with NovelFixture() as fx:
+            fx.add_chapter(1, BODY)
+            _code, out, _err = run("readset", fx.root, "-c", "1")
+            paths = [ln.split("->", 1)[1].strip()
+                     for ln in self.modules_block(out).splitlines() if "->" in ln]
+            self.assertTrue(paths, "fantasy should switch at least one module on")
+            for rel in paths:
+                self.assertTrue(os.path.isfile(os.path.join(REPO, rel)),
+                                "readset named a module entry point that does not exist: %s" % rel)
 
 
 class TestLintAndAudit(unittest.TestCase):

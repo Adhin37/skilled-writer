@@ -1,6 +1,6 @@
 ---
 name: conflict-engine
-description: Make sure every chapter costs the protagonist something and that adversity escalates in what is at risk rather than in enemy power level. Use when planning arcs, when deciding a chapter's shape, and when a stretch of chapters feels frictionless.
+description: Make every chapter cost the protagonist something, escalating stakes rather than enemy power. Use when planning arcs, deciding a chapter's shape, or when a stretch feels frictionless.
 ---
 
 # conflict-engine

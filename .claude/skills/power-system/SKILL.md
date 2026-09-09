@@ -1,6 +1,6 @@
 ---
 name: power-system
-description: Design and enforce a magic, cultivation or superhuman power system with hard costs, limits and a controlled progression curve, so that wins feel earned and power creep never outruns the story. Use for fantasy, scifi and progression novels when building the system, granting a new ability, or writing any scene where power is used.
+description: Design and enforce a magic, cultivation or superhuman system with hard costs and limits. Use for fantasy, scifi and progression novels when building it, granting an ability, or using power.
 ---
 
 # power-system

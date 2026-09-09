@@ -1,6 +1,6 @@
 ---
 name: mtl-detox
-description: Strip the prose artifacts and structural clichés inherited from machine-translated serialized fiction — stock phrases, crowd-reaction blocks, the face-slap loop, rank recitals, cannon-fodder antagonists. Runs on every chapter inside revision-pass, and applies while drafting.
+description: Strip machine-translation artifacts and structural cliches - stock phrases, crowd reactions, the face-slap loop, rank recitals. Use on every chapter inside revision-pass, and while drafting.
 ---
 
 # mtl-detox

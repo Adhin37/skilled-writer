@@ -1,6 +1,6 @@
 ---
 name: timeline-engine
-description: Run the world's own plot on its own clock, and make it react to the MC at a dialled intensity — light for most genres, central for fan fiction, where it prevents the "MC changes nothing and canon happens anyway" defect. Includes a difficulty governor so escalation never becomes nightmare mode, and an ending contract the world is not allowed to foreclose. Use when planning arcs, when the MC acts against a faction or canon event, and once per chapter to ask what happened offstage.
+description: Run the world's own plot on its own clock and make it react to the MC at a dialled intensity. Use when planning arcs, when the MC acts against a faction or canon event, and once per chapter.
 ---
 
 # timeline-engine

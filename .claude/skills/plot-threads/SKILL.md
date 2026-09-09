@@ -1,6 +1,6 @@
 ---
 name: plot-threads
-description: Open, track, escalate and pay off every promise made to the reader — mysteries, debts, threats, oaths, foreshadowing and setups, plus the opening arc's promise ledger — using the thread ledger. Use when planning chapters, when drafting, and when auditing a novel for forgotten setups.
+description: Open, escalate and pay off every promise made to the reader, using the thread ledger. Use when planning chapters, when drafting, and when auditing a novel for forgotten setups.
 ---
 
 # plot-threads

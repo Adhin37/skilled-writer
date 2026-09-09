@@ -1,6 +1,6 @@
 ---
 name: comedy-levity
-description: Optional (default off). Place humour deliberately — character-sourced, rhythm-aware, and never at the expense of stakes or of a group of people. Use only while this skill is enabled.
+description: Optional (default off). Place humour deliberately - character-sourced, rhythm-aware, never at the cost of stakes. Use only while this skill is enabled.
 ---
 
 # comedy-levity

@@ -1,6 +1,6 @@
 ---
 name: prose-quality
-description: Line-level editing for serialized fiction — rhythm, concreteness, verb strength, description economy, and removal of AI-default phrasing. Runs on every chapter inside revision-pass and applies while drafting.
+description: Line-level editing - rhythm, concreteness, verb strength, description economy, AI-default phrasing. Use on every chapter inside revision-pass, and while drafting.
 ---
 
 # prose-quality

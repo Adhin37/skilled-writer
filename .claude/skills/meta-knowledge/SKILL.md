@@ -1,6 +1,6 @@
 ---
 name: meta-knowledge
-description: Run an MC who knows what happens next — fanfic self-inserts, transmigrators into a novel, regressors, and anyone with foreknowledge. Owns the foreknowledge grain, the inventory scene where the MC makes a plan from what they know, the win-before-failure ordering, the observer paradox that decays the knowledge as a consequence of using it, and state/foreknowledge.md. Use when designing any foreknowing MC, whenever foreknowledge is used or referenced on the page, when planning an arc that spends it, and inside revision-pass.
+description: Run an MC who knows what happens next - grain, inventory, win before failure, observer paradox. Use when designing a foreknowing MC, whenever foreknowledge is spent, and inside revision-pass.
 ---
 
 # meta-knowledge

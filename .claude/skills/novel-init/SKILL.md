@@ -1,6 +1,6 @@
 ---
 name: novel-init
-description: Start a new webnovel. Interviews the user for premise, genre, POV, MC intelligence tier, tone and optional mechanics, then scaffolds novels/<slug>/ with config, bible, cast, arc plan and chapter list. Use when the user wants to begin a novel, says /novel-new, or when no novel workspace exists yet.
+description: Start a new webnovel - interview for premise, genre, POV, tone, then scaffold novels/<slug>/. Use when the user wants to begin a novel, says /novel-new, or when no workspace exists.
 ---
 
 # novel-init

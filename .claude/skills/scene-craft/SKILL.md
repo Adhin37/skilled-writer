@@ -1,6 +1,6 @@
 ---
 name: scene-craft
-description: Build individual scenes with a goal, an obstacle, a turn and a changed exit state, sequence them into a chapter, and apply the chapter-level want/friction/change delivery test that decides whether a chapter is finished. Use when structuring any chapter before drafting, and when a drafted chapter reads as "things happened" without momentum.
+description: Build scenes with a goal, obstacle, turn and changed exit, and apply the want/friction/change delivery test. Use when structuring any chapter, and when a draft reads as 'things happened'.
 ---
 
 # scene-craft

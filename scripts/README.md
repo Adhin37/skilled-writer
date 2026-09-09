@@ -25,7 +25,7 @@ automatically when only one novel exists.
 
 | command | what it does | writes? |
 |---|---|---|
-| `readset <novel> -c N` | Assembles the bounded read-set for chapter N — the sliced rows, not the whole files. `--chars`, `--locs`, `--society`, `--out` | only with `--out` |
+| `readset <novel> -c N` | Assembles the bounded read-set for chapter N — the sliced rows, not the whole files, plus the active optional/genre modules and the file to open for each. `--chars`, `--locs`, `--society`, `--out` | only with `--out` |
 | `lint <novel> [-c N \| --all]` | Sweeps one chapter, or every chapter with `--all`: MTL banned phrases, the AI-default cut list, narration exclamation marks, the four channels, thought budget, apostrophe collisions, stray markup, frontmatter, anchor vocabulary, ledger agreement | no |
 | `arc <novel> [-a N]` | The distributional pass over one arc: per-chapter words, dialogue share, anchor count and ledger presence; the dialogue trend; the length spread; hooks; cast rotation; thread operations; foreknowledge. Ends with the judged half it cannot do | no |
 | `cast <novel>` | Audits `_voices.md` and `_competence.md` as tables: the straddle rule, the wit cap, the three-way clash, turn and hand-habit collisions, the deep-expertise budget, missing rows and referrals | no |

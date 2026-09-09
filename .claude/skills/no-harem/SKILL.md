@@ -1,6 +1,6 @@
 ---
 name: no-harem
-description: Optional (default on). Enforce that love interests are people with their own goals rather than an accumulating cast of admirers, and that romantic attention is reciprocal, motivated and reversible. Use when writing any romantic or attracted-to dynamic while this skill is enabled.
+description: Optional (default on). Keep love interests people with their own goals, and romantic attention reciprocal and reversible. Use on any romantic or attracted-to dynamic while enabled.
 ---
 
 # no-harem

@@ -1,6 +1,6 @@
 ---
 name: bias-guard
-description: Remove the racial, national, gender and class bias that the serialized-fiction corpus carries by default, without softening conflict or sanitising the story. Runs on every chapter inside revision-pass and applies while drafting and while designing characters and factions. Never optional, never toggleable.
+description: Remove inherited racial, national, gender and class bias without softening conflict. Use on every chapter inside revision-pass, while drafting, and when designing characters and factions.
 ---
 
 # bias-guard

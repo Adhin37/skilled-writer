@@ -1,6 +1,6 @@
 ---
 name: title-craft
-description: Name the book and write the platform blurb — the two things a reader sees before they see a single sentence of prose. Generates title candidates across distinct strategies, screens them against truncation, collision, promise-match and survival tests, enforces the source-work rule for fan fiction, and writes the 60–120 word hook. Use once during novel-init, and again only at an arc boundary when the story has outgrown its name.
+description: Name the book and write the platform blurb. Use once during novel-init, and again only at an arc boundary when the story has outgrown its name.
 ---
 
 # title-craft

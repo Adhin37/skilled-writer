@@ -1,6 +1,6 @@
 ---
 name: romance-arc
-description: Optional. Structure a romantic line across a serial — beats, obstacles, escalation of intimacy and payoff scheduling — so it develops on its own clock instead of stalling or resolving too early. Use while this skill is enabled and a romance is in play.
+description: Optional. Structure a romantic line across a serial - beats, obstacles, escalating intimacy, payoff scheduling. Use while this skill is enabled and a romance is in play.
 ---
 
 # romance-arc

@@ -1,6 +1,6 @@
 ---
 name: revision-pass
-description: Quality gate for a drafted chapter — runs continuity, character, voice-separation, intelligence, knowledge-and-competence, structure, world-delivery, bias, MTL-artifact, prose, delivery, opening-anchor, foreknowledge and channel-mechanics checks in a fixed order and fixes what it finds. A chapter passes on what it delivers, never on its length. Use after drafting any chapter, and when the user says /novel-revise.
+description: Quality gate for a drafted chapter - continuity, character, voice, knowledge, structure, world, bias, prose and delivery checks in a fixed order. Use after drafting, or on /novel-revise.
 ---
 
 # revision-pass

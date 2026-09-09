@@ -1,6 +1,6 @@
 ---
 name: story-bible
-description: Build and maintain the world bible and lexicon — setting, factions, social order, scarcity, rules and naming conventions — at the minimum size that keeps a long serial consistent. Use when starting a novel, when a chapter introduces a durable new fact, and when the world starts contradicting itself.
+description: Build and maintain the world bible and lexicon at the minimum size a long serial needs. Use when starting a novel, when a chapter adds a durable fact, or when the world contradicts itself.
 ---
 
 # story-bible

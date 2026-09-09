@@ -1,6 +1,6 @@
 ---
 name: narrator-voice
-description: Establish and hold the narrating voice — person, tense, narrative distance, interiority, filtering, and the four text channels (speech, direct thought, meta, and unmarked free indirect discourse) — so the novel sounds like one book across hundreds of chapters. Use when setting up a novel, when drafting any chapter, when marking thought or system text, and when the prose starts feeling generic or inconsistent.
+description: Hold the narrating voice - person, tense, distance, interiority, and the four text channels - across hundreds of chapters. Use when setting up a novel, drafting, or marking thought and meta text.
 ---
 
 # narrator-voice

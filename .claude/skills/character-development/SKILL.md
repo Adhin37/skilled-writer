@@ -1,6 +1,6 @@
 ---
 name: character-development
-description: Move characters along their arc ladders over the course of a serial so that growth is audible in how they speak and choose — not just the MC, but every recurring character, each at their own rate. Use every chapter when writing dialogue or choices, and when planning arcs.
+description: Move every recurring character along their arc ladder so growth is audible in how they speak and choose. Use every chapter when writing dialogue or choices, and when planning arcs.
 ---
 
 # character-development

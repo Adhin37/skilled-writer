@@ -1,6 +1,6 @@
 ---
 name: hook-and-pacing
-description: Control serial pacing — chapter length, opening lines, chapter-end hooks, arc rhythm and release cadence — so readers come back for the next chapter. Use when drafting any chapter's opening and closing, and when planning arc temperature.
+description: Control serial pacing - opening lines, chapter-end hooks, arc rhythm, release cadence. Use when drafting any chapter's opening and closing, and when planning arc temperature.
 ---
 
 # hook-and-pacing

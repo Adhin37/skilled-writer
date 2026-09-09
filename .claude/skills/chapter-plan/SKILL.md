@@ -1,6 +1,6 @@
 ---
 name: chapter-plan
-description: Build and extend the arc plan and the chapter construction name list — chapter numbers, titles, goal/obstacle/turn/delivers/cost, thread operations and hooks, plus the opening arc's anchor, contract, promise and first-win rows. Use when starting a novel, when fewer than 8 planned chapters remain ahead of the draft line, when an arc ends, or when the user says /novel-plan.
+description: Build and extend the arc plan and the chapter construction list. Use when starting a novel, when fewer than 8 planned chapters remain ahead of the draft line, when an arc ends, or on /novel-plan.
 ---
 
 # chapter-plan

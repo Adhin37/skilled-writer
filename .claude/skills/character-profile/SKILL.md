@@ -1,6 +1,6 @@
 ---
 name: character-profile
-description: Create or amend a character profile that defines behaviour, speech and an arc ladder — including canon-derived profiles for fan fiction. Use when a new named character appears, when an existing character needs updating after a chapter changes them, or when the user says /novel-character.
+description: Create or amend a character profile - behaviour, speech, arc ladder. Use when a named character appears or is changed by a chapter, or when the user says /novel-character.
 ---
 
 # character-profile

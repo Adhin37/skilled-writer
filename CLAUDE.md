@@ -114,8 +114,10 @@ says to. See §8.
 
 1. **State before prose.** Never draft without the current read-set and `plan/chapters.md`.
    `python3 scripts/sw.py readset novels/<slug> -c <N>` assembles all of it in one call — config,
-   digests, blocks N−5…N−1, plan rows N−1…N+2, open threads, and the cast rows for this chapter's
-   speakers. It is the whole read-set: do not open the source files for anything it contains.
+   the **active modules** for this novel with the file to open for each, digests, blocks N−5…N−1,
+   plan rows N−1…N+2, open threads, and the cast rows for this chapter's speakers. It is the whole
+   read-set: do not open the source files for anything it contains, and a module it does not list
+   is off for this novel.
 2. **State after prose.** Every finished chapter appends one CCS block to `state/continuity.md`
    and updates `state/threads.md` and `state/growth.md`, plus `state/body.md` on a form change.
    A chapter written without this is a bug.
@@ -265,7 +267,13 @@ concrete examples, hard checklists. Prefer a table over a paragraph.
 owns, the procedure and the rules. Worked examples, failure catalogues, genre notes and long
 tables go to `references/<topic>.md`, cited with an explicit trigger — *open this when …*. Skills
 that `revision-pass` consults carry an **audit card** in their `references/`, written by that
-skill's owner; `revision-pass` opens the card rather than paraphrasing it. Rationale: [design notes](docs/design-notes.md).
+skill's owner; `revision-pass` opens the card rather than paraphrasing it.
+
+**The same rule on the drafting side: a draft card.** A skill whose decision `write-chapter` makes
+carries a **draft card** in their `references/` — the 15–40 lines that produce that one answer,
+written by the skill that owns it. The two are a pair and both stay: a **draft card decides**, an **audit card
+checks**. Neither dispatcher paraphrases its sources; both open the owner's file, and the file is
+small enough to be worth opening. Rationale: [design notes](docs/design-notes.md).
 
 **Cite sections, never line numbers.** `hook-and-pacing` §Openings survives an edit;
 `hook-and-pacing:38-39` rots the moment a paragraph is added above it, and rots silently.
@@ -280,7 +288,7 @@ skill's owner; `revision-pass` opens the card rather than paraphrasing it. Ratio
 
 | command | use it in |
 |---|---|
-| `readset <novel> -c N` | `write-chapter` step 0 · `continuity-summary` read mode — the whole read-set in one call |
+| `readset <novel> -c N` | `write-chapter` step 0 · `continuity-summary` read mode — the whole read-set in one call, including which optional and genre modules are live |
 | `lint <novel> -c N` | `revision-pass` Pass 0 · `mtl-detox` · `prose-quality` · `narrator-voice` |
 | `cast <novel>` | `voice-separation` · `competence-map` · `novel-init` |
 | `curve <novel>` | `revision-pass` Pass 9e · `power-scaling` · the arc-boundary pass |

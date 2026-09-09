@@ -1,6 +1,6 @@
 ---
 name: litrpg-system
-description: Optional (default off). Run a game-like system layer — status screens, levels, skills, quests — with strict discipline about frequency, formatting and what the numbers are allowed to decide. Use only while this skill is enabled.
+description: Optional (default off). Run a game-like system layer - status screens, levels, skills, quests - with discipline about frequency and what the numbers decide. Use only while enabled.
 ---
 
 # litrpg-system

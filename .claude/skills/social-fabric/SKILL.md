@@ -1,6 +1,6 @@
 ---
 name: social-fabric
-description: Build the society layer of the world — labour, money, law, knowledge, belief and mobility — and propagate the central magic or technology rule into ordinary life so the setting behaves like a place people live in rather than a stage. Use at novel-init after the power system or tech is defined, when the story enters a new social layer, and when the world starts feeling like a backdrop.
+description: Build the society layer - labour, money, law, belief, mobility - and propagate the central rule into ordinary life. Use at novel-init, on a new social layer, or when the world feels like a backdrop.
 ---
 
 # social-fabric

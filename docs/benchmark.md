@@ -275,7 +275,7 @@ a synthetic novel in a temp directory and asserts that the audit catches them:
 python3 -m unittest discover tests
 ```
 
-Counts in this document are as of run #1 (37 skills). The repo has grown since; `docs/upgrade-plan.md`
+Counts in this document are as of run #1 (37 skills). The repo has grown since; `docs/history/upgrade-plan.md`
 carries the current inventory.
 
 > **Note, added after run #1.** This was originally `docs/check-chapters.sh`, a bash + awk + perl

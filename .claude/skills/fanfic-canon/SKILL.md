@@ -1,6 +1,6 @@
 ---
 name: fanfic-canon
-description: Keep a fan fiction consistent with its source — canon facts, characterization fidelity, a single divergence point, an OOC budget, and original-character integration — while writing entirely original prose. Use when starting a fanfic, when writing any canon character, and when deciding whether a canon event still happens.
+description: Keep a fanfic consistent with its source - canon facts, characterization, one divergence point, an OOC budget. Use when starting a fanfic, writing a canon character, or altering a canon event.
 ---
 
 # fanfic-canon

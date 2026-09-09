@@ -1,6 +1,6 @@
 ---
 name: voice-separation
-description: Keep every character distinguishable from the MC and from each other across all three channels — speech, thought and body language — by pinning each one to a cast voice matrix (intelligence, articulacy, wit, heat, turn length, body idiom) rather than letting the whole cast inherit the protagonist's register. Use when designing any character, before writing any scene with two or more speakers, and inside revision-pass. Includes the mirror clause for clones, avatars and doubles, who are permitted to converge.
+description: Keep the cast distinct as minds - speech, thought and body pinned to a voice matrix, not the MC's register. Use when designing a character, before any multi-speaker scene, and inside revision-pass.
 ---
 
 # voice-separation

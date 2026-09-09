@@ -1,6 +1,6 @@
 ---
 name: dialogue-voice
-description: Write dialogue that identifies the speaker without tags, using each character's speech fingerprint and their current development state. Use whenever writing or revising any line of dialogue.
+description: Write dialogue that identifies the speaker without tags, from each character's speech fingerprint. Use when writing or revising any line of dialogue.
 ---
 
 # dialogue-voice

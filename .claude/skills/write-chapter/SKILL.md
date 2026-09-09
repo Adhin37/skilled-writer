@@ -1,6 +1,6 @@
 ---
 name: write-chapter
-description: Draft the next chapter of a webnovel. Orchestrates continuity, character, POV, conflict, pacing and quality skills into one procedure and writes the chapter file plus all state updates. Use whenever the user asks to write, draft or continue a chapter, or says /novel-write.
+description: Draft the next chapter, orchestrating continuity, character, POV, conflict, pacing and quality into one procedure. Use when the user asks to write or continue a chapter, or says /novel-write.
 ---
 
 # write-chapter
@@ -13,13 +13,16 @@ is cheap, and skipping one is what produces the drift that ruins long serials.
 ## Step 0 — Load
 
 1. Resolve the active novel (see `CLAUDE.md` §1). Read `novels/<slug>/novel.md`.
-2. Note: `genre`, `narration.*`, `pov.*`, `mc.intel_tier`, `chapters.*`, `content.*`,
-   and which `optional:` keys are `on`. Only `on` skills apply, and an `on` key means the skill
-   is consulted this chapter, not merely permitted: `no-harem` on any attraction beat ·
-   `romance-arc` on any romantic line · `combat-choreography` on any fight · `litrpg-system` on
-   any system text · `mystery-clues` when a clue is planted or spent · `comedy-levity` when a
-   scene is carrying humour · `grimdark-consequences` on any injury or death ·
-   `slice-of-life-texture` on downtime.
+2. Note: `genre`, `narration.*`, `pov.*`, `mc.intel_tier`, `chapters.*`, `content.*`.
+
+   The CONFIG block also resolves **active modules** — the optional and genre skills switched on
+   for this novel — and names each one's entry point: its draft card where it has one, its
+   `SKILL.md` where it does not. **Open those and no others.** A module that is not listed is off
+   for this novel and costs nothing. An active one is *consulted this chapter*, not merely
+   permitted.
+
+   Without Python: read the `optional:` block and `genre` in `novel.md` and resolve the same list
+   by hand, then say so in the report.
 3. Determine the chapter number: highest existing file in `chapters/` + 1, unless told otherwise.
 4. Run `continuity-summary` in **read mode** — `python3 scripts/sw.py readset novels/<slug> -c <N>`
    assembles it in one call, sliced rather than whole-file. You now have the read-set and the
@@ -33,27 +36,40 @@ is cheap, and skipping one is what produces the drift that ruins long serials.
 
 Write these down for yourself. Ten lines, not a document.
 
-| decision | source |
+Each decision below has a **draft card** — the 15–40 lines that produce that one answer, written by
+the skill that owns it. Open the card, not the skill body: a body is a procedure for designing the
+thing, and this step is for deciding it. Four cards are conditional and are skipped outright when
+their condition is false.
+
+| decision | card |
 |---|---|
-| POV character, and whether this is a switch | `pov-switch` + the plan row |
-| Scene count and where the break falls | `scene-craft`, `chapters.scenes_per_chapter` |
-| Per scene: goal → obstacle → turn → exit state | `scene-craft` |
-| What this chapter costs the POV character | `conflict-engine` — never zero |
-| Which thread ops fire | `plot-threads` |
-| Which character sounds different today, and how | `character-development` → `state/growth.md` |
-| **The voice spread**: this chapter's speakers as matrix rows, side by side — and which of them differs from the MC on two or more axes | `voice-separation` §1 , §3 → `bible/cast/_voices.md` |
-| Anyone new on the page: their **cast tier**, decided before they speak | `character-profile` — default C, three strokes, one roster line, one off-default axis |
-| Which bodies are locked, and what they cannot do today | `mc-design` → `state/body.md` §1–§2 |
-| **The offstage question**: what the world does this chapter that the MC doesn't know | `timeline-engine` → `plan/timeline.md` §4 |
-| **The world channel**: the one thing about the world this chapter makes concrete, and whether a consequence, a friction or an assumed reference carries it | `world-texture` §1 |
-| What the MC deduces, and from which on-page clue | `mc-intel-meter` |
-| **What this chapter delivers**: the one thing that is materially different at the end | `scene-craft` — this becomes `delivers:` in the frontmatter |
-| **The anchor debt** (chapters ≤ `opening.contract_by_ch + 2` only): what a reader still cannot answer about world, place or canon position — and which beat pays it | `story-opening` §1 , §4 |
-| **The ceiling check** (opening arc only): if this chapter escalates, is the mechanism that makes it dangerous already on the page? | `story-opening` §3 — if not, the escalation waits |
-| **The pressure**: what gap between the MC and this chapter's opposition does the arc want — and only then, who is that opposition? | `power-scaling` §1 → `state/power.md` §1, §6 |
-| **The foreknowledge spend** (if `mc.foreknowledge` is set): what the MC knows that bears on today, at what grain, what using it costs, and what it invalidates | `meta-knowledge` §1 , §5 → `state/foreknowledge.md` |
-| **Who has to ask**: the thing this chapter needs known, whose map actually covers it, and who must go to someone else for it | `competence-map` §1 , §4 → `bible/cast/_competence.md` |
-| Opening line strategy, closing hook | `hook-and-pacing` |
+| POV character, and whether this is a switch | `pov-switch/references/draft-card.md` + the plan row |
+| Scene count, the break, and per scene goal → obstacle → turn → exit | `scene-craft/references/draft-card.md`, `chapters.scenes_per_chapter` |
+| What this chapter costs the POV character | `conflict-engine/references/draft-card.md` — never zero |
+| Which thread ops fire | `plot-threads/references/draft-card.md` |
+| Which character sounds different today, and how | `character-development/references/draft-card.md` → `state/growth.md` |
+| **The voice spread**: this chapter's speakers as matrix rows, side by side — and which of them differs from the MC on two or more axes | `voice-separation/references/draft-card.md` → `bible/cast/_voices.md` |
+| Anyone new on the page: their **cast tier**, decided before they speak | `character-profile/references/draft-card.md` |
+| **The offstage question**: what the world does this chapter that the MC doesn't know | `timeline-engine/references/draft-card.md` → `plan/timeline.md` |
+| **The world channel**: the one thing about the world this chapter makes concrete, and whether a consequence, a friction or an assumed reference carries it | `world-texture/references/draft-card.md` |
+| What the MC deduces, and from which on-page clue | `mc-intel-meter/references/draft-card.md` |
+| **What this chapter delivers**: the one thing that is materially different at the end | `scene-craft/references/draft-card.md` — this becomes `delivers:` in the frontmatter |
+| **Who has to ask**: the thing this chapter needs known, whose map actually covers it, and who must go to someone else for it | `competence-map/references/draft-card.md` → `bible/cast/_competence.md` |
+| Opening line strategy, closing hook | `hook-and-pacing/references/draft-card.md` |
+
+**Conditional — check the condition first, and skip the card entirely if it is false.**
+
+| condition | decision | card |
+|---|---|---|
+| chapter ≤ `opening.contract_by_ch + 2` | **The anchor debt** — what a reader still cannot answer about world, place or canon position, and which beat pays it — and **the ceiling check**: if this chapter escalates, is the mechanism that makes it dangerous already on the page? | `story-opening/references/draft-card.md` |
+| `scaling.shape` is not `none` | **The pressure**: what gap between the MC and this chapter's opposition does the arc want — and only then, who is that opposition? | `power-scaling/references/draft-card.md` → `state/power.md` §6 |
+| `mc.foreknowledge` is set | **The foreknowledge spend**: what the MC knows that bears on today, at what grain, what using it costs, and what it invalidates | `meta-knowledge/references/draft-card.md` → `state/foreknowledge.md` |
+| anyone is `form_locked` | Which bodies are locked, and what they cannot do today | `mc-design/references/draft-card.md` → `state/body.md` |
+
+Plus the **active modules** from Step 0.2, each at the entry point the read-set named for it.
+
+A card that does not settle the question is the one case for opening its owner's `SKILL.md`; every
+card names the section to open when that happens.
 
 **Two gates, both before drafting.**
 
@@ -71,18 +87,20 @@ Write straight through. Do not stop to self-edit; `revision-pass` handles that.
 
 Hold these while writing:
 
-- **Voice.** `narrator-voice` sets person, tense, distance, interiority. It does not change
-  mid-chapter unless `pov-switch` says a switch is happening.
+- **Voice.** `narrator-voice/references/draft-card.md` — person, tense, distance, interiority,
+  and the distance curve. It does not change mid-chapter unless `pov-switch` says a switch is
+  happening.
 - **Dialogue.** Every named speaker's lines must satisfy their speech fingerprint
-  (`dialogue-voice`). If you cannot tell two characters apart with the tags removed, fix it now.
+  (`dialogue-voice/references/draft-card.md`). If you cannot tell two characters apart with the
+  tags removed, fix it now.
 - **The four channels.** `"…"` speech · `'…'` direct thought, **1–3 for the whole chapter**, at
   decisions · `[…]` system text and in-world documents · and **unmarked free indirect discourse,
-  which is where interiority actually lives** (`narrator-voice` §The four channels). Do not tag a
+  which is where interiority actually lives** (`narrator-voice/references/draft-card.md`). Do not tag a
   marked thought with *she thought* — the mark already said it. Do not let an apostrophe become a
   thought mark. A `'…'` inside a `"…"` is a nested quotation, not thought.
 - **Enough dialogue to audit.** Target **25–40% of the chapter inside `"…"`** — spoken aloud, to
   another person; thought and meta do not count
-  (`dialogue-voice` §How much dialogue). Under 10% is a defect: the cast has become scenery and
+  (`dialogue-voice/references/draft-card.md`). Under 10% is a defect: the cast has become scenery and
   every voice check in this toolkit silently no-ops, because there are no lines to tell apart.
   When two people are in a room, the beat belongs to what they *say* to each other — not to the
   POV character concluding it on their behalf. An analytical POV voice is the usual cause; it is
@@ -117,7 +135,7 @@ Hold these while writing:
   being worked around, not by being narrated.
 - **Cut the connective tissue.** Enter scenes late, leave early. No arrivals, no farewells, no
   walking between locations unless something happens on the way.
-- **Optional skills.** Apply each `on` skill's rules as you write, not afterwards.
+- **Active modules.** Apply each active module's card as you write, not afterwards.
 
 ### Chapter anatomy
 

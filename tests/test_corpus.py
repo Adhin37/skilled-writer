@@ -36,6 +36,26 @@ def all_docs():
     return sorted(out)
 
 
+# write-chapter step 1 and step 2: every skill whose decision is made from a card.
+DRAFT_CARD_OWNERS = (
+    "pov-switch", "scene-craft", "conflict-engine", "plot-threads",
+    "character-development", "voice-separation", "character-profile", "mc-design",
+    "timeline-engine", "world-texture", "mc-intel-meter", "story-opening",
+    "power-scaling", "meta-knowledge", "competence-map", "hook-and-pacing",
+    "narrator-voice", "dialogue-voice",
+)
+
+
+def description(skill):
+    """The `description:` field of a skill, unwrapped to one line."""
+    text = read(os.path.join(SKILLS, skill, "SKILL.md"))
+    fm = re.match(r"^---\n(.*?)\n---\n", text, re.S)
+    if not fm:
+        return ""
+    m = re.search(r"(?ms)^description:\s*(.*?)(?=\n[a-z_]+:|\Z)", fm.group(1))
+    return " ".join(m.group(1).split()) if m else ""
+
+
 def headings(skill):
     text = read(os.path.join(SKILLS, skill, "SKILL.md"))
     nums, names = set(), set()
@@ -146,6 +166,44 @@ class TestArchitecture(unittest.TestCase):
                       "world-texture", "prose-quality", "story-opening", "meta-knowledge"):
             self.assertIn("%s/references/audit-card.md" % skill, body,
                           "revision-pass must open %s's card" % skill)
+
+    def test_write_chapter_does_not_paraphrase_its_sources(self):
+        """The drafting dispatcher points at draft cards; it does not carry their content.
+
+        The symmetric rule to the revision-pass one above. Step 1 used to cite sixteen skill
+        bodies by section, which is ~34k tokens of procedure before a word of story state -
+        the load benchmark run #1 measured the model rationing.
+        """
+        body = read(os.path.join(SKILLS, "write-chapter", "SKILL.md"))
+        for skill in DRAFT_CARD_OWNERS:
+            self.assertIn("%s/references/draft-card.md" % skill, body,
+                          "write-chapter must open %s's draft card" % skill)
+
+    def test_every_draft_card_has_an_owner_that_exists(self):
+        for s in skill_names():
+            card = os.path.join(SKILLS, s, "references", "draft-card.md")
+            if os.path.isfile(card):
+                self.assertIn("write-chapter", read(card),
+                              "%s's draft card should name the step that opens it" % s)
+
+    def test_no_description_is_oversized(self):
+        """A description routes; it does not teach.
+
+        Every one of these sits in context for the whole session whether or not the skill is
+        ever loaded, so the ceiling is the point. The teaching half belongs in the body.
+        """
+        fat = []
+        for s in skill_names():
+            desc = description(s)
+            if len(desc) > 200:
+                fat.append("%s (%d chars)" % (s, len(desc)))
+        self.assertEqual(sorted(fat), [])
+
+    def test_every_description_states_a_trigger(self):
+        """The half that decides whether the skill loads at all, so the diet may not cut it."""
+        thin = [s for s in skill_names()
+                if not re.search(r"(?:\A|\.\s)Use\b", description(s))]
+        self.assertEqual(sorted(thin), [], "descriptions with no 'Use ...' routing trigger")
 
     def test_every_audit_card_has_an_owner_that_exists(self):
         for s in skill_names():

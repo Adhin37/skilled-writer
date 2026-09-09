@@ -1,6 +1,6 @@
 ---
 name: mc-intel-meter
-description: Pin the main character at a declared intelligence tier and enforce it in both directions — no unearned omniscience, and above all no idiot ball. Use whenever the MC makes a decision, a deduction, a plan, or a mistake, and when reviewing a drafted chapter for competence defects.
+description: Pin the MC at a declared intelligence tier and enforce it both ways - no unearned omniscience, no idiot ball. Use on any MC decision, deduction, plan or mistake, and when reviewing a draft.
 ---
 
 # mc-intel-meter

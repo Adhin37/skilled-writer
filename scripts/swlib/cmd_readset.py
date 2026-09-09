@@ -9,9 +9,10 @@ The bundle ends with a NOT LOADED list, so what was left out is visible rather t
 absent - the read-set is bounded on purpose, and the model has to be able to ask for more.
 """
 
+import os
 import re
 
-from . import mdio
+from . import mdio, rules
 
 HOT_BLOCK_CAP = 3
 
@@ -34,6 +35,40 @@ CONFIG_KEYS = [
     "content.rating", "content.romance",
     "ending.contract",
 ]
+
+
+SKILLS_REL = os.path.join(".claude", "skills")
+_REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+
+def _module_entry(name):
+    """The cheapest correct entry point for a module: its draft card, else its body.
+
+    Finds a path; judges nothing. A module with a card is opened at the card because that is
+    the decision-sized slice; one without is small enough that its body *is* the slice.
+    """
+    card = os.path.join(SKILLS_REL, name, "references", "draft-card.md")
+    if os.path.isfile(os.path.join(_REPO, card)):
+        return card
+    return os.path.join(SKILLS_REL, name, "SKILL.md")
+
+
+def active_modules(novel):
+    """The optional and genre modules switched on for this novel, as (name, entry) pairs.
+
+    write-chapter step 0.2 opens these and no others: a module absent from this list is off
+    for this novel and costs nothing to skip.
+    """
+    out = []
+    for name in rules.OPTIONAL_MODULES:
+        if novel.optional_on(name):
+            out.append((name, _module_entry(name)))
+    genre = str(novel.get("genre", "") or "").strip().lower()
+    subgenre = str(novel.get("subgenre", "") or "").strip().lower()
+    for name, triggers in sorted(rules.GENRE_MODULES.items()):
+        if genre in triggers or subgenre in triggers:
+            out.append((name, _module_entry(name)))
+    return out
 
 
 def _recent_pressure(novel, number, window=5):
@@ -125,9 +160,7 @@ def build(novel, number, chars=None, locs=None, want_society=False):
         val = novel.get(key)
         if val not in (None, "", [], {}):
             cfg_lines.append("%s: %s" % (key, val))
-    for name, state in sorted((novel.get("optional") or {}).items()):
-        if str(state).lower() in ("on", "true"):
-            cfg_lines.append("optional.%s: on" % name)
+    modules = active_modules(novel)
 
     characters, why = resolve_characters(novel, number, chars)
     locations = resolve_locations(novel, number, locs)
@@ -143,6 +176,13 @@ def build(novel, number, chars=None, locs=None, want_society=False):
 
     add("\n## 0. CONFIG (novel.md, the fields that gate a chapter)")
     add("\n".join(cfg_lines))
+
+    add("\n### active modules - open these and no others")
+    if modules:
+        width = max(len(n) for n, _ in modules)
+        add("\n".join("%-*s -> %s" % (width, n, path) for n, path in modules))
+    else:
+        add("(none - no optional module is on and the genre switches none on)")
 
     add("\n## 1. BOOK DIGEST")
     add(novel.book_digest() or "(empty)")

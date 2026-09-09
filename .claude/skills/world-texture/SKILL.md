@@ -1,6 +1,6 @@
 ---
 name: world-texture
-description: Deliver the world on the page — how setting reaches the reader through consequence, friction and anchored sensory detail, at a budget that keeps a chapter from turning into a travelogue. Use while drafting any chapter, inside revision-pass, and when the world feels either flat and generic or bloated with description.
+description: Deliver the world through consequence, friction and anchored sensory detail, at a budget. Use while drafting, inside revision-pass, and when the world feels flat or over-described.
 ---
 
 # world-texture

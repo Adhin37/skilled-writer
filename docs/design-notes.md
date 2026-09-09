@@ -14,6 +14,7 @@ Every skill is a directory:
 ```
 .claude/skills/<name>/
   SKILL.md                 the procedure a model executes. Short by design.
+  references/draft-card.md  the decision, for skills write-chapter consults
   references/audit-card.md  the revision-time check, for skills revision-pass consults
   references/<topic>.md     worked examples, failure catalogues, genre notes, long tables
 ```
@@ -33,6 +34,33 @@ instruction per chapter before a word of story state was read, and the model rat
 An audit card is written by the skill that owns the defect, so `revision-pass` no longer
 paraphrases anyone. The model still opens the owner's file. The file is just small enough to be
 worth opening.
+
+### The drafting half, and why it came second
+
+The card fixed revision and left drafting alone, which was half a fix. `write-chapter` step 1 went
+on citing sixteen skill bodies by section — `voice-separation` §1 §3, `power-scaling` §1,
+`competence-map` §1 §4 — and at the 8.6 KB average that is roughly 34,000 tokens of procedure
+before a word of story state. The same load, in the same place, for the same reason, and the model
+rations it the same way.
+
+So the pair: a **draft card decides**, an **audit card checks**. Same ownership rule, same
+explicit trigger, same test guarding it — `test_write_chapter_does_not_paraphrase_its_sources`
+mirrors the revision-pass one exactly. The two cards are genuinely different documents. A draft
+card produces an answer and is read before anything exists; an audit card produces a verdict and is
+read against a draft. `voice-separation`'s draft card lays the speakers out as matrix rows and asks
+which one differs from the MC; its audit card runs the transplant test on lines that now exist.
+
+Four of the eighteen are conditional and name their condition first, so a chapter outside the
+opening arc never opens `story-opening`'s card and a novel with `scaling.shape: none` never opens
+`power-scaling`'s. That is the other half of the saving, and it is why the cards are per-skill
+rather than one merged file: a merged file cannot be skipped in parts.
+
+The optional and genre modules are the same problem seen from the config side. Their descriptions
+sat in context for every novel whether or not the novel had a system layer or a canon, so
+`sw readset` now resolves them — it already read `optional:` and `genre` — and prints the entry
+point for each live one. A module the read-set does not list is off, and costs nothing. Small
+modules point at their own body, because at 4 KB the body *is* the decision-sized slice; giving
+them a card would only duplicate it.
 
 ## Why the gate is delivery, not length
 
@@ -215,9 +243,39 @@ human preference on creative writing about 73% of the time, and rubric judges ar
 biased by position, length and formatting. A judged pass may locate and describe. It may not score,
 and it may not gate.
 
+## Why not OKF
+
+Google Cloud's [Open Knowledge Format](https://okf.md/) (v0.1, June 2026) is a markdown convention
+for handing an agent curated context: a directory of files, each with YAML frontmatter carrying at
+minimum a `type`, cross-linked with ordinary markdown links, optionally indexed by an `index.md`.
+It is a good spec. It is not this repo's spec, and the reasons are worth writing down because the
+surface similarity is high enough that the question will be asked again.
+
+**OKF solves interoperability; this repo does not have that problem.** The format exists so that a
+wiki written by one producer can be consumed by a different vendor's agent without translation —
+many silos, many agents, no shared schema. skilled-writer has one producer and one consumer. Adding
+`type: skill` to 41 files buys nothing, because nothing downstream reads it.
+
+**Its conformance rule is the opposite of this toolkit's bet.** OKF requires consumers to tolerate
+broken links, unknown types, unknown keys and missing indexes: *if it has frontmatter with `type`,
+it's valid OKF, full stop.* That permissiveness is correct for a federation of independent
+producers and wrong here, where the whole value is strict triggers a low-effort model cannot
+wriggle out of, guarded by `test_corpus.py` and `test_template_wiring.py`. A format whose validity
+rule is "has a `type` field" would loosen precisely the contract those tests exist to keep tight.
+
+**And `readset` already beats a bundle at the one place OKF would fit.** `novels/<slug>/` is the
+part of this repo that genuinely is a knowledge graph, but OKF hands an agent whole files, and the
+whole point of the read-set is that it hands over *windows* — blocks N−5…N−1, plan rows N−1…N+2,
+the matrix rows for this chapter's speakers. OKF has no concept of a slice, and the slice is the
+entire reason the ledger can grow without the per-chapter cost growing with it.
+
+The shape that would be correct, if a novel ever has to leave this repo, is OKF as an **export
+target** — an `sw export --okf` that projects the bible and state into a conformant bundle — never
+as the working format.
+
 ## Related reading
 
 - [`benchmark.md`](benchmark.md) — run #1: what the toolkit costs to operate, and the defects that
   only appeared under load.
-- [`upgrade-plan.md`](upgrade-plan.md) — the current inventory, the research behind the last round
+- [`history/upgrade-plan.md`](history/upgrade-plan.md) — the current inventory, the research behind the last round
   of changes, and what is still open.

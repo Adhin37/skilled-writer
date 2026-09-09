@@ -1,6 +1,6 @@
 ---
 name: combat-choreography
-description: Optional (on by default for action novels). Write fights that are spatially legible, physically consistent and dramatically loaded, with stakes decided before the first blow. Use while this skill is enabled and a chapter contains physical conflict.
+description: Optional. Write fights that are spatially legible, physically consistent and dramatically loaded. Use while this skill is enabled and a chapter contains physical conflict.
 ---
 
 # combat-choreography

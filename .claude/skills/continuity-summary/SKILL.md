@@ -1,6 +1,6 @@
 ---
 name: continuity-summary
-description: Maintain and read the compressed machine-only continuity ledger (CCS) that tells the writing model what the current chapter must be about, given prior chapters and planned ones. Use before drafting any chapter (to assemble the read-set) and after drafting (to append the chapter block). Also use to compact old chapters into arc digests.
+description: Read and maintain the compressed continuity ledger (CCS). Use before drafting to assemble the read-set, after drafting to append the block, and to compact old arcs into digests.
 ---
 
 # continuity-summary

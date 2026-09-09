@@ -1,6 +1,6 @@
 ---
 name: competence-map
-description: Keep every character's knowledge bounded and specialised — what they know, how deep, where the edge is, who they ask when it runs out, and how a new skill is actually acquired over chapters of failure. Use when designing any character, whenever anyone states a fact or attempts a skill on the page, and inside revision-pass. Includes the broad-knowledge clause for gods, immortals, cultivators and artificial superintelligences.
+description: Keep every character's knowledge bounded and specialised - what they know, where the edge is, who they ask. Use when designing a character, when anyone states a fact, and inside revision-pass.
 ---
 
 # competence-map

@@ -1,6 +1,6 @@
 ---
 name: lead-interest
-description: Choose and design the primary love interest — the female lead if the MC is male, the male lead if the MC is female, or any configuration the user prefers including a female lead for a female MC. The character-design half of romance-arc. Use during novel-init immediately after mc-design, and when a new primary lead is introduced mid-novel.
+description: Choose and design the primary love interest, in any configuration. Use during novel-init right after mc-design, and when a new primary lead is introduced mid-novel.
 ---
 
 # lead-interest

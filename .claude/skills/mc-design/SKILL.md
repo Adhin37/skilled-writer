@@ -1,6 +1,6 @@
 ---
 name: mc-design
-description: Design the main character with the user — gender, appearance, intellect, origin (native, reincarnator, transmigrator, regressor) and central advantage or golden finger — each category offering a "surprise me" option. Also establishes the form ledger that keeps a non-final-form MC (a reborn infant, a weakened body, a pre-evolution form) physically consistent until they mature. Use during novel-init before any other cast work, and when the MC changes form.
+description: Design the main character - appearance, intellect, origin, golden finger - and the form ledger for a non-final-form MC. Use during novel-init before other cast work, and when the MC changes form.
 ---
 
 # mc-design

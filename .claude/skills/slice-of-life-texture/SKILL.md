@@ -1,6 +1,6 @@
 ---
 name: slice-of-life-texture
-description: Optional (default off). Add downtime, work, food, weather and ordinary routine that makes a world feel inhabited and gives high-stakes chapters something to threaten — without stalling the story. Use only while this skill is enabled.
+description: Optional (default off). Add downtime, work, food and routine so the world feels inhabited and high-stakes chapters have something to threaten. Use only while this skill is enabled.
 ---
 
 # slice-of-life-texture

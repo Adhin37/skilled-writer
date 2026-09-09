@@ -97,6 +97,21 @@ STRAY_MARKUP = _compile([
     (r"^\s{0,3}```", "code fence in prose body"),
 ])
 
+# CLAUDE.md section 3: the genre modules, and the genre or subgenre that switches each on.
+# Data only - resolving a name to a file is cmd_readset's job, not this module's.
+GENRE_MODULES = {
+    "power-system": ("fantasy", "scifi", "progression"),
+    "tech-plausibility": ("scifi",),
+    "fanfic-canon": ("fanfic",),
+}
+
+# CLAUDE.md section 3: the toggleable modules, read from `optional:` in novel.md.
+OPTIONAL_MODULES = (
+    "no-harem", "romance-arc", "combat-choreography", "litrpg-system",
+    "mystery-clues", "comedy-levity", "grimdark-consequences", "slice-of-life-texture",
+)
+
+
 # The frontmatter revision-pass Pass 10 requires.
 REQUIRED_FRONTMATTER = ["number", "title", "pov", "arc", "delivers", "wordcount", "status"]
 
