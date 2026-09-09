@@ -106,3 +106,47 @@ class TestDebutLedger(unittest.TestCase):
             fx.add_chapter(1, "Ana counted.\n\nBo arrived.\n")
             rep = cmd_cast.run(fx.novel())
             self.assertEqual([c for c, lv in findings(rep) if c == "debuts"], [])
+
+
+class TestTurnLength(unittest.TestCase):
+    """`sw lint`'s texture line is a mean across all speakers, so one character's turns can
+    double while the chapter average stays healthy. Run #2's revising agent found exactly that
+    by hand — the MC declared `turn: 14` and ran to 23.4 words in the two scenes that mattered —
+    and named it as the reason the defect survived several revision passes.
+    """
+
+    ROWS = ("| Ana | MC | 3 | 3 | dry | flat | 6 | taps | still | the door |",
+            "| Bo | A | 1 | 2 | warm | quick | 9 | rubs | smaller | the floor |")
+
+    def _run(self, body):
+        with NovelFixture() as fx:
+            fx.write("bible/cast/_voices.md", voices(*self.ROWS))
+            fx.add_chapter(1, body)
+            return cmd_cast.run(fx.novel())
+
+    LONG = "\n\n".join(
+        ['Ana looked up. "%s," Ana said.' % (" ".join(["word"] * 30)) for _ in range(5)])
+
+    def test_a_speaker_far_off_their_declared_turn_is_noted(self):
+        rep = self._run(self.LONG)
+        self.assertIn(("turn-drift", "note"), findings(rep))
+
+    def test_it_is_never_a_defect(self):
+        rep = self._run(self.LONG)
+        self.assertEqual([c for c, lv in findings(rep, "defect") if c == "turn-drift"], [])
+
+    def test_a_speaker_on_their_row_is_not_noted(self):
+        body = "\n\n".join(['Ana looked up. "One two three four five six," Ana said.'
+                            for _ in range(5)])
+        self.assertNotIn("turn-drift", [c for c, _ in findings(self._run(body))])
+
+    def test_too_few_attributed_lines_to_judge(self):
+        """Three long lines is not evidence; the check must wait for a sample."""
+        body = 'Ana looked up. "%s," Ana said.' % (" ".join(["word"] * 40))
+        self.assertNotIn("turn-drift", [c for c, _ in findings(self._run(body))])
+
+    def test_an_ambiguous_line_is_not_attributed(self):
+        """Two cast names around a line means we do not know who spoke; count it for neither."""
+        body = "\n\n".join(['Ana watched Bo. "%s," someone said.' % (" ".join(["word"] * 30))
+                            for _ in range(6)])
+        self.assertNotIn("turn-drift", [c for c, _ in findings(self._run(body))])

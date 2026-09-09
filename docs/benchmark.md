@@ -260,22 +260,43 @@ not exercise the full ten-pass gate, so **D4's fix is wired but still unproven i
 5. Per-chapter cost attribution was destroyed by the agent's cleanup sweep (above).
 6. Cache multipliers are the standard published ratios, not confirmed for this account.
 
+## What R1 and R2 led to
+
+Both reader findings are now owned by a skill, stated in `CLAUDE.md`, and measured:
+
+| | rule | measured by |
+|---|---|---|
+| R2 | `character-profile` §First appearance — relation, power, one concrete stroke, delivered in motion. Wired into `revision-pass` Pass 2 and its audit card | `sw cast` debut ledger |
+| R1 | `dialogue-voice` §How it sounds spoken, with `references/spoken-register.md` carrying the measured failure and the repair table. Added to `prose-quality`'s card | `sw lint` dialogue texture |
+
+`CLAUDE.md` section 4's corollary to hard rule 8 was tightened: two speakers may not share **intel
+and articulacy together**, not merely all three axes. Wit is a label and can go a whole chapter
+without surfacing, so a pair alike but for wit is one voice on the page — which is what
+`near-clash` found in chapter 1. A second corollary now carries the first-appearance rule, and
+section 5 gained two entries: no prepared statements, no character who arrives pre-loaded.
+
+`sw cast` also gained **declared-vs-measured turn length**. This closes the gap the revising agent
+named as the reason the defect survived several revision passes: `lint`'s texture line is a mean
+across all speakers, so one character's turns can double while the chapter average stays healthy.
+Attribution is conservative — a line counts for a speaker only when exactly one cast name appears
+around it — and coverage is printed (46 of 123 lines on this novel) so the number can be weighed
+rather than trusted.
+
 ## Still open
 
-- **No skill owns "a named character's first appearance must place them."** The debut ledger
-  measures it; nothing yet requires it. This is the highest-value fix on the list.
-- **Nothing checks a speaker's actual dialogue against their own declared row.** `lint`'s texture
-  line is a chapter mean across all speakers, which hides exactly the failure the revising agent
-  found by hand: one character's turns silently doubling against their declared `turn` while the
-  chapter average stays healthy. Attributing speech to speakers is the hard part.
 - **No compaction-event detection in `trace`**, which is what drives the cost curve in a long
   persistent session.
-- `mtl-detox`'s wiring fix is unproven in a full revision pass.
+- `mtl-detox`'s wiring fix is unproven in a full revision pass — the revision run here was
+  targeted and opened only five skills.
+- **The prose repair is still partial.** The rules now exist and are measured; chapters 1–3 of this
+  novel have not been revised against them, and nobody is yet ever interrupted.
+- **The flat-cost claim.** Unchanged: it needs a cold agent writing chapter N with only
+  `novels/<slug>/` in context.
 
 ## Reproduce it
 
 ```bash
-python3 -m unittest discover tests    # 188 tests
+python3 -m unittest discover tests    # 193 tests
 python3 scripts/sw.py selftest        # the whole pipeline, plus 8 planted defects that must be caught
 python3 scripts/sw.py health          # wiring only - says nothing about whether the advice is good
 python3 scripts/sw.py audit  novels/<slug>

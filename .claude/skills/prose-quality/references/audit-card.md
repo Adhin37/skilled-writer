@@ -15,6 +15,10 @@ share. It cannot hear rhythm, spot a named emotion, or feel a flat page, so thos
       10% fails the pass. The fix is to give the beats to the people in the room, never to bolt on
       small talk to clear a number
 - [ ] Nobody was present in a scene, silent, while the POV character narrated their inner state
+- [ ] **The dialogue sounds spoken** (`dialogue-voice` §How it sounds spoken). Somebody is
+      interrupted or trails off; answers come in fragments; no character delivers their own
+      reasoning in one unbroken multi-clause turn. `sw lint`'s texture line says where to look —
+      it is a diagnostic, never a target
 
 **Microtension** — the measured failure mode of machine-written fiction is an even, untroubled
 surface: flatter arousal curves and less tension than human prose, page by page, even when the

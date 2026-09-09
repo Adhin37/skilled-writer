@@ -12,6 +12,14 @@ interchangeable furniture.
 - [ ] Anyone at a third appearance, or who changed the plot, is **promoted and profiled**
 - [ ] Every named walk-on has a roster line in `bible/cast/_extras.md` and a lexicon entry
 
+**First appearances** — run `sw cast` and read the debut ledger (§First appearance):
+
+- [ ] Every tier-A/B character appearing for the first time is **placed**: relation to the POV
+      character, what power they hold or want, one concrete physical stroke
+- [ ] The placement is delivered in motion, not as an appositive caption or a dossier paragraph
+- [ ] No scene asks the reader to read subtext between two people they cannot yet tell apart
+- [ ] A character named in narration earlier is placed when they **appear**, not when first named
+
 **Named speakers**, all tiers:
 
 - [ ] Every named speaker matches their behaviour rules, or breaks one **as an event**
@@ -19,4 +27,5 @@ interchangeable furniture.
 - [ ] No character acted out of character for the plot's convenience
 - [ ] Antagonists present want something legible and are competent at it
 
-If a box fails, open `SKILL.md` — §Cast tiers for the promotion rule, §Three strokes for walk-ons.
+If a box fails, open `SKILL.md` — §First appearance for placement, §Cast tiers for the
+promotion rule, §Three strokes for walk-ons.

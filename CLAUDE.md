@@ -149,7 +149,14 @@ says to. See §8.
    never from the MC forgetting what they already know (`mc-intel-meter`).
    Corollary — **and nobody else is the MC.** Intel, articulacy and wit are per-character axes in
    `bible/cast/_voices.md`. The cast straddles the MC's tier rather than sitting on it, and no two
-   speakers in a scene share all three. Exemption: a declared `mirror:` (`voice-separation`).
+   speakers in a scene share all three — nor **intel and articulacy together**, which are the two
+   that shape a sentence. Wit is a label and can go a whole chapter without surfacing, so a pair
+   alike but for wit is one voice on the page. Exemption: a declared `mirror:`
+   (`voice-separation`).
+   Corollary — **and every named character is placed before they carry a scene.** A tier-A or
+   tier-B character's first appearance gives the reader their relation to the POV character, what
+   power they hold, and one concrete stroke — in motion, not as a caption. Subtext between people
+   the reader cannot yet tell apart reads as confusion (`character-profile`).
    Corollary — **and nobody knows everything.** Expertise is narrow, declared per domain in
    `bible/cast/_competence.md`, and **an unlisted domain is `none`**. Every stated fact passes the
    provenance test — taught, did, told, read, or openly guessing — and skills are acquired across
@@ -214,6 +221,10 @@ Full lists live in `mtl-detox` and `bias-guard`. The short form:
   teacher, a text or a costly failure — never by chapters having passed.
 - No default gesture set. Nodding, shrugging, sighing, raised eyebrows, crossed arms and released
   breaths belong to everyone and identify nobody.
+- No prepared statements. If nobody is ever interrupted, nobody ever answers in a fragment, and
+  every turn reaches a full stop, the cast is reading prose aloud rather than talking.
+- No character who arrives pre-loaded. A name dropped into a scene of loaded subtext, with an
+  implied history and no placement, asks the reader to remember a book they have not read.
 - No stated theme. The narrator does not explain what the book means.
 - No frictionless page. Every scene carries something unresolved inside somebody
   (`prose-quality` §Microtension).

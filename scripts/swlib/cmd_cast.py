@@ -64,6 +64,7 @@ def run(novel):
     _mc_row(rep, rows, mc_name, mc_tier, vpath)
     _straddle(rep, rows, mc_name, mc_tier, vpath)
     _debuts(novel, rep, rows)
+    _turn_lengths(novel, rep, rows)
     _wit_cap(rep, rows, vpath)
     _clash(rep, rows, vpath)
     _turns_and_hands(rep, rows, vpath)
@@ -203,6 +204,79 @@ def _debuts(novel, rep, rows):
         lines.append("   Printed, never scored: deferring a placement is a choice, and doing it "
                      "to everyone is a habit.")
         rep.info("debuts", lines)
+
+
+def _turn_lengths(novel, rep, rows):
+    """Each speaker's measured turn length against the one their own row declares.
+
+    The revising agent in benchmark run #2 found this by hand and named it as the reason the
+    defect survived several `revision-pass` cycles: `sw lint`'s texture line is a mean across
+    **all** speakers in a chapter, so one character's turns can double while the chapter average
+    stays healthy. There the MC declared `turn: 14` and ran to 23.4 words in the two
+    highest-pressure scenes in the arc - a person narrating an essay about her own honesty.
+
+    Attribution is deliberately conservative: a line counts for a speaker only when exactly one
+    cast name appears in the narration around it. Coverage is printed so the number can be
+    weighed. Printed, never scored.
+    """
+    chapters = [c for c in novel.chapters() if c.number]
+    declared = {}
+    for x in rows:
+        turn = _int(x.get("turn")) if isinstance(x, dict) and "turn" in x else None
+        if turn is None:
+            turn = _int(x["turn"]) if str(x.get("turn", "")).strip() else None
+        if turn:
+            declared[x["name"]] = turn
+    if not chapters or not declared:
+        return
+    world = _world_terms(novel)
+    tokens = {}
+    for name in declared:
+        toks = [t for t in re.split(r"[^\w']+", name) if len(t) >= 2]
+        tokens[name] = [t for t in toks if world.get(t.lower(), 0) < 3] or toks
+
+    measured, attributed, total = {}, 0, 0
+    for ch in chapters:
+        for (start, end) in ch.speech_ranges:
+            total += 1
+            words = len(ch.body[start:end].split())
+            if not words:
+                continue
+            para_start = ch.body.rfind("\n\n", 0, start) + 1
+            para_end = ch.body.find("\n\n", end)
+            around = (ch.body[para_start:start] +
+                      ch.body[end:para_end if para_end != -1 else len(ch.body)])
+            hits = [n for n, toks in tokens.items()
+                    if any(re.search(r"\b%s\b" % re.escape(t), around) for t in toks)]
+            if len(hits) != 1:
+                continue
+            attributed += 1
+            measured.setdefault(hits[0], []).append(words)
+
+    lines = ["   %-24s %-9s %-9s %-7s %s"
+             % ("character", "declared", "measured", "lines", "")]
+    flagged = []
+    for name in sorted(measured):
+        got = measured[name]
+        mean = sum(got) / float(len(got))
+        want = declared[name]
+        off = ""
+        if len(got) >= 4 and want and abs(mean - want) / float(want) > 0.4:
+            off = "%+.0f%% against their own row" % ((mean - want) * 100.0 / want)
+            flagged.append(name)
+        lines.append("   %-24s %-9d %-9.1f %-7d %s" % (name[:24], want, mean, len(got), off))
+    if len(lines) == 1:
+        return
+    lines.append("   %d of %d spoken lines attributed to exactly one speaker. A line counts only "
+                 "when one" % (attributed, total))
+    lines.append("   cast name appears around it, so an unattributed line is silence here, not a "
+                 "short turn.")
+    rep.info("turn length, declared vs measured", lines)
+    if flagged:
+        rep.note("turn-drift", "%s speak at more than 40%% off their declared turn length - a "
+                 "chapter mean hides this, which is how it survived several revision passes in "
+                 "benchmark run #2" % ", ".join(flagged), path=novel.path("bible", "cast",
+                                                                         "_voices.md"))
 
 
 def _world_terms(novel):

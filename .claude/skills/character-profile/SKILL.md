@@ -132,6 +132,52 @@ daughter and a woodworking hobby on page two is dead by page nine, and everyone 
 should you inflate them to make the death land: a death lands from what it costs the survivor, not
 from how much the reader knew about the corpse.
 
+## First appearance — the reader must be able to place them
+
+**Every named character's first appearance on the page gives the reader three things before that
+character is asked to carry a scene:** who they are to the POV character, what power they have
+over them or want from them, and one concrete stroke that makes them a body in a room rather than
+a name.
+
+This is the rule benchmark run #2 shipped without. A reader put it plainly:
+
+> "They are not even introduced. It feels like I should know them and everything in their life.
+> But that's not how a story is written."
+
+The chapter had introduced its second character as *"she went to find Enko before Enko found the
+discrepancy first"* — a name, an implied history, and four lines later a scene of loaded subtext
+between two people the reader had not met. Every command in the repo reported the novel clean,
+because no skill owned this: `character-profile` owned tiers and budgets, `bias-guard` owned *how*
+to introduce (action, never a catalogue of appearance), `story-opening` owned the world anchor, and
+the gap between them was exactly this rule.
+
+**Deliver it in motion, not as a dossier.** The wrong repair is an appositive label — *Enko
+Mizusawa, the station chief,* — which is a caption, not an introduction. The right one is the
+character doing the thing that establishes them while the scene is already moving.
+
+| the three | wrong | right |
+|---|---|---|
+| relation | "her supervisor Enko" | other techs waiting on her signature before they can log out |
+| power | "who could refuse the request" | she initials it, and says she noticed |
+| stroke | "a stern woman of forty" | she sets the pen down before she says the hard thing |
+
+**Subtext is priced in what the reader already knows.** A loaded exchange between two people is
+only loaded if the reader can price the relationship. History between characters lands *after*
+placement, never instead of it — a reader who cannot tell who is speaking to whom reads tension as
+confusion, and drops the book.
+
+**Scope.** Tier A and tier B, every one, at first appearance. Tier C gets the three-stroke sketch
+above and no more. A character mentioned in narration long before they appear is placed when they
+**appear**, not when they are first named.
+
+**Deferring a placement is legitimate.** A POV character thinking about someone the reader has not
+met is normal, and a deliberately withheld identity is a device. Doing it to *everybody* is not a
+device; it is the failure. That is why the check below is distributional.
+
+`sw cast` prints a **debut ledger** — where each character first appears, how many words pass
+before they speak, and the sentence they arrive in. It finds; it does not judge. Read the
+sentences and ask whether a reader who knows nothing could place that person.
+
 ## Promotion and demotion
 
 `python3 scripts/sw.py state novels/<slug>` reads the roster in `bible/cast/_extras.md`, counts

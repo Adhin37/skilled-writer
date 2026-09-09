@@ -91,8 +91,12 @@ Against the read-set from `continuity-summary`.
 
 ## Pass 2 — Character and voice
 
-Open **`voice-separation/references/audit-card.md`** and, if the chapter has walk-ons,
-**`character-profile/references/audit-card.md`**. Work them there.
+Open **`voice-separation/references/audit-card.md`**, and
+**`character-profile/references/audit-card.md`** if the chapter has walk-ons **or introduces any
+named character for the first time**. Work them there.
+
+A first appearance is the half of this pass that has no script and the one a reader notices
+first: run `sw cast` and read the debut ledger before deciding this pass has passed.
 
 ## Pass 3 — Intelligence and knowledge
 

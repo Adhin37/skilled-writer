@@ -172,19 +172,25 @@ speaking. Do not write toward the floor. A chapter inflated with muttering to cl
 the padding this target exists to prevent, and it has happened — benchmark run #2, chapter 2, at
 10.2%.
 
-**The diagnostic.** A POV character with a strong analytical voice is the usual cause: the model
-routes every beat through their reasoning because that voice is enjoyable to write. The tell is a
-scene where a second person is physically present and says nothing, or says one line and is
-narrated *about* for three paragraphs. Whenever another character is in the room, ask what they
-would say — and let them say it instead of having the POV character infer it.
+Open `references/spoken-register.md` §Why a cast goes quiet for the diagnostic and the two
+structural consequences of a silent cast.
 
-**Interiority is not a substitute for a scene.** If the POV character concludes something about
-another person, the stronger version is almost always that the other person does or says the thing
-and the reader concludes it. Give the deduction a surface to land on.
+## How it sounds spoken
 
-Two structural consequences worth holding while drafting: a chapter with only one speaking
-character is a chapter `voice-separation` cannot audit, and a walk-on who never opens their mouth
-cannot pass the swap test in `character-profile`. Both skills quietly no-op on a silent cast.
+Share is how *much* the cast speaks. This is whether it sounds spoken.
+
+- **People are interrupted, and interrupt.** A chapter where everyone finishes is a chapter of
+  prepared statements.
+- **People answer in fragments.** A line needs no subject and verb to be a line.
+- **Nobody speaks in their own summary.** An unbroken multi-clause turn explaining a character's
+  reasoning is the narrator using their mouth.
+- **Under pressure turns get shorter**, unless their `heat` row says otherwise — then hold the row.
+- **Dialogue is not the delivery van for exposition.** A line that exists so the reader learns a
+  fact is narration in costume.
+- **Register is per character.** A cast where nobody says *don't* reads as translated.
+
+`sw lint` prints a **dialogue texture** line per chapter: read it to find where to look, never as
+a target. Open `references/spoken-register.md` for the measured failure and the repair table.
 
 ## Subtext
 
