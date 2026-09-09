@@ -94,6 +94,7 @@ says to. See §8.
 | `narrator-voice` | Person, tense, distance, interiority, the four channels. |
 | `pov-switch` | Only if `pov.mode` allows it. |
 | `scene-craft` | Goal, obstacle, turn, exit — and the chapter delivery test. |
+| `story-craft` | Whether a beat is a scene or a summary, and the shape of a build-up. Inside `write-chapter` and `revision-pass`. |
 | `conflict-engine` | Making the chapter cost something. Owns the stake ladder. |
 | `power-scaling` | The distance between the MC and the opposition, and its shape over the whole book. Owns `state/power.md`. |
 | `plot-threads` | Promises and foreshadowing: opened, escalated, paid, aged. |
@@ -131,6 +132,9 @@ says to. See §8.
    friction, **change**, cost, next — and `change` names a difference, not a summary of events.
    Nothing gates on `chapters.length_band`; nothing is padded or trimmed to reach it. A word count
    is a measured fact, reported and never scored.
+   Corollary — **the important beat gets the scene.** A turn reported in a past-perfect clause is a
+   scene that was skipped, and a story that summarises its own turning points is rushing however
+   well it delivers on paper. Summary is for bridges (`story-craft`).
 5. **The reader is oriented before they are threatened.** By `opening.anchor_by_ch` a reader knows
    what kind of world this is, what place they are in, what the MC wants — and for fanfic or
    transmigration, **which story they are in and roughly when**. Anchor vocabulary is front-loaded,
@@ -202,6 +206,12 @@ Full lists live in `mtl-detox` and `bias-guard`. The short form:
   "in the next instant", "trash!", "you dare?", "little did he know".
 - No exposition dumps of rank ladders. Power is shown through cost and consequence.
 - No establishing paragraphs, gazetteer sentences or history lectures. Enter scenes in motion.
+  This bans a *mode of telling*, never the build-up itself, and it is not a licence to skip the
+  beats a reader needs to have watched. Build-up is delivered in scene, so it never collides here.
+- No important beat delivered as a past-perfect clause. *"She had spent three weeks making it true"*
+  is a campaign that happened offstage, and momentum never earns back what the reader never saw.
+- No story that reaches its climax with nothing built to climax from. A win costs a failure the
+  reader watched (`story-craft`).
 - No wallpaper societies: if the central rule would have changed how people eat, work, travel or
   are judged, it has, and the story shows it.
 - No unanchored openings. Five chapters in which a reader cannot say what world this is is not

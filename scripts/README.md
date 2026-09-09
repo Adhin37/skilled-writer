@@ -53,6 +53,28 @@ Findings print one per line as `LEVEL path:line: [check] message`, at three leve
 (a named gate failure), **warn** (look at it), **note** (informational; `--show note` to see
 them, `-q` for defects only).
 
+## The dialogue and cast sections
+
+Added after benchmark run #2, where a novel that every command called clean was described by its
+first human reader as having stiff dialogue and characters who were never introduced.
+
+| section | command | what it shows |
+|---|---|---|
+| dialogue texture | `lint` | turn lengths and spread, contractions per 100 spoken words, fragment share, interruptions, exchange runs, narration between lines |
+| debut ledger | `cast` | where each character first appears, words before they speak, the sentence they arrive in, and which name token matched |
+| turn length | `cast` | each speaker's measured mean against the `turn` their own matrix row declares, with attribution coverage |
+| `near-clash` | `cast` | two speakers alike on intel **and** articulacy, differing only in wit |
+
+**None of these is a gate.** They are notes and warns, and there is a test asserting the texture
+findings can never be raised to a defect. This repo has twice built a number that decided whether
+a chapter shipped — word count, then dialogue share — and both were optimised within five
+chapters, the second by bolting a muttering habit onto a protagonist to clear a floor by 0.2
+points. Read them to find where to look; fix what a reader would feel.
+
+Turn-length attribution is deliberately conservative: a line counts for a speaker only when
+exactly one cast name appears in the narration around it. Coverage is printed with the table, so a
+low number is visible rather than hidden.
+
 ## Scoping a run
 
 `trace` with no window aggregates **every** session that ever ran in this repo, because that is
@@ -72,6 +94,47 @@ revision and wrong for an end-of-run cleanup sweep: touching five chapters in th
 seconds moves their real cost into whichever chapter was written before the sweep. `trace` warns
 when a chapter's bucket holds under thirty seconds of work. When it does, trust the run total and
 not the rows.
+
+## Measuring a test run, end to end
+
+The recipe benchmark run #2 used. It needs no scratch scripts and nothing machine-specific: every
+identifier below is printed by the tools themselves.
+
+**1. Note the time before you start.** `date -u +%Y-%m-%dT%H:%M`
+
+**2. Take a baseline** of whatever you expect to move:
+
+```bash
+python3 scripts/sw.py lint  novels/<slug> --all --show note > before-lint.txt
+python3 scripts/sw.py cast  novels/<slug> > before-cast.txt
+```
+
+**3. Run the agent.** Give it an authoring brief, not a benchmarking one — an agent told which
+defects it is scored on will avoid them, and the skill-loading measurement becomes worthless.
+
+**4. Find the run.** `python3 scripts/sw.py trace` lists every session it can see, with a
+`transcript` column:
+
+```
+transcript                             kind        resp     rows      wall
+<session>/agent-<agentId>              subagent      236     1068   51m 03s
+```
+
+**5. Scope to it.** Any fragment of that column works — the session id, the agent id, or the whole
+path:
+
+```bash
+python3 scripts/sw.py trace novels/<slug> --session <agentId>
+```
+
+**Scoping is not optional.** With no window `trace` aggregates every session that ever ran in the
+repo — on the machine that produced run #2, 22 sessions and $225 of unrelated toolkit development.
+And `--since` alone is **not enough**: the session *driving* an agent runs in the same repo at the
+same time, so its own file reads get counted as the agent's skill loads. That mistake was made
+once during run #2 and is why `--session` exists. Use `--since`/`--until` to bound a period and
+`--session` to isolate one agent.
+
+**6. Take the after-measurements** and diff them against the baseline.
 
 ## What `trace` reads, and what it does not
 

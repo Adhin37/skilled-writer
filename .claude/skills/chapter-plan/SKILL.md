@@ -125,6 +125,26 @@ Four beats are **planned rows, not hoped-for outcomes** — each one names a cha
 | The promise touched | `opening.promise_touched_by_ch` | where the blurb's promise first reaches the page |
 | The first win | `opening.first_win_by_ch` | where the MC's central advantage *works*, legibly |
 
+Four deadlines are not a shape. They say how fast the reader must be *told* things and nothing
+about what the reader has *watched*, and a plan that satisfies all four can still open on a story
+already in progress. Rows 1–5 therefore also carry a temperature and a scene intent:
+
+| row | temperature | what it is for | the beat that must be **played**, not reported |
+|---|---|---|---|
+| 1 | low external, full internal | the ordinary world working, and something already wrong in it | the routine performed correctly, by someone who is good at it |
+| 2 | rising | the cost of the ordinary world; who has power here | a rule biting somebody — ideally not the MC |
+| 3 | rising | the first real attempt, and its price | the attempt, in full, including the part that fails |
+| 4 | hot | the frame turns toward the MC | the moment the MC becomes visible to the thing that matters |
+| 5 | hot | the MC acts and pays | the payment |
+
+**Row 1's temperature is about external danger only.** It still costs the POV character something,
+still turns, still hooks — `conflict-engine` and the skim test do not switch off for chapter 1. What
+low temperature buys is *room to play the beat* rather than report it.
+
+**The scene-intent column is the point.** Each of those beats is exactly the kind an outline
+compresses: "she had done this four times before", "the wards had never failed until now". Written
+as a plan row, they get chapters. Left to the draft, they get clauses (`story-craft`).
+
 **The frame rule.** *An escalation rung may not be scheduled before the frame it depends on.*
 Before planning a chapter in which being noticed is dangerous, find the earlier row where the
 reader learned what being noticed costs here. If there is no such row, insert one — usually a

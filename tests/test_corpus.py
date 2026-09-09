@@ -42,7 +42,7 @@ DRAFT_CARD_OWNERS = (
     "character-development", "voice-separation", "character-profile", "mc-design",
     "timeline-engine", "world-texture", "mc-intel-meter", "story-opening",
     "power-scaling", "meta-knowledge", "competence-map", "hook-and-pacing",
-    "narrator-voice", "dialogue-voice",
+    "narrator-voice", "dialogue-voice", "story-craft",
 )
 
 
@@ -163,7 +163,8 @@ class TestArchitecture(unittest.TestCase):
         """The dispatcher points at audit cards; it does not carry their checklists."""
         body = read(os.path.join(SKILLS, "revision-pass", "SKILL.md"))
         for skill in ("voice-separation", "competence-map", "bias-guard",
-                      "world-texture", "prose-quality", "story-opening", "meta-knowledge"):
+                      "world-texture", "prose-quality", "story-opening", "meta-knowledge",
+                      "story-craft"):
             self.assertIn("%s/references/audit-card.md" % skill, body,
                           "revision-pass must open %s's card" % skill)
 

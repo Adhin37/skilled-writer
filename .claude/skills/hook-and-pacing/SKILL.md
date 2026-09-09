@@ -9,6 +9,10 @@ Serialized fiction is read one chapter at a time, days apart, on a phone, by som
 following six other stories. Every chapter has to re-earn the reader. This skill is about the two
 positions that do that work: the first 100 words and the last 100.
 
+**What sits between them is not here.** Whether a beat is played or reported — the decision that
+sets how fast a story actually moves — belongs to `story-craft`. This skill can make an opening land
+and a hook pull; it cannot stop a chapter from summarising its own turning point.
+
 ---
 
 ## What lives in `references/`

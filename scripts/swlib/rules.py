@@ -103,6 +103,21 @@ STRAY_MARKUP = _compile([
     (r"^\s{0,3}```", "code fence in prose body"),
 ])
 
+# story-craft: a turn reported instead of played. The signature is a plot event inside a
+# past-perfect clause or a span of compressed time. Ordinary past-perfect is how English orders two
+# past events and is NOT listed here - only constructions that carry an event across elapsed time.
+SUMMARY_MARKERS = _compile([
+    (r"\bhad (?:spent|made|been making|arranged|built|learned|practi[sc]ed|trained|"
+     r"prepared|planned|managed|persuaded|convinced|negotiated)\b", "had <verb> - an event reported"),
+    (r"\bover the (?:next|following|past|course of)\b", "over the next - time compressed"),
+    (r"\b(?:weeks|months|days|years) (?:passed|later|of)\b", "elapsed time"),
+    (r"\bby the time\b", "by the time - the event happened offstage"),
+    (r"\b(?:every|each) (?:day|night|morning|week) for\b", "a routine reported"),
+    (r"\b(?:four|five|six|seven|eight|nine|ten|dozens? of|several) times in\b",
+     "repeated attempts reported"),
+    (r"\bin the (?:weeks|months|days) (?:that|after|before|since)\b", "time compressed"),
+])
+
 # CLAUDE.md section 3: the genre modules, and the genre or subgenre that switches each on.
 # Data only - resolving a name to a file is cmd_readset's job, not this module's.
 GENRE_MODULES = {

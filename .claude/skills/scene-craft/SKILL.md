@@ -11,6 +11,11 @@ not a scene; it is a transition, and it should be a sentence.
 
 ---
 
+**The boundary.** This skill owns what happens *inside* a scene. Whether a beat should be a scene
+at all — rather than a line of summary — belongs to `story-craft`, and it is the decision that
+controls pacing. A passage with no want is not a scene and should be a sentence; a *turn* with no
+scene is a skipped chapter.
+
 ## The scene unit
 
 | element | test |

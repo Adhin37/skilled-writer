@@ -390,6 +390,36 @@ class Chapter(object):
             prev_end = end
         return (sum(gaps) / float(len(gaps))) if gaps else 0.0
 
+    # ------------------------------------------------------------------ pacing
+    #
+    # story-craft: pacing is the distribution of detail across events, and the failure this repo
+    # has is one-directional - the important beat gets the summary. These locate where to look.
+    # None of them judges: a chapter can skip its most important beat with no marker at all, by
+    # starting after it.
+
+    @property
+    def words_before_first_scene(self):
+        """Words before the first spoken line - a rough hand on how long the reader waits."""
+        spans = self.speech_ranges
+        if not spans:
+            return self.words
+        return len(self.body[:spans[0][0]].split())
+
+    def summary_markers(self):
+        """(offset, label) for each reported-event construction, outside speech."""
+        from . import rules
+        out = []
+        for rx, label in rules.SUMMARY_MARKERS:
+            for m in rx.finditer(self.outside_speech):
+                out.append((m.start(), label))
+        return sorted(out)
+
+    @property
+    def summary_marker_rate(self):
+        """Markers per 1,000 body words."""
+        words = self.words
+        return (len(self.summary_markers()) * 1000.0 / words) if words else 0.0
+
     def nested_thought_in_speech(self):
         """`'...'` pairs living inside a `"..."` span - legal, but worth counting."""
         n = 0

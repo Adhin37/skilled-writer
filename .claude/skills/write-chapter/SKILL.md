@@ -45,6 +45,7 @@ their condition is false.
 |---|---|
 | POV character, and whether this is a switch | `pov-switch/references/draft-card.md` + the plan row |
 | Scene count, the break, and per scene goal → obstacle → turn → exit | `scene-craft/references/draft-card.md`, `chapters.scenes_per_chapter` |
+| Which beat is played and which is reported | `story-craft/references/draft-card.md` — the important beat gets the scene |
 | What this chapter costs the POV character | `conflict-engine/references/draft-card.md` — never zero |
 | Which thread ops fire | `plot-threads/references/draft-card.md` |
 | Which character sounds different today, and how | `character-development/references/draft-card.md` → `state/growth.md` |

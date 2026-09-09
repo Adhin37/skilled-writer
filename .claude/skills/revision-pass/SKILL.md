@@ -36,6 +36,7 @@ the owner, so nothing here is a paraphrase.
 | 9c Foreknowledge | **distributional** | `meta-knowledge/references/audit-card.md`, if `mc.foreknowledge` |
 | 9d Theme | judgement | nothing — the restraint test is here in full |
 | 9e Power curve | judgement | `power-scaling/references/audit-card.md`, if `scaling.shape` is not `none` |
+| 9f Pacing + build-up | **judgement** | `story-craft/references/audit-card.md` |
 | 10 Mechanics | mechanical | nothing |
 
 **Run Pass 0 first.** It settles every mechanical row in seconds and for no tokens, which is what
@@ -210,6 +211,19 @@ opponent is a person or a number, and whether the win felt free.
 
 This pass sits after delivery because a chapter that delivers nothing has no curve to audit, and
 before Pass 10 so a corrected tier still reaches the frontmatter and the CCS `pwr>` line.
+
+## Pass 9f — Pacing and build-up
+
+Open **`story-craft/references/audit-card.md`**. Pass 9 asks whether the chapter delivers; this asks
+whether it delivered at the **right size**, which a delivery test cannot see — a chapter that
+summarises its own turning point still has a want, a friction, a change, a cost and a hook.
+
+`sw lint` prints a **pacing** line (summary markers, words before the first scene, summary-shaped
+paragraph share). It says where to look and settles nothing: a chapter can skip its most important
+beat without one past-perfect clause, by starting after it.
+
+The repair is never more words. It is reallocation — a reported beat becomes a played one, and a
+played bridge goes back to being a bridge.
 
 ## Pass 10 — Mechanics
 

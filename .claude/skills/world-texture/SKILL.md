@@ -68,6 +68,12 @@ anchor — what kind of world this is, and for fan fiction which one and when (`
 That debt is paid through channels 1–3, *not* by raising the channel-4 budget. A reader who does
 not know where they are needs a rule biting someone, not a paragraph of scenery.
 
+**This is not in tension with `story-opening/references/chapter-one.md` §5**, which gives roughly
+35% of chapter 1 to "World". That figure is a share of the reader's **attention**, not of direct
+description: a third of the chapter is *about* the world, delivered as scenes in which the world
+does something to somebody. The ≤8% cap governs only channel 4. A chapter can be 35% world and 4%
+description at the same time, and the good ones are.
+
 A location the reader has already visited gets **fewer** details, not the same ones re-explained:
 its anchor (§4), and only what has changed since.
 

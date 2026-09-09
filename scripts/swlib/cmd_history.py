@@ -76,6 +76,7 @@ def run(novel):
             "thoughts": len(ch.thoughts()),
             "metas": len(ch.metas()),
             "scene_breaks": ch.scene_breaks(),
+            "summary_rate": round(ch.summary_marker_rate, 1),
             "paragraphs": len(ch.paragraphs()),
             "status": str(ch.meta.get("status", "")),
             "delivers": str(ch.meta.get("delivers", "")),
@@ -89,6 +90,7 @@ def run(novel):
 
     _table(rep, rows)
     _dialogue(rep, rows)
+    _summary(rep, rows)
     _length(rep, rows)
     _defects(rep, rows)
     _threads(novel, rep, rows, data)
@@ -130,6 +132,26 @@ def _table(rep, rows):
                  % (len(rows), total))
     lines.append("   scored on nothing - the gate is revision-pass Pass 9.")
     rep.info("chapters", lines)
+
+
+def _summary(rep, rows):
+    """Reported-event density across the book.
+
+    A rushing *arc* is invisible one chapter at a time: any single chapter can justify its own
+    compression, and only the series shows a story consistently reporting what it should play.
+    Printed, never scored - story-craft owns the judgement.
+    """
+    vals = [r["summary_rate"] for r in rows]
+    if len(vals) < 3:
+        return
+    mean = sum(vals) / float(len(vals))
+    rep.info("reported events", [
+        "   %s   %.1f -> %.1f per 1000 words (mean %.1f)"
+        % (_spark(vals), vals[0], vals[-1], mean),
+        "   Constructions that report an event across elapsed time. High is a place to look,",
+        "   not a verdict: a chapter can skip its most important beat with none of them, by",
+        "   starting after it. story-craft, `sw lint` per chapter.",
+    ])
 
 
 def _dialogue(rep, rows):

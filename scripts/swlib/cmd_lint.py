@@ -22,6 +22,13 @@ WELL_FORMED_BREAK = "* * *"
 
 
 def lint_chapter(novel, ch, rep=None):
+    """Every check that is about **this chapter alone**.
+
+    Strictly per-chapter, because `cmd_history` calls this once for every chapter to build its
+    trend table. A novel-level verdict evaluated here would be counted once per chapter and then
+    reported as a habit firing on the whole book - one finding wearing N hats. Those live in
+    `run()`, which is the command layer and is invoked once.
+    """
     rep = rep or Report()
     p = ch.path
     body = ch.body
@@ -30,7 +37,7 @@ def lint_chapter(novel, ch, rep=None):
     _frontmatter(novel, ch, rep)
     _channels(novel, ch, rep)
     _texture(ch, rep)
-    _speech_window(novel, ch, rep)
+    _pacing(ch, rep)
     _phrases(ch, rep)
     _rhythm(ch, rep)
     _anchor(novel, ch, rep)
@@ -171,6 +178,27 @@ def _texture(ch, rep):
         rep.note("texture", "%.0f words of narration between spoken lines on average - the "
                  "dialogue is carrying exposition rather than the scene"
                  % ch.narration_between_speech, path=p)
+
+
+def _pacing(ch, rep):
+    """Where a turn may have been reported instead of played.
+
+    story-craft owns the judgement. These are notes and they settle nothing: a chapter can skip its
+    most important beat without one marker, by starting after it. They are printed so a reviser
+    knows where to look first, and they are deliberately not gates - two numeric gates in this repo
+    have already been optimised rather than satisfied.
+    """
+    p = ch.path
+    marks = ch.summary_markers()
+    if ch.summary_marker_rate > 2.5 and len(marks) >= 3:
+        rep.note("pacing", "%d reported-event constructions (%.1f per 1000 words) - check whether "
+                 "a turn is happening inside one of them"
+                 % (len(marks), ch.summary_marker_rate),
+                 path=p, line=ch.line_of(marks[0][0]),
+                 detail="; ".join(sorted({lbl for _off, lbl in marks}))[:150])
+    if ch.speech_ranges and ch.words_before_first_scene > 600:
+        rep.note("pacing", "%d words before anyone speaks - the chapter may be summarising its way "
+                 "to the scene" % ch.words_before_first_scene, path=p)
 
 
 def _speech_window(novel, ch, rep):
@@ -347,6 +375,13 @@ def run(novel, numbers=None):
             "between %.0f words"
             % (len(ch.speech_line_lengths), ch.speech_line_mean, ch.speech_line_spread,
                ch.speech_contraction_rate, ch.speech_fragment_share, ch.speech_interruptions,
-               runs, longest, ch.narration_between_speech)])
+               runs, longest, ch.narration_between_speech),
+            "   pacing: %d summary marker(s), %.1f per 1000 words | %d words before the first "
+            "scene"
+            % (len(ch.summary_markers()), ch.summary_marker_rate,
+               ch.words_before_first_scene)])
         lint_chapter(novel, ch, rep)
+    # Novel-level, so evaluated once for the last chapter in the requested set rather than once
+    # per chapter. `sw lint -c 7` asks about the window ending at 7; `--all` asks about the book.
+    _speech_window(novel, chapters[-1], rep)
     return rep

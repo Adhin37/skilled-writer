@@ -222,9 +222,7 @@ def _turn_lengths(novel, rep, rows):
     chapters = [c for c in novel.chapters() if c.number]
     declared = {}
     for x in rows:
-        turn = _int(x.get("turn")) if isinstance(x, dict) and "turn" in x else None
-        if turn is None:
-            turn = _int(x["turn"]) if str(x.get("turn", "")).strip() else None
+        turn = _int(x.get("turn"))
         if turn:
             declared[x["name"]] = turn
     if not chapters or not declared:

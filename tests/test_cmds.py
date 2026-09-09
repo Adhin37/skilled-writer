@@ -183,3 +183,38 @@ class TestDialogueStarvation(unittest.TestCase):
     def test_it_waits_for_a_full_window(self):
         """Four quiet chapters is not yet evidence; the check must not fire early."""
         self.assertNotIn(("speech-starvation", "defect"), self._findings(["quiet"] * 4))
+
+    def test_it_fires_once_per_command_not_once_per_chapter(self):
+        """`cmd_history` lints every chapter to build its trend table. A novel-level verdict
+        evaluated inside `lint_chapter` would be counted once per chapter and then reported as a
+        habit firing on the whole book - one finding wearing N hats."""
+        from swlib import cmd_lint
+        with NovelFixture() as fx:
+            for n in range(1, 9):
+                fx.add_chapter(n, self.QUIET)
+            novel = fx.novel()
+            rep = cmd_lint.run(novel, None)
+            starve = [f for f in rep.findings if f.check == "speech-starvation"]
+            self.assertEqual(len(starve), 1, "the window verdict was counted per chapter")
+
+    def test_lint_chapter_stays_strictly_per_chapter(self):
+        """The contract `cmd_history` depends on: no novel-level verdict in here."""
+        from swlib import cmd_lint
+        with NovelFixture() as fx:
+            for n in range(1, 9):
+                fx.add_chapter(n, self.QUIET)
+            novel = fx.novel()
+            for ch in novel.chapters():
+                rep = cmd_lint.lint_chapter(novel, ch)
+                self.assertEqual(
+                    [f.check for f in rep.findings if f.check == "speech-starvation"], [],
+                    "lint_chapter emitted a novel-level finding")
+
+    def test_history_does_not_report_the_window_as_a_per_chapter_habit(self):
+        from swlib import cmd_history
+        with NovelFixture() as fx:
+            for n in range(1, 9):
+                fx.add_chapter(n, self.QUIET)
+            rep = cmd_history.run(fx.novel())[0]
+            body = " ".join(l for _h, lines in rep.sections for l in lines)
+            self.assertNotIn("speech-starvation", body)

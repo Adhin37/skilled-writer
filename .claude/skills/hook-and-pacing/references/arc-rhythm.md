@@ -27,6 +27,12 @@ each chapter, name the one thing a reader would miss. If you cannot, merge it wi
 - **Story velocity is read as competence.** The perceived rate at which meaningful things happen
   is what readers actually score, largely independent of prose quality. A beautiful chapter in
   which nothing changes reads as worse writing than a plain one in which something does.
+  **This is about meaningful things happening, never about how few words they take.** Compressing a
+  turn into a reported clause raises no velocity — the event stops being an event. The way to raise
+  velocity is to cut bridges, never to summarise beats (`story-craft`).
+- **Build-up is deposits.** A quiet chapter that plays a beat has a want, a turn and a cost, and
+  passes the skim test. A quiet chapter that *reports* beats is filler, and the skim test is right
+  to kill it. The difference is scene versus summary, not temperature.
 - **Batch endings.** If releasing several chapters at once, the last of the batch carries the
   strongest hook; interior chapters can end softer.
 - **Arc breaks are drop-off points.** The end of an arc is where readers decide whether to

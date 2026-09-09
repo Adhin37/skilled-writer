@@ -226,3 +226,63 @@ class TestDialogueTexture(unittest.TestCase):
             levels = {f.level for f in rep.findings if f.check == "texture"}
             self.assertTrue(levels, "no texture findings fired on deliberately stiff dialogue")
             self.assertEqual(levels, {"note"})
+
+
+class TestPacingMarkers(unittest.TestCase):
+    """A reader reported the novel "goes fast to the finish line" while every command called it
+    clean. The measured signature is a turn reported inside a past-perfect clause: chapter 1's
+    build-up — four earlier attempts and three weeks of scheming — was two subordinate clauses.
+
+    These locate that. They settle nothing, and they are notes: a chapter can skip its most
+    important beat with no marker at all, by starting after it.
+    """
+
+    def _ch(self, body):
+        with NovelFixture() as fx:
+            fx.add_chapter(1, body)
+            return fx.novel().chapters()[0]
+
+    def test_the_real_chapter_one_sentences_are_caught(self):
+        for line in ("She had made this exact lie four times in six weeks.\n",
+                     "She had spent three weeks making it true.\n"):
+            self.assertTrue(self._ch(line).summary_markers(),
+                            "missed a reported event: %r" % line)
+
+    def test_ordinary_past_perfect_is_not_a_marker(self):
+        """`had` orders two past events in normal English; only a reported *event* counts."""
+        for line in ("The door had closed before she reached it.\n",
+                     "He had never seen the wards lit.\n",
+                     "She had the ledger open on her knee.\n"):
+            self.assertEqual(self._ch(line).summary_markers(), [],
+                             "false positive on: %r" % line)
+
+    def test_time_compression_is_caught(self):
+        for line in ("Over the next month she learned to read the wards.\n",
+                     "By the time he arrived, the argument was over.\n",
+                     "Three weeks passed before anyone noticed.\n"):
+            self.assertTrue(self._ch(line).summary_markers(), "missed: %r" % line)
+
+    def test_markers_inside_dialogue_are_not_counted(self):
+        """A character may report their own past aloud; that is speech, not narration."""
+        self.assertEqual(
+            self._ch('"I had spent three weeks making it true," she said.\n').summary_markers(),
+            [])
+
+    def test_words_before_the_first_scene(self):
+        body = "%s\n\n\"Two short,\" she said.\n" % " ".join(["word"] * 50)
+        self.assertGreaterEqual(self._ch(body).words_before_first_scene, 50)
+        self.assertLess(self._ch('"Go," she said.\n').words_before_first_scene, 5)
+
+    def test_the_pacing_findings_are_only_ever_notes(self):
+        """Two numeric gates in this repo have already been optimised rather than satisfied."""
+        from swlib import cmd_lint
+        body = ("She had spent three weeks making it true. Over the next month she learned the "
+                "wards. By the time he arrived, the argument was over. She had made this exact "
+                "lie four times in six weeks. Three weeks passed.\n")
+        with NovelFixture() as fx:
+            fx.add_chapter(1, body)
+            novel = fx.novel()
+            rep = cmd_lint.lint_chapter(novel, novel.chapters()[0])
+            levels = {f.level for f in rep.findings if f.check == "pacing"}
+            self.assertTrue(levels, "no pacing finding on deliberately reported prose")
+            self.assertEqual(levels, {"note"})

@@ -155,11 +155,27 @@ useful shape:
 
 | chapter | danger | frame |
 |---|---|---|
-| 1 | none — a want and a friction | what kind of world, what kind of place |
+| 1 | low external, full internal — a want, a friction, something already wrong | what kind of world, what kind of place |
 | 2 | a small social cost | who has power here, and over what |
 | 3 | a real threat, to someone else | what the mechanism does to people |
 | 4 | the threat turns toward the MC | — the reader can now price it |
 | 5 | the MC acts, and pays | — |
+
+### Orientation is not build-up
+
+Everything above is an orientation *deadline* — anchor by `anchor_by_ch`, contract by
+`contract_by_ch`, promise touched, first win. Deadlines say how fast the reader must be told; they
+say nothing about what the reader has **watched**.
+
+By `anchor_by_ch` the reader should have seen the ordinary working world *function* — a rule
+biting somebody, a routine performed correctly, a person doing their job — before the story breaks
+it. That is the difference between a reader who is oriented and a reader who is invested, and the
+second is what makes chapter 2 get opened.
+
+The row above says *low external danger*, not *no pressure*: chapter 1 still opens on something
+already wrong and still ends on a hook (`references/chapter-one.md` §5), and it still costs the POV
+character something (`conflict-engine`). Build-up is not a quieter chapter — it is the same beats
+played rather than reported. `story-craft` owns that decision.
 
 ## 4. The promise ledger
 

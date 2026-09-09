@@ -109,7 +109,12 @@ reader as consequence.
 | A rank/tier recital | show what a rank buys and what it costs |
 
 The rule: **the reader needs to know a thing only in the sentence before it matters.** Introduce
-constraints when they bind, not when they are defined. `world-texture` owns the mechanics of this
+constraints when they bind, not when they are defined.
+
+**This governs explanation, not dramatisation.** A constraint may be *shown working* long before it
+binds the protagonist — a rule biting a stranger is a scene, not an early definition, and it is what
+lets a later threat be priced (`story-opening` §3, `story-craft`). What the rule forbids is telling
+the reader about a constraint before anything has made them want to know. `world-texture` owns the mechanics of this
 — the four delivery channels and the per-chapter description budget.
 
 ## Maintenance
