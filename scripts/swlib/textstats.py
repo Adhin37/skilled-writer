@@ -420,6 +420,83 @@ class Chapter(object):
         words = self.words
         return (len(self.summary_markers()) * 1000.0 / words) if words else 0.0
 
+    # ------------------------------------------------------- the house style
+
+    def house_style_hits(self):
+        """(offset, label) for each house-style construction, outside speech.
+
+        Dialogue is exempt on purpose: a character may talk in antitheses as a fingerprint. The
+        defect this measures is the *narrator* having one register, so only narration counts.
+        """
+        from . import rules
+        out = []
+        for rx, label in rules.CLAUDE_REGISTER:
+            for m in rx.finditer(self.outside_speech):
+                out.append((m.start(), label))
+        return sorted(out)
+
+    @property
+    def house_style_rate(self):
+        words = self.words
+        return (len(self.house_style_hits()) * 1000.0 / words) if words else 0.0
+
+    @property
+    def emdash_rate(self):
+        """Em-dashes per 1,000 body words, narration only."""
+        words = self.words
+        if not words:
+            return 0.0
+        return self.outside_speech.count("\u2014") * 1000.0 / words
+
+    # There is no `plain_share` here on purpose. The first version of this file scored the
+    # share of syntactically simple narration sentences, on the theory that the house style is
+    # uniformly loaded prose. It does not discriminate: it scored "A promise kept was one data
+    # point." and "It was not yet a pattern." - the two most mannered sentences in run #2's
+    # chapter 5 - as plain, because the house aphorism *is* short and simple. Shape cannot see
+    # the difference between a sentence that delivers information and one that delivers a moral.
+    # That judgement stays in prose-quality, where the skill can read the sentence.
+
+    @property
+    def closing_sentence(self):
+        """The chapter's last sentence, whitespace-normalised."""
+        closers = self.scene_closers()
+        return re.sub(r"\s+", " ", closers[-1]).strip() if closers else ""
+
+    @property
+    def closes_on_short_beat(self):
+        """True when the chapter ends on a short line of narration with nobody speaking.
+
+        Run #2 ended four of five chapters this way ("The gate hung open." / "Neither did
+        Enko." / "The small hand found hers, tighter, in her sleep." / "The door stayed shut,
+        this time, and nobody was watching it."). Any one of those is a good last line. Four in
+        a row is a tic, and the reader feels it as monotony well before they can name it.
+        """
+        from . import rules
+        line = self.closing_sentence
+        if not line:
+            return False
+        if '"' in line or "\u201c" in line or "\u201d" in line:
+            return False
+        return len(line.split()) <= rules.CLOSER_SHORT_WORDS
+
+    def scene_closers(self):
+        """The last narration sentence of each scene, plus the chapter's own last sentence.
+
+        hook-and-pacing checks the *shape* of these: run #2 closed all five chapters on a short
+        withheld beat, which a reader feels as monotony long before they can name it.
+        """
+        chunks = re.split(r"^\s*\*\s\*\s\*\s*$", self.body, flags=re.M)
+        out = []
+        for chunk in chunks:
+            sents = [s.strip() for s in SENTENCE_END.split(chunk) if s and s.strip()]
+            # The lookbehind has to clear a closing quote: `tonight." The small hand ...` is
+            # two sentences, and splitting on [.!?] alone glues the narration onto the speech.
+            tail = [s for s in re.split(r"(?<=[.!?][\"\u201d\u2019'])\s+|(?<=[.!?])\s+",
+                                        chunk.strip()) if s and s.strip()]
+            if tail:
+                out.append(tail[-1].strip())
+        return out
+
     def nested_thought_in_speech(self):
         """`'...'` pairs living inside a `"..."` span - legal, but worth counting."""
         n = 0

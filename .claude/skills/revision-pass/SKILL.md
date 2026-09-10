@@ -6,22 +6,40 @@ description: Quality gate for a drafted chapter - continuity, character, voice, 
 # revision-pass
 
 A chapter is not finished when it is drafted. This is the gate. Run the passes **in this order** —
-structural fixes invalidate line edits, so line editing goes last. Keep it mechanical: each pass
-is a search-and-decide, not a re-read of the whole novel.
+structural fixes invalidate line edits, so line editing goes last. Each pass is a
+search-and-decide, not a re-read.
+
+## Pass Z — the story gate. Run this first, and be willing to stop here.
+
+Sixteen passes in a fixed order is the right shape for *fixing* a chapter and the wrong shape for
+deciding whether it is worth fixing. Run #2 ran all sixteen on every chapter and shipped five
+`status: revised` chapters a reader flagged as machine-written on page one. Nothing in the sixteen
+asked the only question that mattered. Three that do, gating all of it:
+
+| | question | fails when |
+|---|---|---|
+| **Z1** | What **happens** — one clause, concrete verb, a target? | The honest answer needs an abstract noun. `trust`, `attention`, `tension` name what an event *did*; they are not it |
+| **Z2** | Is that beat the **longest scene** in the chapter? | The biggest moment is reported or held at a distance while something smaller gets the room |
+| **Z3** | Would a reader **click next**? | The last line is the fourth withheld beat in a row, or the hook asks what the chapter answered |
+
+If Z1 or Z2 fails, **stop**. Do not run passes 0–10. A chapter whose central event never got
+played does not have prose problems, and polishing it yields a well-written chapter nobody wants
+to read — precisely what run #2 shipped, five times. `sw lint` reports the countable half:
+`event` for Z1, `closer-sameness` for Z3. Z2 is yours.
+
+---
 
 ## Before you start — this file does not carry other skills' checklists
 
-It used to. That is what made it dangerous. A model reading only this file ran *every* pass at
-checklist depth, and skills `CLAUDE.md` calls non-optional never loaded at all — measured on a
-real run, `bias-guard`, `voice-separation`, `competence-map` and `prose-quality` were read **zero**
-times across 200 turns while their boxes were ticked on every chapter.
-
-So the passes that need judgement now live with the skill that owns the defect, as a small
-**audit card**. You open the card. The card is short, so opening it is cheap, and it is written by
-the owner, so nothing here is a paraphrase.
+It used to, and that is what made it dangerous: a model reading only this file ran every pass at
+checklist depth while `bias-guard`, `voice-separation`, `competence-map` and `prose-quality` were
+read **zero** times across 200 measured turns, boxes ticked on every chapter. So the judgement
+passes now live with the skill that owns the defect, as a small **audit card** — cheap to open,
+and written by the owner, so nothing here is a paraphrase.
 
 | pass | kind of defect | what to open |
 |---|---|---|
+| Z Story gate | judgement | nothing — the three questions above |
 | 0 Mechanical sweep | mechanical | nothing — run the commands |
 | 1 Continuity | mechanical | nothing — the read-set is the authority |
 | 2 Character + voice | **distributional** | `voice-separation/references/audit-card.md` · `character-profile/references/audit-card.md` |
@@ -31,21 +49,21 @@ the owner, so nothing here is a paraphrase.
 | 6 Bias | **distributional** | `bias-guard/references/audit-card.md` — **every chapter, never rotated** |
 | 7 MTL detox | **distributional** | `mtl-detox/references/audit-card.md` — the banned list is `sw lint`'s; the structural half is not |
 | 8 Prose + microtension | judgement | `prose-quality/references/audit-card.md` |
+| 8b Register + house style | **distributional** | `prose-quality/references/ai-default-tells.md` — the tells this model produces once the MTL list is already clean |
 | 9 Delivery | judgement | nothing — the five questions are here in full |
 | 9b Opening | **judgement** | `story-opening/references/audit-card.md`, chapters in range only |
 | 9c Foreknowledge | **distributional** | `meta-knowledge/references/audit-card.md`, if `mc.foreknowledge` |
 | 9d Theme | judgement | nothing — the restraint test is here in full |
 | 9e Power curve | judgement | `power-scaling/references/audit-card.md`, if `scaling.shape` is not `none` |
 | 9f Pacing + build-up | **judgement** | `story-craft/references/audit-card.md` |
-| 10 Mechanics | mechanical | nothing |
+| 10 Mechanics | mechanical | `narrator-voice/references/audit-card.md` for the four channels |
 
-**Run Pass 0 first.** It settles every mechanical row in seconds and for no tokens, which is what
-buys the budget for the cards. A clean sweep is **not** a passed revision: it says nothing about
-2, 3, 5, 6, 9 or 9d, and a green line must never be read as a bias pass.
+**Run Pass 0 first.** It settles every mechanical row in seconds and for no tokens, which buys the
+budget for the cards. A clean sweep is **not** a passed revision: it says nothing about Z, 2, 3,
+5, 6, 9 or 9d, and is never a bias pass.
 
-If the budget will not stretch to every card, rotate — but **say in the report which passes ran
-without their card**. Two are not rotatable: **Pass 6**, and **Pass 9c** whenever the MC knows the
-future. Each guards a defect invisible in one chapter and unrecoverable once ten are written.
+If the budget will not stretch to every card, rotate — but **say which passes ran without their
+card**. Three never rotate: **Pass Z**, **Pass 6**, and **Pass 9c** when the MC knows the future.
 
 ---
 
@@ -147,37 +165,44 @@ Open **`prose-quality/references/audit-card.md`**. `sw lint` has already found t
 phrases, filter verbs, repeated openings, same-length runs and the dialogue share; the card
 carries what a script cannot hear.
 
+## Pass 8b — Register and house style
+
+Pass 7 catches MTL slop; Pass 8 catches weak lines. Neither catches prose with no bad sentences
+and no range — what run #2 shipped.
+
+Open `prose-quality/references/audit-card.md` §Register.
+
 ## Pass 9 — Delivery
 
-**This is the pass that decides whether the chapter is finished.** It replaces the old word-count
-check entirely. Length is not evidence of anything: a 1,600-word chapter that moves a relationship
-is finished, and a 2,400-word chapter in which everyone talks and nothing changes is not.
+**The pass that decides whether the chapter is finished**, and it replaced the old word-count
+check entirely. Length is evidence of nothing.
 
-Answer all five in one sentence each. Write the third into the chapter's `delivers:` frontmatter.
+Answer all five in one sentence each. Write the third into `delivers:` and the Z1 answer into
+`event:` — different fields, failing in opposite directions. Run #2 wrote five strong `delivers:`
+lines, every one describing a shift in somebody's interior state, which is exactly how a chapter
+passes this pass while nothing happens in it.
 
 | | question | fails when |
 |---|---|---|
-| **Want** | What did the POV character want in this chapter? | The honest answer is "to react to things." A chapter with no want is a chapter of weather |
+| **Want** | What did the POV character want here? | The honest answer is "to react to things." A chapter with no want is a chapter of weather |
 | **Friction** | What person, rule or scarcity stood in the way? | The only obstacle is the MC's own hesitation, twice running |
 | **Change** | **What is materially different at the end?** | The exit state equals the entry state. This is the load-bearing question |
 | **Cost** | What was paid, by whom? | Nothing. See `conflict-engine` — nothing is free |
 | **Next** | What does the reader now need to see? | The hook asks a question the chapter already answered |
 
-- [ ] All five answered without straining
+- [ ] All five answered without straining, and `delivers:` matches what the chapter did
 - [ ] **Change** names a difference, not a summary of events. *"She asks about the recount"* is
       events; *"she is now someone Tsuru watches on purpose"* is a delivery
-- [ ] `delivers:` in the frontmatter matches what the chapter actually did
-- [ ] If something repeated from an earlier chapter, it **escalated** — a second refusal, a second
-      failure, a second interrogation costs more than the first, or one of them is cut
-- [ ] The chapter passes the skim test: a reader who skipped it would lose something nameable
-- [ ] **Forecast test.** Could a reader predict the next chapter from this one's ending? If yes,
-      the hook is a summary, not a hook
+- [ ] Anything repeated from an earlier chapter **escalated** — a second refusal or interrogation
+      costs more than the first, or one of them is cut
+- [ ] Skim test: a reader who skipped it would lose something nameable
+- [ ] **Forecast test.** If a reader could predict the next chapter from this one's ending, the
+      hook is a summary, not a hook
 - [ ] Opening avoids the banned patterns; re-anchoring is one clause
 - [ ] Chapter ends on its last strong beat; hook concrete, final position, type rotated
 
-**Length**, for completeness: if the chapter is far outside `chapters.length_band`, look once and
-ask whether the material was split in the wrong place. Then move on. Do not pad, do not trim, and
-do not record a length judgement in the report.
+**Length**: if the chapter is far outside `chapters.length_band`, ask once whether the material
+was split in the wrong place, then move on. Never pad, trim, or record a length judgement.
 
 ## Pass 9b — The opening — chapters ≤ `opening.contract_by_ch + 2` only
 
@@ -227,34 +252,21 @@ played bridge goes back to being a bridge.
 
 ## Pass 10 — Mechanics
 
-- [ ] Frontmatter complete, including `delivers:`
+- [ ] Frontmatter complete, including `event:` and `delivers:`
 - [ ] `wordcount:` is **measured**, never estimated, and re-measured if any pass changed the body.
-      It is a recorded fact that later tools read, not a target — but a wrong fact propagates into
-      `state/continuity.md` and corrupts every share computed from it. Run this **last**:
+      A wrong count propagates into `state/continuity.md` and corrupts every share computed from
+      it. Run this **last** — it rewrites frontmatter only, never the prose:
 
       ```bash
       python3 scripts/sw.py stamp novels/<slug> -c <n> --status revised --ledger
       ```
 
-      It measures the body, writes `wordcount:` and `status:`, and corrects `wc:` in the CCS
-      block. It rewrites the frontmatter only and never touches the prose. Without Python, measure
-      with `wc -w` on the body and write both numbers by hand
+      Without Python, measure the body with `wc -w` and write both numbers by hand
 - [ ] Scene breaks use `* * *`
 - [ ] POV label present if the chapter switches and `label_switches` is true
 
-**The four channels** (`narrator-voice` §The four channels; the marks come from `channels:` in
-`novel.md`, and `sw lint` reads them from there):
-
-- [ ] Speech, direct thought and meta each in their declared marks; free indirect **unmarked**
-- [ ] Direct thought is **budgeted — 1–3 per chapter**, at moments of decision. A chapter where
-      every interior beat wears quote marks has flattened its narrator into a thought bubble;
-      convert the surplus back to free indirect discourse
-- [ ] **No apostrophe was mistaken for a thought mark.** `don't`, `she'd`, `the boys' room` are not
-      thought. Every thought opens at a word boundary and closes before punctuation or space
-- [ ] Every thought mark **inside** a speech span is an ordinary nested quotation
-- [ ] Meta blocks match the format in `lexicon.md`; none opens a chapter; no two run consecutively
-- [ ] Italics do the **one** job `lexicon.md` assigns them, and no other
-- [ ] Nothing else is markup — no headings, bold, lists, links or author notes in the prose body
+**The four channels** — open `narrator-voice/references/audit-card.md`. Hard rule 7 is that
+skill's to enforce, and this file does not carry other skills' checklists.
 
 ---
 

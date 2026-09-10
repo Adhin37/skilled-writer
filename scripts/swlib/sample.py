@@ -42,6 +42,7 @@ CHAPTERS = [
     dict(
         title="The Line on the Stone",
         delivers="Wren finds her own name against a draw she did not make",
+        event="Wren reads her own name in the salt line at the Tidehouse",
         ev="reads the salt line at the Tidehouse / counts it twice / Maro names the debtor",
         chg="Wren: steady -> cornered ; Maro: amused -> attentive",
         kno="Wren+{her name is on the draw} ; reader+{the Ledger can be written into}",
@@ -99,6 +100,7 @@ a debtor.''',
     dict(
         title="What the Clerks Will Say",
         delivers="the manifest that authorised the draw has a signature nobody will read out",
+        event="The clerks produce the manifest with the signature covered",
         ev="Wren petitions the clerks / the manifest is produced / the signature is covered",
         chg="Wren: cornered -> looking for the hand",
         kno="Wren+{a manifest exists} ; reader+{somebody senior signed it}",
@@ -175,6 +177,7 @@ the certainty that Hesk had known exactly whose it was.''',
     dict(
         title="Bread and the Second Oven",
         delivers="Bel trades what she knows about the barge for help she cannot ask for",
+        event="Bel names the barge and takes the licence as her price",
         ev="Wren goes to the bakehouse / Bel names the barge / the licence is the price",
         chg="Wren: alone -> in somebody's debt ; Bel: wary -> committed",
         kno="Wren+{the barge is the Corun} ; Bel+{Wren is under a draw}",
@@ -262,6 +265,7 @@ Wren looked at the fingers on the corner of the paper.
     dict(
         title="The Crew That Was Not There",
         delivers="Ossian refuses her, and the refusal tells her who the six men answered to",
+        event="Ossian refuses to name the six men on the quay",
         ev="Wren finds Ossian on the quay / he will not name the six / his refusal names them",
         chg="Wren: asking -> deducing ; Ossian: neutral -> exposed",
         kno="Wren+{the six were levy men} ; Ossian+{Wren is close to the manifest}",
@@ -348,8 +352,8 @@ Wren stayed at the bollard with the water going out in front of her.
 
 Two questions, then. One of them got the draw lifted and left the office intact, and she could
 probably still be a saltwright at the end of it. The other one put the levy office at a loading it
-had spent nine days pretending not to have attended, and there was no version of asking it that
-ended with anybody handing her back a seal.
+denied attending for nine days running, and there was no version of asking it that ended with
+anybody handing her back a seal.
 
 She did the arithmetic twice, the way she did everything twice, and both times it came out the
 same, and both times she disliked the answer for exactly as long as it took her to accept it.''',
@@ -357,6 +361,7 @@ same, and both times she disliked the answer for exactly as long as it took her 
     dict(
         title="The Ghost at the Waterline",
         delivers="Maro gets her the manifest, and the hand on it is the one that trained her",
+        event="Maro brings the sleeve and the signature is her master's hand",
         ev="Maro trades a debt for the sleeve / Wren reads the signature / the hand is her master's",
         chg="Wren: deducing -> unwilling to believe it ; Maro: careful -> spent",
         kno="Wren+{her master signed the manifest} ; Maro+{what the counter-claim will cost her}",
@@ -433,6 +438,7 @@ minded that more than anything else in the room.''',
     dict(
         title="Counter-Claim",
         delivers="Wren lodges the counter-claim and loses the apprenticeship to do it",
+        event="Wren files the counter-claim and is put out of the house",
         ev="Wren files at the quarter / names the manifest without naming her master / is put out of the house",
         chg="Wren: unwilling -> committed and homeless",
         kno="quarter+{a manifest exists} ; Hesk+{Wren has read it} ; reader+{her master knows she knows}",
@@ -442,7 +448,7 @@ minded that more than anything else in the room.''',
         hook="her master signs the dismissal in the small hand, tipped left, and hands her the pen",
         pwr="P=0 vs the quarter",
         prose='''The quarter sat in the long room above the Tidehouse, and it took Wren four minutes to
-say what she had spent nine days assembling.
+say what nine days of reading had turned up.
 
 She did not name her master. She named the manifest, and the endorsement, and the hooded lamps,
 and the six men who were on no dock roster, and she put Bel's lapsed licence on the table beside
@@ -832,6 +838,17 @@ The presiding factor — chairs the quarter session — ch 6 — one scene
 
 # ------------------------------------------------------------------------- plan
 
+# hook-and-pacing: the declared temperature and last-beat shape per chapter. Varied on purpose -
+# this fixture is a positive control, so it has to be the shape a passing novel actually has.
+REGISTER = [
+    ("tense", "reveal"),      ("procedural", "decision"), ("warm", "quiet"),
+    ("tense", "reversal"),    ("bleak", "reveal"),        ("loud", "decision"),
+    ("quiet", "arrival"),     ("fast", "threat"),         ("fast", "reversal"),
+    ("procedural", "question"), ("warm", "quiet"),        ("tense", "threat"),
+    ("bleak", "reveal"),      ("loud", "cliff"),          ("tense", "decision"),
+    ("fast", "reversal"),
+]
+
 PLAN_ROWS = [
     (1, "The Line on the Stone", "read the wrong line", "the clerks will not open early",
      "her own name is under the draw", "Wren finds her own name against a draw she did not make",
@@ -1051,12 +1068,14 @@ def _chapter_file(index, entry, wordcount):
         'title: "%s"\n'
         "pov: Wren\n"
         "arc: 1\n"
+        'event: "%s"\n'
         'delivers: "%s"\n'
         "wordcount: %d\n"
         "status: drafted\n"
         "---\n"
         "\n"
-        "%s\n" % (index, entry["title"], entry["delivers"], wordcount, entry["prose"].strip()))
+        "%s\n" % (index, entry["title"], entry["event"], entry["delivers"], wordcount,
+                   entry["prose"].strip()))
 
 
 def _block(index, entry, wordcount):
@@ -1077,13 +1096,16 @@ def _block(index, entry, wordcount):
 
 def _plan_md():
     head = ("# Chapter construction list\n\n"
-            "| # | title | pov | arc | goal | obstacle | turn | delivers | cost | threads | "
-            "hook | status |\n"
-            "|---|---|---|---|---|---|---|---|---|---|---|---|\n")
+            "| # | title | pov | arc | temp | hooktype | goal | obstacle | turn | delivers | "
+            "cost | threads | hook | status |\n"
+            "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|\n")
     rows = []
-    for (num, title, goal, obstacle, turn, delivers, cost, threads, hook, status) in PLAN_ROWS:
-        rows.append("| %d | %s | Wren | 1 | %s | %s | %s | %s | %s | %s | %s | %s |"
-                    % (num, title, goal, obstacle, turn, delivers, cost, threads, hook, status))
+    for i, (num, title, goal, obstacle, turn, delivers, cost, threads, hook,
+            status) in enumerate(PLAN_ROWS):
+        temp, hooktype = REGISTER[i]
+        rows.append("| %d | %s | Wren | 1 | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s |"
+                    % (num, title, temp, hooktype, goal, obstacle, turn, delivers, cost,
+                       threads, hook, status))
     return head + "\n".join(rows) + "\n"
 
 
@@ -1199,8 +1221,8 @@ def _seed(root):
     # it replaces, so nothing downstream of the word count moves.
     rel = "chapters/0006-counter-claim.md"
     text = _read(root, rel)
-    text = text.replace("she had spent nine days assembling",
-                        "she had spent nine *days* assembling")
+    text = text.replace("what nine days of reading had turned up",
+                        "what nine *days* of reading had turned up")
     _write(root, rel, text)
 
     # straddle - lift the only character below the MC up to her tier.

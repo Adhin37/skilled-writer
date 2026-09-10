@@ -80,6 +80,100 @@ difference rather than summarise events. Word count survives only as a measured 
 
 Do not reintroduce a length gate in any form.
 
+## The gate needed a second half: `event`
+
+The delivery gate above is right and it is not sufficient, and benchmark run #2 is the proof.
+
+Five chapters, all `status: revised`, all sixteen passes run, zero MTL hits, zero cut-list
+phrases. A reader flagged the novel as machine-written inside a page and priced it at one star.
+Pass 9 had been satisfied five times over. Here are the five `delivers:` lines it accepted:
+
+> *proximity that isn't refused* · *attention has moved one level up* · *an institutional crack
+> on day one* · *now physically inside the divergence* · *the foreknowledge win lands*
+
+Every one names a shift in somebody's interior state, and all five are built from the same
+`X — not Y, but Z` construction. **A gate phrased in abstractions is satisfied by abstractions.**
+Asked for "a difference, not a summary of events", a model does not invent an event; it finds the
+smallest difference it can name and writes 1,100 words around it. Chapter 5 of run #2 is a woman
+persuading a child to eat some rice.
+
+So `event:` sits beside `delivers:`, and the two fail in opposite directions. `event:` is what
+*happens* — one clause a reader could retell, a concrete verb and a target — and abstract-state
+nouns are rejected outright by `sw lint` rather than argued with. `delivers:` remains what is
+different afterwards.
+
+**The deeper finding is that the plan was never the problem.** Run #2's `ev>` ledger lines record
+a massacre, a forged household roll, a ROOT records demand and a Hokage interrogation. Those are
+set pieces. They were given 1,457, 1,323 and 1,213 words and pitched at exactly the register of
+the rice chapter. The planning layer worked; the drafting layer would not dramatize what it had
+planned. Hence the weight test — *is the `event` beat the longest scene in the chapter?* — and
+hence `story-craft`'s draft card being promoted to the first card opened rather than the
+fifteenth.
+
+## Register is a tracked quantity, or there isn't one
+
+Nothing in the toolkit measured *register* before run #2, and run #2 accordingly had one. Five
+chapters, one temperature — quiet, interior, controlled, ironic — and four of five closing on the
+same shape:
+
+> *"The gate hung open." · "The small hand found hers, tighter, in her sleep." · "Neither did
+> Enko." · "The door stayed shut, this time, and nobody was watching it."*
+
+Each is a good last line. Together they are a tic. This is the same class of defect as dialogue
+starvation and voice convergence: invisible in the chapter you are holding, obvious from four
+feet away — so it belongs where those live, in the plan grid and `sw arc`, not in
+`revision-pass`.
+
+`temp` and `hooktype` are therefore **plan-time columns**. Set after drafting they would be labels
+describing what came out; set before, they are constraints the prose has to meet. The vocabularies
+are `hook-and-pacing`'s own — inventing a second one in `rules.py` would have given the skill and
+the script different words for the same thing.
+
+The failure mode is the one this document already documented for length: a declared `temp` becomes
+a label satisfied without changing a sentence. The mitigation is the same too — the checks are
+distributional (no temp three running, four distinct per arc, no hook shape more than twice in
+five) and no single chapter is ever scored.
+
+## The anti-slop constitution was fighting the last war
+
+`CLAUDE.md` §5 was thirty bans. Run #2 satisfied nearly all of them and was still obviously
+machine-written, which is the whole argument: **a hundred prohibitions do not add up to a story.**
+
+Ban xianxia cliché and what fills the vacuum is not good prose, it is the model's *own* default
+literary register — the `X, not Y` antithesis, the em-dash appositive that re-explains the clause
+before it, the aphorism at every scene close, `"A beat."` written into prose as if it were a
+script. Measured over 7,302 words: 62 em-dashes, 18 antitheses, an aphoristic close at nearly
+every scene break. That is a **narrower** fingerprint than the cliché the bans removed, because
+every model of this family writes it.
+
+Two consequences. The section is now seven positive commitments and ten bans, because a model
+given only prohibitions optimises for avoidance and has nothing left over for invention. And the
+tells that matter are measured off this repo's actual output rather than copied from a generic
+list — `prose-quality/references/ai-default-tells.md` names seven, with counts.
+
+The positive rule is the load-bearing one: **some sentences must carry information and nothing
+else.** The disease is uniform density, not any construction. An early version of `sw lint` tried
+to score this as the share of syntactically simple narration sentences and had to be deleted: it
+rated *"A promise kept was one data point."* and *"It was not yet a pattern."* as plain, because
+the house aphorism **is** short and simple. Shape cannot tell a sentence that delivers information
+from one that delivers a moral. That judgement stayed with the skill, and `textstats.py` carries a
+comment saying why so nobody rebuilds it.
+
+## And the surfaced rule is the only kind that exists
+
+`CLAUDE.md` §5 banned the past-perfect campaign clause and quoted *"She had spent three weeks
+making it true"* as its example. That exact sentence is in run #2's chapter 1, which shipped
+`status: revised` through all sixteen passes.
+
+`SUMMARY_MARKERS` had matched it. `sw lint` had counted it. The count was printed inside a
+statistics line — *"pacing: 6 summary marker(s), 3.2 per 1000 words"* — where nothing had to
+answer for it, and a note nobody has to answer for is not a rule. It is now a `campaign-clause`
+warning that quotes the offending text back.
+
+The general lesson, and it applies to every check added here: **a rule that is measured but not
+surfaced is decoration**, and one buried in an aggregate is worse than absent, because the green
+line reads as evidence.
+
 ## The shelf comes before the page
 
 `title-craft` runs at the end of the `novel-init` interview, before the scaffold, and owns the two

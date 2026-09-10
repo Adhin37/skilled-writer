@@ -47,6 +47,19 @@ Do **not** ask for a chapter length. Chapters are judged by what they deliver, n
 (`revision-pass` Pass 9); `chapters.length_band` keeps its default and is a printer's note.
 Offering the number as a setup question is what makes it read as a target.
 
+**Do ask for a style target**, in the same round, as an open question rather than options:
+
+> *Name a book or two whose **writing** you want this to feel like — not the plot, the voice. And
+> if you have a few paragraphs you love, paste them.*
+
+Write the answer to `style.read_like` and `style.sample` in `novel.md`. This is the cheapest lever
+in the whole toolkit and the only one that works by imitation instead of prohibition: a model
+matches an example far more reliably than it obeys a rule. Without it the narrator defaults to
+this model's own literary register — every sentence loaded, every scene closed on a small ironic
+aphorism, one temperature for the whole book — which is a *more* recognisable fingerprint than
+the clichés `mtl-detox` removes. If the user has no answer, say you will draft three sample
+paragraphs after chapter 1 and have them pick; do not leave it empty and hope.
+
 **Round B — the main character** → run `mc-design` for this round
 
 Five questions, each with a **"Surprise me"** option: gender and pronouns · appearance (as *how

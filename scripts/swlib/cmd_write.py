@@ -1,6 +1,6 @@
-"""The two commands that change files.
+"""The commands that change files.
 
-Both are deterministic bookkeeping. Neither touches a prose body: mtl-detox says to rewrite
+All of them are deterministic bookkeeping. None touches a prose body: mtl-detox says to rewrite
 the sentence rather than swap a synonym, so an auto-fixer would do the one thing the skill
 forbids. Linters report; the model rewrites.
 """

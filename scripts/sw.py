@@ -32,8 +32,8 @@ USAGE_ERROR = 2
 
 # Named once, so `sw health` can check the docs against the implementation rather than against
 # a second list that drifts.
-COMMANDS = ("readset", "lint", "arc", "cast", "curve", "state", "status", "stamp",
-            "audit", "newnovel", "doctor", "trace", "history", "health", "selftest")
+COMMANDS = ("readset", "lint", "arc", "cast", "curve", "state", "status", "stamp", "audit",
+            "newnovel", "doctor", "trace", "history", "health", "selftest")
 
 
 def _novel(args):

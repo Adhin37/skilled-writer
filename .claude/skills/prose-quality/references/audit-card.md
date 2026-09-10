@@ -32,5 +32,24 @@ that do not fit, inside one person, right now.
       agreement does not give them
 - [ ] The narration is not reassuring the reader that things are fine
 
-If a box fails, open `SKILL.md` — §Microtension for the tension work, the positive standards for
-the rest.
+**Register** — opened by `revision-pass` Pass 8b. The failure Pass 7 and Pass 8 both miss: prose
+with no bad sentences and no range. Benchmark run #2 passed every phrase check in this toolkit,
+shipped five chapters `status: revised`, and read as machine-written from page one because every
+sentence was loaded the same way and every scene closed on the same small ironic withholding.
+
+- [ ] `sw lint` shows no `house-style` or `em-dash` warning — or, if it does, the **density** came
+      down, rather than the phrases being swapped for synonyms
+- [ ] **Some sentences are plain.** Find three that carry information and nothing else: no dash,
+      no reversal, no irony, no lesson appended. If there are none, that is the finding
+- [ ] At least one scene closes **flat** — on an action or a line of speech, with nothing added to
+      tell the reader how to feel about it
+- [ ] The chapter reads at its declared `temp`. A `loud` chapter that reads `quiet` was drafted in
+      the narrator's default register instead of the chapter's
+- [ ] No `"A beat."` and no other stage direction; nothing that belongs in a script
+- [ ] Read the last line of every scene in a row. If they all land with the same small click, the
+      pitch is flat — rewrite all but one
+- [ ] Across chapters: `sw lint` reports no `closer-sameness`
+
+If a box fails, open `SKILL.md` — §Range before polish for register, §Microtension for the tension
+work, the positive standards for the rest. The seven measured tells and why they cluster are in
+`ai-default-tells.md`.

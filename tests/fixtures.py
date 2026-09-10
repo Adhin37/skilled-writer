@@ -64,6 +64,7 @@ number: {number}
 title: "{title}"
 pov: Rin
 arc: 1
+event: "{event}"
 delivers: "{delivers}"
 wordcount: {wordcount}
 status: drafted
@@ -129,12 +130,14 @@ class NovelFixture(object):
             return fh.read()
 
     def add_chapter(self, number, body, title=None, delivers="something changed",
-                    wordcount=None, newline="\n", bom=False, frontmatter=None):
+                    wordcount=None, newline="\n", bom=False, frontmatter=None,
+                    event="Rin argues with the clerk and leaves without the permit"):
         title = title or "Chapter %d" % number
         if wordcount is None:
             wordcount = len(body.split())
         text = frontmatter if frontmatter is not None else CHAPTER.format(
-            number=number, title=title, delivers=delivers, wordcount=wordcount, body=body)
+            number=number, title=title, event=event, delivers=delivers,
+            wordcount=wordcount, body=body)
         return self.write("chapters/%04d-chapter.md" % number, text,
                           newline=newline, bom=bom)
 

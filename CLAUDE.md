@@ -36,21 +36,27 @@ novel-init -> mc-design -> lead-interest -> character-profile -----------+
                         +------------------------------------------------+
                         v
         continuity-summary (read)  ->  write-chapter  ->  revision-pass
-                                    [power-scaling]      [pass 9e: the curve]
-                                    [voice-separation]   [pass 2: voices]
-                                    [competence-map]     [pass 3: knowledge]
-                                    [world-texture]      [pass 5: world]
-                                    [narrator-voice]     [pass 9: DELIVERY]
-                                    [story-opening]      [pass 9b: opening]
-                                    [meta-knowledge]     [pass 9c: foreknowledge]
+                                     |                   [pass Z: THE EVENT]
+                              phase A: the brief         [pass 9: DELIVERY]
+                              (stop; user approves)      [pass 2: voices]
+                                     |                   [pass 3: knowledge]
+                              phase B: draft             [pass 5: world]
+                                    [story-craft]        [pass 8b: register]
+                                    [narrator-voice]     [pass 9b: opening]
+                                    [dialogue-voice]     [pass 9c: foreknowledge]
+                                    [style: target]      [pass 9e: the curve]
                         ^                                      |
                         +-------- continuity-summary (write) <--+
 ```
 
-`write-chapter` is the main loop and the only skill that produces prose. Two orderings are
-load-bearing: `title-craft` before the scaffold, because the slug comes from the title and is
-permanent; and minds → knowledge → lines in the character layer, because eight fingerprint fields
-painted onto minds that all reason at the MC's speed produce a cast of labelled clones.
+`write-chapter` is the main loop and the only skill that produces prose. Three orderings are
+load-bearing. `title-craft` before the scaffold, because the slug comes from the title and is
+permanent. Minds → knowledge → lines in the character layer, because eight fingerprint fields
+painted onto minds that all reason at the MC's speed produce a cast of labelled clones. And
+**brief before draft**: Phase A spends the draft cards and produces a twelve-line brief, Phase B
+drafts from that brief and four cards. Nineteen cards held open through a draft is what produces
+defensive, eventless prose, and the brief is also where the user gets to say "that is not a
+chapter" for twelve lines instead of after twelve hundred words.
 
 ## 3. Skill registry
 
@@ -128,8 +134,20 @@ says to. See §8.
    consequence, a friction or an assumed reference before it is reached as narration, and direct
    description is budgeted (`world-texture`). A world whose central rule has not reached ordinary
    labour, money and law is a stage set (`social-fabric`).
-4. **A chapter is judged by what it delivers, not its length.** `revision-pass` Pass 9 — want,
-   friction, **change**, cost, next — and `change` names a difference, not a summary of events.
+4. **A chapter is judged by what it delivers, not its length — and it has to deliver an event.**
+   Two fields, failing in opposite directions. **`event:`** is what *happens*: one clause a reader
+   could retell, concrete verb and a target, no abstract-state nouns. **`delivers:`** is what is
+   materially different afterwards. Asked only for a difference, a model writes *"proximity that
+   isn't refused"* and ships eleven hundred words in which nothing occurs — which is what
+   benchmark run #2 did, five times. `revision-pass` Pass Z gates on the event before Pass 9
+   gates on the delivery, and `change` still names a difference, not a summary of events.
+   Corollary — **the event gets the scene.** If the biggest thing that happens is not the longest
+   scene, the chapter is not finished (`story-craft`).
+   Corollary — **and the book changes temperature.** Every chapter declares a `temp` and a
+   `hooktype` before it is drafted, checked distributionally across the arc and never scored per
+   chapter (`hook-and-pacing`). Within the chapter, roughly a third of the prose carries
+   information and nothing else. One temperature and one loaded sentence-shape for a whole book
+   is what reads as machine-made, and no phrase list catches it (`prose-quality`).
    Nothing gates on `chapters.length_band`; nothing is padded or trimmed to reach it. A word count
    is a measured fact, reported and never scored.
    Corollary — **the important beat gets the scene.** A turn reported in a past-perfect clause is a
@@ -193,51 +211,72 @@ says to. See §8.
 16. **Write files, don't dump prose to chat.** Chapters go to `novels/<slug>/chapters/`. Report the
     path and a two-line summary.
 
-## 5. Anti-slop constitution
+## 5. What good looks like
 
-Full lists live in `mtl-detox` and `bias-guard`. The short form:
+Full lists live in `mtl-detox`, `prose-quality` and `bias-guard`. This section used to be thirty
+bans. It is shorter now, and the reason is the evidence: benchmark run #2 satisfied almost every
+one of them — zero MTL hits, zero cut-list phrases, five chapters shipped `status: revised` — and
+a reader flagged it as machine-written on page one and priced it at one star.
 
-- No omniscient narrator announcing that a character is a genius, beautiful or terrifying.
-- No face-slap treadmill: arrogant nobody insults MC, MC reveals power, nobody grovels.
-- No cannon-fodder antagonists. Every opponent wants something legible and is competent at it.
-- No harem-by-default. Attraction is earned on the page and reciprocal, or it is not written.
-- No ethnic, national or gendered essentialism. Ever. Not as villain shorthand either.
-- No stock beats: "his expression changed drastically", "as expected of", "unexpectedly",
-  "in the next instant", "trash!", "you dare?", "little did he know".
-- No exposition dumps of rank ladders. Power is shown through cost and consequence.
-- No establishing paragraphs, gazetteer sentences or history lectures. Enter scenes in motion.
-  This bans a *mode of telling*, never the build-up itself, and it is not a licence to skip the
-  beats a reader needs to have watched. Build-up is delivered in scene, so it never collides here.
-- No important beat delivered as a past-perfect clause. *"She had spent three weeks making it true"*
-  is a campaign that happened offstage, and momentum never earns back what the reader never saw.
-- No story that reaches its climax with nothing built to climax from. A win costs a failure the
-  reader watched (`story-craft`).
-- No wallpaper societies: if the central rule would have changed how people eat, work, travel or
-  are judged, it has, and the story shows it.
-- No unanchored openings. Five chapters in which a reader cannot say what world this is is not
-  mystery; it is indistinguishable from the feeling of reading something bad.
-- No escalation past the reader's ability to price it.
-- No cannon-fodder-to-god step. A gain is one tier, bought from somebody, paid for before it lands.
-- No unpriced boost. Borrowed power has an expiry and a bill, and it decides an arc's end once.
+**A hundred prohibitions do not add up to a story.** They tell a model what not to write, it
+avoids all of it, and what fills the vacuum is the model's own default register: every sentence
+loaded, every scene closed on a small ironic withholding, one temperature for a whole book. That
+is a *narrower* fingerprint than the cliché the bans removed. So the rules below are commitments
+first and bans second, and there are ten of them.
+
+**The seven commitments.**
+
+1. **Something happens.** Every chapter has an `event:` — one clause a reader could retell, with a
+   concrete verb and a target. Not a state, not an effect, and never an abstract noun: `trust`,
+   `proximity`, `attention`, `tension` name what an event *did*, not the event.
+2. **The event gets the scene.** The biggest thing that happens is the longest scene in the
+   chapter. A turn reported in a past-perfect clause is a scene that was skipped, and a story
+   that summarises its own turning points is rushing however well it reads (`story-craft`).
+3. **The book changes temperature.** Every chapter declares a `temp` and a `hooktype` at plan
+   time. Never the same temperature three chapters running; four distinct values of each per arc;
+   no hook shape more than twice in five. A quiet chapter is earned by a loud one
+   (`hook-and-pacing`).
+4. **Sentences are allowed to be plain.** Roughly a third of a chapter carries information and
+   nothing else — no dash, no reversal, no irony, no lesson appended. A narrator who loads every
+   sentence has one attitude, and one attitude for a whole book is the tell no phrase list catches
+   (`prose-quality` §Range before polish).
+5. **Every opponent wants something legible and is competent at it.** No cannon fodder, no
+   face-slap treadmill, no omniscient narrator announcing that somebody is a genius or terrifying.
+6. **Nothing is free, and nobody is the MC but the MC.** Every win is paid for
+   (`conflict-engine`). Somebody in the cast is slower, somebody is worse at saying it, and both
+   are right about something (`voice-separation`). Nobody knows everything: "I don't know" and
+   "that's not my end" are strong lines (`competence-map`).
+7. **The world is delivered, not described.** Enter scenes in motion. A world fact reaches the
+   reader as a consequence, a friction or an assumed reference before it is narrated
+   (`world-texture`), and a central rule that has not reached labour, money and law is a stage set
+   (`social-fabric`).
+
+**The ten bans that still earn their place.**
+
+- No stock beats: *"his expression changed drastically"*, *"as expected of"*, *"unexpectedly"*,
+  *"in the next instant"*, *"trash!"*, *"you dare?"*, *"little did he know"*.
+- No house-style tic on repeat: the `X, not Y` antithesis, the em-dash appositive that re-explains
+  the clause before it, the aphorism at every scene close, `"A beat."` written into prose. Each is
+  good once and is a fingerprint at density (`prose-quality/references/ai-default-tells.md`).
+- No important beat delivered as a past-perfect clause. *"She had spent three weeks making it
+  true"* is a campaign that happened offstage.
+- No exposition dumps of rank ladders, no establishing paragraphs, no history lectures. This bans
+  a *mode of telling*, never the build-up itself.
+- No unanchored openings, and no escalation past the reader's ability to price it
+  (`story-opening`).
+- No cannon-fodder-to-god step and no unpriced boost. A gain is one tier, bought from somebody,
+  paid for before it lands (`power-scaling`).
 - No flat middle: thirty chapters where neither the MC's tier nor the pressure on them moved.
-- No foreknowledge that only ever fails, and none that never appears.
-- No noun-stack titles, and no fanfic title that omits the source work.
-- No chapter padded, trimmed or shipped because of its length.
-- No cast of protagonists. Somebody is slower, somebody is worse at saying it, and both are right
-  about something.
-- No universal experts. "I don't know" and "that's not my end" are strong lines, and a character
-  who is confidently mistaken beats one who is conveniently informed.
-- No instant mastery. can't → fails knowingly → unreliable → competent → fluent, advanced by a
-  teacher, a text or a costly failure — never by chapters having passed.
-- No default gesture set. Nodding, shrugging, sighing, raised eyebrows, crossed arms and released
-  breaths belong to everyone and identify nobody.
-- No prepared statements. If nobody is ever interrupted, nobody ever answers in a fragment, and
+- No harem by default, and no instant mastery — skills advance by a teacher, a text or a costly
+  failure, never by chapters having passed.
+- No default gesture set. Nodding, shrugging, sighing, raised eyebrows and released breaths belong
+  to everyone and identify nobody. And no prepared statements: if nobody is ever interrupted and
   every turn reaches a full stop, the cast is reading prose aloud rather than talking.
-- No character who arrives pre-loaded. A name dropped into a scene of loaded subtext, with an
-  implied history and no placement, asks the reader to remember a book they have not read.
-- No stated theme. The narrator does not explain what the book means.
-- No frictionless page. Every scene carries something unresolved inside somebody
-  (`prose-quality` §Microtension).
+- No stated theme, and no ethnic, national or gendered essentialism — ever, not as villain
+  shorthand either (`bias-guard`, which overrides genre convention and user-supplied tropes).
+
+**And no chapter padded, trimmed or shipped because of its length.** A word count is a measured
+fact, reported and never scored.
 
 ## 6. File conventions
 
@@ -270,9 +309,13 @@ novels/<slug>/
   chapters/NNNN-<slug>.md
 ```
 
-Chapter files carry YAML frontmatter (`number`, `title`, `pov`, `arc`, `delivers`, `wordcount`,
-`status`). **`delivers`** is what is materially different at the end, in one clause — the Pass 9
-gate. `wordcount` is a measured fact that later tools read, never a target.
+Chapter files carry YAML frontmatter (`number`, `title`, `pov`, `arc`, `event`, `delivers`,
+`wordcount`, `status`). **`event`** is what happens, in one retellable clause — the Pass Z gate.
+**`delivers`** is what is materially different at the end — the Pass 9 gate. `wordcount` is a
+measured fact that later tools read, never a target.
+
+`plan/chapters.md` carries `temp` and `hooktype` per row — the register ledger, decided at plan
+time and checked distributionally by `sw arc` (`hook-and-pacing`).
 
 ## 7. Slash commands
 

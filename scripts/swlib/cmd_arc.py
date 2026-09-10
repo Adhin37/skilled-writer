@@ -16,7 +16,7 @@ Two things it prints and never judges: word counts, and the delivery of any indi
 
 import re
 
-from . import mdio
+from . import mdio, rules
 from .report import Report
 
 # Two `delivers:` this similar in one arc usually means the second chapter re-delivered the
@@ -93,6 +93,7 @@ def run(novel, arc=None):
         return rep
 
     _shape(novel, rep, arc, chapters, blocks)
+    _register(novel, rep, chapters)
     _delivery(rep, chapters)
     _cast(novel, rep, blocks)
     _hooks(rep, blocks)
@@ -150,6 +151,93 @@ def _shape(novel, rep, arc, chapters, blocks):
             "   across five chapters is a model writing to a number - check nothing is being",
             "   padded or cut to land there.",
         ])
+
+    # Shrinkage, as a signal about event density rather than about length.
+    #
+    # docs/design-notes.md is right that any number gating a chapter gets optimised, and no
+    # number here gates anything. But run #2 ran 1938 -> 1457 -> 1323 -> 1213 -> 1151, and a
+    # chapter that is 41% shorter than chapter 1 while the state files grow is usually a chapter
+    # with less happening in it, not a tighter one. Print the slide; let the model look.
+    seq = [(c.number, c.words) for c in chapters]
+    run_len, start = 1, 0
+    for i in range(1, len(seq)):
+        if seq[i][1] < seq[i - 1][1]:
+            run_len += 1
+        else:
+            run_len, start = 1, i
+        if run_len > rules.DECLINE_RUN:
+            drop = 100.0 * (seq[start][1] - seq[i][1]) / float(seq[start][1] or 1)
+            rep.warn("arc-shrinkage",
+                     "chapters %d-%d get shorter every chapter (%d -> %d words, -%.0f%%) - "
+                     "not a length problem in itself, but check the events are not thinning "
+                     "with them"
+                     % (seq[start][0], seq[i][0], seq[start][1], seq[i][1], drop))
+            break
+
+
+def _register(novel, rep, chapters):
+    """Temperature and hook shape across the arc.
+
+    Nothing in this toolkit tracked register before, which is why run #2 did not have one: five
+    chapters, one temperature, one hook shape, and prose that a reader flagged as machine-made
+    without being able to point at a sentence. Sameness is invisible from inside a single
+    chapter and obvious from four feet away, so it belongs here with the other distributional
+    checks rather than in `revision-pass`.
+
+    Declared at plan time, checked as a distribution, scored never.
+    """
+    rows = [(c.number, novel.plan_row(c.number)) for c in chapters]
+    got = [(n, r.get("temp", "").strip().lower(), r.get("hooktype", "").strip().lower())
+           for n, r in rows if r is not None]
+    if not any(t or h for _n, t, h in got):
+        rep.note("register", "no `temp` / `hooktype` columns filled in plan/chapters.md for this "
+                 "arc - the register ledger is how the arc avoids one temperature",
+                 path=novel.path("plan", "chapters.md"))
+        return
+
+    rep.info("register", ["   %-5s %-11s %s" % ("ch", "temp", "hooktype")]
+             + ["   %-5s %-11s %s" % (n, t or "-", h or "-") for n, t, h in got])
+
+    temps = [t for _n, t, _h in got if t]
+    hooks = [h for _n, _t, h in got if h]
+
+    run_val, run_len, run_at = None, 0, None
+    for n, t, _h in got:
+        if t and t == run_val:
+            run_len += 1
+        else:
+            run_val, run_len, run_at = t, 1, n
+        if t and run_len > rules.TEMP_RUN_MAX:
+            rep.warn("arc-register",
+                     "`%s` runs %d chapters straight from ch %d - three chapters at one "
+                     "temperature is where a reader starts skimming" % (t, run_len, run_at))
+            break
+
+    for i in range(len(got) - rules.HOOK_WINDOW + 1):
+        window = [h for _n, _t, h in got[i:i + rules.HOOK_WINDOW] if h]
+        if not window:
+            continue
+        for shape in set(window):
+            if window.count(shape) > rules.HOOK_WINDOW_MAX:
+                rep.warn("arc-register",
+                         "hook shape `%s` used %d times in chapters %d-%d - the eight shapes "
+                         "exist so the reader cannot predict the last line"
+                         % (shape, window.count(shape), got[i][0],
+                            got[i + rules.HOOK_WINDOW - 1][0]))
+                break
+        else:
+            continue
+        break
+
+    if len(chapters) >= rules.ARC_MIN_DISTINCT:
+        if temps and len(set(temps)) < rules.ARC_MIN_DISTINCT:
+            rep.warn("arc-register", "only %d distinct temperature(s) across the arc (%s) - "
+                     "aim for %d. A quiet chapter is earned by a loud one"
+                     % (len(set(temps)), ", ".join(sorted(set(temps))), rules.ARC_MIN_DISTINCT))
+        if hooks and len(set(hooks)) < rules.ARC_MIN_DISTINCT:
+            rep.warn("arc-register", "only %d distinct hook shape(s) across the arc (%s) - "
+                     "aim for %d"
+                     % (len(set(hooks)), ", ".join(sorted(set(hooks))), rules.ARC_MIN_DISTINCT))
 
 
 def _delivery(rep, chapters):

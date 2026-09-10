@@ -5,15 +5,31 @@ Keep 10–15 rows planned ahead of the draft line, never the whole book — late
 
 **status**: `planned` · `drafted` · `revised` · `published`
 
-| # | title | pov | arc | goal | obstacle | turn | delivers | cost | threads | hook | status |
-|---|---|---|---|---|---|---|---|---|---|---|---|
+| # | title | pov | arc | temp | hooktype | goal | obstacle | turn | event | delivers | cost | threads | hook | status |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 
-Column meanings — all seven middle columns are mandatory before a row may be drafted:
+Column meanings — every middle column is mandatory before a row may be drafted:
 
+- **temp** — this chapter's temperature: `fast` · `tense` · `loud` · `warm` · `funny` · `bleak` ·
+  `procedural` · `quiet`. Set it *before* drafting, or the chapter inherits the last one's. Never
+  the same value three chapters running; at least four distinct values across an arc. A quiet
+  chapter is earned by a loud one. See `hook-and-pacing`.
+- **hooktype** — the shape of the last beat: `reveal` · `arrival` · `decision` · `question` ·
+  `threat` · `reversal` · `cliff` · `quiet`. Not more than twice in any five chapters, and
+  `cliff` at most once per 8–10. The eight exist so a reader cannot predict the last line — which
+  is what reads as machine-made long before any individual sentence does. See `hook-and-pacing`
+  §Hooks for what each one is and how to build it.
 - **goal** — what the POV character is actively trying to get *in this chapter*. Concrete, not
   emotional. "Reach the ledger room", not "feel less afraid".
 - **obstacle** — what stands in the way, with a will of its own where possible.
 - **turn** — the thing that is not what the POV character expected. Every chapter turns.
+- **event** — the thing that *happens*, in one clause a reader could retell: a concrete verb and
+  a target. "She lies to the Hokage about the recovery list." Not a state, not an effect, and
+  never an abstract noun — `trust`, `proximity`, `attention`, `tension` and their family are
+  rejected outright, because they describe what an event *did* rather than the event. This is the
+  column that stops a chapter being 1,100 words of somebody's interior weather, and the beat it
+  names gets the most words in the chapter. It is copied to the chapter's `event:` frontmatter and
+  must be recognisable in the CCS `ev>` line.
 - **delivers** — what is materially *different* at the end, in one clause. A difference, not a
   summary of events. This is the column `revision-pass` Pass 9 gates the finished chapter on, and
   it is copied into the chapter's `delivers:` frontmatter and the CCS `dlv>` line.

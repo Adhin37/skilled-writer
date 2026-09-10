@@ -39,6 +39,8 @@ def lint_chapter(novel, ch, rep=None):
     _texture(ch, rep)
     _pacing(ch, rep)
     _phrases(ch, rep)
+    _house_style(ch, rep)
+    _register(novel, ch, rep)
     _rhythm(ch, rep)
     _anchor(novel, ch, rep)
     _ledger(novel, ch, rep)
@@ -66,6 +68,8 @@ def _frontmatter(novel, ch, rep):
             "state/continuity.md (run `sw stamp`)" % (recorded, measured),
             path=p, line=1)
 
+    _event_field(ch, rep)
+
     status = str(ch.meta.get("status", "")).strip()
     if status and status not in VALID_STATUS:
         rep.warn("frontmatter", "status `%s` is not one of %s"
@@ -76,6 +80,88 @@ def _frontmatter(novel, ch, rep):
     if isinstance(num, int) and fname and int(fname.group(1)) != num:
         rep.defect("frontmatter", "number: %d but the filename says %s"
                    % (num, fname.group(1)), path=p, line=1)
+
+
+def _clause_at(ch, off, span=95):
+    """The readable run of text around an offset, for quoting back in a finding."""
+    text = re.sub(r"\s+", " ", ch.body[max(0, off - 10):off + span]).strip()
+    return text[:span]
+
+
+def _event_field(ch, rep):
+    """`event:` is the concrete half of the delivery gate.
+
+    `delivers:` asks for a difference and gets one - benchmark run #2 wrote five of them and
+    every single one described a shift in somebody's interior state ("proximity that isn't
+    refused", "attention has moved one level up"). A gate phrased in abstractions is satisfied
+    by abstractions. `event:` asks instead for the thing a reader would retell, in one clause,
+    with a verb and a target.
+    """
+    p = ch.path
+    ev = str(ch.meta.get("event", "")).strip()
+    if not ev:
+        return                      # _frontmatter already defected on the missing field
+    n = len(ev.split())
+    if n > rules.EVENT_MAX_WORDS:
+        rep.warn("event", "`event:` runs %d words; the cap is %d. If it will not fit in a "
+                 "clause it is a summary of the chapter, not the thing that happened"
+                 % (n, rules.EVENT_MAX_WORDS), path=p, line=1)
+    for _off, hit, label in rules.scan(ev, rules.EVENT_ABSTRACT):
+        rep.defect("event", "`event:` contains %s: `%s`" % (label, hit), path=p, line=1,
+                   detail='"%s" - name what happened, not what it did to anyone. '
+                          '"She lies to the Hokage about the recovery list" is an event; '
+                          '"trust deepens" is that event\'s effect.' % ev[:90])
+
+
+def _house_style(ch, rep):
+    """The register this model defaults to once the MTL cut-list is already clean.
+
+    Individually every construction below is good writing, so every hit is a note and the only
+    finding that carries weight is the aggregate rate. The disease is uniformity: run #2's five
+    chapters never once let a sentence just deliver information, and that - not any banned
+    phrase - is what makes them read as machine-made.
+    """
+    p = ch.path
+    hits = ch.house_style_hits()
+    for off, label in hits:
+        rep.note("house-style", label, path=p, line=ch.line_of(off))
+    # A rate needs a denominator worth dividing by. One antithesis in a 200-word chapter is
+    # 5 per 1000 words and means nothing; the finding is density, so it needs enough hits to be
+    # a density. Same guard `_pacing` uses on the summary markers.
+    if ch.house_style_rate > rules.HOUSE_RATE_WARN and len(hits) >= rules.HOUSE_MIN_HITS:
+        rep.warn("house-style",
+                 "%d house-register constructions (%.1f per 1000 words, over %.0f) - the "
+                 "narrator has one setting. Vary it: let some sentences carry information and "
+                 "nothing else"
+                 % (len(hits), ch.house_style_rate, rules.HOUSE_RATE_WARN), path=p,
+                 detail="; ".join(sorted({l for _o, l in hits}))[:160])
+    if ch.emdash_rate > rules.EMDASH_RATE_WARN and ch.words >= rules.RATE_MIN_WORDS:
+        rep.warn("em-dash", "%.1f em-dashes per 1000 words of narration (over %.0f) - the "
+                 "appositive that re-explains the clause before it is this narrator's tic"
+                 % (ch.emdash_rate, rules.EMDASH_RATE_WARN), path=p)
+
+
+def _register(novel, ch, rep):
+    """The declared temperature and hook shape for this chapter, checked against the vocabulary.
+
+    Distribution is `sw arc`'s job - one chapter cannot be too `quiet`. This only checks that the
+    plan row said something, and said something legal.
+    """
+    if ch.number is None:
+        return
+    row = novel.plan_row(ch.number)
+    if row is None:
+        return
+    p = novel.path("plan", "chapters.md")
+    for field, vocab in (("temp", rules.TEMPS), ("hooktype", rules.HOOKTYPES)):
+        val = row.get(field, "").strip().lower()
+        if not val:
+            rep.warn("register", "plan row %d has no `%s` - set it before drafting, so the "
+                     "chapter is written to a temperature instead of inheriting the last one"
+                     % (ch.number, field), path=p, line=row.line_no)
+        elif val not in vocab:
+            rep.warn("register", "plan row %d `%s: %s` is not one of %s"
+                     % (ch.number, field, val, " ".join(vocab)), path=p, line=row.line_no)
 
 
 def _channels(novel, ch, rep):
@@ -190,6 +276,25 @@ def _pacing(ch, rep):
     """
     p = ch.path
     marks = ch.summary_markers()
+
+    # The campaign clause gets its own finding, at warn, regardless of the rate.
+    #
+    # CLAUDE.md section 5 bans this construction and quotes "She had spent three weeks making it
+    # true" as the example. That exact sentence is in benchmark run #2's chapter 1, which shipped
+    # `status: revised` through all sixteen revision passes - and this file counted it, then
+    # printed the count inside a statistics line where nothing had to answer for it. A rule that
+    # is measured but never surfaced is not a rule. Warn, not defect, because ordinary past
+    # perfect is how English orders two past events; the marker list is already narrowed to verbs
+    # that carry a campaign across elapsed time.
+    for off, label in marks:
+        if not label.startswith("had <verb>"):
+            continue
+        rep.warn("campaign-clause",
+                 "an event reported inside a past-perfect clause - the reader never watched it "
+                 "happen (CLAUDE.md section 5)", path=p, line=ch.line_of(off),
+                 detail='"%s" - if it matters, it is a scene; if it does not, cut it'
+                        % _clause_at(ch, off))
+
     if ch.summary_marker_rate > 2.5 and len(marks) >= 3:
         rep.note("pacing", "%d reported-event constructions (%.1f per 1000 words) - check whether "
                  "a turn is happening inside one of them"
@@ -227,6 +332,36 @@ def _speech_window(novel, ch, rep):
                    % (window[0].number, ch.number, mean, rules.SPEECH_FLOOR,
                       ", ".join("%.1f" % sh for sh in shares)),
                    path=ch.path)
+
+
+def _closer_window(novel, ch, rep):
+    """How the chapter ends, measured over a window rather than per chapter.
+
+    Benchmark run #2 closed four of five chapters on a short line of narration with nobody
+    speaking - "The gate hung open." / "The small hand found hers, tighter, in her sleep." /
+    "Neither did Enko." / "The door stayed shut, this time, and nobody was watching it." Each is
+    a good last line. Four in a row is a tic, and a reader registers it as sameness long before
+    they could say what is repeating.
+
+    Distributional for the same reason `speech-share` is: a per-chapter rule here would be
+    satisfied by appending a sentence, which is not the change anybody wants.
+    """
+    if ch.number is None:
+        return
+    window = [c for c in novel.chapters()
+              if c.number is not None
+              and ch.number - rules.CLOSER_WINDOW < c.number <= ch.number]
+    if len(window) < rules.CLOSER_WINDOW:
+        return
+    short = [c for c in window if c.closes_on_short_beat]
+    if len(short) > rules.CLOSER_WINDOW_MAX:
+        rep.warn("closer-sameness",
+                 "%d of the last %d chapters end on a short withheld beat with nobody speaking "
+                 "- vary the shape (hook-and-pacing, the eight hook types)"
+                 % (len(short), len(window)),
+                 path=ch.path,
+                 detail="\n         ".join("ch%s: %s" % (c.number, c.closing_sentence[:72])
+                                           for c in short))
 
 
 # ---------------------------------------------------------- Pass 7 and Pass 8
@@ -347,6 +482,21 @@ def _ledger(novel, ch, rep):
         rep.defect("ledger", "CCS block says wc:%d, body measures %d"
                    % (block.wc, ch.words), path=novel.path("state", "continuity.md"),
                    line=block.line_no)
+    ev_ch = str(ch.meta.get("event", "")).strip().lower()
+    ev_bl = block.get("ev").strip().lower()
+    if ev_ch and ev_bl:
+        # The event has to be one of the things the ledger says happened. Compare on content
+        # words, because `ev>` is a slash-separated list of clauses and the frontmatter is one.
+        stop = {"the", "a", "an", "to", "of", "and", "her", "his", "their", "in", "on", "at",
+                "for", "with", "about", "it", "she", "he", "they", "them", "that", "from"}
+        want = {w for w in re.findall(r"[a-z']{3,}", ev_ch) if w not in stop}
+        have = {w for w in re.findall(r"[a-z']{3,}", ev_bl) if w not in stop}
+        if want and len(want & have) * 2 < len(want):
+            rep.warn("ledger", "`event:` is not recognisable in the block's `ev>` line - the "
+                     "chapter's headline event should be one of the things the ledger records",
+                     path=novel.path("state", "continuity.md"), line=block.line_no,
+                     detail="fm:  %s\n         ccs: %s" % (ev_ch[:80], ev_bl[:80]))
+
     dlv_ch = str(ch.meta.get("delivers", "")).strip().lower().rstrip(".")
     dlv_bl = block.get("dlv").strip().lower().rstrip(".")
     if dlv_ch and dlv_bl and dlv_ch[:40] != dlv_bl[:40]:
@@ -384,4 +534,5 @@ def run(novel, numbers=None):
     # Novel-level, so evaluated once for the last chapter in the requested set rather than once
     # per chapter. `sw lint -c 7` asks about the window ending at 7; `--all` asks about the book.
     _speech_window(novel, chapters[-1], rep)
+    _closer_window(novel, chapters[-1], rep)
     return rep

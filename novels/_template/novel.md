@@ -19,6 +19,21 @@ narration:
   interiority: high       # high | medium | low
   voice_notes: ""         # e.g. "dry, understated, short sentences under stress"
 
+# ── STYLE TARGET ─────────────────────────────────────────────────────────────
+# The single cheapest lever on register, and the only one that works by imitation rather
+# than by prohibition. A model matches an example far more reliably than it obeys a rule,
+# and the failure this exists to prevent is not slop — it is the model's own literary
+# default filling the space where slop was banned: every sentence loaded, every scene
+# closed on an aphorism, one temperature for the whole book.
+#
+# `read_like` names 1–2 real comparison works whose *register* this novel wants — not its
+# plot. `sample` is optional: 3–6 sentences, either written by the user or drafted at init
+# and approved, that the drafter re-reads each chapter and writes toward.
+style:
+  read_like: []           # e.g. ["Joe Abercrombie — The Blade Itself", "Mother of Learning"]
+  sample: ""              # 3–6 sentences of target register. Optional but worth the tokens.
+  avoid: ""               # registers this novel must not drift into
+
 # ── POINT OF VIEW ────────────────────────────────────────────────────────────
 pov:
   mode: single            # single | dual | rotating | ensemble   (see pov-switch)

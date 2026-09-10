@@ -84,12 +84,31 @@ Work in batches of 10–12.
 2. Between pillars, chapters do one of: **pursue** (progress toward the pillar), **complicate**
    (a new obstacle), **cost** (pay for the last pillar), **reveal** (information changes the
    situation), **relate** (a relationship shifts — still with a goal and a turn).
-3. For each row fill, **in this order**: goal → obstacle → turn → **delivers** → cost → threads →
-   hook → title. The title comes last. A title invented first is a title the chapter has to serve.
+3. For each row fill, **in this order**: goal → obstacle → turn → **event** → **delivers** →
+   cost → threads → **temp** → **hooktype** → hook → title. The title comes last. A title
+   invented first is a title the chapter has to serve.
+
+   **`event`** is what *happens*: one clause a reader could retell, a concrete verb and a target.
+   *"She lies to the Hokage about the recovery list."* Abstract-state nouns — `trust`,
+   `proximity`, `attention`, `tension`, `doubt` — are rejected, because they name what an event
+   did rather than the event. If a row has no event, the chapter has nothing to dramatize and
+   gets merged with a neighbour.
+
    **`delivers`** is what is materially different at the end — a fact learned, a relationship
    moved, a position lost. If a row's `delivers` restates its `goal` or narrates its events, the
-   chapter has no reason to exist and gets merged with a neighbour. This is the same test
-   `revision-pass` Pass 9 applies to the draft, moved forward to where it is cheap.
+   chapter has no reason to exist. This is the same test `revision-pass` Pass 9 applies to the
+   draft, moved forward to where it is cheap.
+
+   The two are a pair and they fail in opposite directions. A row with a strong `delivers` and a
+   vague `event` is the failure that produced benchmark run #2: five chapters whose deliveries
+   all described a shift in somebody's interior state, and in which almost nothing happened.
+
+   **`temp`** and **`hooktype`** are the register ledger (`hook-and-pacing` §The temperature
+   ledger, §Hooks). They are decided **here**, not after drafting — set afterwards they are
+   labels describing what came out; set here they are constraints the prose has to meet. Plan
+   them across the whole run of rows at once, not one at a time, because the rule is
+   distributional: never the same `temp` three rows running, no `hooktype` more than twice in any
+   five, four distinct values of each per arc, `cliff` at most once per 8–10 chapters.
 4. Vary the chapter *type* — never three `pursue` rows in a row.
 5. Check the arc's rhythm against the shape below.
 
@@ -171,7 +190,11 @@ Keep **at most two active subplots** alongside the main line; a third is how thr
 
 ## Self-check
 
-- [ ] Every planned row has all seven middle columns
+- [ ] Every planned row has every middle column, `event`, `temp` and `hooktype` included
+- [ ] No `temp` runs three rows; no `hooktype` appears more than twice in any five rows
+- [ ] At least four distinct `temp` and four distinct `hooktype` values across the arc
+- [ ] Every `event` is a concrete clause with a verb and a target, and no `event` leans on an
+      abstract-state noun
 - [ ] Every arc has a permanent cost to the MC
 - [ ] The antagonist's case is arguable in two sentences
 - [ ] Every open thread has a `due` chapter within the planning horizon

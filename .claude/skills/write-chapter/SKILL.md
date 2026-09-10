@@ -32,21 +32,56 @@ is cheap, and skipping one is what produces the drift that ruins long serials.
    goal/obstacle/turn/cost/hook is blank, run `chapter-plan` for this row first. Do not draft
    from an incomplete row.
 
-## Step 1 — Decide the chapter's shape (before writing a word)
+## Step 1 — Phase A: the brief (and stop)
 
-Write these down for yourself. Ten lines, not a document.
+**Drafting is two phases and this is the first one. It ends with you stopping.**
 
-Each decision below has a **draft card** — the 15–40 lines that produce that one answer, written by
-the skill that owns it. Open the card, not the skill body: a body is a procedure for designing the
-thing, and this step is for deciding it. Four cards are conditional and are skipped outright when
-their condition is false.
+Phase A spends the cards below and produces **one brief**; Phase B drafts from that brief and four
+cards, nothing else. Why it is split this way: `references/draft-cards.md`.
+
+The brief is twelve lines, written into the chat, not into a file.
+
+```
+Ch 12 — "The Second Quarter"
+event    Wren files the counter-claim and is put out of the house
+temp     loud          hooktype  decision
+scene 1  (~35%) goal / obstacle / turn
+scene 2  (~55%) goal / obstacle / turn   <- the event happens HERE, longest scene
+cost     she loses the apprenticeship, and Maro will not look at her
+speakers Wren, Hesk, Maro   (Hesk differs from Wren on intel + articulacy)
+world    the levy office charges for its own paperwork
+asks     Wren does not know what a counter-claim costs; she has to ask Bel
+threads  ^T02  vT04
+next     the quarter answers in nine days
+```
+
+**Then stop and show it to the user.** They approve it, change a line, or throw it out — the
+cheapest gate in the toolkit, because a chapter that was going to be a thousand words of somebody
+quietly feeling something gets caught for twelve lines instead of after the draft. Skip the stop
+only if told to (`/novel-write --no-confirm`, or "just write the next five"): Phase A still
+happens, you simply do not wait.
+
+**Two gates, both before drafting.**
+
+1. **The event.** What *happens* — one clause a reader could retell, concrete verb and a target.
+   *"She lies to the Hokage about the recovery list."* Asked only for "a difference", a model
+   writes *"proximity that isn't refused"* and ships a chapter in which nothing occurs, so
+   abstract-state nouns (`trust`, `proximity`, `attention`, `tension`, `doubt`) are rejected by
+   `sw lint`. **And the event gets the scene**: if the biggest thing that happens is not the
+   longest scene, the chapter is not ready.
+2. **The cost.** If it is empty, go back to `conflict-engine`. A chapter where the POV character
+   only gains is filler regardless of how much happens in it.
+
+**Most of Phase A is transcription.** The plan row already holds `temp`, `hooktype`, `event`,
+`goal`, `obstacle`, `turn`, `cost` and `threads` — that is what planning is for. Open a card only
+for what the row does not settle.
 
 | decision | card |
 |---|---|
-| POV character, and whether this is a switch | `pov-switch/references/draft-card.md` + the plan row |
+| Which beat is played and which is reported | `story-craft/references/draft-card.md` — **first, always** |
 | Scene count, the break, and per scene goal → obstacle → turn → exit | `scene-craft/references/draft-card.md`, `chapters.scenes_per_chapter` |
-| Which beat is played and which is reported | `story-craft/references/draft-card.md` — the important beat gets the scene |
 | What this chapter costs the POV character | `conflict-engine/references/draft-card.md` — never zero |
+| POV character, and whether this is a switch | `pov-switch/references/draft-card.md` + the plan row |
 | Which thread ops fire | `plot-threads/references/draft-card.md` |
 | Which character sounds different today, and how | `character-development/references/draft-card.md` → `state/growth.md` |
 | **The voice spread**: this chapter's speakers as matrix rows, side by side — and which of them differs from the MC on two or more axes | `voice-separation/references/draft-card.md` → `bible/cast/_voices.md` |
@@ -54,7 +89,6 @@ their condition is false.
 | **The offstage question**: what the world does this chapter that the MC doesn't know | `timeline-engine/references/draft-card.md` → `plan/timeline.md` |
 | **The world channel**: the one thing about the world this chapter makes concrete, and whether a consequence, a friction or an assumed reference carries it | `world-texture/references/draft-card.md` |
 | What the MC deduces, and from which on-page clue | `mc-intel-meter/references/draft-card.md` |
-| **What this chapter delivers**: the one thing that is materially different at the end | `scene-craft/references/draft-card.md` — this becomes `delivers:` in the frontmatter |
 | **Who has to ask**: the thing this chapter needs known, whose map actually covers it, and who must go to someone else for it | `competence-map/references/draft-card.md` → `bible/cast/_competence.md` |
 | Opening line strategy, closing hook | `hook-and-pacing/references/draft-card.md` |
 
@@ -62,80 +96,70 @@ their condition is false.
 
 | condition | decision | card |
 |---|---|---|
-| chapter ≤ `opening.contract_by_ch + 2` | **The anchor debt** — what a reader still cannot answer about world, place or canon position, and which beat pays it — and **the ceiling check**: if this chapter escalates, is the mechanism that makes it dangerous already on the page? | `story-opening/references/draft-card.md` |
-| `scaling.shape` is not `none` | **The pressure**: what gap between the MC and this chapter's opposition does the arc want — and only then, who is that opposition? | `power-scaling/references/draft-card.md` → `state/power.md` §6 |
-| `mc.foreknowledge` is set | **The foreknowledge spend**: what the MC knows that bears on today, at what grain, what using it costs, and what it invalidates | `meta-knowledge/references/draft-card.md` → `state/foreknowledge.md` |
+| chapter ≤ `opening.contract_by_ch + 2` | **The anchor debt**, and **the ceiling check**: if this chapter escalates, is the mechanism already on the page? | `story-opening/references/draft-card.md` |
+| `scaling.shape` is not `none` | **The pressure**: what gap the arc wants, and only then who the opposition is | `power-scaling/references/draft-card.md` → `state/power.md` §6 |
+| `mc.foreknowledge` is set | **The foreknowledge spend**: what is known, at what grain, what it costs, what it invalidates | `meta-knowledge/references/draft-card.md` → `state/foreknowledge.md` |
 | anyone is `form_locked` | Which bodies are locked, and what they cannot do today | `mc-design/references/draft-card.md` → `state/body.md` |
 
-Plus the **active modules** from Step 0.2, each at the entry point the read-set named for it.
+Plus the **active modules** from Step 0.2, at the entry point the read-set named for each.
 
-A card that does not settle the question is the one case for opening its owner's `SKILL.md`; every
-card names the section to open when that happens.
+A card that does not settle its question is the one case for opening its owner's `SKILL.md`.
 
-**Two gates, both before drafting.**
-
-1. If **"what this chapter costs"** is empty, the chapter is not ready. Go back to
-   `conflict-engine`. A chapter where the POV character only gains is filler regardless of how
-   much happens in it.
-2. If **"what this chapter delivers"** is a description of events rather than a difference, the
-   chapter is not ready either. *"She asks Tsuru about the recount"* is events; *"she is now
-   someone Tsuru watches on purpose"* is a delivery. Length will not fix a chapter that has
-   nothing to deliver, and length is not what it will be judged on.
-
-## Step 2 — Draft
+## Step 2 — Phase B: draft
 
 Write straight through. Do not stop to self-edit; `revision-pass` handles that.
 
+**Four cards stay open, and no others**: `narrator-voice`, `dialogue-voice`, `story-craft`, and
+the `style:` block from the read-set's CONFIG. Everything else was decided in Phase A and is in
+the brief. If you find yourself reopening cards mid-draft, the brief was incomplete — finish it
+first, do not draft with twenty files in play.
+
+**Write to the temperature.** The brief says `temp`. A `loud` chapter is written loud: shorter
+paragraphs, people talking over each other, the narrator keeping up rather than commenting. A
+`warm` chapter is allowed to land without being undercut. The single most reliable way to sound
+like a machine is to write every chapter at the same pitch regardless of what is in it.
+
+**Let sentences be plain.** Roughly a third of the chapter should carry information and nothing
+else — no dash, no reversal, no irony, no lesson appended. *"The rice was untouched. The blanket
+was still folded on the bed."* A narrator who loads every sentence has one attitude, and one
+attitude for a whole book is the tell that no phrase list will catch
+(`prose-quality` §Range before polish).
+
 Hold these while writing:
 
-- **Voice.** `narrator-voice/references/draft-card.md` — person, tense, distance, interiority,
-  and the distance curve. It does not change mid-chapter unless `pov-switch` says a switch is
-  happening.
-- **Dialogue.** Every named speaker's lines must satisfy their speech fingerprint
+- **Voice.** `narrator-voice/references/draft-card.md` — person, tense, distance, interiority, the
+  distance curve. It does not change mid-chapter unless `pov-switch` says a switch is happening.
+- **Dialogue.** Every named speaker satisfies their fingerprint
   (`dialogue-voice/references/draft-card.md`). If you cannot tell two characters apart with the
   tags removed, fix it now.
 - **The four channels.** `"…"` speech · `'…'` direct thought, **1–3 for the whole chapter**, at
   decisions · `[…]` system text and in-world documents · and **unmarked free indirect discourse,
-  which is where interiority actually lives** (`narrator-voice/references/draft-card.md`). Do not tag a
-  marked thought with *she thought* — the mark already said it. Do not let an apostrophe become a
-  thought mark. A `'…'` inside a `"…"` is a nested quotation, not thought.
-- **Enough dialogue to audit.** Target **25–40% of the chapter inside `"…"`** — spoken aloud, to
-  another person; thought and meta do not count
-  (`dialogue-voice/references/draft-card.md`). Under 10% is a defect: the cast has become scenery and
-  every voice check in this toolkit silently no-ops, because there are no lines to tell apart.
-  When two people are in a room, the beat belongs to what they *say* to each other — not to the
-  POV character concluding it on their behalf. An analytical POV voice is the usual cause; it is
-  pleasant to write and it quietly eats the scene.
-- **Voice spread.** Hold each speaker's matrix row while writing (`voice-separation`): their turn
-  length, their articulacy — which is *not* their intelligence — and whether wit is theirs at all.
-  Nobody except a declared mirror reasons at the MC's speed by default; somebody in this chapter is
-  slower than the MC, or worse at saying it, and is right about something anyway. Beats come from
-  each character's hands and pressure move, never from the default gesture set.
+  which is where interiority actually lives** (`narrator-voice/references/draft-card.md`). Do not
+  tag a marked thought with *she thought* — the mark already said it. An apostrophe is not a
+  thought mark; a `'…'` inside a `"…"` is a nested quotation.
+- **Enough dialogue to audit.** Target **25–40% inside `"…"`**, spoken aloud to another person
+  (`dialogue-voice/references/draft-card.md`). Under 10% is a defect: on a silent cast every voice
+  check in this toolkit no-ops. When two people are in a room the beat belongs to what they *say*,
+  not to the POV character concluding it on their behalf — an analytical POV voice is the usual
+  cause, and it quietly eats the scene.
+- **Voice spread.** Hold each speaker's matrix row (`voice-separation`). Nobody but a declared
+  mirror reasons at the MC's speed: somebody here is slower, or worse at saying it, and is right
+  anyway. Beats come from each character's hands, never from the default gesture set.
 - **Other minds, no interiority.** Non-POV characters think through their **first move** — what
-  they reach for or look at first when the situation changes. That is the whole mechanism; the
-  narration never enters a second head.
-- **Walk-ons.** A new minor character gets three strokes and no more: a five-minute want, one
-  habit, and one piece of their working world — plus one axis off default, so they do not speak in
-  the narrator's register. No interiority, no backstory paragraph, no ladder. Do not stop to build
-  a profile mid-draft — sketch them, and log the line in step 5.
-- **Intelligence.** Every MC decision passes the `mc-intel-meter` trace test: the reader can name
-  the on-page fact it came from.
-- **Knowledge.** Every *fact* anyone states passes the `competence-map` provenance test: they were
-  taught it, did it, were told it, read it, or are openly guessing. An unlisted domain is `none`,
-  so somebody in this chapter says they do not know, asks the person who does, or is confidently
-  wrong — and a character being wrong is more useful than a character being blank. Nobody explains
-  a subject their map does not cover, however convenient their mouth is.
-- **Learning.** If anyone is practising something, it appears as a clause, not a scene — unless a
-  stage transition fires this chapter, which earns one. Either way the practice took time from
-  something else and the chapter says what.
-- **Ground the scene.** `world-texture`. Two to four concrete sensory details per scene, at least
-  one non-visual, drawn from the location's signature in `bible/world.md` and hit within 100 words
-  of arriving. Never a paragraph of description — details placed in motion, and **filtered through
-  the POV character**: they notice what their job, wound and want make salient, and they do not
-  notice what is normal to them. The world's *rules* reach the reader by biting someone or by
-  being worked around, not by being narrated.
-- **Cut the connective tissue.** Enter scenes late, leave early. No arrivals, no farewells, no
-  walking between locations unless something happens on the way.
+  they reach for when the situation changes. The narration never enters a second head.
+- **Walk-ons.** Three strokes: a five-minute want, one habit, one piece of their working world,
+  plus one axis off default. No interiority, no backstory. Sketch them; log the line in step 5.
+- **Intelligence and knowledge.** Every MC decision passes the `mc-intel-meter` trace test — the
+  reader can name the on-page fact it came from. Every stated fact passes the `competence-map`
+  provenance test. An unlisted domain is `none`, so somebody here says they do not know, asks the
+  person who does, or is confidently wrong — which is more useful than blank.
+- **Learning.** Practice is a clause, not a scene, unless a stage transition fires. Either way it
+  took time from something else and the chapter says what.
+- **Ground the scene.** `world-texture/references/draft-card.md` — two to four concrete details
+  per scene, one non-visual, within 100 words of arriving, filtered through the POV character.
+  The world's *rules* reach the reader by biting someone, not by being narrated.
+- **Cut the connective tissue.** Enter late, leave early. No arrivals, no farewells, no walking
+  between locations unless something happens on the way.
 - **Active modules.** Apply each active module's card as you write, not afterwards.
 
 ### Chapter anatomy
@@ -159,32 +183,29 @@ wants it — but never end without a hook if `chapters.hook_required` is true.
 
 ### Recap discipline
 
-Readers arrive a day or a week later. Re-anchor with **one clause, inside a sentence doing other
-work**: "The coat she'd taken off Dael's body still smelled of the undercroft." Never a
-paragraph. Never "As you'll remember".
+Readers arrive a day or a week later. Re-anchor in **one clause, inside a sentence doing other
+work**: "The coat she'd taken off Dael's body still smelled of the undercroft." Never a paragraph,
+never "As you'll remember".
 
 ## Step 3 — Write the file
 
 `novels/<slug>/chapters/NNNN-<kebab-title>.md`, four-digit padded, with the frontmatter from
-`chapters/_chapter-template.md` filled in — including **`delivers:`**, which is the decision you
-already made in Step 1. Prose only in the body — the four channels and nothing else. No headings,
+`chapters/_chapter-template.md` filled in — including **`event:`** and **`delivers:`**, both
+decided in Phase A. They are not the same field: `event:` is what happened, `delivers:` is what
+is different afterwards. A chapter with a strong `delivers:` and a vague `event:` is the failure
+this pair exists to catch. Prose only in the body — the four channels and nothing else. No headings,
 no author notes.
 
-Leave `wordcount:` at whatever the template holds; it is stamped from the measured body in Step 4,
-after revision has changed the text. It is a recorded fact, not a target.
+Leave `wordcount:` as the template holds it; Step 4 stamps it from the measured body after
+revision. It is a recorded fact, not a target.
 
 ## Step 4 — Revise
 
-Run `revision-pass`. It opens with the mechanical sweep —
+Run `revision-pass`. It backs the chapter up, opens with the mechanical sweep
+(`sw lint novels/<slug> -c <N>`), then runs the judgement passes — `prose-quality`, `mtl-detox`,
+`bias-guard`, voice, competence, continuity. Fix what it finds, in the file.
 
-```bash
-python3 scripts/sw.py lint novels/<slug> -c <N>
-```
-
-— and then runs `prose-quality`, `mtl-detox`, `bias-guard`, voice separation, competence and a
-continuity check, which are judgement and are not in the sweep. Fix what it finds, in the file.
-
-When every pass is clean, stamp the measured count and the status in one call:
+When every pass is clean, stamp the measured count and the status:
 
 ```bash
 python3 scripts/sw.py stamp novels/<slug> -c <N> --status revised --ledger
@@ -197,28 +218,25 @@ facts. This step is not optional and not deferrable to "later". When the block i
 `python3 scripts/sw.py state novels/<slug>` verifies it against the chapter on disk.
 
 World bookkeeping, same pass: any new location anchor or durable social fact goes into `set>`,
-then into `bible/world.md` or `bible/society.md`. An anchor invented on the page and never
-recorded will drift by its third appearance.
+then into `bible/world.md` or `bible/society.md`. An anchor never recorded drifts by its third
+appearance.
 
-Cast bookkeeping, same pass: every walk-on who appeared gets their roster line in
-`bible/cast/_extras.md` (or their appearance chapter appended to an existing one), every named
-person goes in `lexicon.md`, and anyone who hit a third appearance or changed the plot is promoted
-now — with their profile built from what is already on the page. A promotion also earns a row in
-`bible/cast/_voices.md` and one in `bible/cast/_competence.md`, both placed against the existing
-cast rather than invented in isolation.
+Cast bookkeeping, same pass: every walk-on gets their roster line in `bible/cast/_extras.md` (or
+their chapter appended to an existing one), every named person goes in `lexicon.md`, and anyone
+at a third appearance or who changed the plot is promoted now, from what is already on the page.
+A promotion also earns a row in `bible/cast/_voices.md` and one in `bible/cast/_competence.md`,
+both placed against the existing cast rather than invented in isolation.
 
 Foreknowledge bookkeeping, same pass, if `mc.foreknowledge` is set: every spend gets a row in
-`state/foreknowledge.md` §3 with its cost and what it invalidated, statuses move in §2, and any
-plot-changing spend moves at least one *other* row toward `invalidated` (§4, the observer paradox).
-The chapter's CCS block carries an `fk>` line. A chapter that spent foreknowledge and left the
-ledger untouched is the same class of bug as one that skipped its CCS block.
+`state/foreknowledge.md` §3 with its cost, statuses move in §2, and any plot-changing spend moves
+at least one *other* row toward `invalidated` (§4, the observer paradox). The block carries an
+`fk>` line. Spending foreknowledge and leaving the ledger untouched is the same class of bug as
+skipping the CCS block.
 
 Power-curve bookkeeping, same pass, unless `scaling.shape` is `none`: every confrontation gets a
-row in `state/power.md` §3 with its pressure and, at P ≥ +1, what the win cost. A permanent tier
-advance goes in §4 with all four requirements — source, the chapter the price was paid, the chapter
-it was set up in, and the new problem — and §1 moves with it. A boost goes in §5 with its expiry,
-its debt and the chapter that debt is due. The chapter's CCS block carries a `pwr>` line, and it
-must agree with §3; `sw curve` checks that it does.
+row in `state/power.md` §3 with its pressure and, at P ≥ +1, what the win cost. A tier advance
+goes in §4 with all four requirements and §1 moves with it; a boost goes in §5 with its expiry and
+debt. The block carries a `pwr>` line, and `sw curve` checks it agrees with §3.
 
 Knowledge bookkeeping, same pass: a skill stage that advanced goes in the skill-ladder table of
 `state/growth.md` with what caused it; a genuinely new domain a character acquired on the page goes
@@ -227,10 +245,11 @@ so in the report, because it usually means the cast is missing a person.
 
 ## Step 6 — Report
 
-Five lines to the user, no more:
+Six lines to the user, no more:
 
 ```
 Ch 42 — "The Ledger Room" → novels/<slug>/chapters/0042-the-ledger-room.md
+Event: Rin is refused at the archive door and takes the ledger anyway.
 Delivers: Rin can no longer use the Guild's archive, and knows who closed it to her.
 Cost: Rin loses Dael's trust; Echo-step now known to the Guild.
 Threads: opened T14 (forged seal), paid T09 (oath to Mira).

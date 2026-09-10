@@ -118,6 +118,67 @@ SUMMARY_MARKERS = _compile([
     (r"\bin the (?:weeks|months|days) (?:that|after|before|since)\b", "time compressed"),
 ])
 
+# prose-quality, "The house style". The tells this model produces when the MTL cut-list is
+# already clean - measured off benchmark run #2, whose five chapters carried 62 em-dashes and 18
+# antitheses in 7,302 words and read as machine-made without tripping a single banned phrase.
+#
+# Every hit here is a NOTE, never a defect, and that is deliberate. Each construction below is
+# good writing in isolation; the disease is density, so the gate is the aggregate rate in
+# `_house_style`, not any one line. A rule that defects on ", not " would ban a legitimate
+# sentence and teach the drafter to write around the checker instead of varying its register.
+CLAUDE_REGISTER = _compile([
+    (r",\s+not\s+(?!to\b|be\b|have\b|only\b|just\b|yet\b)\w+", "X, not Y antithesis"),
+    (r",\s+never\s+(?:a|an|the)\b", ", never a - antithesis"),
+    (r"(?:^|(?<=[.!?]\s))Not\s+\w+\.", "`Not X.` fragment negation"),
+    (r"\bA beat\.", "`A beat.` - a stage direction, not prose"),
+    (r"\bthe kind of \w+ (?:that|who|a|an|you|one|people)\b", "the kind of X that"),
+    (r"\bthe way (?:you|one|people)\b", "the way you/one/people - generalising aside"),
+    (r"\bnot (?:because|out of|from)\b[^.;]{2,40}\bbut (?:because|out of|from)\b",
+     "not because X but because Y"),
+    (r"\bfor (?:exactly )?as long as (?:an?|the) \w+ would\b", "for exactly as long as X would"),
+    (r"\bsomething (?:in|about) (?:his|her|their|the) (?:face|eyes|voice|expression)\b",
+     "something in her face"),
+    (r"\bthe same \w+ (?:register|voice|tone|hand)\b", "the same flat register - a repeated tag"),
+    (r"\b(?:turning|holding|carrying|weighing|folding)\b[^.]{0,40}\b(?:years?|arithmetic|"
+     r"silence|grief|doubt|history|guilt|memory|arithmetic)\b[^.]{0,25}\bin (?:his|her|their) "
+     r"hands\b", "an abstract noun handled as an object"),
+])
+
+# The abstract-state nouns that turn `event:` back into `delivers:`. An event is something a
+# reader could retell; "trust deepens" is not an event, it is a description of an event's effect.
+EVENT_ABSTRACT = _compile([
+    (r"\b(?:trust|proximity|attention|awareness|understanding|relationship|tension|doubt|"
+     r"realisation|realization|suspicion|connection|intimacy|rapport|resolve|acceptance|"
+     r"dynamic|bond)\b", "an abstract state, not an event"),
+    (r"\b(?:becomes|is now|has become|begins to)\b", "a state change, not an event"),
+])
+
+# hook-and-pacing: the declared temperature of a chapter, and the shape of its last beat.
+# Set at plan time in plan/chapters.md, checked distributionally by `sw arc` - never scored
+# per chapter, because a number that decides whether one chapter ships gets optimised
+# (docs/design-notes.md, "Why the gate is delivery, not length").
+TEMPS = ("fast", "tense", "loud", "warm", "funny", "bleak", "procedural", "quiet")
+# The eight are hook-and-pacing's own taxonomy, verbatim. Inventing a second vocabulary here
+# would give the skill and the script different words for the same thing, and the skill's list
+# was already thought through - including the rule that `cliff` is rationed to once per 8-10
+# chapters, which this module cannot check and does not try to.
+HOOKTYPES = ("reveal", "arrival", "decision", "question", "threat", "reversal", "cliff", "quiet")
+
+EVENT_MAX_WORDS = 14
+EMDASH_RATE_WARN = 6.0          # per 1,000 words; run #2 chapter 1 ran 11.4
+HOUSE_RATE_WARN = 6.0           # CLAUDE_REGISTER hits per 1,000 words...
+HOUSE_MIN_HITS = 4              # ...and never on fewer hits than this: a rate needs a density
+RATE_MIN_WORDS = 400            # below this, per-1,000-word rates are noise
+CLOSER_SHORT_WORDS = 12         # a chapter-ending line this short, with nobody speaking
+CLOSER_WINDOW = 5               # ...in this many consecutive chapters...
+CLOSER_WINDOW_MAX = 2           # ...more than this often is a tic, not a choice
+TEMP_RUN_MAX = 2                # same temperature in a row
+HOOK_WINDOW = 5                 # rolling window for hooktype repeats
+HOOK_WINDOW_MAX = 2
+ARC_MIN_DISTINCT = 4            # distinct temps and hooktypes required across an arc
+DECLINE_RUN = 3                 # consecutive shrinking chapters before it is a signal
+
+
 # CLAUDE.md section 3: the genre modules, and the genre or subgenre that switches each on.
 # Data only - resolving a name to a file is cmd_readset's job, not this module's.
 GENRE_MODULES = {
@@ -134,7 +195,8 @@ OPTIONAL_MODULES = (
 
 
 # The frontmatter revision-pass Pass 10 requires.
-REQUIRED_FRONTMATTER = ["number", "title", "pov", "arc", "delivers", "wordcount", "status"]
+REQUIRED_FRONTMATTER = ["number", "title", "pov", "arc", "event", "delivers", "wordcount",
+                        "status"]
 
 # continuity-summary: CCS lines that are required on every block.
 REQUIRED_CCS = ["dlv", "ev", "chg", "kno", "thr", "obj", "hook"]

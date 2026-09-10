@@ -15,8 +15,34 @@ nothing is pushing back.
 
 | file | open it when |
 |---|---|
-| `references/ai-default-tells.md` | `sw lint` is unavailable, or a phrase feels stale and you want the full cut list |
+| `references/ai-default-tells.md` | **the house style** — `sw lint` reports `house-style`, `em-dash` or `closer-sameness`; a chapter reads as machine-made and no banned phrase explains why; or you are revising chapter 1 of a new novel |
 | `references/audit-card.md` | never, by you. `revision-pass` Pass 8 opens it |
+
+## Range before polish
+
+The first thing to check, and the only one that cannot be fixed at the sentence level.
+
+Benchmark run #2 shipped five chapters that passed every phrase check in this toolkit and read as
+machine-written anyway. The cause was not a bad sentence; it was that **every** sentence was
+good in the same way. Every clause carried subtext, every scene closed on a small ironic
+withholding, and across 7,302 words the narrator never once changed gear. A reader feels that as
+sameness within a page and cannot name what is wrong, which is the worst kind of wrong.
+
+So, before any line edit:
+
+**Some sentences must carry information and nothing else.** No dash, no reversal, no irony, no
+lesson at the end. Somebody says a thing and means it. Something is described because it is
+there. Roughly a third of a chapter should read this way — not as a quota, as a gear.
+
+**Every scene does not close on a reflection.** At least one scene per chapter ends flat: on an
+action, or on a line of speech, with nothing appended to tell the reader how to feel about it.
+
+**The narrator has moods.** Blunt, hurried, warm, unfair, bored. A voice with one attitude is a
+register, not a person, and `narration.voice_notes` plus `style.read_like` in `novel.md` exist to
+give it more than one.
+
+Full diagnosis, the seven measured tells and why they cluster:
+`references/ai-default-tells.md`.
 
 ## Positive standards
 

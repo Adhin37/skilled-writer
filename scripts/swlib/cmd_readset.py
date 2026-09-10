@@ -20,6 +20,7 @@ CONFIG_KEYS = [
     "genre", "subgenre",
     "narration.person", "narration.tense", "narration.distance", "narration.interiority",
     "narration.voice_notes",
+    "style.read_like", "style.avoid",
     "pov.mode", "pov.switch_granularity", "pov.label_switches",
     "mc.name", "mc.intel_tier", "mc.origin", "mc.form_locked",
     "mc.foreknowledge_grain", "mc.foreknowledge_first_win_ch", "mc.foreknowledge_fails_ch",
@@ -176,6 +177,12 @@ def build(novel, number, chars=None, locs=None, want_society=False):
 
     add("\n## 0. CONFIG (novel.md, the fields that gate a chapter)")
     add("\n".join(cfg_lines))
+
+    sample = novel.get("style.sample")
+    if sample:
+        add("\n### STYLE TARGET - write toward this register")
+        add(str(sample).strip())
+        add("(imitation, not transcription: match the density and the variety, not the words)")
 
     add("\n### active modules - open these and no others")
     if modules:

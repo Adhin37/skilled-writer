@@ -23,13 +23,23 @@ This toolkit keeps the *engine* of the format — fast hooks, escalating stakes,
 serial cadence — and explicitly strips the rest. Two skills, `mtl-detox` and `bias-guard`, run on
 every chapter and are not optional.
 
-**A chapter is judged by what it delivers, not by how long it is.** The gate is five questions —
-what did the POV character want, what stood in the way, **what is materially different at the
-end**, what did it cost, and what does the reader now need to see. Word count is recorded as a
-fact and scored on nothing. That is a correction: earlier versions gated on a target with
-tolerances, and chapters clustered against the floor, then against the tightened floor, then
-landed on the declared minimum to the word. Any number that decides whether a chapter ships gets
-optimised, and prose optimised toward a length is padded or truncated prose.
+**A chapter has to make something happen, and then be judged on what it delivers.** Two gates, in
+that order. `event:` is what *happens* — one clause a reader could retell, a concrete verb and a
+target — and the beat it names gets the longest scene in the chapter. `delivers:` is what is
+materially different afterwards, checked by five questions: what did the POV character want, what
+stood in the way, what changed, what did it cost, what does the reader now need to see.
+
+Both gates exist because each fails alone. A delivery gate on its own is satisfied by
+abstractions: asked for "a difference, not a summary of events", a model writes *"proximity that
+isn't refused"* and ships eleven hundred words in which nothing occurs. A length gate is worse —
+earlier versions used one, and chapters clustered against the floor, then against the tightened
+floor, then landed on the declared minimum to the word. Any number that decides whether a chapter
+ships gets optimised. Word count is recorded as a fact and scored on nothing.
+
+**And the book has to change temperature.** Every chapter declares a `temp` and a `hooktype`
+before it is drafted, and `sw arc` checks the distribution across the arc rather than scoring any
+chapter. One register for a whole book — every scene the same pitch, every chapter closing on the
+same shape — is what reads as machine-written, and no list of banned phrases catches it.
 
 ## Setup
 

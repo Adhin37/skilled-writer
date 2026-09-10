@@ -85,16 +85,22 @@ sword swinging mid-air every chapter exhausts readers and cheapens the real ones
 
 A hook is **an unresolved pressure the reader wants relieved.**
 
-| hook type | what it does | frequency |
-|---|---|---|
-| **Revelation** | new information reframes what came before | often |
-| **Arrival** | someone or something appears | often |
-| **Decision** | the MC chooses, and the reader wants the consequence | often |
-| **Question** | a fact that does not fit | often |
-| **Threat** | a clock starts, or an intention is stated | moderate |
-| **Reversal** | what the reader thought was true is not | occasional |
-| **Cliffhanger** | physical peril, unresolved | **max once per 8–10 chapters** |
-| **Quiet** | a line that lands emotionally; no question at all | once per arc, after a heavy chapter |
+| hook type | slug | what it does | frequency |
+|---|---|---|---|
+| **Revelation** | `reveal` | new information reframes what came before | often |
+| **Arrival** | `arrival` | someone or something appears | often |
+| **Decision** | `decision` | the MC chooses, and the reader wants the consequence | often |
+| **Question** | `question` | a fact that does not fit | often |
+| **Threat** | `threat` | a clock starts, or an intention is stated | moderate |
+| **Reversal** | `reversal` | what the reader thought was true is not | occasional |
+| **Cliffhanger** | `cliff` | physical peril, unresolved | **max once per 8–10 chapters** |
+| **Quiet** | `quiet` | a line that lands emotionally; no question at all | once per arc, after a heavy chapter |
+
+The slug goes in the `hooktype` column of `plan/chapters.md`, **set when the row is planned, not
+after the chapter is written**. Written afterwards it is a label describing what came out;
+written beforehand it is a decision the prose has to meet. `sw arc` checks the distribution — no
+shape more than twice in any five chapters, four distinct shapes across an arc — and never scores
+a single chapter, because a per-chapter rule here is satisfied by appending a sentence.
 
 **Construction.**
 
@@ -105,12 +111,56 @@ A hook is **an unresolved pressure the reader wants relieved.**
    line in the ledger" is.
 4. **Do not answer it in the first line of the next chapter.** Let it breathe for a page.
 5. **Rotate types.** Three revelation hooks in a row and the reader stops feeling them.
+   Benchmark run #2 closed *four of five* chapters on the same shape — a short, withheld,
+   ironic line of narration with nobody speaking: *"The gate hung open." · "The small hand found
+   hers, tighter, in her sleep." · "Neither did Enko." · "The door stayed shut, this time, and
+   nobody was watching it."* Each one is a good last line. Together they are a tic, and a reader
+   registers the sameness long before they could say what is repeating. `sw lint` reports this
+   as `closer-sameness`.
 6. The **arc-ending hook** is the strongest in the arc — usually a reversal or a threat that
    reframes the next 25 chapters.
 
 **Hook honesty.** A hook that implies a fight and delivers a conversation is a bait. It works once
 and costs trust. Deliver the thing you implied, or deliver something better and more surprising —
 never something smaller.
+
+## The temperature ledger
+
+Nothing in this toolkit tracked register before, which is why benchmark run #2 did not have one.
+Five chapters, one temperature: quiet, interior, controlled, ironic. A massacre, a forged
+record, a Hokage interrogation and a child refusing a bowl of rice all read at exactly the same
+pitch — and a reader who cannot point at a bad sentence still closes the tab, because a book with
+one gear is a book that does not seem to care which scene it is in.
+
+Every planned row in `plan/chapters.md` declares a **temp** before it is drafted:
+
+| temp | what the chapter feels like |
+|---|---|
+| `fast` | events outrun reflection; the POV character is behind the situation |
+| `tense` | slow, but something could go wrong at any line |
+| `loud` | confrontation, a crowd, a fight, a public scene |
+| `warm` | connection that is not undercut — allowed to simply land |
+| `funny` | the chapter is enjoying itself; the stakes still exist |
+| `bleak` | the cost is paid and nothing softens it |
+| `procedural` | competence on display; the pleasure is watching work get done |
+| `quiet` | recovery, intimacy, the small scene after the loud one |
+
+**Rules, all distributional.**
+
+- Never the same temp three chapters running.
+- At least four distinct temps across an arc.
+- `quiet` and `warm` are *earned*: they land because the chapter before them was `loud` or
+  `bleak`. Two quiet chapters in a row is not a rest, it is a stall.
+- The temp is written **before** drafting. Set afterwards it is a label; set beforehand it is a
+  constraint the prose has to satisfy.
+
+`sw arc` prints the ledger and flags runs, thin variety, and hook repeats. It does not score any
+chapter, and it must not — a number attached to one chapter is a number the next chapter gets
+written toward (`docs/design-notes.md`, "Why the gate is delivery, not length").
+
+**Temperature is not the same as pacing.** `temp` is what the *chapter* feels like from outside;
+the table below is how sentences move *within* it. A `quiet` chapter still varies its sentence
+speed internally.
 
 ## Pacing within a chapter
 
