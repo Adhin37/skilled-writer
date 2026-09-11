@@ -123,9 +123,9 @@ reader can tell that they are bad.**
 
 The failure mode in full:
 
-- Chapter 2: the MC says one word she shouldn't know.
+- Chapter 2: the MC says one word he shouldn't know.
 - Chapter 3: an adult notices.
-- Chapter 4: the adult is now certain something is wrong with her.
+- Chapter 4: the adult is now certain something is wrong with him.
 - The reader, meanwhile, has not been told what world this is, what a file costs, who reads it, or
   what happens to anomalies here.
 

@@ -24,6 +24,7 @@ it can constrain a scene, be contradicted, or recur. Target **600–1,000 words*
 | file | open it when |
 |---|---|
 | `references/genre-notes.md` | the society layer is built and has to reach a chapter, or you want the notes on how the six questions land in fantasy, scifi and fanfic |
+| `references/gendered-experience.md` | building the society layer, or the cast's men and women move through the world identically and read as one another with different names |
 
 ## 1. The six load-bearing questions
 
@@ -91,6 +92,10 @@ Societies are not uniform, and a uniform one reads as fake in one paragraph.
   edge where nobody enforces anything.
 - **Nothing is symmetrical.** Not five equal houses; one dominant, one dying, one denied.
 - **Somebody is losing.** A society with no group actively being squeezed has no plot in it.
+- **Gender changes the same fact too**, in whatever way this society decides — and what each
+  character *does* about that expectation is theirs, not their gender's. The six terms to declare,
+  the stance table that keeps it from becoming two templates, and how it reaches dialogue:
+  `references/gendered-experience.md`. The floor in §5 binds all of it.
 
 ## 4. Counter-pressure
 

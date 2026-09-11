@@ -209,6 +209,19 @@ class TestLintAndAudit(unittest.TestCase):
             self.assertIn("0001-chapter.md", out)
             self.assertIn("0002-chapter.md", out)
 
+    def test_audit_sees_a_habit_no_single_chapter_shows(self):
+        """Run #3. The writing agent offered "`sw audit` returns 0 defects" as proof the novel was
+        clean while a drafting habit ran through 4 of its 5 chapters, because every check `audit`
+        composed was per-chapter. A habit is not visible in one chapter by definition."""
+        quiet = ("She counted the sacks again and wrote the number down in the second column "
+                 "where nobody would look for it until the quarter closed.\n")
+        with NovelFixture() as fx:
+            for n in range(1, 6):
+                fx.add_chapter(n, quiet)
+            _code, out, _err = run("audit", fx.root)
+            self.assertIn("history-dialogue", out,
+                          "audit lost the cross-chapter view it was given in run #3")
+
 
 if __name__ == "__main__":
     unittest.main()

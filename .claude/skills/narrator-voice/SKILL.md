@@ -48,9 +48,9 @@ sits from the POV character's mind.
 | distance | example |
 |---|---|
 | **cool** — camera outside | *Rin crossed the market and stopped at the third stall.* |
-| **medium** — reports thought | *Rin crossed the market, watching for the stall she had been told about.* |
-| **close** — the prose thinks in her idiom | *Third stall. The one with the bad awning. Rin kept her hands where the seller could see them.* |
-| **deep** — no seam between prose and thought | *Third stall, bad awning, and the seller's eyes already on her hands. Fine. Let him look.* |
+| **medium** — reports thought | *Rin crossed the market, watching for the stall he had been told about.* |
+| **close** — the prose thinks in his idiom | *Third stall. The one with the bad awning. Rin kept his hands where the seller could see them.* |
+| **deep** — no seam between prose and thought | *Third stall, bad awning, and the seller's eyes already on his hands. Fine. Let him look.* |
 
 **Distance is a rhythm, not a setting.** The craft is in moving it deliberately:
 
@@ -102,7 +102,7 @@ write into the meta channel; this section decides what each looks like on the pa
 This is the rule that keeps the other three from ruining the prose. Interiority reaches the page
 *inside the narration*, in the character's idiom, with no typography at all:
 
-> She wasn't looking for anything to take. That was the part she'd have had trouble explaining, if
+> He wasn't looking for anything to take. That was the part he'd have had trouble explaining, if
 > anyone had asked, which nobody had, yet.
 
 That is thought. It wears no marks, it needs none, and at `close` or `deep` distance it is
@@ -119,10 +119,10 @@ thought channels and no default.
 `'…'` is for the one sentence a character puts to themselves in words — usually at a decision,
 usually when the free indirect voice would blur something that needs to be sharp:
 
-> The clerk turned the form around and tapped the empty line. Guardian. She looked at it for
+> The clerk turned the form around and tapped the empty line. Guardian. He looked at it for
 > longer than a four-year-old should need to look at a word.
 > *'Don't help them fill it in.'*
-> "I don't know," she said.
+> "I don't know," he said.
 
 **One to three per chapter.** Past that, the narrator stops being a mind and becomes a comic strip
 with thought bubbles, and the effect inverts: marked thought is emphatic *because* it is rare.
@@ -188,7 +188,7 @@ the page through the first move.
 - [ ] Non-POV characters shown through first moves, never through interiority
 - [ ] The three voice rules hold
 - [ ] Free indirect discourse carries the interiority; it is unmarked
-- [ ] Direct thought `'…'` used 1–3 times, at decisions, and never tagged with *she thought*
+- [ ] Direct thought `'…'` used 1–3 times, at decisions, and never tagged with *he thought*
 - [ ] No non-POV character got a direct thought
 - [ ] No apostrophe read as a thought mark; no nested speech-quotation read as thought
 - [ ] Meta `[…]` matches the `lexicon.md` format; italics do their one declared job

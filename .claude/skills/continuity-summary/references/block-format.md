@@ -11,7 +11,7 @@ One block per chapter. Fixed key order. Lowercase keys, `>` separator, ` / ` bet
 
 ```
 =C0042= pov:Rin | loc:Ashfall Market>Guild undercroft | t:D12 dusk | wc:1840 | arc:2
-dlv> Rin can no longer use the Guild archive, and knows who closed it to her
+dlv> Rin can no longer use the Guild archive, and knows who closed it to him
 ev> buys forged map / spots guild seal is a fake / tails the forger / hides in undercroft
 chg> Rin: wary->suspicious(Guild) ; Dael: admits debt, -2 trust w/Rin
 pwr> P=+1 vs the Warden's man (T4 vs Rin T3) survived, ribs / Echo-step x2 (nosebleed, 6h lock) / limit shown: fails indoors
@@ -20,9 +20,9 @@ thr> ~T14(forged-seal) ^T03(father-debt) vT09(oath to Mira: she forgives him)
 obj> get the buyer's name -> next: read the Guild ledger
 bod> Rin: F2 juvenile, unchanged / could not reach the top shelf, stacked crates instead
 wld> Vesh: opens a file on Rin (institution, latency 10, fires ~ch52) / W04 grain levy unmoved
-fk> spent K3(forger's name) to place herself in the undercroft -> K3 spent ; K7,K9 now suspect (she was never there in the remembered version)
+fk> spent K3(forger's name) to place himself in the undercroft -> K3 spent ; K7,K9 now suspect (she was never there in the remembered version)
 set> undercroft: wet chalk smell, one lamp / Rin owns Dael's coat now
-hook> the ledger's first line is her father's name
+hook> the ledger's first line is his father's name
 open> who paid the forger / why the Guild tolerates it
 ```
 
@@ -75,20 +75,20 @@ v      paid off              ()     parenthetical cost or qualifier
 ## Arc digest format
 
 ```
-=ARC2= ch26-50 | q:can Rin buy back her father's name? | a:no, she burns it instead
+=ARC2= ch26-50 | q:can Rin buy back his father's name? | a:no, he burns it instead
 ev> guild ledger names father / Rin trades the map to Vesh / undercroft raid / Dael dies
 chg> Rin: rung2->rung4 (stops asking permission) ; Vesh: ally->creditor
 kno> Rin+{father sold the seal willingly} ; reader+{Vesh ordered the raid}
 thr> paid:T03,T09 open:T14,T21 new:T27(Vesh's claim on Rin)
 cost> Dael dead / Rin's name blacklisted in Ashfall / left hand scarred
-end> Rin leaves Ashfall owing Vesh a favour she cannot define
+end> Rin leaves Ashfall owing Vesh a favour he cannot define
 ```
 
 ## Book digest format
 
 ```
 prem> one sentence
-mc> Rin | tier3 | want:clear father's name | need:stop defining herself by it | wound:abandoned at 9
+mc> Rin | tier3 | want:clear father's name | need:stop defining himself by it | wound:abandoned at 9
 world> three lines max: the constraint, the power, the scarcity
 arc> 1:<six words> 2:<six words> 3:<six words>
 open> the standing questions, ids only

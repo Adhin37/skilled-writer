@@ -108,7 +108,7 @@ a single chapter, because a per-chapter rule here is satisfied by appending a se
 1. End on the **last strong beat**, not on the wind-down after it. The most common hook failure
    is three paragraphs past the right stopping point.
 2. Put the hook in the **final sentence or short paragraph**, alone on the line.
-3. Make it **concrete**. "Something was wrong" is not a hook. "Her father's name was the first
+3. Make it **concrete**. "Something was wrong" is not a hook. "His father's name was the first
    line in the ledger" is.
 4. **Do not answer it in the first line of the next chapter.** Let it breathe for a page.
 5. **Rotate types.** Three revelation hooks in a row and the reader stops feeling them.

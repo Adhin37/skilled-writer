@@ -21,11 +21,11 @@ mid-chapter unless `pov-switch` says a switch is happening.
 **Free indirect is the default and it wears no marks.** Interiority reaches the page inside the
 narration, in the character's idiom:
 
-> She wasn't looking for anything to take. That was the part she'd have had trouble explaining, if
+> He wasn't looking for anything to take. That was the part he'd have had trouble explaining, if
 > anyone had asked, which nobody had, yet.
 
 That is thought. Marked thought is emphatic *because* it is rare — past three, the narrator becomes
-a comic strip with thought bubbles. Never tag one with *she thought*; the mark already said it.
+a comic strip with thought bubbles. Never tag one with *he thought*; the mark already said it.
 
 **Three collisions, all of which break a draft:**
 

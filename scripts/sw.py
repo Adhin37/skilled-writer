@@ -178,6 +178,15 @@ def do_audit(args):
     rep.extend(cmd_cast.run(novel))
     rep.extend(cmd_state.run(novel))
     rep.extend(cmd_curve.run(novel))
+    # Benchmark run #3: the writing agent reported "`sw audit` returns 0 defects" as its evidence
+    # the novel was clean, on a novel where `campaign-clause` was firing on 4 of 5 chapters and
+    # `sw history` said so. Every check here was per-chapter, and a habit is by definition not
+    # visible in one chapter - so the gate people actually run could not see the one class of
+    # defect that most needs a whole-novel view. Only the cross-chapter findings are added;
+    # history's per-chapter trends come from the same `lint` already run above.
+    hist, _data = cmd_history.run(novel)
+    rep.findings.extend(f for f in hist.findings
+                        if f.check in ("history-dialogue", "history-habit"))
     return _emit(rep, args)
 
 

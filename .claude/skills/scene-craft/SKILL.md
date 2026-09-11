@@ -52,8 +52,8 @@ and it is the exact test `revision-pass` Pass 9 runs on the finished draft, so b
 | **Cost** | what was paid, and by whom | nothing — see `conflict-engine` |
 | **Next** | what the reader now needs to see | the hook asks something the chapter already answered |
 
-**Change is the load-bearing one, and it is not a summary of events.** *"She asks about the
-recount"* is events. *"She is now someone the matron watches on purpose"* is a change. The
+**Change is the load-bearing one, and it is not a summary of events.** *"He asks about the
+recount"* is events. *"He is now someone the matron watches on purpose"* is a change. The
 difference is whether you could state it without narrating the chapter — and a chapter that cannot
 be stated that way is one a reader could skip.
 

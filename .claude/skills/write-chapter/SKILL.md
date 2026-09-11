@@ -211,11 +211,11 @@ Seven lines to the user, no more:
 ```
 Ch 42 — "The Ledger Room" → novels/<slug>/chapters/0042-the-ledger-room.md
 Event: Rin is refused at the archive door and takes the ledger anyway.
-Delivers: Rin can no longer use the Guild's archive, and knows who closed it to her.
+Delivers: Rin can no longer use the Guild's archive, and knows who closed it to him.
 Cost: Rin loses Dael's trust; Echo-step now known to the Guild.
 Gate: passed — cut a crowd-reaction block, replaced the ending. Every pass had its card.
 Threads: opened T14 (forged seal), paid T09 (oath to Mira).
-Next: ch 43 is planned — she reads the ledger. Say go, or tell me what to change.
+Next: ch 43 is planned — he reads the ledger. Say go, or tell me what to change.
 ```
 
 **Lead with the delivery, and do not report a word count.** Reporting length is what taught the

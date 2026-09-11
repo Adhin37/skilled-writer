@@ -127,6 +127,31 @@ class TestTurnLength(unittest.TestCase):
     LONG = "\n\n".join(
         ['Ana looked up. "%s," Ana said.' % (" ".join(["word"] * 30)) for _ in range(5)])
 
+    def test_a_dialogue_tag_does_not_halve_a_speakers_turn(self):
+        """Run #3, T4, second home. The span-vs-turn bug was fixed in `textstats` for the chapter
+        mean and survived HERE, re-implemented, in the per-speaker view that exists precisely to
+        catch what a chapter mean hides. Splitting one 30-word turn with a tag must not read as
+        two 15-word turns."""
+        rows = ("| Ana | MC | 3 | 3 | dry | flat | 20 | taps | still | the door |",
+                "| Bo | A | 1 | 2 | warm | quick | 9 | rubs | smaller | the floor |")
+
+        def run(body):
+            with NovelFixture() as fx:
+                fx.write("bible/cast/_voices.md", voices(*rows))
+                fx.add_chapter(1, body)
+                return findings(cmd_cast.run(fx.novel()))
+
+        # Declared 20. One 30-word turn is +50% and must be noted; split by a tag it used to
+        # measure as two 15-word turns, which is -25% and inside tolerance - the drift vanished.
+        whole = "\n\n".join(['Ana looked up. "%s," Ana said.' % (" ".join(["word"] * 30))
+                              for _ in range(5)])
+        tagged = "\n\n".join(['Ana looked up. "%s," Ana said. "%s"'
+                               % (" ".join(["word"] * 15), " ".join(["word"] * 15))
+                               for _ in range(5)])
+        self.assertIn(("turn-drift", "note"), run(whole))
+        self.assertIn(("turn-drift", "note"), run(tagged),
+                      "a dialogue tag hid a speaker's real turn length")
+
     def test_a_speaker_far_off_their_declared_turn_is_noted(self):
         rep = self._run(self.LONG)
         self.assertIn(("turn-drift", "note"), findings(rep))

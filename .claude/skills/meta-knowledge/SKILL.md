@@ -15,8 +15,8 @@ botched one. Two failures, and most drafts pick one and commit:
 | **The handicap** | Foreknowledge is introduced as already-unreliable and exists only to be wrong | The reader was promised an advantage and shown a disability. They invested in something the author was embarrassed by |
 
 The second is subtler, more common in careful writing, and worse — because the author believes
-they are being sophisticated. **A blurb that promises "she knows what's coming" and a plan whose
-first foreknowledge beat is *"realizes she can no longer tell fan theory from what she actually
+they are being sophisticated. **A blurb that promises "he knows what's coming" and a plan whose
+first foreknowledge beat is *"realizes he can no longer tell fan theory from what he actually
 read"* have made a bait-and-switch**, no matter how well the prose behaves.
 
 The correct shape is neither. **Foreknowledge is a resource with a grain, a cost, and a decay rate

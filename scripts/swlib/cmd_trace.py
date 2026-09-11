@@ -41,6 +41,12 @@ def _classify(roster, novel):
         for name, triggers in rules.GENRE_MODULES.items():
             if genre not in triggers and sub not in triggers:
                 off.add(name)
+        # Config-gated, not switch-gated: `content.romance: none` turns lead-interest off as
+        # surely as an `optional:` key would, and reporting that as a missed skill is a false
+        # positive on correct behaviour.
+        for name, (key, off_values) in rules.CONFIG_GATED_MODULES.items():
+            if str(novel.get(key, "") or "").strip().lower() in off_values:
+                off.add(name)
     return [s for s in roster if s not in off], sorted(off & set(roster))
 
 

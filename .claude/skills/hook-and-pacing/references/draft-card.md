@@ -32,7 +32,7 @@ you'll recall". If more than a clause is needed, the previous chapter's hook was
 - Rotate the type: it differs from the previous two chapters.
 - End on the **last strong beat**, not the wind-down after it — three paragraphs past the right
   stopping point is the usual failure.
-- Concrete. *"Something was wrong"* is not a hook; *"Her father's name was the first line in the
+- Concrete. *"Something was wrong"* is not a hook; *"His father's name was the first line in the
   ledger"* is.
 - **Hook honesty**: deliver what you implied, or something better — never something smaller.
 

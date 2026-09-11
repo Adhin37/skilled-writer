@@ -32,8 +32,8 @@ three suit converging lines. Proportions, not word counts.
 | **Cost** | what was paid, and by whom | nothing — go to `conflict-engine` |
 | **Next** | what the reader now needs to see | the hook asks what the chapter already answered |
 
-**Change is load-bearing, and it is not a summary of events.** *"She asks about the recount"* is
-events; *"she is now someone the matron watches on purpose"* is a change. If you cannot state it
+**Change is load-bearing, and it is not a summary of events.** *"He asks about the recount"* is
+events; *"he is now someone the matron watches on purpose"* is a change. If you cannot state it
 without narrating the chapter, the chapter is not ready to draft. This answer becomes `delivers:`.
 
 Any repeated beat — a second refusal, a second failed attempt — costs more than the first, or one

@@ -80,7 +80,7 @@ When a form changes, add a `bod>` line to that chapter's CCS block:
 
 ```
 bod> Rin: F2 juvenile -> F3 adolescent (ch 88, growth spurt over the winter) / can now reach the
-     upper shelves, voice broke, Vesh no longer speaks over her
+     upper shelves, voice broke, Vesh no longer speaks over him
 ```
 
 Record what the change **enables** and what it **costs** — a new form closes doors too. A child

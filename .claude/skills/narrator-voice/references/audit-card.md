@@ -15,7 +15,7 @@ them from there too.
       the surplus back to free indirect discourse
 - [ ] **No apostrophe was mistaken for a thought mark.** `don't`, `she'd`, `the boys' room` are
       not thought. Every thought opens at a word boundary and closes before punctuation or space
-- [ ] No marked thought is tagged *she thought* — the mark already said it
+- [ ] No marked thought is tagged *he thought* — the mark already said it
 - [ ] Every thought mark **inside** a speech span is an ordinary nested quotation
 - [ ] Meta blocks match the format in `lexicon.md`; none opens a chapter; no two run consecutively
 - [ ] No italics anywhere in the prose body, in either spelling (`*x*`, `_x_`)

@@ -412,7 +412,7 @@ contradiction waiting for whichever skill gets edited next. Rationale:
 | `status <novel>` | `/novel-status` |
 | `stamp <novel> -c N` | `revision-pass` Pass 10 · `write-chapter` step 4 |
 | `newnovel <slug>` | `novel-init` step 3 |
-| `audit <novel>` | the independent whole-novel gate |
+| `audit <novel>` | the independent whole-novel gate — every per-chapter check, plus `history`'s cross-chapter habit findings, because a habit is by definition invisible in one chapter |
 | `history <novel>` | the whole book as a series — dialogue and length trends, recurring lint checks, thread ages, the pressure series |
 | `trace [novel]` | what a run cost, and **which skill files it actually opened** — the finding-9 check |
 | `health` | the toolkit's own wiring: skills, cards, references, **scope claims and cross-skill duplication**, the template accessors, the docs |
@@ -428,7 +428,8 @@ clean run is not a passed revision** — the distributional and judgement passes
 and `bias-guard` has no script at all, deliberately.
 
 The last four review the **process** rather than the novel, and the same rules bind them: `trace`
-measures a run and scores nothing, `history` prints trends and scores nothing, `health` checks
+measures a run and scores nothing, `history` prints trends and raises no defect of its own — its
+two cross-chapter findings are warns, and `audit` is where they are meant to be read — `health` checks
 wiring and says nothing about whether a skill's advice is good, and `selftest` proves the pipeline
 runs without proving any chapter is worth reading. `trace` is the only command that reads outside
 the repo; it takes usage, timestamps and tool names from Claude Code's transcripts and never

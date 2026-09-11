@@ -161,6 +161,16 @@ character doing the thing that establishes them while the scene is already movin
 | power | "who could refuse the request" | she initials it, and says she noticed |
 | stroke | "a stern woman of forty" | she sets the pen down before she says the hard thing |
 
+A second, in a different key — the three delivered in one moving sentence rather than a table:
+
+> The quartermaster did not look up from the crate he was counting. "Whatever it is, Dael signs
+> for it, not me." He went back to counting, and got the number wrong, and started again.
+
+Relation (he answers to Dael), power (he can refuse, and does), stroke (he is rattled and hiding
+it) — none of it captioned, all of it while the scene keeps moving.
+
+**Their stance is theirs, not their gender's.** Every tier-A and tier-B profile records one `stance` — what this character does about what their society expects of their gender, from conforming and benefiting to enforcing it on others. `social-fabric` owns the table and the six terms it hangs off (`social-fabric/references/gendered-experience.md`); no trait follows from gender alone, which `bias-guard` §Gender already settles.
+
 **Subtext is priced in what the reader already knows.** A loaded exchange between two people is
 only loaded if the reader can price the relationship. History between characters lands *after*
 placement, never instead of it — a reader who cannot tell who is speaking to whom reads tension as

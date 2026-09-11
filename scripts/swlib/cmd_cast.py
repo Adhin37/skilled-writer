@@ -206,6 +206,61 @@ def _debuts(novel, rep, rows):
         rep.info("debuts", lines)
 
 
+def _cadence(rep, spoken):
+    """How each speaker BUILDS a turn, as far as counting reaches. Printed, never scored.
+
+    `voice-separation` section 3's cadence test has no script by design - cadence is a shape and the
+    matrix axes are numbers - and the writing agent in benchmark run #3 named that as the one
+    repair it had no mechanical backstop for over a long run. This does not replace the judgement;
+    it puts the three countable shadows of cadence side by side so two speakers can be compared
+    at an arc rollup without re-reading every scene.
+
+    `sent` mean words per sentence inside their turns
+    `frag` share of their sentences that never reach a full stop
+    `fall` share of their multi-sentence turns that END on a sentence well under their own
+           average - the long-balanced-then-short-flat landing that made run #3's mother and
+           her six-year-old daughter read as one person on two different matrix rows
+    """
+    sig = {}
+    for name, turns in spoken.items():
+        sents, falls, multi = [], 0, 0
+        for turn in turns:
+            parts = [p.strip() for p in re.split(r"(?<=[.!?])\s+", turn) if p.strip()]
+            lens = [len(p.split()) for p in parts]
+            if not lens:
+                continue
+            sents.extend(lens)
+            if len(lens) >= 2:
+                multi += 1
+                if lens[-1] < 0.6 * (sum(lens) / float(len(lens))):
+                    falls += 1
+        if len(sents) < 4:
+            continue
+        frag = sum(1 for p in turns for q in [p] if not q.rstrip().endswith((".", "!", "?")))
+        sig[name] = (sum(sents) / float(len(sents)),
+                     frag * 100.0 / len(turns),
+                     (falls * 100.0 / multi) if multi else 0.0)
+    if len(sig) < 2:
+        return
+    lines = ["   %-24s %-7s %-7s %-7s" % ("character", "sent", "frag%", "fall%")]
+    for name in sorted(sig):
+        a, b, c = sig[name]
+        lines.append("   %-24s %-7.1f %-7.0f %-7.0f" % (name[:24], a, b, c))
+    lines.append("   Printed, never scored - cadence is a shape and these are its shadows.")
+    lines.append("   Two speakers close on all three are worth reading side by side")
+    lines.append("   (voice-separation section 3, the cadence test).")
+    rep.info("cadence, as far as counting reaches", lines)
+
+
+def _paragraph_bounds(body):
+    """(start, end) for each blank-line-separated paragraph, in order."""
+    out, pos = [], 0
+    for para in body.split("\n\n"):
+        out.append((pos, pos + len(para)))
+        pos += len(para) + 2
+    return out
+
+
 def _turn_lengths(novel, rep, rows):
     """Each speaker's measured turn length against the one their own row declares.
 
@@ -233,23 +288,44 @@ def _turn_lengths(novel, rep, rows):
         toks = [t for t in re.split(r"[^\w']+", name) if len(t) >= 2]
         tokens[name] = [t for t in toks if world.get(t.lower(), 0) < 3] or toks
 
-    measured, attributed, total = {}, 0, 0
+    # One paragraph is one TURN, and every `"…"` span inside it counts together. Run #3, T4: this
+    # loop used to measure each span on its own, so `"…," she said. "…"` - the ordinary way to
+    # punctuate a long speech - halved the speaker's measured turn length. The bug was fixed in
+    # `textstats.speech_line_lengths` for the chapter mean and survived here, in the per-speaker
+    # view, which is the one that exists precisely to catch what a chapter mean hides.
+    measured, spoken, attributed, total = {}, {}, 0, 0
     for ch in chapters:
-        for (start, end) in ch.speech_ranges:
+        body = ch.body
+        ranges = ch.speech_ranges
+        i = 0
+        for para_start, para_end in _paragraph_bounds(body):
+            spans = []
+            while i < len(ranges) and ranges[i][0] < para_end:
+                if ranges[i][0] >= para_start:
+                    spans.append(ranges[i])
+                i += 1
+            if not spans:
+                continue
             total += 1
-            words = len(ch.body[start:end].split())
+            words = sum(len(body[s:e].split()) for s, e in spans)
             if not words:
                 continue
-            para_start = ch.body.rfind("\n\n", 0, start) + 1
-            para_end = ch.body.find("\n\n", end)
-            around = (ch.body[para_start:start] +
-                      ch.body[end:para_end if para_end != -1 else len(ch.body)])
+            # Every scrap of narration in the paragraph that is NOT inside a quote. The tag most
+            # often sits *between* two spans - `"…," Sara said. "…"` - so taking only the text
+            # before the first and after the last throws away the attribution evidence.
+            around, cursor = "", para_start
+            for s, e in spans:
+                around += body[cursor:s]
+                cursor = e
+            around += body[cursor:para_end]
             hits = [n for n, toks in tokens.items()
                     if any(re.search(r"\b%s\b" % re.escape(t), around) for t in toks)]
             if len(hits) != 1:
                 continue
             attributed += 1
             measured.setdefault(hits[0], []).append(words)
+            spoken.setdefault(hits[0], []).append(
+                " ".join(body[s:e].strip('\"\u201c\u201d') for s, e in spans))
 
     lines = ["   %-24s %-9s %-9s %-7s %s"
              % ("character", "declared", "measured", "lines", "")]
@@ -270,6 +346,7 @@ def _turn_lengths(novel, rep, rows):
     lines.append("   cast name appears around it, so an unattributed line is silence here, not a "
                  "short turn.")
     rep.info("turn length, declared vs measured", lines)
+    _cadence(rep, spoken)
     if flagged:
         rep.note("turn-drift", "%s speak at more than 40%% off their declared turn length - a "
                  "chapter mean hides this, which is how it survived several revision passes in "

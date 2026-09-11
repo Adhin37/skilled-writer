@@ -194,6 +194,18 @@ OPTIONAL_MODULES = (
 )
 
 
+# CLAUDE.md section 3 lists these in the always-in-play tables, but each row makes the skill
+# conditional on CONFIG rather than on an `optional:` switch: lead-interest says "Skip if
+# content.romance: none", pov-switch says "Only if pov.mode allows it". Benchmark run #3 warned
+# that both were "never opened" on a novel that had correctly switched both off - a monitoring
+# tool that flags correct behaviour teaches you to stop reading its findings.
+# name -> (config key, values for which the skill is OFF)
+CONFIG_GATED_MODULES = {
+    "lead-interest": ("content.romance", ("none",)),
+    "pov-switch": ("pov.mode", ("single",)),
+}
+
+
 # The frontmatter revision-pass Pass 10 requires.
 REQUIRED_FRONTMATTER = ["number", "title", "pov", "arc", "event", "delivers", "wordcount",
                         "status"]

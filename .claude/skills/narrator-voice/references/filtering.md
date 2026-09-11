@@ -11,23 +11,23 @@ distance and flattens the sentence.
 
 | filtered | direct |
 |---|---|
-| She saw the door was open. | The door was open. |
+| He saw the door was open. | The door was open. |
 | He felt a chill run through him. | The cold went through his coat like it was not there. |
-| She realised the ledger was a forgery. | The ledger was a forgery. Of course it was. |
+| He realised the ledger was a forgery. | The ledger was a forgery. Of course it was. |
 | He noticed that the guard was gone. | The guard was gone. |
-| She heard footsteps behind her. | Footsteps, behind her. |
+| He heard footsteps behind him. | Footsteps, behind him. |
 
 Filter verbs to hunt: *saw, heard, felt, noticed, realised, watched, observed, thought, wondered,
-seemed, decided, found herself, could see, was aware that*.
+seemed, decided, found himself, could see, was aware that*.
 
 Keep a filter verb only when the *act of perceiving* is the point: *She watched him lie to her
 mother and did nothing.*
 
 **`thought` and `wondered` have a second escape.** The reason they are banned is that
-*she thought that the ledger was a forgery* puts a narrator between the reader and the mind. The
+*he thought that the ledger was a forgery* puts a narrator between the reader and the mind. The
 fix is usually free indirect discourse — *The ledger was a forgery. Of course it was.* — and
 occasionally the direct-thought channel, which needs no tag at all: `'The ledger's a forgery.'`
-What is never right is the tag plus the mark: `'The ledger's a forgery,' she thought.` says the
+What is never right is the tag plus the mark: `'The ledger's a forgery,' he thought.` says the
 same thing twice.
 
 ## Holding the voice across a serial

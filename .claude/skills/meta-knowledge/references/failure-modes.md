@@ -14,10 +14,10 @@ Declared once, in `bible/canon.md` (fanfic) or the bible's world file:
 | **Requires** knowledge | a newcomer is lost | halves the audience and reads as lazy |
 | **Explains** everything | every reference annotated | bores the audience you actually have |
 
-**The MC's foreknowledge is not a licence to skip exposition.** It is the opposite: because she
+**The MC's foreknowledge is not a licence to skip exposition.** It is the opposite: because he
 knows what a name means, the *narration* can move fast, but the reader still needs the anchor
 (`story-opening` §1). A name the MC recognises with dread is an anchor and an explanation at once —
-her reaction *is* the exposition.
+his reaction *is* the exposition.
 
 ## 7. Failure modes
 

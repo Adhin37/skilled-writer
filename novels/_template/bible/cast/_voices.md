@@ -17,6 +17,7 @@ copies of fields in each profile; the profile is the source of truth, this is th
 | **hands** | the one thing their hands do |
 | **pressure** | still · bigger · smaller · busy · closer · leaves |
 | **first move** | what they reach for or look at first when the situation changes |
+| **stance** | what they do about what this society expects of their gender: conforms-benefits · conforms-resents · exploits · defies-openly · defies-quietly · oblivious · enforces. Any character takes any value; two of the same gender should differ (`social-fabric/references/gendered-experience.md`) |
 
 ---
 

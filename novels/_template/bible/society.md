@@ -34,6 +34,20 @@ One table per hard rule from `power-system.md` / `canon.md`. See `social-fabric`
 | What died — the obsolete craft, and one person still doing it | |
 | The gap — what the rule cannot do, and the workaround people use there | |
 
+## Gendered terms
+
+<!-- One line each. "No difference" is a real answer and must then hold everywhere.
+     Then propagate them like any other rule - see social-fabric/references/gendered-experience.md -->
+
+| question | this society's answer |
+|---|---|
+| labour — which work is coded whose, who is paid less, who holds the licence | |
+| law & property — who inherits, signs, testifies, needs a guarantor | |
+| violence — who may carry, who is excused for force, who is blamed for force done to them | |
+| speech — who speaks first, who is interrupted, whose anger reads as authority | |
+| mobility & risk — who moves alone, when, at what cost | |
+| care — who is assumed to do it, what it costs them | |
+
 ## Unevenness
 
 | rule / law / custom | the exempt (name them) | the excluded | the provincial version |
