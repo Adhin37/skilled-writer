@@ -78,7 +78,8 @@ procedure; the references hold examples, catalogues and long tables, and are ope
 says to. See §8.
 
 **Each skill's frontmatter declares what it owns**, and the claim is exclusive — the table below
-says when to reach for a skill, `owns:` says whose rule a thing is when two skills both touch it.
+says when to reach for a skill, `metadata.owns:` says whose rule a thing is when two skills both
+touch it — and `sw kb owner <slug>` answers it without opening anything.
 The answer to "where does this rule live?" is always one skill, and every other skill cites it.
 
 **Core loop** — always in play:
@@ -374,16 +375,22 @@ small enough to be worth opening. Rationale: [design notes](docs/design-notes.md
 **Cite sections, never line numbers.** `hook-and-pacing` §Openings survives an edit;
 `hook-and-pacing:38-39` rots the moment a paragraph is added above it, and rots silently.
 
-**One concept, one owner.** Every skill declares its scope in frontmatter — `owns: [slug, slug]` —
-and no two skills may claim the same slug. A skill states the rules it owns; for everything else it
-**cites the owner by name and stops**. Citing is free: `sw health` strips code spans before it
-compares, so a pointer never reads as a copy.
+**One concept, one owner.** Every skill declares its scope in frontmatter — `metadata.owns:
+[slug, slug]` — and no two skills may claim the same slug. A skill states the rules it owns; for
+everything else it **cites the owner by name and stops**. Citing is free: `sw health` strips code
+spans before it compares, so a pointer never reads as a copy.
+
+It lives under `metadata:` because that is the only place the Agent Skills spec sanctions for
+custom keys: a top-level `owns:` works in Claude Code but hard-errors the moment the toolkit is
+packaged or uploaded. Everything the knowledge base reads sits there — `type`, `tier`, `when`,
+`owns`.
 
 ```bash
-grep -H '^owns:' .claude/skills/*/SKILL.md        # the whole map, one line per skill
+python3 scripts/sw.py kb list --type skill        # the whole map, one line per skill
+python3 scripts/sw.py kb owner <slug>             # whose rule is this?
 ```
 
-This is enforced, not aspirational. `sw health` fails a skill with no `owns:`, a slug claimed twice,
+This is enforced, not aspirational. `sw health` fails a skill with no `metadata.owns:`, a slug claimed twice,
 any **pair of skills carrying the same 10-word passage** more than twice, and any skill that
 **discusses another's concept twice without ever naming the owner** — the paraphrase case, where
 nothing matches because the rule was restated in different words. The reason is measured:
@@ -416,6 +423,7 @@ contradiction waiting for whichever skill gets edited next. Rationale:
 | `audit <novel>` | the independent whole-novel gate — every per-chapter check, plus `history`'s cross-chapter habit findings, because a habit is by definition invisible in one chapter |
 | `history <novel>` | the whole book as a series — dialogue and length trends, recurring lint checks, thread ages, the pressure series |
 | `trace [novel]` | what a run cost, and **which skill files it actually opened** — the finding-9 check |
+| `export <novel> --okf --out <dir>` | project a novel into an Open Knowledge Format bundle — an **export target, never the working format**, because `readset` hands over slices and a bundle hands over whole files |
 | `health` | the toolkit's own wiring: skills, cards, references, **scope claims and cross-skill duplication**, the template accessors, the docs |
 | `selftest` | the dry run — build a whole novel in a temp dir and run every command against it, clean and seeded |
 | `doctor` | start here when anything behaves oddly |
@@ -424,7 +432,9 @@ Three rules, all of which exist to stop a tool becoming an alibi. **An optimisat
 dependency** — every skill that names a command keeps its manual checklist underneath, and if the
 command is unavailable you do the checks by reading and say so in the report. **They find, they do
 not judge** — nothing here rewrites a prose body, and the only files they edit are chapter
-frontmatter, a CCS `wc:` field, a fresh scaffold, and `selftest`'s own throwaway directory. **A
+frontmatter, a CCS `wc:` field, a fresh scaffold, `selftest`'s own throwaway directory, and an
+**export bundle written into a directory that does not yet exist** (`sw export --okf`, which
+refuses an existing one). **A
 clean run is not a passed revision** — the distributional and judgement passes are untouched by it,
 and `bias-guard` has no script at all, deliberately.
 

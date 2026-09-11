@@ -11,8 +11,9 @@ stdout, and the index itself is derived on every call rather than stored.
 
 import json
 import os
+import re
 
-from . import kb, kbexpr
+from . import kb, kbexpr, mdio
 from .report import Report
 
 ACTIONS = ("owner", "show", "list", "search", "cards", "passes", "validate")
@@ -188,7 +189,78 @@ def _speakers(novel, number):
 # ---------------------------------------------------------------- validation
 
 
+RESERVED = ("index.md", "log.md")
+
+
+def _validate_bundle(path, args):
+    """OKF section 11 conformance, applied to a bundle this repo did not necessarily write.
+
+    Permissive on purpose, and the permissiveness is the spec's, not a shrug: section 11 says a
+    consumer MUST NOT reject a bundle for a missing optional field, an unknown `type`, an unknown
+    extra key, a broken cross-link or a missing `index.md`. Only two things are hard requirements
+    - parseable frontmatter, and a non-empty `type` - so only those are defects here.
+
+    `sw health` is the other half and does not work this way. It audits *this repo's own* corpus,
+    where the whole value is a contract a low-effort model cannot wriggle out of, and it defects
+    freely. Strict at authoring, permissive at consumption; the two are not in tension.
+    """
+    rep = Report("kb validate --okf - %s" % os.path.basename(os.path.abspath(path)))
+    if not os.path.isdir(path):
+        rep.defect("okf", "%s is not a directory" % path)
+        print(rep.render(show=getattr(args, "show", "warn")))
+        return 1
+
+    docs, targets = [], set()
+    for sub, _dirs, files in os.walk(path):
+        for fname in sorted(files):
+            if not fname.endswith(".md"):
+                continue
+            full = os.path.join(sub, fname)
+            rel = os.path.relpath(full, path).replace(os.sep, "/")
+            targets.add("/" + rel)
+            if fname in RESERVED:
+                continue
+            text = mdio.read_text(full)
+            fm, body = mdio.split_frontmatter(text)
+            if not fm:
+                rep.defect("okf", "%s has no YAML frontmatter - section 11 requires it" % rel,
+                           path=full)
+                continue
+            cfg = mdio.parse_yaml(fm)
+            if not str(cfg.get("type") or "").strip():
+                rep.defect("okf", "%s has no non-empty `type` - the one universally required "
+                                  "field" % rel, path=full)
+            docs.append((rel, full, cfg, body))
+
+    root_index = os.path.join(path, "index.md")
+    if not os.path.isfile(root_index):
+        rep.note("okf", "no bundle-root index.md - optional, and a consumer may synthesize one")
+    else:
+        fm = mdio.parse_yaml(mdio.split_frontmatter(mdio.read_text(root_index))[0])
+        if not fm.get("okf_version"):
+            rep.note("okf", "index.md declares no `okf_version` - optional")
+
+    broken = 0
+    for rel, full, _cfg, body in docs:
+        for target in re.findall(r"\]\((/[^)\s]+\.md)\)", body):
+            if target not in targets:
+                broken += 1
+                rep.warn("okf-link", "%s links to %s, which is not in the bundle - section 11 "
+                                     "says a consumer tolerates this" % (rel, target), path=full)
+    kinds = {}
+    for _rel, _full, cfg, _body in docs:
+        k = str(cfg.get("type") or "?")
+        kinds[k] = kinds.get(k, 0) + 1
+    rep.info("bundle", ["   %d concept document(s), %d reserved"
+                        % (len(docs), len(targets) - len(docs))]
+             + ["   %-20s %d" % (k, v) for k, v in sorted(kinds.items())])
+    print(rep.render(show=getattr(args, "show", "warn")))
+    return 1 if any(f.level == "defect" for f in rep.findings) else 0
+
+
 def _validate(repo_root, args):
+    if args.args:
+        return _validate_bundle(args.args[0], args)
     rep = Report("kb validate")
     idx = kb.index(repo_root)
     for problem in idx.problems:

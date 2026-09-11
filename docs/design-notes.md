@@ -453,35 +453,71 @@ human preference on creative writing about 73% of the time, and rubric judges ar
 biased by position, length and formatting. A judged pass may locate and describe. It may not score,
 and it may not gate.
 
-## Why not OKF
+## OKF: an export target, and what we borrowed from it
 
-Google Cloud's [Open Knowledge Format](https://okf.md/) (v0.1, June 2026) is a markdown convention
-for handing an agent curated context: a directory of files, each with YAML frontmatter carrying at
-minimum a `type`, cross-linked with ordinary markdown links, optionally indexed by an `index.md`.
-It is a good spec. It is not this repo's spec, and the reasons are worth writing down because the
-surface similarity is high enough that the question will be asked again.
+This section used to be called "Why not OKF" and argued against the format outright. Two thirds of
+that argument survive; one third was wrong, and the reversal is worth recording rather than
+quietly overwriting.
 
-**OKF solves interoperability; this repo does not have that problem.** The format exists so that a
-wiki written by one producer can be consumed by a different vendor's agent without translation —
-many silos, many agents, no shared schema. skilled-writer has one producer and one consumer. Adding
-`type: skill` to 41 files buys nothing, because nothing downstream reads it.
+Google Cloud's [Open Knowledge Format](https://okf.md/) is a markdown convention for handing an
+agent curated context: a directory of files, each with YAML frontmatter carrying at minimum a
+`type`, cross-linked with ordinary markdown links, optionally indexed by an `index.md`.
 
-**Its conformance rule is the opposite of this toolkit's bet.** OKF requires consumers to tolerate
-broken links, unknown types, unknown keys and missing indexes: *if it has frontmatter with `type`,
-it's valid OKF, full stop.* That permissiveness is correct for a federation of independent
-producers and wrong here, where the whole value is strict triggers a low-effort model cannot
-wriggle out of, guarded by `test_corpus.py` and `test_template_wiring.py`. A format whose validity
-rule is "has a `type` field" would loosen precisely the contract those tests exist to keep tight.
+**What was right, and still is: `novels/` stays as it is.** OKF hands an agent whole files, and
+the whole point of the read-set is that it hands over *windows* — blocks N−5…N−1, plan rows
+N−1…N+2, the matrix rows for this chapter's speakers. OKF has no concept of a slice, and the
+slice is the entire reason the ledger can grow without the per-chapter cost growing with it. So
+the format is an **export target**: `sw export --okf` projects a novel into a conformant bundle,
+and the working format is untouched.
 
-**And `readset` already beats a bundle at the one place OKF would fit.** `novels/<slug>/` is the
-part of this repo that genuinely is a knowledge graph, but OKF hands an agent whole files, and the
-whole point of the read-set is that it hands over *windows* — blocks N−5…N−1, plan rows N−1…N+2,
-the matrix rows for this chapter's speakers. OKF has no concept of a slice, and the slice is the
-entire reason the ledger can grow without the per-chapter cost growing with it.
+**What was wrong: "adding `type:` to 41 files buys nothing, because nothing downstream reads
+it."** True when it was written, and it was an argument about the absence of a reader rather than
+about the format. The reader exists now — `swlib/kb.py` — and the thing it made possible is not
+interoperability, which this repo still does not need. It is that **the craft corpus had no
+machine-readable form at all**, and three consequences followed that nobody had connected:
 
-The shape that would be correct, if a novel ever has to leave this repo, is OKF as an **export
-target** — an `sw export --okf` that projects the bible and state into a conformant bundle — never
-as the working format.
+- Retrieval was two hand-typed tables. `write-chapter` carried twenty-two rows naming *other*
+  skills' cards, with four conditions written in English for the model to evaluate every chapter
+  — a "one concept, one owner" violation neither ownership check could see, because the text was
+  never copied from anywhere.
+- `rules.py` carried `GENRE_MODULES`, `OPTIONAL_MODULES` and `CONFIG_GATED_MODULES` under a
+  comment reading *"CLAUDE.md section 3"*. A second copy of the registry, maintained by hand,
+  unavoidable precisely because the skill layer could not be read by a script.
+- And the pointers were not being followed. `sw trace` over every session in the repo:
+  `write-chapter` opened 38 times, `story-craft` — whose card the contract calls "first, always"
+  — twice.
+
+A skill declares `metadata.when`, a card declares its own `phase`, `order`, `decision` and
+trigger, and `sw readset` prints the cards that actually apply with the ones that do not and why.
+The registries are gone. The dispatcher tables are gone. OKF's vocabulary came along because it
+costs nothing and the tree is portable as a result, but that was the side effect, not the reason.
+
+**What was half-wrong: the conformance argument.** It read OKF section 11 — tolerate broken links,
+unknown types, missing indexes — as the opposite of this toolkit's strictness bet. It is not,
+because it conflates two roles. **Section 11 constrains a *consumer* deciding whether to accept
+somebody else's bundle.** It says nothing about what a producer may require of its own corpus. So
+both hold at once, and the split is now explicit in the code:
+
+| | audits | behaviour |
+|---|---|---|
+| `sw health` | this repo's own corpus | strict. Defects freely — a missing trigger, a concept slug no skill owns, a card that cannot be placed |
+| `sw kb validate --okf <dir>` | a bundle we may not have written | permissive, per section 11. Only two defects: unparseable frontmatter, and an empty `type` |
+
+Strict at authoring, permissive at consumption. `test_corpus.py`'s section-citation resolution and
+`test_template_wiring.py` are untouched by any of this, because neither is an OKF concept —
+one is about `§Section` citations between prose files, the other about Python column accessors.
+
+**One thing the migration taught that is not about OKF at all.** `cmd_health`'s two duplication
+checks shingle the raw text of every file in a skill directory, frontmatter included. Uniform
+frontmatter is exactly the shared passage `skill-overlap` hunts for, and OKF's provenance and
+lifecycle families are *identical by design* across migrated files: measured at 8 shared 10-word
+runs against a threshold of 2, which across 19 draft cards is 171 pairs all firing. The same root
+cause would have *silently* weakened `_uncited` in the other direction, since `dispatcher:
+write-chapter` in every card would clear any skill that discusses `write-chapter`'s concepts
+without ever citing it. One break is noisy and one is silent; the silent one is worse. Both are
+fixed by stripping frontmatter before comparison — frontmatter is structure, not craft advice,
+which is the same reason `BOILERPLATE` is cut out. Any future change that adds uniform text to
+many files at once should check these two detectors first.
 
 ## Related reading
 

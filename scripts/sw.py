@@ -22,7 +22,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from swlib import (cmd_arc, cmd_cast, cmd_curve, cmd_health,  # noqa: E402
                    cmd_history, cmd_kb, cmd_lint, cmd_readset, cmd_selftest,
-                   cmd_state, cmd_status, cmd_trace, cmd_write, kb)
+                   cmd_export, cmd_state, cmd_status, cmd_trace, cmd_write, kb)
 from swlib.novelio import Novel, resolve  # noqa: E402
 from swlib.rates import Rates  # noqa: E402
 from swlib.report import Report  # noqa: E402
@@ -33,7 +33,7 @@ USAGE_ERROR = 2
 # Named once, so `sw health` can check the docs against the implementation rather than against
 # a second list that drifts.
 COMMANDS = ("readset", "lint", "arc", "cast", "curve", "state", "status", "stamp", "audit",
-            "newnovel", "doctor", "trace", "history", "health", "selftest", "kb")
+            "newnovel", "doctor", "trace", "history", "health", "selftest", "kb", "export")
 
 
 def _novel(args):
@@ -60,6 +60,30 @@ def _emit(rep, args):
 
 
 # --------------------------------------------------------------------- commands
+
+def _checked_out_dir(target):
+    """Where `sw export --out` may write: a directory that does not yet exist.
+
+    The sibling of `_checked_out_path`, and the reason CLAUDE.md section 4 names the export
+    explicitly rather than letting it quietly widen "scripts write only chapter frontmatter, a
+    CCS `wc:` field and a fresh scaffold". A fresh directory is the scaffold case; an existing
+    one is somebody's work.
+    """
+    dest = os.path.abspath(target)
+    allowed = [os.path.abspath(REPO_ROOT), os.path.abspath(tempfile.gettempdir())]
+    if not any(dest == root or dest.startswith(root + os.sep) for root in allowed):
+        sys.stderr.write("--out must be inside the repo or the system temp directory; "
+                         "%s is neither\n" % dest)
+        sys.exit(USAGE_ERROR)
+    if os.path.exists(dest):
+        sys.stderr.write("--out refuses to write into an existing directory: %s\n" % dest)
+        sys.exit(USAGE_ERROR)
+    parent = os.path.dirname(dest) or "."
+    if not os.path.isdir(parent):
+        sys.stderr.write("--out parent directory does not exist: %s\n" % parent)
+        sys.exit(USAGE_ERROR)
+    return dest
+
 
 def _checked_out_path(target):
     """Where `--out` is allowed to write: under the repo, or under the system temp dir.
@@ -268,6 +292,15 @@ def do_doctor(args):
     return _emit(rep, args)
 
 
+def do_export(args):
+    novel = _novel(args)
+    if not args.okf:
+        sys.stderr.write("sw export needs --okf (the only format there is)\n")
+        sys.exit(USAGE_ERROR)
+    out = _checked_out_dir(args.out or os.path.join(REPO_ROOT, "export-%s" % novel.slug))
+    return _emit(cmd_export.run(novel, out), args)
+
+
 def do_kb(args):
     """Query the craft knowledge base.
 
@@ -343,6 +376,11 @@ def build_parser():
     sp.add_argument("-q", "--quiet", action="store_true")
     sp.add_argument("--show", choices=["defect", "warn", "note"], default="note")
     sp.set_defaults(func=do_newnovel)
+
+    sp = novel_arg(sub.add_parser("export", help="project a novel into an OKF bundle"))
+    sp.add_argument("--okf", action="store_true", help="Open Knowledge Format v0.2")
+    sp.add_argument("--out", help="destination directory; must not already exist")
+    sp.set_defaults(func=do_export)
 
     sp = sub.add_parser("kb", help="query the craft knowledge base - owners, cards, concepts")
     sp.add_argument("action", choices=list(cmd_kb.ACTIONS))
