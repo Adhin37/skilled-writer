@@ -1,3 +1,9 @@
+---
+type: reference
+owner: continuity-summary
+description: writing a block or a digest. The line reference, the notation legend and the hard rules
+---
+
 # continuity-summary — the CCS block, arc digest and book digest formats
 
 Open this when writing a block or a digest. It is the format spec: the line reference, the notation legend, and the hard rules.

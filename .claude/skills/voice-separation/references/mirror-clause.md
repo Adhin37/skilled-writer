@@ -1,3 +1,9 @@
+---
+type: reference
+owner: voice-separation
+description: a clone, avatar, double or body-snatch is on the page. This is the one exemption from §3
+---
+
 # voice-separation — the mirror clause
 
 Open this only when a clone, avatar, double or body-snatch is on the page. It is the one exemption from the separation rules.

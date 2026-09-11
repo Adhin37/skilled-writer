@@ -404,6 +404,7 @@ contradiction waiting for whichever skill gets edited next. Rationale:
 | command | use it in |
 |---|---|
 | `readset <novel> -c N` | `write-chapter` step 0 · `continuity-summary` read mode — the whole read-set in one call, including which optional and genre modules are live |
+| `kb owner|show|list|search <slug>` | any skill, to find whose rule a thing is — the craft-side counterpart of `readset`. `kb cards <novel> -c N --phase A` resolves this chapter's card set |
 | `lint <novel> -c N` | `revision-pass` Pass 0 · `mtl-detox` · `prose-quality` · `narrator-voice` |
 | `cast <novel>` | `voice-separation` · `competence-map` · `novel-init` |
 | `curve <novel>` | `revision-pass` Pass 9e · `power-scaling` · the arc-boundary pass |

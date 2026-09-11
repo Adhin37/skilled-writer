@@ -21,8 +21,8 @@ import tempfile
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from swlib import (cmd_arc, cmd_cast, cmd_curve, cmd_health,  # noqa: E402
-                   cmd_history, cmd_lint, cmd_readset, cmd_selftest, cmd_state,
-                   cmd_status, cmd_trace, cmd_write)
+                   cmd_history, cmd_kb, cmd_lint, cmd_readset, cmd_selftest,
+                   cmd_state, cmd_status, cmd_trace, cmd_write, kb)
 from swlib.novelio import Novel, resolve  # noqa: E402
 from swlib.rates import Rates  # noqa: E402
 from swlib.report import Report  # noqa: E402
@@ -33,7 +33,7 @@ USAGE_ERROR = 2
 # Named once, so `sw health` can check the docs against the implementation rather than against
 # a second list that drifts.
 COMMANDS = ("readset", "lint", "arc", "cast", "curve", "state", "status", "stamp", "audit",
-            "newnovel", "doctor", "trace", "history", "health", "selftest")
+            "newnovel", "doctor", "trace", "history", "health", "selftest", "kb")
 
 
 def _novel(args):
@@ -268,6 +268,22 @@ def do_doctor(args):
     return _emit(rep, args)
 
 
+def do_kb(args):
+    """Query the craft knowledge base.
+
+    Only `cards` and `passes` take a novel. The rest are repo-only, and must not go through
+    `_novel()`, which exits 2 when no novel resolves - that would make `sw kb owner` unusable
+    from anywhere but a novel directory.
+    """
+    novel = None
+    if args.action in ("cards", "passes"):
+        novel = _novel(args)
+        if args.chapter is None:
+            sys.stderr.write("sw kb %s needs --chapter/-c\n" % args.action)
+            sys.exit(USAGE_ERROR)
+    return cmd_kb.run(REPO_ROOT, args, novel)
+
+
 # ---------------------------------------------------------------------- parsing
 
 def build_parser():
@@ -327,6 +343,18 @@ def build_parser():
     sp.add_argument("-q", "--quiet", action="store_true")
     sp.add_argument("--show", choices=["defect", "warn", "note"], default="note")
     sp.set_defaults(func=do_newnovel)
+
+    sp = sub.add_parser("kb", help="query the craft knowledge base - owners, cards, concepts")
+    sp.add_argument("action", choices=list(cmd_kb.ACTIONS))
+    sp.add_argument("args", nargs="*", help="a concept slug, or search terms")
+    sp.add_argument("novel", nargs="?", help="cards/passes only: path or slug")
+    sp.add_argument("--chapter", "-c", type=int, help="cards/passes only")
+    sp.add_argument("--phase", choices=["A", "B", "C"], help="cards only")
+    sp.add_argument("--type", choices=list(kb.TYPES), help="list only")
+    sp.add_argument("--json", action="store_true", help="list only: machine-readable, to stdout")
+    sp.add_argument("-q", "--quiet", action="store_true")
+    sp.add_argument("--show", choices=["defect", "warn", "note"], default="warn")
+    sp.set_defaults(func=do_kb)
 
     sp = novel_arg(sub.add_parser("trace", help="what the run cost, and which skills it opened"))
     sp.add_argument("--transcripts", help="Claude Code config root (default: $CLAUDE_CONFIG_DIR "

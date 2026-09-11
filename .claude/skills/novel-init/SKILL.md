@@ -1,7 +1,11 @@
 ---
 name: novel-init
 description: Start a new webnovel - interview for premise, genre, POV, tone, then scaffold novels/<slug>/. Use when the user wants to begin a novel, says /novel-new, or when no workspace exists.
-owns: [premise-interview, scaffold]
+metadata:
+  type: skill
+  tier: core
+  when: always
+  owns: [premise-interview, scaffold]
 ---
 
 # novel-init

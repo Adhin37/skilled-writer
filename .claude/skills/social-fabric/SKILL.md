@@ -1,7 +1,11 @@
 ---
 name: social-fabric
 description: Build the society layer - labour, money, law, belief, mobility - and propagate the central rule into ordinary life. Use at novel-init, on a new social layer, or when the world feels like a backdrop.
-owns: [society-layer, rule-propagation]
+metadata:
+  type: skill
+  tier: core
+  when: always
+  owns: [society-layer, rule-propagation]
 ---
 
 # social-fabric

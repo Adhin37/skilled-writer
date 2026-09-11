@@ -1,3 +1,9 @@
+---
+type: reference
+owner: story-craft
+description: setting release cadence or arc temperature, or retention is the question — the webnovel-specific layer
+---
+
 # Serial pacing — the webnovel layer
 
 Open this when setting release cadence or arc temperature, when planning the opening chapters of a

@@ -1,3 +1,13 @@
+---
+type: audit-card
+owner: voice-separation
+dispatcher: revision-pass
+pass: "2"
+pass_kind: distributional
+description: Character + voice
+when: always
+---
+
 # voice-separation — audit card
 
 Opened by `revision-pass` **Pass 2**, every chapter. Written here rather than summarised there,

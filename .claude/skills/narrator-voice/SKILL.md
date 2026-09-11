@@ -1,7 +1,11 @@
 ---
 name: narrator-voice
 description: Hold the narrating voice - person, tense, distance, interiority, and the four text channels - across hundreds of chapters. Use when setting up a novel, drafting, or marking thought and meta text.
-owns: [four-channels, narrative-distance, person-and-tense, head-hopping, italics]
+metadata:
+  type: skill
+  tier: craft
+  when: always
+  owns: [four-channels, narrative-distance, person-and-tense, head-hopping, italics]
 ---
 
 # narrator-voice

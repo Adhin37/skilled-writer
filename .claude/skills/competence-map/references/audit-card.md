@@ -1,3 +1,13 @@
+---
+type: audit-card
+owner: competence-map
+dispatcher: revision-pass
+pass: "3"
+pass_kind: distributional
+description: Intelligence + knowledge
+when: always
+---
+
 # competence-map — audit card
 
 Opened by `revision-pass` **Pass 3**, every chapter. Covers **every character in the chapter**,

@@ -1,3 +1,9 @@
+---
+type: reference
+owner: voice-separation
+description: "drafting a scene: how a body identifies its owner, and how a non-POV mind is shown without entering it"
+---
+
 # voice-separation — the body and thought channels
 
 Open this while drafting a scene: how a character's body identifies them, and how a non-POV mind is shown without entering it.

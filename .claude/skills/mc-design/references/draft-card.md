@@ -1,3 +1,13 @@
+---
+type: draft-card
+owner: mc-design
+dispatcher: write-chapter
+phase: A
+order: 17
+description: Which bodies are locked, and what they cannot do today
+when: mc.form_locked == true
+---
+
 # mc-design — draft card
 
 Opened by `write-chapter` **Step 1**, but **only when some character is `form_locked`** — a reborn

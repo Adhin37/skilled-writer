@@ -1,7 +1,11 @@
 ---
 name: pov-switch
 description: Decide whether a novel switches viewpoint, who is eligible, and how to execute it. Use when setting up a novel, planning chapters, and before any chapter that changes POV character.
-owns: [pov-mode, viewpoint-switch]
+metadata:
+  type: skill
+  tier: gated
+  when: pov.mode != single
+  owns: [pov-mode, viewpoint-switch]
 ---
 
 # pov-switch

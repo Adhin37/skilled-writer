@@ -1,3 +1,13 @@
+---
+type: draft-card
+owner: pov-switch
+dispatcher: write-chapter
+phase: A
+order: 4
+description: POV character, and whether this is a switch
+when: always
+---
+
 # pov-switch — draft card
 
 Opened by `write-chapter` **Step 1**, every chapter. Written here rather than summarised there,

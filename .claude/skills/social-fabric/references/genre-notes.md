@@ -1,3 +1,9 @@
+---
+type: reference
+owner: social-fabric
+description: the society layer is built and has to reach a chapter, or you want the notes on how the six questions land in fantasy, scifi and fanfic
+---
+
 # social-fabric — getting it onto the page, and genre notes
 
 Open this when the society layer is built and has to reach a chapter, or for the notes on how the six questions land in fantasy, scifi and fanfic.

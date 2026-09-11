@@ -1,3 +1,9 @@
+---
+type: reference
+owner: dialogue-voice
+description: "`sw lint`'s dialogue-texture line looks wrong, a scene reads as stiff, or you are deciding whether a turn is too long for the character speaking it"
+---
+
 # Spoken register — the measured failure, and the repair
 
 Open this when `sw lint`'s dialogue-texture line looks wrong, when a scene reads as stiff, or when

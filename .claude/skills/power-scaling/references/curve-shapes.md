@@ -1,3 +1,9 @@
+---
+type: reference
+owner: power-scaling
+description: choosing or changing scaling.shape, or the curve has to work in a genre whose conventions fight it — cultivation, litrpg, superhero, mundane
+---
+
 # power-scaling — the four shapes, and genre notes
 
 Open this when choosing or changing `scaling.shape`, or when the curve has to work in a genre whose

@@ -1,3 +1,9 @@
+---
+type: reference
+owner: timeline-engine
+description: a faction or canon power is about to react to the MC, or escalation is running hotter than the reader can carry
+---
+
 # timeline-engine — reaction profiles and the difficulty governor
 
 Open this when a faction or canon power is about to react to the MC, or when escalation is running hotter than the reader can carry.

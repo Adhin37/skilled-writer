@@ -1,3 +1,9 @@
+---
+type: reference
+owner: voice-separation
+description: the axes feel abstract and you want five people answering one question
+---
+
 # voice-separation — the worked example
 
 Open this when the matrix axes feel abstract and you want to see five people answer one question.

@@ -1,3 +1,9 @@
+---
+type: reference
+owner: competence-map
+description: somebody is learning something across chapters, or a skill has advanced and you need to know what that cost
+---
+
 # competence-map — the acquisition ladder
 
 Open this when a character is learning something across chapters, or when a skill has advanced and you need to know what that costs.

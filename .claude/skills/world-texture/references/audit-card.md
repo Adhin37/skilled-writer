@@ -1,3 +1,13 @@
+---
+type: audit-card
+owner: world-texture
+dispatcher: revision-pass
+pass: "5"
+pass_kind: judgement
+description: World
+when: always
+---
+
 # world-texture — audit card
 
 Opened by `revision-pass` **Pass 5**. Runs after structure, because description placement follows

@@ -1,7 +1,11 @@
 ---
 name: chapter-plan
 description: Build and extend the arc plan and the chapter construction list. Use when starting a novel, when fewer than 8 planned chapters remain ahead of the draft line, when an arc ends, or on /novel-plan.
-owns: [arc-grid, chapter-construction-list, event-field]
+metadata:
+  type: skill
+  tier: core
+  when: always
+  owns: [arc-grid, chapter-construction-list, event-field]
 ---
 
 # chapter-plan

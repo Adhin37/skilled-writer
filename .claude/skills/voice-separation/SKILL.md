@@ -1,7 +1,11 @@
 ---
 name: voice-separation
 description: Keep the cast distinct as minds - speech, thought and body pinned to a voice matrix, not the MC's register. Use when designing a character, before any multi-speaker scene, and inside revision-pass.
-owns: [voice-matrix, mirror-clause, transplant-test, default-gesture-set, first-move, drift-check]
+metadata:
+  type: skill
+  tier: character
+  when: always
+  owns: [voice-matrix, mirror-clause, transplant-test, default-gesture-set, first-move, drift-check]
 ---
 
 # voice-separation

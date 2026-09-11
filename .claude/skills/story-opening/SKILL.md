@@ -1,7 +1,11 @@
 ---
 name: story-opening
 description: Own the first chapters - world anchor, genre contract, promise ledger, stakes ceiling. Use when planning or drafting any chapter up to opening.contract_by_ch + 2, and inside revision-pass.
-owns: [world-anchor, genre-contract, promise-ledger, stakes-ceiling, retention-curve]
+metadata:
+  type: skill
+  tier: core
+  when: always
+  owns: [world-anchor, genre-contract, promise-ledger, stakes-ceiling, retention-curve]
 ---
 
 # story-opening

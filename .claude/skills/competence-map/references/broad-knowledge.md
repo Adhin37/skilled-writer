@@ -1,3 +1,9 @@
+---
+type: reference
+owner: competence-map
+description: "the character is a god, an immortal, a cultivator with centuries, or an artificial mind — knowledge_scope: broad"
+---
+
 # competence-map — the broad-knowledge clause
 
 Open this only for a god, an immortal, a cultivator with centuries, or an artificial mind — anyone whose knowledge_scope is broad.

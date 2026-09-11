@@ -1,3 +1,13 @@
+---
+type: audit-card
+owner: narrator-voice
+dispatcher: revision-pass
+pass: "10"
+pass_kind: mechanical
+description: Mechanics
+when: always
+---
+
 # narrator-voice — audit card
 
 Opened by `revision-pass` Pass 10. The four channels, checked against a drafted chapter.

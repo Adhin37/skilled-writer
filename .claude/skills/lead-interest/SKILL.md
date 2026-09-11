@@ -1,7 +1,11 @@
 ---
 name: lead-interest
 description: Choose and design the primary love interest, in any configuration. Use during novel-init right after mc-design, and when a new primary lead is introduced mid-novel.
-owns: [primary-lead]
+metadata:
+  type: skill
+  tier: gated
+  when: content.romance != none
+  owns: [primary-lead]
 ---
 
 # lead-interest

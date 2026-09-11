@@ -1,3 +1,13 @@
+---
+type: draft-card
+owner: character-profile
+dispatcher: write-chapter
+phase: A
+order: 8
+description: "Anyone new on the page: their cast tier, decided before they speak"
+when: always
+---
+
 # character-profile — draft card
 
 Opened by `write-chapter` **Step 1**, whenever anyone new is on the page. Written here rather than

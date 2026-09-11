@@ -1,3 +1,9 @@
+---
+type: reference
+owner: social-fabric
+description: "building the society layer, or the cast's men and women move through the world identically and read as one another with different names"
+---
+
 # Gendered experience — position, not temperament
 
 Open this when building the society layer, when a cast's men and women move through the world

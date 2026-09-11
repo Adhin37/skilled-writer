@@ -1,7 +1,11 @@
 ---
 name: prose-quality
 description: Line-level editing - rhythm, concreteness, verb strength, description economy, AI-default phrasing. Use on every chapter inside revision-pass, and while drafting.
-owns: [line-edit, microtension, register-range, ai-default-tells]
+metadata:
+  type: skill
+  tier: craft
+  when: always
+  owns: [line-edit, microtension, register-range, ai-default-tells]
 ---
 
 # prose-quality

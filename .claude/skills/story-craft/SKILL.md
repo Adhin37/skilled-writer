@@ -1,7 +1,11 @@
 ---
 name: story-craft
 description: Decide whether a beat is a scene or a summary, and build a story up before spending it. Use when planning an arc, drafting any chapter, or when a story reads as rushed, thin or flat.
-owns: [scene-or-summary, build-up, payoff-size]
+metadata:
+  type: skill
+  tier: craft
+  when: always
+  owns: [scene-or-summary, build-up, payoff-size]
 ---
 
 # story-craft

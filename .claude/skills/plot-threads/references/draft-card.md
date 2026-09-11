@@ -1,3 +1,13 @@
+---
+type: draft-card
+owner: plot-threads
+dispatcher: write-chapter
+phase: A
+order: 5
+description: Which thread ops fire
+when: always
+---
+
 # plot-threads — draft card
 
 Opened by `write-chapter` **Step 1**, every chapter. Written here rather than summarised there,

@@ -1,3 +1,9 @@
+---
+type: reference
+owner: title-craft
+description: "the listing step: tags, cover brief, cadence, launch stock — and again when a secondary element becomes prominent enough to earn its tag"
+---
+
 # title-craft — the listing kit
 
 Open this at the listing step: tags, the cover brief, release cadence and launch stock. Also open it when a secondary element becomes prominent enough to earn its tag.

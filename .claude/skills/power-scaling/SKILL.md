@@ -1,7 +1,11 @@
 ---
 name: power-scaling
 description: Hold the gap between the MC and the opposition at an entertaining width. Use when designing the advantage, planning an arc's opposition, on any capability change, and inside revision-pass.
-owns: [power-ladder, pressure, tier-gain, boost-debt]
+metadata:
+  type: skill
+  tier: craft
+  when: always
+  owns: [power-ladder, pressure, tier-gain, boost-debt]
 ---
 
 # power-scaling

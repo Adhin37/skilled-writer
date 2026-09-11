@@ -1,3 +1,9 @@
+---
+type: reference
+owner: chapter-plan
+description: filling the title column for a run of rows, or the draft has diverged and you are deciding whether to replan
+---
+
 # chapter-plan — the chapter-title pattern bank, and replanning triggers
 
 Open this when filling the title column for a run of rows, or when the draft has diverged and you are deciding whether to replan.

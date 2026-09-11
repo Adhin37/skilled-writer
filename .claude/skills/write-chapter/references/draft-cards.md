@@ -1,3 +1,9 @@
+---
+type: reference
+owner: write-chapter
+description: "Phase A, for anything the plan row does not already settle - why the cards are split from the bodies, and what to do when one does not settle its question"
+---
+
 # write-chapter — the draft cards
 
 Opened by `write-chapter` Phase A, for anything the plan row does not already settle. If the row

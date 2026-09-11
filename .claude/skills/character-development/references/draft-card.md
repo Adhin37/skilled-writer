@@ -1,3 +1,13 @@
+---
+type: draft-card
+owner: character-development
+dispatcher: write-chapter
+phase: A
+order: 6
+description: Which character sounds different today, and how
+when: always
+---
+
 # character-development — draft card
 
 Opened by `write-chapter` **Step 1**, every chapter. Written here rather than summarised there,

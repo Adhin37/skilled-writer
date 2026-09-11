@@ -1,3 +1,13 @@
+---
+type: draft-card
+owner: hook-and-pacing
+dispatcher: write-chapter
+phase: A
+order: 13
+description: Opening line strategy, closing hook
+when: always
+---
+
 # hook-and-pacing — draft card
 
 Opened by `write-chapter` **Step 1**, every chapter. Written here rather than summarised there,

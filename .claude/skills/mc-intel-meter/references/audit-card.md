@@ -1,3 +1,13 @@
+---
+type: audit-card
+owner: mc-intel-meter
+dispatcher: revision-pass
+pass: "3"
+pass_kind: distributional
+description: Intelligence + knowledge
+when: always
+---
+
 # mc-intel-meter — audit card
 
 Opened by `revision-pass` **Pass 3**. Intelligence and knowledge are two different things, and the

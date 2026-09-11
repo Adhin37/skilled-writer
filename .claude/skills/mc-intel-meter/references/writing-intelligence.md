@@ -1,3 +1,9 @@
+---
+type: reference
+owner: mc-intel-meter
+description: the MC is deducing, planning or failing and you need the technique rather than the rule — including the intelligence / knowledge / wisdom distinction
+---
+
 # mc-intel-meter — writing intelligence on the page
 
 Open this when the MC is deducing, planning or failing, and you need the technique rather than the rule — including the intelligence / knowledge / wisdom distinction.

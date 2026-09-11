@@ -1,7 +1,11 @@
 ---
 name: comedy-levity
 description: Optional (default off). Place humour deliberately - character-sourced, rhythm-aware, never at the cost of stakes. Use only while this skill is enabled.
-owns: [humour-placement]
+metadata:
+  type: skill
+  tier: optional
+  when: optional.comedy-levity == on
+  owns: [humour-placement]
 ---
 
 # comedy-levity

@@ -237,6 +237,22 @@ class TestOverlapDetector(unittest.TestCase):
                     body="The stake ladder is `alpha`'s. " * 6)
             self.assertNotIn("skill-overlap", checks(f.run(), "warn"))
 
+    def test_uniform_frontmatter_is_not_an_overlap(self):
+        """The knowledge-base layer gives every card the same frontmatter keys.
+
+        Without stripping it, the shared `type:`/`owner:`/`dispatcher:` block is a 10-word
+        passage every pair of cards has in common and `skill-overlap` fires on all of them -
+        which would destroy the warning channel permanently. Frontmatter is structure.
+        """
+        fm = ("---\ntype: draft-card\ndispatcher: write-chapter\nphase: A\n"
+              "status: stable\ngenerated: {by: process:sw-migrate}\nwhen: always\n---\n")
+        with Fake() as f:
+            f.skill("alpha", frontmatter="name: alpha\ndescription: d.\nowns: [a-thing]",
+                    references={"draft-card.md": fm + "Alpha decides how wide the gap is."})
+            f.skill("beta", frontmatter="name: beta\ndescription: d.\nowns: [b-thing]",
+                    references={"draft-card.md": fm + "Beta decides which beat gets played."})
+            self.assertNotIn("skill-overlap", checks(f.run(), "warn"))
+
     def test_boilerplate_is_not_an_overlap(self):
         """The card template is structure every skill shares, not duplicated craft advice."""
         boiler = "Written here rather than summarised there. "

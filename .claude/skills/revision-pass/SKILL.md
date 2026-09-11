@@ -1,7 +1,11 @@
 ---
 name: revision-pass
 description: Quality gate for a drafted chapter - continuity, character, voice, knowledge, structure, world, bias, prose and delivery checks in a fixed order. Use as write-chapter Phase C, on every chapter.
-owns: [pass-order, story-gate, gate-report]
+metadata:
+  type: skill
+  tier: core
+  when: always
+  owns: [pass-order, story-gate, gate-report]
 ---
 
 # revision-pass

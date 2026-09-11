@@ -1,3 +1,9 @@
+---
+type: reference
+owner: dialogue-voice
+description: two characters will not separate however hard you push the fingerprints, or the dialogue is reading as machine-translated
+---
+
 # dialogue-voice — calibration and the translated-corpus anti-patterns
 
 Open this when two characters will not separate however hard you push the fingerprints, or when the dialogue is reading as machine-translated.

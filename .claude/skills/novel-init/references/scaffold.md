@@ -1,3 +1,9 @@
+---
+type: reference
+owner: novel-init
+description: "Step 3: the interview is done and the workspace is about to be written. Also holds the defaults table and the failure modes"
+---
+
 # novel-init — the scaffold procedure, defaults and failure modes
 
 Open this at Step 3, when the interview is done and the workspace is about to be written — and the defaults table whenever the user declines to decide something.

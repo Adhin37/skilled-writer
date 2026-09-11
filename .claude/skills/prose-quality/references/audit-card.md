@@ -1,3 +1,13 @@
+---
+type: audit-card
+owner: prose-quality
+dispatcher: revision-pass
+pass: "8"
+pass_kind: judgement
+description: Prose + microtension
+when: always
+---
+
 # prose-quality — audit card
 
 Opened by `revision-pass` **Pass 8**. `sw lint` finds the cut-list phrases, filter verbs, repeated

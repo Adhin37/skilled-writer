@@ -1,3 +1,13 @@
+---
+type: draft-card
+owner: mc-intel-meter
+dispatcher: write-chapter
+phase: A
+order: 11
+description: What the MC deduces, and from which on-page clue
+when: always
+---
+
 # mc-intel-meter — draft card
 
 Opened by `write-chapter` **Step 1**, every chapter. Written here rather than summarised there,

@@ -1,3 +1,9 @@
+---
+type: reference
+owner: character-profile
+description: "actually writing a principal's or a supporting character's file — the two procedures and the development-rate dial. Tier C never needs it"
+---
+
 # character-profile — the tier A and tier B procedures
 
 Open this when actually writing a principal's or a supporting character's file. Tier C never needs it.

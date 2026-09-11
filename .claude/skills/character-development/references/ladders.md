@@ -1,3 +1,9 @@
+---
+type: reference
+owner: character-development
+description: a rung actually moves — somebody is learning something, sliding backwards under pressure, or the MC is the one changing
+---
+
 # character-development — the skill ladder, regression, and the MC's own arc
 
 Open this when a rung actually moves: somebody is learning something, sliding backwards under pressure, or the MC is the one changing.

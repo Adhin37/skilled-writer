@@ -1,7 +1,11 @@
 ---
 name: combat-choreography
 description: Optional. Write fights that are spatially legible, physically consistent and dramatically loaded. Use while this skill is enabled and a chapter contains physical conflict.
-owns: [fight-geography]
+metadata:
+  type: skill
+  tier: optional
+  when: optional.combat-choreography == on
+  owns: [fight-geography]
 ---
 
 # combat-choreography

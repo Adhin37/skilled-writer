@@ -1,3 +1,13 @@
+---
+type: audit-card
+owner: character-profile
+dispatcher: revision-pass
+pass: "2"
+pass_kind: distributional
+description: Character + voice
+when: always
+---
+
 # character-profile — audit card
 
 Opened by `revision-pass` **Pass 2**, for the walk-ons. Tier-C characters are where cast discipline

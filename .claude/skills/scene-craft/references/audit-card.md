@@ -1,3 +1,13 @@
+---
+type: audit-card
+owner: scene-craft
+dispatcher: revision-pass
+pass: "4, 9"
+pass_kind: mechanical
+description: Structure
+when: always
+---
+
 # scene-craft — audit card
 
 Opened by `revision-pass` **Pass 4** (structure) and **Pass 9** (delivery). The draft card asks

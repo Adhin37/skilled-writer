@@ -1,3 +1,9 @@
+---
+type: reference
+owner: hook-and-pacing
+description: "planning an arc's temperature, or the story is reading as relentless or as flat over a stretch of chapters"
+---
+
 # hook-and-pacing — pacing across an arc, and serial practice
 
 Open this when planning an arc's temperature, or when the story is reading as relentless or as flat over a stretch of chapters.

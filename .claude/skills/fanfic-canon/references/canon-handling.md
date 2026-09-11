@@ -1,3 +1,9 @@
+---
+type: reference
+owner: fanfic-canon
+description: writing a canon character, deciding how far one may drift, introducing an original character, or settling what counts as canon
+---
+
 # fanfic-canon — characterization fidelity, the OOC budget, OCs and canon scope
 
 Open this when writing a canon character, deciding how far one may drift, introducing an original character, or settling what counts as canon.

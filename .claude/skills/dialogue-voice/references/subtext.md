@@ -1,3 +1,9 @@
+---
+type: reference
+owner: dialogue-voice
+description: building a scene between two people who want different things, or a scene is reading as an exchange of facts
+---
+
 # dialogue-voice — subtext
 
 Open this when you are building a scene between two people who want different things from each

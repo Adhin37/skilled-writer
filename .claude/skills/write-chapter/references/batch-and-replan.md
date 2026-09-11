@@ -1,3 +1,9 @@
+---
+type: reference
+owner: write-chapter
+description: "the user asks for more than one chapter, or the chapter you drafted is not the chapter the plan row described"
+---
+
 # write-chapter — batches, and when the draft leaves the plan behind
 
 Open this when the user asks for more than one chapter, or when the chapter you drafted is not the

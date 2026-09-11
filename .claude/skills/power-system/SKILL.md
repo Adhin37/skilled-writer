@@ -1,7 +1,11 @@
 ---
 name: power-system
 description: Design and enforce a magic, cultivation or superhuman system with hard costs and limits. Use for fantasy, scifi and progression novels when building it, granting an ability, or using power.
-owns: [magic-rules, ability-cost]
+metadata:
+  type: skill
+  tier: genre
+  when: genre in [fantasy, progression, scifi] or subgenre in [fantasy, progression, scifi]
+  owns: [magic-rules, ability-cost]
 ---
 
 # power-system

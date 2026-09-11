@@ -1,3 +1,13 @@
+---
+type: draft-card
+owner: narrator-voice
+dispatcher: write-chapter
+phase: B
+order: 18
+description: Voice and the four channels
+when: always
+---
+
 # narrator-voice — draft card
 
 Opened by `write-chapter` **Step 2**, every chapter, while drafting. Written here rather than

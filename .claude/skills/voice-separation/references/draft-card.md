@@ -1,3 +1,13 @@
+---
+type: draft-card
+owner: voice-separation
+dispatcher: write-chapter
+phase: A
+order: 7
+description: "The voice spread for this chapter's speakers"
+when: always
+---
+
 # voice-separation — draft card
 
 Opened by `write-chapter` **Step 1**, every chapter with two or more speakers. Written here rather

@@ -1,3 +1,9 @@
+---
+type: reference
+owner: character-profile
+description: the character is an antagonist, a clone or double, or a canon character — or an existing profile needs amending after a chapter changed them
+---
+
 # character-profile — antagonists, mirrors, fan fiction, amendments
 
 Open the part that applies: an antagonist, a clone or double, a canon character, or an existing profile that a chapter has changed.

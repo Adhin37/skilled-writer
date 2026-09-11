@@ -1,3 +1,13 @@
+---
+type: draft-card
+owner: power-scaling
+dispatcher: write-chapter
+phase: A
+order: 15
+description: "The pressure: what gap the arc wants, and only then who the opposition is"
+when: scaling.shape != none
+---
+
 # power-scaling — draft card
 
 Opened by `write-chapter` **Step 1**, every chapter, unless `scaling.shape` is `none`. Written here

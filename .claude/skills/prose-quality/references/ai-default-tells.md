@@ -1,3 +1,9 @@
+---
+type: reference
+owner: prose-quality
+description: the house style — sw lint reports house-style, em-dash or closer-sameness; a chapter reads as machine-made and no banned phrase explains why; or you are revising chapter 1 of a new novel
+---
+
 # prose-quality — the house style
 
 Open this when `sw lint` reports `house-style`, `em-dash` or `closer-sameness`, when a chapter

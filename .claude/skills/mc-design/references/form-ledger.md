@@ -1,3 +1,9 @@
+---
+type: reference
+owner: mc-design
+description: the MC does not start in their final body — a reborn infant, a weakened form, a pre-evolution shape. Skip it entirely otherwise
+---
+
 # mc-design — the form ledger
 
 Open this only for an MC who is not in their final form — a reborn infant, a weakened body, a pre-evolution shape. Skip it entirely otherwise.

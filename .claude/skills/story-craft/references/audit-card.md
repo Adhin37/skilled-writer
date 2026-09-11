@@ -1,3 +1,13 @@
+---
+type: audit-card
+owner: story-craft
+dispatcher: revision-pass
+pass: "9f"
+pass_kind: judgement
+description: Pacing + build-up
+when: always
+---
+
 # story-craft — audit card
 
 Opened by `revision-pass` **Pass 9f**. Pass 9 asks whether the chapter *delivers*; this asks whether

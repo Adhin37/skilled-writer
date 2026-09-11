@@ -1,7 +1,11 @@
 ---
 name: competence-map
 description: Keep every character's knowledge bounded and specialised - what they know, where the edge is, who they ask. Use when designing a character, when anyone states a fact, and inside revision-pass.
-owns: [competence-grid, provenance-test, acquisition-ladder]
+metadata:
+  type: skill
+  tier: character
+  when: always
+  owns: [competence-grid, provenance-test, acquisition-ladder]
 ---
 
 # competence-map

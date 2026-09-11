@@ -1,3 +1,13 @@
+---
+type: draft-card
+owner: story-craft
+dispatcher: write-chapter
+phase: A
+order: 1
+description: Which beat is played and which is reported
+when: always
+---
+
 # story-craft — draft card
 
 Opened by `write-chapter` at drafting time. The scene-versus-summary decision, in the form you need

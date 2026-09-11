@@ -1,7 +1,11 @@
 ---
 name: mystery-clues
 description: Optional (default off). Run fair-play mystery mechanics - clue planting, red herrings, the knowledge gap, reveal construction. Use only while this skill is enabled.
-owns: [clue-ledger, fair-play]
+metadata:
+  type: skill
+  tier: optional
+  when: optional.mystery-clues == on
+  owns: [clue-ledger, fair-play]
 ---
 
 # mystery-clues

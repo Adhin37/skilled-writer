@@ -1,3 +1,9 @@
+---
+type: reference
+owner: meta-knowledge
+description: foreknowledge is not landing (it is always one of seven named shapes), or you are deciding how much of the source the prose may assume
+---
+
 # meta-knowledge — failure modes and what the prose may assume
 
 Open this when foreknowledge is not landing — it is always one of seven named shapes — or when deciding how much of the source the prose may assume a reader knows.

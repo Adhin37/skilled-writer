@@ -1,3 +1,13 @@
+---
+type: audit-card
+owner: mtl-detox
+dispatcher: revision-pass
+pass: "7"
+pass_kind: distributional
+description: MTL detox
+when: always
+---
+
 # mtl-detox — audit card
 
 Opened by `revision-pass` **Pass 7**, every chapter. `sw lint` searches the whole banned-phrase

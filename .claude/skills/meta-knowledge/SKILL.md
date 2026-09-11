@@ -1,7 +1,11 @@
 ---
 name: meta-knowledge
 description: Run an MC who knows what happens next - grain, inventory, win before failure, observer paradox. Use when designing a foreknowing MC, whenever foreknowledge is spent, and inside revision-pass.
-owns: [foreknowledge-ledger, observer-paradox]
+metadata:
+  type: skill
+  tier: character
+  when: always
+  owns: [foreknowledge-ledger, observer-paradox]
 ---
 
 # meta-knowledge

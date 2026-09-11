@@ -1,7 +1,11 @@
 ---
 name: story-bible
 description: Build and maintain the world bible and lexicon at the minimum size a long serial needs. Use when starting a novel, when a chapter adds a durable fact, or when the world contradicts itself.
-owns: [world-bible, lexicon]
+metadata:
+  type: skill
+  tier: core
+  when: always
+  owns: [world-bible, lexicon]
 ---
 
 # story-bible

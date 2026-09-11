@@ -1,3 +1,13 @@
+---
+type: draft-card
+owner: story-opening
+dispatcher: write-chapter
+phase: A
+order: 14
+description: The anchor debt and the ceiling check
+when: chapter <= opening.contract_by_ch + 2
+---
+
 # story-opening — draft card
 
 Opened by `write-chapter` **Step 1**, but **only for chapters up to `opening.contract_by_ch + 2`**.

@@ -1,3 +1,13 @@
+---
+type: draft-card
+owner: dialogue-voice
+dispatcher: write-chapter
+phase: B
+order: 19
+description: Dialogue
+when: always
+---
+
 # dialogue-voice — draft card
 
 Opened by `write-chapter` **Step 2**, every chapter, while drafting. Written here rather than

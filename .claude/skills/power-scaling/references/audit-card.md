@@ -1,3 +1,13 @@
+---
+type: audit-card
+owner: power-scaling
+dispatcher: revision-pass
+pass: "9e"
+pass_kind: judgement
+description: Power curve
+when: scaling.shape != none
+---
+
 # power-scaling — audit card
 
 Opened by `revision-pass` **Pass 9e**, whenever `scaling.shape` is not `none`. It runs after the

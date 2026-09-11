@@ -1,7 +1,11 @@
 ---
 name: character-development
 description: Move every recurring character along their arc ladder so growth is audible in how they speak and choose. Use every chapter when writing dialogue or choices, and when planning arcs.
-owns: [arc-ladder, voice-delta]
+metadata:
+  type: skill
+  tier: character
+  when: always
+  owns: [arc-ladder, voice-delta]
 ---
 
 # character-development

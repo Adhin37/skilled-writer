@@ -1,3 +1,13 @@
+---
+type: audit-card
+owner: story-opening
+dispatcher: revision-pass
+pass: "9b"
+pass_kind: judgement
+description: Opening
+when: chapter <= opening.contract_by_ch + 2
+---
+
 # story-opening — audit card
 
 Opened by `revision-pass` **Pass 9b**, on chapters up to `opening.contract_by_ch + 2`. Skip

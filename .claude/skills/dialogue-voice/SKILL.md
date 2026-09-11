@@ -1,7 +1,11 @@
 ---
 name: dialogue-voice
 description: Write dialogue that identifies the speaker without tags, from each character's speech fingerprint. Use when writing or revising any line of dialogue.
-owns: [speech-fingerprint, dialogue-density, subtext]
+metadata:
+  type: skill
+  tier: character
+  when: always
+  owns: [speech-fingerprint, dialogue-density, subtext]
 ---
 
 # dialogue-voice

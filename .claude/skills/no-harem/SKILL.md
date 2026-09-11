@@ -1,7 +1,11 @@
 ---
 name: no-harem
 description: Optional (default on). Keep love interests people with their own goals, and romantic attention reciprocal and reversible. Use on any romantic or attracted-to dynamic while enabled.
-owns: [reciprocity]
+metadata:
+  type: skill
+  tier: optional
+  when: optional.no-harem == on
+  owns: [reciprocity]
 ---
 
 # no-harem

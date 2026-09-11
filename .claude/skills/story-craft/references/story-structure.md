@@ -1,3 +1,9 @@
+---
+type: reference
+owner: story-craft
+description: planning an arc or a novel, or a win is landing unearned — three-act proportion, try/fail cycles, the midpoint
+---
+
 # Story structure — shape, proportion, and how a win gets earned
 
 Open this when planning an arc or a novel, when a victory is landing unearned, or when a story has

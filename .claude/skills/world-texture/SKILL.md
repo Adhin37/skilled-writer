@@ -1,7 +1,11 @@
 ---
 name: world-texture
 description: Deliver the world through consequence, friction and anchored sensory detail, at a budget. Use while drafting, inside revision-pass, and when the world feels flat or over-described.
-owns: [description-budget, sensory-signature, delivery-channel]
+metadata:
+  type: skill
+  tier: core
+  when: always
+  owns: [description-budget, sensory-signature, delivery-channel]
 ---
 
 # world-texture

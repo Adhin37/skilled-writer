@@ -1,3 +1,9 @@
+---
+type: reference
+owner: revision-pass
+description: "a pass has found something and you are deciding what to change, you are writing the report, or you are gating a chapter drafted in an earlier session"
+---
+
 # revision-pass — fixing, reporting, re-gating
 
 Open this when a pass has found something and you are deciding what to change, when you are

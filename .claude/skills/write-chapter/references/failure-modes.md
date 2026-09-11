@@ -1,3 +1,9 @@
+---
+type: reference
+owner: write-chapter
+description: "a drafted chapter feels wrong and you want the name of what is wrong, or a revision-pass report points at a symptom rather than a cause"
+---
+
 # write-chapter — failure modes
 
 A lookup table, not a procedure. Open it when a drafted chapter feels wrong and you want the name

@@ -1,3 +1,13 @@
+---
+type: draft-card
+owner: scene-craft
+dispatcher: write-chapter
+phase: A
+order: 2
+description: Scene count, the break, and per scene goal → obstacle → turn → exit
+when: always
+---
+
 # scene-craft — draft card
 
 Opened by `write-chapter` **Step 1**, every chapter. Written here rather than summarised there,

@@ -1,3 +1,9 @@
+---
+type: reference
+owner: mtl-detox
+description: sw lint is unavailable, or a phrase feels like an artifact and you want the full banned-phrase and structural-cliché lists
+---
+
 # mtl-detox — the banned-phrase and structural-cliche catalogues
 
 Open this when sw lint is unavailable, or when a phrase feels like an artifact and you want to check it against the full list.

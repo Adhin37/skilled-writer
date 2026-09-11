@@ -1,3 +1,13 @@
+---
+type: draft-card
+owner: conflict-engine
+dispatcher: write-chapter
+phase: A
+order: 3
+description: What this chapter costs the POV character
+when: always
+---
+
 # conflict-engine — draft card
 
 Opened by `write-chapter` **Step 1**, every chapter. Written here rather than summarised there,

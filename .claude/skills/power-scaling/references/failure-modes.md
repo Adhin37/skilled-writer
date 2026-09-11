@@ -1,3 +1,9 @@
+---
+type: reference
+owner: power-scaling
+description: the curve is not landing and you need the named shape of what went wrong
+---
+
 # power-scaling — how a curve dies
 
 Open this when the curve is not landing and you need the named shape of what went wrong. Continues

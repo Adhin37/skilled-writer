@@ -1,7 +1,11 @@
 ---
 name: conflict-engine
 description: Make every chapter cost the protagonist something, escalating stakes rather than enemy power. Use when planning arcs, deciding a chapter's shape, or when a stretch feels frictionless.
-owns: [stake-ladder, chapter-cost]
+metadata:
+  type: skill
+  tier: craft
+  when: always
+  owns: [stake-ladder, chapter-cost]
 ---
 
 # conflict-engine

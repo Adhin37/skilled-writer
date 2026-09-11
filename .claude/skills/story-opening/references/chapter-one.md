@@ -1,3 +1,9 @@
+---
+type: reference
+owner: story-opening
+description: drafting chapter 1 itself, or wiring the opening arc into planning and revision
+---
+
 # story-opening — chapter 1's shape, and integration
 
 Open this when actually drafting chapter 1, or when wiring the opening arc into the planning and revision loops.

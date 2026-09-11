@@ -1,7 +1,11 @@
 ---
 name: bias-guard
 description: Remove inherited racial, national, gender and class bias without softening conflict. Use on every chapter inside revision-pass, while drafting, and when designing characters and factions.
-owns: [inherited-bias, essentialism-ban]
+metadata:
+  type: skill
+  tier: craft
+  when: always
+  owns: [inherited-bias, essentialism-ban]
 ---
 
 # bias-guard

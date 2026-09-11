@@ -1,7 +1,11 @@
 ---
 name: write-chapter
 description: Draft the next chapter, orchestrating continuity, character, POV, conflict, pacing and quality into one procedure. Use when the user asks to write or continue a chapter, or says /novel-write.
-owns: [draft-phases, chapter-report]
+metadata:
+  type: skill
+  tier: core
+  when: always
+  owns: [draft-phases, chapter-report]
 ---
 
 # write-chapter

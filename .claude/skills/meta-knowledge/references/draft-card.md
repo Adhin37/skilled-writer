@@ -1,3 +1,13 @@
+---
+type: draft-card
+owner: meta-knowledge
+dispatcher: write-chapter
+phase: A
+order: 16
+description: The foreknowledge spend
+when: mc.foreknowledge is set
+---
+
 # meta-knowledge — draft card
 
 Opened by `write-chapter` **Step 1**, but **only when `mc.foreknowledge` is set**. Skip it entirely

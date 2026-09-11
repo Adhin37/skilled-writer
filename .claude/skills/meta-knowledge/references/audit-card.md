@@ -1,3 +1,13 @@
+---
+type: audit-card
+owner: meta-knowledge
+dispatcher: revision-pass
+pass: "9c"
+pass_kind: distributional
+description: Foreknowledge
+when: mc.foreknowledge is set
+---
+
 # meta-knowledge — audit card
 
 Opened by `revision-pass` **Pass 9c**, whenever `mc.foreknowledge` is set. Not rotatable.

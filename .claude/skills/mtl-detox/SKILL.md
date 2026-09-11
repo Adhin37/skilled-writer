@@ -1,7 +1,11 @@
 ---
 name: mtl-detox
 description: Strip machine-translation artifacts and structural cliches - stock phrases, crowd reactions, the face-slap loop, rank recitals. Use on every chapter inside revision-pass, and while drafting.
-owns: [banned-phrase-list, translationese]
+metadata:
+  type: skill
+  tier: craft
+  when: always
+  owns: [banned-phrase-list, translationese]
 ---
 
 # mtl-detox

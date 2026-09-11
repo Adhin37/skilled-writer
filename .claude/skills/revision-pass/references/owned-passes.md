@@ -1,3 +1,9 @@
+---
+type: reference
+owner: revision-pass
+description: "Pass 1, and keep it open to Pass 10 - the six passes that have no other owner"
+---
+
 # revision-pass — the passes nobody else owns
 
 Open this at Pass 1 and keep it open to Pass 10. Most passes point at another skill's audit card;

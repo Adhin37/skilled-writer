@@ -1,3 +1,9 @@
+---
+type: reference
+owner: narrator-voice
+description: the prose feels remote or second-hand, opening lines are going flat, or an arc has closed and the voice needs checking for drift
+---
+
 # narrator-voice — filtering, and holding the voice
 
 Open this when the prose feels remote or second-hand, when opening lines are going flat, or at an arc boundary to check the voice has not drifted.

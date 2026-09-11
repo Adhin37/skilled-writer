@@ -56,6 +56,18 @@ def description(skill):
     return " ".join(m.group(1).split()) if m else ""
 
 
+def body(path):
+    """A file with its YAML frontmatter removed.
+
+    The knowledge-base layer puts frontmatter on every reference, and several checks here scan
+    a fixed prefix of the file. Scanning the raw text would measure the frontmatter instead of
+    the prose it sits above.
+    """
+    text = read(path)
+    m = re.match(r"^---\n.*?\n---\n", text, re.S)
+    return text[m.end():] if m else text
+
+
 def headings(skill):
     text = read(os.path.join(SKILLS, skill, "SKILL.md"))
     nums, names = set(), set()
@@ -154,7 +166,7 @@ class TestArchitecture(unittest.TestCase):
             if not os.path.isdir(refdir):
                 continue
             for f in sorted(os.listdir(refdir)):
-                text = read(os.path.join(refdir, f))
+                text = body(os.path.join(refdir, f))
                 if not re.search(r"(?i)open (this|it|the)|opened by", text[:900]):
                     thin.append("%s/references/%s" % (s, f))
         self.assertEqual(sorted(thin), [])
@@ -199,6 +211,26 @@ class TestArchitecture(unittest.TestCase):
             if len(desc) > 200:
                 fat.append("%s (%d chars)" % (s, len(desc)))
         self.assertEqual(sorted(fat), [])
+
+    def test_frontmatter_puts_description_before_metadata(self):
+        """`description()` above terminates on the next column-0 `key:`.
+
+        `metadata:` is column-0 and ends it correctly, but the keys nested under it are indented
+        and do not. So a file that put `metadata:` first would have its description swallow the
+        whole block, and the 200-char ceiling check below would silently start measuring YAML.
+        """
+        wrong = []
+        for s in skill_names():
+            text = read(os.path.join(SKILLS, s, "SKILL.md"))
+            fm = re.match(r"^---\n(.*?)\n---\n", text, re.S)
+            if not fm:
+                continue
+            keys = re.findall(r"(?m)^([a-z_]+):", fm.group(1))
+            if "metadata" in keys and "description" in keys:
+                if keys.index("description") > keys.index("metadata"):
+                    wrong.append(s)
+        self.assertEqual(sorted(wrong), [],
+                         "`description:` must come before `metadata:` in SKILL.md frontmatter")
 
     def test_every_description_states_a_trigger(self):
         """The half that decides whether the skill loads at all, so the diet may not cut it."""

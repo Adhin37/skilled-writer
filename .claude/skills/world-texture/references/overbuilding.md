@@ -1,3 +1,9 @@
+---
+type: reference
+owner: world-texture
+description: the world reads as flat and generic, or as bloated — the symptoms of each, and how depth is implied rather than explained
+---
+
 # world-texture — perception, depth, and overbuilding
 
 Open this when the world is reading as flat and generic, or as bloated — the symptoms of each, and how depth is implied rather than explained.

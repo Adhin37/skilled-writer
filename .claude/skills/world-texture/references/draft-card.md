@@ -1,3 +1,13 @@
+---
+type: draft-card
+owner: world-texture
+dispatcher: write-chapter
+phase: A
+order: 10
+description: The world channel this chapter opens
+when: always
+---
+
 # world-texture — draft card
 
 Opened by `write-chapter` **Step 1**, every chapter. Written here rather than summarised there,

@@ -1,3 +1,13 @@
+---
+type: draft-card
+owner: timeline-engine
+dispatcher: write-chapter
+phase: A
+order: 9
+description: "The offstage question: what the world does this chapter that the MC doesn't know"
+when: always
+---
+
 # timeline-engine — draft card
 
 Opened by `write-chapter` **Step 1**, every chapter. Written here rather than summarised there,

@@ -1,3 +1,9 @@
+---
+type: reference
+owner: plot-threads
+description: planting a setup, paying a thread, or auditing the novel for forgotten promises
+---
+
 # plot-threads — foreshadowing, payoff quality and the audit
 
 Open this when planting a setup, when a thread is about to be paid, or when auditing a novel for forgotten promises.

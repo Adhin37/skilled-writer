@@ -1,3 +1,13 @@
+---
+type: draft-card
+owner: competence-map
+dispatcher: write-chapter
+phase: A
+order: 12
+description: Who has to ask for what this chapter needs known
+when: always
+---
+
 # competence-map — draft card
 
 Opened by `write-chapter` **Step 1**, every chapter. Written here rather than summarised there,

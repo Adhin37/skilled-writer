@@ -1,3 +1,9 @@
+---
+type: reference
+owner: story-craft
+description: "a draft is compressed and you want the measured reason, or you are editing this toolkit's pacing rules"
+---
+
 # Why machine-written stories rush, measured
 
 Open this when a draft is compressed and you want the reason rather than the symptom, or when you

@@ -1,3 +1,9 @@
+---
+type: reference
+owner: title-craft
+description: the novel is fan fiction (the source-in-title rule is mandatory there), or an arc boundary has left the title naming a state the story has left
+---
+
 # title-craft — the fanfic rule, renaming, and failure modes
 
 Open the fanfic rule for any fan fiction — it is mandatory there. Open renaming only at an arc boundary, when the title names a state the story has left.

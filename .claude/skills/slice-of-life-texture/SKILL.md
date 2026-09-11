@@ -1,7 +1,11 @@
 ---
 name: slice-of-life-texture
 description: Optional (default off). Add downtime, work, food and routine so the world feels inhabited and high-stakes chapters have something to threaten. Use only while this skill is enabled.
-owns: [downtime]
+metadata:
+  type: skill
+  tier: optional
+  when: optional.slice-of-life-texture == on
+  owns: [downtime]
 ---
 
 # slice-of-life-texture

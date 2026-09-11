@@ -1,7 +1,11 @@
 ---
 name: character-profile
 description: Create or amend a character profile - behaviour, speech, arc ladder. Use when a named character appears or is changed by a chapter, or when the user says /novel-character.
-owns: [cast-tiers, character-debut, walk-on-roster]
+metadata:
+  type: skill
+  tier: character
+  when: always
+  owns: [cast-tiers, character-debut, walk-on-roster]
 ---
 
 # character-profile

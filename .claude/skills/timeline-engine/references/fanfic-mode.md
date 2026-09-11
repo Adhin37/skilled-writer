@@ -1,3 +1,9 @@
+---
+type: reference
+owner: timeline-engine
+description: "the novel is a fanfic. This is where the world's clock does most of its work"
+---
+
 # timeline-engine — fan fiction mode
 
 Open this only for a fanfic. It is where the world's clock does the most work — it is what stops canon happening on schedule around an MC who changed things.

@@ -1,7 +1,11 @@
 ---
 name: romance-arc
 description: Optional. Structure a romantic line across a serial - beats, obstacles, escalating intimacy, payoff scheduling. Use while this skill is enabled and a romance is in play.
-owns: [romance-beats]
+metadata:
+  type: skill
+  tier: optional
+  when: optional.romance-arc == on
+  owns: [romance-beats]
 ---
 
 # romance-arc

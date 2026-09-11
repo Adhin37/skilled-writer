@@ -343,10 +343,15 @@ OVERLAP_MAX = 2         # distinct shared runs a pair of skills may have
 
 
 def _owns_map(repo_root, names, rep):
-    """`owns:` in frontmatter is the scope declaration. One concept, one owner.
+    """`metadata.owns` in frontmatter is the scope declaration. One concept, one owner.
 
     Without it the toolkit has no answer to "whose rule is this?", and the measured consequence
     is two skills carrying the same advice until the copies drift apart.
+
+    It lives under `metadata:` because that is the only place the Agent Skills spec sanctions for
+    custom keys - a top-level `owns:` works in Claude Code but hard-errors when the toolkit is
+    packaged or uploaded. The top-level form is still read, so a skill written before the move is
+    not silently treated as declaring nothing.
     """
     owners = {}
     for name in names:
@@ -354,7 +359,11 @@ def _owns_map(repo_root, names, rep):
         if not os.path.isfile(path):
             continue
         fm, _ = mdio.split_frontmatter(mdio.read_text(path))
-        owns = mdio.parse_yaml(fm).get("owns") if fm else None
+        cfg = mdio.parse_yaml(fm) if fm else {}
+        meta = cfg.get("metadata")
+        owns = (meta.get("owns") if isinstance(meta, dict) else None)
+        if owns is None:
+            owns = cfg.get("owns")
         if not isinstance(owns, list) or not owns:
             rep.defect("skill-scope", "%s declares no `owns:` - every skill states the concepts "
                                       "it is the only authority on" % name, path=path, line=1)
@@ -415,12 +424,7 @@ def _uncited(repo_root, names, owners, rep):
     root = skills_dir(repo_root)
     raw, words = {}, {}
     for name in names:
-        parts = []
-        for sub, _dirs, files in os.walk(os.path.join(root, name)):
-            for f in sorted(files):
-                if f.endswith(".md"):
-                    parts.append(mdio.read_text(os.path.join(sub, f)))
-        raw[name] = "\n".join(parts)
+        raw[name] = _skill_corpus(root, name)
         words[name] = " ".join(_normalise(raw[name]))
 
     for slug, owner in sorted(owners.items()):
@@ -438,6 +442,26 @@ def _uncited(repo_root, names, owners, rep):
                          path=os.path.join(root, name, "SKILL.md"))
 
 
+def _skill_corpus(root, name):
+    """Every `.md` body under a skill, frontmatter stripped.
+
+    Frontmatter is structure, not craft advice, and stripping it protects both duplication
+    checks from the knowledge-base layer in opposite directions. `_overlap` would otherwise see
+    the uniform `type:`/`owner:`/`dispatcher:` block that every card carries as a shared 10-word
+    passage and warn on all 171 pairs of draft cards - the same reason BOILERPLATE is cut out
+    before comparison. `_uncited` would otherwise be *cleared* by a frontmatter field: a card
+    that says `dispatcher: write-chapter` has not cited write-chapter, and only a real mention
+    in the prose should count. One break is noisy and one is silent; the silent one is worse.
+    """
+    parts = []
+    for sub, _dirs, files in os.walk(os.path.join(root, name)):
+        for f in sorted(files):
+            if f.endswith(".md"):
+                _fm, body = mdio.split_frontmatter(mdio.read_text(os.path.join(sub, f)))
+                parts.append(body)
+    return "\n".join(parts)
+
+
 def _overlap(repo_root, names, rep):
     """Long passages carried by two skills at once.
 
@@ -448,13 +472,7 @@ def _overlap(repo_root, names, rep):
     root = skills_dir(repo_root)
     shingles = {}
     for name in names:
-        d = os.path.join(root, name)
-        parts = []
-        for sub, _dirs, files in os.walk(d):
-            for f in sorted(files):
-                if f.endswith(".md"):
-                    parts.append(mdio.read_text(os.path.join(sub, f)))
-        shingles[name] = _runs(_normalise("\n".join(parts)))
+        shingles[name] = _runs(_normalise(_skill_corpus(root, name)))
 
     for i, a in enumerate(names):
         for b in names[i + 1:]:

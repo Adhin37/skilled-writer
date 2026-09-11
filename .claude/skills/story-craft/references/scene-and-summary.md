@@ -1,3 +1,9 @@
+---
+type: reference
+owner: story-craft
+description: deciding whether a beat is a scene, or a chapter reads as a highlight reel — the worked version of the decision below
+---
+
 # Scene and summary — the pacing lever
 
 Open this when deciding whether a beat should be played or reported, when a chapter reads as a

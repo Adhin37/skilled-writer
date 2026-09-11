@@ -1,3 +1,13 @@
+---
+type: audit-card
+owner: bias-guard
+dispatcher: revision-pass
+pass: "6"
+pass_kind: distributional
+description: Bias
+when: always
+---
+
 # bias-guard — audit card
 
 Opened by `revision-pass` **Pass 6**, every chapter, never skipped, never rotated. There is no
