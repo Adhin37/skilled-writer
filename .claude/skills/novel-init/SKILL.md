@@ -1,6 +1,7 @@
 ---
 name: novel-init
 description: Start a new webnovel - interview for premise, genre, POV, tone, then scaffold novels/<slug>/. Use when the user wants to begin a novel, says /novel-new, or when no workspace exists.
+owns: [premise-interview, scaffold]
 ---
 
 # novel-init
@@ -174,9 +175,8 @@ Present the optional skills as reader-facing features, not filenames:
 
 ## Step 2b — Name the book → run `title-craft`
 
-**Before the scaffold, because the slug is derived from the title and there is no rename path.**
-`sw.py newnovel` refuses to overwrite an existing directory; renaming afterwards means moving the
-tree by hand and fixing every path that points at it.
+**Before the scaffold**, because the slug comes from the title and is permanent — `title-craft`
+carries why.
 
 Ask nothing new. Everything `title-craft` needs — premise, genre, MC origin and golden finger,
 `opening.promise`, `ending.contract`, tone, `fanfic.source` — exists by the end of Round F.

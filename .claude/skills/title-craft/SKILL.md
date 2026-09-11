@@ -1,6 +1,7 @@
 ---
 name: title-craft
 description: Name the book and write the platform blurb. Use once during novel-init, and again only at an arc boundary when the story has outgrown its name.
+owns: [title, blurb, slug]
 ---
 
 # title-craft

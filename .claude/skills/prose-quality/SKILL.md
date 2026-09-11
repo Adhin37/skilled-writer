@@ -1,6 +1,7 @@
 ---
 name: prose-quality
 description: Line-level editing - rhythm, concreteness, verb strength, description economy, AI-default phrasing. Use on every chapter inside revision-pass, and while drafting.
+owns: [line-edit, microtension, register-range, ai-default-tells]
 ---
 
 # prose-quality
@@ -73,11 +74,11 @@ a single-line paragraph is the strongest position on the page.
 **Cut the obvious stage business.** Characters standing up, opening doors, walking across rooms,
 nodding. If it does not change something, delete it. Nodding is the single most common dead beat.
 
-**A beat that identifies nobody is stage business.** *Nodded · shrugged · sighed · raised an
-eyebrow · crossed their arms · ran a hand through their hair · clenched their jaw · let out a
-breath · looked away · smiled slightly* — the default gesture set, available to every character
-and therefore attached to none. Replace with that character's own hand-habit or pressure move
-(`voice-separation/references/channels.md`), or cut the beat: a line with no beat beats a line with a generic one.
+**A beat that identifies nobody is stage business.** The default gesture set — `voice-separation`
+owns the list, and `sw lint` sweeps for it — is available to every character and therefore attached
+to none. Replace with that character's own hand-habit or pressure move
+(`voice-separation/references/channels.md`), or cut the beat: a line with no beat beats a line with
+a generic one.
 
 ## Filter verbs and telling
 
@@ -124,10 +125,9 @@ own kind of wall.
 - **"That"**: delete where the sentence survives without it.
 - **Repeated distinctive words**: a striking word used twice in a chapter loses both uses. Track
   the ones you like — those are the ones you will overuse.
-- **Italics do exactly one job**, declared in `bible/lexicon.md`: invented words on first use, *or*
-  a word used as an object, *or* stress. Not two, and never three. Emphasis spent on everything is
-  emphasis that lands nowhere, and a draft that italicises stress, quoted terms and echoes at once
-  has no emphasis left when it needs some. Direct thought is not italics' job either — it has its
+- **Italics do exactly one job**, declared in `bible/lexicon.md` — `narrator-voice` owns which
+  job, and `sw lint` flags a body that spends italics three ways. Emphasis spent on everything is
+  emphasis that lands nowhere. Direct thought is not italics' job either — it has its
   own channel, `'…'` (`narrator-voice` §The four channels).
 - **Sensory balance**: sight dominates by default. Deliberately place one non-visual detail per
   scene. Smell is the most underused and the most memorable.

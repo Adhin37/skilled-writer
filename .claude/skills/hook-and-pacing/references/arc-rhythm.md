@@ -15,9 +15,8 @@ each chapter, name the one thing a reader would miss. If you cannot, merge it wi
 
 ## Serial-specific practices
 
-- **Chapter 1 is a conversion event, not an opening.** Roughly 60% of readers who open chapter 1
-  go on to chapter 2; from chapter 5 onward retention runs 80% or better. Nearly all of your
-  attrition happens at one join, and it is decided in the first few hundred words. The opening arc
+- **The retention curve** is `story-opening`'s — it owns the chapter-1 figures and what they
+  imply about where the effort goes.
   therefore has its own skill — **`story-opening`** owns the anchor, the genre contract, the
   promise ledger and the stakes ceiling for everything up to `opening.contract_by_ch + 2`.
 - **Front-load the promise.** Chapters 1–3 must establish the MC's want, the world's constraint,
@@ -30,9 +29,8 @@ each chapter, name the one thing a reader would miss. If you cannot, merge it wi
   **This is about meaningful things happening, never about how few words they take.** Compressing a
   turn into a reported clause raises no velocity — the event stops being an event. The way to raise
   velocity is to cut bridges, never to summarise beats (`story-craft`).
-- **Build-up is deposits.** A quiet chapter that plays a beat has a want, a turn and a cost, and
-  passes the skim test. A quiet chapter that *reports* beats is filler, and the skim test is right
-  to kill it. The difference is scene versus summary, not temperature.
+- **Build-up is deposits.** A quiet chapter still has to *play* its beat rather than report it;
+  `story-craft` owns that call and the test for it.
 - **Batch endings.** If releasing several chapters at once, the last of the batch carries the
   strongest hook; interior chapters can end softer.
 - **Arc breaks are drop-off points.** The end of an arc is where readers decide whether to

@@ -1,6 +1,7 @@
 ---
 name: social-fabric
 description: Build the society layer - labour, money, law, belief, mobility - and propagate the central rule into ordinary life. Use at novel-init, on a new social layer, or when the world feels like a backdrop.
+owns: [society-layer, rule-propagation]
 ---
 
 # social-fabric
@@ -104,8 +105,8 @@ on cannon fodder).
 `bias-guard` governs this file absolutely, and this is the file where the genre corpus's defaults
 do their damage.
 
-- No culture, faction or class is uniformly anything, and none maps onto a real-world ethnic or
-  national group — not as a villain, and not as a noble-savage or wise-mentor culture either.
+- `bias-guard` owns the essentialism ban and overrides this skill: read its card before a culture,
+  faction or class is written down.
 - Social structures are **historical, not essential**: a group's position comes from law, capital
   and violence, never from what its members inherently are. If a text implies otherwise, it is a
   defect.

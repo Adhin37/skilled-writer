@@ -1,6 +1,7 @@
 ---
 name: litrpg-system
 description: Optional (default off). Run a game-like system layer - status screens, levels, skills, quests - with discipline about frequency and what the numbers decide. Use only while enabled.
+owns: [system-layer, status-screen]
 ---
 
 # litrpg-system
@@ -32,9 +33,9 @@ origin, an interest, or a flaw.
 do that 12 did not, the numbers are decoration. Anchor the scale to a physical referent early
 (*10 is a fit adult; 20 lifts a door off its hinges*) and hold it.
 
-**Levels render `state/power.md` §2's ladder; they are not a second ladder.** Map a band of levels
-to each tier and record the mapping in §2, or the numbers and the pressure drift apart and the
-numbers win. A level-up is a gain row only when the *tier* moves (`power-scaling` §3).
+**Levels render `state/power.md` §2's ladder; they are not a second ladder.** `power-scaling` owns
+the mapping, where it is recorded, and when a level-up counts as a gain — follow it rather than
+keeping a second set of rules here.
 
 **Levels are not the progression.** Character growth, skill, and understanding are. A level-up
 that changes nothing about how the MC solves problems is a receipt, not a beat.

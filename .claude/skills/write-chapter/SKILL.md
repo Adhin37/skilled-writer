@@ -1,6 +1,7 @@
 ---
 name: write-chapter
 description: Draft the next chapter, orchestrating continuity, character, POV, conflict, pacing and quality into one procedure. Use when the user asks to write or continue a chapter, or says /novel-write.
+owns: [draft-phases, chapter-report]
 ---
 
 # write-chapter
@@ -65,12 +66,10 @@ happens, you simply do not wait.
 
 **Two gates, both before drafting.**
 
-1. **The event.** What *happens* — one clause a reader could retell, concrete verb and a target.
-   *"She lies to the Hokage about the recovery list."* Asked only for "a difference", a model
-   writes *"proximity that isn't refused"* and ships a chapter in which nothing occurs, so
-   abstract-state nouns (`trust`, `proximity`, `attention`, `tension`, `doubt`) are rejected by
-   `sw lint`. **And the event gets the scene**: if the biggest thing that happens is not the
-   longest scene, the chapter is not ready.
+1. **The event**, as `chapter-plan` defines the field: what *happens*, in one clause a reader could
+   retell. It is already in the plan row — check it is a real one rather than an abstract-state
+   noun, which `sw lint` rejects outright. **And the event gets the scene**: if the biggest thing
+   that happens is not the longest scene, the chapter is not ready.
 2. **The cost.** If it is empty, go back to `conflict-engine`. A chapter where the POV character
    only gains is filler regardless of how much happens in it.
 
@@ -88,21 +87,21 @@ for what the row does not settle.
 | POV character, and whether this is a switch | `pov-switch/references/draft-card.md` + the plan row |
 | Which thread ops fire | `plot-threads/references/draft-card.md` |
 | Which character sounds different today, and how | `character-development/references/draft-card.md` → `state/growth.md` |
-| **The voice spread**: this chapter's speakers as matrix rows, side by side — and which of them differs from the MC on two or more axes | `voice-separation/references/draft-card.md` → `bible/cast/_voices.md` |
+| **The voice spread** for this chapter's speakers | `voice-separation/references/draft-card.md` → `bible/cast/_voices.md` |
 | Anyone new on the page: their **cast tier**, decided before they speak | `character-profile/references/draft-card.md` |
 | **The offstage question**: what the world does this chapter that the MC doesn't know | `timeline-engine/references/draft-card.md` → `plan/timeline.md` |
 | **The world channel**: the one thing about the world this chapter makes concrete, and whether a consequence, a friction or an assumed reference carries it | `world-texture/references/draft-card.md` |
 | What the MC deduces, and from which on-page clue | `mc-intel-meter/references/draft-card.md` |
-| **Who has to ask**: the thing this chapter needs known, whose map actually covers it, and who must go to someone else for it | `competence-map/references/draft-card.md` → `bible/cast/_competence.md` |
+| **Who has to ask** for what this chapter needs known | `competence-map/references/draft-card.md` → `bible/cast/_competence.md` |
 | Opening line strategy, closing hook | `hook-and-pacing/references/draft-card.md` |
 
 **Conditional — check the condition first, and skip the card entirely if it is false.**
 
 | condition | decision | card |
 |---|---|---|
-| chapter ≤ `opening.contract_by_ch + 2` | **The anchor debt**, and **the ceiling check**: if this chapter escalates, is the mechanism already on the page? | `story-opening/references/draft-card.md` |
+| chapter ≤ `opening.contract_by_ch + 2` | **The anchor debt** and **the ceiling check** | `story-opening/references/draft-card.md` |
 | `scaling.shape` is not `none` | **The pressure**: what gap the arc wants, and only then who the opposition is | `power-scaling/references/draft-card.md` → `state/power.md` §6 |
-| `mc.foreknowledge` is set | **The foreknowledge spend**: what is known, at what grain, what it costs, what it invalidates | `meta-knowledge/references/draft-card.md` → `state/foreknowledge.md` |
+| `mc.foreknowledge` is set | **The foreknowledge spend** | `meta-knowledge/references/draft-card.md` → `state/foreknowledge.md` |
 | anyone is `form_locked` | Which bodies are locked, and what they cannot do today | `mc-design/references/draft-card.md` → `state/body.md` |
 
 Plus the **active modules** from Step 0.2, at the entry point the read-set named for each.
@@ -123,11 +122,9 @@ paragraphs, people talking over each other, the narrator keeping up rather than 
 `warm` chapter is allowed to land without being undercut. The single most reliable way to sound
 like a machine is to write every chapter at the same pitch regardless of what is in it.
 
-**Let sentences be plain.** Roughly a third of the chapter should carry information and nothing
-else — no dash, no reversal, no irony, no lesson appended. *"The rice was untouched. The blanket
-was still folded on the bed."* A narrator who loads every sentence has one attitude, and one
-attitude for a whole book is the tell that no phrase list will catch
-(`prose-quality` §Range before polish).
+**Let sentences be plain.** Roughly a third of the chapter carries information and nothing else.
+`prose-quality` owns the range — what a plain sentence is, and why one attitude for a whole book is
+the tell no phrase list catches.
 
 Hold these while writing. Each names its owner, and the detail is there rather than here.
 
@@ -136,8 +133,7 @@ Hold these while writing. Each names its owner, and the detail is there rather t
   discourse. Distance does not change mid-chapter unless `pov-switch` says a switch is happening.
 - **Dialogue.** `dialogue-voice/references/draft-card.md`. Every named speaker satisfies their
   fingerprint, and **25–40% of the words sit inside `"…"`**, spoken aloud to another person. Under
-  10% is a defect: on a silent cast every voice check in this toolkit no-ops. When two people are
-  in a room the beat belongs to what they *say*, not to the POV character concluding it for them.
+  10% is a defect: on a silent cast every voice check in this toolkit no-ops.
 - **Voice spread.** The brief's `speakers` line. Nobody but a declared mirror reasons at the MC's
   speed, and beats come from each character's hands, never the default gesture set.
 - **Other minds, no interiority.** Non-POV characters think through their **first move** — what

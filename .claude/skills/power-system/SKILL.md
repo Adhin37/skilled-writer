@@ -1,6 +1,7 @@
 ---
 name: power-system
 description: Design and enforce a magic, cultivation or superhuman system with hard costs and limits. Use for fantasy, scifi and progression novels when building it, granting an ability, or using power.
+owns: [magic-rules, ability-cost]
 ---
 
 # power-system
@@ -70,9 +71,8 @@ What stays here is the rule the gain log enforces:
 new power **cannot address**. That is what keeps the escalation axis on stakes (see
 `conflict-engine`) instead of on numbers.
 
-**Pace.** A meaningful gain every 15–25 chapters (`scaling.gain_gap_min`). More often and gains
-stop registering; less often and progression-genre readers leave. Between gains, growth is in
-*skill* — new applications of the same capability, which is cheaper and reads as intelligence.
+**Pace.** `power-scaling` owns the gain cadence and what a gain must carry; this skill supplies
+the mechanics a gain is expressed in. `sw curve` checks the cadence.
 
 ## Tiers
 

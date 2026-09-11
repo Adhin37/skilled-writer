@@ -44,11 +44,11 @@ body at all, and the form stops being a constraint and becomes a costume.
 
 ## Pass 4 — Structure
 
+The scenes themselves are on `scene-craft`'s audit card — goals, exits, the stated cost, the cuts.
+These are the chapter-level rows that card does not cover.
+
 | check | fails when | cheapest repair |
 |---|---|---|
-| Every scene has goal / obstacle / turn / cost | a scene is two people exchanging information | give one of them something to want from the other in the room |
-| No scene exits on a plain yes | the POV character asks and receives | `Yes, but` or `No, and` — `scene-craft` owns the exits |
-| The cost is stateable in one concrete sentence | the honest answer is "she felt worse" | go to `conflict-engine`. A feeling is not a cost |
 | At least two of the four conflict sources active | the whole chapter is one person against one obstacle | the second source is usually already present and unused — a deadline, a bystander with their own stake |
 | Thread ops match the plan row | the chapter opened a thread the plan did not | amend the plan row and check the next three, per `references/fixing-and-reporting.md` |
 | The `wld>` line is filled | the world did nothing offstage | `timeline-engine`. A world that only moves when the MC is watching is a stage set |
@@ -74,14 +74,11 @@ questions. These five are the ones no script can see, and the card in
 
 ## Pass 9 — Delivery, beyond the five questions
 
-The five-question table is in the body, because it is the gate. These are the checks that decide
-whether the answers were honest.
+The five questions are `scene-craft`'s, on its audit card. These are the checks that belong to
+this pass instead — the ones about the chapter as a unit of a serial rather than as a structure.
 
-- [ ] All five answered without straining, and `delivers:` matches what the chapter did
-- [ ] **Change** names a difference, not a summary of events. *"She asks about the recount"* is
-      events; *"she is now someone Tsuru watches on purpose"* is a delivery
-- [ ] Anything repeated from an earlier chapter **escalated** — a second refusal or interrogation
-      costs more than the first, or one of the two is cut
+- [ ] `delivers:` matches what the chapter did, and the five answers on `scene-craft`'s audit
+      card came without straining
 - [ ] **Skim test**: a reader who skipped this chapter loses something nameable
 - [ ] **Forecast test**: if a reader could predict the next chapter from this one's ending, the
       hook is a summary rather than a hook

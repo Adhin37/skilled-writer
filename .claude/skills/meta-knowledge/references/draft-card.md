@@ -23,9 +23,8 @@ invalidates.
 ## Three axes, held apart
 
 Foreknowledge is **not** intelligence (`mc-intel-meter` owns the tier — a tier-2 MC with perfect
-foreknowledge still misuses good information) and **not** competence: knowing a technique exists is
-not being able to perform it, and the acquisition ladder runs at normal speed for a reincarnator.
-This is the commonest way foreknowledge is smuggled into competence it never earned.
+foreknowledge still misuses good information) and **not** competence — `competence-map` owns the
+acquisition ladder and the rule that foreknowledge is no provenance for a skill.
 
 Every fact stated from it carries a provenance — read it, was told it, saw it, or openly guessing.
 

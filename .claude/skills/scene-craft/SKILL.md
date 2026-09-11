@@ -1,6 +1,7 @@
 ---
 name: scene-craft
 description: Build scenes with a goal, obstacle, turn and changed exit, and apply the want/friction/change delivery test. Use when structuring any chapter, and when a draft reads as 'things happened'.
+owns: [scene-unit, scene-exit, chapter-assembly, delivery-test]
 ---
 
 # scene-craft

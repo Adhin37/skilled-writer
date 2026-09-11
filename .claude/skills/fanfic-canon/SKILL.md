@@ -1,6 +1,7 @@
 ---
 name: fanfic-canon
 description: Keep a fanfic consistent with its source - canon facts, characterization, one divergence point, an OOC budget. Use when starting a fanfic, writing a canon character, or altering a canon event.
+owns: [canon-ledger, divergence-point, ooc-budget, oc-test]
 ---
 
 # fanfic-canon

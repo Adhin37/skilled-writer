@@ -188,6 +188,66 @@ class TestDispatcherWiring(unittest.TestCase):
                              checks(self._repo(f, "Pass 7 - open `alpha` and work it there.")))
 
 
+class TestOwnership(unittest.TestCase):
+    """`owns:` is the scope declaration: one concept, one owner."""
+
+    def test_a_skill_with_no_owns_is_a_defect(self):
+        with Fake() as f:
+            f.skill("alpha")
+            self.assertIn("skill-scope", checks(f.run()))
+
+    def test_two_skills_claiming_one_concept_is_a_defect(self):
+        with Fake() as f:
+            f.skill("alpha", frontmatter="name: alpha\ndescription: d.\nowns: [voice-matrix]")
+            f.skill("beta", frontmatter="name: beta\ndescription: d.\nowns: [voice-matrix]")
+            self.assertIn("skill-scope", checks(f.run()))
+
+    def test_distinct_claims_are_clean(self):
+        with Fake() as f:
+            f.skill("alpha", frontmatter="name: alpha\ndescription: d.\nowns: [voice-matrix]")
+            f.skill("beta", frontmatter="name: beta\ndescription: d.\nowns: [stake-ladder]")
+            self.assertNotIn("skill-scope", checks(f.run()))
+
+    def test_a_slug_that_is_not_kebab_case_is_a_defect(self):
+        with Fake() as f:
+            f.skill("alpha", frontmatter="name: alpha\ndescription: d.\nowns: [Voice Matrix]")
+            self.assertIn("skill-scope", checks(f.run()))
+
+
+class TestOverlapDetector(unittest.TestCase):
+    """Two skills carrying the same passage is what drifts. Citing one costs nothing."""
+
+    PASSAGE = ("A permanent loss takes a person, a capability, a belief, or a place the "
+               "protagonist can never return to, and the reader can state which. ")
+
+    def test_a_shared_passage_between_two_skills_is_reported(self):
+        with Fake() as f:
+            f.skill("alpha", frontmatter="name: alpha\ndescription: d.\nowns: [a-thing]",
+                    body=self.PASSAGE * 3)
+            f.skill("beta", frontmatter="name: beta\ndescription: d.\nowns: [b-thing]",
+                    body=self.PASSAGE * 3)
+            self.assertIn("skill-overlap", checks(f.run(), "warn"))
+
+    def test_a_citation_is_not_an_overlap(self):
+        """Code spans are stripped before comparison, so pointing at an owner is free."""
+        with Fake() as f:
+            f.skill("alpha", frontmatter="name: alpha\ndescription: d.\nowns: [a-thing]",
+                    body=self.PASSAGE * 3)
+            f.skill("beta", frontmatter="name: beta\ndescription: d.\nowns: [b-thing]",
+                    body="The stake ladder is `alpha`'s. " * 6)
+            self.assertNotIn("skill-overlap", checks(f.run(), "warn"))
+
+    def test_boilerplate_is_not_an_overlap(self):
+        """The card template is structure every skill shares, not duplicated craft advice."""
+        boiler = "Written here rather than summarised there. "
+        with Fake() as f:
+            f.skill("alpha", frontmatter="name: alpha\ndescription: d.\nowns: [a-thing]",
+                    body="Alpha decides how wide the gap is. " + boiler)
+            f.skill("beta", frontmatter="name: beta\ndescription: d.\nowns: [b-thing]",
+                    body="Beta decides which beat gets played. " + boiler)
+            self.assertNotIn("skill-overlap", checks(f.run(), "warn"))
+
+
 class TestSlashCommandWiring(unittest.TestCase):
     """CLAUDE.md section 7 is the only place a user learns a slash command exists."""
 

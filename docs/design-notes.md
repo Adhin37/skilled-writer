@@ -62,6 +62,60 @@ point for each live one. A module the read-set does not list is off, and costs n
 modules point at their own body, because at 4 KB the body *is* the decision-sized slice; giving
 them a card would only duplicate it.
 
+## One concept, one owner
+
+The architecture above says where a rule should *live* — the body, a card, a reference. It never
+said **whose** rule it is, and for a long time nothing did. Forty-two skills with overlapping
+subject matter and no ownership model produced exactly what that predicts.
+
+Measured before the rule: **28 pairs of skills shared at least one 12-word passage, 361 passages in
+all.** Not paraphrase — copied text. The chapter-proportions table existed four times and the copies
+had already disagreed, `scene-craft`'s carrying a follow-through beat that `write-chapter`'s had
+silently dropped. The default gesture list existed in three skills. The delivery test existed in
+`scene-craft`'s draft card and again, in full, in `revision-pass` Pass 9.
+
+**A second copy is not redundancy.** It is a second thing to maintain, and the failure it produces
+is not a missing rule but two rules that contradict each other, where the reader of either one has
+no way to tell. Drift is silent and it is one-directional: whichever file gets edited is right, and
+the other is now wrong and still confident.
+
+So every skill declares `owns: [...]` in frontmatter, the claims are exclusive, and a skill that
+touches someone else's concept **names the owner and stops**. Three checks in `sw health` hold it:
+a skill with no `owns:`, a slug claimed twice, and any pair of skills carrying the same 12-word
+passage more than twice. Citing costs nothing — code spans are stripped before comparison — so the
+cheap move is always the correct one.
+
+### What the detector can and cannot do
+
+It finds **text, not meaning**. A genuine paraphrase walks straight past it. That is an acceptable
+limit because every duplicate this repo actually grew was copied, and copying is what drifts: two
+independently written statements of the same idea tend to stay compatible, while two copies of one
+sentence diverge the moment either is touched.
+
+Two implementation notes worth not relearning. The shared card and reference-table templates are
+exempt, and they are exempt by being **cut out of the text before it is compared** — an earlier
+version filtered window-by-window, which suppressed only the windows that contained a whole marker
+and let the windows straddling a marker's edge trip the check the template was exempted from. And
+the threshold is distributional like everything else here: a pair needs **three** shared passages,
+because two skills writing about the same cast table will coincide on a phrase or two without either
+having copied anything.
+
+### Where ownership had to be decided rather than discovered
+
+Most cases were obvious once asked. A few were genuine splits, and the split is the interesting part:
+
+| concept | owner | the other skill keeps |
+|---|---|---|
+| the voice delta | `character-development` decides today's delta | `voice-separation` owns the ceiling a delta may not push a character through, and the drift check |
+| the skill ladder | `competence-map` owns the stages and the legal sources | `character-development` owns what an advance has to *sound* like |
+| the delivery test | `scene-craft` owns the five questions | `revision-pass` owns that Pass 9 is a gate, and where the answers go |
+| levels vs tiers | `power-scaling` owns the ladder and the mapping | `litrpg-system` owns how levels are rendered |
+| the `event` field | `chapter-plan`, because it is decided at plan time | `write-chapter` checks the row carries a real one |
+
+`scene-craft` gained an audit card in the process. It was consulted by two passes and had only a
+draft card, which is why `revision-pass` had been carrying its table instead of opening it — a
+missing card is how a duplicate gets written in the first place.
+
 ## Why the gate stopped being a command
 
 `revision-pass` used to be reachable two ways: `write-chapter` step 4 ran it, and `/novel-revise`

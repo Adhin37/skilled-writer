@@ -1,6 +1,7 @@
 ---
 name: competence-map
 description: Keep every character's knowledge bounded and specialised - what they know, where the edge is, who they ask. Use when designing a character, when anyone states a fact, and inside revision-pass.
+owns: [competence-grid, provenance-test, acquisition-ladder]
 ---
 
 # competence-map
@@ -150,9 +151,8 @@ This is where the skill pays for itself:
 
 - It generates cast (`character-profile`) and gives walk-ons a reason to exist.
 - It produces plot, because the person you must ask is a person with their own wants.
-- It ties to `social-fabric`: who is *allowed* to learn, what costs money to know, what is guild
-  secret, what is only spoken. In a world with 8% literacy, the number of people who could have
-  read that ledger is a plot constraint, not a background detail.
+- It ties to `social-fabric`, which owns who is *allowed* to learn, what costs money to know, and
+  what a low literacy rate does to the list of people who could have read a given document.
 
 **Delegation is competence, not weakness.** A character who knows the boundary of their own
 expertise and hands the problem to the right person reads as more capable, not less. Write that
@@ -188,11 +188,10 @@ prints the counts and then says to open `bias-guard` and make the call.
 | `revision-pass` Pass 3 | provenance sweep, the unlisted-is-`none` check, skill-ladder honesty |
 | `continuity-summary` write | a stage advance is logged in `state/growth.md`; a genuinely new domain goes on the map |
 
-**`bias-guard` outranks this skill.** Incompetence assignments must not sort by demographic. Read
-the `none` and `passable` rows of `_competence.md` as a block: if the characters who cannot read,
-cannot fight, cannot count or cannot cook line up with a gender, a class or a people, the map is
-encoding a prejudice and needs redealing. The fix is not to make everyone equally able — it is to
-make sure the *pattern* is not the book's argument. And a character learning a skill from stage 0
+**`bias-guard` outranks this skill**, and owns the sweep: read the `none` and `passable` rows of
+`_competence.md` as a block and check the pattern against it. The fix is never to make everyone
+equally able — it is to make sure the *pattern* is not the book's argument. And a character
+learning a skill from stage 0
 must be learning it because of who they are and what their life allowed, never because their
 category is expected to be bad at it.
 

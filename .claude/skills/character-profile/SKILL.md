@@ -1,6 +1,7 @@
 ---
 name: character-profile
 description: Create or amend a character profile - behaviour, speech, arc ladder. Use when a named character appears or is changed by a chapter, or when the user says /novel-character.
+owns: [cast-tiers, character-debut, walk-on-roster]
 ---
 
 # character-profile
@@ -102,9 +103,8 @@ Three strokes, invented on the spot, recorded as one line. This is the entire me
    mouth for whatever the scene needs explained (`competence-map` §3).
 
 Plus **one axis off default** (`voice-separation` §8) — not a fingerprint, one way of being unlike
-everyone else in the scene: the one who will not stop talking, the one who answers in three words,
-the one who thinks this is funny, the one who does not look up from their hands. A walk-on without
-it speaks in the narrator's register, and the narrator's register is the MC's.
+everyone else in the scene, taken off that skill's matrix. A walk-on without it speaks in the
+narrator's register, and the narrator's register is the MC's.
 
 Recorded in `bible/cast/_extras.md`, one line:
 

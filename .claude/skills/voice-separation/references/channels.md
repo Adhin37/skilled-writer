@@ -63,8 +63,8 @@ Three fields, in the profile, used by `narrator-voice` and `pov-switch`:
 
 The thought unit is also the **metaphor source** (`narrator-voice`): a character who thinks in
 money does not reach for a tide simile. Two POV characters who think in the same unit will produce
-identical narration however different their dialogue is — that is the head-hopping smell readers
-notice without being able to name.
+identical narration however different their dialogue is — the head-hopping smell `narrator-voice`
+names.
 
 ### Everyone else — the first move
 

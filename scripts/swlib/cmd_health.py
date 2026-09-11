@@ -86,6 +86,8 @@ def run(repo_root, commands=None):
     _template(repo_root, rep)
     _commands(repo_root, commands, rep)
     _slash_commands(repo_root, rep)
+    _owns_map(repo_root, names, rep)
+    _overlap(repo_root, names, rep)
     rep.info("scope", [
         "   %d skills, %d template accessors, %d template sections checked"
         % (len(names), len(TABLE_ACCESSORS), len(SECTION_LOOKUPS)),
@@ -321,6 +323,109 @@ def _flatten(data, prefix=""):
         key = "%s.%s" % (prefix, k) if prefix else k
         out += _flatten(v, key) if isinstance(v, dict) else [key]
     return out
+
+
+# ------------------------------------------------------------------ ownership
+
+# Passages every skill is expected to share: the card and reference-table templates. They are
+# structure, not duplicated craft advice, so the overlap detector skips anything containing one.
+BOILERPLATE = (
+    "written here rather than summarised there",
+    "opened by",
+    "this file does not carry other skills",
+    "cite them so the gaps",
+    "when its trigger fires",
+    "section numbers are stable",
+)
+
+OVERLAP_RUN = 12        # words, normalised, before a shared passage counts
+OVERLAP_MAX = 2         # distinct shared runs a pair of skills may have
+
+
+def _owns_map(repo_root, names, rep):
+    """`owns:` in frontmatter is the scope declaration. One concept, one owner.
+
+    Without it the toolkit has no answer to "whose rule is this?", and the measured consequence
+    is two skills carrying the same advice until the copies drift apart.
+    """
+    owners = {}
+    for name in names:
+        path = os.path.join(skills_dir(repo_root), name, "SKILL.md")
+        if not os.path.isfile(path):
+            continue
+        fm, _ = mdio.split_frontmatter(mdio.read_text(path))
+        owns = mdio.parse_yaml(fm).get("owns") if fm else None
+        if not isinstance(owns, list) or not owns:
+            rep.defect("skill-scope", "%s declares no `owns:` - every skill states the concepts "
+                                      "it is the only authority on" % name, path=path, line=1)
+            continue
+        for slug in owns:
+            slug = str(slug).strip()
+            if not re.match(r"^[a-z][a-z0-9-]*$", slug):
+                rep.defect("skill-scope", "%s owns `%s` - concept slugs are kebab-case"
+                           % (name, slug), path=path, line=1)
+                continue
+            if slug in owners:
+                rep.defect("skill-scope", "`%s` is claimed by both %s and %s - a concept has one "
+                                          "owner, and the other skill cites it"
+                           % (slug, owners[slug], name), path=path, line=1)
+            else:
+                owners[slug] = name
+    return owners
+
+
+def _normalise(text):
+    text = re.sub(r"`[^`]*`", " ", text)                    # citations live in code spans
+    text = re.sub(r"\[[^\]]*\]\([^)]*\)", " ", text)
+    text = re.sub(r"[^a-z0-9 ]", " ", text.lower())
+    return re.sub(r"\s+", " ", text).strip().split()
+
+
+def _runs(words):
+    """Every OVERLAP_RUN-word window, with the shared template text cut out first.
+
+    Boilerplate is *removed* rather than filtered window-by-window. Filtering only suppresses a
+    window that contains a whole marker, so the windows straddling a marker's edge survived and
+    the template tripped the check it was exempted from.
+    """
+    text = " ".join(words)
+    for phrase in BOILERPLATE:
+        text = text.replace(phrase, "\x00")
+    out = set()
+    for segment in text.split("\x00"):
+        w = segment.split()
+        for i in range(len(w) - OVERLAP_RUN + 1):
+            out.add(" ".join(w[i:i + OVERLAP_RUN]))
+    return out
+
+
+def _overlap(repo_root, names, rep):
+    """Long passages carried by two skills at once.
+
+    It finds text, not meaning, so it cannot see a paraphrase - but every duplicate this repo
+    actually grew was copied, and a copy is what drifts. Citing a concept is free: a code span is
+    stripped before comparison, so pointing at an owner never trips this.
+    """
+    root = skills_dir(repo_root)
+    shingles = {}
+    for name in names:
+        d = os.path.join(root, name)
+        parts = []
+        for sub, _dirs, files in os.walk(d):
+            for f in sorted(files):
+                if f.endswith(".md"):
+                    parts.append(mdio.read_text(os.path.join(sub, f)))
+        shingles[name] = _runs(_normalise("\n".join(parts)))
+
+    for i, a in enumerate(names):
+        for b in names[i + 1:]:
+            both = shingles.get(a, set()) & shingles.get(b, set())
+            if len(both) > OVERLAP_MAX:
+                sample = sorted(both)[0]
+                rep.warn("skill-overlap", "%s and %s share %d passages of %d+ words - one of them "
+                                          "owns this and the other should cite it. e.g. \"%s...\""
+                         % (a, b, len(both), OVERLAP_RUN, sample[:70]),
+                         path=os.path.join(root, a, "SKILL.md"))
 
 
 # ------------------------------------------------------------------ commands

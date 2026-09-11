@@ -34,9 +34,9 @@ gets their five-minute want, their tic, and one thing only someone in their job 
 **Hold the turn lengths** — the crudest differentiator and the most reliable. **One voice per line**:
 a line that could move to another character with no edit is generic.
 
-Beats come from that character's **hands** and **pressure move**, never from the default set —
-*nodded, shrugged, sighed, raised an eyebrow, crossed their arms, let out a breath*. A line with no
-beat beats a line with a generic one. Tags are `said`/`asked`; an action beat beats an adverb.
+Beats come from that character's **hands** and **pressure move**, never from the default set
+(`voice-separation`). A line with no beat beats a line with a generic one. Tags are
+`said`/`asked`; an action beat beats an adverb.
 
 **Nobody explains a subject their competence map does not cover**, and no two people who both know
 a thing explain it to each other. *"I don't know"*, *"that's not my end"* and *"I'd guess, but it's

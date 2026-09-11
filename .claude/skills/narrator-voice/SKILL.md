@@ -1,6 +1,7 @@
 ---
 name: narrator-voice
 description: Hold the narrating voice - person, tense, distance, interiority, and the four text channels - across hundreds of chapters. Use when setting up a novel, drafting, or marking thought and meta text.
+owns: [four-channels, narrative-distance, person-and-tense, head-hopping, italics]
 ---
 
 # narrator-voice
@@ -78,8 +79,8 @@ different their dialogue is, and that is the head-hopping smell readers notice w
 to name it.
 
 **Everyone else thinks through their first move.** Non-POV characters get no interiority at all —
-their minds reach the page through what they reach for, look at, or say first when the situation
-changes. Three people enter the same room; one checks the door, one checks the faces, one checks
+their minds reach the page through their **first move** (`voice-separation` owns the field and
+the examples). Three people enter the same room; one checks the door, one checks the faces, one checks
 the exit they came in by. Three minds, one POV, no head-hopping.
 
 ## The four channels

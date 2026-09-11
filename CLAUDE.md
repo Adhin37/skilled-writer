@@ -77,6 +77,10 @@ Every skill is `.claude/skills/<name>/SKILL.md` plus a `references/` directory. 
 procedure; the references hold examples, catalogues and long tables, and are opened when the body
 says to. See §8.
 
+**Each skill's frontmatter declares what it owns**, and the claim is exclusive — the table below
+says when to reach for a skill, `owns:` says whose rule a thing is when two skills both touch it.
+The answer to "where does this rule live?" is always one skill, and every other skill cites it.
+
 **Core loop** — always in play:
 
 | Skill | Use when |
@@ -358,6 +362,23 @@ small enough to be worth opening. Rationale: [design notes](docs/design-notes.md
 **Cite sections, never line numbers.** `hook-and-pacing` §Openings survives an edit;
 `hook-and-pacing:38-39` rots the moment a paragraph is added above it, and rots silently.
 
+**One concept, one owner.** Every skill declares its scope in frontmatter — `owns: [slug, slug]` —
+and no two skills may claim the same slug. A skill states the rules it owns; for everything else it
+**cites the owner by name and stops**. Citing is free: `sw health` strips code spans before it
+compares, so a pointer never reads as a copy.
+
+```bash
+grep -H '^owns:' .claude/skills/*/SKILL.md        # the whole map, one line per skill
+```
+
+This is enforced, not aspirational. `sw health` fails a skill with no `owns:`, a slug claimed twice,
+and any **pair of skills carrying the same 12-word passage** more than twice. The reason is measured:
+before the rule there were 28 such pairs and 361 shared passages, and the copies had already drifted
+apart — `write-chapter` and `scene-craft` held the same chapter-proportions table with different
+numbers in it. A second copy is not redundancy, it is a second thing to maintain and a silent
+contradiction waiting for whichever skill gets edited next. Rationale:
+[design notes](docs/design-notes.md).
+
 ---
 
 ## 9. The mechanical toolkit
@@ -380,7 +401,7 @@ small enough to be worth opening. Rationale: [design notes](docs/design-notes.md
 | `audit <novel>` | the independent whole-novel gate |
 | `history <novel>` | the whole book as a series — dialogue and length trends, recurring lint checks, thread ages, the pressure series |
 | `trace [novel]` | what a run cost, and **which skill files it actually opened** — the finding-9 check |
-| `health` | the toolkit's own wiring: skills, cards, references, the template accessors, the docs |
+| `health` | the toolkit's own wiring: skills, cards, references, **scope claims and cross-skill duplication**, the template accessors, the docs |
 | `selftest` | the dry run — build a whole novel in a temp dir and run every command against it, clean and seeded |
 | `doctor` | start here when anything behaves oddly |
 

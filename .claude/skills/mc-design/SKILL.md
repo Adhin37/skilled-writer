@@ -1,6 +1,7 @@
 ---
 name: mc-design
 description: Design the main character - appearance, intellect, origin, golden finger - and the form ledger for a non-final-form MC. Use during novel-init before other cast work, and when the MC changes form.
+owns: [mc-sheet, golden-finger, form-ledger]
 ---
 
 # mc-design
@@ -100,9 +101,9 @@ where it stays reliable has no tension after chapter 20 — but **decay schedule
 use is a bait-and-switch**: the reader was promised an advantage in the blurb and shown only a
 malfunction. It works, then it costs, then it frays, then it betrays.
 
-Foreknowledge is also not intelligence — `mc-intel-meter` tiers still apply, and a tier-2 MC with
-perfect foreknowledge still reasons like a tier-2 MC — and it is not competence: knowing that a
-technique exists is not being able to perform it.
+Foreknowledge is neither intelligence nor competence: `mc-intel-meter` owns what a declared tier
+still constrains, and `competence-map` owns why knowing of a technique is not being able to use
+it.
 
 ### 5. The central advantage (golden finger)
 

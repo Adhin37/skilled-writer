@@ -1,6 +1,7 @@
 ---
 name: mc-intel-meter
 description: Pin the MC at a declared intelligence tier and enforce it both ways - no unearned omniscience, no idiot ball. Use on any MC decision, deduction, plan or mistake, and when reviewing a draft.
+owns: [intel-tier, deduction-trace]
 ---
 
 # mc-intel-meter

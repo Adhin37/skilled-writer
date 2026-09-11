@@ -40,8 +40,8 @@ than a duplicate file (`voice-separation/references/mirror-clause.md`):
 
 A double with a different body is also `form_locked: true` with its own stage row in
 `state/body.md`. The exemption covers declared mirrors only: a protégé, a sibling or a rival who
-"is like a younger version of the MC" is not a mirror, it is a cast with two of the same person in
-it.
+"is like a younger version of the MC" is not one — `voice-separation` owns the clause and what
+disqualifies a claim to it.
 
 ## Fan fiction
 
@@ -63,8 +63,8 @@ Canon characters get a normal profile, derived from the source, plus:
    fic needs. They also do not know the parts of canon they were never present for, and they do not
    know the future the writer knows (`competence-map` §1 , §3).
 
-Set `canon: true` in the frontmatter. OCs get `canon: false` and must pass the OC test: name the
-job they do, and why no canon character could do it.
+Set `canon: true` in the frontmatter. OCs get `canon: false` and must pass `fanfic-canon`'s
+**OC test**.
 
 **Canon characters get tiers too.** A source work has hundreds of named people and this story uses
 a handful. A canon character who appears in two scenes is a tier-C walk-on with three strokes —

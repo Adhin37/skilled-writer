@@ -21,21 +21,21 @@ section to open when that happens.
 | POV character, and whether this is a switch | `pov-switch/references/draft-card.md` + the plan row |
 | Which thread ops fire | `plot-threads/references/draft-card.md` |
 | Who sounds different today, and how | `character-development/references/draft-card.md` → `state/growth.md` |
-| **The voice spread** — this chapter's speakers as matrix rows side by side, and which of them differs from the MC on two or more axes | `voice-separation/references/draft-card.md` → `bible/cast/_voices.md` |
+| **The voice spread** for this chapter's speakers | `voice-separation/references/draft-card.md` → `bible/cast/_voices.md` |
 | Anyone new on the page: their **cast tier**, decided before they speak | `character-profile/references/draft-card.md` |
 | **The offstage question** — what the world does this chapter that the MC does not know | `timeline-engine/references/draft-card.md` → `plan/timeline.md` |
 | **The world channel** — the one thing about the world this chapter makes concrete, and whether a consequence, a friction or an assumed reference carries it | `world-texture/references/draft-card.md` |
 | What the MC deduces, and from which on-page clue | `mc-intel-meter/references/draft-card.md` |
-| **Who has to ask** — the thing this chapter needs known, whose map covers it, and who must go to someone else | `competence-map/references/draft-card.md` → `bible/cast/_competence.md` |
+| **Who has to ask** for what this chapter needs known | `competence-map/references/draft-card.md` → `bible/cast/_competence.md` |
 | Opening line strategy, closing hook | `hook-and-pacing/references/draft-card.md` |
 
 ## Conditional — check the condition first, and skip the card entirely if it is false
 
 | condition | decision | card |
 |---|---|---|
-| chapter ≤ `opening.contract_by_ch + 2` | **The anchor debt** — what a reader still cannot answer about world, place or canon position, and which beat pays it — plus **the ceiling check**: if this chapter escalates, is the mechanism that makes it dangerous already on the page? | `story-opening/references/draft-card.md` |
+| chapter ≤ `opening.contract_by_ch + 2` | **The anchor debt** and **the ceiling check** | `story-opening/references/draft-card.md` |
 | `scaling.shape` is not `none` | **The pressure** — what gap between the MC and this chapter's opposition the arc wants, and only then who that opposition is | `power-scaling/references/draft-card.md` → `state/power.md` §6 |
-| `mc.foreknowledge` is set | **The foreknowledge spend** — what the MC knows that bears on today, at what grain, what using it costs, and what it invalidates | `meta-knowledge/references/draft-card.md` → `state/foreknowledge.md` |
+| `mc.foreknowledge` is set | **The foreknowledge spend** | `meta-knowledge/references/draft-card.md` → `state/foreknowledge.md` |
 | anyone is `form_locked` | Which bodies are locked, and what they cannot do today | `mc-design/references/draft-card.md` → `state/body.md` |
 
 ---

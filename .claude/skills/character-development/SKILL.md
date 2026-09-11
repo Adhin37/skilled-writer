@@ -1,6 +1,7 @@
 ---
 name: character-development
 description: Move every recurring character along their arc ladder so growth is audible in how they speak and choose. Use every chapter when writing dialogue or choices, and when planning arcs.
+owns: [arc-ladder, voice-delta]
 ---
 
 # character-development
@@ -102,14 +103,13 @@ Every channel in that table pushes the same direction — shorter, surer, more d
 direction of the MC. Applied to a whole cast over 200 chapters, growth quietly merges everyone
 into the protagonist, and by the late arcs the book has one voice in it.
 
-**A voice delta may not move a character onto the MC's axes** (`voice-separation` §6). If the
-obvious delta would raise a character's articulacy to the MC's level, or hand them the MC's wit,
-choose a different one — growth also runs toward *more oblique*, *slower*, *quieter*, *funnier in a
-worse way*, *unable to stop explaining*. The single exception is a character whose arc is genuinely
-about becoming like the MC: then somebody on the page says so, and it reads as loss or as threat.
+**What a delta may not do is `voice-separation`'s** — it owns the matrix and the ceiling a delta
+may not push a character through. When the obvious delta would collide with that ceiling, choose a
+different one: growth also runs toward *more oblique*, *slower*, *quieter*, *funnier in a worse
+way*, *unable to stop explaining*.
 
-**The drift check, once per arc.** Put one recent line from each recurring character side by side.
-If the axes have compressed, restore them and log it in §6 of `bible/cast/_voices.md`.
+Once per arc, `voice-separation` runs the drift check over the whole cast. This skill supplies the
+deltas it checks.
 
 ## Per-chapter procedure
 
@@ -147,7 +147,7 @@ Called by `write-chapter`, step 1.
 - [ ] Every advance was caused by one of the four triggers
 - [ ] Every advance has a recorded voice delta, and the delta is in the dialogue
 - [ ] No delta moved a character onto the MC's voice axes
-- [ ] Any skill stage that advanced names a teacher, a reference or a costly failure — not time
+- [ ] Any skill stage that advanced is legal under `competence-map`, and changed how they speak
 - [ ] The MC's pain ledger has an entry for this chapter
 - [ ] No tier-A character has been at rung 1 for two full arcs while on-page
 - [ ] No tier-C walk-on was given a rung, an epiphany or an interior life

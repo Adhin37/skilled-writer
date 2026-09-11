@@ -1,6 +1,7 @@
 ---
 name: dialogue-voice
 description: Write dialogue that identifies the speaker without tags, from each character's speech fingerprint. Use when writing or revising any line of dialogue.
+owns: [speech-fingerprint, dialogue-density, subtext]
 ---
 
 # dialogue-voice
@@ -26,9 +27,8 @@ can tell the labels apart and still hears one person. Before the fingerprint com
 
 Two rules from that skill bind every scene written here:
 
-- **The MC-contrast rule** — at least one speaker in the chapter differs from the MC on two or
-  more axes.
-- **The three-way clash** — no two speakers in a scene share intel + articulacy + wit.
+- **The MC-contrast rule** and **the three-way clash** — `voice-separation` states both, and
+  `sw cast` checks them.
 
 The exception is a declared **mirror** — a clone, avatar, double or body-snatch, who is permitted
 to share the original's fingerprint. See `voice-separation/references/mirror-clause.md`.
@@ -70,10 +70,8 @@ two clauses of work, and it is the difference between a character and a vending 
 **One voice per line.** If a line could be moved to another character with no edit, it is
 generic. Rewrite one of the two.
 
-**The transplant test — the MC version.** Take the MC's most characteristic line in the scene and
-put it in another named character's mouth. If it fits, one of the two has no voice, and the one to
-rewrite is the other character, never the MC. This is the failure that produces a whole cast of
-protagonists.
+**Run the transplant test** before the scene is done — `voice-separation` owns it, including the
+rule about which of the two lines gets rewritten.
 
 **Hold the turn lengths.** Each recurring speaker has a default number of words per turn. Two
 characters with matching turn lengths read as one person however carefully their vocabulary
@@ -109,10 +107,9 @@ not *"Fine," he said angrily* but *"Fine." He put the cup down harder than he me
 **Beats carry blocking, and the beat must be theirs.** Use action beats to keep bodies in space and
 to control rhythm — one every three to four exchanges, more in tense scenes, fewer in fast ones.
 Draw each from that character's **hands** field and **pressure move** (`voice-separation/references/channels.md`), so
-the beat identifies the speaker as well as the line does. Never from the default gesture set —
-*nodded, shrugged, sighed, raised an eyebrow, crossed their arms, ran a hand through their hair,
-clenched their jaw, let out a breath* — which belongs to everyone and therefore to nobody. A line
-with no beat beats a line with a generic one.
+the beat identifies the speaker as well as the line does. Never from the default gesture set
+(`voice-separation` owns the list, and `sw lint` sweeps for it): those gestures belong to everyone
+and therefore to nobody. A line with no beat beats a line with a generic one.
 
 **Dialect by rhythm, not by spelling.** Phonetic spelling (`'ere, guv`) is unreadable and often
 condescending. Convey origin through word order, idiom, formality and what the character takes for
@@ -226,9 +223,7 @@ doorframe, not an epigram).
 - [ ] The share counts `"…"` only — thought and meta are not dialogue
 - [ ] No character stood in a scene without speaking while being narrated about
 - [ ] Tags stripped — is every tier-A and tier-B speaker identifiable?
-- [ ] Transplant test — the MC's best line does not fit anyone else's mouth
-- [ ] At least one speaker differs from the MC on two or more axes
-- [ ] No two speakers in a scene share intel + articulacy + wit
+- [ ] The transplant test and the axis spread hold for this scene (`voice-separation`)
 - [ ] Turn lengths held; every beat drawn from that character's hands or pressure move
 - [ ] Swap test on the walk-ons — could another extra have this scene with no edit?
 - [ ] Does each speaker want something distinct from this conversation?

@@ -1,6 +1,7 @@
 ---
 name: plot-threads
 description: Open, escalate and pay off every promise made to the reader, using the thread ledger. Use when planning chapters, when drafting, and when auditing a novel for forgotten setups.
+owns: [thread-ledger, promise-payoff]
 ---
 
 # plot-threads

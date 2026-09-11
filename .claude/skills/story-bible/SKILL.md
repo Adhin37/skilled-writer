@@ -1,6 +1,7 @@
 ---
 name: story-bible
 description: Build and maintain the world bible and lexicon at the minimum size a long serial needs. Use when starting a novel, when a chapter adds a durable fact, or when the world contradicts itself.
+owns: [world-bible, lexicon]
 ---
 
 # story-bible
@@ -51,8 +52,8 @@ words total. It grows as the story does.
 5. **Three or four locations** that arc 1 uses, each with a **sensory signature**: the two
    details that identify it instantly, at least one of them non-visual. Reuse them at every visit —
    that repetition is how a reader learns a place, and it costs nothing (`world-texture` §4).
-6. **Two or three factions**, each with wants / method / fears / posture toward the MC. No faction
-   is uniformly anything, and none maps onto a real-world ethnic or national group (`bias-guard`).
+6. **Two or three factions**, each with wants / method / fears / posture toward the MC, written
+   under `bias-guard`'s essentialism ban.
 7. **Numbered rules of the world** — the hard constraints the story may never break. Five is
    plenty. Numbering them lets CCS blocks cite them.
 8. **Open questions** — deliberate unknowns, recorded so two chapters do not fill them in

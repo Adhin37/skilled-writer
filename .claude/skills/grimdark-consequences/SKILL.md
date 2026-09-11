@@ -1,6 +1,7 @@
 ---
 name: grimdark-consequences
 description: Optional (default off). Remove plot armour - permanent deaths, unhealed injuries, costs that stay paid - without collapsing into misery. Use only while this skill is enabled.
+owns: [permanent-consequence]
 ---
 
 # grimdark-consequences

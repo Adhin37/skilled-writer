@@ -1,6 +1,7 @@
 ---
 name: tech-plausibility
 description: Keep science-fiction technology coherent and consequential - one speculation, honest second-order effects, no hand-waving. Use for scifi when designing the setting or when tech matters.
+owns: [speculation-budget, second-order-effects]
 ---
 
 # tech-plausibility

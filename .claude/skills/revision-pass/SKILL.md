@@ -1,6 +1,7 @@
 ---
 name: revision-pass
 description: Quality gate for a drafted chapter - continuity, character, voice, knowledge, structure, world, bias, prose and delivery checks in a fixed order. Use as write-chapter Phase C, on every chapter.
+owns: [pass-order, story-gate, gate-report]
 ---
 
 # revision-pass
@@ -55,13 +56,13 @@ for.
 | 1 Continuity | mechanical | `references/owned-passes.md` §Pass 1 — the read-set is the authority |
 | 2 Character + voice | **distributional** | `voice-separation/references/audit-card.md` · `character-profile/references/audit-card.md` |
 | 3 Intelligence + knowledge | **distributional** | `mc-intel-meter/references/audit-card.md` · `competence-map/references/audit-card.md` |
-| 4 Structure | mechanical | `references/owned-passes.md` §Pass 4 |
+| 4 Structure | mechanical | `scene-craft/references/audit-card.md` · `references/owned-passes.md` §Pass 4 |
 | 5 World | judgement | `world-texture/references/audit-card.md` |
 | 6 Bias | **distributional** | `bias-guard/references/audit-card.md` — **every chapter, never rotated** |
 | 7 MTL detox | **distributional** | `mtl-detox/references/audit-card.md` · `references/owned-passes.md` §Pass 7 — the banned list is `sw lint`'s; the structural half is not |
 | 8 Prose + microtension | judgement | `prose-quality/references/audit-card.md` |
 | 8b Register + house style | **distributional** | `prose-quality/references/ai-default-tells.md` — the tells this model produces once the MTL list is already clean |
-| 9 Delivery | judgement | the five questions are here in full · `references/owned-passes.md` §Pass 9 for the rest |
+| 9 Delivery | judgement | `scene-craft/references/audit-card.md` · `references/owned-passes.md` §Pass 9 |
 | 9b Opening | **judgement** | `story-opening/references/audit-card.md`, chapters in range only |
 | 9c Foreknowledge | **distributional** | `meta-knowledge/references/audit-card.md`, if `mc.foreknowledge` |
 | 9d Theme | judgement | `references/owned-passes.md` §Pass 9d |
@@ -121,8 +122,8 @@ first: run `sw cast` and read the debut ledger before deciding this pass has pas
 ## Pass 3 — Intelligence and knowledge
 
 Open **`mc-intel-meter/references/audit-card.md`** and
-**`competence-map/references/audit-card.md`**. Two different things, and the pass fails most often
-at the seam: a high intel tier waved through as a licence to know facts.
+**`competence-map/references/audit-card.md`**. Two different things, and the first card names the
+seam they fail at.
 
 ## Pass 4 — Structure
 
@@ -161,24 +162,17 @@ Open `prose-quality/references/audit-card.md` §Register.
 
 ## Pass 9 — Delivery
 
-**The pass that decides whether the chapter is finished**, and it replaced the old word-count
-check entirely. Length is evidence of nothing.
+**The pass that decides whether the chapter is finished**, and it replaced the old word-count check
+entirely. Length is evidence of nothing.
 
-Answer all five in one sentence each. Write the third into `delivers:` and the Z1 answer into
-`event:` — different fields, failing in opposite directions. Run #2 wrote five strong `delivers:`
-lines, every one describing a shift in somebody's interior state, which is exactly how a chapter
-passes this pass while nothing happens in it.
+Open **`scene-craft/references/audit-card.md`** — `scene-craft` owns the delivery test, and the card
+carries the five questions and the scene-level checks. Write the **Change** answer into `delivers:`
+and the Z1 answer into `event:`: two fields that fail in opposite directions. Run #2 wrote five
+strong `delivers:` lines, every one describing a shift in somebody's interior state, which is
+exactly how a chapter passes this pass while nothing happens in it.
 
-| | question | fails when |
-|---|---|---|
-| **Want** | What did the POV character want here? | The honest answer is "to react to things." A chapter with no want is a chapter of weather |
-| **Friction** | What person, rule or scarcity stood in the way? | The only obstacle is the MC's own hesitation, twice running |
-| **Change** | **What is materially different at the end?** | The exit state equals the entry state. This is the load-bearing question |
-| **Cost** | What was paid, by whom? | Nothing. See `conflict-engine` — nothing is free |
-| **Next** | What does the reader now need to see? | The hook asks a question the chapter already answered |
-
-Seven further checks — whether those answers were honest, the escalation rule, the skim and
-forecast tests, the opening and the hook: **`references/owned-passes.md` §Pass 9**.
+Seven further checks that belong to this pass rather than to `scene-craft` — the skim and forecast
+tests, the opening, the hook, and the length note: **`references/owned-passes.md` §Pass 9**.
 
 ## Pass 9b — The opening — chapters ≤ `opening.contract_by_ch + 2` only
 
@@ -207,16 +201,12 @@ before Pass 10 so a corrected tier still reaches the frontmatter and the CCS `pw
 
 ## Pass 9f — Pacing and build-up
 
-Open **`story-craft/references/audit-card.md`**. Pass 9 asks whether the chapter delivers; this asks
-whether it delivered at the **right size**, which a delivery test cannot see — a chapter that
-summarises its own turning point still has a want, a friction, a change, a cost and a hook.
+Open **`story-craft/references/audit-card.md`**. Pass 9 asks whether the chapter delivered; this
+asks whether it delivered at the **right size**, which no delivery test can see. `story-craft` owns
+the scene-or-summary call and the repair, which is never more words.
 
-`sw lint` prints a **pacing** line (summary markers, words before the first scene, summary-shaped
-paragraph share). It says where to look and settles nothing: a chapter can skip its most important
-beat without one past-perfect clause, by starting after it.
-
-The repair is never more words. It is reallocation — a reported beat becomes a played one, and a
-played bridge goes back to being a bridge.
+`sw lint` prints a **pacing** line — summary markers, words before the first scene, summary-shaped
+paragraph share. It says where to look and settles nothing.
 
 ## Pass 10 — Mechanics
 

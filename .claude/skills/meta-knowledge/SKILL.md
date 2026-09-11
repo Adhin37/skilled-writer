@@ -1,6 +1,7 @@
 ---
 name: meta-knowledge
 description: Run an MC who knows what happens next - grain, inventory, win before failure, observer paradox. Use when designing a foreknowing MC, whenever foreknowledge is spent, and inside revision-pass.
+owns: [foreknowledge-ledger, observer-paradox]
 ---
 
 # meta-knowledge
@@ -101,9 +102,9 @@ Three separate axes. Keep them apart:
 | Competence | `competence-map` | can *do* a narrow set of things |
 | Foreknowledge | this skill | holds facts about a future they did not earn |
 
-A tier-2 MC with perfect foreknowledge still reasons like a tier-2 MC — they will misuse good
-information. An MC who knows a technique exists cannot perform it; knowing the answer is not
-knowing the method, and the gap between them is where the best chapters in this subgenre live.
+Neither of the other two axes bends for foreknowledge; each stays with its owner above. What
+belongs to this skill is the gap they leave: knowing the answer is not knowing the method, and that gap is where the
+best chapters in this subgenre live.
 
 **Foreknowledge is a declared domain in `bible/cast/_competence.md`** with an edge like any other,
 and the provenance test applies to every fact stated from it: *read it, was told it, saw it, or

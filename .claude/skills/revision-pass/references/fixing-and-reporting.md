@@ -48,17 +48,15 @@ was never checked is the failure mode the whole gate exists to prevent.
 
 ## The `gate>` line
 
-Whatever this pass had to fix goes into the chapter's CCS block as `gate>`, in a dozen words or
-fewer, using the check names where they have them:
+Whatever this pass had to fix goes into the chapter's CCS block, using the check names where they
+have them:
 
 ```
 gate> campaign-clause x2, speech-share 11%, Pass Z redraft of scene 2
 ```
 
-Omit the line entirely when the gate found nothing — an absent `gate>` is the clean signal, and a
-run of them is worth more than a run of `gate> clean`. `sw readset` reads the last five back to
-build the next chapter's WATCH row, so a defect recorded here is one the next draft is written
-against rather than one you fix again in chapter 43.
+The field is `continuity-summary`'s — `continuity-summary/references/block-format.md` states when
+the line is present and when it is omitted, and `write-chapter` step 5 writes it.
 
 ## Re-gating an existing chapter
 

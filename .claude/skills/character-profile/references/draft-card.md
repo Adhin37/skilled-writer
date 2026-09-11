@@ -29,9 +29,8 @@ interchangeable**, which is a different problem with a much cheaper solution.
    scene. It is also their **entire competence map** — the toll clerk knows the levy and not why it
    was raised.
 
-Plus **one axis off default**: the one who will not stop talking, the one who answers in three
-words, the one who thinks this is funny. Without it they speak in the narrator's register, and the
-narrator's register is the MC's.
+Plus **one axis off default**, taken off `voice-separation`'s matrix. Without it they speak in
+the narrator's register, and the narrator's register is the MC's.
 
 **The swap test:** could this scene be handed to any other extra with no edit? If yes, fix stroke 3.
 

@@ -37,8 +37,7 @@ a comic strip with thought bubbles. Never tag one with *she thought*; the mark a
    one job, declared in `lexicon.md`.
 
 **A non-POV character never gets a `'…'`** — that is head-hopping with punctuation on it. Other
-minds reach the page through their **first move**: what they reach for, look at or say first when
-the situation changes.
+minds reach the page through their **first move** (`voice-separation`).
 
 ## Distance is a rhythm, not a setting
 

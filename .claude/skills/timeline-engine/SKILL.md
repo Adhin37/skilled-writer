@@ -1,6 +1,7 @@
 ---
 name: timeline-engine
 description: Run the world's own plot on its own clock and make it react to the MC at a dialled intensity. Use when planning arcs, when the MC acts against a faction or canon event, and once per chapter.
+owns: [world-clock, divergence-ledger, ending-contract]
 ---
 
 # timeline-engine

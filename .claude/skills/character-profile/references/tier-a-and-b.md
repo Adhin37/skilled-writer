@@ -58,8 +58,7 @@ the promotion signal. Take it — promotions are how a cast stays alive.
 6. **Body & habit** — the three body fields (`voice-separation/references/channels.md`): default state, **the hands**,
    and the pressure move — plus, for tier A, their habitual standing distance and what they do when
    someone crosses it. Gestures rather than portraiture; describe what the body *does*. Nothing
-   from the banned set (nodded, shrugged, sighed, raised an eyebrow, crossed their arms) — those
-   identify nobody. No beauty catalogue; see `bias-guard`. If this character's body changes over
+   from the default gesture set (`voice-separation` owns the list) — those identify nobody. No beauty catalogue; see `bias-guard`. If this character's body changes over
    the novel — a child growing, a shapeshifter, someone maimed or restored — set
    `form_locked: true` and give them a stage table in `state/body.md` (`mc-design`).
 7. **Relationships**, including the `unspoken` column — what each pair is not saying.

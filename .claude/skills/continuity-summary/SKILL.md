@@ -1,6 +1,7 @@
 ---
 name: continuity-summary
 description: Read and maintain the compressed continuity ledger (CCS). Use before drafting to assemble the read-set, after drafting to append the block, and to compact old arcs into digests.
+owns: [ccs-block-format, read-set-assembly, arc-digest]
 ---
 
 # continuity-summary
