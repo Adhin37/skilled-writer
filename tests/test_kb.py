@@ -136,6 +136,8 @@ class TestReproducesTheDispatcherTables(unittest.TestCase):
         if not m:
             self.skipTest("the pass table has been deleted")
         want = sorted(set(self.AUDIT.findall(m.group(1))))
+        if not want:
+            self.skipTest("the card column has been removed; the index is now the authority")
         got = sorted(f.owner for f in self.idx.by_type("audit-card"))
         self.assertEqual(got, want)
 

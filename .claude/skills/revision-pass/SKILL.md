@@ -53,26 +53,31 @@ one file down to **`references/owned-passes.md`**, written as check / failure / 
 so this body stays the pass order and the gates rather than a checklist nobody opened a source
 for.
 
+Run `python3 scripts/sw.py kb passes novels/<slug> -c <N>`. It names the audit card for each
+pass below, with 9b, 9c and 9e already resolved against `novel.md`, so a pass whose card does not
+apply to this novel is not left for you to work out. Without Python: every audit card declares
+its `pass` in frontmatter — open the one whose `pass` matches the row you are on.
+
 | pass | kind of defect | what to open |
 |---|---|---|
 | Z Story gate | judgement | nothing — the three questions above |
 | 0 Mechanical sweep | mechanical | nothing — run the commands |
 | 1 Continuity | mechanical | `references/owned-passes.md` §Pass 1 — the read-set is the authority |
-| 2 Character + voice | **distributional** | `voice-separation/references/audit-card.md` · `character-profile/references/audit-card.md` |
-| 3 Intelligence + knowledge | **distributional** | `mc-intel-meter/references/audit-card.md` · `competence-map/references/audit-card.md` |
-| 4 Structure | mechanical | `scene-craft/references/audit-card.md` · `references/owned-passes.md` §Pass 4 |
-| 5 World | judgement | `world-texture/references/audit-card.md` |
-| 6 Bias | **distributional** | `bias-guard/references/audit-card.md` — **every chapter, never rotated** |
-| 7 MTL detox | **distributional** | `mtl-detox/references/audit-card.md` · `references/owned-passes.md` §Pass 7 — the banned list is `sw lint`'s; the structural half is not |
-| 8 Prose + microtension | judgement | `prose-quality/references/audit-card.md` |
+| 2 Character + voice | **distributional** | — |
+| 3 Intelligence + knowledge | **distributional** | — |
+| 4 Structure | mechanical | `references/owned-passes.md` §Pass 4 |
+| 5 World | judgement | — |
+| 6 Bias | **distributional** | — **every chapter, never rotated** |
+| 7 MTL detox | **distributional** | `references/owned-passes.md` §Pass 7 — the banned list is `sw lint`'s; the structural half is not |
+| 8 Prose + microtension | judgement | — |
 | 8b Register + house style | **distributional** | `prose-quality/references/ai-default-tells.md` — the tells this model produces once the MTL list is already clean |
-| 9 Delivery | judgement | `scene-craft/references/audit-card.md` · `references/owned-passes.md` §Pass 9 |
-| 9b Opening | **judgement** | `story-opening/references/audit-card.md`, chapters in range only |
-| 9c Foreknowledge | **distributional** | `meta-knowledge/references/audit-card.md`, if `mc.foreknowledge` |
+| 9 Delivery | judgement | `references/owned-passes.md` §Pass 9 |
+| 9b Opening | **judgement** | chapters in range only — `kb passes` resolves it |
+| 9c Foreknowledge | **distributional** | only if `mc.foreknowledge` — not rotatable |
 | 9d Theme | judgement | `references/owned-passes.md` §Pass 9d |
-| 9e Power curve | judgement | `power-scaling/references/audit-card.md`, if `scaling.shape` is not `none` |
-| 9f Pacing + build-up | **judgement** | `story-craft/references/audit-card.md` |
-| 10 Mechanics | mechanical | `references/owned-passes.md` §Pass 10 · `narrator-voice/references/audit-card.md` for the four channels |
+| 9e Power curve | judgement | only if `scaling.shape` is not `none` |
+| 9f Pacing + build-up | **judgement** | — |
+| 10 Mechanics | mechanical | `references/owned-passes.md` §Pass 10, and the four channels |
 
 **Run Pass 0 first.** It settles every mechanical row in seconds and for no tokens, which buys the
 budget for the cards. A clean sweep is **not** a passed revision: it says nothing about Z, 2, 3,

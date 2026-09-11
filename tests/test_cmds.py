@@ -87,6 +87,36 @@ class TestReadsetModules(unittest.TestCase):
     def modules_block(out):
         return out.split("### active modules", 1)[1].split("\n##", 1)[0]
 
+    @staticmethod
+    def cards_block(out):
+        tail = out.split("### CARDS -", 1)[1].split("\n##", 1)[0]
+        return tail.split("\n", 1)[1]
+
+    def test_the_card_set_is_resolved_into_the_read_set(self):
+        """The block that replaces write-chapter's hand-typed table."""
+        with NovelFixture() as fx:
+            fx.add_chapter(1, BODY)
+            code, out, _err = run("readset", fx.root, "-c", "1")
+            self.assertEqual(code, 0)
+            self.assertIn("### CARDS -", out)
+            block = self.cards_block(out)
+            # story-craft is the card the contract calls "first, always", so it leads.
+            self.assertTrue(block.strip().startswith("story-craft"), block[:120])
+            self.assertIn("draft-card.md", block)
+
+    def test_a_card_that_does_not_apply_is_named_with_its_reason(self):
+        """A condition that is quietly wrong must not look like a card that never applied."""
+        with NovelFixture() as fx:
+            fx.add_chapter(9, BODY)
+            code, out, _err = run("readset", fx.root, "-c", "9")
+            self.assertEqual(code, 0)
+            self.assertIn("### CARDS NOT OPENED", out)
+            skipped = out.split("### CARDS NOT OPENED", 1)[1].split("\n##", 1)[0]
+            # chapter 9 is past the opening window, and the row has to say so rather than
+            # leaving the card silently absent.
+            self.assertIn("story-opening", skipped)
+            self.assertIn("false", skipped)
+
     def test_genre_switches_a_module_on_and_off_modules_are_absent(self):
         with NovelFixture() as fx:          # genre: fantasy, no `optional:` block
             fx.add_chapter(1, BODY)

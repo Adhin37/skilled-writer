@@ -12,7 +12,7 @@ absent - the read-set is bounded on purpose, and the model has to be able to ask
 import os
 import re
 
-from . import cmd_lint, mdio, rules
+from . import cmd_lint, kb, kbexpr, mdio, rules
 
 HOT_BLOCK_CAP = 3
 
@@ -53,13 +53,10 @@ _REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__
 def _module_entry(name):
     """The cheapest correct entry point for a module: its draft card, else its body.
 
-    Finds a path; judges nothing. A module with a card is opened at the card because that is
-    the decision-sized slice; one without is small enough that its body *is* the slice.
+    Finds a path; judges nothing. Delegates to the index so the read-set and `sw kb` cannot
+    disagree about where a module starts.
     """
-    card = os.path.join(SKILLS_REL, name, "references", "draft-card.md")
-    if os.path.isfile(os.path.join(_REPO, card)):
-        return card
-    return os.path.join(SKILLS_REL, name, "SKILL.md")
+    return kb.index(_REPO).entry(name)
 
 
 def active_modules(novel):
@@ -67,17 +64,49 @@ def active_modules(novel):
 
     write-chapter step 0.2 opens these and no others: a module absent from this list is off
     for this novel and costs nothing to skip.
+
+    Which modules exist and what switches each one on is declared in the skills' own frontmatter
+    and read by `kb`, rather than restated here. The config-gated skills are deliberately not in
+    this list: it has always been the optional and genre modules, and widening it is a change to
+    what the read-set tells a drafter rather than a refactor.
     """
-    out = []
-    for name in rules.OPTIONAL_MODULES:
-        if novel.optional_on(name):
-            out.append((name, _module_entry(name)))
-    genre = str(novel.get("genre", "") or "").strip().lower()
-    subgenre = str(novel.get("subgenre", "") or "").strip().lower()
-    for name, triggers in sorted(rules.GENRE_MODULES.items()):
-        if genre in triggers or subgenre in triggers:
-            out.append((name, _module_entry(name)))
-    return out
+    return [(name, entry)
+            for name, entry, _state in kb.index(_REPO).active(novel,
+                                                              tiers=("optional", "genre"))]
+
+
+def _cards_section(add, novel, number, characters):
+    """The phase A card set, resolved against this novel and this chapter.
+
+    This replaces the table `write-chapter` used to carry, and the replacement is not only a
+    move. The table listed twenty-two rows with four conditions written in English, which the
+    model had to evaluate for itself every chapter; these are the cards that actually apply,
+    with each card's own statement of what it decides.
+
+    The cards that did NOT fire are printed too, with the reason. A condition that is quietly
+    wrong is otherwise indistinguishable from a card that was never meant to apply - and the
+    whole point of moving the conditions into data was to make them checkable.
+    """
+    idx = kb.index(_REPO)
+    ctx = kbexpr.Context(novel, chapter=number, speakers=len(characters or []))
+    fired, skipped = idx.cards("draft-card", ctx, phase="A")
+    if not fired and not skipped:
+        return
+    add("\n### CARDS - phase A, resolved. Open these in order, and no others.")
+    width = max(len(f.owner) for f, _s, _w in fired) if fired else 10
+    for f, state, why in fired:
+        cond = ("  [%s]" % f.when) if f.when and f.when != "always" else ""
+        mark = "  ?" if state is kbexpr.UNKNOWN else ""
+        add("%-*s -> %s%s%s" % (width, f.owner, f.rel, cond, mark))
+        if f.description:
+            add("%-*s    %s" % (width, "", f.description))
+        if state is kbexpr.UNKNOWN:
+            add("%-*s    ? trigger could not be resolved: %s" % (width, "", "; ".join(why)))
+    if skipped:
+        add("\n### CARDS NOT OPENED - the condition is false for this novel and chapter")
+        w2 = max(len(f.owner) for f, _w in skipped)
+        for f, why in skipped:
+            add("%-*s    %s" % (w2, f.owner, "; ".join(why)))
 
 
 def _recent_pressure(novel, number, window=5):
@@ -259,6 +288,8 @@ def build(novel, number, chars=None, locs=None, want_society=False):
         add("\n".join("%-*s -> %s" % (width, n, path) for n, path in modules))
     else:
         add("(none - no optional module is on and the genre switches none on)")
+
+    _cards_section(add, novel, number, characters)
 
     add("\n## 1. BOOK DIGEST")
     add(novel.book_digest() or "(empty)")

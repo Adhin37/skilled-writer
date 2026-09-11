@@ -12,7 +12,7 @@ that opened skills at all, should have been opened.
 
 import os
 
-from . import rules, transcripts
+from . import kb, transcripts
 from .rates import Rates, total_cost
 from .report import Report
 
@@ -25,28 +25,19 @@ def _skill_roster(repo_root):
                   if os.path.isdir(os.path.join(d, name)) and not name.startswith("."))
 
 
-def _classify(roster, novel):
+def _classify(roster, novel, repo_root):
     """Split the roster into (always-in-play, off-for-this-novel).
 
     Without a novel every module counts as in play: a module cannot be called switched off when
     nothing says which novel's switches to read.
     """
+    # Switch-gated, genre-gated and config-gated all answer one question - is this skill live for
+    # this novel - and each skill's frontmatter answers it. `content.romance: none` turns
+    # lead-interest off as surely as an `optional:` key would, and reporting either as a missed
+    # skill is a false positive on correct behaviour.
     off = set()
     if novel is not None:
-        for name in rules.OPTIONAL_MODULES:
-            if not novel.optional_on(name):
-                off.add(name)
-        genre = str(novel.get("genre", "") or "").lower()
-        sub = str(novel.get("subgenre", "") or "").lower()
-        for name, triggers in rules.GENRE_MODULES.items():
-            if genre not in triggers and sub not in triggers:
-                off.add(name)
-        # Config-gated, not switch-gated: `content.romance: none` turns lead-interest off as
-        # surely as an `optional:` key would, and reporting that as a missed skill is a false
-        # positive on correct behaviour.
-        for name, (key, off_values) in rules.CONFIG_GATED_MODULES.items():
-            if str(novel.get(key, "") or "").strip().lower() in off_values:
-                off.add(name)
+        off = set(kb.index(repo_root).off_for(novel))
     return [s for s in roster if s not in off], sorted(off & set(roster))
 
 
@@ -257,7 +248,7 @@ def _skill_section(rep, repo_root, novel, agg, data):
                  % os.path.abspath(repo_root).replace(os.sep, "/"))
         return
     opened = agg["skills"]
-    in_play, off = _classify(roster, novel)
+    in_play, off = _classify(roster, novel, repo_root)
     never = [s for s in in_play if s not in opened]
     data["skills"] = {"roster": roster, "opened": opened, "in_play": in_play,
                       "off_for_this_novel": off, "in_play_never_opened": never}

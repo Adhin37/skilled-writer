@@ -172,22 +172,45 @@ class Index(object):
 
     # ------------------------------------------------------------ resolution
 
-    def active(self, novel, ctx=None):
+    # `optional:` switches first, then the genre modules, then anything gated by config - the
+    # order the read-set has always printed them in, kept because it groups by why a module is on.
+    TIER_ORDER = ("optional", "genre", "gated")
+
+    def active(self, novel, ctx=None, tiers=None):
         """The skills switched on for this novel, as (name, entry, state) triples.
 
-        A skill with no declared `when:` is unconditional and always in play. UNKNOWN counts as
-        in play: a module wrongly listed costs a line, and one wrongly hidden costs a chapter.
+        A skill with no declared `when:` is unconditional and always in play, so it is not a
+        *module* and never appears here. UNKNOWN counts as on: a module wrongly listed costs a
+        line, and one wrongly hidden costs a chapter.
         """
         ctx = ctx or kbexpr.Context(novel)
+        want = tuple(tiers) if tiers else self.TIER_ORDER
         out = []
-        for name in sorted(self.skills):
+        for name in sorted(self.skills, key=lambda n: (_tier_rank(self.skills[n].tier), n)):
             skill = self.skills[name]
             if not skill.when or skill.when == "always":
+                continue
+            if skill.tier not in want:
                 continue
             state, _why = kbexpr.evaluate(skill.when, ctx)
             if state is not kbexpr.FALSE:
                 out.append((name, self.entry(name), state))
         return out
+
+    def off_for(self, novel, ctx=None):
+        """The modules this novel switches off. The converse of `active`, for `sw trace`.
+
+        A module correctly switched off is not a skill the run failed to open, and reporting it
+        as one teaches you to stop reading the findings.
+        """
+        ctx = ctx or kbexpr.Context(novel)
+        off = []
+        for name, skill in sorted(self.skills.items()):
+            if not skill.when or skill.when == "always":
+                continue
+            if kbexpr.evaluate(skill.when, ctx)[0] is kbexpr.FALSE:
+                off.append(name)
+        return off
 
     def cards(self, kind, ctx, phase=None):
         """Resolve a card set. Returns ([(FileEntry, state, why)], [(FileEntry, why)]).
@@ -208,6 +231,10 @@ class Index(object):
             else:
                 fired.append((f, state, why))
         return fired, skipped
+
+
+def _tier_rank(tier):
+    return Index.TIER_ORDER.index(tier) if tier in Index.TIER_ORDER else len(Index.TIER_ORDER)
 
 
 def _card_sort(f):

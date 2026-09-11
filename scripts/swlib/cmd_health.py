@@ -52,7 +52,10 @@ SECTION_LOOKUPS = [
 ]
 
 # A card is written by the skill that owns the defect and opened by the dispatcher that needs
-# the answer, so it is cited from there rather than from its own body. CLAUDE.md section 8.
+# the answer, so it is dispatched from there rather than cited from its own body. CLAUDE.md
+# section 8. The edge used to be checked by looking for the card's path as a literal string in
+# the dispatcher's body, which only ever proved that a copy of the list existed there; the list
+# is data now, and `_cards` checks the edge structurally instead.
 CARD_OWNERS = {"draft-card.md": "write-chapter", "audit-card.md": "revision-pass"}
 
 # `hook-and-pacing:38-39` rots the moment a paragraph is added above it, and rots silently.
@@ -88,6 +91,7 @@ def run(repo_root, commands=None):
     _slash_commands(repo_root, rep)
     _uncited(repo_root, names, _owns_map(repo_root, names, rep), rep)
     _overlap(repo_root, names, rep)
+    _kb(repo_root, rep)
     rep.info("scope", [
         "   %d skills, %d template accessors, %d template sections checked"
         % (len(names), len(TABLE_ACCESSORS), len(SECTION_LOOKUPS)),
@@ -143,16 +147,10 @@ def _references(root, names, bodies, rep):
         for fname in present:
             owner = CARD_OWNERS.get(fname)
             if owner:
-                cited_by = bodies.get(owner, "")
                 token = "%s/references/%s" % (name, fname)
                 if owner not in bodies:
                     rep.defect("skill-card", "%s exists but its dispatcher `%s` is missing"
                                % (token, owner))
-                elif token not in cited_by:
-                    rep.defect("skill-card",
-                               "%s is never named by %s/SKILL.md - a card the dispatcher does "
-                               "not open is a file nobody reads" % (token, owner),
-                               path=os.path.join(root, owner, "SKILL.md"))
                 continue
             if ("references/%s" % fname) not in body:
                 rep.defect("skill-reference",
@@ -486,6 +484,41 @@ def _overlap(repo_root, names, rep):
 
 
 # ------------------------------------------------------------------ commands
+
+def _kb(repo_root, rep):
+    """The knowledge-base layer: frontmatter, the dispatch edges, and every trigger.
+
+    This replaces the old string-presence card check. That one asked whether the dispatcher's
+    body contained the card's path as literal text, which proved only that a copy of the list
+    lived there - and the copy was the thing the list being data was meant to remove. The edge
+    is now checked from both ends: a card declares the dispatcher that opens it, and the
+    dispatcher has to resolve to exactly the cards that declare it.
+    """
+    from . import cmd_kb, kb
+    idx = kb.index(repo_root, refresh=True)
+    for problem in idx.problems:
+        rep.defect("skill-scope", problem)
+    cmd_kb.validate(idx, rep)
+
+    for kind, dispatcher in (("draft-card", "write-chapter"), ("audit-card", "revision-pass")):
+        cards = idx.by_type(kind)
+        on_disk = {f.owner for f in cards}
+        declared = {f.owner for f in cards if f.dispatcher == dispatcher}
+        for owner in sorted(on_disk - declared):
+            rep.defect("skill-card", "%s's %s does not declare `dispatcher: %s` - a card no "
+                                     "dispatcher claims is a file nobody opens"
+                       % (owner, kind, dispatcher))
+        for f in cards:
+            if kind == "draft-card" and not f.phase:
+                rep.defect("skill-card", "%s declares no `phase:` - the dispatcher cannot place "
+                                         "it" % f.rel, path=f.path)
+            if kind == "audit-card" and not f.pass_:
+                rep.defect("skill-card", "%s declares no `pass:` - the dispatcher cannot place "
+                                         "it" % f.rel, path=f.path)
+            if not f.description:
+                rep.warn("skill-card", "%s declares no `description:` - the dispatcher prints it "
+                                       "in place of the table it replaced" % f.rel, path=f.path)
+
 
 def _commands(repo_root, commands, rep):
     if not commands:

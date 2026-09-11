@@ -83,32 +83,18 @@ happens, you simply do not wait.
 `goal`, `obstacle`, `turn`, `cost` and `threads` — that is what planning is for. Open a card only
 for what the row does not settle.
 
-| decision | card |
-|---|---|
-| Which beat is played and which is reported | `story-craft/references/draft-card.md` — **first, always** |
-| Scene count, the break, and per scene goal → obstacle → turn → exit | `scene-craft/references/draft-card.md`, `chapters.scenes_per_chapter` |
-| What this chapter costs the POV character | `conflict-engine/references/draft-card.md` — never zero |
-| POV character, and whether this is a switch | `pov-switch/references/draft-card.md` + the plan row |
-| Which thread ops fire | `plot-threads/references/draft-card.md` |
-| Which character sounds different today, and how | `character-development/references/draft-card.md` → `state/growth.md` |
-| **The voice spread** for this chapter's speakers | `voice-separation/references/draft-card.md` → `bible/cast/_voices.md` |
-| Anyone new on the page: their **cast tier**, decided before they speak | `character-profile/references/draft-card.md` |
-| **The offstage question**: what the world does this chapter that the MC doesn't know | `timeline-engine/references/draft-card.md` → `plan/timeline.md` |
-| **The world channel** this chapter opens | `world-texture/references/draft-card.md` |
-| What the MC deduces, and from which on-page clue | `mc-intel-meter/references/draft-card.md` |
-| **Who has to ask** for what this chapter needs known | `competence-map/references/draft-card.md` → `bible/cast/_competence.md` |
-| Opening line strategy, closing hook | `hook-and-pacing/references/draft-card.md` |
+The read-set's **CARDS** block lists this chapter's cards, in order, with the conditional ones
+already resolved against `novel.md` — and each card's own one-line statement of what it decides.
+Open exactly those, in that order, plus the **active modules** from step 0.2 at the entry point
+the read-set named for each.
 
-**Conditional — check the condition first, and skip the card entirely if it is false.**
+It also prints **CARDS NOT OPENED** and why. If a condition there looks wrong for this chapter,
+say so before drafting rather than opening the card anyway: a trigger nobody questions is how a
+card silently stops applying.
 
-| condition | decision | card |
-|---|---|---|
-| chapter ≤ `opening.contract_by_ch + 2` | **The anchor debt** and **the ceiling check** | `story-opening/references/draft-card.md` |
-| `scaling.shape` is not `none` | **The pressure**: what gap the arc wants, and only then who the opposition is | `power-scaling/references/draft-card.md` → `state/power.md` §6 |
-| `mc.foreknowledge` is set | **The foreknowledge spend** | `meta-knowledge/references/draft-card.md` → `state/foreknowledge.md` |
-| anyone is `form_locked` | Which bodies are locked, and what they cannot do today | `mc-design/references/draft-card.md` → `state/body.md` |
-
-Plus the **active modules** from Step 0.2, at the entry point the read-set named for each.
+Without Python: every draft card under `.claude/skills/` declares its own `phase`, `order` and
+`when` in frontmatter. Open every phase-A card in `order`, skipping any whose `when`
+is false for this novel, and say in the report that you resolved it by hand.
 
 A card that does not settle its question is the one case for opening its owner's `SKILL.md`.
 

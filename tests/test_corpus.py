@@ -180,17 +180,30 @@ class TestArchitecture(unittest.TestCase):
             self.assertIn("%s/references/audit-card.md" % skill, body,
                           "revision-pass must open %s's card" % skill)
 
-    def test_write_chapter_does_not_paraphrase_its_sources(self):
-        """The drafting dispatcher points at draft cards; it does not carry their content.
+    def test_write_chapter_dispatches_every_draft_card(self):
+        """The drafting dispatcher reaches every card; it does not carry their content.
+
+        This used to assert that `write-chapter/SKILL.md` contained each card's path as literal
+        text. That proved only that a copy of the list lived there, and the copy was what the
+        knowledge-base layer removed: the dispatcher now points at the read-set's CARDS block,
+        which `swlib/kb.py` resolves from each card's own frontmatter. The rule is unchanged -
+        the dispatcher must reach every card - so the test asserts it of the resolver instead.
 
         The symmetric rule to the revision-pass one above. Step 1 used to cite sixteen skill
         bodies by section, which is ~34k tokens of procedure before a word of story state -
         the load benchmark run #1 measured the model rationing.
         """
+        from swlib import kb
+        idx = kb.index(REPO, refresh=True)
+        resolved = {f.owner for f in idx.by_type("draft-card")}
+        self.assertEqual(sorted(resolved), sorted(DRAFT_CARD_OWNERS),
+                         "every draft card on disk must be dispatched by write-chapter")
+        for f in idx.by_type("draft-card"):
+            self.assertEqual(f.dispatcher, "write-chapter", f.rel)
+
         body = read(os.path.join(SKILLS, "write-chapter", "SKILL.md"))
-        for skill in DRAFT_CARD_OWNERS:
-            self.assertIn("%s/references/draft-card.md" % skill, body,
-                          "write-chapter must open %s's draft card" % skill)
+        self.assertIn("CARDS", body,
+                      "write-chapter must point at the read-set's resolved card block")
 
     def test_every_draft_card_has_an_owner_that_exists(self):
         for s in skill_names():

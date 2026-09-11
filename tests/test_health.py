@@ -107,11 +107,45 @@ class TestSkillWiring(unittest.TestCase):
             f.skill("alpha", body="body", references={"draft-card.md": "# card"})
             self.assertIn("skill-card", checks(f.run()))
 
-    def test_a_card_named_by_its_dispatcher_is_accepted(self):
+    def test_a_card_that_declares_its_dispatcher_is_accepted(self):
+        """The edge is declared by the card, not copied into the dispatcher's prose."""
+        card = ("---\ntype: draft-card\nowner: alpha\ndispatcher: write-chapter\n"
+                "phase: A\ndescription: what alpha decides\nwhen: always\n---\n# card")
         with Fake() as f:
-            f.skill("write-chapter", body="open `alpha/references/draft-card.md` at step 1")
-            f.skill("alpha", body="body", references={"draft-card.md": "# card"})
+            f.skill("write-chapter", body="open the CARDS block the read-set resolved")
+            f.skill("alpha", body="body", references={"draft-card.md": card})
             self.assertNotIn("skill-card", checks(f.run()))
+
+    def test_a_card_with_no_phase_is_a_defect(self):
+        """The dispatcher places a card by its `phase:`; without one it cannot be resolved.
+
+        This is the replacement for the old string-presence check. That one asked whether the
+        card's path appeared in the dispatcher's prose, which the resolver made meaningless -
+        what matters now is whether the card carries enough to be placed.
+        """
+        card = ("---\ntype: draft-card\nowner: alpha\ndispatcher: write-chapter\n"
+                "description: what alpha decides\nwhen: always\n---\n# card")
+        with Fake() as f:
+            f.skill("write-chapter", body="open the CARDS block the read-set resolved")
+            f.skill("alpha", body="body", references={"draft-card.md": card})
+            self.assertIn("skill-card", checks(f.run()))
+
+    def test_a_card_naming_a_dispatcher_that_does_not_exist_is_a_defect(self):
+        card = ("---\ntype: draft-card\nowner: alpha\ndispatcher: ghost-writer\n"
+                "phase: A\ndescription: what alpha decides\nwhen: always\n---\n# card")
+        with Fake() as f:
+            f.skill("write-chapter", body="open the CARDS block the read-set resolved")
+            f.skill("alpha", body="body", references={"draft-card.md": card})
+            self.assertIn("kb-dispatch", checks(f.run()))
+
+    def test_an_unreadable_trigger_is_a_defect(self):
+        """A `when:` that does not parse leaves the card permanently unresolvable."""
+        card = ("---\ntype: draft-card\nowner: alpha\ndispatcher: write-chapter\n"
+                "phase: A\ndescription: d\nwhen: chapter <=\n---\n# card")
+        with Fake() as f:
+            f.skill("write-chapter", body="open the CARDS block the read-set resolved")
+            f.skill("alpha", body="body", references={"draft-card.md": card})
+            self.assertIn("kb-trigger", checks(f.run()))
 
     def test_a_line_number_citation_is_a_defect(self):
         """`hook-and-pacing:38-39` rots silently the moment a paragraph is added above it."""

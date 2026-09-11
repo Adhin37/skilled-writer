@@ -179,31 +179,11 @@ ARC_MIN_DISTINCT = 4            # distinct temps and hooktypes required across a
 DECLINE_RUN = 3                 # consecutive shrinking chapters before it is a signal
 
 
-# CLAUDE.md section 3: the genre modules, and the genre or subgenre that switches each on.
-# Data only - resolving a name to a file is cmd_readset's job, not this module's.
-GENRE_MODULES = {
-    "power-system": ("fantasy", "scifi", "progression"),
-    "tech-plausibility": ("scifi",),
-    "fanfic-canon": ("fanfic",),
-}
-
-# CLAUDE.md section 3: the toggleable modules, read from `optional:` in novel.md.
-OPTIONAL_MODULES = (
-    "no-harem", "romance-arc", "combat-choreography", "litrpg-system",
-    "mystery-clues", "comedy-levity", "grimdark-consequences", "slice-of-life-texture",
-)
-
-
-# CLAUDE.md section 3 lists these in the always-in-play tables, but each row makes the skill
-# conditional on CONFIG rather than on an `optional:` switch: lead-interest says "Skip if
-# content.romance: none", pov-switch says "Only if pov.mode allows it". Benchmark run #3 warned
-# that both were "never opened" on a novel that had correctly switched both off - a monitoring
-# tool that flags correct behaviour teaches you to stop reading its findings.
-# name -> (config key, values for which the skill is OFF)
-CONFIG_GATED_MODULES = {
-    "lead-interest": ("content.romance", ("none",)),
-    "pov-switch": ("pov.mode", ("single",)),
-}
+# The three module registries that used to live here - GENRE_MODULES, OPTIONAL_MODULES and
+# CONFIG_GATED_MODULES - are gone. They were a second copy of CLAUDE.md section 3 maintained by
+# hand, and all three answered one question: is this skill live for this novel? Each skill now
+# answers it in its own frontmatter, as `metadata.when`, and `swlib/kb.py` reads it. The reason
+# it had to be a copy at all was that the skill layer had no machine-readable form; it has one.
 
 
 # The frontmatter revision-pass Pass 10 requires.
