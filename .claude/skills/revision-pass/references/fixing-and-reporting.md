@@ -1,7 +1,8 @@
-# revision-pass — fixing, reporting, standalone use
+# revision-pass — fixing, reporting, re-gating
 
-Open this when a pass has found something and you are deciding what to change, or when you are
-writing the report at the end.
+Open this when a pass has found something and you are deciding what to change, when you are
+writing the report at the end, or when you are gating a chapter that was drafted in an earlier
+session.
 
 ## Fixing
 
@@ -21,10 +22,18 @@ Set `status: revised` in the frontmatter when every pass is clean.
 
 ## Reporting
 
-Two lines, unless something structural was rewritten:
+**Inside `write-chapter`, this pass does not get a report of its own.** It gets the `Gate:` line of
+the step 6 report, and one `gate>` line in the CCS block. Both are one line:
 
 ```
-Revised ch 42 — delivers: Dael now owes the house a favour he cannot pay.
+Gate: clean — cut a crowd-reaction block, applied Dael's rung-3 voice delta, replaced the
+ending. Pass 8b ran without its card. Pass 6 found nothing.
+```
+
+Re-gating a chapter on its own, two lines, unless something structural was rewritten:
+
+```
+Re-gated ch 42 — delivers: Dael now owes the house a favour he cannot pay.
 Cut a crowd-reaction paragraph, applied Dael's rung-3 voice delta, replaced the ending
 (it ran three paragraphs past the hook).
 ```
@@ -32,15 +41,31 @@ Cut a crowd-reaction paragraph, applied Dael's rung-3 voice delta, replaced the 
 **Lead with what the chapter delivers.** Do not report a word count or a word delta — it is not a
 quality signal, and putting it in the report is what trained the drafting model to aim at it.
 
-If a pass found nothing, do not list it. If Pass 6 found something, **always say what** — the user
-needs to know that the default was reaching for it. If the mechanical sweep did not run, say so;
-and if any pass ran at checklist depth without its card open, name it. A ticked box that was never
-checked is the failure mode the whole gate exists to prevent.
+If a pass found nothing, do not list it — **except Pass 6, which is reported either way**, because
+the user needs to know the default was not reaching for it. If the mechanical sweep did not run,
+say so; and if any pass ran at checklist depth without its card open, name it. A ticked box that
+was never checked is the failure mode the whole gate exists to prevent.
 
-## Standalone use
+## The `gate>` line
 
-`/novel-revise <n>` runs the gate on an existing chapter. Run the three commands first — they
-replace most of the loading:
+Whatever this pass had to fix goes into the chapter's CCS block as `gate>`, in a dozen words or
+fewer, using the check names where they have them:
+
+```
+gate> campaign-clause x2, dialogue share 11%, Pass Z redraft of scene 2
+```
+
+Omit the line entirely when the gate found nothing — an absent `gate>` is the clean signal, and a
+run of them is worth more than a run of `gate> clean`. `sw readset` reads the last five back to
+build the next chapter's WATCH row, so a defect recorded here is one the next draft is written
+against rather than one you fix again in chapter 43.
+
+## Re-gating an existing chapter
+
+There is no revise command. The gate runs inside `write-chapter` as Phase C, and a chapter drafted
+in an earlier session is re-gated through `/novel-write <n>` — which asks whether you want it
+re-gated or redrafted — or by simply asking for it. Either way, run the three commands first: they
+replace most of the loading.
 
 ```bash
 python3 scripts/sw.py lint novels/<slug> -c <n>
@@ -52,8 +77,12 @@ Then load that chapter, its CCS block, the two before it, the matrix rows in
 `bible/cast/_voices.md` and the competence rows in `bible/cast/_competence.md` for its speakers,
 and the profiles of everyone in it. Then run all the passes.
 
-## Revising a range
+## Re-gating a range
 
-`/novel-revise 1-5` is large enough to hit a session limit partway through. Expect to resume, and
-finish one chapter completely — including its `stamp` — before starting the next, so a partial run
-leaves whole chapters behind it rather than a half-revised one.
+`/novel-write 1-5` over existing chapters is large enough to hit a session limit partway through.
+Expect to resume, and finish one chapter completely — including its `stamp` and its `gate>` line —
+before starting the next, so a partial run leaves whole chapters behind it rather than a
+half-revised one.
+
+`sw readset` names ungated chapters when it assembles the next chapter's read-set, so the backlog
+is visible without anyone keeping a list.

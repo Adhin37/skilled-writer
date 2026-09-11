@@ -852,22 +852,22 @@ REGISTER = [
 PLAN_ROWS = [
     (1, "The Line on the Stone", "read the wrong line", "the clerks will not open early",
      "her own name is under the draw", "Wren finds her own name against a draw she did not make",
-     "she is a saltwright under a draw", "~T01", "the hand is not hers", "drafted"),
+     "she is a saltwright under a draw", "~T01", "the hand is not hers", "revised"),
     (2, "What the Clerks Will Say", "read the manifest", "Hesk covers the signature",
      "she is offered a counter-claim instead", "the manifest that authorised the draw has a signature nobody will read out",
-     "a season of trade if she lodges", "^T01 ~T02 ~T04", "his hand does not move", "drafted"),
+     "a season of trade if she lodges", "^T01 ~T02 ~T04", "his hand does not move", "revised"),
     (3, "Bread and the Second Oven", "name the barge", "Bel wants something first",
      "the price is nine families", "Bel trades what she knows about the barge for help she cannot ask for",
-     "she is now in Bel's debt", "^T01 ~T03 vT04", "the licence stays under Bel's fingers", "drafted"),
+     "she is now in Bel's debt", "^T01 ~T03 vT04", "the licence stays under Bel's fingers", "revised"),
     (4, "The Crew That Was Not There", "name the six men", "Ossian refuses",
      "the refusal identifies them", "Ossian refuses her, and the refusal tells her who the six men answered to",
-     "the question she can afford narrows", "^T02", "the dangerous question is the right one", "drafted"),
+     "the question she can afford narrows", "^T02", "the dangerous question is the right one", "revised"),
     (5, "The Ghost at the Waterline", "read the signature", "the manifest is not hers to hold",
      "the hand is her master's", "Maro gets her the manifest, and the hand on it is the one that trained her",
-     "Maro spends a debt he was owed", "^T01 ^T02", "the crooked W is his", "drafted"),
+     "Maro spends a debt he was owed", "^T01 ^T02", "the crooked W is his", "revised"),
     (6, "Counter-Claim", "get the draw lifted", "the office delays to the next quarter",
      "she signs her own dismissal", "Wren lodges the counter-claim and loses the apprenticeship to do it",
-     "the apprenticeship and the house", "^T01 ^T02 ^T03", "he hands her the pen", "drafted"),
+     "the apprenticeship and the house", "^T01 ^T02 ^T03", "he hands her the pen", "revised"),
     (7, "No House Behind Her", "find a bed and a bench", "nobody will take a seal under a draw",
      "the row takes her in on Bel's word", "Wren is housed by the people whose licence she risked",
      "she owes the row publicly", "^T03", "the row expects a return", "planned"),
@@ -1071,14 +1071,24 @@ def _chapter_file(index, entry, wordcount):
         'event: "%s"\n'
         'delivers: "%s"\n'
         "wordcount: %d\n"
-        "status: drafted\n"
+        "status: revised\n"
         "---\n"
         "\n"
         "%s\n" % (index, entry["title"], entry["event"], entry["delivers"], wordcount,
                    entry["prose"].strip()))
 
 
+# What phase C had to fix, on the chapters where it found anything. Two of six, because a
+# `gate>` on every block would be a habit rather than a record - and an absent line is the
+# clean signal the format is built around.
+SAMPLE_GATE = {
+    3: "campaign-clause x2, dialogue share 19%",
+    5: "closer-sameness, phase B redraft of scene 2",
+}
+
+
 def _block(index, entry, wordcount):
+    gate = SAMPLE_GATE.get(index)
     return (
         "=C%04d= pov:Wren | loc:Ashfall | t:D%d | wc:%d | arc:1\n"
         "dlv> %s\n"
@@ -1091,7 +1101,8 @@ def _block(index, entry, wordcount):
         "pwr> %s\n"
         "hook> %s\n"
         % (index, index, wordcount, entry["delivers"], entry["ev"], entry["chg"], entry["kno"],
-           entry["thr"], entry["obj"], entry["wld"], entry["pwr"], entry["hook"]))
+           entry["thr"], entry["obj"], entry["wld"], entry["pwr"], entry["hook"])
+        + ("gate> %s\n" % gate if gate else ""))
 
 
 def _plan_md():

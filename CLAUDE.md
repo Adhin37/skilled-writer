@@ -35,18 +35,22 @@ novel-init -> mc-design -> lead-interest -> character-profile -----------+
                                                                          |
                         +------------------------------------------------+
                         v
-        continuity-summary (read)  ->  write-chapter  ->  revision-pass
-                                     |                   [pass Z: THE EVENT]
-                              phase A: the brief         [pass 9: DELIVERY]
-                              (stop; user approves)      [pass 2: voices]
-                                     |                   [pass 3: knowledge]
-                              phase B: draft             [pass 5: world]
-                                    [story-craft]        [pass 8b: register]
-                                    [narrator-voice]     [pass 9b: opening]
-                                    [dialogue-voice]     [pass 9c: foreknowledge]
-                                    [style: target]      [pass 9e: the curve]
-                        ^                                      |
-                        +-------- continuity-summary (write) <--+
+        continuity-summary (read)  ->  write-chapter
+             ^                       |
+             |                phase A: the brief   (stop; user approves)
+             |                       |
+             |                phase B: draft       [story-craft] [narrator-voice]
+             |                       |             [dialogue-voice] [style: target]
+             |                       |                   +--------------------+
+             |                phase C: the gate  = revision-pass, in full     |
+             |                       |             [pass Z: THE EVENT] -- fail? back to B
+             |                       |             [pass 9: DELIVERY]  [pass 2: voices]
+             |                       |             [pass 3: knowledge] [pass 5: world]
+             |                       |             [pass 8b: register] [pass 9b: opening]
+             |                       |             [pass 9c: foreknowledge] [9e: the curve]
+             |                       v
+             |         continuity-summary (write)  -- gate> --> WATCH row, next brief
+             +-----------------------+
 ```
 
 `write-chapter` is the main loop and the only skill that produces prose. Three orderings are
@@ -57,6 +61,16 @@ painted onto minds that all reason at the MC's speed produce a cast of labelled 
 drafts from that brief and four cards. Nineteen cards held open through a draft is what produces
 defensive, eventless prose, and the brief is also where the user gets to say "that is not a
 chapter" for twelve lines instead of after twelve hundred words.
+
+**The gate is Phase C, not a command.** `revision-pass` runs inside `write-chapter`, every chapter,
+before anything is reported — there is no `/novel-revise` and a chapter is never handed back at
+`status: drafted`. It used to sit outside as a step the user remembered to take, which made it a
+step the user *had* to take: a gate that has to be summoned is a gate that is skipped whenever the
+run is long. Two things hold it in place. The step 6 report carries a `Gate:` line naming what was
+fixed and which passes ran without their card, and `sw readset` names any ungated chapter when it
+assembles the next one's read-set. What the gate had to fix goes into the CCS block as `gate>`, and
+the recurring entries come back as the next brief's WATCH row — so a defect is fixed at the draft
+rather than re-fixed at the gate, chapter after chapter.
 
 ## 3. Skill registry
 
@@ -78,7 +92,7 @@ says to. See §8.
 | `chapter-plan` | The arc grid and the chapter construction list. |
 | `continuity-summary` | Before every chapter (read) and after every chapter (write). |
 | `write-chapter` | Drafting. Orchestrates everything else. |
-| `revision-pass` | QC gate. A chapter is not done until this passes. |
+| `revision-pass` | The QC gate — **Phase C of `write-chapter`**, never a separate step. A chapter is not reported until this passes. |
 
 **Character** — always in play:
 
@@ -319,8 +333,11 @@ time and checked distributionally by `sw arc` (`hook-and-pacing`).
 
 ## 7. Slash commands
 
-`/novel-new` `/novel-plan` `/novel-write` `/novel-revise` `/novel-status`
+`/novel-new` `/novel-plan` `/novel-write` `/novel-status`
 `/novel-character` `/novel-recap` `/novel-toggle`
+
+There is deliberately no revise command. `/novel-write` runs all three phases including the gate,
+and `/novel-write <n>` on a chapter that already exists offers to re-gate it or redraft it.
 
 ## 8. Style of this repo
 

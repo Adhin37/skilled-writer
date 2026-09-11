@@ -12,9 +12,19 @@ absent - the read-set is bounded on purpose, and the model has to be able to ask
 import os
 import re
 
-from . import mdio, rules
+from . import cmd_lint, mdio, rules
 
 HOT_BLOCK_CAP = 3
+
+# The WATCH row. Distributional by construction: a check has to have fired in at least
+# WATCH_MIN of the last WATCH_WINDOW chapters before it is named, and only WATCH_CAP items
+# are printed. One chapter is never scored on it - the row says what has *recurred*, which
+# is the only thing a per-chapter gate cannot see about itself.
+WATCH_WINDOW = 5
+WATCH_MIN = 2
+WATCH_CAP = 3
+
+GATED = ("revised", "published")
 
 CONFIG_KEYS = [
     "genre", "subgenre",
@@ -155,6 +165,45 @@ def _table_block(headers, rows):
     return "\n".join(out)
 
 
+def ungated(novel, number):
+    """Chapters below `number` the Phase C gate never ran on, newest first.
+
+    It reads `status:` out of frontmatter and reports what it says. A chapter at `drafted` is
+    one the gate has not passed, which is a fact about the file and not an opinion about the
+    prose - the script finds, the model judges.
+    """
+    out = [c for c in novel.chapters()
+           if c.number is not None and c.number < number
+           and str(c.meta.get("status", "")).strip().lower() not in GATED]
+    return sorted(out, key=lambda c: c.number, reverse=True)
+
+
+def watch_row(novel, number):
+    """Checks that fired in WATCH_MIN or more of the last WATCH_WINDOW chapters.
+
+    The countable half of what the gate keeps fixing. The judgement half is in the `gate>`
+    lines, which this prints beside the row rather than trying to parse - no script can tell
+    that two differently worded gate notes are the same defect.
+    """
+    lo = max(1, number - WATCH_WINDOW)
+    chapters = [c for c in novel.chapters()
+                if c.number is not None and lo <= c.number <= number - 1]
+    if not chapters:
+        return [], []
+    hits = {}
+    for c in chapters:
+        for check in cmd_lint.check_counts(novel, c)["checks"]:
+            hits[check] = hits.get(check, 0) + 1
+    named = sorted(((v, k) for k, v in hits.items() if v >= WATCH_MIN),
+                   key=lambda vk: (-vk[0], vk[1]))
+    row = ["%s (%d of last %d)" % (k, v, len(chapters)) for v, k in named[:WATCH_CAP]]
+    notes = []
+    for b in novel.blocks():
+        if b.number is not None and lo <= b.number <= number - 1 and b.has("gate"):
+            notes.append("c%d %s" % (b.number, b.get("gate")))
+    return row, notes
+
+
 def build(novel, number, chars=None, locs=None, want_society=False):
     cfg_lines = []
     for key in CONFIG_KEYS:
@@ -174,6 +223,26 @@ def build(novel, number, chars=None, locs=None, want_society=False):
     add("# on purpose and how to ask for it.")
     add("# characters resolved: %s  (%s)" % (", ".join(characters) or "none", why))
     add("# locations resolved:  %s" % (", ".join(locations) or "none"))
+
+    stale = ungated(novel, number)
+    row, notes = watch_row(novel, number)
+    if stale or row or notes:
+        add("\n## GATE (write-chapter phase C - what it left behind)")
+    if stale:
+        add("DEFECT ch %d is `status: %s` - the phase C gate never ran on it%s."
+            % (stale[0].number, str(stale[0].meta.get("status", "")).strip() or "?",
+               "" if len(stale) == 1 else " (%d ungated below %d)" % (len(stale), number)))
+        add("       Re-gate before drafting: `/novel-write %s`. A chapter is not finished at"
+            % (str(stale[0].number) if len(stale) == 1
+               else "%d-%d" % (stale[-1].number, stale[0].number)))
+        add("       `drafted`, and the defects it kept are the ones this chapter inherits.")
+    if row:
+        add("WATCH  %s" % " | ".join(row))
+        add("       What the gate keeps having to fix. Write against it in phase B. It is a")
+        add("       pointer at the owning skill, never a phrase ban, and no chapter is scored")
+        add("       on it - three items at most, and only what recurred.")
+    if notes:
+        add("gate>  " + "\n       ".join(notes))
 
     add("\n## 0. CONFIG (novel.md, the fields that gate a chapter)")
     add("\n".join(cfg_lines))

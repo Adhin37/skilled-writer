@@ -1,13 +1,16 @@
 ---
 name: revision-pass
-description: Quality gate for a drafted chapter - continuity, character, voice, knowledge, structure, world, bias, prose and delivery checks in a fixed order. Use after drafting, or on /novel-revise.
+description: Quality gate for a drafted chapter - continuity, character, voice, knowledge, structure, world, bias, prose and delivery checks in a fixed order. Use as write-chapter phase C, on every chapter.
 ---
 
 # revision-pass
 
-A chapter is not finished when it is drafted. This is the gate. Run the passes **in this order** —
-structural fixes invalidate line edits, so line editing goes last. Each pass is a
-search-and-decide, not a re-read.
+A chapter is not finished when it is drafted. This is the gate, and it is **Phase C of
+`write-chapter`** — not a later step, not a command the user types. Every chapter arrives here
+before it is reported, and does not leave until it is `status: revised`.
+
+Run the passes **in this order** — structural fixes invalidate line edits, so line editing goes
+last. Each pass is a search-and-decide, not a re-read.
 
 ## Pass Z — the story gate. Run this first, and be willing to stop here.
 
@@ -26,6 +29,9 @@ If Z1 or Z2 fails, **stop**. Do not run passes 0–10. A chapter whose central e
 played does not have prose problems, and polishing it yields a well-written chapter nobody wants
 to read — precisely what run #2 shipped, five times. `sw lint` reports the countable half:
 `event` for Z1, `closer-sameness` for Z3. Z2 is yours.
+
+Stopping here means **going back to Phase B** and playing the scene, then gating the new text. It
+is the loop working, and the report says it happened.
 
 ---
 
@@ -63,7 +69,12 @@ budget for the cards. A clean sweep is **not** a passed revision: it says nothin
 5, 6, 9 or 9d, and is never a bias pass.
 
 If the budget will not stretch to every card, rotate — but **say which passes ran without their
-card**. Three never rotate: **Pass Z**, **Pass 6**, and **Pass 9c** when the MC knows the future.
+card**, in the report's `Gate:` line. Three never rotate: **Pass Z**, **Pass 6**, and **Pass 9c**
+when the MC knows the future.
+
+The budget is thinnest exactly here, and structurally so: phase A spent the draft cards and phase
+B spent a chapter before this pass was reached. Rotating and saying so is honest. Ticking a box you
+did not check is what put five machine-written chapters past sixteen passes.
 
 ---
 
@@ -273,8 +284,9 @@ skill's to enforce, and this file does not carry other skills' checklists.
 ## When something fails
 
 Open **`references/fixing-and-reporting.md`** — the repair order, what to do when a fix
-contradicts the plan or reveals a bible gap, the two-line report format, and standalone
-`/novel-revise` use.
+contradicts the plan or reveals a bible gap, the report format, and re-gating a chapter that was
+drafted earlier.
 
 Set `status: revised` when every pass is clean. **Lead the report with what the chapter delivers**,
-and never quote a word count.
+and never quote a word count. Inside `write-chapter` this pass reports as the step 6 `Gate:` line,
+and the block's `gate>` line records what it fixed — which builds the next chapter's WATCH row.

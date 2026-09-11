@@ -107,15 +107,7 @@ def _mtime(path):
 
 
 def _lint_counts(novel, ch):
-    sub = Report()
-    cmd_lint.lint_chapter(novel, ch, sub)
-    counts = {"defect": 0, "warn": 0, "checks": {}}
-    for f in sub.findings:
-        if f.level in counts:
-            counts[f.level] += 1
-        if f.level in ("defect", "warn"):
-            counts["checks"][f.check] = counts["checks"].get(f.check, 0) + 1
-    return counts
+    return cmd_lint.check_counts(novel, ch)
 
 
 def _table(rep, rows):

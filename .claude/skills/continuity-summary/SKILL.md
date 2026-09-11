@@ -102,7 +102,11 @@ If the read-set exceeds what you can hold, drop items 4 and 3-oldest first. Neve
 
 ## Procedure — after drafting (write mode)
 
-1. Append the CCS block to §3 of `state/continuity.md`.
+1. Append the CCS block to §3 of `state/continuity.md`. If phase C had to fix something, the
+   block carries a `gate>` line naming it in a dozen words or fewer — and no `gate>` line at all
+   when the gate came back clean. `sw readset` reads the last five back to build the next
+   chapter's WATCH row, so a defect recorded here is one the next draft is written against rather
+   than one the gate fixes again in chapter 43.
 2. Update `state/threads.md` for every `thr>` operation.
 3. Update `state/growth.md` for every rung change in `chg>`.
 4. Append to `state/timeline.md` if in-world time advanced. If time advanced enough to age a
@@ -173,6 +177,8 @@ a difference rather than a summary, and whether the ledger has drifted into adje
 quality. Read those yourself.
 
 - [ ] Every block has `dlv>`, `kno>` and `hook>`
+- [ ] `gate>` is present on every chapter phase C had to change, and absent on every chapter
+      it did not — `gate> clean` is not a value, it is a missing line
 - [ ] `dlv>` names a difference, not a summary of events, and matches the chapter's `delivers:`
 - [ ] `fk>` present on every chapter that spent foreknowledge, with what it invalidated
 - [ ] `wc:` matches the chapter file's measured `wordcount:` — a stale number here corrupts

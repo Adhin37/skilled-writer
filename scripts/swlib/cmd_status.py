@@ -6,6 +6,7 @@ numbers so it does not have to open six files to count them.
 
 import re
 
+from . import cmd_readset
 from .report import Report
 
 
@@ -29,6 +30,14 @@ def run(novel):
         % (novel.get("genre"), novel.get("timeline.reactivity"), novel.get("pov.mode"),
            novel.get("mc.intel_tier")),
     ])
+
+    stale = cmd_readset.ungated(novel, last + 1)
+    if stale:
+        rep.warn("gate", "%d chapter(s) never passed the phase C gate - newest is ch %d at "
+                 "`status: %s`. `/novel-write %d` re-gates it."
+                 % (len(stale), stale[0].number,
+                    str(stale[0].meta.get("status", "")).strip() or "?", stale[0].number),
+                 path=stale[0].path)
 
     rep.info("last three chapters (dlv> - translate for the user, do not paste)", [
         "   ch %d: %s" % (b.number, b.get("dlv") or "(no dlv>)") for b in blocks[-3:]] or ["   none"])

@@ -120,6 +120,60 @@ class TestReadsetModules(unittest.TestCase):
                                 "readset named a module entry point that does not exist: %s" % rel)
 
 
+
+class TestReadsetGateSection(unittest.TestCase):
+    """The read-set names what the phase C gate left behind, before the chapter is drafted."""
+
+    @staticmethod
+    def gate_block(out):
+        return out.split("## GATE", 1)[1].split("\n## 0.", 1)[0] if "## GATE" in out else ""
+
+    def test_a_predecessor_left_at_drafted_is_a_defect(self):
+        with NovelFixture() as fx:
+            fx.add_chapter(1, BODY)                        # the fixture ships `status: drafted`
+            _code, out, _err = run("readset", fx.root, "-c", "2")
+            block = self.gate_block(out)
+            self.assertIn("DEFECT", block)
+            self.assertIn("ch 1", block)
+
+    def test_a_gated_predecessor_says_nothing(self):
+        with NovelFixture() as fx:
+            fx.add_chapter(1, BODY)
+            path = fx.path("chapters", "0001-chapter.md")
+            with open(path, encoding="utf-8") as fh:
+                text = fh.read()
+            with open(path, "w", encoding="utf-8", newline="\n") as fh:
+                fh.write(text.replace("status: drafted", "status: revised"))
+            _code, out, _err = run("readset", fx.root, "-c", "2")
+            self.assertNotIn("DEFECT", self.gate_block(out))
+
+    def test_the_count_is_one_line_however_many_are_ungated(self):
+        with NovelFixture() as fx:
+            for n in range(1, 5):
+                fx.add_chapter(n, BODY)
+            _code, out, _err = run("readset", fx.root, "-c", "5")
+            block = self.gate_block(out)
+            self.assertEqual(block.count("DEFECT"), 1, "one line, not one per chapter")
+            self.assertIn("4 ungated below 5", block)
+
+    def test_gate_lines_from_recent_blocks_are_echoed(self):
+        with NovelFixture() as fx:
+            fx.add_chapter(1, BODY)
+            fx.add_ledger([1])
+            path = fx.path("state", "continuity.md")
+            with open(path, encoding="utf-8") as fh:
+                text = fh.read()
+            with open(path, "w", encoding="utf-8", newline="\n") as fh:
+                fh.write(text.rstrip() + "\ngate> campaign-clause x2\n")
+            _code, out, _err = run("readset", fx.root, "-c", "2")
+            self.assertIn("campaign-clause x2", self.gate_block(out))
+
+    def test_a_first_chapter_has_no_gate_section(self):
+        with NovelFixture() as fx:
+            _code, out, _err = run("readset", fx.root, "-c", "1")
+            self.assertNotIn("## GATE", out)
+
+
 class TestLintAndAudit(unittest.TestCase):
 
     def test_lint_reports_findings_with_exit_1(self):

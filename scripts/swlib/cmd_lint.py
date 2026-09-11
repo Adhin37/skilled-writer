@@ -49,6 +49,24 @@ def lint_chapter(novel, ch, rep=None):
 
 # --------------------------------------------------------------- Pass 10
 
+
+def check_counts(novel, ch):
+    """Which checks fired on one chapter, and how many findings each raised.
+
+    Shared by `sw history` (defects over time) and `sw readset` (the WATCH row), both of which
+    want the check *names* rather than the rendered text. Counting, not judging: a check that
+    fired is a place to look.
+    """
+    sub = Report()
+    lint_chapter(novel, ch, sub)
+    counts = {"defect": 0, "warn": 0, "checks": {}}
+    for f in sub.findings:
+        if f.level in counts:
+            counts[f.level] += 1
+        if f.level in ("defect", "warn"):
+            counts["checks"][f.check] = counts["checks"].get(f.check, 0) + 1
+    return counts
+
 def _frontmatter(novel, ch, rep):
     p = ch.path
     if not ch.frontmatter_text:

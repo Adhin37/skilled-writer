@@ -47,6 +47,17 @@ class Fake(object):
                 fh.write(text)
         return d
 
+    def command(self, name):
+        d = os.path.join(self.dir, ".claude", "commands")
+        if not os.path.isdir(d):
+            os.makedirs(d)
+        with open(os.path.join(d, name + ".md"), "w", encoding="utf-8", newline="\n") as fh:
+            fh.write("---\ndescription: does a thing\n---\n\nbody\n")
+
+    def claude_md(self, text):
+        with open(os.path.join(self.dir, "CLAUDE.md"), "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(text)
+
     def run(self, commands=None):
         return cmd_health.run(self.dir, commands=commands)
 
@@ -175,3 +186,36 @@ class TestDispatcherWiring(unittest.TestCase):
         with Fake() as f:
             self.assertNotIn("skill-dispatch",
                              checks(self._repo(f, "Pass 7 - open `alpha` and work it there.")))
+
+
+class TestSlashCommandWiring(unittest.TestCase):
+    """CLAUDE.md section 7 is the only place a user learns a slash command exists."""
+
+    SECTION = "## 7. Slash commands\n\n%s\n"
+
+    def test_a_listed_command_with_no_file_is_a_defect(self):
+        with Fake() as f:
+            f.skill('anything')
+            f.claude_md(self.SECTION % "`/novel-write` `/novel-ghost`")
+            f.command("novel-write")
+            self.assertIn("slash-command", checks(f.run()))
+
+    def test_a_command_file_nobody_lists_is_a_defect(self):
+        with Fake() as f:
+            f.skill('anything')
+            f.claude_md(self.SECTION % "`/novel-write`")
+            f.command("novel-write")
+            f.command("novel-orphan")
+            self.assertIn("slash-command", checks(f.run()))
+
+    def test_a_matched_pair_is_clean(self):
+        with Fake() as f:
+            f.skill('anything')
+            f.claude_md(self.SECTION % "`/novel-write` `/novel-plan`")
+            f.command("novel-write")
+            f.command("novel-plan")
+            self.assertNotIn("slash-command", checks(f.run()))
+
+
+if __name__ == "__main__":
+    unittest.main()

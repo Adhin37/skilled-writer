@@ -34,12 +34,13 @@ is cheap, and skipping one is what produces the drift that ruins long serials.
 
 ## Step 1 — Phase A: the brief (and stop)
 
-**Drafting is two phases and this is the first one. It ends with you stopping.**
+**Drafting is three phases and this is the first one. It ends with you stopping.**
 
 Phase A spends the cards below and produces **one brief**; Phase B drafts from that brief and four
 cards, nothing else. Why it is split this way: `references/draft-cards.md`.
 
-The brief is twelve lines, written into the chat, not into a file.
+The brief is twelve lines — thirteen when the read-set printed a WATCH row — written into the
+chat, not into a file.
 
 ```
 Ch 12 — "The Second Quarter"
@@ -52,6 +53,7 @@ speakers Wren, Hesk, Maro   (Hesk differs from Wren on intel + articulacy)
 world    the levy office charges for its own paperwork
 asks     Wren does not know what a counter-claim costs; she has to ask Bel
 threads  ^T02  vT04
+watch    campaign-clause (3 of last 5) · dialogue share low (2 of last 5)
 next     the quarter answers in nine days
 ```
 
@@ -71,6 +73,8 @@ happens, you simply do not wait.
    longest scene, the chapter is not ready.
 2. **The cost.** If it is empty, go back to `conflict-engine`. A chapter where the POV character
    only gains is filler regardless of how much happens in it.
+
+**The watch line** is the read-set's WATCH row, copied. Omit it when there was none.
 
 **Most of Phase A is transcription.** The plan row already holds `temp`, `hooktype`, `event`,
 `goal`, `obstacle`, `turn`, `cost` and `threads` — that is what planning is for. Open a card only
@@ -107,7 +111,7 @@ A card that does not settle its question is the one case for opening its owner's
 
 ## Step 2 — Phase B: draft
 
-Write straight through. Do not stop to self-edit; `revision-pass` handles that.
+Write straight through. Do not stop to self-edit; Phase C handles that.
 
 **Four cards stay open, and no others**: `narrator-voice`, `dialogue-voice`, `story-craft`, and
 the `style:` block from the read-set's CONFIG. Everything else was decided in Phase A and is in
@@ -161,31 +165,14 @@ Hold these while writing:
 - **Cut the connective tissue.** Enter late, leave early. No arrivals, no farewells, no walking
   between locations unless something happens on the way.
 - **Active modules.** Apply each active module's card as you write, not afterwards.
+- **The watch line.** What the brief carries there, this draft does not do again — a clause here,
+  a rewrite in Phase C.
 
-### Chapter anatomy
+### Chapter anatomy, and re-anchoring
 
-Proportions, not word counts — a chapter is judged on what it delivers, so the shape is what
-matters and the length is whatever the material needs.
-
-| section | share | job |
-|---|---|---|
-| Cold open | ~7% | In motion. A line of dialogue, an action, or a wrong-feeling detail. Never weather, never waking up, never a recap. |
-| Scene 1 | ~40% | Goal pursued, obstacle met, first turn. |
-| Break | — | `* * *` |
-| Scene 2 | ~40% | Consequence of the turn; the chapter's cost lands. **The delivery lands here.** |
-| Hook | ~5% | The last beat. See `hook-and-pacing`. |
-
-**Chapter 1 has its own shape** — disruption, investment, world, cliffhanger — in
-`story-opening/references/chapter-one.md`. Use that instead for chapters inside the opening arc.
-
-Across those sections, **25–40% of the words are spoken aloud**. Deviate freely when the material
-wants it — but never end without a hook if `chapters.hook_required` is true.
-
-### Recap discipline
-
-Readers arrive a day or a week later. Re-anchor in **one clause, inside a sentence doing other
-work**: "The coat she'd taken off Dael's body still smelled of the undercroft." Never a paragraph,
-never "As you'll remember".
+`references/chapter-shape.md` — proportions, the cold open, the 25–40% spoken share, the
+one-clause recap; this skill's own sheet, not a fifth card. **Chapter 1 has its own shape**, in
+`story-opening/references/chapter-one.md`.
 
 ## Step 3 — Write the file
 
@@ -199,11 +186,15 @@ no author notes.
 Leave `wordcount:` as the template holds it; Step 4 stamps it from the measured body after
 revision. It is a recorded fact, not a target.
 
-## Step 4 — Revise
+## Step 4 — Phase C: the gate
 
-Run `revision-pass`. It backs the chapter up, opens with the mechanical sweep
-(`sw lint novels/<slug> -c <N>`), then runs the judgement passes — `prose-quality`, `mtl-detox`,
-`bias-guard`, voice, competence, continuity. Fix what it finds, in the file.
+**Drafting is three phases and this is the last one. The chapter is not written until this passes.**
+
+Run `revision-pass` in full and fix what it finds, **in the file**. There is no revise command and
+it is not deferrable: a chapter reported at `status: drafted` is the same bug as one with no CCS
+block, and the next read-set says so. Pass Z may send it back to Phase B — redraft, gate the new
+text, say so. The budget is thinnest here, so the rotation rule bites hardest: never Z, 6 or 9c,
+and name what ran without its card.
 
 When every pass is clean, stamp the measured count and the status:
 
@@ -216,6 +207,10 @@ python3 scripts/sw.py stamp novels/<slug> -c <N> --status revised --ledger
 Run `continuity-summary` in **write mode**: CCS block, threads, growth, timeline, any new bible
 facts. This step is not optional and not deferrable to "later". When the block is written,
 `python3 scripts/sw.py state novels/<slug>` verifies it against the chapter on disk.
+
+Gate bookkeeping, same pass: a `gate>` line naming what Phase C had to fix, a dozen words at
+most, and no line at all when it came back clean. `sw readset` reads the last five back as the
+next chapter's WATCH row.
 
 World bookkeeping, same pass: any new location anchor or durable social fact goes into `set>`,
 then into `bible/world.md` or `bible/society.md`. An anchor never recorded drifts by its third
@@ -245,19 +240,23 @@ so in the report, because it usually means the cast is missing a person.
 
 ## Step 6 — Report
 
-Six lines to the user, no more:
+Seven lines to the user, no more:
 
 ```
 Ch 42 — "The Ledger Room" → novels/<slug>/chapters/0042-the-ledger-room.md
 Event: Rin is refused at the archive door and takes the ledger anyway.
 Delivers: Rin can no longer use the Guild's archive, and knows who closed it to her.
 Cost: Rin loses Dael's trust; Echo-step now known to the Guild.
+Gate: clean — cut a crowd-reaction block, replaced the ending. Every pass had its card.
 Threads: opened T14 (forged seal), paid T09 (oath to Mira).
 Next: ch 43 is planned — she reads the ledger. Say go, or tell me what to change.
 ```
 
 **Lead with the delivery, and do not report a word count.** Reporting length is what taught the
 drafting model to aim at it; the number lives in the frontmatter, where tools can read it.
+
+**The `Gate:` line is what Phase C answers for**: what it changed, any pass that ran without its
+card, and always what Pass 6 found.
 
 Do not paste the chapter into chat unless asked.
 

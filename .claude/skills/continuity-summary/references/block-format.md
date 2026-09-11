@@ -43,6 +43,7 @@ open> who paid the forger / why the Guild tolerates it
 | `set>` | new world/possession facts introduced — location anchors, social facts, what a thing costs. Feeds `bible/world.md` and `bible/society.md` later. Omit if none | no |
 | `fk>` | foreknowledge spent this chapter, what it cost, and which other items it invalidated. Omit only if `mc.foreknowledge` is unset. See `meta-knowledge` §5 | conditional |
 | `hook>` | the chapter's final beat | yes |
+| `gate>` | **what phase C had to fix** - check names where they have them, a dozen words at most. Omit the line entirely when the gate found nothing: an absent `gate>` is the clean signal, and a run of them is worth more than a run of `gate> clean`. `sw readset` reads the last five back to build the next chapter's WATCH row | no |
 | `open>` | questions the chapter deliberately left unanswered | no |
 
 ### Notation legend

@@ -25,19 +25,19 @@ automatically when only one novel exists.
 
 | command | what it does | writes? |
 |---|---|---|
-| `readset <novel> -c N` | Assembles the bounded read-set for chapter N — the sliced rows, not the whole files, plus the active optional/genre modules and the file to open for each. `--chars`, `--locs`, `--society`, `--out` | only with `--out` |
+| `readset <novel> -c N` | Assembles the bounded read-set for chapter N — the sliced rows, not the whole files, plus the active optional/genre modules and the file to open for each. Opens with a GATE section: any earlier chapter still at `status: drafted`, and the WATCH row (checks that fired in 2+ of the last 5 chapters, plus the recent `gate>` lines). `--chars`, `--locs`, `--society`, `--out` | only with `--out` |
 | `lint <novel> [-c N \| --all]` | Sweeps one chapter, or every chapter with `--all`: MTL banned phrases, the AI-default cut list, narration exclamation marks, the four channels, thought budget, apostrophe collisions, stray markup, frontmatter, anchor vocabulary, ledger agreement | no |
 | `arc <novel> [-a N]` | The distributional pass over one arc: per-chapter words, dialogue share, anchor count and ledger presence; the dialogue trend; the length spread; hooks; cast rotation; thread operations; foreknowledge. Ends with the judged half it cannot do | no |
 | `cast <novel>` | Audits `_voices.md` and `_competence.md` as tables: the straddle rule, the wit cap, the three-way clash, turn and hand-habit collisions, the deep-expertise budget, missing rows and referrals | no |
 | `curve <novel>` | The power curve: gain step size and cadence, the four requirements on every gain, unpaid boost debts, a second climax boost, pressure monotony, the trivial budget, the flat stretch, tier rising while pressure falls, and the `pwr>` line's agreement with `state/power.md`. No-ops when `scaling.shape` is `none` | no |
 | `state <novel>` | Ledger against chapters, required CCS lines, block length, thread tension against last use, plan-row completeness, the promotion trigger, book-digest staleness | no |
-| `status <novel>` | Progress aggregation for `/novel-status` | no |
+| `status <novel>` | Progress aggregation for `/novel-status`, and a warning for any chapter the phase C gate never ran on | no |
 | `stamp <novel> [-c N]` | Measures the body and writes `wordcount:`. `--status`, `--ledger` | **yes** |
 | `newnovel <slug>` | Copies `novels/_template` to `novels/<slug>` | **yes** |
 | `audit <novel>` | Inventory plus `lint --all`, `cast`, `state` and `curve` in one pass — the independent whole-novel gate | no |
 | `history <novel>` | The whole book as a series rather than one chapter: per-chapter words, dialogue share, thought and meta counts, the dialogue and length trends, which lint checks recur across chapters, thread ages, the pressure series, and cadence from file mtimes. `--json` | no |
 | `trace [novel]` | What the run cost and **which skill files it actually opened**, from Claude Code's own transcripts: API responses, the four token classes, wall clock, cost, per-chapter attribution, tool counts. `--since`, `--until`, `--transcripts`, `--rates`, `--json` | no |
-| `health` | The toolkit's own wiring: skill frontmatter, uncited and dangling references, draft/audit cards against their dispatcher, `CLAUDE.md` section 3 against the directory listing, `optional:` toggles, orphan `novel.md` keys, every template accessor, documented commands against implemented ones, line-number citations | no |
+| `health` | The toolkit's own wiring: skill frontmatter, uncited and dangling references, draft/audit cards against their dispatcher, `CLAUDE.md` section 3 against the directory listing, `optional:` toggles, orphan `novel.md` keys, every template accessor, documented commands against implemented ones, `.claude/commands/` against `CLAUDE.md` section 7, line-number citations | no |
 | `selftest` | Builds a complete novel in a throwaway directory and runs every command against it — twice, once clean and once with named defects planted. No model, no network, a few seconds. `--keep` | temp dir only |
 | `doctor` | Python version, repo root, novels found | no |
 

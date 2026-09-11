@@ -85,6 +85,7 @@ def run(repo_root, commands=None):
     _registry(repo_root, names, rep)
     _template(repo_root, rep)
     _commands(repo_root, commands, rep)
+    _slash_commands(repo_root, rep)
     rep.info("scope", [
         "   %d skills, %d template accessors, %d template sections checked"
         % (len(names), len(TABLE_ACCESSORS), len(SECTION_LOOKUPS)),
@@ -346,3 +347,30 @@ def _commands(repo_root, commands, rep):
         for name in sorted(have - named):
             rep.warn("command-doc", "sw.py implements `%s`, which %s does not document"
                      % (name, rel), path=path)
+
+
+def _slash_commands(repo_root, rep):
+    """CLAUDE.md section 7 against `.claude/commands/`, in both directions.
+
+    The same wiring check `_commands` runs for sw.py subcommands. It exists because section 7 is
+    the only place a user finds out a command is there: a command file with no entry is invisible,
+    and an entry with no file is worse - it is an instruction to type something that does nothing.
+    """
+    d = os.path.join(repo_root, ".claude", "commands")
+    claude = os.path.join(repo_root, "CLAUDE.md")
+    if not os.path.isdir(d) or not os.path.isfile(claude):
+        return
+    have = set(f[:-3] for f in os.listdir(d) if f.endswith(".md"))
+    section = mdio.section(mdio.read_text(claude), "Slash commands")
+    if not section:
+        rep.warn("slash-command", "CLAUDE.md has no slash-commands section to check "
+                                  "`.claude/commands/` against", path=claude)
+        return
+    named = set(re.findall(r"`/([a-z][a-z0-9-]*)`", section))
+    for name in sorted(named - have):
+        rep.defect("slash-command", "CLAUDE.md section 7 lists `/%s`, which has no file in "
+                                    ".claude/commands/" % name, path=claude)
+    for name in sorted(have - named):
+        rep.defect("slash-command", ".claude/commands/%s.md exists but CLAUDE.md section 7 does "
+                                    "not list it - an undocumented command is an unused one"
+                   % name, path=os.path.join(d, name + ".md"))

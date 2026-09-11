@@ -5,7 +5,8 @@ chapter the plan row described.
 
 ## Running a batch
 
-Run the **full loop per chapter — including state write-back — before starting the next.** Never
+Run the **full loop per chapter — including the Phase C gate and the state write-back — before
+starting the next.** Never
 draft three chapters and then reconcile state: the second chapter has to be written against the
 first chapter's consequences, and a batch that defers the ledger is a batch that invents them
 twice.
@@ -14,7 +15,9 @@ Pause and check in after every **5 chapters** with a one-paragraph status and on
 direction. Long unsupervised runs drift, and the drift is cheapest to correct early.
 
 A long batch is also large enough to hit a session limit partway through. Finishing each chapter
-completely means an interruption leaves whole chapters behind it, never a half-written one.
+completely means an interruption leaves whole chapters behind it, never a half-written one — and
+"completely" includes the gate. A chapter left at `status: drafted` is an unfinished chapter, and
+`sw readset` will refuse to be quiet about it when the batch resumes.
 
 ## Cost discipline across a batch
 
