@@ -132,13 +132,13 @@ line, the crisis cap, the skim test: **`references/owned-passes.md` §Pass 4**.
 
 ## Pass 5 — World
 
-Open **`world-texture/references/audit-card.md`**. Runs after structure, because description
-placement follows scene shape, and before bias, so anything it adds is still audited by Pass 6.
+Open **`world-texture/references/audit-card.md`**. It runs after structure for the reason that card
+gives, and before bias so that anything it adds is still audited by Pass 6.
 
 ## Pass 6 — Bias — never skipped, never negotiable
 
-Open **`bias-guard/references/audit-card.md`**. Every chapter. There is no script for this pass
-anywhere in the toolkit, deliberately.
+Open **`bias-guard/references/audit-card.md`**. Every chapter, and never rotated. That skill
+explains why it has no script.
 
 ## Pass 7 — MTL detox
 
@@ -196,8 +196,8 @@ the step-size, cadence, unpaid-debt, monotony and ledger-agreement defects, whic
 the three things a script cannot see — whether the gain was earned on the page, whether the
 opponent is a person or a number, and whether the win felt free.
 
-This pass sits after delivery because a chapter that delivers nothing has no curve to audit, and
-before Pass 10 so a corrected tier still reaches the frontmatter and the CCS `pwr>` line.
+It sits after delivery for the reason its card gives, and before Pass 10 so a corrected tier still
+reaches the frontmatter and the CCS `pwr>` line.
 
 ## Pass 9f — Pacing and build-up
 

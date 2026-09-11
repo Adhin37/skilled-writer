@@ -24,7 +24,7 @@ section to open when that happens.
 | **The voice spread** for this chapter's speakers | `voice-separation/references/draft-card.md` → `bible/cast/_voices.md` |
 | Anyone new on the page: their **cast tier**, decided before they speak | `character-profile/references/draft-card.md` |
 | **The offstage question** — what the world does this chapter that the MC does not know | `timeline-engine/references/draft-card.md` → `plan/timeline.md` |
-| **The world channel** — the one thing about the world this chapter makes concrete, and whether a consequence, a friction or an assumed reference carries it | `world-texture/references/draft-card.md` |
+| **The world channel** this chapter opens | `world-texture/references/draft-card.md` |
 | What the MC deduces, and from which on-page clue | `mc-intel-meter/references/draft-card.md` |
 | **Who has to ask** for what this chapter needs known | `competence-map/references/draft-card.md` → `bible/cast/_competence.md` |
 | Opening line strategy, closing hook | `hook-and-pacing/references/draft-card.md` |

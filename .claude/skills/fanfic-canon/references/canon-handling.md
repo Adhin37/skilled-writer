@@ -14,7 +14,7 @@ cause of "this isn't them".
 you for removing — the loyalty, the cowardice, the refusal to lie, the humour that arrives at the
 worst moment. Write it in `bible/canon.md` and never contradict it.
 
-**Speech fingerprint from canon patterns.** Describe the pattern in your own words: register,
+**Speech fingerprint from canon patterns** — `dialogue-voice` owns the fingerprint's fields. Describe the pattern in your own words: register,
 sentence rhythm, what they deflect with, what they never say, how they change under pressure.
 Then write original lines that satisfy it. The three calibration lines in the profile must be
 your sentences, not remembered ones.

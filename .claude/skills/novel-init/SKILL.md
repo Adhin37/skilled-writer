@@ -191,8 +191,7 @@ step you say plainly even if the user overrules you.
 
 Then run `title-craft` §Step 7 for the **listing**: 5–7 tags, a one-sentence cover brief, the
 release cadence and the launch stock. These go in `platform:`. Present them as decisions with
-consequences rather than as questions — the cadence in particular is chosen for a bad week, not a
-good one, and the opening arc is written into it.
+consequences rather than as questions; `hook-and-pacing` owns what a cadence commits you to.
 
 Record `title`, `title_alternates`, `slug` and `platform:`, and hold the blurb for step 3.
 

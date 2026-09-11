@@ -372,7 +372,9 @@ grep -H '^owns:' .claude/skills/*/SKILL.md        # the whole map, one line per 
 ```
 
 This is enforced, not aspirational. `sw health` fails a skill with no `owns:`, a slug claimed twice,
-and any **pair of skills carrying the same 12-word passage** more than twice. The reason is measured:
+any **pair of skills carrying the same 10-word passage** more than twice, and any skill that
+**discusses another's concept twice without ever naming the owner** — the paraphrase case, where
+nothing matches because the rule was restated in different words. The reason is measured:
 before the rule there were 28 such pairs and 361 shared passages, and the copies had already drifted
 apart — `write-chapter` and `scene-craft` held the same chapter-proportions table with different
 numbers in it. A second copy is not redundancy, it is a second thing to maintain and a silent

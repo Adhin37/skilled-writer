@@ -80,25 +80,36 @@ no way to tell. Drift is silent and it is one-directional: whichever file gets e
 the other is now wrong and still confident.
 
 So every skill declares `owns: [...]` in frontmatter, the claims are exclusive, and a skill that
-touches someone else's concept **names the owner and stops**. Three checks in `sw health` hold it:
-a skill with no `owns:`, a slug claimed twice, and any pair of skills carrying the same 12-word
-passage more than twice. Citing costs nothing — code spans are stripped before comparison — so the
-cheap move is always the correct one.
+touches someone else's concept **names the owner and stops**. Four checks in `sw health` hold it:
+a skill with no `owns:`, a slug claimed twice, any pair of skills carrying the same 10-word passage
+more than twice, and any skill that discusses another's concept twice without ever naming its owner.
+Citing costs nothing — code spans are stripped before comparison — so the cheap move is always the
+correct one.
 
-### What the detector can and cannot do
+### Two detectors, because one of them finds only text
 
-It finds **text, not meaning**. A genuine paraphrase walks straight past it. That is an acceptable
-limit because every duplicate this repo actually grew was copied, and copying is what drifts: two
-independently written statements of the same idea tend to stay compatible, while two copies of one
-sentence diverge the moment either is touched.
+The overlap check finds **text, not meaning**, and that limit was load-bearing enough to need a
+second check rather than a footnote. Shortening the window from twelve words to ten found twelve
+further duplicates the first pass had missed — near-copies with an edit in the middle, which is what
+a copy looks like after somebody tidies it. Below ten words the signal dies: two skills writing about
+the same cast table coincide on a nine-word phrase without either having copied anything.
+
+That still leaves the genuine paraphrase, where nothing matches because the sentence was rewritten.
+The second check catches it from the other side: **a skill that discusses another skill's declared
+concept twice and never names the owner.** It found four — `dialogue-voice` on the voice delta,
+`pov-switch` on head-hopping, `fanfic-canon` on the speech fingerprint, `novel-init` on release
+cadence — none of which shared a single passage with the owner. A reader of any of those four had no
+route to the authority, which is the actual harm; whether the words match is incidental.
+
+Only multi-word concepts are checked. Flagging `title` or `pressure` would train people to sprinkle
+citations rather than mean them.
 
 Two implementation notes worth not relearning. The shared card and reference-table templates are
 exempt, and they are exempt by being **cut out of the text before it is compared** — an earlier
 version filtered window-by-window, which suppressed only the windows that contained a whole marker
 and let the windows straddling a marker's edge trip the check the template was exempted from. And
-the threshold is distributional like everything else here: a pair needs **three** shared passages,
-because two skills writing about the same cast table will coincide on a phrase or two without either
-having copied anything.
+both thresholds are distributional like everything else here: a pair needs **three** shared passages
+and a concept needs **two** uncited mentions, because one of either is coincidence.
 
 ### Where ownership had to be decided rather than discovered
 

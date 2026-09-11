@@ -86,7 +86,7 @@ def run(repo_root, commands=None):
     _template(repo_root, rep)
     _commands(repo_root, commands, rep)
     _slash_commands(repo_root, rep)
-    _owns_map(repo_root, names, rep)
+    _uncited(repo_root, names, _owns_map(repo_root, names, rep), rep)
     _overlap(repo_root, names, rep)
     rep.info("scope", [
         "   %d skills, %d template accessors, %d template sections checked"
@@ -338,7 +338,7 @@ BOILERPLATE = (
     "section numbers are stable",
 )
 
-OVERLAP_RUN = 12        # words, normalised, before a shared passage counts
+OVERLAP_RUN = 10        # words, normalised, before a shared passage counts
 OVERLAP_MAX = 2         # distinct shared runs a pair of skills may have
 
 
@@ -397,6 +397,45 @@ def _runs(words):
         for i in range(len(w) - OVERLAP_RUN + 1):
             out.add(" ".join(w[i:i + OVERLAP_RUN]))
     return out
+
+
+UNCITED_MIN = 2         # mentions of another skill's concept before silence is a finding
+
+
+def _uncited(repo_root, names, owners, rep):
+    """A skill that discusses someone else's concept and never names the owner.
+
+    The overlap check finds copied text. This finds the case it cannot: a skill that states a
+    rule in its own words, so no passage matches, and leaves the reader no route to the authority.
+    Two copies of an idea drift the same way whether or not they share a sentence.
+
+    Only multi-word concepts are checked. A single word like `title` or `pressure` is ordinary
+    vocabulary, and flagging it would train people to sprinkle citations rather than mean them.
+    """
+    root = skills_dir(repo_root)
+    raw, words = {}, {}
+    for name in names:
+        parts = []
+        for sub, _dirs, files in os.walk(os.path.join(root, name)):
+            for f in sorted(files):
+                if f.endswith(".md"):
+                    parts.append(mdio.read_text(os.path.join(sub, f)))
+        raw[name] = "\n".join(parts)
+        words[name] = " ".join(_normalise(raw[name]))
+
+    for slug, owner in sorted(owners.items()):
+        phrase = slug.replace("-", " ")
+        if " " not in phrase:
+            continue
+        for name in names:
+            if name == owner or name not in words:
+                continue
+            seen = words[name].count(phrase)
+            if seen >= UNCITED_MIN and owner not in raw[name]:
+                rep.warn("skill-scope", "%s discusses `%s` %d times and never names %s, which owns "
+                                        "it - cite the owner or drop the passage"
+                         % (name, slug, seen, owner),
+                         path=os.path.join(root, name, "SKILL.md"))
 
 
 def _overlap(repo_root, names, rep):

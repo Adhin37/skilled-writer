@@ -75,10 +75,9 @@ and the ledger is cheap.
 
 If the golden finger produces duplicates — clones, avatars, projections, a split self, a mind
 copied into another body — or if the story gives the MC a doppelganger, each copy is its own
-character file with a `mirror:` block, and it is the one case where sharing a voice is correct
-rather than a defect. `voice-separation/references/mirror-clause.md` owns that: the convergence level (identical / drifting
-/ inverted), the chapter they became separate people, and **the tell** — the one thing that does
-not copy, and who could notice it.
+character file with a `mirror:` block — the exemption `voice-separation` grants.
+`voice-separation/references/mirror-clause.md` owns the fields that block carries and what each
+one has to answer.
 
 Two things this ledger contributes. A copy with a different body is `form_locked: true` with its
 own stage table here, so its reach and voice come from its own row and not the original's. And a

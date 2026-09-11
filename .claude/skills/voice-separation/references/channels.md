@@ -61,8 +61,8 @@ Three fields, in the profile, used by `narrator-voice` and `pov-switch`:
 | **thought speed** | ahead of the scene · with it · one beat behind |
 | **facing an unknown** | test it · avoid it · name it · ask someone · assume the worst |
 
-The thought unit is also the **metaphor source** (`narrator-voice`): a character who thinks in
-money does not reach for a tide simile. Two POV characters who think in the same unit will produce
+The thought unit is also the **metaphor source**, which `narrator-voice` owns. Two POV characters
+who think in the same unit will produce
 identical narration however different their dialogue is — the head-hopping smell `narrator-voice`
 names.
 

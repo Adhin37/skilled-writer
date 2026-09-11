@@ -140,7 +140,7 @@ the page: a rule biting someone, never a lecture.
 - [ ] Every ability used this chapter paid its stated cost, on the page
 - [ ] Nothing was resolved by a capability the reader had not seen used and seen fail
 - [ ] Any permanent gain is a row in `state/power.md` §4 — +1 tier, with a source, a price paid
-      first, a setup, and a new problem attached (`power-scaling` §3)
+      the four requirements `power-scaling` puts on a gain
 - [ ] No rank recital, no mechanics explained mid-action
 - [ ] A weaker character could still, in principle, win — name how
 - [ ] The MC's position on `state/power.md` §2's ladder is what the page shows it to be

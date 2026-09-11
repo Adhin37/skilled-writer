@@ -10,7 +10,7 @@ because the answer is usually "no switch" and that answer should cost one glance
 `pov.mode: single` + `switch_granularity: never` → **the answer is no. Stop here.** Nobody outside
 `pov.pov_characters` narrates, and adding a name to that list is an arc-boundary decision.
 
-Mid-scene switching is forbidden in every mode. Two heads in one scene is head-hopping.
+Mid-scene switching is forbidden in every mode (`narrator-voice` owns head-hopping). Two heads in one scene is head-hopping.
 
 ## If a switch is on the table, it must pass one
 

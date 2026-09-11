@@ -135,7 +135,7 @@ knowledge is more credible than one who always has an answer.
 
 ## Development and voice
 
-Apply every accumulated voice delta from `state/growth.md`. This is the concrete mechanism by
+Apply every accumulated voice delta from `state/growth.md` (`character-development` owns them). This is the concrete mechanism by
 which a reader *feels* that a character has changed. A character at rung 4 with a
 "drops the honorific" delta does not use the honorific — ever — unless they are regressing, and
 then the reader should notice.

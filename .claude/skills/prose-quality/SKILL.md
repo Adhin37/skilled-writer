@@ -77,8 +77,7 @@ nodding. If it does not change something, delete it. Nodding is the single most 
 **A beat that identifies nobody is stage business.** The default gesture set — `voice-separation`
 owns the list, and `sw lint` sweeps for it — is available to every character and therefore attached
 to none. Replace with that character's own hand-habit or pressure move
-(`voice-separation/references/channels.md`), or cut the beat: a line with no beat beats a line with
-a generic one.
+(`voice-separation/references/channels.md`), or cut the beat — `dialogue-voice` owns the trade.
 
 ## Filter verbs and telling
 

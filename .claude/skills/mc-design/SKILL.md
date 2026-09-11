@@ -1,7 +1,7 @@
 ---
 name: mc-design
 description: Design the main character - appearance, intellect, origin, golden finger - and the form ledger for a non-final-form MC. Use during novel-init before other cast work, and when the MC changes form.
-owns: [mc-sheet, golden-finger, form-ledger]
+owns: [mc-sheet, golden-finger, form-ledger, option-triad]
 ---
 
 # mc-design

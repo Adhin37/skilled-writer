@@ -41,7 +41,8 @@ must be understood rather than guessed.
 - `scene` — switch at `* * *` breaks. Allowed, but never more than one switch per chapter.
 - `never` — locked.
 
-Mid-scene switching is forbidden in all modes. Two heads in one scene is head-hopping.
+Mid-scene switching is forbidden in all modes. Two heads in one scene is head-hopping, which
+`narrator-voice` owns.
 
 ### `antagonist_pov`
 

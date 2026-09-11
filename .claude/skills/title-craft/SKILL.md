@@ -138,8 +138,8 @@ Hard rules:
 ## Step 6 — Present, pick, record
 
 Show the user **three titles**, each with one line naming what it promises and what it costs —
-the same shape `mc-design` uses for "Surprise me", and for the same reason: people react to
-options far more readily than they invent from nothing. Lead with your recommendation.
+the same shape `mc-design` uses for "Surprise me", and for the reason it gives there. Lead with
+your recommendation.
 
 ```
 1. Naruto: The New God of Shinobi   (Recommended)

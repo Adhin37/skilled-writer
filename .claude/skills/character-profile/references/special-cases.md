@@ -22,7 +22,7 @@ is the arc.
 
 ## Mirrors — clones, avatars and doubles
 
-A character who is a copy of another is the one case where sharing a voice is correct. Give them a
+A character who is a copy of another holds `voice-separation`'s mirror exemption. Give them a
 normal profile at their tier, plus the `mirror:` block in the frontmatter — `mirror`, `mirror_kind`,
 `convergence`, `diverged_ch` — and a row in §5 of `_voices.md`. The rest of the profile is filled
 from the source character's, changed only where their separate life has changed them.
@@ -33,8 +33,7 @@ than a duplicate file (`voice-separation/references/mirror-clause.md`):
 - **What has diverged since `diverged_ch`**, and at what rate. Different experiences make different
   people; a copy who has lived thirty chapters apart and sounds identical is a puppet, which is
   legitimate only if the story says so and somebody notices.
-- **The tell** — the one thing that does not copy, and who could detect it. Plant it before it is
-  needed (`plot-threads`). If nothing fails to copy, record `none — deliberate`.
+- **The tell**, as `voice-separation` defines it. Plant it before it is needed (`plot-threads`).
 - **Who the reader tracks in a shared scene** — the physical tag or POV anchor that keeps two
   mirrors apart on the page, unless the confusion is the intended effect.
 

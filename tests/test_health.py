@@ -248,6 +248,41 @@ class TestOverlapDetector(unittest.TestCase):
             self.assertNotIn("skill-overlap", checks(f.run(), "warn"))
 
 
+class TestUncitedConcept(unittest.TestCase):
+    """The paraphrase case: a skill states someone else's rule in its own words."""
+
+    OWNER = "name: alpha\ndescription: d.\nowns: [stake-ladder]"
+    OTHER = "name: beta\ndescription: d.\nowns: [b-thing]"
+
+    def test_discussing_another_skills_concept_without_naming_it_is_reported(self):
+        with Fake() as f:
+            f.skill("alpha", frontmatter=self.OWNER)
+            f.skill("beta", frontmatter=self.OTHER,
+                    body="The stake ladder decides it. Climb the stake ladder every arc.")
+            self.assertIn("skill-scope", checks(f.run(), "warn"))
+
+    def test_naming_the_owner_clears_it(self):
+        with Fake() as f:
+            f.skill("alpha", frontmatter=self.OWNER)
+            f.skill("beta", frontmatter=self.OTHER,
+                    body="The stake ladder is `alpha`'s. Read the stake ladder there.")
+            self.assertNotIn("skill-scope", checks(f.run(), "warn"))
+
+    def test_one_passing_mention_is_not_a_finding(self):
+        with Fake() as f:
+            f.skill("alpha", frontmatter=self.OWNER)
+            f.skill("beta", frontmatter=self.OTHER, body="Something about a stake ladder.")
+            self.assertNotIn("skill-scope", checks(f.run(), "warn"))
+
+    def test_a_single_word_concept_is_never_checked(self):
+        """`title` and `pressure` are ordinary vocabulary, not evidence of a copy."""
+        with Fake() as f:
+            f.skill("alpha", frontmatter="name: alpha\ndescription: d.\nowns: [title]")
+            f.skill("beta", frontmatter=self.OTHER,
+                    body="The title matters. A title earns the click. Title again.")
+            self.assertNotIn("skill-scope", checks(f.run(), "warn"))
+
+
 class TestSlashCommandWiring(unittest.TestCase):
     """CLAUDE.md section 7 is the only place a user learns a slash command exists."""
 

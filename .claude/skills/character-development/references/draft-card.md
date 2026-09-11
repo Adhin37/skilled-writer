@@ -38,7 +38,7 @@ information instead of permission, the word they never said, what they notice, "
 
 **But deltas must not converge the cast.** Every channel above pushes the same direction — shorter,
 surer, more direct — which is the direction of the MC. If the obvious delta would raise a character's
-articulacy to the MC's level or hand them the MC's wit, choose another: growth also runs toward *more
+a character through `voice-separation`'s ceiling, choose another: growth also runs toward *more
 oblique*, *slower*, *quieter*, *funnier in a worse way* (`voice-separation` §6).
 
 Anyone practising a skill: a stage advances only on a teacher, a text or a costly failure — never on

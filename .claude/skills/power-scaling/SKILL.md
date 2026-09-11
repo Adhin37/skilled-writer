@@ -84,7 +84,7 @@ Three consequences worth stating, because drafts break all three:
   gain row in §4 does that.
 - **Name what the edge cannot buy**, in `state/power.md` §1, and keep that sentence true. An edge
   with no stated blind side becomes a second ladder within twenty chapters.
-- **`edge_worth: 0` is a real answer.** An advantage that is information, nerve or reputation
+- **`edge_worth: 0` is a real answer.** An advantage of the kind `mc-design` calls unpriced
   rather than force closes no gap at all, and those novels work.
 
 ## 3. The step rule, and boosts

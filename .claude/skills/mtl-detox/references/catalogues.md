@@ -98,7 +98,6 @@ and is competent at their own job. The one-scene thug still has a reason to be a
   into. An advantage introduced as already-unreliable, whose every appearance is a malfunction,
   is a bait-and-switch on the premise the blurb sold. It works first, legibly, then it costs, then
   it frays (`meta-knowledge` §4).
-- **The unanchored opening** — chapters of well-made prose in which the reader cannot tell what
-  kind of world this is or, in fanfic, which canon they are in. Not mystery; disorientation. The
-  reader has no question to be curious about, only a vague unease (`story-opening` §1).
+- **The unanchored opening** — well-made prose that leaves the reader disoriented rather than
+  curious. `story-opening` owns the anchor and what it must answer by when.
 - **Time-skip training montages** that resolve a difficulty the story just established.
