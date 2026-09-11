@@ -60,19 +60,31 @@ def _module_entry(name):
 
 
 def active_modules(novel):
-    """The optional and genre modules switched on for this novel, as (name, entry) pairs.
+    """Every skill switched on for this novel by config, as (name, entry, why) triples.
 
-    write-chapter step 0.2 opens these and no others: a module absent from this list is off
-    for this novel and costs nothing to skip.
+    write-chapter step 0.2 opens these and no others: a skill absent from this list is off for
+    this novel and costs nothing to skip.
 
-    Which modules exist and what switches each one on is declared in the skills' own frontmatter
-    and read by `kb`, rather than restated here. The config-gated skills are deliberately not in
-    this list: it has always been the optional and genre modules, and widening it is a change to
-    what the read-set tells a drafter rather than a refactor.
+    Three kinds of switch, and they are here together because a drafter needs one list rather
+    than three. An `optional:` toggle and a `genre` match are the obvious two. The third is the
+    **config-gated** skill - `lead-interest` when `content.romance` is not `none`, `pov-switch`
+    when `pov.mode` is not `single` - which CLAUDE.md section 3 lists in the always-in-play
+    tables with its condition written into the row. Those two were absent from this list for the
+    life of the repo, so a novel with a romance was never told that `lead-interest` applies to
+    it; the drafter had to carry the condition from section 3 by memory, which is the
+    hand-maintained retrieval this layer exists to remove.
+
+    `why` is the trigger, printed for the gated ones because their presence is the surprising
+    case. What switches each skill on is declared in that skill's own frontmatter and read by
+    `kb`, never restated here.
     """
-    return [(name, entry)
-            for name, entry, _state in kb.index(_REPO).active(novel,
-                                                              tiers=("optional", "genre"))]
+    idx = kb.index(_REPO)
+    out = []
+    for name, entry, _state in idx.active(novel):
+        skill = idx.skills.get(name)
+        why = skill.when if skill and skill.tier == "gated" else ""
+        out.append((name, entry, why))
+    return out
 
 
 def _cards_section(add, novel, number, characters):
@@ -284,10 +296,12 @@ def build(novel, number, chars=None, locs=None, want_society=False):
 
     add("\n### active modules - open these and no others")
     if modules:
-        width = max(len(n) for n, _ in modules)
-        add("\n".join("%-*s -> %s" % (width, n, path) for n, path in modules))
+        width = max(len(n) for n, _p, _w in modules)
+        add("\n".join("%-*s -> %s%s" % (width, n, path, ("   [%s]" % why) if why else "")
+                      for n, path, why in modules))
     else:
-        add("(none - no optional module is on and the genre switches none on)")
+        add("(none - no optional module is on, and neither the genre nor the config "
+            "switches one on)")
 
     _cards_section(add, novel, number, characters)
 

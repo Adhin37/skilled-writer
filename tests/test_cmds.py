@@ -5,6 +5,7 @@ usage or missing files.
 """
 
 import os
+import re
 import subprocess
 import sys
 import unittest
@@ -116,6 +117,45 @@ class TestReadsetModules(unittest.TestCase):
             # leaving the card silently absent.
             self.assertIn("story-opening", skipped)
             self.assertIn("false", skipped)
+
+    def test_a_config_gated_skill_is_listed_when_its_gate_is_open(self):
+        """`lead-interest` and `pov-switch` are switched on by config, not by an `optional:` key.
+
+        They were absent from this block for the life of the repo, so a novel with a romance was
+        never told that `lead-interest` applied to it - the drafter had to carry the condition
+        from CLAUDE.md section 3 by memory, which is the hand-maintained retrieval the knowledge
+        base exists to remove. The condition prints beside the row, because a gated skill turning
+        up is the surprising case.
+        """
+        from fixtures import NOVEL_MD
+        md = NOVEL_MD.replace("  mode: single", "  mode: dual")
+        if "romance:" in md:
+            md = re.sub(r"(?m)^(\s*)romance:.*$", r"\1romance: central", md)
+        else:
+            md = md.replace("\ngenre: fantasy", "\ngenre: fantasy\ncontent:\n  romance: central")
+        with NovelFixture(novel_md=md) as fx:
+            fx.add_chapter(1, BODY)
+            code, out, _err = run("readset", fx.root, "-c", "1")
+            self.assertEqual(code, 0)
+            block = self.modules_block(out)
+            self.assertIn("lead-interest", block)
+            self.assertIn("content.romance != none", block)
+            self.assertIn("pov-switch", block)
+            self.assertIn("pov.mode != single", block)
+
+    def test_a_config_gated_skill_is_absent_when_its_gate_is_shut(self):
+        """The converse, and the reason the default has to come from `novelio`'s own defaults.
+
+        A novel that never mentions `pov.mode` must not have `pov-switch` switched on by the
+        absence reading as "not single".
+        """
+        with NovelFixture() as fx:                     # pov.mode: single, no content.romance
+            fx.add_chapter(1, BODY)
+            code, out, _err = run("readset", fx.root, "-c", "1")
+            self.assertEqual(code, 0)
+            block = self.modules_block(out)
+            self.assertNotIn("pov-switch", block)
+            self.assertNotIn("lead-interest", block)
 
     def test_genre_switches_a_module_on_and_off_modules_are_absent(self):
         with NovelFixture() as fx:          # genre: fantasy, no `optional:` block

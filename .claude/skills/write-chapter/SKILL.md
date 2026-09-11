@@ -20,14 +20,17 @@ is cheap, and skipping one is what produces the drift that ruins long serials.
 1. Resolve the active novel (see `CLAUDE.md` §1). Read `novels/<slug>/novel.md`.
 2. Note: `genre`, `narration.*`, `pov.*`, `mc.intel_tier`, `chapters.*`, `content.*`.
 
-   The CONFIG block also resolves **active modules** — the optional and genre skills switched on
-   for this novel — and names each one's entry point: its draft card where it has one, its
-   `SKILL.md` where it does not. **Open those and no others.** A module that is not listed is off
-   for this novel and costs nothing. An active one is *consulted this chapter*, not merely
-   permitted.
+   The CONFIG block also resolves **active modules** — every skill this novel's config switches
+   on, whether by an `optional:` toggle, by `genre`, or by a config gate like `content.romance`
+   — and names each one's entry point: its draft card where it has one, its `SKILL.md` where it
+   does not. A gated one prints its condition beside it. **Open those and no others.** A module
+   that is not listed is off for this novel and costs nothing. An active one is *consulted this
+   chapter*, not merely permitted.
 
-   Without Python: read the `optional:` block and `genre` in `novel.md` and resolve the same list
-   by hand, then say so in the report.
+   Without Python: read `optional:`, `genre` and `subgenre` in `novel.md`, and check the two
+   config gates — `content.romance` for `lead-interest`, `pov.mode` for `pov-switch`. Each skill
+   states its own condition as `metadata.when`. Resolve the list by hand, then say so in the
+   report.
 3. Determine the chapter number: highest existing file in `chapters/` + 1, unless told otherwise.
 4. Run `continuity-summary` in **read mode** — `python3 scripts/sw.py readset novels/<slug> -c <N>`
    assembles it in one call, sliced rather than whole-file. You now have the read-set and the
