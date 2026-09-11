@@ -54,4 +54,14 @@ dodge is the information) · **irony** · **the displaced object** (nominally ab
 about the marriage). **Never gloss it** — if the reader might miss it, add a beat, not a sentence of
 interpretation.
 
+## A turn is not an essay
+
+**Past ~45 words in one turn you are writing prose with quote marks on it.** One deliberate
+monologue per five chapters, and only when you can name who lets them finish and why nobody
+interrupts. The four tells, all invisible to every share and texture number: **stacked
+subordinate clauses** · **the aimed parenthetical aside** · **the epigram close** · **pre-announced
+self-qualification** (`dialogue-voice` §How it sounds spoken).
+
+Test: read the longest turn aloud. Run out of breath before the speaker does and it is prose.
+
 Two characters will not separate however hard you push: `references/corpus-anti-patterns.md`.

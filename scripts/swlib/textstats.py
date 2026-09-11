@@ -299,7 +299,90 @@ class Chapter(object):
 
     @property
     def speech_line_lengths(self):
+        """Words per spoken TURN - every `"…"` span in one paragraph counted together.
+
+        Benchmark run #3, T4: this measured each span separately, so a turn broken by a dialogue
+        tag - `"…," she said. "…"` - counted as two short lines instead of one long one. That is
+        the standard way to punctuate a long speech, so the bias landed exactly where the check
+        was needed: run #3's chapter 5 reported a comfortable mean of 11.0 words while its real
+        mean turn was 19.3 and its longest was 73, and chapter 2 hid a 107-word turn behind a
+        reported 11.3. The error ran +44% to +75% and was largest on the worst chapter.
+
+        The consequence was worse than a wrong number. A speech could be brought inside the
+        target by inserting a tag into the middle of it, which changes nothing a reader hears -
+        a measurement that a cosmetic edit satisfies is the same trap as a gate written toward.
+        Run #2's R1 repair was validated against this metric, so its reported 23.4 -> 12.7 is
+        partly an artifact of tags added while trimming.
+
+        One paragraph is one turn: a new speaker takes a new paragraph (`prose-quality`), so
+        merging within a paragraph never merges two people.
+        """
+        return [n for n in (sum(len(s.split()) for s in para)
+                            for para in self._speech_by_paragraph()) if n]
+
+    def _speech_by_paragraph(self):
+        """The spoken spans of each paragraph, in order, skipping paragraphs with no speech."""
+        out, ranges = [], self.speech_ranges
+        if not ranges:
+            return out
+        body, pos, i = self.body, 0, 0
+        for para in body.split("\n\n"):
+            start, end = pos, pos + len(para)
+            pos = end + 2
+            got = []
+            while i < len(ranges) and ranges[i][0] < end:
+                s, e = ranges[i]
+                if s >= start:
+                    got.append(body[s:e])
+                i += 1
+            if got:
+                out.append(got)
+        return out
+
+    @property
+    def speech_span_lengths(self):
+        """Words per `"…"` span, unmerged - what `speech_line_lengths` used to return."""
         return [len(s.split()) for s in self.speech_spans if s.split()]
+
+    def echoed_phrases(self, window, minimum):
+        """(phrase, count) for every `window`-word phrase used `minimum`+ times in this chapter.
+
+        A tic detector that needs no list of tics. The repo's banned-phrase lists can only name
+        what has already been seen; this names whatever THIS chapter is leaning on, which is how
+        run #3's redraft was caught growing `its own kind of` while removing `the way a person`.
+
+        Overlapping windows are reported once, longest-first, so a five-word tic does not also
+        print as two four-word ones.
+        """
+        words = re.findall(r"[a-z']+", self.body.lower())
+        counts = {}
+        for i in range(len(words) - window + 1):
+            key = tuple(words[i:i + window])
+            counts[key] = counts.get(key, 0) + 1
+        hits = sorted(((n, k) for k, n in counts.items() if n >= minimum), reverse=True)
+        out = []
+        for n, key in hits:
+            # Two windows one word apart are the same tic seen twice (`its own kind of` and
+            # `was its own kind`). Keep whichever occurs more often; on a tie the earlier of the
+            # sorted pair already won.
+            if any(key[1:] == kept[:-1] or key[:-1] == kept[1:] for _kn, kept in out):
+                continue
+            out.append((n, key))
+        return [(" ".join(k), n) for n, k in out]
+
+    def long_turns(self, ceiling):
+        """(words, opening) for every turn over `ceiling` words, longest first.
+
+        Named individually rather than averaged: one 107-word turn among fifteen short ones moves
+        a mean by a couple of words and is invisible, which is how run #3's chapter 2 shipped.
+        """
+        out = []
+        for para in self._speech_by_paragraph():
+            words = sum(len(s.split()) for s in para)
+            if words > ceiling:
+                opening = " ".join(" ".join(para).split()[:9])
+                out.append((words, opening))
+        return sorted(out, reverse=True)
 
     @property
     def speech_line_mean(self):

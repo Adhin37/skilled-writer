@@ -160,6 +160,20 @@ def _house_style(ch, rep):
                  "appositive that re-explains the clause before it is this narrator's tic"
                  % (ch.emdash_rate, rules.EMDASH_RATE_WARN), path=p)
 
+    # The tic this chapter invented, as opposed to the ones already on a list. A banned-phrase
+    # list can only name what somebody has already seen fail; this names whatever the chapter is
+    # leaning on right now, which is the only way to catch the NEXT one.
+    for phrase, n in ch.echoed_phrases(rules.ECHO_WINDOW, rules.ECHO_MIN):
+        # Past ECHO_WARN it stops being worth a look and becomes the chapter's signature - and a
+        # warn is also what reaches `sw readset`'s WATCH row, which counts defects and warns only.
+        # A note-only check cannot tell the next chapter's drafter what the last one leaned on,
+        # which is the whole point of catching an invented tic rather than a listed one.
+        level = rep.warn if n >= rules.ECHO_WARN else rep.note
+        level("echo", "\"%s\" %d times in one chapter - good once, a fingerprint at this "
+                 "density. Ban a tic and the default register grows another, so what matters is "
+                 "the repetition, not the phrase (prose-quality \u00a7Range before polish)"
+                 % (phrase, n), path=p)
+
 
 def _register(novel, ch, rep):
     """The declared temperature and hook shape for this chapter, checked against the vocabulary.
@@ -284,6 +298,14 @@ def _texture(ch, rep):
         rep.note("texture", "%.0f words of narration between spoken lines on average - the "
                  "dialogue is carrying exposition rather than the scene"
                  % ch.narration_between_speech, path=p)
+
+    # Run #3: the essay in quote marks. Named per turn rather than as a mean, because one 107-word
+    # turn inside fifteen short ones leaves the mean looking conversational.
+    for words, opening in ch.long_turns(rules.TURN_CEILING):
+        rep.note("texture", "a %d-word turn - past about %d words a turn is a speech, and a "
+                 "character explaining their own reasoning without being interrupted is the "
+                 "narrator using their mouth (dialogue-voice §How it sounds spoken): \"%s…\""
+                 % (words, rules.TURN_CEILING, opening), path=p)
 
 
 def _pacing(ch, rep):
@@ -540,10 +562,11 @@ def run(novel, numbers=None):
             "   %d words | speech %.0f%% | thought %d/%d | meta %d | breaks %d"
             % (ch.words, ch.speech_share, len(ch.thoughts()), rules.THOUGHT_BUDGET,
                len(ch.metas()), ch.scene_breaks()),
-            "   dialogue texture: %d lines, mean %.1f words (spread %.1f) | contractions "
-            "%.1f/100 | fragments %.0f%% | cut off %d | exchanges %d, longest %d | narration "
-            "between %.0f words"
+            "   dialogue texture: %d turns, mean %.1f words (spread %.1f, longest turn %d) | "
+            "contractions %.1f/100 | fragments %.0f%% | cut off %d | exchanges %d, longest %d | "
+            "narration between %.0f words"
             % (len(ch.speech_line_lengths), ch.speech_line_mean, ch.speech_line_spread,
+               max(ch.speech_line_lengths or [0]),
                ch.speech_contraction_rate, ch.speech_fragment_share, ch.speech_interruptions,
                runs, longest, ch.narration_between_speech),
             "   pacing: %d summary marker(s), %.1f per 1000 words | %d words before the first "

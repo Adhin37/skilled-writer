@@ -29,6 +29,19 @@ good in the same way. Every clause carried subtext, every scene closed on a smal
 withholding, and across 7,302 words the narrator never once changed gear. A reader feels that as
 sameness within a page and cannot name what is wrong, which is the worst kind of wrong.
 
+**And a banned tic is replaced, not removed.** Run #3 is the proof. A redraft was asked to fix
+two named problems; it fixed both, and in the same pass grew a construction that had not been
+there before — *its own kind of question* / *…of kindness* / *…of worry* / *…of answer*, four times
+in one chapter, seven across five. The tic it replaced (*the way a person…*, eleven uses in that
+same chapter) went down to five. Nothing was gamed and nobody was careless: **the default register
+fills whatever hole you open in it**, so a list of banned phrases can only ever name the last one.
+
+`sw lint` therefore checks for **repetition rather than for phrases** — any four-word span used
+three or more times in one chapter, printed as an `echo` note with no list behind it. It catches
+the tic this chapter invented. Treat a hit as a question, not a verdict: deliberate refrain exists,
+and a character's verbal habit is theirs. Three of the same rhetorical move in narration is not
+one of those.
+
 So, before any line edit:
 
 **Some sentences must carry information and nothing else.** No dash, no reversal, no irony, no
@@ -124,10 +137,10 @@ own kind of wall.
 - **"That"**: delete where the sentence survives without it.
 - **Repeated distinctive words**: a striking word used twice in a chapter loses both uses. Track
   the ones you like — those are the ones you will overuse.
-- **Italics do exactly one job**, declared in `bible/lexicon.md` — `narrator-voice` owns which
-  job, and `sw lint` flags a body that spends italics three ways. Emphasis spent on everything is
-  emphasis that lands nowhere. Direct thought is not italics' job either — it has its
-  own channel, `'…'` (`narrator-voice` §The four channels).
+- **No italics in a prose body at all** — `narrator-voice` §The three collision rules owns this, and
+  `sw lint` raises a defect on any `*x*` or `_x_` span. Emphasis reached for as a typeface is
+  emphasis the sentence did not earn: fix it with word order, sentence length and what you put
+  last. Direct thought has its own channel, `'…'`, and never takes italics either.
 - **Sensory balance**: sight dominates by default. Deliberately place one non-visual detail per
   scene. Smell is the most underused and the most memorable.
 
@@ -208,6 +221,8 @@ the act of perceiving is the point" is a decision about each one. Use `--show no
 - [ ] No dead stage business
 - [ ] Paragraphs are phone-legible; the first screen is not a wall
 - [ ] Every speaker has their own paragraph
-- [ ] Italics do their one declared job and no other
+- [ ] No italics anywhere in the prose body
+- [ ] `sw lint` raised no `echo` note, or the repeated phrase is a deliberate refrain you
+      can name — the tic a chapter invents is the one no list can hold
 - [ ] **Three-point test passed** — the chapter opened at random has something unresolved on the
       page each time, and no stretch of a page where everyone feels one simple thing

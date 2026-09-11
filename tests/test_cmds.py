@@ -237,11 +237,40 @@ class TestDialogueStarvation(unittest.TestCase):
             rep = cmd_lint.run(novel, None)
             return {(f.check, f.level) for f in rep.findings}
 
+    def _history_findings(self, shares):
+        """The same fixture, put through `history` instead of `lint`.
+
+        Benchmark run #3, T1: the guard below was scoped to one command, so the per-chapter gate
+        simply came back in another one - `cmd_history` raised a book-level DEFECT the moment any
+        single chapter fell under the floor, and a novel with one deliberately quiet chapter
+        failed. A rule this repo has now re-learned three times is worth testing at every command
+        that can express it, not at the one where it was last fixed.
+        """
+        from swlib import cmd_history
+        with NovelFixture() as fx:
+            for n, kind in enumerate(shares, start=1):
+                fx.add_chapter(n, self.QUIET if kind == "quiet" else self.LOUD)
+            rep, _data = cmd_history.run(fx.novel())
+            return {(f.check, f.level) for f in rep.findings}
+
     def test_one_quiet_chapter_is_a_warn_not_a_defect(self):
         """Was: a defect on any single chapter under 10%, so the number got written toward."""
         found = self._findings(["quiet"])
         self.assertIn(("speech-share", "warn"), found)
         self.assertNotIn(("speech-share", "defect"), found)
+
+    def test_no_command_makes_one_quiet_chapter_a_defect(self):
+        """Run #3, T1. One quiet chapter among talking ones is a choice, and no command may
+        raise it to a defect - `speech-starvation` over a window is the only gate on this
+        metric."""
+        for cmd, found in (("lint", self._findings(["loud", "loud", "quiet", "loud", "loud"])),
+                           ("history",
+                            self._history_findings(["loud", "loud", "quiet", "loud", "loud"]))):
+            defects = {check for check, level in found if level == "defect"}
+            self.assertNotIn("history-dialogue", defects,
+                             "%s raised a defect for a single quiet chapter" % cmd)
+            self.assertNotIn("speech-share", defects,
+                             "%s raised a defect for a single quiet chapter" % cmd)
 
     def test_five_quiet_chapters_are_a_defect(self):
         """Run #1's real shares were 2, 3, 4, 4, 5% and every chapter passed the gate."""

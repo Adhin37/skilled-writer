@@ -154,10 +154,22 @@ Without these the convention breaks on contact with ordinary English.
 2. **A `'…'` inside a `"…"` pair is an ordinary nested quotation.** `"He actually said 'no
    comment' to my face."` A `'…'` outside any `"…"` pair is thought. Position disambiguates and
    no third mark is introduced.
-3. **Nothing else is markup.** No bold, headings, lists or links in the prose body. `*italic*` has
-   exactly one job, declared in `lexicon.md` — foreign words on first use, *or* a word used as an
-   object, *or* stress. Not two. Italics that mean three things mean nothing, and the commonest
-   way a draft loses its emphasis is by spending it everywhere.
+3. **Nothing else is markup — and that includes italics.** No bold, headings, lists, links, and
+   no `*italic*` or `_italic_` anywhere in a prose body. The four channels are the whole
+   inventory.
+
+   This used to read "italics have exactly one declared job." It was a contradiction inside its
+   own sentence — *nothing else is markup, except this one thing* — and benchmark run #3 paid for
+   it: the drafter declared the job its `lexicon.md` template asked for, used it, and `sw lint`
+   raised a defect on all five chapters. Four files said yes and the linter said no. The linter
+   was right, because `CLAUDE.md` hard rule 7 already settled it.
+
+   **What to do instead.** A foreign or invented term is carried by the sentence around it on
+   first use, not by a typeface — if it needs a gloss, give it one in the clause that follows.
+   A word used as an object goes in `"…"`. Stress is a matter of word order, sentence length and
+   what you put last; a narrator who reaches for a typeface to make a word land is asking the
+   markup to do the prose's work. None of this applies to a `[…]` meta block, which is a
+   document, not a prose body.
 
 ### Thought in non-POV heads
 

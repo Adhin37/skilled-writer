@@ -2,9 +2,15 @@
 
 Maintained by `mc-design`. **Always in the read-set while any character has `form_locked: true`.**
 
-> **The gate.** No sentence may describe a locked character's body, reach, voice, capability, or
-> how strangers treat them except from their CURRENT FORM row below. Read the row before writing
-> the sentence. Final-form details may never appear in an earlier stage.
+> **The gate, outward.** No sentence may describe a locked character's body, reach, voice,
+> capability, or how strangers treat them except from their CURRENT FORM row below. Read the row
+> before writing the sentence. Final-form details may never appear in an earlier stage.
+>
+> **The gate, inward — and this is the one that gets skipped.** A prohibition is satisfied by
+> silence. **Every chapter puts the current form on the page at least twice**: once as a limit
+> that bites, and once as the world reacting to the body. A form that never costs the character
+> anything is decorative, and no check can see its absence —
+> `mc-design/references/form-ledger.md`, rule 9.
 
 Delete this file if no character changes form during the novel.
 

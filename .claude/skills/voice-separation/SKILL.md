@@ -140,6 +140,24 @@ If they do, one of them has no reason to exist separately: re-cast them, or merg
 another named character's mouth. If it fits, one of the two has no voice. Rewrite the other one —
 not the MC.
 
+**The cadence test — transplant the *shape*, not the line.** The matrix separates minds. It does
+not separate **rhythm**, and rhythm is the drafter's own and leaks into everybody. Compare the
+longest turn of any two speakers in the scene and ask whether they are built the same way: same
+clause count, same place the sentence turns, same landing. If yes, they are one voice wearing two
+rows however far apart their declared axes sit.
+
+Benchmark run #3 is the worked case. A mother at `intel 3 / artic 4` and her six-year-old daughter
+at `intel 4 / artic 3` passed `sw cast` cleanly — different rows, no clash — and read as the same
+person, because both built every turn the same way: **a long balanced sentence, then a short flat
+one landing on a bare assertion.** Mother: *"No. It really isn't. It's just true."* Daughter:
+*"It smells like Tuesday. Same as every Tuesday."* Two rows, one rhythm. (What was *in* those
+turns is `dialogue-voice` §How it sounds spoken; this test is only about their shape.)
+
+**Give each recurring speaker one cadence and write it in their profile** — floods then stops ·
+builds in even clauses · starts flat and sharpens · never finishes · answers before you finish
+asking. Then hold it. No script can check this: the axes are numbers and cadence is a shape, so
+it is read for, at the arc rollup and in `revision-pass` Pass 2.
+
 **Straddle the MC.** Across the recurring cast, at least one character is above the MC's intel tier
 and at least one is below. `mc-intel-meter` already requires the antagonist to reach or exceed the
 MC once per arc and an ally to out-think them in their own domain; this is the same requirement

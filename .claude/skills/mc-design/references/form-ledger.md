@@ -20,7 +20,7 @@ body, reach, voice, capability, or how strangers treat them except from the CURR
 `state/body.md`.** Read that row before writing any such sentence. It is small and always in the
 read-set.
 
-### The eight form rules
+### The nine form rules
 
 1. **The mind is old; the body is new.** Knowledge, judgement and intent carry over. Strength,
    reach, stamina, coordination, voice and bladder do not. Never write a capability the current
@@ -48,6 +48,27 @@ read-set.
 8. **Other characters' memories are form-anchored.** Someone who knew the MC at stage 1 and meets
    them at stage 3 does not recognise them, or recognises them by something specific that
    persisted. Decide which, and record it.
+
+9. **The body appears, or the lock is decorative.** The eight rules above are prohibitions, and a
+   prohibition is satisfied by silence: a drafter who never mentions the body never contradicts
+   the ledger, passes every check, and writes a form that costs nothing. **Every chapter puts the
+   current form on the page at least twice** — once as a *limit that bites* (something she cannot
+   lift, reach, sustain, attend, or be believed about) and once as *the world reacting to it*
+   (someone talks over her, lifts her, sends her to bed, addresses the adult beside her). The
+   recognition anchor is not optional either: the row names one detail and says reuse it.
+
+   Benchmark run #3 is the case. The ledger was thorough and specific — *underweight, chronic
+   fatigue, cannot sustain exertion past a few minutes, needs help with everything physical* — and
+   across five chapters the words `dizzy`, `weak`, `stamina`, `exhausted` and the declared
+   recognition anchor appeared **zero** times. The MC folded a futon, walked to a hall, knelt, and
+   out-thought two adults. Nothing she did cost her a body. Every check passed, because every
+   check asked whether a sentence contradicted the ledger and none asked whether any sentence
+   drew on it. A reader's first note was that the six-year-old was a costume.
+
+   The tell to watch for: **every childish thing the MC does is a deliberate performance of
+   childishness.** When the form is only ever a disguise the MC operates knowingly, it has stopped
+   being a body and become a tactic — and rule 2 has failed without a single sentence breaking
+   rule 1.
 
 **`mc.final_form_reached_ch`** records the chapter the last transition lands, once it is known.
 It is the chapter after which `form_locked` no longer gates a description, and setting it is what

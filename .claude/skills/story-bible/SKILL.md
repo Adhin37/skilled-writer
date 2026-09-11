@@ -72,7 +72,7 @@ Record: canonical spellings · what a term means in plain English · forms of ad
 they change** (a switch from "my lord" to a first name is a whole story beat — log it in
 `state/growth.md` when it happens) · units and currency · house style decisions — **the four
 text channels** (`"…"` speech, `'…'` direct thought, `[…]` meta, unmarked free indirect discourse;
-owned by `narrator-voice`, mirrored in `novel.md` → `channels:`), the one job italics do, numbers,
+owned by `narrator-voice`, mirrored in `novel.md` → `channels:`; italics are not among them), numbers,
 chapter title case — · a per-novel banned word list.
 
 **Anchor terms.** The terms table marks each entry `anchor? yes` when it tells a new reader what

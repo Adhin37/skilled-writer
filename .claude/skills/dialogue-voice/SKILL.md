@@ -182,6 +182,22 @@ Share is how *much* the cast speaks. This is whether it sounds spoken.
 - **People answer in fragments.** A line needs no subject and verb to be a line.
 - **Nobody speaks in their own summary.** An unbroken multi-clause turn explaining a character's
   reasoning is the narrator using their mouth.
+- **A turn past ~45 words is a speech, and at most one chapter in five gets one.** Measured per
+  turn — every `"…"` span in one paragraph, counted together, because a dialogue tag dropped into
+  the middle of a speech changes nothing a listener hears. `sw lint` names each one and quotes its
+  opening. A monologue can be the right call — a confession, a verdict, someone who has waited
+  years to say it — but it is a decision with a reason, not a default. **Ask who lets them finish
+  and why nobody in the room interrupts.**
+- **The essay tells.** These four are what a written argument looks like when it is put in quote
+  marks, and all four are invisible to share, fragment rate and contraction rate:
+  1. **Stacked subordinate clauses** — three or more `because` / `since` / `which` / `and I` limbs
+     in one turn, each qualifying the last.
+  2. **The rhetorical aside** — a parenthetical inserted for effect (*"and I include grown shinobi
+     in that"*). Speech has asides; it does not aim them.
+  3. **The epigram close** — a turn landing on a balanced aphorism. Good once a book. A cast where
+     everyone does it is one writer talking to themselves in several hats.
+  4. **Self-qualification** — *"I would like you to understand that as a compliment before I say
+     anything else."* People revise mid-sentence; they do not pre-announce the revision.
 - **Under pressure turns get shorter**, unless their `heat` row says otherwise — then hold the row.
 - **Dialogue is not the delivery van for exposition.** A line that exists so the reader learns a
   fact is narration in costume.
@@ -225,6 +241,10 @@ doorframe, not an epigram).
 - [ ] Tags stripped — is every tier-A and tier-B speaker identifiable?
 - [ ] The transplant test and the axis spread hold for this scene (`voice-separation`)
 - [ ] Turn lengths held; every beat drawn from that character's hands or pressure move
+- [ ] **No turn over ~45 words**, or exactly one and you can say who lets them finish and why
+- [ ] **No essay tells** — stacked subordinate clauses, aimed asides, epigram closes,
+      self-qualification (§How it sounds spoken). Read the longest turn aloud; if you run out
+      of breath before the speaker does, it is prose
 - [ ] Swap test on the walk-ons — could another extra have this scene with no edit?
 - [ ] Does each speaker want something distinct from this conversation?
 - [ ] Any line that could belong to anyone? Rewrite it.

@@ -208,6 +208,24 @@ SPEECH_WINDOW = 5
 SPEECH_TARGET_LOW = 25.0
 SPEECH_TARGET_HIGH = 40.0
 
+# Words in a single spoken TURN (every `"…"` span in one paragraph) past which the line has
+# stopped being talk. Benchmark run #3: a six-year-old delivered a 73-word turn and her mother a
+# 107-word one, both inside a texture line that read as healthy, because length was measured per
+# span and a dialogue tag split the turn in two. `dialogue-voice` owns the judgement - a deliberate
+# monologue is a real thing - so this prints a note naming the turn and gates nothing.
+TURN_CEILING = 45
+
+# A repeated CONSTRUCTION, caught without a phrase list. Benchmark run #3: the redraft removed the
+# `the way a person …` simile (11 uses in one chapter) and grew `its own kind of …` in the same
+# pass - 4 uses in the same chapter, 7 across five. That is CLAUDE.md section 5's thesis happening
+# live: ban a tic and the model's default register fills the hole with another one, so no list of
+# banned phrases can ever be finished. A word-length window of 4 at 3 occurrences found the tic
+# with no false positives on this novel and two genuine ones on run #2's.
+ECHO_WINDOW = 4                 # words per phrase compared
+ECHO_MIN = 3                    # occurrences in ONE chapter before it is worth a look
+ECHO_WARN = 4                   # ...and past this it is the chapter's signature, so it
+                                # rises to a warn and reaches the next chapter's WATCH row
+
 
 def scan(text, ruleset, offset_of=None):
     """Yield (offset, matched_text, label) for every rule hit in text."""

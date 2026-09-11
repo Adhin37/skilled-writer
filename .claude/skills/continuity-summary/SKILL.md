@@ -27,7 +27,7 @@ happened, generate a summary for them separately — do not soften the ledger.
 |---|---|---|---|
 | BOOK DIGEST | whole novel | 200 words | at each arc boundary |
 | ARC DIGEST | one arc | 120 words (40 once two arcs older) | when arc closes |
-| CHAPTER BLOCK | one chapter | 13 lines | once, at drafting; never edited after the arc closes |
+| CHAPTER BLOCK | one chapter | 15 lines, hard | once, at drafting; never edited after the arc closes |
 
 Compaction is the whole point. Chapter blocks are dense but numerous; arc digests replace them
 for recall; the book digest replaces arcs. The read-set below stays roughly constant in size no
@@ -184,7 +184,8 @@ quality. Read those yourself.
 - [ ] `fk>` present on every chapter that spent foreknowledge, with what it invalidated
 - [ ] `wc:` matches the chapter file's measured `wordcount:` — a stale number here corrupts
       every share computed from it later
-- [ ] No block exceeds 15 lines
+- [ ] No block exceeds 15 lines — and **every key sits on one physical line**. Soft-wrapping a
+      long key for readability is the fast way past the cap: `sw state` counts lines, not keys
 - [ ] No adjectives of quality anywhere in the ledger
 - [ ] Thread ids in the ledger all exist in `threads.md`
 - [ ] Names match `lexicon.md` exactly

@@ -18,7 +18,7 @@ them from there too.
 - [ ] No marked thought is tagged *she thought* — the mark already said it
 - [ ] Every thought mark **inside** a speech span is an ordinary nested quotation
 - [ ] Meta blocks match the format in `lexicon.md`; none opens a chapter; no two run consecutively
-- [ ] Italics do the **one** job `lexicon.md` assigns them, and no other
+- [ ] No italics anywhere in the prose body, in either spelling (`*x*`, `_x_`)
 - [ ] Nothing else is markup — no headings, bold, lists, links or author notes in a prose body
 
 `sw lint` reports the countable half of this: `thought-budget`, `channel-collision`,

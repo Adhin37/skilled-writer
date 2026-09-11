@@ -10,7 +10,7 @@ common serial defect: the same thing named three ways across 200 chapters.
 
 ## Terms of art
 
-| term | capitalized? | italicized on first use? | plain-English meaning | anchor? | first appears |
+| term | capitalized? | glossed on first use? | plain-English meaning | anchor? | first appears |
 |---|---|---|---|---|---|
 
 **`anchor?`** — mark `yes` for any term that tells a new reader *what kind of story this is* or
@@ -59,16 +59,18 @@ turned its narrator into a thought bubble.
 2. **A `'…'` inside a `"…"` pair is an ordinary nested quotation**, as in any English prose:
    `"He actually said 'no comment' to my face."` A `'…'` outside any `"…"` pair is thought.
    Position disambiguates; there is no third mark.
-3. **Nothing else is markup.** No bold, no headings, no lists, no links inside the prose body.
-   `*italic*` has exactly one declared job — chosen below — and does not get a second.
+3. **Nothing else is markup.** No bold, no headings, no lists, no links inside the prose body —
+   and no italics, in either spelling. `narrator-voice` §The three collision rules owns this and
+   `sw lint` enforces it.
 
 ### The rest
 
 - Numbers:
 - Em dashes / ellipses for interruption vs. trailing off:
-- Italics — **pick exactly one job** and never vary. Candidates: foreign or invented words on
-  first use · a word being used as an object (*the word* `retroactively`) · stress within a line.
-  Choosing two is how italics stop meaning anything:
+- Italics — **none, ever, in a prose body.** There is no job to pick. A first-use foreign term is
+  glossed by the clause around it; a word used as an object goes in `"…"`; stress is word order
+  and sentence length. (Benchmark run #3 lost five chapters' gate time to the version of this
+  line that invited you to pick a job.)
 - Chapter title case:
 
 ### Meta block format

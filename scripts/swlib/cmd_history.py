@@ -157,10 +157,17 @@ def _dialogue(rep, rows):
     rep.info("dialogue share", lines)
 
     if starved:
-        rep.defect("history-dialogue",
-                   "%d chapter(s) under the %.0f%% floor: %s - on a silent cast "
-                   "voice-separation, dialogue-voice and competence-map all silently no-op"
-                   % (len(starved), rules.SPEECH_FLOOR, _runs(starved)))
+        # Benchmark run #3, T1: this was a `defect`, which put a per-chapter number back in
+        # front of the drafter for the third run running - one chapter at 9.3% failed the whole
+        # book. `lint._speech_window` already owns the starvation defect and owns it in the right
+        # shape, as a rolling mean over SPEECH_WINDOW chapters, and `audit` runs `lint`. A second
+        # gate on the same metric here can only be the one that gets optimised, because it is the
+        # one that names a single chapter. Report the fact; let the window decide.
+        rep.warn("history-dialogue",
+                 "%d chapter(s) under the %.0f%% floor: %s - on a silent cast "
+                 "voice-separation, dialogue-voice and competence-map all silently no-op. "
+                 "The defect is `speech-starvation`, measured over a window by `lint`"
+                 % (len(starved), rules.SPEECH_FLOOR, _runs(starved)))
     elif len(below) >= max(3, len(rows) // 2):
         rep.warn("history-dialogue",
                  "%d of %d chapters sit below the %.0f%% target: %s - the run-#1 shape, and "

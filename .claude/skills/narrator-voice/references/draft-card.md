@@ -33,8 +33,9 @@ a comic strip with thought bubbles. Never tag one with *she thought*; the mark a
    an apostrophe with a letter on both sides is a contraction wherever it appears. A thought *may*
    contain contractions.
 2. **A `'…'` inside a `"…"` is a nested quotation**, not thought. Position disambiguates.
-3. **Nothing else in a prose body is markup.** No bold, headings or lists. `*italic*` has exactly
-   one job, declared in `lexicon.md`.
+3. **Nothing else in a prose body is markup.** No bold, headings, lists — and no italics, in
+   either spelling. Stress is word order and sentence length, not a typeface
+   (§The three collision rules).
 
 **A non-POV character never gets a `'…'`** — that is head-hopping with punctuation on it. Other
 minds reach the page through their **first move** (`voice-separation`).

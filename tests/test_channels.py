@@ -216,6 +216,47 @@ class TestDialogueTexture(unittest.TestCase):
         self.assertEqual(self._ch('"One two three."\n\n"Four five six."\n').speech_line_spread,
                          0.0)
 
+    def test_a_dialogue_tag_does_not_shorten_a_speech(self):
+        """Run #3, T4. A turn broken by a tag was counted as two short lines, so a speech could
+        be brought inside the target by punctuating it differently - a cosmetic edit that changes
+        nothing a reader hears. One paragraph is one turn."""
+        speech = " ".join(["word"] * 40)
+        whole = self._ch('"%s"\n' % speech)
+        tagged = self._ch('"%s," she said. "%s"\n'
+                          % (" ".join(["word"] * 20), " ".join(["word"] * 20)))
+        self.assertEqual(whole.speech_line_lengths, [40])
+        self.assertEqual(tagged.speech_line_lengths, [40],
+                         "inserting a dialogue tag changed the measured turn length")
+        self.assertEqual(tagged.speech_span_lengths, [20, 20])
+
+    def test_an_echoed_phrase_is_found_without_a_phrase_list(self):
+        """Run #3. The redraft removed one tic (`the way a person`) and grew another (`its own
+        kind of`, 4x in one chapter) in the same pass, which is why a banned-phrase list can never
+        be finished - it only names what already failed somewhere else."""
+        body = ("It was its own kind of question. It was its own kind of answer. "
+                "It was its own kind of kindness, and its own kind of worry.\n")
+        found = dict(self._ch(body).echoed_phrases(4, 3))
+        self.assertIn("its own kind of", found)
+        self.assertEqual(found["its own kind of"], 4)
+
+    def test_overlapping_windows_of_one_tic_report_once(self):
+        """`its own kind of` and `was its own kind` are the same tic seen through two windows."""
+        body = ("It was its own kind of question. It was its own kind of answer. "
+                "It was its own kind of kindness.\n")
+        phrases = [p for p, _n in self._ch(body).echoed_phrases(4, 3)]
+        self.assertEqual(len(phrases), 1, "one tic reported through two windows: %s" % phrases)
+        self.assertIn("its own kind", phrases[0])
+
+    def test_ordinary_prose_echoes_nothing(self):
+        body = ("She counted the sacks and wrote the number in the second column. "
+                "The quarter closed on Tuesday and nobody came to check it.\n")
+        self.assertEqual(self._ch(body).echoed_phrases(4, 3), [])
+
+    def test_two_speakers_are_two_turns(self):
+        """Merging is per paragraph, and a new speaker takes a new paragraph."""
+        ch = self._ch('"Shut the door."\n\n"It is shut."\n')
+        self.assertEqual(ch.speech_line_lengths, [3, 3])
+
     def test_none_of_the_texture_findings_is_a_gate(self):
         """They are notes. Making one a defect is how the dialogue share got gamed."""
         from swlib import cmd_lint

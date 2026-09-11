@@ -201,9 +201,15 @@ The answer to "where does this rule live?" is always one skill, and every other 
    provenance test — taught, did, told, read, or openly guessing — and skills are acquired across
    chapters of failure, never by elapsed time. Exemption: `knowledge_scope: broad`, which still
    needs a declared shape and boundary (`competence-map`).
-9. **The body on the page is the body in the ledger.** If any character is `form_locked`, no
-   sentence describes their body, reach, voice or capability except from the CURRENT FORM row in
-   `state/body.md`.
+9. **The body on the page is the body in the ledger — and it reaches the page.** If any character
+   is `form_locked`, no sentence describes their body, reach, voice or capability except from the
+   CURRENT FORM row in `state/body.md`.
+   Corollary — **a prohibition is satisfied by silence.** A drafter who never mentions the body
+   never contradicts the ledger and writes a form that costs nothing, which is what run #3 did for
+   five chapters with every check green. So every chapter puts the current form on the page
+   **twice**: once as a limit that bites, once as the world reacting to it. When every childish or
+   frail thing the character does is a deliberate performance they control, the form has stopped
+   being a body and become a tactic (`mc-design/references/form-ledger.md`, rule 9).
 10. **Nothing is free.** Every win is paid for (`conflict-engine`). The world is not free either:
     it acts on its own clock at the intensity set by `timeline.reactivity`, and it may never make
     `ending.contract` unreachable.
@@ -289,6 +295,12 @@ first and bans second, and there are ten of them.
 - No default gesture set. Nodding, shrugging, sighing, raised eyebrows and released breaths belong
   to everyone and identify nobody. And no prepared statements: if nobody is ever interrupted and
   every turn reaches a full stop, the cast is reading prose aloud rather than talking.
+- No essays in quote marks. A turn past ~45 words is a speech, and one chapter in five may have
+  one. The tells are stacked subordinate clauses, the aimed parenthetical aside, the epigram close
+  and pre-announced self-qualification — none of which share, fragment rate or contraction rate can
+  see (`dialogue-voice` §How it sounds spoken). And two speakers may not share a **cadence**: run #3
+  shipped a mother and her six-year-old with different declared axes, a clean `sw cast`, and one
+  voice between them (`voice-separation` §3, the cadence test).
 - No stated theme, and no ethnic, national or gendered essentialism — ever, not as villain
   shorthand either (`bias-guard`, which overrides genre convention and user-supplied tropes).
 
