@@ -33,24 +33,23 @@ novel-init -> mc-design -> lead-interest -> character-profile -----------+
          (title, blurb, slug)                                            v
                                                         story-opening -> chapter-plan
                                                                          |
-                        +------------------------------------------------+
-                        v
-        continuity-summary (read)  ->  write-chapter
-             ^                       |
-             |                phase A: the brief   (stop; user approves)
-             |                       |
-             |                phase B: draft       [story-craft] [narrator-voice]
-             |                       |             [dialogue-voice] [style: target]
-             |                       |                   +--------------------+
-             |                phase C: the gate  = revision-pass, in full     |
-             |                       |             [pass Z: THE EVENT] -- fail? back to B
-             |                       |             [pass 9: DELIVERY]  [pass 2: voices]
-             |                       |             [pass 3: knowledge] [pass 5: world]
-             |                       |             [pass 8b: register] [pass 9b: opening]
-             |                       |             [pass 9c: foreknowledge] [9e: the curve]
-             |                       v
-             |         continuity-summary (write)  -- gate> --> WATCH row, next brief
-             +-----------------------+
+                +--------------------------------------------------------+
+                v
+        continuity-summary (read) --> write-chapter, in three phases
+        ^                     |
+        |                     |   phase A: the brief    -- stop; the user approves it
+        |                     |
+        |                     |   phase B: draft        [story-craft]  [narrator-voice]    ^
+        |                     |                         [dialogue-voice]  [style: target]  |
+        |                     |                                                            |
+        |                     |   phase C: the gate     = revision-pass, in full           |
+        |                     |                         [Z: THE EVENT] --- no event? ------+
+        |                     |                         [9: DELIVERY]   [2: voices]
+        |                     |                         [3: knowledge]  [5: world]
+        |                     |                         [8b: register]  [9b: opening]
+        |                     |                         [9c: foreknowledge]  [9e: the curve]
+        |                     v
+        +-- continuity-summary (write) -- gate> --> the next brief's WATCH row
 ```
 
 `write-chapter` is the main loop and the only skill that produces prose. Three orderings are

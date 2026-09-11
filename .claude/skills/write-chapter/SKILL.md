@@ -53,7 +53,7 @@ speakers Wren, Hesk, Maro   (Hesk differs from Wren on intel + articulacy)
 world    the levy office charges for its own paperwork
 asks     Wren does not know what a counter-claim costs; she has to ask Bel
 threads  ^T02  vT04
-watch    campaign-clause (3 of last 5) · dialogue share low (2 of last 5)
+watch    campaign-clause (3 of last 5) | speech-share (2 of last 5)
 next     the quarter answers in nine days
 ```
 
@@ -129,50 +129,33 @@ was still folded on the bed."* A narrator who loads every sentence has one attit
 attitude for a whole book is the tell that no phrase list will catch
 (`prose-quality` §Range before polish).
 
-Hold these while writing:
+Hold these while writing. Each names its owner, and the detail is there rather than here.
 
-- **Voice.** `narrator-voice/references/draft-card.md` — person, tense, distance, interiority, the
-  distance curve. It does not change mid-chapter unless `pov-switch` says a switch is happening.
-- **Dialogue.** Every named speaker satisfies their fingerprint
-  (`dialogue-voice/references/draft-card.md`). If you cannot tell two characters apart with the
-  tags removed, fix it now.
-- **The four channels.** `"…"` speech · `'…'` direct thought, **1–3 for the whole chapter**, at
-  decisions · `[…]` system text and in-world documents · and **unmarked free indirect discourse,
-  which is where interiority actually lives** (`narrator-voice/references/draft-card.md`). Do not
-  tag a marked thought with *she thought* — the mark already said it. An apostrophe is not a
-  thought mark; a `'…'` inside a `"…"` is a nested quotation.
-- **Enough dialogue to audit.** Target **25–40% inside `"…"`**, spoken aloud to another person
-  (`dialogue-voice/references/draft-card.md`). Under 10% is a defect: on a silent cast every voice
-  check in this toolkit no-ops. When two people are in a room the beat belongs to what they *say*,
-  not to the POV character concluding it on their behalf — an analytical POV voice is the usual
-  cause, and it quietly eats the scene.
-- **Voice spread.** Hold each speaker's matrix row (`voice-separation`). Nobody but a declared
-  mirror reasons at the MC's speed: somebody here is slower, or worse at saying it, and is right
-  anyway. Beats come from each character's hands, never from the default gesture set.
+- **Voice and the four channels.** `narrator-voice/references/draft-card.md`. `'…'` direct thought
+  stays **1–3 for the whole chapter**, at decisions; interiority lives unmarked, in free indirect
+  discourse. Distance does not change mid-chapter unless `pov-switch` says a switch is happening.
+- **Dialogue.** `dialogue-voice/references/draft-card.md`. Every named speaker satisfies their
+  fingerprint, and **25–40% of the words sit inside `"…"`**, spoken aloud to another person. Under
+  10% is a defect: on a silent cast every voice check in this toolkit no-ops. When two people are
+  in a room the beat belongs to what they *say*, not to the POV character concluding it for them.
+- **Voice spread.** The brief's `speakers` line. Nobody but a declared mirror reasons at the MC's
+  speed, and beats come from each character's hands, never the default gesture set.
 - **Other minds, no interiority.** Non-POV characters think through their **first move** — what
   they reach for when the situation changes. The narration never enters a second head.
-- **Walk-ons.** Three strokes: a five-minute want, one habit, one piece of their working world,
-  plus one axis off default. No interiority, no backstory. Sketch them; log the line in step 5.
-- **Intelligence and knowledge.** Every MC decision passes the `mc-intel-meter` trace test — the
-  reader can name the on-page fact it came from. Every stated fact passes the `competence-map`
-  provenance test. An unlisted domain is `none`, so somebody here says they do not know, asks the
-  person who does, or is confidently wrong — which is more useful than blank.
-- **Learning.** Practice is a clause, not a scene, unless a stage transition fires. Either way it
-  took time from something else and the chapter says what.
-- **Ground the scene.** `world-texture/references/draft-card.md` — two to four concrete details
-  per scene, one non-visual, within 100 words of arriving, filtered through the POV character.
-  The world's *rules* reach the reader by biting someone, not by being narrated.
-- **Cut the connective tissue.** Enter late, leave early. No arrivals, no farewells, no walking
-  between locations unless something happens on the way.
+- **What is known, and by whom.** The brief's `asks` line. Every MC decision traces to an on-page
+  fact the reader can name (`mc-intel-meter`); every stated fact has a provenance
+  (`competence-map`). Somebody here does not know, and says so. Practice is a clause, not a scene.
+- **Walk-ons.** Three strokes — a five-minute want, one habit, one piece of their working world —
+  plus one axis off default. No interiority, no backstory. Log the line in step 5.
+- **The world.** The brief's `world` line, at `world-texture`'s budget: two to four concrete
+  details per scene, one non-visual, within 100 words of arriving, filtered through the POV
+  character. The world's *rules* reach the reader by biting someone.
+- **Shape and movement.** The brief fixed the scene split; the proportions it sits in are
+  `scene-craft` §Chapter assembly, and the cuts are §Entering and leaving — enter late, leave
+  early. **Chapter 1 has its own shape**, in `story-opening/references/chapter-one.md`.
 - **Active modules.** Apply each active module's card as you write, not afterwards.
-- **The watch line.** What the brief carries there, this draft does not do again — a clause here,
-  a rewrite in Phase C.
-
-### Chapter anatomy, and re-anchoring
-
-`references/chapter-shape.md` — proportions, the cold open, the 25–40% spoken share, the
-one-clause recap; this skill's own sheet, not a fifth card. **Chapter 1 has its own shape**, in
-`story-opening/references/chapter-one.md`.
+- **The watch line.** Whatever the brief's `watch` names, this draft does not do again — a clause
+  here, a rewrite in Phase C.
 
 ## Step 3 — Write the file
 
@@ -190,11 +173,13 @@ revision. It is a recorded fact, not a target.
 
 **Drafting is three phases and this is the last one. The chapter is not written until this passes.**
 
-Run `revision-pass` in full and fix what it finds, **in the file**. There is no revise command and
-it is not deferrable: a chapter reported at `status: drafted` is the same bug as one with no CCS
-block, and the next read-set says so. Pass Z may send it back to Phase B — redraft, gate the new
-text, say so. The budget is thinnest here, so the rotation rule bites hardest: never Z, 6 or 9c,
-and name what ran without its card.
+Run `revision-pass` in full and fix what it finds, **in the file**. There is no revise command
+and it is not deferrable: a chapter reported at `status: drafted` is the same bug as one with no
+CCS block, and the next read-set says so.
+
+Two things this step owes the report. If Pass Z sends the chapter back to Phase B, redraft the
+scene, gate the new text, and say that it happened. If the budget would not stretch to every audit
+card, `revision-pass` says which passes may rotate — name the ones that ran without theirs.
 
 When every pass is clean, stamp the measured count and the status:
 
@@ -204,39 +189,24 @@ python3 scripts/sw.py stamp novels/<slug> -c <N> --status revised --ledger
 
 ## Step 5 — Write state back
 
-Run `continuity-summary` in **write mode**: CCS block, threads, growth, timeline, any new bible
-facts. This step is not optional and not deferrable to "later". When the block is written,
+Run `continuity-summary` in **write mode**. That skill owns the procedure; the table is the list
+it covers, so a glance says whether anything was missed. This step is not optional and not
+deferrable to "later". When the block is written,
 `python3 scripts/sw.py state novels/<slug>` verifies it against the chapter on disk.
 
-Gate bookkeeping, same pass: a `gate>` line naming what Phase C had to fix, a dozen words at
-most, and no line at all when it came back clean. `sw readset` reads the last five back as the
-next chapter's WATCH row.
+| written | when |
+|---|---|
+| the CCS block, plus a `gate>` line naming what Phase C had to fix | always — and no `gate>` line at all when the gate came back clean |
+| `state/threads.md`, `state/growth.md`, `state/timeline.md` | always |
+| `set>` facts into `bible/world.md`, `bible/society.md`, `bible/lexicon.md` | a location anchor, price, custom or name reached the page. One never recorded drifts by its third appearance |
+| a roster line in `bible/cast/_extras.md` | any walk-on. A third appearance or a changed plot promotes them **now**, earning rows in `_voices.md` and `_competence.md`, placed against the existing cast |
+| `state/body.md` §1, §2, §4 | a `form_locked` character changed stage |
+| `state/power.md` §3–§5, and the `pwr>` line | unless `scaling.shape` is `none`. `sw curve` checks the line agrees with §3 |
+| `state/foreknowledge.md` §2–§4, and the `fk>` line | `mc.foreknowledge` is set. A plot-changing spend moves at least one *other* row toward `invalidated` — the observer paradox |
+| the skill-ladder table in `state/growth.md` | a stage advanced, with what caused it |
 
-World bookkeeping, same pass: any new location anchor or durable social fact goes into `set>`,
-then into `bible/world.md` or `bible/society.md`. An anchor never recorded drifts by its third
-appearance.
-
-Cast bookkeeping, same pass: every walk-on gets their roster line in `bible/cast/_extras.md` (or
-their chapter appended to an existing one), every named person goes in `lexicon.md`, and anyone
-at a third appearance or who changed the plot is promoted now, from what is already on the page.
-A promotion also earns a row in `bible/cast/_voices.md` and one in `bible/cast/_competence.md`,
-both placed against the existing cast rather than invented in isolation.
-
-Foreknowledge bookkeeping, same pass, if `mc.foreknowledge` is set: every spend gets a row in
-`state/foreknowledge.md` §3 with its cost, statuses move in §2, and any plot-changing spend moves
-at least one *other* row toward `invalidated` (§4, the observer paradox). The block carries an
-`fk>` line. Spending foreknowledge and leaving the ledger untouched is the same class of bug as
-skipping the CCS block.
-
-Power-curve bookkeeping, same pass, unless `scaling.shape` is `none`: every confrontation gets a
-row in `state/power.md` §3 with its pressure and, at P ≥ +1, what the win cost. A tier advance
-goes in §4 with all four requirements and §1 moves with it; a boost goes in §5 with its expiry and
-debt. The block carries a `pwr>` line, and `sw curve` checks it agrees with §3.
-
-Knowledge bookkeeping, same pass: a skill stage that advanced goes in the skill-ladder table of
-`state/growth.md` with what caused it; a genuinely new domain a character acquired on the page goes
-on the competence grid. If the chapter had to invent an expertise nobody had, record it — and say
-so in the report, because it usually means the cast is missing a person.
+If the chapter had to invent an expertise nobody in the cast had, record it **and say so in the
+report** — it usually means the cast is missing a person.
 
 ## Step 6 — Report
 
@@ -247,7 +217,7 @@ Ch 42 — "The Ledger Room" → novels/<slug>/chapters/0042-the-ledger-room.md
 Event: Rin is refused at the archive door and takes the ledger anyway.
 Delivers: Rin can no longer use the Guild's archive, and knows who closed it to her.
 Cost: Rin loses Dael's trust; Echo-step now known to the Guild.
-Gate: clean — cut a crowd-reaction block, replaced the ending. Every pass had its card.
+Gate: passed — cut a crowd-reaction block, replaced the ending. Every pass had its card.
 Threads: opened T14 (forged seal), paid T09 (oath to Mira).
 Next: ch 43 is planned — she reads the ledger. Say go, or tell me what to change.
 ```
@@ -255,8 +225,7 @@ Next: ch 43 is planned — she reads the ledger. Say go, or tell me what to chan
 **Lead with the delivery, and do not report a word count.** Reporting length is what taught the
 drafting model to aim at it; the number lives in the frontmatter, where tools can read it.
 
-**The `Gate:` line is what Phase C answers for**: what it changed, any pass that ran without its
-card, and always what Pass 6 found.
+**The `Gate:` line always says what Pass 6 found**, even when that is nothing.
 
 Do not paste the chapter into chat unless asked.
 

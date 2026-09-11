@@ -70,29 +70,29 @@ the symptom worth reading carefully — **the gate was chained in the documentat
 the run.** Three things unchained it, and only the first is about the docs.
 
 The **budget position** is the real one, and it is the same finding as the section above wearing
-different clothes. Step 4 is reached after phase A has spent fourteen draft cards and phase B has
-written a chapter; `revision-pass` then asks for fourteen audit cards. That is precisely where run
+different clothes. Step 4 is reached after Phase A has spent the draft cards and Phase B has
+written a chapter, and `revision-pass` then asks for the audit cards. That is precisely where run
 #1's model rationed, and a model that rations at the gate does not announce it — it ticks the
 boxes. Re-running the gate in a fresh turn is the *correct* response to that, which is why the
-user's habit formed. It was mislabelled as a chore.
+habit formed. What was wrong was the label on it, not the behaviour.
 
 Nothing **enforced** it either. `sw readset` never looked at whether chapter N−1 was `revised`, and
 the step 6 report had no line the gate had to answer for. This repo already documented what happens
 to a rule in that position — *a rule that is measured but not surfaced is decoration* — and had
-applied it to `SUMMARY_MARKERS` and not to itself.
+applied it to `SUMMARY_MARKERS` while leaving the gate itself unsurfaced.
 
 And the docs **advertised it as the user's job**: section 2 drew `write-chapter -> revision-pass`
 as the next link in the chain, section 3 said *"after drafting, or on `/novel-revise`"*, and section
 7 listed the command beside `/novel-write` as a peer. A gate that has to be summoned is a gate that
 is skipped whenever the run is long.
 
-So the gate is **phase C**, named like phases A and B because it is part of the same act of
+So the gate is **Phase C**, named like Phases A and B because it is part of the same act of
 writing; the command is gone; the report carries a `Gate:` line naming what was fixed and which
 passes ran without their card; and `sw readset` names any chapter still sitting at `drafted`. The
 re-entry path survives as `/novel-write <n>` on a chapter that already exists, which asks whether to
 re-gate or redraft — one door, and the routine case does not go through it.
 
-**What was rejected: merging the gate into phase B.** It is the obvious reading of "integrate
+**What was rejected: merging the gate into Phase B.** It is the obvious reading of "integrate
 revision into the writing process" and it is wrong twice over. Structural fixes invalidate line
 edits, which is why `revision-pass` is ordered the way it is; and a model told to self-edit
 mid-draft writes defensively, which is the eventless prose the brief/draft split exists to prevent.
@@ -103,8 +103,8 @@ Drafting straight through and gating afterwards is the split that works. What wa
 
 A gate that fixes the same defect every chapter is a gate doing the draft's job. The countable half
 of that is now fed forward: `sw readset` prints a **WATCH** row naming checks that fired in at least
-two of the last five chapters, phase A copies it into the brief, and phase B writes against it. The
-judgement half is a `gate>` line in the CCS block — what phase C had to fix, a dozen words, omitted
+two of the last five chapters, Phase A copies it into the brief, and Phase B writes against it. The
+judgement half is a `gate>` line in the CCS block — what Phase C had to fix, a dozen words, omitted
 entirely when it found nothing, so an absent line is the clean signal rather than `gate> clean`.
 
 Two guards, both learned here. The row is **distributional and capped at three**: no chapter is

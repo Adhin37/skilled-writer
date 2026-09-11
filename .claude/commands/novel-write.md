@@ -1,6 +1,6 @@
 ---
 description: Draft the next chapter (or a specified one) and update all state
-argument-hint: "[chapter number] [or: 'next 3'] [--no-confirm]"
+argument-hint: "[chapter number] [or: 'next 3', or a range to re-gate] [--no-confirm]"
 ---
 
 Write chapter prose.

@@ -14,6 +14,7 @@ is speaking, the scene is broken.** This skill is how you pass that test cheaply
 
 | file | open it when |
 |---|---|
+| `references/subtext.md` | building a scene between two people who want different things, or a scene is reading as an exchange of facts |
 | `references/corpus-anti-patterns.md` | two characters will not separate however hard you push the fingerprints, or the dialogue is reading as machine-translated |
 
 ## The layer under this one
@@ -195,46 +196,27 @@ a target. Open `references/spoken-register.md` for the measured failure and the 
 ## Subtext
 
 Subtext is two people talking about one thing and meaning another, **and both of them knowing
-it**. It is the difference between dialogue that conveys information and dialogue a reader leans
-into, and it is the single most reliable way to stop a scene reading as an exchange of facts.
-
-Machine-written dialogue fails here by default and fails in a specific direction: it is
+it** — the difference between dialogue that conveys information and dialogue a reader leans into.
+Machine-written dialogue fails here by default and in a specific direction: it is
 *over-determined*. Everyone says what they mean, feelings are stated by the people having them,
-and the scene resolves what it raised. The repair is not to make lines cryptic. It is to give each
-speaker something they will not say, and then let it leak.
+and the scene resolves what it raised. The repair is not to make lines cryptic; it is to give each
+speaker something they will not say, and let it leak.
 
-**Before the exchange, write two lines for each speaker:**
+**Before the exchange, two lines for each speaker:**
 
 ```
 wants:      what they are asking this conversation for
 won't say:  the thing they will not put in words, and why not
 ```
 
-If `won't say` is empty for both, the scene has no subtext available and does not need any — a
-clerk refusing a permit is allowed to just refuse it. If it is empty for *every* scene in a
-chapter, the chapter is a briefing.
+Both empty means the scene has no subtext available and needs none — a clerk refusing a permit is
+allowed to just refuse it. Empty for *every* scene in a chapter means the chapter is a briefing.
 
-**Four techniques.** At least one exchange per scene runs on one of them.
-
-| technique | how it works | example |
-|---|---|---|
-| **Contradicting action** | the words say one thing, the body says the other. The reader believes the body | *"I'm not worried."* She checked the door again. |
-| **Evasion** | answering a different question, or answering with a question. Where they dodge is the information | *"Where were you Tuesday?" — "Is that what he told you I was doing?"* |
-| **Irony** | saying the opposite, meant to be caught. Needs a relationship that can carry it, or it reads as confusion | *"By all means, take your time."* |
-| **The displaced object** | the conversation is nominally about the permit, the horse, the weather. It is about the marriage | Two people discuss a leaking roof for a page and one of them is deciding whether to leave |
-
-**Rules of use.** Subtext costs the reader attention, so it is spent, not sprinkled.
-
-- **Never gloss it.** The narration does not explain what was really meant. If the reader might
-  miss it, add a beat — a look, a pause, an object picked up — not a sentence of interpretation.
-  A glossed subtext is worse than none, because it teaches the reader to stop working.
-- **Somebody in the room can be wrong about it.** The best version of the technique is a listener
-  who takes the surface meaning while the reader takes the real one.
-- **The direct statement is the payoff.** When a character finally says the thing plainly, it lands
-  because three scenes went around it. That is what the reserve is *for*. A book with no direct
-  statements is as flat as a book with nothing but.
-- **Articulacy sets the shape, not the presence.** A low-articulacy character has subtext too;
-  theirs is a changed subject and a hand on a doorframe, not an epigram.
+The five techniques, the rules of use, and the four scenes where subtext is the wrong tool:
+**`references/subtext.md`**. Two that are never negotiable — **never gloss it** (if the reader
+might miss it, add a beat, not a sentence of interpretation), and **articulacy sets the shape, not
+the presence** (a low-articulacy character's subtext is a changed subject and a hand on a
+doorframe, not an epigram).
 
 ## Self-check
 

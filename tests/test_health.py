@@ -200,13 +200,16 @@ class TestSlashCommandWiring(unittest.TestCase):
             f.command("novel-write")
             self.assertIn("slash-command", checks(f.run()))
 
-    def test_a_command_file_nobody_lists_is_a_defect(self):
+    def test_a_command_file_nobody_lists_is_a_warning(self):
+        """It works when typed; it is simply invisible. That is a decision, not a break."""
         with Fake() as f:
             f.skill('anything')
             f.claude_md(self.SECTION % "`/novel-write`")
             f.command("novel-write")
             f.command("novel-orphan")
-            self.assertIn("slash-command", checks(f.run()))
+            rep = f.run()
+            self.assertIn("slash-command", checks(rep, "warn"))
+            self.assertNotIn("slash-command", checks(rep))
 
     def test_a_matched_pair_is_clean(self):
         with Fake() as f:

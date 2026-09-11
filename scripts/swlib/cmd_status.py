@@ -31,12 +31,13 @@ def run(novel):
            novel.get("mc.intel_tier")),
     ])
 
-    stale = cmd_readset.ungated(novel, last + 1)
+    stale = novel.ungated_chapters()
     if stale:
         rep.warn("gate", "%d chapter(s) never passed the phase C gate - newest is ch %d at "
-                 "`status: %s`. `/novel-write %d` re-gates it."
+                 "`status: %s`. Re-gate with %s."
                  % (len(stale), stale[0].number,
-                    str(stale[0].meta.get("status", "")).strip() or "?", stale[0].number),
+                    str(stale[0].meta.get("status", "")).strip() or "?",
+                    cmd_readset.regate_target(c.number for c in stale)),
                  path=stale[0].path)
 
     rep.info("last three chapters (dlv> - translate for the user, do not paste)", [

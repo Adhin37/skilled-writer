@@ -22,12 +22,12 @@ Set `status: revised` in the frontmatter when every pass is clean.
 
 ## Reporting
 
-**Inside `write-chapter`, this pass does not get a report of its own.** It gets the `Gate:` line of
-the step 6 report, and one `gate>` line in the CCS block. Both are one line:
+**Inside `write-chapter`, this pass does not get a report of its own.** It gets one `Gate:` line
+in the step 6 report, and one `gate>` line in the CCS block:
 
 ```
-Gate: clean — cut a crowd-reaction block, applied Dael's rung-3 voice delta, replaced the
-ending. Pass 8b ran without its card. Pass 6 found nothing.
+Gate: passed — cut a crowd-reaction block, replaced the ending. Pass 8b ran without its
+card. Pass 6 found nothing.
 ```
 
 Re-gating a chapter on its own, two lines, unless something structural was rewritten:
@@ -52,7 +52,7 @@ Whatever this pass had to fix goes into the chapter's CCS block as `gate>`, in a
 fewer, using the check names where they have them:
 
 ```
-gate> campaign-clause x2, dialogue share 11%, Pass Z redraft of scene 2
+gate> campaign-clause x2, speech-share 11%, Pass Z redraft of scene 2
 ```
 
 Omit the line entirely when the gate found nothing — an absent `gate>` is the clean signal, and a

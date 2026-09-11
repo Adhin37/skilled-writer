@@ -66,7 +66,7 @@ def run(novel):
     rows = []
     for ch in chapters:
         block = novel.block(ch.number)
-        defects = _lint_counts(novel, ch)
+        defects = cmd_lint.check_counts(novel, ch)
         rows.append({
             "number": ch.number,
             "file": ch.name,
@@ -104,10 +104,6 @@ def _mtime(path):
         return os.path.getmtime(path)
     except OSError:
         return None
-
-
-def _lint_counts(novel, ch):
-    return cmd_lint.check_counts(novel, ch)
 
 
 def _table(rep, rows):

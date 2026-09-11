@@ -24,8 +24,6 @@ WATCH_WINDOW = 5
 WATCH_MIN = 2
 WATCH_CAP = 3
 
-GATED = ("revised", "published")
-
 CONFIG_KEYS = [
     "genre", "subgenre",
     "narration.person", "narration.tense", "narration.distance", "narration.interiority",
@@ -165,17 +163,20 @@ def _table_block(headers, rows):
     return "\n".join(out)
 
 
-def ungated(novel, number):
-    """Chapters below `number` the Phase C gate never ran on, newest first.
+def regate_target(numbers):
+    """How to name a set of ungated chapters back to the user.
 
-    It reads `status:` out of frontmatter and reports what it says. A chapter at `drafted` is
-    one the gate has not passed, which is a fact about the file and not an opinion about the
-    prose - the script finds, the model judges.
+    A range only when the run is unbroken: `1-4` where chapters 1 and 4 are ungated but 2 and 3
+    are not would send the user to re-gate two chapters that already passed.
     """
-    out = [c for c in novel.chapters()
-           if c.number is not None and c.number < number
-           and str(c.meta.get("status", "")).strip().lower() not in GATED]
-    return sorted(out, key=lambda c: c.number, reverse=True)
+    nums = sorted(numbers)
+    if len(nums) == 1:
+        return "`/novel-write %d`" % nums[0]
+    if nums == list(range(nums[0], nums[-1] + 1)):
+        return "`/novel-write %d-%d`" % (nums[0], nums[-1])
+    shown = ", ".join(str(n) for n in nums[:6])
+    return "ch %s%s, one at a time" % (shown, "" if len(nums) <= 6 else
+                                       " and %d more" % (len(nums) - 6))
 
 
 def watch_row(novel, number):
@@ -224,7 +225,7 @@ def build(novel, number, chars=None, locs=None, want_society=False):
     add("# characters resolved: %s  (%s)" % (", ".join(characters) or "none", why))
     add("# locations resolved:  %s" % (", ".join(locations) or "none"))
 
-    stale = ungated(novel, number)
+    stale = novel.ungated_chapters(below=number)
     row, notes = watch_row(novel, number)
     if stale or row or notes:
         add("\n## GATE (write-chapter phase C - what it left behind)")
@@ -232,10 +233,9 @@ def build(novel, number, chars=None, locs=None, want_society=False):
         add("DEFECT ch %d is `status: %s` - the phase C gate never ran on it%s."
             % (stale[0].number, str(stale[0].meta.get("status", "")).strip() or "?",
                "" if len(stale) == 1 else " (%d ungated below %d)" % (len(stale), number)))
-        add("       Re-gate before drafting: `/novel-write %s`. A chapter is not finished at"
-            % (str(stale[0].number) if len(stale) == 1
-               else "%d-%d" % (stale[-1].number, stale[0].number)))
-        add("       `drafted`, and the defects it kept are the ones this chapter inherits.")
+        add("       Re-gate before drafting: %s. A chapter is not finished at `drafted`,"
+            % regate_target(c.number for c in stale))
+        add("       and the defects it kept are the ones this chapter inherits.")
     if row:
         add("WATCH  %s" % " | ".join(row))
         add("       What the gate keeps having to fix. Write against it in phase B. It is a")

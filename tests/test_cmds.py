@@ -156,6 +156,22 @@ class TestReadsetGateSection(unittest.TestCase):
             self.assertEqual(block.count("DEFECT"), 1, "one line, not one per chapter")
             self.assertIn("4 ungated below 5", block)
 
+    def test_a_broken_run_is_not_offered_as_a_range(self):
+        """`/novel-write 1-4` would re-gate chapters 2 and 3, which already passed."""
+        with NovelFixture() as fx:
+            for n in range(1, 5):
+                fx.add_chapter(n, BODY)
+            for n in (2, 3):
+                path = fx.path("chapters", "%04d-chapter.md" % n)
+                with open(path, encoding="utf-8") as fh:
+                    text = fh.read()
+                with open(path, "w", encoding="utf-8", newline="\n") as fh:
+                    fh.write(text.replace("status: drafted", "status: revised"))
+            _code, out, _err = run("readset", fx.root, "-c", "5")
+            block = self.gate_block(out)
+            self.assertNotIn("1-4", block)
+            self.assertIn("ch 1, 4", block)
+
     def test_gate_lines_from_recent_blocks_are_echoed(self):
         with NovelFixture() as fx:
             fx.add_chapter(1, BODY)

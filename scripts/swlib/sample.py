@@ -1082,8 +1082,8 @@ def _chapter_file(index, entry, wordcount):
 # `gate>` on every block would be a habit rather than a record - and an absent line is the
 # clean signal the format is built around.
 SAMPLE_GATE = {
-    3: "campaign-clause x2, dialogue share 19%",
-    5: "closer-sameness, phase B redraft of scene 2",
+    3: "campaign-clause x2, speech-share 19%",
+    5: "closer-sameness, Pass Z redraft of scene 2",
 }
 
 

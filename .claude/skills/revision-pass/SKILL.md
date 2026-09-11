@@ -1,6 +1,6 @@
 ---
 name: revision-pass
-description: Quality gate for a drafted chapter - continuity, character, voice, knowledge, structure, world, bias, prose and delivery checks in a fixed order. Use as write-chapter phase C, on every chapter.
+description: Quality gate for a drafted chapter - continuity, character, voice, knowledge, structure, world, bias, prose and delivery checks in a fixed order. Use as write-chapter Phase C, on every chapter.
 ---
 
 # revision-pass
@@ -43,26 +43,31 @@ read **zero** times across 200 measured turns, boxes ticked on every chapter. So
 passes now live with the skill that owns the defect, as a small **audit card** — cheap to open,
 and written by the owner, so nothing here is a paraphrase.
 
+Six passes have no other owner — 1, 4, 7's structural half, 9's, 9d and 10. Their checks moved
+one file down to **`references/owned-passes.md`**, written as check / failure / cheapest repair,
+so this body stays the pass order and the gates rather than a checklist nobody opened a source
+for.
+
 | pass | kind of defect | what to open |
 |---|---|---|
 | Z Story gate | judgement | nothing — the three questions above |
 | 0 Mechanical sweep | mechanical | nothing — run the commands |
-| 1 Continuity | mechanical | nothing — the read-set is the authority |
+| 1 Continuity | mechanical | `references/owned-passes.md` §Pass 1 — the read-set is the authority |
 | 2 Character + voice | **distributional** | `voice-separation/references/audit-card.md` · `character-profile/references/audit-card.md` |
 | 3 Intelligence + knowledge | **distributional** | `mc-intel-meter/references/audit-card.md` · `competence-map/references/audit-card.md` |
-| 4 Structure | mechanical | nothing |
+| 4 Structure | mechanical | `references/owned-passes.md` §Pass 4 |
 | 5 World | judgement | `world-texture/references/audit-card.md` |
 | 6 Bias | **distributional** | `bias-guard/references/audit-card.md` — **every chapter, never rotated** |
-| 7 MTL detox | **distributional** | `mtl-detox/references/audit-card.md` — the banned list is `sw lint`'s; the structural half is not |
+| 7 MTL detox | **distributional** | `mtl-detox/references/audit-card.md` · `references/owned-passes.md` §Pass 7 — the banned list is `sw lint`'s; the structural half is not |
 | 8 Prose + microtension | judgement | `prose-quality/references/audit-card.md` |
 | 8b Register + house style | **distributional** | `prose-quality/references/ai-default-tells.md` — the tells this model produces once the MTL list is already clean |
-| 9 Delivery | judgement | nothing — the five questions are here in full |
+| 9 Delivery | judgement | the five questions are here in full · `references/owned-passes.md` §Pass 9 for the rest |
 | 9b Opening | **judgement** | `story-opening/references/audit-card.md`, chapters in range only |
 | 9c Foreknowledge | **distributional** | `meta-knowledge/references/audit-card.md`, if `mc.foreknowledge` |
-| 9d Theme | judgement | nothing — the restraint test is here in full |
+| 9d Theme | judgement | `references/owned-passes.md` §Pass 9d |
 | 9e Power curve | judgement | `power-scaling/references/audit-card.md`, if `scaling.shape` is not `none` |
 | 9f Pacing + build-up | **judgement** | `story-craft/references/audit-card.md` |
-| 10 Mechanics | mechanical | `narrator-voice/references/audit-card.md` for the four channels |
+| 10 Mechanics | mechanical | `references/owned-passes.md` §Pass 10 · `narrator-voice/references/audit-card.md` for the four channels |
 
 **Run Pass 0 first.** It settles every mechanical row in seconds and for no tokens, which buys the
 budget for the cards. A clean sweep is **not** a passed revision: it says nothing about Z, 2, 3,
@@ -72,7 +77,7 @@ If the budget will not stretch to every card, rotate — but **say which passes 
 card**, in the report's `Gate:` line. Three never rotate: **Pass Z**, **Pass 6**, and **Pass 9c**
 when the MC knows the future.
 
-The budget is thinnest exactly here, and structurally so: phase A spent the draft cards and phase
+The budget is thinnest exactly here, and structurally so: Phase A spent the draft cards and phase
 B spent a chapter before this pass was reached. Rotating and saying so is honest. Ticking a box you
 did not check is what put five machine-written chapters past sixteen passes.
 
@@ -101,23 +106,8 @@ not run. The scripts are an optimisation, never a dependency.
 
 ## Pass 1 — Continuity
 
-Against the read-set from `continuity-summary`.
-
-- [ ] No contradiction with the last five CCS blocks
-- [ ] No character knows something their `kno>` history does not support
-- [ ] Names, terms, titles and spellings match `bible/lexicon.md` exactly
-- [ ] In-world time is consistent with `state/timeline.md`; travel times plausible
-- [ ] Objects, injuries and possessions persist — the coat, the scar, the debt
-- [ ] Nothing contradicts an established rule in `bible/world.md`, `society.md` or `power-system.md`
-- [ ] Character positions match where the last chapter left them
-
-**Form check** — only if a character in the chapter is `form_locked`. Read `state/body.md` §1–§2:
-
-- [ ] Every physical description matches the CURRENT FORM row — nothing from a later stage
-- [ ] No capability exceeded the stage's absolute limits: reach, strength, stamina, voice
-- [ ] Others reacted to the body, not to the mind inside it
-- [ ] Any adult diction from a child's body was noticed by someone, or deliberately masked
-- [ ] A stage transition, if one fired, is logged in §4 with what it enables and what it costs
+Against the read-set, which is the authority. Seven checks and the `form_locked` form check:
+**`references/owned-passes.md` §Pass 1**.
 
 ## Pass 2 — Character and voice
 
@@ -136,15 +126,8 @@ at the seam: a high intel tier waved through as a licence to know facts.
 
 ## Pass 4 — Structure
 
-- [ ] Every scene has goal / obstacle / turn / cost
-- [ ] No scene exits on a plain yes
-- [ ] The chapter's cost is stateable in one concrete sentence
-- [ ] At least two of the four conflict sources active
-- [ ] Thread ops match the plan row; the ledger will be updated
-- [ ] The `wld>` line is filled: the world did something offstage this chapter
-- [ ] Any world-track event that fired is logged in the divergence ledger, with what it opened
-- [ ] Crisis count is within `timeline.crisis_cap`; nothing took an `ending.non_negotiable`
-- [ ] Skim test: name the one thing a reader would miss if they skipped this chapter
+Goal/obstacle/turn/cost per scene, the exits, the conflict sources, the thread ops, the `wld>`
+line, the crisis cap, the skim test: **`references/owned-passes.md` §Pass 4**.
 
 ## Pass 5 — World
 
@@ -158,17 +141,10 @@ anywhere in the toolkit, deliberately.
 
 ## Pass 7 — MTL detox
 
-Open **`mtl-detox/references/audit-card.md`**. `sw lint` searches the whole banned list and
-counts narration exclamation marks and rhetorical questions — the first two boxes are its output.
-The rest are structural: no script can see a crowd-reaction block, price a confrontation, or hear
-translationese in a rhythm, and a clean sweep says nothing about any of them.
-
-- [ ] Zero banned phrases
-- [ ] Zero exclamation marks in narration
-- [ ] No crowd-reaction block
-- [ ] No rank recital or system lecture
-- [ ] No face-slap loop; every confrontation cost the winner something
-- [ ] No paragraph saying the same thing three ways
+Open **`mtl-detox/references/audit-card.md`**. `sw lint` searches the whole banned list and counts
+narration exclamation marks and rhetorical questions — that is the countable half, and a clean
+sweep says nothing about the rest. The five structural checks no script can see are in
+**`references/owned-passes.md` §Pass 7**.
 
 ## Pass 8 — Prose and microtension
 
@@ -201,19 +177,8 @@ passes this pass while nothing happens in it.
 | **Cost** | What was paid, by whom? | Nothing. See `conflict-engine` — nothing is free |
 | **Next** | What does the reader now need to see? | The hook asks a question the chapter already answered |
 
-- [ ] All five answered without straining, and `delivers:` matches what the chapter did
-- [ ] **Change** names a difference, not a summary of events. *"She asks about the recount"* is
-      events; *"she is now someone Tsuru watches on purpose"* is a delivery
-- [ ] Anything repeated from an earlier chapter **escalated** — a second refusal or interrogation
-      costs more than the first, or one of them is cut
-- [ ] Skim test: a reader who skipped it would lose something nameable
-- [ ] **Forecast test.** If a reader could predict the next chapter from this one's ending, the
-      hook is a summary, not a hook
-- [ ] Opening avoids the banned patterns; re-anchoring is one clause
-- [ ] Chapter ends on its last strong beat; hook concrete, final position, type rotated
-
-**Length**: if the chapter is far outside `chapters.length_band`, ask once whether the material
-was split in the wrong place, then move on. Never pad, trim, or record a length judgement.
+Seven further checks — whether those answers were honest, the escalation rule, the skim and
+forecast tests, the opening and the hook: **`references/owned-passes.md` §Pass 9**.
 
 ## Pass 9b — The opening — chapters ≤ `opening.contract_by_ch + 2` only
 
@@ -226,17 +191,9 @@ Open **`meta-knowledge/references/audit-card.md`**. Not rotatable.
 
 ## Pass 9d — Theme
 
-Skip if `theme.controlling_idea` is empty. The measured failure mode of machine-written fiction is
-not an absent theme but a **narrated** one: AI narrators state the story's meaning outright about
-77% of the time against 52% for human writers. So this pass tests restraint, not presence.
-
-- [ ] **No narration sentence states the lesson.** The narrator does not explain what the book
-      means, what a character has learned, or what any of it says about people
-- [ ] If the controlling idea is spoken aloud, a **character** speaks it — and is either wrong
-      about it, or pays for being right
-- [ ] `theme.counter_case` is alive: somebody in this arc argues the other side and is allowed to
-      be persuasive. If the counter-case has never won a scene, the theme is a sermon
-- [ ] The chapter tests the idea through a choice rather than through a conversation about it
+Skip if `theme.controlling_idea` is empty. This pass tests **restraint, not presence** — the
+measured failure of machine-written fiction is a narrated theme, not an absent one. Four checks:
+**`references/owned-passes.md` §Pass 9d**.
 
 ## Pass 9e — The power curve — only if `scaling.shape` is not `none`
 
@@ -263,21 +220,15 @@ played bridge goes back to being a bridge.
 
 ## Pass 10 — Mechanics
 
-- [ ] Frontmatter complete, including `event:` and `delivers:`
-- [ ] `wordcount:` is **measured**, never estimated, and re-measured if any pass changed the body.
-      A wrong count propagates into `state/continuity.md` and corrupts every share computed from
-      it. Run this **last** — it rewrites frontmatter only, never the prose:
+Frontmatter, scene breaks, the POV label, and the measured word count — **`references/owned-passes.md`
+§Pass 10**. Stamping runs **last**, because a pass that changes the body changes the count:
 
-      ```bash
-      python3 scripts/sw.py stamp novels/<slug> -c <n> --status revised --ledger
-      ```
+```bash
+python3 scripts/sw.py stamp novels/<slug> -c <n> --status revised --ledger
+```
 
-      Without Python, measure the body with `wc -w` and write both numbers by hand
-- [ ] Scene breaks use `* * *`
-- [ ] POV label present if the chapter switches and `label_switches` is true
-
-**The four channels** — open `narrator-voice/references/audit-card.md`. Hard rule 7 is that
-skill's to enforce, and this file does not carry other skills' checklists.
+**The four channels** are `narrator-voice`'s to enforce — open that skill's audit card. This file
+does not carry other skills' checklists.
 
 ---
 

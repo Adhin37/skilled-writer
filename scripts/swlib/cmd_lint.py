@@ -47,8 +47,6 @@ def lint_chapter(novel, ch, rep=None):
     return rep
 
 
-# --------------------------------------------------------------- Pass 10
-
 
 def check_counts(novel, ch):
     """Which checks fired on one chapter, and how many findings each raised.
@@ -66,6 +64,10 @@ def check_counts(novel, ch):
         if f.level in ("defect", "warn"):
             counts["checks"][f.check] = counts["checks"].get(f.check, 0) + 1
     return counts
+
+
+# --------------------------------------------------------------- Pass 10
+
 
 def _frontmatter(novel, ch, rep):
     p = ch.path

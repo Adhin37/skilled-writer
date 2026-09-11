@@ -371,6 +371,6 @@ def _slash_commands(repo_root, rep):
         rep.defect("slash-command", "CLAUDE.md section 7 lists `/%s`, which has no file in "
                                     ".claude/commands/" % name, path=claude)
     for name in sorted(have - named):
-        rep.defect("slash-command", ".claude/commands/%s.md exists but CLAUDE.md section 7 does "
-                                    "not list it - an undocumented command is an unused one"
-                   % name, path=os.path.join(d, name + ".md"))
+        rep.warn("slash-command", ".claude/commands/%s.md exists but CLAUDE.md section 7 does "
+                                  "not list it - an undocumented command is an unused one"
+                 % name, path=os.path.join(d, name + ".md"))

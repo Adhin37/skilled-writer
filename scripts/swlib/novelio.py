@@ -10,6 +10,10 @@ import re
 from . import mdio
 from .textstats import Channels, Chapter, load_chapters
 
+# A chapter is "gated" once write-chapter phase C has passed it. `published` counts because a
+# chapter cannot reach it without having been revised first.
+GATED_STATUS = ("revised", "published")
+
 
 class CCSBlock(object):
     """One `=CNNNN=` chapter block from state/continuity.md."""
@@ -185,6 +189,18 @@ class Novel(object):
         if "chapter_index" not in self._cache:
             self._cache["chapter_index"] = {c.number: c for c in reversed(self.chapters())}
         return self._cache["chapter_index"].get(number)
+
+    def ungated_chapters(self, below=None):
+        """Chapters the write-chapter phase C gate never passed, newest first.
+
+        Reads `status:` out of frontmatter and reports what it says: a chapter at `drafted` is
+        one the gate has not run on, which is a fact about the file rather than an opinion
+        about the prose. `below` bounds it to chapters before that number.
+        """
+        out = [c for c in self.chapters()
+               if c.number is not None and (below is None or c.number < below)
+               and str(c.meta.get("status", "")).strip().lower() not in GATED_STATUS]
+        return sorted(out, key=lambda c: c.number, reverse=True)
 
     # ----------------------------------------------------------------- ledger
 
