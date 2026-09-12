@@ -34,22 +34,8 @@ TABLE_ACCESSORS = [
     ("competence_rows", ("bible", "cast", "_competence.md"), ("character", "domain", "level")),
 ]
 
-# Every section a parser slices out by heading text. A renamed heading drops it silently.
-SECTION_LOOKUPS = [
-    (("bible", "cast", "_voices.md"),    "POV THOUGHT"),
-    (("bible", "cast", "_voices.md"),    "MIRROR"),
-    (("plan", "timeline.md"),            "SCHEDULED FOR THIS ARC"),
-    (("state", "body.md"),               "CURRENT FORM"),
-    (("state", "body.md"),               "ABSOLUTE LIMITS"),
-    (("state", "foreknowledge.md"),      "THE GRAIN"),
-    (("state", "foreknowledge.md"),      "THE INVENTORY"),
-    (("state", "foreknowledge.md"),      "THE SPEND LOG"),
-    (("state", "power.md"),              "CURRENT STANDING"),
-    (("state", "power.md"),              "THE LADDER"),
-    (("state", "power.md"),              "ACTIVE BOOSTS"),
-    (("state", "continuity.md"),         "BOOK DIGEST"),
-    (("state", "continuity.md"),         "ARC DIGEST"),
-]
+SECTION_LOOKUPS = rules.SECTION_LOOKUPS
+
 
 # Axes a skill requires every character to carry. The template is where a new novel gets its
 # slots, so an axis the corpus mandates and the template does not offer is an axis no novel will

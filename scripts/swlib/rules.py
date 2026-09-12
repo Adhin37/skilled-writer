@@ -221,6 +221,23 @@ REQUIRED_FRONTMATTER = ["number", "title", "pov", "arc", "event", "delivers", "w
                         "status"]
 
 # continuity-summary: CCS lines that are required on every block.
+# Every section a parser slices out by heading text. A renamed heading drops it silently.
+SECTION_LOOKUPS = [
+    (("bible", "cast", "_voices.md"),    "POV THOUGHT"),
+    (("bible", "cast", "_voices.md"),    "MIRROR"),
+    (("plan", "timeline.md"),            "SCHEDULED FOR THIS ARC"),
+    (("state", "body.md"),               "CURRENT FORM"),
+    (("state", "body.md"),               "ABSOLUTE LIMITS"),
+    (("state", "foreknowledge.md"),      "THE GRAIN"),
+    (("state", "foreknowledge.md"),      "THE INVENTORY"),
+    (("state", "foreknowledge.md"),      "THE SPEND LOG"),
+    (("state", "power.md"),              "CURRENT STANDING"),
+    (("state", "power.md"),              "THE LADDER"),
+    (("state", "power.md"),              "ACTIVE BOOSTS"),
+    (("state", "continuity.md"),         "BOOK DIGEST"),
+    (("state", "continuity.md"),         "ARC DIGEST"),
+]
+
 REQUIRED_CCS = ["dlv", "ev", "chg", "kno", "thr", "obj", "hook"]
 
 # Raised 15 -> 17 when `cand>` and `z4>` arrived. Every block of the heaviest live novel sat at

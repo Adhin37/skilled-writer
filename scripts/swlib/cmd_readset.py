@@ -33,6 +33,9 @@ WATCH_WINDOW = 5
 WATCH_MIN = 2
 WATCH_CAP = 4
 
+# Log rows carried into a read-set: enough to price elapsed time, never the whole calendar.
+TIMELINE_LOG_ROWS = 4
+
 CONFIG_KEYS = [
     "genre", "subgenre",
     "narration.person", "narration.tense", "narration.distance", "narration.interiority",
@@ -492,6 +495,25 @@ def build(novel, number, chars=None, locs=None, want_society=False):
     add("\n## 10. WORLD TRACK - scheduled for this arc")
     add(sched or "(nothing scheduled)")
 
+    # The world's own clock, which reached no read-set at all until now - not even the NOT
+    # LOADED list, so a drafter could not have asked for it by name. `revision-pass` Pass 1
+    # gates travel and elapsed time against this file and `plot-threads`' audit card checks
+    # it, and run #4's five warm chapters left its Log table empty; the cold agent found it.
+    # Two slices only: the last few Log rows, which is where the clock actually is, and the
+    # crisis board, which is live state with deadlines on it.
+    ttext = novel._text("state", "timeline.md")
+    log_tables = mdio.tables_under(ttext, "Log")
+    crisis_tables = mdio.tables_under(ttext, "Crisis board")
+    log_rows = log_tables[0].rows if log_tables else []
+    crisis = crisis_tables[0].rows if crisis_tables else []
+    if log_rows or crisis:
+        add("\n## 10b. WORLD CLOCK (state/timeline.md - the calendar and what is live)")
+    if log_rows:
+        add(_table_block(log_tables[0].headers, log_rows[-TIMELINE_LOG_ROWS:]))
+    if crisis:
+        add("\n### crises open now (cap %s)" % (novel.get("timeline.crisis_cap") or "3"))
+        add(_table_block(crisis_tables[0].headers, crisis))
+
     if novel.form_locked:
         btext = novel._text("state", "body.md")
         add("\n## 11. BODY LEDGER (a character is form_locked)")
@@ -530,6 +552,8 @@ def build(novel, number, chars=None, locs=None, want_society=False):
         "bible/cast/_extras.md - load the roster line when a walk-on returns",
         "CCS blocks before %d, and arc digests older than the previous arc" % max(1, number - 5),
         "plan/arcs.md, plan/timeline.md sections 1-3 and 5-6",
+        "state/timeline.md beyond the last %d log rows and the crisis board - the divergence "
+        "ledger and the fired-events table are there" % TIMELINE_LOG_ROWS,
         "every chapter file - never read past prose unless the user asks for a specific one",
     ]
     if not want_society:

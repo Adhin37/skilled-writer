@@ -33,6 +33,7 @@ SEEDED = [
     ("ccs", "state/continuity.md", "mc.foreknowledge set with no `fk>` line on any block", "defect"),
     ("curve-pressure", "state/power.md", "a P value that disagrees with its own tiers", "defect"),
     ("straddle", "bible/cast/_voices.md", "nobody left below the MC's intel tier", "defect"),
+    ("ledger", "state/continuity.md", "a CCS block appended out of chapter order", "defect"),
 ]
 
 
@@ -1271,6 +1272,16 @@ def _seed(root):
 
     # straddle - lift the only character below the MC up to her tier. Her eq moves with it,
     # so the plant stays a pure straddle failure rather than also tripping `eq-clash`.
+    # ledger ordering - swap two adjacent blocks. Every block keeps its own number and all of
+    # its content, so `ccs`, `wc:` and the per-chapter checks stay clean and the only thing
+    # wrong is where the block sits. Before run #4's T5 this passed `state` and `lint` both.
+    text = _read(root, "state/continuity.md")
+    head, sep, body = text.partition("=C0003=")
+    third, sep4, rest = body.partition("=C0004=")
+    fourth, sep5, tail = rest.partition("=C0005=")
+    _write(root, "state/continuity.md",
+           head + sep4 + fourth + sep + third + sep5 + tail)
+
     text = _read(root, "bible/cast/_voices.md")
     text = text.replace("| Bel | B | 2 | 3 | 2 |", "| Bel | B | 3 | 5 | 2 |")
     _write(root, "bible/cast/_voices.md", text)

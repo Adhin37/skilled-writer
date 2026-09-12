@@ -8,7 +8,7 @@ comparing what one file records against what another one does.
 import os
 import re
 
-from . import rules
+from . import mdio, rules
 from .report import Report
 
 PLAN_REQUIRED = ["goal", "obstacle", "turn", "delivers", "cost", "hook"]
@@ -32,6 +32,7 @@ def run(novel):
 
     _files(novel, rep)
     _ledger(novel, rep, chapters, blocks)
+    _sections(novel, rep)
     _digest(novel, rep, blocks)
     _threads(novel, rep, blocks, last_ch)
     _plan(novel, rep, chapters, last_ch)
@@ -53,6 +54,30 @@ def _files(novel, rep):
                    path=novel.path("novel.md"))
 
 
+def _sections(novel, rep):
+    """Headings the read-set slices by, checked against THIS novel rather than the template.
+
+    `sw health` has always checked these, and only ever against `novels/_template`. A live
+    novel whose heading somebody renamed - or whose file an agent rewrote from memory - drops
+    that section from every read-set it ever assembles, silently, and the read-set header
+    tells the drafter not to open the source file for anything it lists. That is T7's shape:
+    the failure is invisible precisely because the contract says not to go and look.
+
+    A file that does not exist is not a finding here. Which files a novel owes is decided by
+    its config, and `_files` above already answers that.
+    """
+    for parts, heading in rules.SECTION_LOOKUPS:
+        path = novel.path(*parts)
+        if not os.path.isfile(path):
+            continue
+        got = mdio.section(novel._text(*parts), heading)
+        if not (got and got.strip()):
+            rep.warn("sections",
+                     "%s has no non-empty `%s` section - every read-set slices it by that "
+                     "heading and drops it without saying so" % ("/".join(parts), heading),
+                     path=path)
+
+
 def _ledger(novel, rep, chapters, blocks):
     lpath = novel.path("state", "continuity.md")
     by_num = {}
@@ -61,6 +86,19 @@ def _ledger(novel, rep, chapters, blocks):
             rep.defect("ledger", "two blocks numbered =C%04d=" % b.number, path=lpath,
                        line=b.line_no)
         by_num[b.number] = b
+
+    # Sequence, not just content. `sw state` and `sw lint` both checked what a block *says*
+    # and neither checked where it sat, so a block appended out of order passed both (run #4,
+    # T5 - caught by a human re-reading the file). The ledger is read as a history: the CCS
+    # rule is "one block per chapter, appended", and an arc digest is built by walking it in
+    # order, so a block in the wrong place is a chapter that happened at the wrong time.
+    numbers = [b.number for b in blocks if b.number is not None]
+    out_of_order = [(prev, cur) for prev, cur in zip(numbers, numbers[1:]) if cur <= prev]
+    for prev, cur in out_of_order:
+        rep.defect("ledger", "block =C%04d= is written after =C%04d= - blocks are appended in "
+                   "chapter order and read as a history. Move it, do not renumber it"
+                   % (cur, prev), path=lpath,
+                   line=next((b.line_no for b in blocks if b.number == cur), None))
 
     for c in chapters:
         if c.number and c.number not in by_num:

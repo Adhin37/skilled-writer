@@ -19,6 +19,10 @@ page*, whether an opponent is a person or a number, or whether a win felt free, 
 
 - [ ] Every confrontation has a pressure value in `state/power.md` §3, and the CCS `pwr>` line
       agrees with it
+- [ ] **A chapter with no confrontation still has a `pwr>` line.** It is not a combat field: it
+      records what the chapter spent, and a quiet chapter spends something. Write
+      `pwr> P=n/a no contest / <abilities used, or none> / <cost paid>`. Run #4's drafter read
+      this as a fight-only line, missed it for four chapters and had to backfill every block
 - [ ] The pressure was decided **before** the opponent — no opponent invented at the strength the
       scene needed and priced afterwards
 - [ ] The chapter sits inside its arc's planned band (§6), or the deviation is deliberate and the

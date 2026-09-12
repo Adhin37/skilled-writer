@@ -306,8 +306,13 @@ def _ccs_agreement(novel, rep, lpath, by_ch):
     for b in novel.blocks():
         keys = b.keys()
         if "pwr" not in keys:
-            rep.warn("curve-ccs", "block =C%04d= has no `pwr>` line, but scaling.shape is `%s` "
-                     "- record the pressure, or record that nothing was contested"
+            # The message names the no-confrontation form, because that is the case people
+            # get wrong. Run #4's agent read "record the pressure" as applying to chapters
+            # with a fight in them, missed it until chapter 5, and backfilled all five blocks.
+            rep.warn("curve-ccs", "block =C%04d= has no `pwr>` line, but scaling.shape is `%s`. "
+                     "Every block needs one, including a chapter with no confrontation in it - "
+                     "write `pwr> P=n/a no contest / <abilities spent, or none>` and record "
+                     "what the chapter cost"
                      % (b.number, novel.scaling_shape), path=lpath, line=b.line_no)
             continue
         m = re.search(r"\bP\s*=?\s*([+-]?\d+)", " ".join(keys["pwr"]))

@@ -665,3 +665,72 @@ class TestWideningArtifacts(unittest.TestCase):
             self.assertNotIn("cand", out)
             self.assertNotIn("`z4>`", out)
             self.assertNotEqual(code, 2)
+
+
+class TestSectionLookupsOnLiveNovels(unittest.TestCase):
+    """A renamed heading in a real novel drops that section from every read-set.
+
+    `sw health` has always checked these headings and only ever against `novels/_template`.
+    The failure is invisible by construction: the read-set header tells the drafter not to
+    open the source file for anything it lists, so a section that quietly stopped being
+    sliced is a section nobody goes looking for. That is run #4's T7 shape.
+    """
+
+    def test_a_renamed_heading_is_reported(self):
+        from swlib import rules
+        with NovelFixture() as fx:
+            fx.add_chapter(1, BODY)
+            fx.add_ledger([1])
+            path = fx.path("state", "power.md")
+            if not os.path.isfile(path):
+                self.skipTest("template has no state/power.md")
+            with open(path, encoding="utf-8") as fh:
+                text = fh.read()
+            self.assertIn("CURRENT STANDING", text)
+            fx.write("state/power.md", text.replace("CURRENT STANDING", "WHERE EVERYONE IS"))
+            _code, out, _err = run("state", fx.root)
+            self.assertIn("sections", out)
+            self.assertIn("CURRENT STANDING", out)
+            # and the registry is the single shared list, not a second copy
+            self.assertIn((("state", "power.md"), "CURRENT STANDING"),
+                          [(tuple(p), h) for p, h in rules.SECTION_LOOKUPS])
+
+    def test_an_absent_file_is_not_a_finding(self):
+        """Which files a novel owes is a config question, answered elsewhere."""
+        with NovelFixture() as fx:
+            fx.add_chapter(1, BODY)
+            fx.add_ledger([1])
+            for rel in ("state/body.md", "state/foreknowledge.md"):
+                p = fx.path(*rel.split("/"))
+                if os.path.isfile(p):
+                    os.remove(p)
+            _code, out, _err = run("state", fx.root)
+            self.assertNotIn("body.md has no non-empty", out)
+            self.assertNotIn("foreknowledge.md has no non-empty", out)
+
+
+class TestLedgerOrdering(unittest.TestCase):
+    """Blocks are appended in chapter order and read as a history (run #4, T5).
+
+    `sw state` and `sw lint` both checked what a block says and neither checked where it sat,
+    so a block written out of sequence passed both. It was caught by a human re-reading the
+    file, which is not a control.
+    """
+
+    def test_a_block_out_of_order_is_a_defect(self):
+        with NovelFixture() as fx:
+            for n in (1, 2, 3):
+                fx.add_chapter(n, BODY)
+            fx.add_ledger([1, 3, 2])
+            code, out, _err = run("state", fx.root)
+            self.assertIn("ledger", out)
+            self.assertIn("=C0002=", out)
+            self.assertEqual(code, 1)
+
+    def test_blocks_in_order_are_clean(self):
+        with NovelFixture() as fx:
+            for n in (1, 2, 3):
+                fx.add_chapter(n, BODY)
+            fx.add_ledger([1, 2, 3])
+            _code, out, _err = run("state", fx.root)
+            self.assertNotIn("is written after", out)
