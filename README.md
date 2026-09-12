@@ -113,25 +113,29 @@ Other commands: `/novel-status`, `/novel-plan`, `/novel-character`, `/novel-reca
 
 ## What it costs to run
 
-Measured on a real run — one Naruto fan fiction, Claude Sonnet 5, scaffold plus five revised
-chapters. Full method, raw tables and caveats in [docs/benchmark.md](docs/benchmark.md).
+Measured on a real run — one Naruto fan fiction, Claude Sonnet 5, scaffold plus five gated
+chapters, plus a sixth written cold. Full method, raw tables and caveats in
+[docs/benchmark.md](docs/benchmark.md).
 
 | | |
 |---|---|
-| Setup — interview + full scaffold, one-time | **~$21**, ~40 min |
-| Each chapter after that | **~$1.90**, ~4 min |
-| A 30-chapter arc, end to end | **~$115**, ~3 hours |
+| Setup — interview + full scaffold + chapter 1 | **~$11**, ~35 min |
+| Each chapter after that | **~$3.80**, ~4 min |
+| A chapter written in a **fresh** session | **~$3.20**, ~17 min |
+| A 30-chapter arc, end to end | **~$110**, ~4 hours |
 
 Three things worth knowing before you start:
 
-- **You are not paying for prose.** Output was 3% of the bill. The other 97% is the model reading
+- **You are not paying for prose.** Output was under 2% of the bill. The rest is the model reading
   state back in. Cheap chapters come from a small read-set, not from short chapters.
-- **Setup is most of your first day's spend** — about eleven chapters' worth. It buys a bible, a
-  cast with a voice matrix and a competence grid, an arc plan and twelve planned chapters.
-- **Cost per chapter is flat only if you start a fresh session periodically.** Inside one long
-  session it climbs with conversation length: cache reads rose ~34% over three consecutive
-  chapters. The *read-set* is bounded; the *session* is not. `/novel-write` in a new session
-  picks up from the state files, and that is the cheap path.
+- **Write each chapter in a fresh session.** This is the single most important operating habit,
+  and it is not mainly about cost. Measured in run #4: an agent five chapters into one
+  conversation opened **5** of its ~36 resolved skill cards and **none** of the revision gate's.
+  A cold agent given the identical read-set for the next chapter opened **33**, and cost slightly
+  less. The read-set is bounded; the session is not, and what a long session rations away first is
+  the contract. `/novel-write` in a new session picks up from the state files.
+- **Setup is about three chapters' worth of spend.** It buys a bible, a cast with a voice matrix
+  and a competence grid, the society layer, an arc plan and twelve planned chapters.
 
 Run the audit on your own chapters to check the four channel shares, anchor vocabulary in the
 opening arc, `delivers:` presence, MTL artifacts, the cast tables and ledger integrity —
@@ -149,13 +153,12 @@ is specified as *slices* — this chapter's speakers, this chapter's locations, 
 ledger blocks. A model cannot read half a file, so in practice it read all of them, and the
 ledger grows with every chapter written. `sw readset` emits the slices instead. Measured on the
 sample novel, as bytes handed to the model: **62% smaller at chapter 6, 81% at chapter 45**, and
-where the whole-file set grew by 107 KB across that span the sliced one grew by 5 KB. That is a
-measurement of the bundle, **not** of the dollar figures above — those came from a real
-instrumented run and are not revised here on the strength of a byte count. Benchmark run #2 will
-settle it.
+where the whole-file set grew by 107 KB across that span the sliced one grew by 5 KB. Runs #2 and
+#4 bear this out on the dollar figures: per-chapter cost has not grown with chapter number, and
+the cold chapter 6 above cost less than the warm chapter 2 did.
 
-**These are numbers from one run of one genre**, stopped deliberately at chapter 5 when it turned
-up two defects worth fixing. It is a rough order of magnitude, not a quote.
+**These are numbers from one run of one genre**, stopped deliberately at chapter 6. All four
+benchmark runs so far have been Naruto fan fiction. It is a rough order of magnitude, not a quote.
 
 ## The skills
 

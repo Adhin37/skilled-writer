@@ -204,6 +204,37 @@ class TestToolAndSkillDetection(unittest.TestCase):
     def test_a_path_that_merely_mentions_skills_is_not_a_skill_load(self):
         self.assertEqual(self._skills("/r/docs/skills-notes.md"), {})
 
+    def _bash(self, command):
+        with Root() as root:
+            root.write("projects/-work-repo/s1.jsonl", [row(message={"content": [
+                {"type": "tool_use", "name": "Bash", "input": {"command": command}}]})])
+            return transcripts.sessions_for("/work/repo", root.dir)[0].skills
+
+    def test_a_skill_read_with_bash_is_a_skill_load(self):
+        """Benchmark run #4, T1.
+
+        A model told to prefer shell reads opens a skill with `cat`, and the path never reaches
+        `file_path`. `trace` reported "0 of 44 skills opened" for a run that opened thirteen, so
+        the finding-9 measurement was silently a measurement of which tool the model happened to
+        read with.
+        """
+        self.assertIn("story-craft",
+                      self._bash("cat .claude/skills/story-craft/references/draft-card.md"))
+
+    def test_several_skills_in_one_command_all_count(self):
+        skills = self._bash("sed -n 1,40p .claude/skills/bias-guard/SKILL.md "
+                            ".claude/skills/prose-quality/references/audit-card.md")
+        self.assertIn("bias-guard", skills)
+        self.assertIn("prose-quality", skills)
+
+    def test_the_same_file_twice_in_one_command_counts_once(self):
+        skills = self._bash("cat .claude/skills/mtl-detox/SKILL.md "
+                            ".claude/skills/mtl-detox/SKILL.md")
+        self.assertEqual(1, skills["mtl-detox"])
+
+    def test_a_command_naming_no_skill_is_not_a_skill_load(self):
+        self.assertEqual(self._bash("ls docs/ && grep -r skills README.md"), {})
+
 
 class TestChapterAttribution(unittest.TestCase):
 

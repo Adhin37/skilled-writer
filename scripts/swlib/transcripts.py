@@ -32,6 +32,12 @@ import re
 # A skill load, matched on the *suffix* of whatever absolute path the transcript recorded: the
 # repo sat somewhere else on the machine that wrote it, and will sit somewhere else again.
 SKILL_PATH = re.compile(r"(?:^|/)\.claude/skills/([a-z0-9][a-z0-9._-]*)/(.+)$")
+# The same path seen inside a shell command rather than in a `file_path` argument. A model told
+# to prefer Bash reads `cat .claude/skills/x/SKILL.md`, and the path never reaches an argument
+# this scanner used to look at - so benchmark run #4 reported "0 of 44 skills opened" for a run
+# that opened thirteen. The finding-9 measurement is only as good as the tool the model happens
+# to read with, so it has to see both.
+SKILL_IN_TEXT = re.compile(r"\.claude/skills/([a-z0-9][a-z0-9._-]*)/([A-Za-z0-9._/-]+)")
 CHAPTER_PATH = re.compile(r"(?:^|/)novels/([^/]+)/chapters/(\d+)[^/]*$")
 
 # Rows carrying no real usage. `<synthetic>` is Claude Code's own placeholder for a message it
@@ -276,6 +282,19 @@ def _scan_tools(sess, message, stamp):
 
         path = args.get("file_path") or args.get("path") or args.get("notebook_path")
         if not isinstance(path, str) or not path:
+            # A shell command carries its paths in the command string. Scan it for skill files
+            # so a Bash-driven read is not invisible; chapter writes stay argument-anchored,
+            # because `sed -i` and a heredoc are not reliably a write to the file named first.
+            for field in ("command", "cmd"):
+                text = args.get(field)
+                if isinstance(text, str) and text:
+                    seen = set()
+                    for skill, rest in SKILL_IN_TEXT.findall(text.replace("\\", "/")):
+                        if (skill, rest) in seen:
+                            continue
+                        seen.add((skill, rest))
+                        _bump(sess.skills, skill)
+                        _bump(sess.skill_files, "%s/%s" % (skill, rest))
             continue
         unix = path.replace("\\", "/")
         m = SKILL_PATH.search(unix)

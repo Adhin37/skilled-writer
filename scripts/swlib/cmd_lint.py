@@ -271,9 +271,19 @@ def _group_scenes(novel, ch, rep):
     get an axis. A check that guesses is a number somebody optimises.
     """
     names = [r.first() for r in novel.voice_rows()]
+    # A token shared by several cast members identifies none of them. Every name in a clan novel
+    # carries the clan name - and the clan itself is on the page constantly - so matching on it
+    # reported four speakers in scenes with one, on every chapter of benchmark run #4. The debut
+    # ledger prints a caveat about exactly this and leaves it to the reader; here the match is
+    # used to *count speakers*, which is a stronger claim than a ledger row and cannot be
+    # discounted by eye, so the shared token is dropped instead.
+    shared = {}
+    for name in names:
+        for t in set(t for t in re.split(r"[^\w']+", name) if len(t) >= 2):
+            shared[t] = shared.get(t, 0) + 1
     tokens = {}
     for name in names:
-        toks = [t for t in re.split(r"[^\w']+", name) if len(t) >= 2]
+        toks = [t for t in re.split(r"[^\w']+", name) if len(t) >= 2 and shared.get(t, 0) == 1]
         if toks:
             tokens[name] = toks
     if len(tokens) < 3:
@@ -295,10 +305,12 @@ def _group_scenes(novel, ch, rep):
         if len(here) < 3:
             continue
         rep.note("group-scene",
-                 "scene %d has %d cast members present and speaking (%s) - at three the scene "
-                 "changes category: one driver, the rest blocking or pressure, and somebody "
-                 "silent on purpose"
-                 % (index + 1, len(here), ", ".join(sorted(here))),
+                 "scene %d names %d cast members and carries %d spoken spans (%s) - at three "
+                 "speakers the scene changes category: one driver, the rest blocking or "
+                 "pressure, and somebody silent on purpose. Naming is not speaking: nothing "
+                 "here attributes a span to a person, so a character mentioned inside someone "
+                 "else's line is counted. Read it and discount it"
+                 % (index + 1, len(here), len(spans), ", ".join(sorted(here))),
                  path=ch.path, line=ch.line_of(start))
 
 

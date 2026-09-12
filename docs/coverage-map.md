@@ -44,7 +44,7 @@ Corpus at the time of writing: **44 skills, 118 knowledge files — 30 draft car
 | Whether the book switches viewpoint | `pov-switch` | body | draft card · audit 2 | `pov.mode != single` |
 | What the first chapters owe the reader | `story-opening` | body · `references/chapter-one.md` | draft card · audit 9b | ch ≤ contract+2 |
 | What the book argues, and the case against | `revision-pass` | `references/owned-passes.md` §9d | audit 9d | `theme` set |
-| The ending contract, and what may never be taken | `timeline-engine` | body §The ending contract | audit 4 | always |
+| The ending contract, and what may never be taken | `timeline-engine` | body §The ending contract | `plot-threads`' card · audit 4 | always |
 
 ## 2. The world
 
@@ -61,13 +61,13 @@ Corpus at the time of writing: **44 skills, 118 knowledge files — 30 draft car
 | Magic, cultivation, superhuman rules | `power-system` | body · **`references/system-design.md`** | **draft card · audit 5** | fantasy/scifi/progression |
 | Technology, the one speculation, second-order effects | `tech-plausibility` | body | **audit 5** | scifi |
 | Canon facts, the divergence point, the OOC budget | `fanfic-canon` | body · `references/canon-handling.md` | **draft card · audit 5** | fanfic |
-| The world's own clock, and its reaction to the MC | `timeline-engine` | body · `references/reaction-and-governor.md` | draft card · **audit 4** | always |
+| The world's own clock, and its reaction to the MC | `timeline-engine` | body · `references/reaction-and-governor.md` | `plot-threads`' cards · **audit 4** | always |
 
 ## 3. The cast
 
 | area | owner | taught in | spent in | fires |
 |---|---|---|---|---|
-| Tiers, debut, the walk-on roster | `character-profile` | body · `references/tier-a-and-b.md` | draft card · audit 2 | always |
+| Tiers, debut, the walk-on roster | `character-profile` | body · `references/tier-a-and-b.md` | `competence-map`'s draft card · audit 2 | always |
 | Antagonists, mirrors, canon characters | `character-profile` | `references/special-cases.md` | — | as needed |
 | **Non-human minds — beasts, constructs, gods** | `character-profile` | `references/nonhuman.md` | — | *new* · as needed |
 | Distinctness as minds; the voice matrix | `voice-separation` | body · `references/worked-example.md` | draft card · audit 2 | always |
@@ -75,10 +75,10 @@ Corpus at the time of writing: **44 skills, 118 knowledge files — 30 draft car
 | Clones, avatars, doubles | `voice-separation` | `references/mirror-clause.md` | — | a mirror exists |
 | How intelligent, and how they fail | `mc-intel-meter` | body · `references/writing-intelligence.md` | draft card · audit 3 | always |
 | **Plans, operations, deception on the page** | `mc-intel-meter` | `references/plans-and-lies.md` | — | *new* · a plan or a lie |
-| **How well they read people; emotional signature; the misread** | **`social-perception`** | **body · `references/reading-people.md`** | **draft card · audit 3b** | ***new* · always** |
+| **How well they read people; emotional signature; the misread** | **`social-perception`** | **body · `references/reading-people.md`** | **`mc-intel-meter`'s cards · audit 3b** | ***new* · always** |
 | Who knows what, where the edge is, who they ask | `competence-map` | body · `references/broad-knowledge.md` | draft card · audit 3 | always |
 | How a skill is actually acquired | `competence-map` | `references/acquisition-ladder.md` | — | a skill advances |
-| Moving an arc, and the voice delta | `character-development` | body · `references/ladders.md` | draft card · **audit 2** | always |
+| Moving an arc, and the voice delta | `character-development` | body · `references/ladders.md` | `voice-separation`'s cards · **audit 2** | always |
 | An MC who knows the future | `meta-knowledge` | body · `references/failure-modes.md` | draft card · audit 9c | `mc.foreknowledge` |
 | Inherited bias — overrides everything | `bias-guard` | body | audit 6 | always, never rotated |
 
@@ -126,6 +126,13 @@ modules included.
 
 Bold rows above are what this pass added: **17 module cards, 7 audit cards for always-on skills
 that had none, 2 new skills and 12 new references.**
+
+**`social-perception` has no card of its own.** It was written with one and the card budget
+took it the same day: its draft half sits on `mc-intel-meter`'s draft card and its audit half
+is Pass 3b on `mc-intel-meter`'s audit card, each naming both owners ([creative-latitude.md](creative-latitude.md)
+§What was built, item 6). The same merge moved `character-development` onto `voice-separation`'s cards,
+`timeline-engine` onto `plot-threads`' and `character-profile` onto `competence-map`'s. A row here
+names where a decision is *spent*, which after a merge is not the owner's own directory.
 
 ---
 
@@ -179,5 +186,9 @@ So the next sweep does not re-litigate it.
   leverage — but nothing owns the shape of a negotiation scene the way `scene-craft` owns a scene.
 - **Non-human POV.** `character-profile/references/nonhuman.md` builds one; `pov-switch` has not
   been asked whether one can narrate.
-- **The `eq` axis is unproven in a real run.** It is wired, checked and warned on. Whether it
-  changes a drafted chapter is a benchmark question, not a wiring one.
+- ~~**The `eq` axis is unproven in a real run.**~~ **Settled by benchmark run #4.** Given only a
+  premise and no mention of the axis, the writing agent set `mc.eq_tier` and filled `eq` for every
+  cast row, with a real spread against `intel` (4/3/5/3/4 against 4/3/5/3/4) and a deliberate
+  intel-5 / eq-1 antagonist. `sw cast` reports no `eq` finding of any kind. The axis reached the
+  page because the **template** carries the slot — which is the general lesson, and why `sw health`
+  now checks owner → template slot as well as config-key → owner.

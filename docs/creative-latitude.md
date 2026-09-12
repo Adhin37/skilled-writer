@@ -162,10 +162,19 @@ All six, in the order below. Measured against the same live novel at chapter 6.
 | cards opened for one chapter | 44 | **37** |
 | Phase A cards | 19 | **15** |
 | Phase C cards | 23 | **20** |
+| **words of instruction (A+C)** | **16,359** | **16,550** |
 | checkboxes live at once | 216 | **199** |
 | generative constructs in the per-chapter loop | **0** | **15** |
 | positive exemplars on the cards | **0** | **20** |
 | skills stating when to break their own rules | **0** | **5** |
+
+**The words row is the one that did not move, and it is the row that matters.** The card count
+fell 17% and the instruction load rose 1.2% — Phase C alone grew by 374 words. The merges in item
+6 moved text between files rather than removing it, and a merged card costs a drafter exactly what
+its two halves cost separately. `rules.CARD_BUDGET` bounds the card *count*, so nothing objected.
+The prune (item 6 of the plan, sequenced last) is therefore the item that is still outstanding,
+and `sw load` now prints the unconditional word figure beside the card budget so the next attempt
+has the right number in front of it.
 
 1. **`sw load <novel> -c N`** reports cards, words, checkboxes and negations per phase, and
    `rules.CARD_BUDGET` caps the unconditional set at 12 draft cards and 15 audit cards. `sw health`
@@ -190,8 +199,13 @@ All six, in the order below. Measured against the same live novel at chapter 6.
 **What did not improve: the corpus-wide ratio**, which went from 17.6 : 1 to 18.8 : 1. The
 exemplars and break clauses are themselves prose about failure, and the merges moved text rather
 than deleting it. That number was a diagnostic, not the target, and reporting it honestly matters
-more than moving it — the thing the plan set out to change was the per-chapter loop, and the table
-above is that.
+more than moving it.
+
+**But the same cause reached the per-chapter loop, which was the target.** The count fell and the
+words did not, for exactly the reason the ratio did not move: nothing here deleted anything. Five
+of the six items landed as designed and are measured above; the sixth — the prune — is the one
+that would have moved the words, and it was sequenced last on the argument that it is safest to
+cut once there is positive material to cut toward. That material now exists.
 
 ## Sequencing
 
@@ -214,9 +228,8 @@ note about dashes.
 
 ## Backlog — found during the expansion, unrelated to the above
 
-- **`tests/test_corpus.py` hardcodes `DRAFT_CARD_OWNERS` and `MODULE_CARD_OWNERS`.** A hand-typed
-  second copy of the corpus, which is the defect class this repo exists to remove. Derive both
-  from frontmatter and assert the *property* (every module has a card) rather than the list.
+- ~~**`tests/test_corpus.py` hardcodes `DRAFT_CARD_OWNERS` and `MODULE_CARD_OWNERS`.**~~ **Done** —
+  both registries are derived from frontmatter and the tests assert the property rather than the list.
 - **`kb passes` descriptions are inconsistent.** Cards written before the expansion describe
   themselves by pass name — "Bias", "Structure" — and newer ones by what they check. The
   dispatcher line is only useful in the second form; normalise.

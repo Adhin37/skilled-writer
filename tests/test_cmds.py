@@ -191,6 +191,50 @@ class TestReadsetModules(unittest.TestCase):
 
 
 
+class TestReadsetCharacterMatching(unittest.TestCase):
+    """Short names in the ledger must still find full names in the tables.
+
+    Benchmark run #4, T7. `_match` compared whole cells for equality, so a `chg>` line naming
+    `Yakumo` never matched the matrix row `Yakumo Kurama`, and the read-set printed "(no matrix
+    rows for these characters)" for the voice matrix, the growth ladder and the competence grid
+    at once — while its own header tells the drafter not to open the source files for anything it
+    lists. The three sections a drafter can least afford to lose, dropped in silence.
+    """
+
+    class Row(object):
+        def __init__(self, name):
+            self.name = name
+
+        def first(self):
+            return self.name
+
+    def match(self, names):
+        from swlib import cmd_readset
+
+        rows = [self.Row(n) for n in ("Yakumo Kurama", "Souta Kurama", "Enji Kurama",
+                                      "Sachi Kurama", "Hiruzen Sarutobi")]
+        return [r.first() for r in cmd_readset._match(rows, names)]
+
+    def test_a_given_name_finds_the_full_row(self):
+        self.assertEqual(["Yakumo Kurama"], self.match(["Yakumo"]))
+
+    def test_a_distinctive_surname_finds_the_full_row(self):
+        self.assertEqual(["Hiruzen Sarutobi"], self.match(["Sarutobi"]))
+
+    def test_a_shared_clan_name_matches_nobody(self):
+        """Otherwise every Kurama is in every scene, which is no slice at all."""
+        self.assertEqual([], self.match(["Kurama"]))
+
+    def test_a_full_name_still_matches_exactly_one(self):
+        self.assertEqual(["Sachi Kurama"], self.match(["Sachi Kurama"]))
+
+    def test_several_names_return_several_rows(self):
+        self.assertEqual(["Yakumo Kurama", "Sachi Kurama"], self.match(["Yakumo", "Sachi"]))
+
+    def test_an_unknown_name_returns_nothing(self):
+        self.assertEqual([], self.match(["Kakashi"]))
+
+
 class TestReadsetGateSection(unittest.TestCase):
     """The read-set names what the phase C gate left behind, before the chapter is drafted."""
 

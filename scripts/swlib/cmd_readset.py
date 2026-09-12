@@ -191,8 +191,46 @@ def resolve_locations(novel, number, explicit=None):
 
 
 def _match(rows, names):
-    low = [n.lower() for n in names]
-    return [r for r in rows if any(r.first().strip().lower() == n for n in low)]
+    """Rows for the characters in this chapter, matching short names against full ones.
+
+    This compared whole cells for equality, so a `chg>` line naming `Yakumo` never matched the
+    matrix row `Yakumo Kurama` and the read-set printed "(no matrix rows for these characters)".
+    Silently, and for the three sections a drafter can least afford to lose - the voice matrix,
+    the growth ladder and the competence grid - while the header tells them not to open the
+    source files for anything listed here. Benchmark run #4 caught it only because the cold agent
+    went and read the files anyway.
+
+    A single shared token is not a match: in a clan novel every row carries `Kurama`, and matching
+    on it would hand back the whole cast for any of them. So a one-token overlap has to be a token
+    that belongs to exactly one row - `Yakumo` or `Sarutobi`, never `Kurama`.
+    """
+    def toks(text):
+        return set(t for t in re.split(r"[^\w']+", text.lower()) if t)
+
+    rows = list(rows)
+    counts = {}
+    for r in rows:
+        for t in toks(r.first()):
+            counts[t] = counts.get(t, 0) + 1
+
+    out = []
+    for r in rows:
+        rt = toks(r.first())
+        if not rt:
+            continue
+        for name in names:
+            nt = toks(name)
+            if not nt:
+                continue
+            shared = rt & nt
+            if not shared:
+                continue
+            # Two tokens in common identify a person. One only does when that token belongs to
+            # a single row, which is what separates `Yakumo` from the clan name `Kurama`.
+            if len(shared) > 1 or counts.get(next(iter(shared)), 0) == 1:
+                out.append(r)
+                break
+    return out
 
 
 def _table_block(headers, rows):
