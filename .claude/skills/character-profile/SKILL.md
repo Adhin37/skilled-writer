@@ -23,6 +23,7 @@ Open one when its trigger fires, not by default.
 | file | open it when |
 |---|---|
 | `references/tier-a-and-b.md` | actually writing a principal's or a supporting character's file — the two procedures and the development-rate dial. Tier C never needs it |
+| `references/nonhuman.md` | the character is an animal, a monster, a construct, an artificial mind or a god — built as a character without being a person in costume |
 | `references/special-cases.md` | the character is an antagonist, a clone or double, or a canon character — or an existing profile needs amending after a chapter changed them |
 | `references/audit-card.md` | `revision-pass` Pass 2 opens this for the walk-ons. You do not |
 

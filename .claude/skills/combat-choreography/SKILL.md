@@ -15,6 +15,14 @@ metadata:
 A fight is a scene: goal, obstacle, turn, cost. Choreography without stakes is furniture being
 moved loudly.
 
+## What lives in `references/`
+
+| file | open it when |
+|---|---|
+| `references/duel-geography.md` | the fight is not reading — ranges, the four anchors that keep a reader in the room, what bodies actually do, and the weapon consequences worth knowing |
+| `references/draft-card.md` | never, by you. `write-chapter` Phase A opens it |
+| `references/audit-card.md` | never, by you. `revision-pass` Pass 4 opens it |
+
 ---
 
 ## Before writing a blow

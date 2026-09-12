@@ -10,6 +10,7 @@ copies of fields in each profile; the profile is the source of truth, this is th
 | axis | values |
 |---|---|
 | **intel** | 1 ordinary · 2 sharp · 3 smart · 4 brilliant · 5 genius (the `mc-intel-meter` ladder) |
+| **eq** | 1 blunt · 2 literal · 3 competent · 4 acute · 5 uncanny — how well they read *people*, and deliberately not the same number as intel (the `social-perception` ladder) |
 | **artic** | 1 points, cannot explain · 2 facts, no reasons · 3 ordinary · 4 fluent · 5 persuasive at will |
 | **wit** | none · dry · warm · clowning · cruel — plus the pressure that triggers it |
 | **heat** | flat · banked · quick · volatile |
@@ -25,8 +26,8 @@ copies of fields in each profile; the profile is the source of truth, this is th
 
 Tier A and tier B only. Tier C walk-ons get one off-default axis in `_extras.md` and no row here.
 
-| character | tier | intel | artic | wit | heat | turn | hands | pressure | first move |
-|---|---|---|---|---|---|---|---|---|---|
+| character | tier | intel | eq | artic | wit | heat | turn | hands | pressure | first move |
+|---|---|---|---|---|---|---|---|---|---|---|
 
 **The MC's row is the calibration point, not the ceiling.** Read down each column before adding
 anyone. If a new character's row already exists under another name, change it.
@@ -35,9 +36,12 @@ anyone. If a new character's row already exists under another name, change it.
 
 Run these against the table above, not against a chapter.
 
-- **Straddle** — at least one character above the MC's intel tier, at least one below.
+- **Straddle** — at least one character above the MC's intel tier, at least one below. The same
+  holds for `eq`: somebody reads people better than the MC does.
 - **Wit budget** — at most two characters with wit other than `none`.
 - **No duplicate triples** — no two characters sharing intel + artic + wit.
+- **No duplicate pairs on intel + eq** — those two decide what a character *concludes* in a
+  scene, and two people who match on both reach the same judgement about everyone.
 
 ## 3. POV THOUGHT FIELDS
 

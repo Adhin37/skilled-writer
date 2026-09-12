@@ -244,3 +244,60 @@ class TestShrinkage(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+VOICES_FOUR = """# Cast voice matrix
+
+## 1. THE MATRIX
+
+| character | tier | intel | eq | artic | wit | heat | turn | hands | pressure | first move |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Rin | MC | 3 | 2 | 3 | dry | flat | 14 | taps | still | the door |
+| Bo | A | 4 | 4 | 4 | none | flat | 10 | still | busy | the board |
+| Cy | B | 2 | 3 | 2 | warm | quick | 8 | rubs | smaller | the floor |
+| Di | B | 5 | 1 | 3 | none | banked | 6 | folds | leaves | the window |
+"""
+
+
+class TestGroupScene(unittest.TestCase):
+    """Three or more speakers in one scene, surfaced as a note.
+
+    A trigger surface rather than a verdict. At three speakers, turn allocation stops being
+    alternation and the reader needs position and property to keep people apart, and the
+    reference that covers it is reachable only if something says the scene qualifies.
+    """
+
+    def _run(self, prose):
+        with NovelFixture() as fx:
+            fx.write("bible/cast/_voices.md", VOICES_FOUR)
+            fx.add_chapter(1, prose)
+            return cmd_lint.lint_chapter(fx.novel(), fx.novel().chapter(1))
+
+    def test_three_speakers_in_one_scene_are_noted(self):
+        rep = self._run('"Sit down," Rin said.\n\n'
+                        '"I will not," Bo said.\n\n'
+                        '"Both of you," Cy said, and closed the door.\n')
+        self.assertEqual(levels(rep, "group-scene"), ["note"])
+
+    def test_a_two_hander_is_not_noted(self):
+        rep = self._run('"Sit down," Rin said.\n\n'
+                        '"I will not," Bo said.\n\n'
+                        '"Then stand," Rin said.\n')
+        self.assertEqual(levels(rep, "group-scene"), [])
+
+    def test_it_is_never_more_than_a_note(self):
+        """A group scene is a category, not a defect. Nothing here may gate a chapter."""
+        rep = self._run('"Sit down," Rin said.\n\n'
+                        '"I will not," Bo said.\n\n'
+                        '"Both of you," Cy said.\n\n'
+                        '"Enough," Di said.\n')
+        self.assertEqual(set(levels(rep, "group-scene")), {"note"})
+
+    def test_each_scene_is_counted_separately(self):
+        rep = self._run('"Sit down," Rin said.\n\n'
+                        '"I will not," Bo said.\n\n'
+                        '"Both of you," Cy said.\n\n'
+                        '* * *\n\n'
+                        '"She has gone," Rin said.\n\n'
+                        '"I saw," Bo said.\n')
+        self.assertEqual(levels(rep, "group-scene"), ["note"])

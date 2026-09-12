@@ -44,6 +44,29 @@ section to open when that happens.
 | `mc.foreknowledge` is set | **The foreknowledge spend** | `meta-knowledge/references/draft-card.md` → `state/foreknowledge.md` |
 | anyone is `form_locked` | Which bodies are locked, and what they cannot do today | `mc-design/references/draft-card.md` → `state/body.md` |
 
+## The modules — a card each, not a body
+
+An active module is consulted through **its draft card**, the same as anything else here. Opening
+a module's `SKILL.md` mid-draft is the mistake this whole split exists to prevent: a body is a
+procedure for designing the thing, and Phase A is for deciding it. Every module below is off for
+most novels and costs nothing when it is; the read-set names the ones that are on.
+
+| condition | decision | card |
+|---|---|---|
+| `genre`/`subgenre` is fantasy, scifi or progression | Which capability fires, and what it takes | `power-system/references/draft-card.md` |
+| `genre`/`subgenre` is fanfic | Which canon fact this chapter touches | `fanfic-canon/references/draft-card.md` |
+| `optional.combat-choreography` **and physical conflict** | The five decisions before a blow | `combat-choreography/references/draft-card.md` |
+| `optional.battle-scale` **and an engagement above one fight** | Fronts, attrition, and what the POV can see | `battle-scale/references/draft-card.md` |
+| `optional.litrpg-system` | Whether a screen fires, and what it may decide | `litrpg-system/references/draft-card.md` |
+| `optional.mystery-clues` | The knowledge mode, and which clue moves | `mystery-clues/references/draft-card.md` |
+| `optional.romance-arc` | Which romantic beat fires, or none | `romance-arc/references/draft-card.md` |
+| `optional.grimdark-consequences` | What this chapter takes, and what is left to protect | `grimdark-consequences/references/draft-card.md` |
+| `optional.slice-of-life-texture` | Which ordinary thing rides inside the scene | `slice-of-life-texture/references/draft-card.md` |
+| `optional.comedy-levity` | Where the levity sits, and whose it is | `comedy-levity/references/draft-card.md` |
+
+`tech-plausibility` and `no-harem` decide nothing at draft time and carry audit cards only —
+`revision-pass` opens them.
+
 ---
 
 ## Why this file is separate

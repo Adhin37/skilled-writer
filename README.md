@@ -165,7 +165,7 @@ up two defects worth fixing. It is a rough order of magnitude, not a quote.
 **World** — `story-bible`, `social-fabric`, `world-texture`
 
 **Character** — `character-profile`, `voice-separation`, `competence-map`, `meta-knowledge`,
-`character-development`, `mc-intel-meter`, `dialogue-voice`, `lead-interest`
+`character-development`, `mc-intel-meter`, `social-perception`, `dialogue-voice`, `lead-interest`
 
 **Craft** — `narrator-voice`, `pov-switch`, `scene-craft`, `conflict-engine`, `power-scaling`,
 `plot-threads`, `timeline-engine`, `hook-and-pacing`, `prose-quality`, `mtl-detox`, `bias-guard`
@@ -173,10 +173,15 @@ up two defects worth fixing. It is a rough order of magnitude, not a quote.
 **Genre modules** — `power-system`, `tech-plausibility`, `fanfic-canon`
 
 **Optional, toggled per novel** — `no-harem` (on by default), `romance-arc`,
-`combat-choreography`, `litrpg-system`, `mystery-clues`, `comedy-levity`,
+`combat-choreography`, `battle-scale`, `litrpg-system`, `mystery-clues`, `comedy-levity`,
 `grimdark-consequences`, `slice-of-life-texture`
 
-Fifteen of these deserve a note:
+Every module in the last two groups is reached through a **card** — a draft card in Phase A, an
+audit card in the pass its frontmatter names — never through its `SKILL.md`. `sw kb cards` and
+`sw kb passes` resolve which ones apply to this novel and this chapter, and print what did not
+apply and why.
+
+Sixteen of these deserve a note:
 
 - **`title-craft`** runs once, before the workspace directory even exists, and owns the two
   things a stranger sees *before* chapter 1 is available to them: the **title** and the
@@ -190,6 +195,18 @@ Fifteen of these deserve a note:
   browsed by fandom and a title that omits the search term is invisible to the only audience it
   has. The slug is derived here and is permanent; the title is not, and the runners-up are kept
   in `title_alternates` for the rename at chapter 40.
+
+- **`social-perception`** is the axis the corpus never separates out. A protagonist is written
+  clever, and cleverness is quietly allowed to cover everything — he out-thinks the schemer *and*
+  knows what his mother is not saying *and* reads the room on arrival. That character cannot be
+  surprised by anyone, which removes every relationship plot in the book. So `eq` sits beside
+  `intel` in the voice matrix as an independent number, with its own five-rung ladder and its own
+  error profile per rung, and `sw cast` warns when a whole cast has them equal. It owns two more
+  things: the **emotional signature** — what fear, anger, grief and relief look like on *this*
+  person, which is the positive rule under the ban on the shared nodding-and-sighing gesture set —
+  and the **misread**, a fourth legal way for an intelligent character to fail, fair only when the
+  signal was on the page, the reading was the one their tier would produce, the true cause was
+  also visible, and it cost something.
 
 - **`story-opening`** exists because chapter 1 is not the first chapter of a book, it is a
   **conversion event**: roughly 60% of the people who open it reach chapter 2, and from chapter 5

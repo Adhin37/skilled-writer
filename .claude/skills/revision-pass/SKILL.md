@@ -58,6 +58,12 @@ pass below, with 9b, 9c and 9e already resolved against `novel.md`, so a pass wh
 apply to this novel is not left for you to work out. Without Python: every audit card declares
 its `pass` in frontmatter — open the one whose `pass` matches the row you are on.
 
+**Active modules arrive the same way.** A module this novel switches on — by an `optional:`
+toggle or by `genre` — carries an audit card with a `pass` like everything else, and `kb passes`
+prints it in the row it belongs to rather than as a separate stage. Open the card, never the
+module's `SKILL.md`. The command also prints what did **not** open and why, which is the only
+way a trigger that has quietly gone wrong becomes visible.
+
 | pass | kind of defect | what to open |
 |---|---|---|
 | Z Story gate | judgement | nothing — the three questions above |
@@ -65,13 +71,14 @@ its `pass` in frontmatter — open the one whose `pass` matches the row you are 
 | 1 Continuity | mechanical | `references/owned-passes.md` §Pass 1 — the read-set is the authority |
 | 2 Character + voice | **distributional** | — |
 | 3 Intelligence + knowledge | **distributional** | — |
-| 4 Structure | mechanical | `references/owned-passes.md` §Pass 4 |
+| 3b Reading people | **distributional** | — |
+| 4 Structure | mechanical | four owners' cards — `references/owned-passes.md` §Pass 4 lists them |
 | 5 World | judgement | — |
 | 6 Bias | **distributional** | — **every chapter, never rotated** |
 | 7 MTL detox | **distributional** | `references/owned-passes.md` §Pass 7 — the banned list is `sw lint`'s; the structural half is not |
 | 8 Prose + microtension | judgement | — |
 | 8b Register + house style | **distributional** | `prose-quality/references/ai-default-tells.md` — the tells this model produces once the MTL list is already clean |
-| 9 Delivery | judgement | `references/owned-passes.md` §Pass 9 |
+| 9 Delivery | judgement | `references/owned-passes.md` §Pass 9, plus `hook-and-pacing`'s card |
 | 9b Opening | **judgement** | chapters in range only — `kb passes` resolves it |
 | 9c Foreknowledge | **distributional** | only if `mc.foreknowledge` — not rotatable |
 | 9d Theme | judgement | `references/owned-passes.md` §Pass 9d |
@@ -121,9 +128,15 @@ Against the read-set, which is the authority. Seven checks and the `form_locked`
 
 ## Pass 2 — Character and voice
 
-Open **`voice-separation/references/audit-card.md`**, and
+Open **`voice-separation/references/audit-card.md`** (the cast as minds),
+**`dialogue-voice/references/audit-card.md`** (the lines), and
+**`character-development/references/audit-card.md`** (whether anyone became someone else). Add
 **`character-profile/references/audit-card.md`** if the chapter has walk-ons **or introduces any
-named character for the first time**. Work them there.
+named character for the first time**, and **`pov-switch/references/audit-card.md`** when
+`pov.mode` is not `single`. Work them there.
+
+Five cards is the widest pass in the gate. If the budget will not carry all of them, drop
+`character-profile`'s first and `pov-switch`'s second, and name them in the `Gate:` line.
 
 A first appearance is the half of this pass that has no script and the one a reader notices
 first: run `sw cast` and read the debut ledger before deciding this pass has passed.
@@ -134,10 +147,19 @@ Open **`mc-intel-meter/references/audit-card.md`** and
 **`competence-map/references/audit-card.md`**. Two different things, and the first card names the
 seam they fail at.
 
+## Pass 3b — Reading people
+
+Open **`social-perception/references/audit-card.md`**. It sits beside Pass 3 rather than with
+character because it audits the same kind of claim: Pass 3 asks whether anybody knew something
+they should not, and this asks whether anybody *understood* something they should not. The card
+gives the reason and the checks.
+
 ## Pass 4 — Structure
 
-Goal/obstacle/turn/cost per scene, the exits, the conflict sources, the thread ops, the `wld>`
-line, the crisis cap, the skim test: **`references/owned-passes.md` §Pass 4**.
+Four cards, one per owner: **`scene-craft`** (goal, obstacle, turn, exit — already open from its
+Pass 9 duty), **`conflict-engine`** (what the chapter cost), **`plot-threads`** (the ops against
+the ledger) and **`timeline-engine`** (the world track and the ending contract). The skim test is
+the only row with no other owner: **`references/owned-passes.md` §Pass 4**.
 
 ## Pass 5 — World
 
@@ -180,8 +202,10 @@ and the Z1 answer into `event:`: two fields that fail in opposite directions. Ru
 strong `delivers:` lines, every one describing a shift in somebody's interior state, which is
 exactly how a chapter passes this pass while nothing happens in it.
 
-Seven further checks that belong to this pass rather than to `scene-craft` — the skim and forecast
-tests, the opening, the hook, and the length note: **`references/owned-passes.md` §Pass 9**.
+Also open **`hook-and-pacing/references/audit-card.md`**: the chapter's first and last sentences
+carry most of a serial's retention, and both of their defects are distributional — read against
+the previous five chapters, never scored on this one. What is left over belongs to this pass
+alone: **`references/owned-passes.md` §Pass 9**.
 
 ## Pass 9b — The opening — chapters ≤ `opening.contract_by_ch + 2` only
 

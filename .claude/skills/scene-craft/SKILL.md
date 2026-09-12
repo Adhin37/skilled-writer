@@ -21,6 +21,14 @@ at all — rather than a line of summary — belongs to `story-craft`, and it is
 controls pacing. A passage with no want is not a scene and should be a sentence; a *turn* with no
 scene is a skipped chapter.
 
+## What lives in `references/`
+
+| file | open it when |
+|---|---|
+| `references/group-scenes.md` | the scene has three or more speakers — roles, blocking, turn allocation, and who is deliberately silent. At three, a scene changes category |
+| `references/draft-card.md` | never, by you. `write-chapter` Phase A opens it |
+| `references/audit-card.md` | never, by you. `revision-pass` Passes 4 and 9 open it |
+
 ## The scene unit
 
 | element | test |

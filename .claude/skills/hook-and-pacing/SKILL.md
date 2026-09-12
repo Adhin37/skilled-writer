@@ -24,6 +24,7 @@ and a hook pull; it cannot stop a chapter from summarising its own turning point
 
 | file | open it when |
 |---|---|
+| `references/the-long-middle.md` | any arc boundary past arc 2, or a stretch that is competently written and building toward nothing anyone can name |
 | `references/arc-rhythm.md` | planning an arc's temperature, or the story is reading as relentless or as flat over a stretch of chapters |
 
 ## Chapter length is not a quality metric

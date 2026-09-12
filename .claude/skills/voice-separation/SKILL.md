@@ -34,6 +34,7 @@ when its trigger fires, not by default.
 | 2 | `references/worked-example.md` | the axes feel abstract and you want five people answering one question |
 | 4, 5 | `references/channels.md` | drafting a scene: how a body identifies its owner, and how a non-POV mind is shown without entering it |
 | 7 | `references/mirror-clause.md` | a clone, avatar, double or body-snatch is on the page. This is the one exemption from §3 |
+| 3 | `references/age-register.md` | the cast contains a child, an adolescent or a notably old character — the cadence differences no axis in the matrix measures |
 
 The revision-time check is `references/audit-card.md`, opened by `revision-pass` Pass 2.
 

@@ -42,7 +42,17 @@ DRAFT_CARD_OWNERS = (
     "character-development", "voice-separation", "character-profile", "mc-design",
     "timeline-engine", "world-texture", "mc-intel-meter", "story-opening",
     "power-scaling", "meta-knowledge", "competence-map", "hook-and-pacing",
-    "narrator-voice", "dialogue-voice", "story-craft",
+    "narrator-voice", "dialogue-voice", "story-craft", "social-perception",
+)
+
+# The modules. Same contract - a card, dispatched by write-chapter - but every one of them is
+# off for most novels, so they are listed apart from the always-in-play set above. A module
+# without a card is the defect this separation exists to make visible: before it, all eleven
+# were dispatched as whole SKILL.md bodies mid-draft.
+MODULE_CARD_OWNERS = (
+    "power-system", "fanfic-canon", "combat-choreography", "battle-scale",
+    "litrpg-system", "mystery-clues", "romance-arc", "grimdark-consequences",
+    "slice-of-life-texture", "comedy-levity",
 )
 
 
@@ -180,6 +190,35 @@ class TestArchitecture(unittest.TestCase):
             self.assertIn("%s/references/audit-card.md" % skill, body,
                           "revision-pass must open %s's card" % skill)
 
+    def test_every_module_is_reached_through_a_card(self):
+        """A module the dispatcher can only reach as a whole SKILL.md is a module read wrong.
+
+        All eleven optional and genre modules had zero cards. `revision-pass` step 0.2 resolved
+        the active ones and said "open those", and what opened mid-draft was a 700-1,400 word
+        body - a procedure for *designing* the thing, at the point where the run needed a
+        decision. That is the exact split `docs/design-notes.md` describes, and the modules were
+        the one corner of the corpus it had never reached.
+
+        The rule this locks: every skill whose tier is `optional` or `genre` carries at least one
+        card, and the card is what its dispatcher opens.
+        """
+        from swlib import kb
+        idx = kb.index(REPO, refresh=True)
+        carded = {f.owner for f in idx.by_type("draft-card")}
+        carded |= {f.owner for f in idx.by_type("audit-card")}
+        bare = sorted(name for name, skill in idx.skills.items()
+                      if skill.tier in ("optional", "genre") and name not in carded)
+        self.assertEqual(bare, [],
+                         "modules with no card - the dispatcher would open the body instead")
+
+    def test_every_audit_card_declares_a_pass(self):
+        """A card `revision-pass` cannot place is a card that never runs."""
+        from swlib import kb
+        idx = kb.index(REPO, refresh=True)
+        for f in idx.by_type("audit-card"):
+            self.assertTrue(f.pass_, "%s declares no `pass:`" % f.rel)
+            self.assertEqual(f.dispatcher, "revision-pass", f.rel)
+
     def test_write_chapter_dispatches_every_draft_card(self):
         """The drafting dispatcher reaches every card; it does not carry their content.
 
@@ -196,7 +235,8 @@ class TestArchitecture(unittest.TestCase):
         from swlib import kb
         idx = kb.index(REPO, refresh=True)
         resolved = {f.owner for f in idx.by_type("draft-card")}
-        self.assertEqual(sorted(resolved), sorted(DRAFT_CARD_OWNERS),
+        self.assertEqual(sorted(resolved),
+                         sorted(DRAFT_CARD_OWNERS + MODULE_CARD_OWNERS),
                          "every draft card on disk must be dispatched by write-chapter")
         for f in idx.by_type("draft-card"):
             self.assertEqual(f.dispatcher, "write-chapter", f.rel)

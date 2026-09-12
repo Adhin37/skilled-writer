@@ -49,6 +49,7 @@ def run(novel):
             "name": r.first(),
             "tier": str(r.get("tier", "")).strip().upper(),
             "intel": _int(r.get("intel")),
+            "eq": _int(r.get("eq")),
             "artic": _int(r.get("artic")),
             "wit": _wit(r.get("wit")),
             "turn": _int(r.get("turn")),
@@ -57,12 +58,13 @@ def run(novel):
         })
 
     rep.info("voice matrix (%d rows)" % len(rows), [
-        "   %-12s tier %-2s intel %-4s artic %-4s wit %-10s turn %s"
-        % (x["name"], x["tier"], x["intel"], x["artic"], x["wit"] or "none", x["turn"])
+        "   %-12s tier %-2s intel %-4s eq %-4s artic %-4s wit %-10s turn %s"
+        % (x["name"], x["tier"], x["intel"], x["eq"], x["artic"], x["wit"] or "none", x["turn"])
         for x in rows])
 
     _mc_row(rep, rows, mc_name, mc_tier, vpath)
     _straddle(rep, rows, mc_name, mc_tier, vpath)
+    _eq(rep, novel, rows, mc_name, vpath)
     _debuts(novel, rep, rows)
     _turn_lengths(novel, rep, rows)
     _wit_cap(rep, rows, vpath)
@@ -104,6 +106,57 @@ def _straddle(rep, rows, mc_name, mc_tier, vpath):
     if above and below:
         rep.info("straddle", ["   above the MC: %s | below: %s"
                              % (", ".join(above), ", ".join(below))])
+
+
+def _eq(rep, novel, rows, mc_name, vpath):
+    """social-perception: the EQ axis, its agreement with novel.md, and the intel+eq pair.
+
+    A cast whose rows all read `intel == eq` has one kind of mind in it wearing different names,
+    and the defect is invisible per chapter for the same reason the straddle rule is: you cannot
+    see it by reading one profile. Everything here is a warn rather than a defect - a novel may
+    legitimately not use the axis yet, and the drafter is told so once rather than blocked.
+    """
+    declared = _int(novel.get("mc.eq_tier"), None)
+    scored = [x for x in rows if x["eq"] is not None]
+    if not scored:
+        rep.warn("eq", "no `eq` values in the matrix - every character reads people exactly as "
+                 "well as the author does, which is one mind with several names. Add the column "
+                 "(`social-perception`)", path=vpath)
+        return
+
+    mc = [x for x in scored if x["name"].lower() == (mc_name or "").lower()]
+    if mc and declared is not None and mc[0]["eq"] != declared:
+        rep.defect("eq", "matrix gives %s eq %s, novel.md declares eq_tier %s"
+                   % (mc[0]["name"], mc[0]["eq"], declared), path=vpath, line=mc[0]["line"])
+
+    mc_eq = mc[0]["eq"] if mc else declared
+    if mc_eq is not None:
+        others = [x for x in scored if x["name"].lower() != (mc_name or "").lower()]
+        if others and not [x for x in others if x["eq"] > mc_eq]:
+            rep.warn("eq-straddle",
+                     "nobody reads people better than the MC (eq %d) - somebody in the cast "
+                     "should see what the MC misses, and act on it first" % mc_eq, path=vpath)
+
+    flat = [x for x in scored if x["intel"] is not None and x["intel"] == x["eq"]]
+    if len(flat) == len(scored) and len(scored) > 2:
+        rep.warn("eq-flat",
+                 "every character has eq equal to intel (%s) - the gap between the two axes is "
+                 "where a character lives, and a cast without one has a single kind of mind in "
+                 "it" % ", ".join(x["name"] for x in flat), path=vpath)
+
+    seen = {}
+    for x in scored:
+        key = (x["intel"], x["eq"])
+        if None in key:
+            continue
+        if key in seen:
+            rep.warn("eq-clash",
+                     "%s and %s share intel %s + eq %s - those two decide what a character "
+                     "concludes about a scene, so these reach the same judgement about "
+                     "everyone. Move one"
+                     % (seen[key], x["name"], x["intel"], x["eq"]), path=vpath, line=x["line"])
+        else:
+            seen[key] = x["name"]
 
 
 def _wit_cap(rep, rows, vpath):

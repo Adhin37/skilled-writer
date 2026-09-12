@@ -50,16 +50,16 @@ body at all, and the form stops being a constraint and becomes a costume.
 
 ## Pass 4 — Structure
 
-The scenes themselves are on `scene-craft`'s audit card — goals, exits, the stated cost, the cuts.
-These are the chapter-level rows that card does not cover.
+Four owners meet in this pass and none of them is this file. The scenes are on `scene-craft`'s
+audit card — goals, exits, the stated cost, the cuts. The chapter's price is on
+`conflict-engine`'s. The promises are on `plot-threads`'. The world track is on
+`timeline-engine`'s. Open those four; they were moved there because a checklist kept in this file
+is a checklist read without its owner.
+
+One row has no other owner and stays here:
 
 | check | fails when | cheapest repair |
 |---|---|---|
-| At least two of the four conflict sources active | the whole chapter is one person against one obstacle | the second source is usually already present and unused — a deadline, a bystander with their own stake |
-| Thread ops match the plan row | the chapter opened a thread the plan did not | amend the plan row and check the next three, per `references/fixing-and-reporting.md` |
-| The `wld>` line is filled | the world did nothing offstage | `timeline-engine`. A world that only moves when the MC is watching is a stage set |
-| World-track events are logged in the divergence ledger, with what they opened | a driver moved and nothing recorded it | log it now; an unrecorded divergence is re-invented differently in four chapters |
-| Crisis count within `timeline.crisis_cap`; no `ending.non_negotiable` was taken | everything is urgent, so nothing is | demote one crisis to a pressure. Simultaneous emergencies cancel each other out |
 | **Skim test** | you cannot name the one thing a reader would miss | that is a Pass 9 problem wearing a Pass 4 coat — go back to Pass Z |
 
 ---
@@ -86,12 +86,11 @@ this pass instead — the ones about the chapter as a unit of a serial rather th
 - [ ] `delivers:` matches what the chapter did, and the five answers on `scene-craft`'s audit
       card came without straining
 - [ ] **Skim test**: a reader who skipped this chapter loses something nameable
-- [ ] **Forecast test**: if a reader could predict the next chapter from this one's ending, the
-      hook is a summary rather than a hook
-- [ ] The opening avoids the banned patterns and re-anchors in one clause
-      (`hook-and-pacing` §Openings owns both)
-- [ ] The chapter ends on its last strong beat, and the hook is concrete, in final position, and
-      a type that has not run twice in the last five
+
+The chapter's first and last sentences are audited on `hook-and-pacing`'s card, which is also
+opened at this pass — the opening, the hook, the forecast test and the rotation are all its
+concepts, and they are distributional, so they are read against the previous five chapters rather
+than against this one.
 
 **Length.** If the chapter is far outside `chapters.length_band`, ask *once* whether the material
 was split in the wrong place, then move on. Never pad, never trim, and never record a length

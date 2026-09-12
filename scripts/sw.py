@@ -310,6 +310,14 @@ def do_kb(args):
     """
     novel = None
     if args.action in ("cards", "passes"):
+        # `args` is nargs="*" and `novel` is the nargs="?" after it, so argparse gives the
+        # greedy one everything and the novel slot stays empty - `sw kb cards novels/x -c 1`
+        # never reached `novel` at all. It went unnoticed because with exactly one novel in
+        # the repo `resolve(None)` picks it anyway; the documented form breaks on the second
+        # book. Recover it here rather than reordering the positionals, which would change
+        # the shape of every other kb action.
+        if not getattr(args, "novel", None) and args.args:
+            args.novel = args.args[-1]
         novel = _novel(args)
         if args.chapter is None:
             sys.stderr.write("sw kb %s needs --chapter/-c\n" % args.action)

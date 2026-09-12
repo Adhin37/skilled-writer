@@ -23,6 +23,7 @@ that the story forgot its own chapter-12 mystery.
 
 | file | open it when |
 |---|---|
+| `references/reveals-and-reversals.md` | a chapter turns something the reader believed, and `optional.mystery-clues` is off — reversal construction, the double-valid scene, and what a reveal has to cost |
 | `references/foreshadowing.md` | planting a setup, paying a thread, or auditing the novel for forgotten promises |
 
 ## Thread anatomy

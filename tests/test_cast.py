@@ -175,3 +175,84 @@ class TestTurnLength(unittest.TestCase):
         body = "\n\n".join(['Ana watched Bo. "%s," someone said.' % (" ".join(["word"] * 30))
                             for _ in range(6)])
         self.assertNotIn("turn-drift", [c for c, _ in findings(self._run(body))])
+
+
+EQ_VOICES = """# Cast voice matrix
+
+## 1. THE MATRIX
+
+| character | tier | intel | eq | artic | wit | heat | turn | hands | pressure | first move |
+|---|---|---|---|---|---|---|---|---|---|---|
+%s
+"""
+
+
+def eq_voices(*rows):
+    return EQ_VOICES % "\n".join(rows)
+
+
+class TestEqAxis(unittest.TestCase):
+    """`social-perception`: how well somebody reads people, as a column beside intel.
+
+    The defect it exists to catch is cast-wide and invisible in a profile - everybody reasoning
+    and reading at the same level, so nobody can be surprised by anyone. Every finding here is a
+    warn except the one that contradicts `novel.md`, because a novel may legitimately not use the
+    axis yet and should be told once rather than blocked.
+    """
+
+    # Rin is the fixture MC at intel_tier 3.
+    MC = "| Rin | MC | 3 | 2 | 3 | dry | flat | 14 | taps | still | the door |"
+
+    def _run(self, *rows, **kw):
+        with NovelFixture() as fx:
+            if kw.get("novel_md"):
+                fx.write("novel.md", kw["novel_md"])
+            fx.write("bible/cast/_voices.md", eq_voices(self.MC, *rows))
+            fx.add_chapter(1, '"Go on," she said.\n')
+            return cmd_cast.run(fx.novel())
+
+    def test_a_matrix_with_no_eq_column_warns_once(self):
+        with NovelFixture() as fx:
+            fx.write("bible/cast/_voices.md",
+                     voices("| Rin | MC | 3 | 3 | dry | flat | 14 | taps | still | the door |",
+                            "| Bo | A | 4 | 2 | none | flat | 10 | still | busy | the board |"))
+            fx.add_chapter(1, '"Go on," she said.\n')
+            rep = cmd_cast.run(fx.novel())
+        self.assertIn(("eq", "warn"), findings(rep))
+        self.assertEqual([c for c, lv in findings(rep, "defect") if c == "eq"], [])
+
+    def test_a_separated_cast_is_clean(self):
+        rep = self._run("| Bo | A | 4 | 4 | 4 | none | flat | 10 | still | busy | the board |",
+                        "| Cy | B | 2 | 3 | 2 | warm | quick | 8 | rubs | smaller | the floor |")
+        self.assertEqual([c for c, lv in findings(rep) if c.startswith("eq")], [])
+
+    def test_nobody_above_the_mc_warns(self):
+        rep = self._run("| Bo | A | 4 | 1 | 4 | none | flat | 10 | still | busy | the board |",
+                        "| Cy | B | 2 | 2 | 2 | warm | quick | 8 | rubs | smaller | the floor |")
+        self.assertIn(("eq-straddle", "warn"), findings(rep))
+
+    def test_a_cast_whose_eq_always_equals_intel_warns(self):
+        """The single mind with several names - the shape this axis exists to break.
+
+        Needs a flat MC too, so this one builds its own matrix rather than using the class row.
+        """
+        with NovelFixture() as fx:
+            fx.write("bible/cast/_voices.md", eq_voices(
+                "| Rin | MC | 3 | 3 | 3 | dry | flat | 14 | taps | still | the door |",
+                "| Bo | A | 4 | 4 | 4 | none | flat | 10 | still | busy | the board |",
+                "| Cy | B | 2 | 2 | 2 | warm | quick | 8 | rubs | smaller | the floor |"))
+            fx.add_chapter(1, '"Go on," she said.\n')
+            rep = cmd_cast.run(fx.novel())
+        self.assertIn(("eq-flat", "warn"), findings(rep))
+
+    def test_two_speakers_sharing_intel_and_eq_warn(self):
+        rep = self._run("| Bo | A | 4 | 4 | 4 | none | flat | 10 | still | busy | the board |",
+                        "| Cy | B | 4 | 4 | 2 | warm | quick | 8 | rubs | smaller | the floor |")
+        self.assertIn(("eq-clash", "warn"), findings(rep))
+
+    def test_the_matrix_must_agree_with_novel_md(self):
+        """The one defect: a declared `mc.eq_tier` the matrix contradicts, as for intel_tier."""
+        md = NOVEL_MD.replace("intel_tier: 3", "intel_tier: 3\n  eq_tier: 5")
+        rep = self._run("| Bo | A | 4 | 4 | 4 | none | flat | 10 | still | busy | the board |",
+                        novel_md=md)
+        self.assertIn(("eq", "defect"), findings(rep))

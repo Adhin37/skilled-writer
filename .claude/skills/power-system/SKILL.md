@@ -15,6 +15,14 @@ Genre module — fantasy, scifi, progression. Maintained in `bible/power-system.
 Reader satisfaction in this format comes from **predictable rules broken at a price**, not from
 escalating magnitudes. A reader who can tell what is impossible is a reader who can be surprised.
 
+## What lives in `references/`
+
+| file | open it when |
+|---|---|
+| `references/system-design.md` | building the system, or it exists and generates no plots — choosing the cost axis, writing limits that produce story, and the worked example |
+| `references/draft-card.md` | never, by you. `write-chapter` Phase A opens it |
+| `references/audit-card.md` | never, by you. `revision-pass` Pass 5 opens it |
+
 ---
 
 ## The four hard rules

@@ -49,6 +49,10 @@ mc:
   gender: ""              # any value; drives lead-interest defaults, nothing else
   pronouns: ""            # she/her | he/him | they/them — fixed for the whole novel
   intel_tier: 3           # 1 ordinary | 2 sharp | 3 smart | 4 brilliant | 5 genius
+  eq_tier: 3              # 1 blunt | 2 literal | 3 competent | 4 acute | 5 uncanny
+                          #   how well they read PEOPLE. A separate axis from intel_tier, and
+                          #   the gap between the two is most of a character. See
+                          #   social-perception; every other character's sits in _voices.md.
   competence_domains: []  # where the tier applies at full strength
   blind_spots: []         # where it does not — required, minimum two
   development_rate: 5     # MC is always 5 (see character-development)
@@ -186,6 +190,7 @@ optional:
   no-harem: on
   romance-arc: off
   combat-choreography: on
+  battle-scale: off       # engagements larger than a fight - fronts, attrition, command
   litrpg-system: off
   mystery-clues: off
   comedy-levity: off

@@ -18,6 +18,18 @@ reader learns a place.
 `sensory signature` is not a starting point to vary from — **reuse it at every visit**. See
 `world-texture` §4.
 
+## Distances
+
+Six to ten rows, in **days**, not miles. The last two columns are the ones that do plot work.
+Travel here is what `revision-pass` Pass 1 checks a chapter against, so when a scene and this
+table disagree, the scene moves. See `story-bible/references/geography-and-travel.md`.
+
+| from → to | days, on foot | days, fast | what makes it slower | what is in between |
+|---|---|---|---|---|
+
+**Rates held for this world:** on foot ___ km/day · mounted ___ · fastest available ___, and who
+owns it.
+
 ## Social order
 
 - Who has power, and what is the power *made of* (land, violence, information, capital, magic)?

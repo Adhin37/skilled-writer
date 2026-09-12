@@ -528,6 +528,7 @@ mc:
   gender: female
   pronouns: she/her
   intel_tier: 3
+  eq_tier: 2
   competence_domains: ["salt-ledger arithmetic", "Tidehouse procedure"]
   blind_spots: ["reading people who are fond of her", "anything involving a boat"]
   development_rate: 5
@@ -778,12 +779,12 @@ VOICES_MD = '''# Cast voice matrix
 
 One row per speaker. The MC is the calibration point; everybody else is placed against her.
 
-| character | tier | intel | artic | wit | heat | turn | hands | pressure | first move |
-|---|---|---|---|---|---|---|---|---|---|
-| Wren | MC | 3 | 3 | none | banked | 12 | picks at the seam of her cuff | goes quieter and more exact | states the measurement |
-| Maro | A | 4 | 4 | dry | flat | 22 | stacks coins into towers | stops moving his hands | asks the question under the question |
-| Bel | B | 2 | 2 | none | quick | 6 | wipes her palms down her apron | gets louder and shorter | tells you to sit down |
-| Ossian | A | 4 | 2 | none | volatile | 30 | taps a ring against wood | says no before you finish | refuses, then explains the refusal |
+| character | tier | intel | eq | artic | wit | heat | turn | hands | pressure | first move |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Wren | MC | 3 | 2 | 3 | none | banked | 12 | picks at the seam of her cuff | goes quieter and more exact | states the measurement |
+| Maro | A | 4 | 4 | 4 | dry | flat | 22 | stacks coins into towers | stops moving his hands | asks the question under the question |
+| Bel | B | 2 | 3 | 2 | none | quick | 6 | wipes her palms down her apron | gets louder and shorter | tells you to sit down |
+| Ossian | A | 4 | 1 | 2 | none | volatile | 30 | taps a ring against wood | says no before you finish | refuses, then explains the refusal |
 
 ## POV THOUGHT
 
@@ -792,7 +793,8 @@ head is unmarked free indirect discourse.
 
 ## MIRROR
 
-No declared mirrors. Nobody in this cast shares all three of intel, articulacy and wit.
+No declared mirrors. Nobody in this cast shares all three of intel, articulacy and wit, and no
+two share intel and eq. Wren reasons better than she reads people; Bel is the other way round.
 '''
 
 COMPETENCE_MD = '''# Competence grid
@@ -1236,7 +1238,8 @@ def _seed(root):
                         "what nine *days* of reading had turned up")
     _write(root, rel, text)
 
-    # straddle - lift the only character below the MC up to her tier.
+    # straddle - lift the only character below the MC up to her tier. Her eq moves with it,
+    # so the plant stays a pure straddle failure rather than also tripping `eq-clash`.
     text = _read(root, "bible/cast/_voices.md")
-    text = text.replace("| Bel | B | 2 | 2 |", "| Bel | B | 3 | 2 |")
+    text = text.replace("| Bel | B | 2 | 3 | 2 |", "| Bel | B | 3 | 5 | 2 |")
     _write(root, "bible/cast/_voices.md", text)

@@ -24,6 +24,7 @@ a slow MC. The reader does not forgive an inconsistent one.**
 | file | open it when |
 |---|---|
 | `references/writing-intelligence.md` | the MC is deducing, planning or failing and you need the technique rather than the rule — including the intelligence / knowledge / wisdom distinction |
+| `references/plans-and-lies.md` | the chapter contains a plan the reader is shown, an operation being executed, or somebody lying to somebody who might catch it |
 | `references/audit-card.md` | never, by you. `revision-pass` Pass 3 opens it |
 
 ## The tiers

@@ -108,6 +108,7 @@ The answer to "where does this rule live?" is always one skill, and every other 
 | `character-development` | Advancing an arc. Every chapter. |
 | `meta-knowledge` | Any MC who knows the future. Owns `state/foreknowledge.md`. |
 | `mc-intel-meter` | Any MC decision, deduction, plan or failure. |
+| `social-perception` | How well anyone reads people — the EQ tier, emotional signatures, and the misread. Owns the gap between EQ and intelligence. |
 | `dialogue-voice` | Any line of dialogue. Owns dialogue density and subtext. |
 | `lead-interest` | The primary love interest, after `mc-design`. Skip if `content.romance: none`. |
 
@@ -132,8 +133,13 @@ The answer to "where does this rule live?" is always one skill, and every other 
 `tech-plausibility` (scifi) · `fanfic-canon` (fanfic).
 
 **Optional** — only if the matching `optional:` key in `novel.md` is `on`: `no-harem` (default on)
-· `romance-arc` · `combat-choreography` · `litrpg-system` · `mystery-clues` · `comedy-levity` ·
-`grimdark-consequences` · `slice-of-life-texture`.
+· `romance-arc` · `combat-choreography` · `battle-scale` · `litrpg-system` · `mystery-clues` ·
+`comedy-levity` · `grimdark-consequences` · `slice-of-life-texture`.
+
+**Every module carries cards, not a body.** An active module is opened through its draft card in
+Phase A and its audit card in the pass its frontmatter names — `sw kb cards` and `sw kb passes`
+resolve both against this novel's config. Opening a module's `SKILL.md` mid-draft is the mistake
+§8 exists to prevent; the body is for designing the thing, the card for deciding it.
 
 ## 4. Hard rules
 
@@ -197,6 +203,12 @@ The answer to "where does this rule live?" is always one skill, and every other 
    tier-B character's first appearance gives the reader their relation to the POV character, what
    power they hold, and one concrete stroke — in motion, not as a caption. Subtext between people
    the reader cannot yet tell apart reads as confusion (`character-profile`).
+   Corollary — **and nobody reads minds.** How well a character reads *people* is a separate
+   axis from how well they reason, declared as `eq` beside `intel` in `bible/cast/_voices.md`,
+   and the gap between the two is most of a character. A reading is stated, never a mind: a
+   limited POV reports what somebody did, not what they had decided. The **misread** — signal on
+   the page, reading reasonable for their tier, true cause also visible, and a cost — is the
+   fourth legal way an intelligent character fails (`social-perception`).
    Corollary — **and nobody knows everything.** Expertise is narrow, declared per domain in
    `bible/cast/_competence.md`, and **an unlisted domain is `none`**. Every stated fact passes the
    provenance test — taught, did, told, read, or openly guessing — and skills are acquired across
@@ -315,13 +327,16 @@ novels/<slug>/
   novel.md              config + premise + blurb. YAML frontmatter is authoritative.
                         `title` may change at an arc boundary; `slug` never does.
   bible/
-    world.md            setting, locations + sensory signatures, factions, rules of the world
-    society.md          labour, money, law, knowledge, belief, mobility; rule propagation
+    world.md            setting, locations + sensory signatures, distances in days, factions,
+                        rules of the world
+    society.md          labour, money, law, knowledge, belief, mobility; rule propagation;
+                        the anchor wage and six prices; the oath and the two taboos
     power-system.md     (genre module) hard rules, costs, progression
     canon.md            (fanfic) canon facts, divergence point, OOC budget
     lexicon.md          spellings, names, terms, honorifics, units
     cast/<char>.md      one profile per tier-A/tier-B character
-    cast/_voices.md     cast voice matrix — every speaker's axes in one table, plus mirrors
+    cast/_voices.md     cast voice matrix — every speaker's axes in one table, `intel` and `eq`
+                        among them, plus mirrors
     cast/_competence.md who knows what, where the edge is, who they ask, what nobody knows
     cast/_extras.md     tier-C walk-on roster — one line each, never a profile
   plan/

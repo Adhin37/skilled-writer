@@ -13,6 +13,14 @@ metadata:
 The rule the whole toolkit rests on: **nothing is free.** A serial that gives without taking runs
 out of tension around chapter 40 and never recovers it, no matter how much happens.
 
+## What lives in `references/`
+
+| file | open it when |
+|---|---|
+| `references/aftermath.md` | the last chapter took something physical or psychological and this one has to carry it — injury at three time-scales, exhaustion, and what violence costs the person who did it |
+| `references/draft-card.md` | never, by you. `write-chapter` Phase A opens it |
+| `references/audit-card.md` | never, by you. `revision-pass` Pass 4 opens it |
+
 ---
 
 ## The cost rule

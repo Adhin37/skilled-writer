@@ -20,6 +20,40 @@ at init. Grow it only when the story enters a layer it has not shown.
 
 **Information speed (be numeric):** news takes ___ from ___ to ___.
 
+## Prices
+
+One anchor wage, and six prices expressed in **days of ordinary work** — the unit a reader feels.
+Fill these once; do not grow the table. See `social-fabric/references/prices-and-stakes.md`.
+
+**Anchor:** a ___ earns ___ a day. ___ = 1 ___, ___ = 1 ___.
+
+| thing | days of work | notes |
+|---|---|---|
+| a day's food | | |
+| a night's lodging | | |
+| the tool of the MC's trade | | |
+| a month's rent or its equivalent | | |
+| the cheapest thing from the power system | | |
+| a bribe that works | | |
+
+Prices are stable. If one moves, somebody caused it and somebody profits — that is a plot event,
+and it is logged like any other.
+
+## Belief and ritual
+
+Question 5 in practice, filled only if the story enters it. Four answers, one oath, two taboos.
+See `social-fabric/references/belief-and-ritual.md`.
+
+| | |
+|---|---|
+| what happens when you die | |
+| what is done on the days that matter | |
+| what is forbidden, and what happens to whoever does it | |
+| who speaks for it, and what they get out of that | |
+| **the oath** — words, witness, and what the breaker loses | |
+| taboo the MC obeys without thinking | |
+| taboo the MC does not know yet | |
+
 ## Propagation of the central rule
 
 One table per hard rule from `power-system.md` / `canon.md`. See `social-fabric` §2.

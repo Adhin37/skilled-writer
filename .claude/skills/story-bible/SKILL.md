@@ -22,6 +22,12 @@ The failure mode at setup is a 6,000-word gazetteer of nations and calendars, no
 affects a sentence. The failure mode mid-serial is the opposite: facts invented in chapters and
 never recorded, contradicted forty chapters later.
 
+## What lives in `references/`
+
+| file | open it when |
+|---|---|
+| `references/geography-and-travel.md` | the story leaves where it started, a plan depends on somebody arriving, or a chapter moved people and you cannot say how long it took — the distance table, the rates, and what a map is actually for |
+
 ---
 
 ## The inclusion test

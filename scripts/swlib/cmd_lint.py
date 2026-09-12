@@ -43,6 +43,7 @@ def lint_chapter(novel, ch, rep=None):
     _register(novel, ch, rep)
     _rhythm(ch, rep)
     _anchor(novel, ch, rep)
+    _group_scenes(novel, ch, rep)
     _ledger(novel, ch, rep)
     return rep
 
@@ -253,6 +254,52 @@ def _channels(novel, ch, rep):
                 break
 
     _scene_breaks(ch, rep)
+
+
+def _group_scenes(novel, ch, rep):
+    """Which scenes have three or more speakers, so the drafter knows the rules changed.
+
+    A note, and deliberately only a note. It is a **trigger surface**, not a verdict: at three
+    speakers a scene changes category - turn allocation stops being alternation, somebody has to
+    be deliberately silent, and the reader needs position and property to keep four people apart
+    (`scene-craft/references/group-scenes.md`). Nothing here says the scene is wrong. It says the
+    reference applies, which is the thing nobody remembers to check.
+
+    There is no matching check for a child's register, and that is a decision rather than an
+    omission: detecting who is a child would mean either guessing from a turn length or adding an
+    axis to the matrix, and `voice-separation/references/age-register.md` states that age does not
+    get an axis. A check that guesses is a number somebody optimises.
+    """
+    names = [r.first() for r in novel.voice_rows()]
+    tokens = {}
+    for name in names:
+        toks = [t for t in re.split(r"[^\w']+", name) if len(t) >= 2]
+        if toks:
+            tokens[name] = toks
+    if len(tokens) < 3:
+        return
+
+    body = ch.body
+    bounds = [0] + [m.end() for m in re.finditer(r"^\s*\*\s\*\s\*\s*$", body, re.M)]
+    bounds.append(len(body))
+    ranges = ch.speech_ranges
+
+    for index in range(len(bounds) - 1):
+        start, end = bounds[index], bounds[index + 1]
+        spans = [(a, b) for a, b in ranges if a >= start and b <= end]
+        if len(spans) < 3:
+            continue
+        segment = body[start:end]
+        here = [n for n, toks in tokens.items()
+                if any(re.search(r"\b%s\b" % re.escape(t), segment) for t in toks)]
+        if len(here) < 3:
+            continue
+        rep.note("group-scene",
+                 "scene %d has %d cast members present and speaking (%s) - at three the scene "
+                 "changes category: one driver, the rest blocking or pressure, and somebody "
+                 "silent on purpose"
+                 % (index + 1, len(here), ", ".join(sorted(here))),
+                 path=ch.path, line=ch.line_of(start))
 
 
 def _scene_breaks(ch, rep):

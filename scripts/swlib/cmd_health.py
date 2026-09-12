@@ -334,6 +334,14 @@ BOILERPLATE = (
     "cite them so the gaps",
     "when its trigger fires",
     "section numbers are stable",
+    # Card scaffolding. Every audit card closes on the same three-column triage table; the
+    # header is structure, not advice, and a skill that writes one has copied a form rather
+    # than somebody else's rule. Kept to the single canonical wording on purpose - a second
+    # accepted spelling of the same header is how the exemption grows into a hole.
+    "where it fails most often symptom what it actually is go to",
+    # The card rows in a skill's own reference table. Every skill that owns a card writes the
+    # same disclaimer, and it is an instruction about who opens the file rather than advice.
+    "never by you",
 )
 
 OVERLAP_RUN = 10        # words, normalised, before a shared passage counts

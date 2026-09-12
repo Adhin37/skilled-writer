@@ -28,7 +28,7 @@ automatically when only one novel exists.
 | `readset <novel> -c N` | Assembles the bounded read-set for chapter N — the sliced rows, not the whole files, plus the active optional/genre modules and the file to open for each. Opens with a GATE section: any earlier chapter still at `status: drafted`, and the WATCH row (checks that fired in 2+ of the last 5 chapters, plus the recent `gate>` lines). `--chars`, `--locs`, `--society`, `--out` | only with `--out` |
 | `lint <novel> [-c N \| --all]` | Sweeps one chapter, or every chapter with `--all`: MTL banned phrases, the AI-default cut list, narration exclamation marks, the four channels, thought budget, apostrophe collisions, stray markup, frontmatter, anchor vocabulary, ledger agreement | no |
 | `arc <novel> [-a N]` | The distributional pass over one arc: per-chapter words, dialogue share, anchor count and ledger presence; the dialogue trend; the length spread; hooks; cast rotation; thread operations; foreknowledge. Ends with the judged half it cannot do | no |
-| `cast <novel>` | Audits `_voices.md` and `_competence.md` as tables: the straddle rule, the wit cap, the three-way clash, turn and hand-habit collisions, the deep-expertise budget, missing rows and referrals | no |
+| `cast <novel>` | Audits `_voices.md` and `_competence.md` as tables: the straddle rule, the wit cap, the three-way clash, the `eq` axis, turn and hand-habit collisions, the deep-expertise budget, missing rows and referrals | no |
 | `curve <novel>` | The power curve: gain step size and cadence, the four requirements on every gain, unpaid boost debts, a second climax boost, pressure monotony, the trivial budget, the flat stretch, tier rising while pressure falls, and the `pwr>` line's agreement with `state/power.md`. No-ops when `scaling.shape` is `none` | no |
 | `state <novel>` | Ledger against chapters, required CCS lines, block length, thread tension against last use, plan-row completeness, the promotion trigger, book-digest staleness | no |
 | `status <novel>` | Progress aggregation for `/novel-status`, and a warning for any chapter the phase C gate never ran on | no |
@@ -66,12 +66,19 @@ first human reader as having stiff dialogue and characters who were never introd
 | debut ledger | `cast` | where each character first appears, words before they speak, the sentence they arrive in, and which name token matched |
 | turn length | `cast` | each speaker's measured mean against the `turn` their own matrix row declares, with attribution coverage |
 | `near-clash` | `cast` | two speakers alike on intel **and** articulacy, differing only in wit |
+| `eq-*` | `cast` | the `eq` axis: a matrix with no values, nobody reading people better than the MC, a cast whose `eq` always equals `intel`, and two speakers sharing both. All warns; the only defect is a matrix that contradicts `mc.eq_tier` |
+| `group-scene` | `lint` | which scenes have three or more cast members speaking, and who they are — a trigger surface for `scene-craft/references/group-scenes.md`, never a verdict |
 
 **None of these is a gate.** They are notes and warns, and there is a test asserting the texture
 findings can never be raised to a defect. This repo has twice built a number that decided whether
 a chapter shipped — word count, then dialogue share — and both were optimised within five
 chapters, the second by bolting a muttering habit onto a protagonist to clear a floor by 0.2
 points. Read them to find where to look; fix what a reader would feel.
+
+There is no companion check for a child's or an elderly character's register, and that is a
+decision rather than a gap: detecting who is a child would mean guessing from a turn length or
+adding an axis to the voice matrix, and `voice-separation/references/age-register.md` states that
+age does not get an axis. A check that guesses is a number somebody writes toward.
 
 Turn-length attribution is deliberately conservative: a line counts for a speaker only when
 exactly one cast name appears in the narration around it. Coverage is printed with the table, so a
