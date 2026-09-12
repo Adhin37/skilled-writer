@@ -44,10 +44,11 @@ who had not thought about this world · a beat that costs the story something it
 What does not: a stylistic flourish, a withheld reveal, an ironic last line, or the chapter being
 well written.
 
-A failed Z4 is **not** a stop. Note it, name the one place the chapter could have taken the
-riskier option, and carry it into the next brief's WATCH row — it is a habit, and habits are
-invisible in one chapter. Three failures in five is the finding, and the repair is in Phase A's
-three candidates (`story-craft`'s card), not in the prose.
+A failed Z4 is **not** a stop. **Write the answer to the block's `z4>` line, `none` included** —
+the only trace this pass leaves, and one written to flatter the chapter defeats the point of
+asking. Name the one place it could have taken the riskier option, and carry that into the next
+brief — habits are invisible in one chapter. Three failures in five is the finding, and the
+repair is in Phase A's three candidates (`story-craft`'s card), not in the prose.
 
 If Z1 or Z2 fails, **stop**. Do not run passes 0–10. A chapter whose central event never got
 played does not have prose problems, and polishing it yields a well-written chapter nobody wants

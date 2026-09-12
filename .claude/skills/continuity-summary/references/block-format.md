@@ -28,6 +28,8 @@ bod> Rin: F2 juvenile, unchanged / could not reach the top shelf, stacked crates
 wld> Vesh: opens a file on Rin (institution, latency 10, fires ~ch52) / W04 grain levy unmoved
 fk> spent K3(forger's name) to place himself in the undercroft -> K3 spent ; K7,K9 now suspect (she was never there in the remembered version)
 set> undercroft: wet chalk smell, one lamp / Rin owns Dael's coat now
+cand> 2:Rin reports the seal to the Guild 3:Rin sells the forger's name to Vesh -> took 3, the other two leave him with nothing to trade
+z4> the forger is the one who warns him, and does it for free, which costs Rin more than a price would have
 hook> the ledger's first line is his father's name
 open> who paid the forger / why the Guild tolerates it
 ```
@@ -49,6 +51,8 @@ open> who paid the forger / why the Guild tolerates it
 | `set>` | new world/possession facts introduced — location anchors, social facts, what a thing costs. Feeds `bible/world.md` and `bible/society.md` later. Omit if none | no |
 | `fk>` | foreknowledge spent this chapter, what it cost, and which other items it invalidated. Omit only if `mc.foreknowledge` is unset. See `meta-knowledge` §5 | conditional |
 | `hook>` | the chapter's final beat | yes |
+| `cand>` | **the candidates Phase A did not take**, numbered as the draft card numbers them, then `-> took N` and a clause saying why. `story-craft`'s draft card owns the step; this line is the only place its output survives the conversation. Omit only if the chapter was drafted without the step, which is itself the thing worth seeing | no |
+| `z4>` | **the answer to Pass Z4** — the thing here a competent hack would not have written — or the literal `none`. `none` is a legitimate entry and is the point of the line: one is a chapter, a run of them is a habit, and `sw history` counts them | no |
 | `gate>` | **what Phase C had to fix** - check names where they have them, a dozen words at most. Omit the line entirely when the gate found nothing: an absent `gate>` is the clean signal, and a run of them is worth more than a run of `gate> clean`. `sw readset` reads the last five back to build the next chapter's WATCH row | no |
 | `open>` | questions the chapter deliberately left unanswered | no |
 

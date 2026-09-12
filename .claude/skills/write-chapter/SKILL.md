@@ -186,7 +186,9 @@ deferrable to "later". When the block is written,
 
 | written | when |
 |---|---|
-| the CCS block, plus a `gate>` line naming what Phase C had to fix | always — and no `gate>` line at all when the gate came back clean |
+| the CCS block, plus a `gate>` line naming what Phase C had to fix | always. `continuity-summary` owns when the line is present and when it is absent |
+| a `cand>` line: the Phase A candidates you did not take, and why the taken one won | always, when the three-candidate step ran. It is the only place that step's output survives the conversation |
+| a `z4>` line: Pass Z4's answer, or the literal `none` | always. `none` is a real answer and the reason the line exists — one is a chapter, a run of them is a habit |
 | `state/threads.md`, `state/growth.md`, `state/timeline.md` | always |
 | `set>` facts into `bible/world.md`, `bible/society.md`, `bible/lexicon.md` | a location anchor, price, custom or name reached the page. One never recorded drifts by its third appearance |
 | a roster line in `bible/cast/_extras.md` | any walk-on. A third appearance or a changed plot promotes them **now**, earning rows in `_voices.md` and `_competence.md`, placed against the existing cast |

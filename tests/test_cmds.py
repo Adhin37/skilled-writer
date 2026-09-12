@@ -590,3 +590,78 @@ class TestNoteTierRegistry(unittest.TestCase):
     def test_the_two_sets_do_not_overlap(self):
         from swlib import rules
         self.assertEqual(rules.HABIT_NOTE_CHECKS & rules.SITUATION_NOTE_CHECKS, frozenset())
+
+
+class TestWideningArtifacts(unittest.TestCase):
+    """`cand>` and `z4>` - the two steps that used to leave no trace anywhere.
+
+    The three-candidate step happens inside the Phase A brief, which is written into the
+    conversation and discarded, and Pass Z4's answer went nowhere at all. Benchmark run #4 ran
+    five chapters through both and could not tell whether either had fired - which
+    docs/benchmark.md calls a worse state than untested. These two optional CCS lines are the
+    artifact, and this asserts they survive the round trip and get counted.
+    """
+
+    EXTRA = ("cand> 2:she pays the clerk 3:she waits for the shift change -> took 3, "
+             "paying makes her a customer\nz4> %s\n")
+
+    def _novel(self, fx, answers):
+        for n in range(1, len(answers) + 1):
+            fx.add_chapter(n, BODY)
+        fx.add_ledger(list(range(1, len(answers) + 1)))
+        with open(fx.path("state", "continuity.md"), encoding="utf-8") as fh:
+            text = fh.read()
+        # Splice the two lines in above each block's `hook>`, which every block carries.
+        out, i = [], 0
+        for line in text.splitlines(True):
+            if line.startswith("hook>"):
+                out.append(self.EXTRA % answers[i])
+                i += 1
+            out.append(line)
+        fx.write("state/continuity.md", "".join(out))
+        return fx.novel()
+
+    def test_the_lines_parse_and_reach_the_read_set(self):
+        from swlib import cmd_readset
+        with NovelFixture() as fx:
+            novel = self._novel(fx, ["the clerk is the one who is frightened"] * 3)
+            rows, nones = cmd_readset.z4_row(novel, 4)
+            self.assertEqual(len(rows), 3)
+            self.assertEqual(nones, 0)
+            self.assertIn("frightened", rows[0])
+
+    def test_none_is_counted_rather_than_ignored(self):
+        """`none` is a legitimate answer, and counting it is the entire point of the line."""
+        from swlib import cmd_readset
+        with NovelFixture() as fx:
+            novel = self._novel(fx, ["none", "none", "the clerk is frightened"])
+            _rows, nones = cmd_readset.z4_row(novel, 4)
+            self.assertEqual(nones, 2)
+
+    def test_history_reports_the_widening_section(self):
+        with NovelFixture() as fx:
+            self._novel(fx, ["none"] * 3)
+            code, out, _err = run("history", fx.root)
+            self.assertIn("widening", out)
+            self.assertIn("candidates recorded", out)
+            self.assertNotEqual(code, 2)
+
+    def test_a_block_carrying_both_lines_is_within_the_cap(self):
+        """Every block of the heaviest live novel already sat at the old cap of 15."""
+        from swlib import rules
+        with NovelFixture() as fx:
+            novel = self._novel(fx, ["none"] * 2)
+            for b in novel.blocks():
+                if b.number is not None:
+                    self.assertLessEqual(b.line_count, rules.CCS_MAX_LINES)
+
+    def test_both_lines_stay_optional(self):
+        """A ledger written before these existed must not become defective."""
+        with NovelFixture() as fx:
+            for n in (1, 2):
+                fx.add_chapter(n, BODY)
+            fx.add_ledger([1, 2])
+            code, out, _err = run("state", fx.root)
+            self.assertNotIn("cand", out)
+            self.assertNotIn("`z4>`", out)
+            self.assertNotEqual(code, 2)

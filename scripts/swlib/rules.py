@@ -223,7 +223,11 @@ REQUIRED_FRONTMATTER = ["number", "title", "pov", "arc", "event", "delivers", "w
 # continuity-summary: CCS lines that are required on every block.
 REQUIRED_CCS = ["dlv", "ev", "chg", "kno", "thr", "obj", "hook"]
 
-CCS_MAX_LINES = 15
+# Raised 15 -> 17 when `cand>` and `z4>` arrived. Every block of the heaviest live novel sat at
+# exactly 15, so the two new lines needed the room. The cap exists to keep a block compressed
+# enough that five of them are cheap in a read-set, and it still does: a full block is header
+# plus at most sixteen keys, and most chapters write far fewer.
+CCS_MAX_LINES = 17
 THOUGHT_FLOOR = 1               # ...and a floor, because only the ceiling was ever checked
 THOUGHT_BUDGET = 3
 SPEECH_FLOOR = 10.0

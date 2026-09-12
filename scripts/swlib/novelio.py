@@ -33,9 +33,12 @@ class CCSBlock(object):
         return 1 + len(self.lines)
 
     def keys(self):
+        # `[a-z][a-z0-9]*`, not `[a-z]+`: `z4>` names the gate pass it records, and under the
+        # old pattern it parsed as nothing at all - the line was written, stored, and invisible
+        # to every reader. Digits are allowed after the first letter for that reason only.
         out = {}
         for line in self.lines:
-            m = re.match(r"^([a-z]+)>\s*(.*)$", line)
+            m = re.match(r"^([a-z][a-z0-9]*)>\s*(.*)$", line)
             if m:
                 out.setdefault(m.group(1), []).append(m.group(2))
         return out

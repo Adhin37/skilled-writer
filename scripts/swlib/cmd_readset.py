@@ -312,6 +312,29 @@ def watch_row(novel, number):
     return row, notes
 
 
+def z4_row(novel, number):
+    """Pass Z4's recent answers, and how many of them were `none`.
+
+    Z4 asks what a competent hack would not have written, and its own text says a failure is a
+    habit rather than a stop - "three failures in five is the finding", repaired in Phase A's
+    candidates. A habit needs the previous answers in front of the drafter, which is what this
+    is. Never a score: `none` is a legitimate answer and the honest one is worth more than a
+    flattering one.
+    """
+    lo = max(1, number - WATCH_WINDOW)
+    out, nones = [], 0
+    for b in novel.blocks():
+        if b.number is None or not (lo <= b.number <= number - 1):
+            continue
+        if not b.has("z4"):
+            continue
+        val = b.get("z4").strip()
+        if val.lower() == "none":
+            nones += 1
+        out.append("c%d %s" % (b.number, val))
+    return out, nones
+
+
 def build(novel, number, chars=None, locs=None, want_society=False):
     cfg_lines = []
     for key in CONFIG_KEYS:
@@ -334,7 +357,8 @@ def build(novel, number, chars=None, locs=None, want_society=False):
 
     stale = novel.ungated_chapters(below=number)
     row, notes = watch_row(novel, number)
-    if stale or row or notes:
+    z4s, z4_nones = z4_row(novel, number)
+    if stale or row or notes or z4s:
         add("\n## GATE (write-chapter phase C - what it left behind)")
     if stale:
         add("DEFECT ch %d is `status: %s` - the phase C gate never ran on it%s."
@@ -352,6 +376,12 @@ def build(novel, number, chars=None, locs=None, want_society=False):
         add("       tier is where checks live that are fine once and a fingerprint at density.")
     if notes:
         add("gate>  " + "\n       ".join(notes))
+    if z4s:
+        add("z4>    " + "\n       ".join(z4s))
+        if z4_nones >= 2:
+            add("       %d of the last %d answered `none`. Pass Z4's repair is in phase A's"
+                % (z4_nones, len(z4s)))
+            add("       three candidates, not in the prose - widen before drafting, not after.")
 
     add("\n## 0. CONFIG (novel.md, the fields that gate a chapter)")
     add("\n".join(cfg_lines))

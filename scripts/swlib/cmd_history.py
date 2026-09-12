@@ -81,6 +81,9 @@ def run(novel):
             "status": str(ch.meta.get("status", "")),
             "delivers": str(ch.meta.get("delivers", "")),
             "has_block": block is not None,
+            "z4": (block.get("z4").strip() if block is not None and block.has("z4") else ""),
+            "cand": (block.get("cand").strip() if block is not None and block.has("cand")
+                     else ""),
             "defects": defects["defect"],
             "warnings": defects["warn"],
             "checks": defects["checks"],
@@ -94,6 +97,7 @@ def run(novel):
     _summary(rep, rows)
     _length(rep, rows)
     _defects(rep, rows)
+    _widening(rep, rows)
     _threads(novel, rep, rows, data)
     _curve(novel, rep, data)
     _cadence(rep, rows, data)
@@ -224,6 +228,47 @@ def _defects(rep, rows):
             rep.warn("history-habit",
                      "`%s` (%s) fires on %d of %d chapters - that is a drafting habit"
                      % (check, level[check], len(chs), len(rows)))
+
+
+def _widening(rep, rows):
+    """Pass Z4's answers and Phase A's candidates, counted across the book.
+
+    Both steps used to leave no artifact anywhere: the Phase A brief is written into the
+    conversation and discarded, and Z4's answer went nowhere. Benchmark run #4 ran five
+    chapters through both and could not tell whether either had fired, which is worse than
+    untested - `docs/creative-latitude.md` had said of exactly these two that they wanted a
+    benchmark run to evaluate, and the run could not see them.
+
+    `z4> none` is a legitimate entry, and counting it is the whole point: Pass Z4 says a
+    failure is a habit rather than a stop, and names three in five as the finding. This
+    reports; it decides nothing, and no chapter ships or fails on it.
+    """
+    blocked = [r for r in rows if r["has_block"]]
+    if not blocked:
+        return
+    answered = [r for r in blocked if r["z4"]]
+    none_rows = [r["number"] for r in answered if r["z4"].strip().lower() == "none"]
+    missing = [r["number"] for r in blocked if not r["z4"]]
+    cand = [r for r in blocked if r["cand"]]
+
+    lines = ["   %-22s %s" % ("Z4 answered", "%d of %d block(s)"
+                              % (len(answered), len(blocked)))]
+    if none_rows:
+        lines.append("   %-22s %s" % ("...of which `none`", _runs(none_rows)))
+    if missing:
+        lines.append("   %-22s %s" % ("...no `z4>` line", _runs(missing)))
+    lines.append("   %-22s %d of %d block(s)"
+                 % ("candidates recorded", len(cand), len(blocked)))
+    lines.append("   The only two steps in the loop that widen rather than narrow. Printed,")
+    lines.append("   never scored: a `z4>` line written to look good is worse than a `none`.")
+    rep.info("widening", lines)
+
+    # Z4's own threshold, in its own words: "Three failures in five is the finding."
+    if len(answered) >= 5 and len(none_rows) >= max(3, int(len(answered) * 0.6)):
+        rep.warn("history-z4",
+                 "Pass Z4 answered `none` on %d of %d answered chapter(s) - that is a habit, "
+                 "and the repair is in Phase A's candidates rather than in the prose"
+                 % (len(none_rows), len(answered)))
 
 
 def _threads(novel, rep, rows, data):
