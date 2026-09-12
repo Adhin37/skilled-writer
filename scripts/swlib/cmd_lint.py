@@ -55,15 +55,35 @@ def check_counts(novel, ch):
     Shared by `sw history` (defects over time) and `sw readset` (the WATCH row), both of which
     want the check *names* rather than the rendered text. Counting, not judging: a check that
     fired is a place to look.
+
+    Two buckets, and the split is the point. `checks` holds the defect- and warn-level names;
+    `notes` holds the note-level **habit** checks (`rules.HABIT_NOTE_CHECKS`), counted
+    identically and kept apart. Situation notes - `group-scene`, which reports that a scene has
+    three or more speakers - are deliberately in neither: a book with group scenes has group
+    scenes, and that is not something a gate keeps having to fix.
+
+    The note tier exists because any single instance of a habit is fine - one antithesis, one
+    uninterrupted scene, one filter verb. That reasoning is right, and it had a consequence
+    nobody had noticed: both cross-chapter mechanisms in this toolkit read `checks`, so the
+    findings that are *only* meaningful across chapters were the ones excluded from the only
+    two things that look across chapters. On benchmark run #4's six chapters `house-style`
+    fired on five of them and reached neither the WATCH row nor `sw history`.
+
+    Callers merge the two when they are asking what has *recurred*. Nothing merges them when
+    scoring a chapter, and nothing may: a note that becomes a warn is a per-chapter number,
+    and every per-chapter number this repo has built got optimised rather than satisfied
+    (word count, then dialogue share - docs/benchmark.md).
     """
     sub = Report()
     lint_chapter(novel, ch, sub)
-    counts = {"defect": 0, "warn": 0, "checks": {}}
+    counts = {"defect": 0, "warn": 0, "checks": {}, "notes": {}}
     for f in sub.findings:
         if f.level in counts:
             counts[f.level] += 1
         if f.level in ("defect", "warn"):
             counts["checks"][f.check] = counts["checks"].get(f.check, 0) + 1
+        elif f.level == "note" and f.check in rules.HABIT_NOTE_CHECKS:
+            counts["notes"][f.check] = counts["notes"].get(f.check, 0) + 1
     return counts
 
 
@@ -217,12 +237,25 @@ def _channels(novel, ch, rep):
         rep.warn("speech-share", "%.1f%% spoken aloud, above the %.0f%% target - check for "
                  "talking heads" % (share, rules.SPEECH_TARGET_HIGH), path=p)
 
+    # The budget is a range - `CLAUDE.md` hard rule 7 says 1-3 - and only the ceiling was ever
+    # checked. Run #4 put zero direct thoughts in four of six chapters and nothing said a word,
+    # which is run #3's lesson recurring: a prohibition is satisfied by silence, so a drafter
+    # who never opens the channel never misuses it. The floor is a note, never a defect: one
+    # deliberately interior-free chapter is a choice, and a run of them is the finding - which
+    # is what the habit tier is for.
     thoughts = ch.thoughts()
     if len(thoughts) > rules.THOUGHT_BUDGET:
         rep.defect("thought-budget",
                    "%d direct-thought marks; the budget is %d. Convert the surplus back to "
                    "free indirect discourse" % (len(thoughts), rules.THOUGHT_BUDGET),
                    path=p, line=ch.line_of(thoughts[rules.THOUGHT_BUDGET].start()))
+    elif not thoughts and str(novel.get("narration.interiority") or "").lower() != "low":
+        rep.note("thought-budget",
+                 "no direct-thought marks at all; the budget is %d-%d and "
+                 "narration.interiority is `%s`. The channel costs nothing to leave shut, and "
+                 "a book that never opens it has three channels, not four"
+                 % (rules.THOUGHT_FLOOR, rules.THOUGHT_BUDGET,
+                    novel.get("narration.interiority")), path=p)
 
     for line_no, text in ch.unterminated_thoughts():
         rep.defect("channel-collision",

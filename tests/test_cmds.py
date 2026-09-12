@@ -444,3 +444,149 @@ class TestDialogueStarvation(unittest.TestCase):
             rep = cmd_history.run(fx.novel())[0]
             body = " ".join(l for _h, lines in rep.sections for l in lines)
             self.assertNotIn("speech-starvation", body)
+
+
+class TestHabitNotes(unittest.TestCase):
+    """The note tier reaches the two cross-chapter detectors, and never reaches a chapter.
+
+    Note-level checks are the habit checks - a thing that is fine once and a fingerprint at
+    density. Both mechanisms that look across chapters (`readset`'s WATCH row, `history`'s
+    habit table) read `cmd_lint.check_counts`, which counted only defects and warns, so every
+    habit was invisible to the only two things able to see one. Benchmark run #4 shipped five
+    of six chapters with `house-style` firing and told the drafter nothing.
+    """
+
+    # Narration, because `house_style_hits` exempts dialogue on purpose: the defect is the
+    # *narrator* having one register. Each line carries one `X, not Y` antithesis.
+    HABIT_BODY = (
+        "The room was cold, not empty.\n\n"
+        "She counted the coins, not the notes.\n\n"
+        "\"Shut it,\" she said.\n\nHe shut it.\n"
+    )
+
+    def _populate(self, fx, chapters=5):
+        for n in range(1, chapters + 1):
+            fx.add_chapter(n, self.HABIT_BODY)
+        return fx
+
+    def test_a_habit_note_reaches_the_watch_row(self):
+        """Was: house-style fired on five of five chapters and the row never named it."""
+        from swlib import cmd_readset
+        with NovelFixture() as fx:
+            self._populate(fx)
+            row, _gate = cmd_readset.watch_row(fx.novel(), 6)
+            self.assertTrue(any("house-style" in item for item in row),
+                            "a habit note that recurred is missing from WATCH: %r" % row)
+
+    def test_a_habit_note_reaches_the_history_table(self):
+        with NovelFixture() as fx:
+            self._populate(fx)
+            code, out, _err = run("history", fx.root)
+            self.assertIn("house-style", out)
+            self.assertIn("note", out)
+            self.assertNotEqual(code, 2)
+
+    def test_a_situation_note_never_reaches_the_watch_row(self):
+        """`group-scene` reports what a chapter contains, and says "Read it and discount it".
+
+        A book with group scenes in every chapter has group scenes. That is not a habit, and
+        the WATCH row is what the gate keeps having to fix.
+        """
+        from swlib import cmd_lint, cmd_readset, rules
+        self.assertIn("group-scene", rules.SITUATION_NOTE_CHECKS)
+        self.assertNotIn("group-scene", rules.HABIT_NOTE_CHECKS)
+        with NovelFixture() as fx:
+            self._populate(fx)
+            novel = fx.novel()
+            for ch in novel.chapters():
+                self.assertNotIn("group-scene", cmd_lint.check_counts(novel, ch)["notes"])
+            row, _gate = cmd_readset.watch_row(novel, 6)
+            self.assertFalse(any("group-scene" in item for item in row), row)
+
+    def test_a_note_is_never_counted_as_a_defect_or_a_warn(self):
+        """The standing rule: nothing here may become a number that decides shipping.
+
+        Word count and then dialogue share were both built as ship gates and both were
+        optimised rather than satisfied (docs/benchmark.md). A note promoted to a warn is the
+        same mistake with a different name, so the count is asserted rather than trusted.
+        """
+        from swlib import cmd_lint
+        from swlib.report import Report
+        with NovelFixture() as fx:
+            self._populate(fx)
+            novel = fx.novel()
+            for ch in novel.chapters():
+                counts = cmd_lint.check_counts(novel, ch)
+                self.assertIn("house-style", counts["notes"])
+
+                # The bucket is decided by the finding's LEVEL, never by its check name. Two
+                # checks deliberately fire at more than one level - `house-style` notes each
+                # construction and warns on the aggregate rate, `thought-budget` notes the
+                # floor and raises a defect on the ceiling - so a name-based rule would be
+                # both wrong and quietly restrictive.
+                sub = Report()
+                cmd_lint.lint_chapter(novel, ch, sub)
+                scored = set(f.check for f in sub.findings
+                             if f.level in ("defect", "warn"))
+                self.assertEqual(set(counts["checks"]), scored)
+                for f in sub.findings:
+                    if f.level == "note" and f.check not in scored:
+                        self.assertNotIn(f.check, counts["checks"],
+                                         "note-level %r leaked into the scoring tier"
+                                         % f.check)
+
+    def test_warns_outrank_notes_in_the_watch_row(self):
+        """Notes fire far more often, so a frequency-first sort evicted every warn.
+
+        WATCH_CAP is small by design. Ranking on frequency alone traded one blind spot for
+        another: the row that named recurring warns stopped naming them.
+        """
+        from swlib import cmd_readset
+        body = self.HABIT_BODY + "\n" + "\n\n".join(
+            ["It was late." for _ in range(2)]) + "\n"
+        with NovelFixture() as fx:
+            for n in range(1, 6):
+                fx.add_chapter(n, body)
+            novel = fx.novel()
+            hits = {}
+            for ch in novel.chapters():
+                from swlib import cmd_lint
+                counts = cmd_lint.check_counts(novel, ch)
+                for c in counts["checks"]:
+                    hits.setdefault(c, ["warn", 0])[1] += 1
+                for c in counts["notes"]:
+                    hits.setdefault(c, ["note", 0])[1] += 1
+            recurring_warns = [c for c, (lvl, n) in hits.items()
+                               if lvl == "warn" and n >= cmd_readset.WATCH_MIN]
+            if not recurring_warns:
+                self.skipTest("fixture produced no recurring warn to rank")
+            row, _gate = cmd_readset.watch_row(novel, 6)
+            for check in recurring_warns:
+                self.assertTrue(any(check in item for item in row),
+                                "recurring warn %r evicted from WATCH by notes: %r"
+                                % (check, row))
+
+
+class TestNoteTierRegistry(unittest.TestCase):
+    """Every note-level check is classified, so a new one cannot be silently forgotten.
+
+    The habit set is an allowlist: a new note check is a situation note until somebody decides
+    otherwise. What this forbids is a note check in *neither* set, which would read as a
+    deliberate classification and is actually an omission.
+    """
+
+    def test_every_note_check_is_classified(self):
+        from swlib import rules
+        with open(os.path.join(REPO, "scripts", "swlib", "cmd_lint.py"),
+                  encoding="utf-8") as fh:
+            source = fh.read()
+        names = set(re.findall(r'rep\.note\("([a-z0-9-]+)"', source))
+        self.assertTrue(names, "no note-level checks found - did the call shape change?")
+        known = rules.HABIT_NOTE_CHECKS | rules.SITUATION_NOTE_CHECKS
+        self.assertEqual(sorted(names - known), [],
+                         "unclassified note check(s): add to HABIT_NOTE_CHECKS or "
+                         "SITUATION_NOTE_CHECKS in rules.py")
+
+    def test_the_two_sets_do_not_overlap(self):
+        from swlib import rules
+        self.assertEqual(rules.HABIT_NOTE_CHECKS & rules.SITUATION_NOTE_CHECKS, frozenset())

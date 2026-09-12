@@ -56,13 +56,13 @@ the steps stood a hand higher than the Ledger allowed.
 
 She counted the courses twice. Both times the stone gave her the same wrong answer.
 
-"You are early," Maro said from the doorway. He had six coins stacked on the rail beside him and
-he did not look up from them. "The clerks do not open the book until the bell."
+"You’re early," Maro said from the doorway. He had six coins stacked on the rail beside him and
+he did not look up from them. "The clerks don’t open the book until the bell."
 
 "The book is already open." Wren put two fingers against the salt. "Somebody drew against the
 harbour last night."
 
-"Somebody draws against the harbour every night. That is what a harbour is for."
+"Somebody draws against the harbour every night. That’s what a harbour is for."
 
 "Not four fathoms of it."
 
@@ -73,11 +73,15 @@ hurried where anyone could see him do it.
 He looked at the line for a long moment. "Four is a barge," he said. "Four is somebody moving
 grain out of Ashfall before the levy lands."
 
-"Four is somebody who does not care that the whole quay reads this stone every morning."
+"Four is somebody who doesn’t care that the whole quay reads this stone every morning."
 
 "Or somebody who wanted it read." He wiped the salt off his thumb. "Whose name is under it?"
 
-Wren had been standing so that her body covered that part of the step. She moved.
+Wren had been standing so that her body covered that part of the step.
+
+‘He will read it in a moment either way.’
+
+She moved.
 
 The clerks had written the draw in the small square hand they used for everything, the letters
 tipped left, and under it, where the debtor signs, somebody had put her name. Not a copy of her
@@ -86,13 +90,14 @@ still corrected on the tally slips.
 
 Maro read it. Then he read it again, which he did not do with things.
 
-"You did not sign that," he said. It was not a question, and Wren was grateful for it in a way
+"You didn’t sign that," he said. It was not a question, and Wren was grateful for it in a way
 she could not have explained without sounding young.
 
-"I was in the counting room until the second bell. Ossian saw me leave."
+"I was in the counting room until the second bell. Ossian saw me—"
 
-"Then somebody wrote you into a debt of four fathoms." He straightened. "Wren. A saltwright with
-a draw against her cannot hold a licence. They will take the seal by the end of the month."
+Maro raised a hand, not quickly. "I know where you were. Somebody wrote you into a debt of four
+fathoms, and a saltwright with a draw against her can’t hold a licence. They’ll take the seal by
+the end of the month."
 
 The bell rang, an hour late, and the clerks came out to open the book on a draw that already had
 a debtor.''',
@@ -118,22 +123,22 @@ rudeness. The office simply had no category for a petitioner who also worked the
 "A draw is a draw," the senior clerk said. He was a narrow man named Hesk with ink to the second
 knuckle. "The stone records it. The book records the stone."
 
-"The book records a debtor," Wren said. "I am the debtor. I did not draw."
+"The book records a debtor," Wren said. "I’m the debtor. I didn’t—"
 
-"Then the book is wrong, and the book is not wrong."
+"Then the book is wrong." Hesk turned a page he had already read. "And the book isn’t wrong."
 
 "Show me the manifest."
 
 Hesk looked up for the first time. Behind him two juniors had stopped copying, in the particular
 way people stop when they want to be seen to be working.
 
-"There is a manifest," Wren said. "Four fathoms does not come off the harbour on somebody's word.
-A saltwright signs the draw and a factor signs the manifest and the clerks match the two. That is
+"There is a manifest," Wren said. "Four fathoms doesn’t come off the harbour on somebody's word.
+A saltwright signs the draw and a factor signs the manifest and the clerks match the two. That’s
 the whole of your office."
 
 "You know the office."
 
-"I am three years in it."
+"I’m three years in it."
 
 He went to the shelf. He was gone long enough that Maro, who had come in behind her and said
 nothing at all, put his back against the door frame and stayed there.
@@ -159,16 +164,18 @@ there too.
 She kept her voice where she kept it for counting, which was low and slightly bored, and which had
 never once failed to make a clerk finish a sentence he had not meant to start.
 
-"It is a matter for the person whose name is on the stone."
+"It’s a matter for the person whose name is on the stone."
 
 Hesk did not move his hand. "You may lodge a counter-claim," he said. "A counter-claim is heard
-at the quarter. Until the quarter you are a saltwright with a draw against her, and I would not
+at the quarter. Until the quarter you’re a saltwright with a draw against her, and I wouldn’t
 present myself at the Tidehouse in that condition if I were you."
 
-Maro spoke from the door. "She is not asking you to read it out. She is asking you to move your
+Maro spoke from the door. "She isn’t asking you to read it out. She’s asking you to move your
 hand."
 
-"I am aware of what she is asking."
+"I’m aware of what she’s asking."
+
+‘And he is not going to move that hand.’
 
 Nobody moved for a while. Then Hesk slid the manifest back into its sleeve, and Wren went out
 into the light with nothing except the shape of a signature she had not been allowed to see, and
@@ -200,7 +207,7 @@ the heat coming through the door.
 
 Bel laid the peel across the mouth of the oven.
 
-"I need a water ration and a clerk who can count. We are both going to be disappointed." She
+"I need a water ration and a clerk who can count. We’re both going to be disappointed." She
 pulled the tray, banged it flat on the board, and only then looked at Wren properly. Whatever she
 found there made her put the cloth down. "Sit."
 
@@ -216,14 +223,17 @@ counting children, the long scrape of the other oven's door. Nine families. It w
 had been carrying around all week without once saying it out loud.
 
 "The barge is the Corun," Bel said. "Out on the ebb, low in the water, and nobody on the row
-slept through the loading because they did it with the lamps hooded." She began cutting the loaf
-without looking at it. "Grain, they said. Grain does not need hooded lamps. Grain does not need
-six men who are not dock crew."
+slept through the loading because they did it with the lamps hooded."
 
-"You are certain about the name."
+Bel began cutting the loaf without looking at it.
+
+"Grain, they said. Grain doesn’t need hooded lamps. Grain doesn’t need six men who aren’t dock
+crew."
+
+"You’re certain about the name."
 
 "It was painted out and painted over. You can read the ghost of it at the waterline when the
-light is low." Bel pushed half the loaf across. "Eat that. You have the face you get."
+light is low." Bel pushed half the loaf across. "Eat that. You’ve got the face you get."
 
 The row had no reason to watch a barge load. That was the thing worth carrying out of the
 bakehouse. Nine families had stood at their windows in the middle of the night over hooded lamps,
@@ -232,7 +242,9 @@ which meant the lamps had been wrong enough to be worth losing sleep over.
 Wren ate, because Bel would not go on until she did, and because the bread was warm and she had
 not stopped moving since the bell.
 
-The paint, she thought. That was the piece that mattered. A barge running a legitimate draw does
+‘The paint. Start with the paint.’
+
+That was the piece that mattered. A barge running a legitimate draw does
 not paint out its name, and a barge running an illegitimate one does not paint it back on badly
 enough to be read at the waterline. Somebody had done both, which meant somebody had changed their
 mind partway through the night about whether this was going to be a secret.
@@ -241,7 +253,7 @@ mind partway through the night about whether this was going to be a secret.
 
 "The seal, if the counter-claim fails."
 
-"And if it does not fail?"
+"And if it doesn’t fail?"
 
 "Then somebody senior at the Tidehouse loses a great deal more than a seal, and I have to be
 right in front of the whole quarter about a signature I have never been shown."
@@ -249,18 +261,22 @@ right in front of the whole quarter about a signature I have never been shown."
 Bel wiped her palms down her apron, once, and reached under the board. What she brought up was a
 folded square of Tidehouse paper, soft at the creases from being carried.
 
-"My oven licence," she said. "Lapsed the first of the month. Hesk has been sitting on the renewal
-since spring because the row will not pay him what the row does not have."
+"My oven licence," she said. "Lapsed the first of the month. Hesk’s been sitting on the renewal
+since spring because the row won’t pay him what the row doesn’t have."
 
 She laid it on the table between them and kept two fingers on the corner.
 
 "You take that to the counter-claim," Bel said, "and you make the quarter look at it, and Hesk
-has to explain two pieces of paper instead of one. But if you lose, I lose the oven, and the row
-loses its bread, and that is nine families, Wren, and I will have handed it to you myself."
+has to explain two pieces of paper instead of one."
+
+She did not take her fingers off the corner.
+
+"But if you lose, I lose the oven, and the row loses its bread. That’s nine families, Wren. And
+I’ll have handed it to you myself."
 
 Wren looked at the fingers on the corner of the paper.
 
-"Then do not hand it to me yet," she said.''',
+"Then don’t hand it to me yet," she said.''',
     ),
     dict(
         title="The Crew That Was Not There",
@@ -286,19 +302,19 @@ The quay was working around them, which was the point of having the conversation
 down a crew was arguing about a pallet in the flat, unhurried way of men who would still be
 arguing about it at noon.
 
-"I have not asked yet."
+"I haven’t asked yet."
 
-"You have asked six people this morning and I have heard about five of them." Tap. "The answer is
-no, and you should take it from me rather than from the man who tells you next."
+"You’ve asked six people this morning and I’ve heard about five of them." Tap. "The answer’s no,
+and you should take it from me rather than from the man who tells you next."
 
 Wren put her back against the bollard so that they were shoulder to shoulder and both facing the
 water, which was how you had a conversation on the quay that nobody wrote down.
 
-"Six men loaded the Corun," she said. "They were not dock crew. Dock crew is your roster. If they
-were not on your roster then somebody put them on a roster of their own, and there are not many
+"Six men loaded the Corun," she said. "They weren’t dock crew. Dock crew is your roster. If they
+weren’t on your roster then somebody put them on a roster of their own, and there aren’t many
 offices in Ashfall that keep one."
 
-"I am not going to name them."
+"I’m not going to name them."
 
 Wren had expected that, and had come anyway, which was the part he had not accounted for.
 
@@ -316,10 +332,13 @@ at night, and its whole purpose is that anyone not on it is a trespasser. Six me
 barge under hooded lamps and nobody had called them trespassers. Either they were on his roster,
 or they were on somebody else's, and there were not many offices in Ashfall that kept one.
 
-"You could have said you did not know," Wren said. "You could have said it was a crew out of the
-south quay and I would have gone and wasted three days on the south quay. You did not, because
-you will not lie to me, and you will not name them, and the only men in this town who buy that
-particular silence are men who can take your roster away."
+"You could have said you didn’t know," Wren said. "You could have said it was a crew out of the
+south quay and I’d have gone and wasted three days there. You didn’t."
+
+"Wren—"
+
+"You won’t lie to me and you won’t name them. The only men in this town who buy that particular
+silence are men who can take your roster away."
 
 Ossian looked at the water for a while. A gull came down on the next bollard and left again.
 
@@ -329,23 +348,28 @@ being, legible to the whole of Ashfall and disputed by nobody at all.
 
 He put his weight on the other foot.
 
-"The levy office keeps a night roster," he said, to nobody. "It is not a secret. It is written up
+"The levy office keeps a night roster," he said, to nobody. "It’s not a secret. It’s written up
 in the same room as everything else."
 
 "And the six?"
 
-"I said I am not going to name them." He turned round, and up close he was older than the quay
-made him look. "Wren. Listen to me, because I have known your master twenty years and I would
-rather do this once. There is a question you are three days from asking. When you ask it out loud,
-in front of the quarter, with Hesk in the room, you will have made it impossible for anybody to
-give you a small answer."
+"I said I’m not going to name them." He turned round, and up close he was older than the quay
+made him look. "Wren. Listen to me, because I’ve known your master twenty years and I’d rather do
+this once."
+
+She waited. He did not hurry.
+
+"There’s a question you’re three days from asking. Ask it out loud, in front of the quarter, with
+Hesk in the room, and you’ll have made it impossible for anybody to give you a small answer."
 
 Wren looked out at the water instead of at him, because he had earned that much.
 
-"I am already in a draw for four fathoms."
+‘He has already told me. He is waiting to see whether I noticed.’
 
-"That is the small answer." The ring went back into his pocket. "Ask a different one and they can
-still let you keep the seal. Ask that one and they cannot."
+"I’m already in a draw for four fathoms."
+
+"That’s the small answer." The ring went back into his pocket. "Ask a different one and they can
+still let you keep the seal. Ask that one and they can’t."
 
 He went back down the quay hand over hand, stopping twice for things that did not need him, and
 Wren stayed at the bollard with the water going out in front of her.
@@ -373,9 +397,9 @@ same, and both times she disliked the answer for exactly as long as it took her 
         prose='''Maro came to the counting room at the hour when the lamps were lit and the clerks had gone,
 and he put the grey sleeve on the table without any ceremony at all.
 
-"That is not yours," Wren said.
+"That isn’t yours," Wren said.
 
-"It is not anybody's for about a quarter of an hour."
+"It isn’t anybody's for about a quarter of an hour."
 
 "What did it cost."
 
@@ -403,9 +427,12 @@ good one.
 
 "What about it."
 
-"It is crooked." She put her finger next to it without touching the ink. "Mine is crooked because
-I learned it from his. He tells the room it is the one fault he never got out of me. He tells the
-room that once a season, Maro, the same way, and everybody laughs, and I have been standing there
+"It’s crooked." She put her finger next to it without touching the ink. "Mine’s crooked because
+I learned it from his. He tells the room it’s the one fault he never got out of me."
+
+"Wren, that doesn’t mean—"
+
+"Once a season, Maro. The same way, the same room, and everybody laughs. I’ve been standing there
 laughing with them."
 
 Maro was quiet for a moment. Out on the harbour somebody was working a winch, and the sound came
@@ -421,16 +448,18 @@ that no clerk in Ashfall would look at it twice."
 Wren put the paper down flat and made herself look at the whole of it at once instead of the
 signature.
 
-"He needs the seal," she said slowly. "Not mine. His. A factor under a draw cannot sign anything,
-so the draw had to sit on somebody, and the somebody had to be near enough to him that the hand
-matched. That is not spite. That is arithmetic."
+‘Do the arithmetic. Do it now, before you decide how to feel about it.’
 
-"It is both."
+"He needs the seal," she said slowly. "Not mine. His. A factor under a draw can’t sign anything,
+so the draw had to sit on somebody, and the somebody had to be near enough to him that the hand
+matched. That isn’t spite. That’s arithmetic."
+
+"It’s both."
 
 Wren turned the manifest a quarter turn on the desk, the way she turned a tally slip when the
 figures stopped agreeing, as though the fault might be in the angle she was holding it at.
 
-"It is arithmetic," Wren said, "and I can do arithmetic."
+"It’s arithmetic," Wren said, "and I can do arithmetic."
 
 She rolled the manifest and gave it back, and her hands were still steady, and she found that she
 minded that more than anything else in the room.''',
@@ -457,15 +486,15 @@ office had been holding both.
 
 Hesk objected twice. The second time, the presiding factor told him to sit.
 
-"You are asking us to open the manifest," the factor said.
+"You’re asking us to open the manifest," the factor said.
 
-"I am asking you to open both of them," Wren said. "A draw with no readable manifest is not a
-debt. It is a claim. I am not asking the quarter to say who signed it. I am asking the quarter to
+"I’m asking you to open both of them," Wren said. "A draw with no readable manifest isn’t a
+debt. It’s a claim. I’m not asking the quarter to say who signed it. I’m asking the quarter to
 say that somebody has to."
 
 "And if the manifest is opened and your name is on it in your own hand?"
 
-"Then the seal is yours to take and I will not be here to argue."
+"Then the seal’s yours to take and I won’t be here to argue."
 
 It went to the clerks. The clerks would take until the next quarter, which was the answer Wren
 had come for and not the answer she had wanted, and the draw stood against her name until they
@@ -473,16 +502,18 @@ were done.
 
 Her master was waiting in the counting room.
 
+‘Already written. Before I opened my mouth.’
+
 He had the dismissal already written. That was the part she was not ready for, that it was written
 before she had said a word upstairs, in the small square hand tipped left, with the whole of the
 reason given as a failure to maintain the standards of the house.
 
-"Sign it," he said, "and the house will not be asked about your draw."
+"Sign it," he said, "and the house won’t be asked about your draw."
 
-"And if I do not sign it?"
+"And if I don’t—"
 
 "Then the house will be asked, and the house will answer, and the answer will be worse for you
-than for me. You know that. You have always been good at knowing that."
+than for me. You know that. You’ve always been good at knowing that."
 
 Wren looked at the page for a long time.
 

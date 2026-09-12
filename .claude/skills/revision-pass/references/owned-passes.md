@@ -37,6 +37,11 @@ amended and the amendment is reported.
 
 Read `state/body.md` §1–§2 first; the CURRENT FORM row is the only description that exists.
 
+- [ ] **The form reached the page twice** — once as a limit that bites, once as the world
+      reacting to it. This box is the only one here that an empty chapter fails; `mc-design`
+      owns the rule and the two halves (`mc-design/references/form-ledger.md` rule 9)
+- [ ] Not every frail or childish beat was a performance the character chose. When all of them
+      are, the form has stopped being a body and become a tactic
 - [ ] Every physical description matches the CURRENT FORM row — nothing borrowed from a later stage
 - [ ] No capability exceeded the stage's absolute limits: reach, strength, stamina, voice
 - [ ] Others reacted to the **body**, not to the mind inside it
@@ -45,6 +50,11 @@ Read `state/body.md` §1–§2 first; the CURRENT FORM row is the only descripti
 
 The common failure is not a wrong sentence but an *absent* one: nobody in the scene registers the
 body at all, and the form stops being a constraint and becomes a costume.
+
+That is why the first box is phrased as something the chapter must *contain*. The five below it
+are prohibitions, and a prohibition is satisfied by silence — run #3 passed all of them across
+five chapters precisely because it never mentioned the body it was forbidden to get wrong. A
+checklist made only of prohibitions cannot catch its own blind spot.
 
 ---
 

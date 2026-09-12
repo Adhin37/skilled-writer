@@ -20,9 +20,18 @@ HOT_BLOCK_CAP = 3
 # WATCH_MIN of the last WATCH_WINDOW chapters before it is named, and only WATCH_CAP items
 # are printed. One chapter is never scored on it - the row says what has *recurred*, which
 # is the only thing a per-chapter gate cannot see about itself.
+#
+# Both finding levels feed it - a recurring note is a habit exactly as much as a recurring
+# warn, and the note tier is where every habit check deliberately lives. Warns rank strictly
+# above notes so a three-item row could not be evicted by the tier that fires more often.
+#
+# WATCH_CAP went 3 -> 4 when the second tier arrived: with two recurring warns, a cap of three
+# left habit notes exactly one slot, and on run #4's novel that dropped `house-style` - the
+# most-fired check in the book - off the row it was added to surface. Four is still a row a
+# drafter can hold; the cap exists so this is a pointer, never a checklist.
 WATCH_WINDOW = 5
 WATCH_MIN = 2
-WATCH_CAP = 3
+WATCH_CAP = 4
 
 CONFIG_KEYS = [
     "genre", "subgenre",
@@ -264,6 +273,19 @@ def watch_row(novel, number):
     The countable half of what the gate keeps fixing. The judgement half is in the `gate>`
     lines, which this prints beside the row rather than trying to parse - no script can tell
     that two differently worded gate notes are the same defect.
+
+    **Habit notes count here too**, and they are most of the point. A habit check is a note per
+    chapter precisely because one instance of it is fine, so a habit was invisible to the one
+    row whose whole job is naming what recurred. Run #4 shipped five of six chapters with
+    `house-style` firing and nothing ever told the next draft.
+
+    Warns are ranked strictly above notes rather than merely winning ties. Notes fire far more
+    often by construction, so a frequency-first sort let them evict every warn from a
+    three-item row - which would have traded one blind spot for another. Warns take their
+    slots, habit notes fill what is left, each by frequency then name.
+
+    This row still scores no chapter: it is a pointer at the owning skill, and the read-set
+    header says so.
     """
     lo = max(1, number - WATCH_WINDOW)
     chapters = [c for c in novel.chapters()
@@ -271,11 +293,17 @@ def watch_row(novel, number):
     if not chapters:
         return [], []
     hits = {}
+    tier = {}
     for c in chapters:
-        for check in cmd_lint.check_counts(novel, c)["checks"]:
+        counts = cmd_lint.check_counts(novel, c)
+        for check in counts["checks"]:
             hits[check] = hits.get(check, 0) + 1
+            tier[check] = 0
+        for check in counts["notes"]:
+            hits[check] = hits.get(check, 0) + 1
+            tier.setdefault(check, 1)
     named = sorted(((v, k) for k, v in hits.items() if v >= WATCH_MIN),
-                   key=lambda vk: (-vk[0], vk[1]))
+                   key=lambda vk: (tier[vk[1]], -vk[0], vk[1]))
     row = ["%s (%d of last %d)" % (k, v, len(chapters)) for v, k in named[:WATCH_CAP]]
     notes = []
     for b in novel.blocks():
@@ -319,7 +347,9 @@ def build(novel, number, chars=None, locs=None, want_society=False):
         add("WATCH  %s" % " | ".join(row))
         add("       What the gate keeps having to fix. Write against it in phase B. It is a")
         add("       pointer at the owning skill, never a phrase ban, and no chapter is scored")
-        add("       on it - three items at most, and only what recurred.")
+        add("       on it - four items at most, and only what recurred. A `warn` that recurred")
+        add("       ranks above a habit `note` that recurred; both are habits, and the note")
+        add("       tier is where checks live that are fine once and a fingerprint at density.")
     if notes:
         add("gate>  " + "\n       ".join(notes))
 

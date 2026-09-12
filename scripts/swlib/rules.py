@@ -164,6 +164,36 @@ TEMPS = ("fast", "tense", "loud", "warm", "funny", "bleak", "procedural", "quiet
 # chapters, which this module cannot check and does not try to.
 HOOKTYPES = ("reveal", "arrival", "decision", "question", "threat", "reversal", "cliff", "quiet")
 
+# --------------------------------------------------------------- the note tier
+#
+# Note-level checks come in two kinds, and only one of them is a habit.
+#
+# A HABIT note fires on something that is fine once and is a fingerprint at density - one
+# antithesis is good writing, one filter verb is nothing, a scene where nobody interrupts is a
+# scene. That is exactly why each is a note per chapter, and exactly why a *recurrence* is a
+# finding worth putting in front of the next draft. Benchmark run #4 shipped five of six
+# chapters with `house-style` firing and the drafter was never told once.
+#
+# A SITUATION note reports a fact about what the chapter contains, so the reader can apply the
+# right craft - `group-scene` names a scene with three or more speakers and its own message
+# ends "Read it and discount it". A book with group scenes in every chapter has group scenes.
+# It is not a habit and it must never reach the WATCH row, which says what the gate keeps
+# having to fix.
+#
+# The habit set is an allowlist on purpose: a new note check is a situation note until somebody
+# decides otherwise, and `tests/test_cmds.py` fails if a note check appears in neither set.
+HABIT_NOTE_CHECKS = frozenset((
+    "house-style",      # the antithesis and the rest of the one-attitude narrator
+    "filter-verb",      # she felt / she saw / she heard
+    "weasel",           # hedges and intensifiers
+    "texture",          # the dialogue floors: no interruption, no contraction, over-long turns
+    "pacing",           # reported-event constructions, and summarising toward the scene
+    "thought-budget",   # the floor only - the ceiling is a defect and never reaches here
+))
+SITUATION_NOTE_CHECKS = frozenset((
+    "group-scene",      # three or more speakers present - a category, not a defect
+))
+
 EVENT_MAX_WORDS = 14
 EMDASH_RATE_WARN = 6.0          # per 1,000 words; run #2 chapter 1 ran 11.4
 HOUSE_RATE_WARN = 6.0           # CLAUDE_REGISTER hits per 1,000 words...
@@ -194,6 +224,7 @@ REQUIRED_FRONTMATTER = ["number", "title", "pov", "arc", "event", "delivers", "w
 REQUIRED_CCS = ["dlv", "ev", "chg", "kno", "thr", "obj", "hook"]
 
 CCS_MAX_LINES = 15
+THOUGHT_FLOOR = 1               # ...and a floor, because only the ceiling was ever checked
 THOUGHT_BUDGET = 3
 SPEECH_FLOOR = 10.0
 SPEECH_WINDOW = 5

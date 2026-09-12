@@ -84,6 +84,7 @@ def run(novel):
             "defects": defects["defect"],
             "warnings": defects["warn"],
             "checks": defects["checks"],
+            "notes": defects["notes"],
             "mtime": _mtime(ch.path),
         })
     data["chapters"] = rows
@@ -187,26 +188,42 @@ def _length(rep, rows):
 
 
 def _defects(rep, rows):
+    """The habit table. Note-level checks are in it, marked, and they are the reason it exists.
+
+    A habit check is a note per chapter on purpose - one antithesis is good writing. That made
+    every habit invisible to this table and to the WATCH row, which are the only two places in
+    the toolkit that look across chapters. The level is printed so a reader can still tell a
+    recurring warn from a recurring note; neither is a chapter defect, and this command raises
+    nothing that decides whether a chapter ships.
+    """
     by_check = {}
+    level = {}
     for r in rows:
         for check, n in r["checks"].items():
             by_check.setdefault(check, []).append(r["number"])
+            level[check] = "warn"
+        for check, n in r.get("notes", {}).items():
+            by_check.setdefault(check, []).append(r["number"])
+            level.setdefault(check, "note")
     if not by_check:
-        rep.info("lint over time", ["   no defects or warnings in any chapter"])
+        rep.info("lint over time", ["   no findings of any level in any chapter"])
         return
-    lines = ["   %-18s %6s  %s" % ("check", "chs", "chapters")]
+    lines = ["   %-18s %-5s %6s  %s" % ("check", "level", "chs", "chapters")]
     for check in sorted(by_check, key=lambda c: (-len(by_check[c]), c)):
         chs = by_check[check]
-        lines.append("   %-18s %6d  %s" % (check, len(chs), _runs(chs)))
+        lines.append("   %-18s %-5s %6d  %s"
+                     % (check, level[check], len(chs), _runs(chs)))
     lines.append("   A check firing on most chapters is a habit, not a chapter defect - fix it")
-    lines.append("   in the drafting procedure rather than one chapter at a time.")
+    lines.append("   in the drafting procedure rather than one chapter at a time. A `note` that")
+    lines.append("   recurs is the same habit as a `warn` that recurs; only the per-chapter")
+    lines.append("   weight differs, and no chapter is scored on either.")
     rep.info("lint over time", lines)
 
     for check, chs in sorted(by_check.items()):
         if len(rows) >= 4 and len(chs) >= max(3, int(len(rows) * 0.6)):
             rep.warn("history-habit",
-                     "`%s` fires on %d of %d chapters - that is a drafting habit"
-                     % (check, len(chs), len(rows)))
+                     "`%s` (%s) fires on %d of %d chapters - that is a drafting habit"
+                     % (check, level[check], len(chs), len(rows)))
 
 
 def _threads(novel, rep, rows, data):
