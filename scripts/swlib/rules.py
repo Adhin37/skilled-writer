@@ -292,3 +292,21 @@ def scan(text, ruleset, offset_of=None):
 # neighbourhood rather than open a new file, which is the discipline that was missing. Enforced
 # by `sw health` against the corpus, never against a novel and never against a chapter.
 CARD_BUDGET = {"draft-card": 12, "audit-card": 15}
+
+# And the same bound on WORDS, which is the number that actually costs a drafter anything.
+#
+# `CARD_BUDGET` bounds the count, and the merges it forced moved four draft cards and three
+# audit cards into the card that already owned their neighbourhood. The count fell 42 -> 35 and
+# the instruction load went 16,359 -> 16,550 words, because a merged card costs a drafter
+# exactly what its two halves cost separately and nothing, anywhere, objected. That is the hole
+# this closes: the ratchet was on the wrong number.
+#
+# Set a hair above the measured figure, so a wording fix is free and a genuine addition is not.
+# It is a CEILING to be lowered, never a target to fill: the maintenance task is to cut toward
+# it and then lower it again. `docs/creative-latitude.md` item 6 is the standing work.
+#
+# What it does NOT license is cutting advice to hit a number. The two obvious cuts named in that
+# plan are already spent - `sw health`'s duplication rule means there is not one checkbox text
+# shared between any two skills, and the boxes that merely restated a `sw lint` finding were
+# taken in the same pass. What is left is prose, and prose is where the advice lives.
+CARD_WORD_BUDGET = {"draft-card": 6400, "audit-card": 6800}

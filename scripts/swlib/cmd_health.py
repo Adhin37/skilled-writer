@@ -11,7 +11,7 @@ It audits the repo, never a novel. Nothing here reads a chapter.
 import os
 import re
 
-from . import kb, mdio, rules
+from . import cmd_load, kb, mdio, rules
 from .novelio import Novel
 from .report import Report
 
@@ -593,14 +593,31 @@ def _card_budget(repo_root, rep):
     """
     idx = kb.index(repo_root, refresh=True)
     for kind, cap in sorted(rules.CARD_BUDGET.items()):
-        live = sorted(f.owner for f in idx.by_type(kind)
-                      if not f.when or f.when.strip() == "always")
+        cards = [f for f in idx.by_type(kind)
+                 if not f.when or f.when.strip() == "always"]
+        live = sorted(f.owner for f in cards)
         if len(live) > cap:
             rep.defect("card-budget",
                        "%d unconditional %ss against a budget of %d (%s) - merge one into the "
                        "card that already owns its neighbourhood; a new file is not an option "
                        "past the budget"
                        % (len(live), kind, cap, ", ".join(live)))
+
+        # And the words, which is the number a drafter actually pays. The count budget forced
+        # merges, and a merged card costs exactly what its two halves cost separately - the
+        # count fell 42 -> 35 while the load rose 16,359 -> 16,550 words and nothing objected.
+        wcap = rules.CARD_WORD_BUDGET.get(kind)
+        words = sum(cmd_load.measure(f.path)[0] for f in cards)
+        if wcap and words > wcap:
+            fattest = sorted(((cmd_load.measure(f.path)[0], f.owner) for f in cards),
+                             reverse=True)[:3]
+            rep.defect("card-words",
+                       "%d words across the unconditional %ss, against a budget of %d - a "
+                       "merge does not pay for itself, so something has to be cut. Heaviest: %s"
+                       % (words, kind, wcap,
+                          ", ".join("%s (%d)" % (o, w) for w, o in fattest)),
+                       detail="docs/creative-latitude.md item 6. The budget is a ceiling to "
+                              "lower, never a target to fill.")
 
 
 def _norm_when(value):

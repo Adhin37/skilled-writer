@@ -14,7 +14,8 @@ real load rather than the corpus total:
 
 **A maintainer number, never a chapter gate.** Nothing here says a chapter is good or bad, and
 no drafting decision may cite it. The one place it is enforced is `sw health`, against the corpus
-rather than against any novel - see `rules.CARD_BUDGET`.
+rather than against any novel - see `rules.CARD_BUDGET` for the count and
+`rules.CARD_WORD_BUDGET` for the words, which is the number a drafter actually pays.
 """
 
 import os
@@ -82,15 +83,18 @@ def run(novel, number, repo_root="."):
     # The corpus-level budget, reported here as context rather than enforced. `sw health` owns
     # the enforcement, because the budget is a property of the corpus and not of this novel.
     always = _always_counts(idx)
-    lines = ["   %-12s %6s %7s %8s" % ("kind", "cards", "budget", "words")]
+    lines = ["   %-12s %6s %7s %8s %8s" % ("kind", "cards", "budget", "words", "wbudget")]
     for kind in ("draft-card", "audit-card"):
         count, words = always[kind]
-        lines.append("   %-12s %6d %7d %8d" % (kind, count, rules.CARD_BUDGET[kind], words))
+        lines.append("   %-12s %6d %7d %8d %8d"
+                     % (kind, count, rules.CARD_BUDGET[kind], words,
+                        rules.CARD_WORD_BUDGET[kind]))
     lines += [
-        "   The budget bounds the card COUNT. Words are recorded and bounded by nothing:",
-        "   the merges that brought the count from 42 to 35 moved 16,359 words of",
-        "   instruction to 16,550, so the number that fell is not the number that costs",
-        "   (docs/creative-latitude.md).",
+        "   Both are bounded now. The count budget forced seven merges and the load rose",
+        "   anyway - 16,359 words to 16,550 - because a merged card costs what its two",
+        "   halves cost separately, so the ratchet was on the wrong number. The word",
+        "   budget is a ceiling to lower, never a target to fill",
+        "   (docs/creative-latitude.md item 6).",
     ]
     rep.info("the unconditional set - what every novel pays, every chapter", lines)
 
