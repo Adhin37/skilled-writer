@@ -4,6 +4,7 @@ description: Hold the gap between the MC and the opposition at an entertaining w
 metadata:
   type: skill
   tier: craft
+  force: structural
   when: always
   owns: [power-ladder, pressure, tier-gain, boost-debt]
 ---

@@ -18,22 +18,26 @@ them from there too.
 
 ---
 
-- [ ] Speech, direct thought and meta each sit in their declared marks; free indirect discourse is
-      **unmarked**, and is where interiority actually lives
-- [ ] Direct thought is **budgeted — 1–3 per chapter**, at decisions. A chapter where every
-      interior beat wears quote marks has flattened its narrator into a thought bubble; convert
-      the surplus back to free indirect discourse
-- [ ] **No apostrophe was mistaken for a thought mark.** `don't`, `she'd`, `the boys' room` are
-      not thought. Every thought opens at a word boundary and closes before punctuation or space
-- [ ] No marked thought is tagged *he thought* — the mark already said it
-- [ ] Every thought mark **inside** a speech span is an ordinary nested quotation
-- [ ] Meta blocks match the format in `lexicon.md`; none opens a chapter; no two run consecutively
-- [ ] No italics anywhere in the prose body, in either spelling (`*x*`, `_x_`)
-- [ ] Nothing else is markup — no headings, bold, lists, links or author notes in a prose body
+**`sw lint` settles the mechanical half outright** and quotes every hit: `thought-budget`,
+`channel-collision`, `meta-channel`, `markup`. Apostrophes mistaken for thought marks, nested
+quotations, italics, stray markup, meta blocks in the wrong place — all of it is found by reading
+nothing. Work the findings; do not re-check them here.
 
-`sw lint` reports the countable half of this: `thought-budget`, `channel-collision`,
-`meta-channel` and `markup`. The budget is the feature — a marked thought is emphatic *because*
-it is rare, so a clean parse at nine thoughts per chapter is still a failure.
+Three judgements are left, and they are the whole pass:
+
+- [ ] Free indirect discourse is carrying the interiority, **unmarked**. A chapter where every
+      interior beat wears quote marks has flattened its narrator into a thought bubble, and a
+      clean parse at nine thoughts is still a failure — the budget is the feature, because a
+      marked thought is emphatic only while it is rare
+- [ ] Each `'…'` that survived is at a **decision**, and is the sentence that character would
+      actually say to themselves
+- [ ] No marked thought is tagged *he thought* — the mark already said it
 
 If a box fails, open `SKILL.md` §The four channels, and `references/draft-card.md` for the
 distance and interiority settings that decide where a thought should have been unmarked.
+
+## What it looks like when it lands
+
+*She wasn't going to ask again. That was the part she would have had trouble explaining.* Free
+indirect, unmarked, in her rhythm — and the chapter's single `'…'` is four pages later, at the
+moment she decides to lie.

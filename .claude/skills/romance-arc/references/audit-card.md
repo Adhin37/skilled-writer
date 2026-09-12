@@ -44,3 +44,9 @@ to pay, somebody else who would be hurt, different timelines for their lives.
 | The beats are all proximity — a touch, a glance, a shared room | trust never escalated | `SKILL.md` §Rules |
 | They understand each other immediately and accurately | fifty chapters of material spent in one | let the first impression be half wrong |
 | The romance goes quiet once it is answered | it was a reward, not a plot | `plot-threads` — the thread is still open |
+
+## What it looks like when it lands
+
+He tells her why he left the yard. She does not use it, does not soften, and asks a different
+question — and he is late to the meeting the chapter was about. Trust moved; nothing was resolved;
+it cost the other plot something real.

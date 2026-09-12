@@ -4,6 +4,7 @@ description: Run the world's own plot on its own clock and make it react to the 
 metadata:
   type: skill
   tier: craft
+  force: structural
   when: always
   owns: [world-clock, divergence-ledger, ending-contract]
 ---

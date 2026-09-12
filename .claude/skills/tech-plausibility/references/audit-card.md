@@ -46,3 +46,9 @@ usually one clause: what broke, who is still using the old thing, what it costs 
 Second-order effects belong in `bible/society.md` — `social-fabric` owns the propagation, and a
 chapter that treats the speculation as scenery rather than as something people live inside is a
 `world-texture` failure before it is one of these.
+
+## What it looks like when it lands
+
+Nobody says what the recycler does. Somebody complains that the cheap ones taint the water, somebody
+else says theirs has been fine for nine years, and the argument is about money. The technology
+arrives as the thing they are bored of arguing about.

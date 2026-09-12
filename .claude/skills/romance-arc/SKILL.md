@@ -4,6 +4,7 @@ description: Optional. Structure a romantic line across a serial - beats, obstac
 metadata:
   type: skill
   tier: optional
+  force: structural
   when: optional.romance-arc == on
   owns: [romance-beats]
 ---

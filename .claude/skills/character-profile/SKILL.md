@@ -4,6 +4,7 @@ description: Create or amend a character profile - behaviour, speech, arc ladder
 metadata:
   type: skill
   tier: character
+  force: structural
   when: always
   owns: [cast-tiers, character-debut, walk-on-roster]
 ---

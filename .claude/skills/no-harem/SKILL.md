@@ -4,6 +4,7 @@ description: Optional (default on). Keep love interests people with their own go
 metadata:
   type: skill
   tier: optional
+  force: structural
   when: optional.no-harem == on
   owns: [reciprocity]
 ---

@@ -45,3 +45,9 @@ the countable half; the judgement is whether a new reader could say which story 
 | A canon character knows the whole setting | fandom's quiet promotion of narrow expertise | `competence-map` — an unlisted domain is `none` |
 | Canon happens offstage and unchanged | the commentary-track defect: fidelity without consequence | `timeline-engine` — every arc moves at least one canon event |
 | The source's treatment of a group was inherited | canon is not a licence | `bias-guard`, which overrides this skill and every other |
+
+## What it looks like when it lands
+
+Page one names the village, the Academy intake and a canon character at an age the reader can
+compute — so they know which story and roughly when, in three sentences nobody would call
+exposition. Nothing is quoted from the source.

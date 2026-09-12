@@ -14,21 +14,18 @@ Opened by `revision-pass` **Pass 8**. `sw lint` finds the cut-list phrases, filt
 paragraph openings, runs of same-length sentences, phone-illegible paragraphs and the dialogue
 share. It cannot hear rhythm, spot a named emotion, or feel a flat page, so those stay here.
 
-- [ ] No phrase from the AI-default cut list
-- [ ] Filter verbs removed
-- [ ] Sentence and paragraph lengths visibly varied
-- [ ] No paragraph opens with the same word as the one before it
+**Work `sw lint`'s findings first** — cut-list phrases, filter verbs, same-length runs, repeated
+paragraph openings. It quotes each one with its line, so there is nothing to re-check by reading,
+and this card does not repeat them as boxes. Decide each: the rules here are `stylistic`, and a
+hit you keep on purpose costs the report nothing (§When to break these).
+
+Then the three it cannot see:
+
 - [ ] Emotions carried by behaviour or decision, not named
-- [ ] No dead stage business
-- [ ] **Dialogue share is 25–40% of the chapter's words** (`dialogue-voice` §How much dialogue).
-      Measure it, do not eyeball it. One chapter under 10% is a warn; a five-chapter mean under
-      10% fails the pass. The fix is to give the beats to the people in the room, never to bolt on
-      small talk to clear a number
+- [ ] No dead stage business — a gesture that identifies nobody and moves nothing
 - [ ] Nobody was present in a scene, silent, while the POV character narrated their inner state
-- [ ] **The dialogue sounds spoken** (`dialogue-voice` §How it sounds spoken). Somebody is
-      interrupted or trails off; answers come in fragments; no character delivers their own
-      reasoning in one unbroken multi-clause turn. `sw lint`'s texture line says where to look —
-      it is a diagnostic, never a target
+
+Everything about how the dialogue *sounds* is `dialogue-voice`'s card, already open at Pass 2.
 
 **Microtension** — the measured failure mode of machine-written fiction is an even, untroubled
 surface: flatter arousal curves and less tension than human prose, page by page, even when the
@@ -63,3 +60,9 @@ sentence was loaded the same way and every scene closed on the same small ironic
 If a box fails, open `SKILL.md` — §Range before polish for register, §Microtension for the tension
 work, the positive standards for the rest. The seven measured tells and why they cluster are in
 `ai-default-tells.md`.
+
+## What it looks like when it lands
+
+Three plain sentences, then one that turns: *The office was cold. Maro had the window open and no
+intention of closing it. She sat where he pointed.* Nothing is loaded, nothing is ironic, and the
+paragraph after it can afford to be.

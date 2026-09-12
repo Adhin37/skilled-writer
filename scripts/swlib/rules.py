@@ -224,3 +224,19 @@ def scan(text, ruleset, offset_of=None):
     for rx, label in ruleset:
         for m in rx.finditer(text):
             yield m.start(), m.group(0), label
+
+
+# How many UNCONDITIONAL cards the dispatchers may carry - the cards every novel pays for,
+# every chapter, whatever it is about.
+#
+# The corpus reached 118 files and 3,942 negations with no number anywhere that anybody had to
+# answer for, and the expansion that measured it had itself added ten audit cards without
+# anything objecting. `docs/creative-latitude.md` has the arithmetic: nineteen draft cards and
+# twenty-three audit cards resolved for one chapter of a live novel - 16,359 words of
+# instruction and 596 prohibitions before a line of story state.
+#
+# The budget is not a claim that the twelfth card is worth more than the thirteenth. It is a
+# forcing function: past it a new rule has to MERGE with the card that already owns its
+# neighbourhood rather than open a new file, which is the discipline that was missing. Enforced
+# by `sw health` against the corpus, never against a novel and never against a chapter.
+CARD_BUDGET = {"draft-card": 12, "audit-card": 15}

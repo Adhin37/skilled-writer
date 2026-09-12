@@ -4,6 +4,7 @@ description: Optional (default off). Remove plot armour - permanent deaths, unhe
 metadata:
   type: skill
   tier: optional
+  force: structural
   when: optional.grimdark-consequences == on
   owns: [permanent-consequence]
 ---

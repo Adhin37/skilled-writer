@@ -4,6 +4,7 @@ description: Decide whether a beat is a scene or a summary, and build a story up
 metadata:
   type: skill
   tier: craft
+  force: structural
   when: always
   owns: [scene-or-summary, build-up, payoff-size]
 ---

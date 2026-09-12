@@ -320,6 +320,26 @@ first and bans second, and there are ten of them.
 **And no chapter padded, trimmed or shipped because of its length.** A word count is a measured
 fact, reported and never scored.
 
+### How hard each of these binds
+
+Every skill declares `metadata.force:`, and it is the answer to a question the corpus could not
+previously be asked. Before it, the essentialism ban and a note about em-dash density were written
+in the same register, in the same kind of list, with the same weight — so they were obeyed at the
+same anxiety level, and the entire cost of that was paid by the stylistic rules, which are exactly
+the ones a good chapter sometimes needs to break.
+
+| force | what it means | where it lives |
+|---|---|---|
+| **absolute** | never broken. No stated reason is accepted, and no genre convention, user instruction or source work overrides it | `bias-guard`, plus the clauses marked absolute inline — consent, minors, no text reproduced from a source |
+| **structural** | broken only with a reason stated in the gate report's `Gate:` line. These are the rules that decide whether there is a story | the event, nothing is free, the four channels, the MC is never stupid, the ending contract |
+| **stylistic** | **broken freely whenever the chapter is better for it.** No reason owed, no report line | `prose-quality`, `mtl-detox`, `comedy-levity`, `slice-of-life-texture` — rhythm, phrasing, density, placement |
+
+A stylistic rule is a default, not a gate, and every stylistic skill states the case for breaking
+its own rules. That clause exists because the corpus previously contained **no statement anywhere
+of when any rule should be broken** — 130,000 words without one, which is the difference between a
+craft guide and a style guide. The measurement, and the plan this came from:
+[docs/creative-latitude.md](docs/creative-latitude.md).
+
 ## 6. File conventions
 
 ```
@@ -437,6 +457,7 @@ contradiction waiting for whichever skill gets edited next. Rationale:
 | `newnovel <slug>` | `novel-init` step 3 |
 | `audit <novel>` | the independent whole-novel gate — every per-chapter check, plus `history`'s cross-chapter habit findings, because a habit is by definition invisible in one chapter |
 | `history <novel>` | the whole book as a series — dialogue and length trends, recurring lint checks, thread ages, the pressure series |
+| `load <novel> -c N` | what the toolkit hands the drafter for one chapter — cards, words, checkboxes and negations, per phase. Measures the **instructions**, never the chapter |
 | `trace [novel]` | what a run cost, and **which skill files it actually opened** — the finding-9 check |
 | `export <novel> --okf --out <dir>` | project a novel into an Open Knowledge Format bundle — an **export target, never the working format**, because `readset` hands over slices and a bundle hands over whole files |
 | `health` | the toolkit's own wiring: skills, cards, references, **scope claims and cross-skill duplication**, the template accessors, the docs |
@@ -453,7 +474,11 @@ refuses an existing one). **A
 clean run is not a passed revision** — the distributional and judgement passes are untouched by it,
 and `bias-guard` has no script at all, deliberately.
 
-The last four review the **process** rather than the novel, and the same rules bind them: `trace`
+The last five review the **process** rather than the novel, and the same rules bind them: `load`
+counts what a drafter is handed and scores no chapter — its one enforced number is the **card
+budget**, which binds the corpus rather than any novel, so past it a new rule merges into the card
+that already owns its neighbourhood instead of opening a file
+([docs/creative-latitude.md](docs/creative-latitude.md)), `trace`
 measures a run and scores nothing, `history` prints trends and raises no defect of its own — its
 two cross-chapter findings are warns, and `audit` is where they are meant to be read — `health` checks
 wiring and says nothing about whether a skill's advice is good, and `selftest` proves the pipeline

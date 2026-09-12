@@ -39,3 +39,9 @@ interchangeable furniture.
 
 If a box fails, open `SKILL.md` — §First appearance for placement, §Cast tiers for the
 promotion rule, §Three strokes for walk-ons.
+
+## What it looks like when it lands
+
+Enko arrives already losing an argument with a cart driver about where the barrels go, wins it
+badly, and is introduced by that. The reader has her relation to Wren, what power she holds, and
+one stroke — all in motion, none of it a caption.

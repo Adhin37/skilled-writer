@@ -11,7 +11,7 @@ It audits the repo, never a novel. Nothing here reads a chapter.
 import os
 import re
 
-from . import mdio
+from . import kb, mdio, rules
 from .novelio import Novel
 from .report import Report
 
@@ -92,6 +92,8 @@ def run(repo_root, commands=None):
     _uncited(repo_root, names, _owns_map(repo_root, names, rep), rep)
     _overlap(repo_root, names, rep)
     _kb(repo_root, rep)
+    _force(repo_root, rep)
+    _card_budget(repo_root, rep)
     rep.info("scope", [
         "   %d skills, %d template accessors, %d template sections checked"
         % (len(names), len(TABLE_ACCESSORS), len(SECTION_LOOKUPS)),
@@ -342,6 +344,12 @@ BOILERPLATE = (
     # The card rows in a skill's own reference table. Every skill that owns a card writes the
     # same disclaimer, and it is an instruction about who opens the file rather than advice.
     "never by you",
+    # The merged-card header. Four cards now carry two owners' decisions because the card budget
+    # forbids a new file, and each says so in the same words on purpose: the reader has to be
+    # able to tell a merge from a land-grab at a glance.
+    "one card two owners",
+    "the card budget is why they share a file",
+    "and each half names its owner",
 )
 
 OVERLAP_RUN = 10        # words, normalised, before a shared passage counts
@@ -526,6 +534,52 @@ def _kb(repo_root, rep):
             if not f.description:
                 rep.warn("skill-card", "%s declares no `description:` - the dispatcher prints it "
                                        "in place of the table it replaced" % f.rel, path=f.path)
+
+
+def _force(repo_root, rep):
+    """Every skill declares how hard its rules bind.
+
+    Without it the corpus states the essentialism ban and a note about em-dash density in the
+    same register, in the same kind of list, with the same weight - so a model obeys both at the
+    same anxiety level, and the whole cost of that is paid by the stylistic rules, which are
+    exactly the ones a good chapter sometimes needs to break. `docs/creative-latitude.md`.
+    """
+    idx = kb.index(repo_root, refresh=True)
+    for name in sorted(idx.skills):
+        skill = idx.skills[name]
+        path = os.path.join(skills_dir(repo_root), name, "SKILL.md")
+        if not skill.force:
+            rep.defect("skill-force",
+                       "`%s` declares no `metadata.force:` - a rule whose weight is not stated "
+                       "is obeyed at the same anxiety level as every other" % name, path=path)
+        elif skill.force not in kb.FORCE:
+            rep.defect("skill-force",
+                       "`%s` declares force `%s`, which is not one of %s"
+                       % (name, skill.force, ", ".join(kb.FORCE)), path=path)
+
+
+def _card_budget(repo_root, rep):
+    """How many cards EVERY novel pays for, against the budget in `rules`.
+
+    The corpus has one growth mechanism - adding a rule - and adding a rule has always meant
+    adding a file. Nothing anywhere counted the result, so it reached nineteen draft cards and
+    twenty-three audit cards for a single chapter, which is the load `write-chapter` itself
+    blames for "short, defensive and eventless" chapters. `docs/creative-latitude.md`.
+
+    Conditional cards are excluded on purpose. A module that fires for one novel in ten is not
+    what makes the loop heavy; the unconditional set is, because it is what every chapter of
+    every book carries.
+    """
+    idx = kb.index(repo_root, refresh=True)
+    for kind, cap in sorted(rules.CARD_BUDGET.items()):
+        live = sorted(f.owner for f in idx.by_type(kind)
+                      if not f.when or f.when.strip() == "always")
+        if len(live) > cap:
+            rep.defect("card-budget",
+                       "%d unconditional %ss against a budget of %d (%s) - merge one into the "
+                       "card that already owns its neighbourhood; a new file is not an option "
+                       "past the budget"
+                       % (len(live), kind, cap, ", ".join(live)))
 
 
 def _commands(repo_root, commands, rep):

@@ -4,6 +4,7 @@ description: Optional (default off). Run fair-play mystery mechanics - clue plan
 metadata:
   type: skill
   tier: optional
+  force: structural
   when: optional.mystery-clues == on
   owns: [clue-ledger, fair-play]
 ---

@@ -49,3 +49,9 @@ occupied cannot be skipped to.
 | The win cost something, but only after it landed | the price was a receipt, not a stake | move the payment before the resolution |
 | Every confrontation is won and costs nothing | the face-slap loop | `mtl-detox` |
 | Three chapters running have the same cost | the ladder has stalled | `SKILL.md` §Tension maintenance across a serial |
+
+## What it looks like when it lands
+
+He gets the name. It costs him the only person at the yard who still spoke to him, and she does
+not stop speaking to him dramatically — she just answers the next question with *"ask your
+father"*. One concrete sentence, and the reader can price it.

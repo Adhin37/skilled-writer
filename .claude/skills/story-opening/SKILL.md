@@ -4,6 +4,7 @@ description: Own the first chapters - world anchor, genre contract, promise ledg
 metadata:
   type: skill
   tier: core
+  force: structural
   when: always
   owns: [world-anchor, genre-contract, promise-ledger, stakes-ceiling, retention-curve]
 ---

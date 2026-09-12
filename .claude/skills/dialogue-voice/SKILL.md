@@ -4,6 +4,7 @@ description: Write dialogue that identifies the speaker without tags, from each 
 metadata:
   type: skill
   tier: character
+  force: structural
   when: always
   owns: [speech-fingerprint, dialogue-density, subtext]
 ---

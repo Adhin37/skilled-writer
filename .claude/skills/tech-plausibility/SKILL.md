@@ -4,6 +4,7 @@ description: Keep science-fiction technology coherent and consequential - one sp
 metadata:
   type: skill
   tier: genre
+  force: structural
   when: genre in [scifi] or subgenre in [scifi]
   owns: [speculation-budget, second-order-effects]
 ---

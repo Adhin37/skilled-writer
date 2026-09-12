@@ -4,6 +4,7 @@ description: Quality gate for a drafted chapter - continuity, character, voice, 
 metadata:
   type: skill
   tier: core
+  force: structural
   when: always
   owns: [pass-order, story-gate, gate-report]
 ---
@@ -29,6 +30,24 @@ asked the only question that mattered. Three that do, gating all of it:
 | **Z1** | What **happens** — one clause, concrete verb, a target? | The honest answer needs an abstract noun. `trust`, `attention`, `tension` name what an event *did*; they are not it |
 | **Z2** | Is that beat the **longest scene** in the chapter? | The biggest moment is reported or held at a distance while something smaller gets the room |
 | **Z3** | Would a reader **click next**? | The last line is the fourth withheld beat in a row, or the hook asks what the chapter answered |
+| **Z4** | Name the thing here **a competent hack would not have written**. | The honest answer is nothing. Everything in the chapter is the obvious version, done well |
+
+**Z4 is the one that can fail a chapter for being safe**, and it is the only question in the gate
+that can. Z1 to Z3 are structural, and a chapter can satisfy all three and still be entirely
+predictable — which is a fair description of what run #2 shipped past sixteen passes. A hundred
+prohibitions cannot produce a surprise; they can only remove the bad ways of failing to have one
+(`CLAUDE.md` §5, and `docs/creative-latitude.md` for the measurement).
+
+What counts as an answer: a choice the reader did not see coming and believes afterwards · a
+character who wanted the opposite of what the scene needed · a detail nobody would have invented
+who had not thought about this world · a beat that costs the story something it will not get back.
+What does not: a stylistic flourish, a withheld reveal, an ironic last line, or the chapter being
+well written.
+
+A failed Z4 is **not** a stop. Note it, name the one place the chapter could have taken the
+riskier option, and carry it into the next brief's WATCH row — it is a habit, and habits are
+invisible in one chapter. Three failures in five is the finding, and the repair is in Phase A's
+three candidates (`story-craft`'s card), not in the prose.
 
 If Z1 or Z2 fails, **stop**. Do not run passes 0–10. A chapter whose central event never got
 played does not have prose problems, and polishing it yields a well-written chapter nobody wants
@@ -86,6 +105,21 @@ way a trigger that has quietly gone wrong becomes visible.
 | 9f Pacing + build-up | **judgement** | — |
 | 10 Mechanics | mechanical | `references/owned-passes.md` §Pass 10, and the four channels |
 
+**Each card binds at its owner's force**, and `kb passes` marks the two that are not
+`structural`. It changes what a finding obliges you to do:
+
+| force | a finding means | owed to the report |
+|---|---|---|
+| **absolute** | fix it. There is no other outcome, and no reason is accepted | nothing — it is simply fixed |
+| **structural** | fix it, or keep it and say why in the `Gate:` line | one clause |
+| **stylistic** | **decide.** Keep it whenever the sentence does something the plain version would not | nothing |
+
+A stylistic card that comes back with findings you deliberately kept is a card that worked. Those
+rules exist to catch a *habit* rather than a sentence, so read them across the chapter and spend
+the latitude they give you — `prose-quality` §Range before polish and §When to break these state
+what its own rules are protecting, and `CLAUDE.md` §How hard each of these binds sets the three
+forces.
+
 **Run Pass 0 first.** It settles every mechanical row in seconds and for no tokens, which buys the
 budget for the cards. A clean sweep is **not** a passed revision: it says nothing about Z, 2, 3,
 5, 6, 9 or 9d, and is never a bias pass.
@@ -128,15 +162,16 @@ Against the read-set, which is the authority. Seven checks and the `form_locked`
 
 ## Pass 2 — Character and voice
 
-Open **`voice-separation/references/audit-card.md`** (the cast as minds),
-**`dialogue-voice/references/audit-card.md`** (the lines), and
-**`character-development/references/audit-card.md`** (whether anyone became someone else). Add
+Open **`voice-separation/references/audit-card.md`** — the cast as separate minds, and, in its
+second half, whether anybody has *become* somebody else (`character-development`'s concepts, on
+the same card because the two fail together). Then
+**`dialogue-voice/references/audit-card.md`** for the lines. Add
 **`character-profile/references/audit-card.md`** if the chapter has walk-ons **or introduces any
 named character for the first time**, and **`pov-switch/references/audit-card.md`** when
 `pov.mode` is not `single`. Work them there.
 
-Five cards is the widest pass in the gate. If the budget will not carry all of them, drop
-`character-profile`'s first and `pov-switch`'s second, and name them in the `Gate:` line.
+If the budget will not carry all four, drop `character-profile`'s first and `pov-switch`'s second,
+and name them in the `Gate:` line.
 
 A first appearance is the half of this pass that has no script and the one a reader notices
 first: run `sw cast` and read the debut ledger before deciding this pass has passed.
@@ -149,10 +184,10 @@ seam they fail at.
 
 ## Pass 3b — Reading people
 
-Open **`social-perception/references/audit-card.md`**. It sits beside Pass 3 rather than with
-character because it audits the same kind of claim: Pass 3 asks whether anybody knew something
-they should not, and this asks whether anybody *understood* something they should not. The card
-gives the reason and the checks.
+On **`mc-intel-meter`'s card**, already open from Pass 3. It sits here rather than with character
+because it audits the same kind of claim: Pass 3 asks whether anybody knew something they should
+not, and this asks whether anybody *understood* something they should not. `social-perception`
+owns the rules; the card's second half carries them.
 
 ## Pass 4 — Structure
 

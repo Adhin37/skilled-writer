@@ -4,6 +4,7 @@ description: Keep every character's knowledge bounded and specialised - what the
 metadata:
   type: skill
   tier: character
+  force: structural
   when: always
   owns: [competence-grid, provenance-test, acquisition-ladder]
 ---

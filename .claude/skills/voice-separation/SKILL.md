@@ -4,6 +4,7 @@ description: Keep the cast distinct as minds - speech, thought and body pinned t
 metadata:
   type: skill
   tier: character
+  force: structural
   when: always
   owns: [voice-matrix, mirror-clause, transplant-test, default-gesture-set, first-move, drift-check]
 ---

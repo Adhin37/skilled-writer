@@ -48,3 +48,9 @@ answer, in concrete terms, in final position.
 | Every chapter closes on an ironic line | the register never changes | `prose-quality` §Range before polish |
 | The opening summarises the last chapter | recap where the anchor should be | one clause, then move |
 | The hook is strong and the chapter delivered nothing | the hook is doing the chapter's job | Pass Z, and `scene-craft`'s card |
+
+## What it looks like when it lands
+
+Opens: *The rain had got into the salt again.* Somewhere, somebody, a problem, no recap. Closes on
+Maro counting the coins a second time and getting a different number — concrete, final position,
+and a question the chapter did not answer.

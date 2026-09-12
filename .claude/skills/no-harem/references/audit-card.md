@@ -45,3 +45,9 @@ These are what the defect looks like at chapter scale, before the pattern is vis
 
 If `optional.no-harem` is `off`, rules 2 and 5 through 9 above still hold — they are `bias-guard`
 requirements in romantic clothing, and that skill is not toggleable.
+
+## What it looks like when it lands
+
+Bel is not interested in him, says so once, and goes on being the person who runs the yard. Three
+chapters later she is still not interested and it has not become tension. Somebody in this book is
+simply indifferent to the protagonist.

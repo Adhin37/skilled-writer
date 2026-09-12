@@ -4,6 +4,7 @@ description: Make every chapter cost the protagonist something, escalating stake
 metadata:
   type: skill
   tier: craft
+  force: structural
   when: always
   owns: [stake-ladder, chapter-cost]
 ---

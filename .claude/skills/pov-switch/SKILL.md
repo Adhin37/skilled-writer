@@ -4,6 +4,7 @@ description: Decide whether a novel switches viewpoint, who is eligible, and how
 metadata:
   type: skill
   tier: gated
+  force: structural
   when: pov.mode != single
   owns: [pov-mode, viewpoint-switch]
 ---

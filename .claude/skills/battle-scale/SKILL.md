@@ -4,6 +4,7 @@ description: Optional (default off). Write engagements larger than a fight - fro
 metadata:
   type: skill
   tier: optional
+  force: structural
   when: optional.battle-scale == on
   owns: [mass-combat, attrition, command-legibility]
 ---

@@ -4,6 +4,7 @@ description: Line-level editing - rhythm, concreteness, verb strength, descripti
 metadata:
   type: skill
   tier: craft
+  force: stylistic
   when: always
   owns: [line-edit, microtension, register-range, ai-default-tells]
 ---
@@ -213,6 +214,35 @@ the act of perceiving is the point" is a decision about each one. Use `--show no
 6. Find every named emotion; convert to behaviour or decision.
 7. Find every static description block; put it in motion or cut it.
 8. Read the chapter's first and last 150 words aloud. Those two passages carry the most weight.
+
+
+## When to break these — `force: stylistic`
+
+Everything in this skill is a **default, not a gate**. It may be broken without stating a reason
+anywhere, and a chapter that breaks one deliberately is not carrying a defect.
+
+Break the rule when the thing it forbids is the right sentence:
+
+- **The banned construction is the character's.** A narrator close to somebody who thinks in
+  antitheses will produce `X, not Y` — the ban is on it becoming the *house* style, never on one
+  character's mind reaching the page.
+- **The filter verb is the point.** *She watched herself do it* is distance, deliberately.
+- **The long sentence earns its length.** A clause that keeps going because the speaker cannot
+  stop is doing work no short sentence does.
+- **The flourish lands.** One aphorism in a chapter is a good line; the ban is on every scene
+  closing that way.
+- **The repetition is the effect.** Three paragraphs opening on the same word is a defect at
+  random and a drumbeat on purpose.
+
+The test is always the same and it is not a count: **does this sentence do something the plain
+version would not?** If yes, keep it and move on — no note, no justification, nothing owed to the
+gate report. What the rules here actually protect against is *density*: one loaded sentence is
+style, and every sentence loaded is a fingerprint (§Range before polish). `sw lint` finds them
+all and decides none of them.
+
+An **absolute** clause does sit inside this skill, and it is not covered by any of the above: no
+essentialism, ever, in any phrasing, including as a character's — `bias-guard` owns it and
+overrides everything on this page.
 
 ## Self-check
 

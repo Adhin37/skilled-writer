@@ -15,6 +15,36 @@ while writing rather than while planning.
 
 **This is the first card you open, not the fifteenth.**
 
+## Before the rule: three ways this chapter could go
+
+Write **three one-line answers** to the chapter's central question — how the plan row's `event`
+actually happens — and take the second or third unless the first is clearly the best story.
+
+```
+1  She confronts Halden about the ledger.                    <- the first thing anyone would write
+2  She lets him keep believing she hasn't noticed, and
+   uses the afternoon he thinks he has.
+3  She tells Tsuru instead, who is the wrong person to tell.
+```
+
+Sixty seconds, and it is the only step in the whole draft loop that **widens** rather than
+narrows. Every other card in Phase A converges on one answer, which is correct for each of them
+individually and, summed over nineteen cards, produces the median of everything the rules allow —
+competent, defensible, and the thing a reader means by "machine-written" when they cannot point at
+a line (`docs/creative-latitude.md`).
+
+Three rules make it work rather than becoming a ritual:
+
+- **Candidate 1 is the obvious one.** Write it down deliberately so the other two have something
+  to be different from. Do not try to make it good.
+- **They differ in what somebody *does*,** not in tone, wording or how much is revealed. Three
+  phrasings of one beat is one candidate.
+- **Taking candidate 1 is allowed** — say why in the brief, in a clause. A card that can only be
+  answered one way is a card that is not being used.
+
+The candidates are cheap here and expensive later: this is the last point at which the chapter is
+still one line long.
+
 **The rule: the important beat gets the scene.** The chapter's `event:` field names it. The test
 is arithmetic, and it is the one to run first:
 

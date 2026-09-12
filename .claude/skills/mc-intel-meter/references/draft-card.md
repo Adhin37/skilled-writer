@@ -4,17 +4,24 @@ owner: mc-intel-meter
 dispatcher: write-chapter
 phase: A
 order: 11
-description: What the MC deduces, and from which on-page clue
+description: What the POV character works out - from which clue, and what they get wrong about people
 when: always
 ---
 
 # mc-intel-meter — draft card
 
 Opened by `write-chapter` **Step 1**, every chapter. Written here rather than summarised there,
-because the decision this owns — what the MC deduces and from which on-page clue — is made while
-the chapter's shape is chosen, and cannot be retrofitted onto a drafted scene.
+because the decision this owns is made while the chapter's shape is chosen and cannot be
+retrofitted onto a drafted scene.
 
-**Produce:** what the MC works out this chapter, and the on-page fact it came from.
+**One card, two owners.** Reading a *situation* is `mc-intel-meter`'s; reading *people* is
+`social-perception`'s, which owns the `eq` ladder, the emotional signatures and the misread. They
+are one decision at the desk — what does this character conclude, and is it right — so they are
+one card, and each half names its owner. The card budget is why they share a file
+(`docs/creative-latitude.md`).
+
+**Produce two lines:** what the MC works out this chapter and the on-page fact it came from, and
+what they read in somebody and get wrong.
 
 `mc.intel_tier` is in the read-set CONFIG. It sets the **inference budget** — how many reasoning
 steps may happen off the page — and every skipped step must be reconstructible by an attentive
@@ -47,5 +54,28 @@ A fourth, sparingly: an established `mc.blind_spots` entry.
 
 Deduction is dramatised, never monologued, and no narration asserts that the MC is smart.
 
-Technique rather than rule — including the intelligence / knowledge / wisdom distinction:
-`references/writing-intelligence.md`.
+## Reading people — `social-perception`'s half
+
+`eq` sits beside `intel` in `bible/cast/_voices.md` and is **a separate number on purpose.** Take
+this character's and hold it: tier 2 notices something is off and guesses self-referentially,
+tier 3 reads the room and never revisits the read, tier 4 holds two readings and tests one. Nobody
+at any tier reads a face correctly every time — what rises with tier is the quality of the
+question, not the accuracy of the answer.
+
+**State a reading, never a mind.** *He had stopped writing before she finished the sentence* is
+observation; *he had already decided to refuse her* is the inside of a second head, which a limited
+viewpoint does not have access to.
+
+**Feelings reach the page as that person's signature** — the four entries in their profile — and
+never through the stock repertoire of nods, sighs and clenched jaws, which identifies nobody
+(`voice-separation` owns that ban).
+
+**The misread is the fourth legal failure**, beside the three above, and it is fair only when all
+four hold: the signal was on the page this chapter · the reading is the one their tier and history
+would produce · the true cause is also visible in something the reader saw · and it costs
+something. Somebody with a higher `eq` than the POV is reading *them*, and may act on it first.
+
+Technique rather than rule — the intelligence / knowledge / wisdom distinction:
+`references/writing-intelligence.md`. Plans, operations and lies: `references/plans-and-lies.md`.
+The observation ladder and how a misread is written so the reader can see past it:
+`social-perception/references/reading-people.md`.

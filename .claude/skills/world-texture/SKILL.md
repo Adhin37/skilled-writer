@@ -4,6 +4,7 @@ description: Deliver the world through consequence, friction and anchored sensor
 metadata:
   type: skill
   tier: core
+  force: structural
   when: always
   owns: [description-budget, sensory-signature, delivery-channel]
 ---

@@ -47,3 +47,9 @@ somebody out of breath.
 | Everyone fought to the death | battles are decided by routs, and most dying happens afterwards | `SKILL.md` §4 |
 | The battle is won and nothing else moved | the engagement cost nothing | `conflict-engine` |
 | The army arrived fed, dry and on time | the campaign was skipped | `references/logistics.md` |
+
+## What it looks like when it lands
+
+Renna never learns who won. She learns the horn stopped, then that the wagons are past, then that
+the man who gave her the order is not at the muster. Of her forty, eleven are gone and one of them
+is the boy who kept asking about the ford.

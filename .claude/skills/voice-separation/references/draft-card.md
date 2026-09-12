@@ -4,7 +4,7 @@ owner: voice-separation
 dispatcher: write-chapter
 phase: A
 order: 7
-description: "The voice spread for this chapter's speakers"
+description: "The voice spread for this chapter's speakers, and who sounds different today"
 when: always
 ---
 
@@ -14,8 +14,15 @@ Opened by `write-chapter` **Step 1**, every chapter with two or more speakers. W
 than summarised there, because the default failure is **one mind wearing several names**, and it is
 introduced at the moment the speakers are chosen — not at the moment the lines are written.
 
-**Produce:** this chapter's speakers as matrix rows side by side, and which of them differs from the
-MC on two or more axes.
+**One card, two owners.** The spread is `voice-separation`'s; today's **delta** — who has moved and
+how a reader would hear it — is `character-development`'s, which owns the arc ladder and its
+triggers. They are one decision at the desk: you cannot choose how somebody sounds today without
+the table of how everybody sounds. The card budget is why they share a file
+(`docs/creative-latitude.md`).
+
+**Produce two lines:** this chapter's speakers as matrix rows side by side, with which of them
+differs from the MC on two or more axes — and which one character sounds different today, and the
+delta that makes it audible.
 
 The rows are in the read-set. Lay them out as a table before drafting; sameness is a property of a
 *cast* and is invisible read one at a time.
@@ -45,8 +52,24 @@ and without that floor the exceptional ones do not read as exceptional.
 `sw cast` settles all three as arithmetic over the table. It cannot see whether the drafted dialogue
 obeys the table — that is Pass 2.
 
-Any voice delta applied this chapter may **not** move a character onto the MC's axes
-(`voice-separation` §6). A tier-C walk-on gets no row: one axis off default, and that is all.
+A tier-C walk-on gets no row: one axis off default, and that is all.
+
+## Today's delta — `character-development`'s half
+
+**Which one character sounds different today, and what a reader would hear.** Read
+`state/growth.md` for this chapter's A and B rows. A rung moves only on a trigger — a cost paid, a
+contradiction witnessed, the old method failing, or being seen — never because chapters have
+passed, and when one fires it is a **scene beat**, not a note.
+
+A rung advance that changes nothing about how somebody sounds has not happened. Deltas are small
+and mechanical: sentence length, a hedge dropped, a form of address, asking for information instead
+of permission, "I" becoming "we".
+
+**The one constraint this card adds:** the obvious delta always points at the protagonist —
+tighter sentences, fewer hedges, more certainty — so applied often enough it converges the whole
+cast on one register. If today's would push a character through the ceiling in §6 above, take one
+that runs *more oblique*, *slower*, *quieter*, *funnier in a worse way*. The ladder, the rates and what a rung costs are `character-development`'s —
+`character-development/SKILL.md` §Rate and §Triggers, and `character-development/references/ladders.md` when one moves.
 
 Clones, avatars and doubles are the one exemption: `references/mirror-clause.md`. Bodies and
 non-POV minds while drafting: `references/channels.md`.

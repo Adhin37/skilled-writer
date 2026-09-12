@@ -4,6 +4,7 @@ description: Optional (default off). Add downtime, work, food and routine so the
 metadata:
   type: skill
   tier: optional
+  force: stylistic
   when: optional.slice-of-life-texture == on
   owns: [downtime]
 ---
@@ -72,6 +73,20 @@ Strongest placements:
 - Immediately after an arc climax, while the cost is still being absorbed
 - Immediately before a known danger, so the reader is counting what is at risk
 - During a journey, where routine is the only structure available
+
+
+## When to break these — `force: stylistic`
+
+The budget and the placements are **defaults, not gates**.
+
+Break them when the texture *is* the chapter: a festival, a meal that is a negotiation, a day of
+work where the work is what changes. A whole downtime chapter is allowed more often than the
+once-an-arc guidance says when the novel's cadence is genuinely slow and the user asked for that —
+`chapters.arc_length` and `style.read_like` are better evidence than this budget.
+
+The requirement that does not bend is the one the budget exists to serve: **the scene still has a
+goal and a turn.** Texture rides inside a scene; a chapter with neither is a chapter readers skip,
+and in a serial that habit spreads to the next one.
 
 ## Self-check
 

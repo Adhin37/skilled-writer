@@ -40,3 +40,9 @@ hope for.
 - [ ] Nothing depicted suffering as spectacle (`bias-guard` governs this absolutely)
 - [ ] No shock reversal broke the story's own logic (`plot-threads` still binds)
 - [ ] The MC's intelligence is unchanged — a grim world does not license a stupid protagonist
+
+## What it looks like when it lands
+
+Ivar's hand does not come back, and he was the one who could write. The victory holds — the wagons
+are through — and the shortfall has a name, which is the eleven who are not. The boy is still
+alive, and the reader is now afraid for him.

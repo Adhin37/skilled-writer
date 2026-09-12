@@ -50,3 +50,9 @@ event first.
 | Every answer lands but the chapter reads thin | the event got a summary and a bridge got the scene | `story-craft` §the weight test |
 | Change is an interior shift in somebody's feelings | the delivery gate is being satisfied in the abstract | Pass Z. Name what *happened*, with a verb and a target |
 | Cost is paid by someone offstage | nothing was risked by the POV character | `conflict-engine` |
+
+## What it looks like when it lands
+
+The scene closed on *"Fine. Tuesday."* and she had not got the permit, she had got a date, and
+the date is three days after the shipment she needs it for. Want, friction, change, cost, next —
+five answers, none strained, and the change is a new problem rather than a mood.

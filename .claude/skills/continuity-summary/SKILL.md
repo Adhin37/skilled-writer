@@ -4,6 +4,7 @@ description: Read and maintain the compressed continuity ledger (CCS). Use befor
 metadata:
   type: skill
   tier: core
+  force: structural
   when: always
   owns: [ccs-block-format, read-set-assembly, arc-digest]
 ---

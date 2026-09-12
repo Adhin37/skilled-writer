@@ -4,6 +4,7 @@ description: Start a new webnovel - interview for premise, genre, POV, tone, the
 metadata:
   type: skill
   tier: core
+  force: structural
   when: always
   owns: [premise-interview, scaffold]
 ---

@@ -34,3 +34,9 @@ scene shape, and before bias, so any world or cultural material it adds is still
 
 If a box fails, open `SKILL.md`: §1–§2 for the delivery channels and the budget, §3 for the
 load-bearing test.
+
+## What it looks like when it lands
+
+Nobody describes the levy. A woman ahead of them in the queue argues that her cart is empty, is
+charged anyway, and swears at the gate in a way that says she has done this before. The rule
+arrived as friction.

@@ -33,3 +33,9 @@ open `SKILL.md` §1 and §3.
 
 **The genre contract.** By `opening.contract_by_ch`, a reader can say what kind of pleasure this
 book is offering, and the page has delivered a sample of it rather than a promise of it.
+
+## What it looks like when it lands
+
+By the end of the first page: a salt-ledger town, a woman whose job is measuring, a rule that the
+line may not stand higher than the Ledger allows — and it is standing higher. World, want and
+threat, in that order, with the mechanism on the page before the danger.

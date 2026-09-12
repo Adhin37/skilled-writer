@@ -39,3 +39,9 @@ that was played goes back to being a bridge.
 
 If a box fails, open `story-craft/SKILL.md` §The one decision, or
 `story-craft/references/scene-and-summary.md`.
+
+## What it looks like when it lands
+
+The chapter's event is the confiscation, and the confiscation is eleven hundred of its sixteen
+hundred words: the queue, the clerk who is not unkind, the form, the three minutes of waiting
+afterwards. The journey there is a clause. That is the weight test passing.

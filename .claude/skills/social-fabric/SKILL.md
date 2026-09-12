@@ -4,6 +4,7 @@ description: Build the society layer - labour, money, law, belief, mobility - an
 metadata:
   type: skill
   tier: core
+  force: structural
   when: always
   owns: [society-layer, rule-propagation]
 ---

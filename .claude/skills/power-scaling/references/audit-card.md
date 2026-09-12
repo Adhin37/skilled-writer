@@ -42,3 +42,9 @@ page*, whether an opponent is a person or a number, or whether a win felt free, 
 If a box fails, open `SKILL.md`: §1 for pressure and placing an opponent, §2 for the edge, §3 for
 the step rule and boosts, §4 for the curve. If the curve itself is the problem rather than this
 chapter, open `references/failure-modes.md`.
+
+## What it looks like when it lands
+
+She wins by knowing the building, not by being stronger: P = +1, and the win costs her the hand
+she needs for next week's work. No tier moved. The gap narrowed because the opposition made a
+mistake, which is where most of a curve's movement should come from.

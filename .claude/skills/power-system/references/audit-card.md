@@ -43,3 +43,9 @@ count.
 | The fight turned on whose tier was higher | tier became the answer to conflicts | `power-scaling` — the gap is the story, the magnitude is not |
 | A rule was explained mid-scene so the win would parse | the rule arrived two chapters late | `world-texture` — deliver it as a consequence, earlier |
 | The gain solved problems and created none | the escalation axis has slipped onto numbers | `SKILL.md` §Progression without creep |
+
+## What it looks like when it lands
+
+He reads the stone, and pays an hour of that morning for it — so he cannot afterwards say where he
+ate, and Bel notices he cannot. Same two details as every other time: the cold in the fingers, the
+taste of iron. Nobody explains the rule.

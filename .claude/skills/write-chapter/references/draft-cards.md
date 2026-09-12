@@ -25,15 +25,17 @@ section to open when that happens.
 | Scene count, the break, per-scene goal → obstacle → turn → exit | `scene-craft/references/draft-card.md`, `chapters.scenes_per_chapter` |
 | What this chapter costs the POV character | `conflict-engine/references/draft-card.md` — never zero |
 | POV character, and whether this is a switch | `pov-switch/references/draft-card.md` + the plan row |
-| Which thread ops fire | `plot-threads/references/draft-card.md` |
-| Who sounds different today, and how | `character-development/references/draft-card.md` → `state/growth.md` |
-| **The voice spread** for this chapter's speakers | `voice-separation/references/draft-card.md` → `bible/cast/_voices.md` |
-| Anyone new on the page: their **cast tier**, decided before they speak | `character-profile/references/draft-card.md` |
-| **The offstage question** — what the world does this chapter that the MC does not know | `timeline-engine/references/draft-card.md` → `plan/timeline.md` |
+| Which thread ops fire, **and the offstage question** — what moved out of the MC's sight | `plot-threads/references/draft-card.md` → `state/threads.md`, `plan/timeline.md` |
+| **The voice spread** for this chapter's speakers, **and who sounds different today** | `voice-separation/references/draft-card.md` → `bible/cast/_voices.md`, `state/growth.md` |
 | **The world channel** this chapter opens | `world-texture/references/draft-card.md` |
-| What the MC deduces, and from which on-page clue | `mc-intel-meter/references/draft-card.md` |
-| **Who has to ask** for what this chapter needs known | `competence-map/references/draft-card.md` → `bible/cast/_competence.md` |
+| What the POV works out and from which clue, **and what they get wrong about somebody** | `mc-intel-meter/references/draft-card.md` |
+| **Who has to ask** for what this chapter needs known, **and the cast tier of anyone new** | `competence-map/references/draft-card.md` → `bible/cast/_competence.md` |
 | Opening line strategy, closing hook | `hook-and-pacing/references/draft-card.md` |
+
+**Five of these carry two owners' decisions.** That is the card budget working, not a land-grab:
+past twelve unconditional cards a new rule merges into the card that already owns its
+neighbourhood instead of opening a file, and each merged card names both owners in its first
+lines. `docs/creative-latitude.md` has the arithmetic.
 
 ## Conditional — check the condition first, and skip the card entirely if it is false
 

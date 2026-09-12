@@ -525,3 +525,8 @@ many files at once should check these two detectors first.
   only appeared under load.
 - [`history/upgrade-plan.md`](history/upgrade-plan.md) — the current inventory, the research behind the last round
   of changes, and what is still open.
+- [`coverage-map.md`](coverage-map.md) — what an agent needs in order to write a novel, mapped to
+  the owner, file and card that supply it, plus what was deliberately left unowned.
+- [`creative-latitude.md`](creative-latitude.md) — the corpus measured as 17.6 negations per
+  generative construct, why that is now the binding constraint on quality rather than a
+  protection against slop, and the plan for the second lever.

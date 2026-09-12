@@ -4,6 +4,7 @@ description: Design the main character - appearance, intellect, origin, golden f
 metadata:
   type: skill
   tier: core
+  force: structural
   when: always
   owns: [mc-sheet, golden-finger, form-ledger, option-triad]
 ---

@@ -40,3 +40,9 @@ stop trusting every sentence afterwards. This is the only unrecoverable failure 
 | The clue was fair but nobody saw it | disguised by obscurity rather than by function | `SKILL.md` §Planting |
 | The misdirection is never accounted for | a hole wearing a red herring's coat | `plot-threads` — it is an open promise |
 | The answer changed nothing | trivia | `conflict-engine` — knowing has to cost |
+
+## What it looks like when it lands
+
+The clerk's second pen appears because he is annoyed about having to buy it — a grumble, taking
+nine words, in a scene about something else. Nobody weights it. It is the whole answer, and the
+narration has not stated one untrue thing on the way there.

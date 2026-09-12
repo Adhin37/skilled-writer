@@ -4,6 +4,7 @@ description: Build and maintain the world bible and lexicon at the minimum size 
 metadata:
   type: skill
   tier: core
+  force: structural
   when: always
   owns: [world-bible, lexicon]
 ---

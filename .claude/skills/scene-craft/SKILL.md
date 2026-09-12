@@ -4,6 +4,7 @@ description: Build scenes with a goal, obstacle, turn and changed exit, and appl
 metadata:
   type: skill
   tier: craft
+  force: structural
   when: always
   owns: [scene-unit, scene-exit, chapter-assembly, delivery-test]
 ---

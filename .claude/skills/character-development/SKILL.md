@@ -4,6 +4,7 @@ description: Move every recurring character along their arc ladder so growth is 
 metadata:
   type: skill
   tier: character
+  force: structural
   when: always
   owns: [arc-ladder, voice-delta]
 ---

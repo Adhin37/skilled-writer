@@ -48,3 +48,9 @@ clauses, the aimed parenthetical aside, the epigram close, pre-announced self-qu
 | Two speakers are distinct on paper and identical on the page | they share a cadence | `voice-separation` §3, the cadence test |
 | The subtext is explained in the beat after it | the narration does not trust the line | delete the beat |
 | A character says exactly what they mean, always | no `won't say` | `references/subtext.md` |
+
+## What it looks like when it lands
+
+*"You said Tuesday."* / *"I said probably Tuesday."* / *"You didn't say probably."* / *"I thought
+it."* — four turns, twenty words, nobody states the subject, and the reader learns which of them
+keeps score.

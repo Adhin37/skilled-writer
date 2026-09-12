@@ -4,6 +4,7 @@ description: Strip machine-translation artifacts and structural cliches - stock 
 metadata:
   type: skill
   tier: craft
+  force: stylistic
   when: always
   owns: [banned-phrase-list, translationese]
 ---
@@ -59,6 +60,27 @@ search for each phrase by hand.
    fix the character before the sentence.
 8. Read the chapter's last 200 words aloud. Translationese hides in the rhythm — flat
    subject-verb-object chains of uniform length. Vary or rewrite.
+
+
+## When to break these — `force: stylistic`
+
+The banned list is a **default, not a gate**, and it may be broken without owing the report a
+reason.
+
+A banned phrase is legitimate when it is **somebody's, on purpose**: a character who talks in
+stock phrases is a characterisation, a narrator who does is the defect. Dialogue is the ordinary
+case — people do say *you dare* — and the test is whether a different character in the same scene
+would say it differently. In-world documents, proclamations and translated texts get the same
+latitude for the same reason.
+
+What has no latitude is the **structural** half: the face-slap loop, the crowd narrating how
+impressive somebody was, the rank recital as narration, the paragraph saying one thing three
+ways. Those are not phrasings, they are shapes, and a chapter built out of them is not fixed by
+rewording. That half binds as `structural` regardless of this skill's declared force.
+
+And the standing warning from `CLAUDE.md` §5: no phrase list is ever finished. Ban a tic and the
+model's own register fills the hole with a new one, which is why `sw lint`'s echo check looks for
+*repeated constructions* and not for words.
 
 ## Self-check
 

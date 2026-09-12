@@ -4,6 +4,7 @@ description: Pin how well each character reads other people, and make the gap be
 metadata:
   type: skill
   tier: character
+  force: structural
   when: always
   owns: [eq-tier, emotional-signature, misread]
 ---
@@ -29,8 +30,12 @@ character lives.
 | file | open it when |
 |---|---|
 | `references/reading-people.md` | writing the moment somebody judges somebody — the observation ladder, what each tier is allowed to conclude, and how a misread is written so the reader sees past it |
-| `references/draft-card.md` | never, by you. `write-chapter` Phase A opens it |
-| `references/audit-card.md` | never, by you. `revision-pass` Pass 3b opens it |
+
+**This skill has no card of its own.** Its decision is made beside the intelligence tier, on
+`mc-intel-meter`'s draft card, and audited beside it at Pass 3b on `mc-intel-meter`'s audit card —
+what a character concludes about a situation and what they conclude about the people in it are one
+decision at the desk, and the card budget forbids a second file for the second half
+(`docs/creative-latitude.md`). The rules below are the source those two halves cite.
 
 ## 1. The tiers
 
@@ -42,8 +47,10 @@ character lives.
 | 4 | **Acute** | reads intent, the shape of what is not being said, who in the room is afraid | can steer a conversation to where they want it | models everyone accurately except the people they need something from |
 | 5 | **Uncanny** | reads the private thing the person has not admitted to themselves | can be unbearable to sit near | knows what everyone feels and has no idea what to do about their own |
 
-**The error profile is not optional.** It is what makes the tier survive contact with a plot. A
-tier-5 reader who is also wise about their own life is not a character, they are a device.
+**Every tier ships with its error, and the error is the load-bearing half** — it is what keeps the
+number honest once a plot leans on it. A tier-5 reader whose own life is also in order is not a
+character, they are a device. (`mc-intel-meter` makes the same demand of the intel ladder, for the
+same reason.)
 
 ## 2. The gap rule
 

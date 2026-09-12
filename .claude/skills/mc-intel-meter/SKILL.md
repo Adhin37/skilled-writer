@@ -4,6 +4,7 @@ description: Pin the MC at a declared intelligence tier and enforce it both ways
 metadata:
   type: skill
   tier: character
+  force: structural
   when: always
   owns: [intel-tier, deduction-trace]
 ---

@@ -4,6 +4,7 @@ description: Open, escalate and pay off every promise made to the reader, using 
 metadata:
   type: skill
   tier: craft
+  force: structural
   when: always
   owns: [thread-ledger, promise-payoff]
 ---

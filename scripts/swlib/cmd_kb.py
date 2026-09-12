@@ -111,7 +111,8 @@ def _list(repo_root, args):
     if not want or want == "skill":
         print("-- skills (%d)" % len(idx.skills))
         for s in sorted(idx.skills.values(), key=lambda x: x.name):
-            print("   %-24s %-9s %s" % (s.name, s.tier or "-", ", ".join(s.owns)))
+            print("   %-24s %-9s %-11s %s"
+                  % (s.name, s.tier or "-", s.force or "-", ", ".join(s.owns)))
     for kind in kb.TYPES[1:]:
         if want and want != kind:
             continue
@@ -161,6 +162,9 @@ def _cards(repo_root, args, novel):
     for f, state, why in fired:
         mark = " ?" if state is kbexpr.UNKNOWN else ""
         cond = ("  [%s]" % f.when) if f.when and f.when != "always" else ""
+        owner = idx.skills.get(f.owner)
+        if owner and owner.force and owner.force != "structural":
+            cond += "  <%s>" % owner.force
         print("  %-22s %s%s%s" % (f.owner, f.rel, cond, mark))
         if f.description:
             print("  %-22s %s" % ("", f.description))

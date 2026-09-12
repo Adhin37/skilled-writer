@@ -4,6 +4,7 @@ description: Optional (default off). Run a game-like system layer - status scree
 metadata:
   type: skill
   tier: optional
+  force: structural
   when: optional.litrpg-system == on
   owns: [system-layer, status-screen]
 ---

@@ -36,24 +36,11 @@ def all_docs():
     return sorted(out)
 
 
-# write-chapter step 1 and step 2: every skill whose decision is made from a card.
-DRAFT_CARD_OWNERS = (
-    "pov-switch", "scene-craft", "conflict-engine", "plot-threads",
-    "character-development", "voice-separation", "character-profile", "mc-design",
-    "timeline-engine", "world-texture", "mc-intel-meter", "story-opening",
-    "power-scaling", "meta-knowledge", "competence-map", "hook-and-pacing",
-    "narrator-voice", "dialogue-voice", "story-craft", "social-perception",
-)
-
-# The modules. Same contract - a card, dispatched by write-chapter - but every one of them is
-# off for most novels, so they are listed apart from the always-in-play set above. A module
-# without a card is the defect this separation exists to make visible: before it, all eleven
-# were dispatched as whole SKILL.md bodies mid-draft.
-MODULE_CARD_OWNERS = (
-    "power-system", "fanfic-canon", "combat-choreography", "battle-scale",
-    "litrpg-system", "mystery-clues", "romance-arc", "grimdark-consequences",
-    "slice-of-life-texture", "comedy-levity",
-)
+# The card set is DERIVED, never listed. A hand-typed roster of owners is a second copy of the
+# corpus, which is the defect class this repo exists to remove - and it drifts the moment two
+# cards merge, which the card budget now forces them to do. The tests below assert the
+# *properties* a card set must have instead: every card is dispatched, every module has one, and
+# nothing unconditional exceeds the budget.
 
 
 def description(skill):
@@ -211,6 +198,27 @@ class TestArchitecture(unittest.TestCase):
         self.assertEqual(bare, [],
                          "modules with no card - the dispatcher would open the body instead")
 
+    def test_unconditional_cards_stay_inside_the_budget(self):
+        """The forcing function from `docs/creative-latitude.md`.
+
+        The corpus reached nineteen draft cards and twenty-three audit cards for one chapter -
+        16,359 words of instruction and 596 prohibitions before a line of story state - because
+        adding a rule always meant adding a file and no number anywhere objected. Past the budget
+        a new rule merges into the card that already owns its neighbourhood.
+
+        Conditional cards are excluded: a module that fires for one novel in ten is not what
+        makes the loop heavy. The unconditional set is, because every chapter of every book
+        carries it.
+        """
+        from swlib import kb, rules
+        idx = kb.index(REPO, refresh=True)
+        for kind, cap in sorted(rules.CARD_BUDGET.items()):
+            live = [f.owner for f in idx.by_type(kind)
+                    if not f.when or f.when.strip() == "always"]
+            self.assertLessEqual(len(live), cap,
+                                 "%d unconditional %ss against a budget of %d: %s"
+                                 % (len(live), kind, cap, ", ".join(sorted(live))))
+
     def test_every_audit_card_declares_a_pass(self):
         """A card `revision-pass` cannot place is a card that never runs."""
         from swlib import kb
@@ -234,12 +242,12 @@ class TestArchitecture(unittest.TestCase):
         """
         from swlib import kb
         idx = kb.index(REPO, refresh=True)
-        resolved = {f.owner for f in idx.by_type("draft-card")}
-        self.assertEqual(sorted(resolved),
-                         sorted(DRAFT_CARD_OWNERS + MODULE_CARD_OWNERS),
-                         "every draft card on disk must be dispatched by write-chapter")
-        for f in idx.by_type("draft-card"):
+        cards = idx.by_type("draft-card")
+        self.assertTrue(cards, "the corpus has no draft cards at all")
+        for f in cards:
             self.assertEqual(f.dispatcher, "write-chapter", f.rel)
+            self.assertIn(f.phase, ("A", "B"), "%s declares no drafting phase" % f.rel)
+            self.assertTrue(f.owner in idx.skills, "%s has no owning skill" % f.rel)
 
         body = read(os.path.join(SKILLS, "write-chapter", "SKILL.md"))
         self.assertIn("CARDS", body,

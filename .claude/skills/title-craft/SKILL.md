@@ -4,6 +4,7 @@ description: Name the book and write the platform blurb. Use once during novel-i
 metadata:
   type: skill
   tier: core
+  force: structural
   when: always
   owns: [title, blurb, slug]
 ---

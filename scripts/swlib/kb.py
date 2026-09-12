@@ -43,12 +43,20 @@ def skills_dir(repo_root):
     return os.path.join(repo_root, SKILLS_REL)
 
 
-class SkillEntry(object):
-    __slots__ = ("name", "path", "description", "owns", "tier", "when", "meta")
+# How hard a skill's rules bind. The corpus was written with no way to say this, so the
+# essentialism ban and a note about em-dash density read identically - and a model obeys both at
+# the same anxiety level, which is paid for entirely by the stylistic rules. See
+# `docs/creative-latitude.md`.
+FORCE = ("absolute", "structural", "stylistic")
 
-    def __init__(self, name, path, description, owns, tier, when, meta):
+
+class SkillEntry(object):
+    __slots__ = ("name", "path", "description", "owns", "tier", "force", "when", "meta")
+
+    def __init__(self, name, path, description, owns, tier, when, meta, force=None):
         self.name, self.path, self.description = name, path, description
         self.owns, self.tier, self.when, self.meta = owns, tier, when, meta
+        self.force = force
 
     def __repr__(self):
         return "<skill %s owns=%d>" % (self.name, len(self.owns))
@@ -120,6 +128,7 @@ class Index(object):
                            owns=owns,
                            tier=str(meta.get("tier") or "").strip() or None,
                            when=str(meta.get("when") or "").strip() or None,
+                           force=str(meta.get("force") or "").strip() or None,
                            meta=meta)
         self.skills[name] = entry
         for slug in owns:

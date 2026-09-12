@@ -4,6 +4,7 @@ description: Remove inherited racial, national, gender and class bias without so
 metadata:
   type: skill
   tier: craft
+  force: absolute
   when: always
   owns: [inherited-bias, essentialism-ban]
 ---

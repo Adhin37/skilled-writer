@@ -31,3 +31,9 @@ reader a book the blurb did not describe.
 
 - [ ] The advantage has produced at least one legible, uncontested win the reader watched
 - [ ] Failures so far are consequences of the MC acting, not decrees that arrived on schedule
+
+## What it looks like when it lands
+
+He knows the bridge collapses in autumn. He spends it: buys the crossing rights cheap, which works
+and makes him a man with a motive when it does collapse. The win lands three chapters before the
+first thing his knowledge gets wrong.

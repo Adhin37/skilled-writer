@@ -4,6 +4,7 @@ description: Optional (default off). Place humour deliberately - character-sourc
 metadata:
   type: skill
   tier: optional
+  force: stylistic
   when: optional.comedy-levity == on
   owns: [humour-placement]
 ---
@@ -72,6 +73,25 @@ funny beat, does the reader still believe the MC could lose?
 - **Comic characters get real arcs.** A character who is only funny is furniture.
 - **Frequency**: in a `grounded` or `bleak` tone, a few beats per chapter at most. In a `wry`
   tone, humour is the voice and this skill governs its restraint instead.
+
+
+## When to break these — `force: stylistic`
+
+Placement rules here are **defaults, not gates**. The one that is not a default is the last line
+of the self-check, which is `bias-guard`'s and is absolute.
+
+Break the placement rules when the joke is doing something the rule cannot see:
+
+- **A joke during the climax**, when it is a character's panic reaching for the only thing that
+  works for them. The rule assumes levity releases tension; a badly-timed joke from a frightened
+  person raises it.
+- **A joke immediately after a loss**, when it is grief arriving wrong — which is how grief
+  usually arrives, and is a far stronger beat than the paragraph of mourning it replaces.
+- **The narrator being funny**, once, when the book's register is genuinely comic and the user
+  asked for that. Then it is voice, not commentary, and `style.read_like` should say so.
+
+The rule that does not bend: the stakes test. If the reader stops believing the MC could lose,
+cut the beat whatever it was doing.
 
 ## Self-check
 

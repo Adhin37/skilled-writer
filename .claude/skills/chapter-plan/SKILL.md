@@ -4,6 +4,7 @@ description: Build and extend the arc plan and the chapter construction list. Us
 metadata:
   type: skill
   tier: core
+  force: structural
   when: always
   owns: [arc-grid, chapter-construction-list, event-field]
 ---

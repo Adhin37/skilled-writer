@@ -31,3 +31,9 @@ can ever be mistaken for a bias pass.
 
 If Pass 6 found anything, **say so in the report**, always. The user needs to know the default was
 reaching for it. If a box fails, open `SKILL.md` — §The line, then the section for the axis.
+
+## What it looks like when it lands
+
+The guild that excludes her does it through a licensing fee, set by men who inherited the seats
+and would tell you the fee is fair. One of them is right about the thing she is wrong about.
+Nothing in the narration says what any group is like.

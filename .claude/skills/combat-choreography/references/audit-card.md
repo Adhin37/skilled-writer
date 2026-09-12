@@ -45,3 +45,9 @@ chapter, asked of the scene that consumed the most words.
 | Onlookers narrate how impressive it was | the crowd-reaction tic | `mtl-detox` |
 | A new ability won it | it needed to be seen used and seen fail first | `power-system` |
 | Killing cost nothing, or the same as last time | the first time is not like the others | `conflict-engine` |
+
+## What it looks like when it lands
+
+Two exchanges in a clause, then the moment he goes for the elbow — because the elbow ends it and
+he wants it ended — gets the paragraph. She is on the wet ramp the whole time. Afterwards her
+hand does not close properly, and it still does not, next chapter.

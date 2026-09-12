@@ -4,6 +4,7 @@ description: Design and enforce a magic, cultivation or superhuman system with h
 metadata:
   type: skill
   tier: genre
+  force: structural
   when: genre in [fantasy, progression, scifi] or subgenre in [fantasy, progression, scifi]
   owns: [magic-rules, ability-cost]
 ---

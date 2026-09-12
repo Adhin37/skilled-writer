@@ -4,6 +4,7 @@ description: Control serial pacing - opening lines, chapter-end hooks, arc rhyth
 metadata:
   type: skill
   tier: craft
+  force: structural
   when: always
   owns: [chapter-opening, chapter-hook, temperature-ledger, release-cadence]
 ---

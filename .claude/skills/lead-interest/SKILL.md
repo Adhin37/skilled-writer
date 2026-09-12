@@ -4,6 +4,7 @@ description: Choose and design the primary love interest, in any configuration. 
 metadata:
   type: skill
   tier: gated
+  force: structural
   when: content.romance != none
   owns: [primary-lead]
 ---

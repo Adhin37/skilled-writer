@@ -45,3 +45,9 @@ prose going vague.
 | The switch was needed to show information | exposition wearing a viewpoint | give the ignorance to someone who has it, and keep the POV |
 | The new POV narrates in the MC's rhythm | the thought unit was never set | `voice-separation` |
 | Switches are getting more frequent | the novel is drifting toward ensemble without deciding to | `SKILL.md` §Choosing the mode — change the config or stop |
+
+## What it looks like when it lands
+
+The chapter opens in Maro's head and the reader knows inside two sentences, before the label,
+because he is counting something. What he notices about the room is the rent on it. Wren noticed
+the salt line.

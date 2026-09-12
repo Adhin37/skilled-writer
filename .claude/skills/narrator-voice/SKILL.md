@@ -4,6 +4,7 @@ description: Hold the narrating voice - person, tense, distance, interiority, an
 metadata:
   type: skill
   tier: craft
+  force: structural
   when: always
   owns: [four-channels, narrative-distance, person-and-tense, head-hopping, italics]
 ---

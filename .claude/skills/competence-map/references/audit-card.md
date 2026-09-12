@@ -39,3 +39,9 @@ left, and it is the whole job.
 
 If a box fails, open `SKILL.md`: §1 for the map and the four rules, §3 for provenance, §5 for the
 acquisition ladder, §6 for the broad-knowledge clause.
+
+## What it looks like when it lands
+
+Asked what the levy is for, the toll clerk says *"Above my grade. Aldis on the north gate signs
+the exemptions, he'd know"* — and being sent to Aldis costs Wren the afternoon. The referral is the
+scene, and the clerk got more competent by declining.

@@ -20,7 +20,7 @@ import tempfile
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from swlib import (cmd_arc, cmd_cast, cmd_curve, cmd_health,  # noqa: E402
+from swlib import (cmd_arc, cmd_cast, cmd_curve, cmd_health, cmd_load,  # noqa: E402
                    cmd_history, cmd_kb, cmd_lint, cmd_readset, cmd_selftest,
                    cmd_export, cmd_state, cmd_status, cmd_trace, cmd_write, kb)
 from swlib.novelio import Novel, resolve  # noqa: E402
@@ -33,7 +33,8 @@ USAGE_ERROR = 2
 # Named once, so `sw health` can check the docs against the implementation rather than against
 # a second list that drifts.
 COMMANDS = ("readset", "lint", "arc", "cast", "curve", "state", "status", "stamp", "audit",
-            "newnovel", "doctor", "trace", "history", "health", "selftest", "kb", "export")
+            "newnovel", "doctor", "trace", "history", "health", "selftest", "kb", "export",
+            "load")
 
 
 def _novel(args):
@@ -301,6 +302,15 @@ def do_export(args):
     return _emit(cmd_export.run(novel, out), args)
 
 
+def do_load(args):
+    """What the toolkit hands the drafter for this chapter. Measures instructions, not prose."""
+    novel = _novel(args)
+    if args.chapter is None:
+        sys.stderr.write("sw load needs --chapter/-c\n")
+        sys.exit(USAGE_ERROR)
+    return _emit(cmd_load.run(novel, args.chapter, REPO_ROOT), args)
+
+
 def do_kb(args):
     """Query the craft knowledge base.
 
@@ -364,6 +374,10 @@ def build_parser():
               ).set_defaults(func=do_cast)
     novel_arg(sub.add_parser("curve", help="power curve - step size, boosts, pressure")
               ).set_defaults(func=do_curve)
+    lp = novel_arg(sub.add_parser(
+        "load", help="what the toolkit hands the drafter - cards, words, boxes, negations"))
+    lp.add_argument("--chapter", "-c", type=int, required=True)
+    lp.set_defaults(func=do_load)
     novel_arg(sub.add_parser("state", help="ledger, threads, plan and roster integrity")
               ).set_defaults(func=do_state)
     novel_arg(sub.add_parser("status", help="progress aggregation for /novel-status")

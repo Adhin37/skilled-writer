@@ -41,3 +41,9 @@ number describe what the choice cost.
 | A full sheet appeared | those belong a few times per novel, after a real transition | `SKILL.md` §Formatting discipline |
 | The system knows things nobody could | an unbounded oracle in brackets | `competence-map/references/broad-knowledge.md` — declare its shape and bound its access |
 | Numbers rose and nothing about how problems get solved changed | a receipt, not progression | `power-scaling` |
+
+## What it looks like when it lands
+
+No block until the last page, and then three lines: the rank, and the recovery cost falling from
+twelve hours to six. The climb was won by the rope she stole in chapter 4. The number describes
+what it cost her, and decides nothing.

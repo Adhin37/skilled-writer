@@ -43,3 +43,9 @@ into a judgement about a culture or its literature; that is `bias-guard`'s terri
 overrides genre convention.
 
 If a box fails, open `SKILL.md` §Part 3, or `references/catalogues.md` for the full lists.
+
+## What it looks like when it lands
+
+The magistrate does say *"You dare?"* — and Bel, who is in the room, thinks it sounds like
+something off a stage. One character's stock phrase, placed by somebody who can hear it as one.
+The narration around it says nothing about how impressive anybody was.

@@ -4,6 +4,7 @@ description: Optional. Write fights that are spatially legible, physically consi
 metadata:
   type: skill
   tier: optional
+  force: structural
   when: optional.combat-choreography == on
   owns: [fight-geography]
 ---

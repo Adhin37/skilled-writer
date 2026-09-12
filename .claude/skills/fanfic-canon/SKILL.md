@@ -4,6 +4,7 @@ description: Keep a fanfic consistent with its source - canon facts, characteriz
 metadata:
   type: skill
   tier: genre
+  force: structural
   when: genre in [fanfic] or subgenre in [fanfic]
   owns: [canon-ledger, divergence-point, ooc-budget, oc-test]
 ---

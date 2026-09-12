@@ -4,6 +4,7 @@ description: Draft the next chapter, orchestrating continuity, character, POV, c
 metadata:
   type: skill
   tier: core
+  force: structural
   when: always
   owns: [draft-phases, chapter-report]
 ---

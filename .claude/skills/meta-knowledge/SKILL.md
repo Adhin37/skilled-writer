@@ -4,6 +4,7 @@ description: Run an MC who knows what happens next - grain, inventory, win befor
 metadata:
   type: skill
   tier: character
+  force: structural
   when: always
   owns: [foreknowledge-ledger, observer-paradox]
 ---
