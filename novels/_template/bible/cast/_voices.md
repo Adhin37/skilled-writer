@@ -18,6 +18,7 @@ copies of fields in each profile; the profile is the source of truth, this is th
 | **hands** | the one thing their hands do |
 | **pressure** | still · bigger · smaller · busy · closer · leaves |
 | **first move** | what they reach for or look at first when the situation changes |
+| **cadence** | the *shape* a turn is built in, not its content — floods then stops · builds in even clauses · starts flat and sharpens · never finishes · answers before you finish asking. No script can check it; see §2, the cadence test (`voice-separation` §3) |
 | **stance** | what they do about what this society expects of their gender: conforms-benefits · conforms-resents · exploits · defies-openly · defies-quietly · oblivious · enforces. Any character takes any value; two of the same gender should differ (`social-fabric/references/gendered-experience.md`) |
 
 ---
@@ -26,13 +27,13 @@ copies of fields in each profile; the profile is the source of truth, this is th
 
 Tier A and tier B only. Tier C walk-ons get one off-default axis in `_extras.md` and no row here.
 
-| character | tier | intel | eq | artic | wit | heat | turn | hands | pressure | first move |
-|---|---|---|---|---|---|---|---|---|---|---|
+| character | tier | intel | eq | artic | wit | heat | turn | hands | pressure | first move | cadence |
+|---|---|---|---|---|---|---|---|---|---|---|---|
 
 **The MC's row is the calibration point, not the ceiling.** Read down each column before adding
 anyone. If a new character's row already exists under another name, change it.
 
-## 2. THE THREE CHECKS
+## 2. THE CHECKS
 
 Run these against the table above, not against a chapter.
 
@@ -42,6 +43,11 @@ Run these against the table above, not against a chapter.
 - **No duplicate triples** — no two characters sharing intel + artic + wit.
 - **No duplicate pairs on intel + eq** — those two decide what a character *concludes* in a
   scene, and two people who match on both reach the same judgement about everyone.
+- **The cadence test** — compare the longest turn of any two speakers and ask whether they are
+  built the same way: same clause count, same place the sentence turns, same landing. If yes
+  they are one voice wearing two rows, however far apart their declared axes sit. This is the
+  one check no script can run — `sw cast` prints three countable shadows of it and scores none
+  of them (`voice-separation` §3).
 
 ## 3. POV THOUGHT FIELDS
 

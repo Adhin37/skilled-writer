@@ -51,6 +51,19 @@ SECTION_LOOKUPS = [
     (("state", "continuity.md"),         "ARC DIGEST"),
 ]
 
+# Axes a skill requires every character to carry. The template is where a new novel gets its
+# slots, so an axis the corpus mandates and the template does not offer is an axis no novel will
+# ever have: `cadence` was added to `voice-separation` section 3 and to CLAUDE.md section 4 and
+# reached neither template file, and `eq` reached the matrix but not the profile the matrix says
+# is its source of truth. `_orphan_keys` already checks config-key -> owner; this is the other
+# direction, owner -> template slot.
+TEMPLATE_AXES = [
+    ("eq",      "social-perception", [("bible", "cast", "_voices.md"),
+                                      ("bible", "cast", "_character-template.md")]),
+    ("cadence", "voice-separation",  [("bible", "cast", "_voices.md"),
+                                      ("bible", "cast", "_character-template.md")]),
+]
+
 # A card is written by the skill that owns the defect and opened by the dispatcher that needs
 # the answer, so it is dispatched from there rather than cited from its own body. CLAUDE.md
 # section 8. The edge used to be checked by looking for the card's path as a literal string in
@@ -94,9 +107,11 @@ def run(repo_root, commands=None):
     _kb(repo_root, rep)
     _force(repo_root, rep)
     _card_budget(repo_root, rep)
+    _card_scope(repo_root, rep)
+    _dangling_cards(repo_root, names, rep)
     rep.info("scope", [
-        "   %d skills, %d template accessors, %d template sections checked"
-        % (len(names), len(TABLE_ACCESSORS), len(SECTION_LOOKUPS)),
+        "   %d skills, %d template accessors, %d template sections, %d template axes checked"
+        % (len(names), len(TABLE_ACCESSORS), len(SECTION_LOOKUPS), len(TEMPLATE_AXES)),
         "   This is wiring only. It says nothing about whether a skill's advice is any good.",
     ])
     return rep
@@ -286,7 +301,27 @@ def _template(repo_root, rep):
                    "`optional: %s` has no .claude/skills/%s/ behind it - it never no-ops, it is "
                    "simply never read" % (key, key), path=novel.path("novel.md"))
 
+    _template_axes(novel, rep)
     _orphan_keys(repo_root, novel, rep)
+
+
+def _template_axes(novel, rep):
+    """An axis the corpus mandates that the template offers no slot for.
+
+    A new novel is scaffolded from `novels/_template`, so a slot missing here is a field that
+    never gets filled in any book. The failure is silent in both directions: the drafter has
+    nowhere to write the value, and the rule that needs it reads as satisfied because nothing
+    contradicts it.
+    """
+    for axis, owner, targets in TEMPLATE_AXES:
+        word = re.compile(r"\b%s\b" % re.escape(axis), re.I)
+        for parts in targets:
+            if not word.search(novel._text(*parts)):
+                rep.defect("template-axis",
+                           "`%s` owns the `%s` axis and %s offers no slot for it - a novel "
+                           "scaffolded from this template can never carry it"
+                           % (owner, axis, "/".join(parts)),
+                           path=novel.path(*parts))
 
 
 def _orphan_keys(repo_root, novel, rep):
@@ -580,6 +615,72 @@ def _card_budget(repo_root, rep):
                        "card that already owns its neighbourhood; a new file is not an option "
                        "past the budget"
                        % (len(live), kind, cap, ", ".join(live)))
+
+
+def _norm_when(value):
+    """`when:` as a comparable string. Absent and `always` are the same condition."""
+    text = str(value or "").strip()
+    return "always" if not text or text.lower() == "always" else text
+
+
+def _card_scope(repo_root, rep):
+    """A card may be narrower than the skill that owns it, never broader.
+
+    `pov-switch` is the case. The skill and its audit card both carried
+    `when: pov.mode != single`; the draft card carried `when: always`, so every single-POV novel
+    ever written opened a card for a decision it does not have - one of twelve unconditional
+    draft-card budget slots, spent on nothing. Nothing compared the two, because `_cards` checks
+    that a card names a dispatcher and `kb` evaluates each `when:` on its own.
+    """
+    idx = kb.index(repo_root, refresh=True)
+    for kind in ("draft-card", "audit-card"):
+        for f in idx.by_type(kind):
+            skill = idx.skills.get(f.owner)
+            if skill is None:
+                continue
+            owner_when, card_when = _norm_when(skill.when), _norm_when(f.when)
+            if owner_when != "always" and card_when == "always":
+                rep.defect("card-scope",
+                           "%s is `when: always` but `%s` it belongs to is `when: %s` - the card "
+                           "fires for novels the skill is switched off for"
+                           % (f.rel, f.owner, owner_when),
+                           path=f.path, line=1)
+
+
+def _dangling_cards(repo_root, names, rep):
+    """A pointer at a card file that does not exist.
+
+    Benchmark run #2's D4 was `revision-pass` naming `mtl-detox` with no card behind the name, and
+    it recurred: the `timeline-engine` audit card merged into `plot-threads`' and both Pass 4 texts
+    went on telling the reviewer to open four cards. A gate instructed to open a missing file
+    either burns a turn or skips the check in silence, and `_cards` cannot see it because it is
+    anchored on cards that exist.
+    """
+    root = skills_dir(repo_root)
+    known = set(names)
+    pointer = re.compile(r"\b([a-z][a-z0-9]*(?:-[a-z0-9]+)+)/references/((?:draft|audit)-card\.md)")
+    scanned = [os.path.join(repo_root, "CLAUDE.md")]
+    for name in names:
+        skill_dir = os.path.join(root, name)
+        scanned.append(os.path.join(skill_dir, "SKILL.md"))
+        refdir = os.path.join(skill_dir, "references")
+        if os.path.isdir(refdir):
+            scanned += [os.path.join(refdir, f) for f in sorted(os.listdir(refdir))
+                        if f.endswith(".md")]
+    for path in scanned:
+        if not os.path.isfile(path):
+            continue
+        text = mdio.read_text(path)
+        seen = set()
+        for skill, card in pointer.findall(text):
+            if skill not in known or (skill, card) in seen:
+                continue
+            seen.add((skill, card))
+            if not os.path.isfile(os.path.join(root, skill, "references", card)):
+                rep.defect("card-dangling",
+                           "names `%s/references/%s`, which does not exist - the reader is sent "
+                           "to a file that never opens" % (skill, card),
+                           path=path)
 
 
 def _commands(repo_root, commands, rep):

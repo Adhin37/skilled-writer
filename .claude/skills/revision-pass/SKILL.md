@@ -91,7 +91,7 @@ way a trigger that has quietly gone wrong becomes visible.
 | 2 Character + voice | **distributional** | — |
 | 3 Intelligence + knowledge | **distributional** | — |
 | 3b Reading people | **distributional** | — |
-| 4 Structure | mechanical | four owners' cards — `references/owned-passes.md` §Pass 4 lists them |
+| 4 Structure | mechanical | three cards, four owners — `references/owned-passes.md` §Pass 4 lists them |
 | 5 World | judgement | — |
 | 6 Bias | **distributional** | — **every chapter, never rotated** |
 | 7 MTL detox | **distributional** | `references/owned-passes.md` §Pass 7 — the banned list is `sw lint`'s; the structural half is not |
@@ -191,10 +191,11 @@ owns the rules; the card's second half carries them.
 
 ## Pass 4 — Structure
 
-Four cards, one per owner: **`scene-craft`** (goal, obstacle, turn, exit — already open from its
-Pass 9 duty), **`conflict-engine`** (what the chapter cost), **`plot-threads`** (the ops against
-the ledger) and **`timeline-engine`** (the world track and the ending contract). The skim test is
-the only row with no other owner: **`references/owned-passes.md` §Pass 4**.
+Three cards: **`scene-craft`** (goal, obstacle, turn, exit — already open from its Pass 9 duty),
+**`conflict-engine`** (what the chapter cost) and **`plot-threads`** (the ops against the ledger,
+**and `timeline-engine`'s world track and ending contract** on its second half — one card, two
+owners). The skim test is the only row with no other owner:
+**`references/owned-passes.md` §Pass 4**.
 
 ## Pass 5 — World
 

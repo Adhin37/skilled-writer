@@ -50,11 +50,11 @@ body at all, and the form stops being a constraint and becomes a costume.
 
 ## Pass 4 — Structure
 
-Four owners meet in this pass and none of them is this file. The scenes are on `scene-craft`'s
-audit card — goals, exits, the stated cost, the cuts. The chapter's price is on
-`conflict-engine`'s. The promises are on `plot-threads`'. The world track is on
-`timeline-engine`'s. Open those four; they were moved there because a checklist kept in this file
-is a checklist read without its owner.
+Four owners meet in this pass and none of them is this file, but they sit on **three** cards.
+The scenes are on `scene-craft`'s audit card — goals, exits, the stated cost, the cuts. The
+chapter's price is on `conflict-engine`'s. The promises are on `plot-threads`', and so is
+`timeline-engine`'s world track, on that card's second half. Open those three; the checklists were
+moved there because a checklist kept in this file is a checklist read without its owner.
 
 One row has no other owner and stays here:
 

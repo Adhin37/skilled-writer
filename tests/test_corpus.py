@@ -219,6 +219,45 @@ class TestArchitecture(unittest.TestCase):
                                  "%d unconditional %ss against a budget of %d: %s"
                                  % (len(live), kind, cap, ", ".join(sorted(live))))
 
+    def test_pass_sections_count_their_cards_correctly(self):
+        """A pass that says "four cards" when three resolve sends the reviewer to a missing file.
+
+        Benchmark run #2's D4 was `revision-pass` naming a card that did not exist, and it
+        recurred: the `timeline-engine` audit card was merged into `plot-threads`' and Pass 4 went
+        on saying "Four cards, one per owner ... and `timeline-engine`". `sw health` catches the
+        path form of that pointer; this catches the arity claim, which is how the prose form
+        shows. Conditional module cards are excluded - a pass names what every novel opens.
+        """
+        from swlib import kb
+        idx = kb.index(REPO, refresh=True)
+
+        unconditional = {}
+        for f in idx.by_type("audit-card"):
+            if f.when and f.when.strip() != "always":
+                continue
+            for one in str(f.pass_ or "").split(","):
+                unconditional.setdefault(one.strip(), set()).add(f.owner)
+
+        words = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6}
+        claim = re.compile(r"\b(one|two|three|four|five|six)\b[^.\n]{0,40}?\bcards\b", re.I)
+        body = read(os.path.join(SKILLS, "revision-pass", "SKILL.md"))
+
+        sections = re.split(r"^## Pass ", body, flags=re.M)[1:]
+        checked = 0
+        for section in sections:
+            label = section.split(None, 1)[0].strip()
+            if label not in unconditional:
+                continue
+            for word in claim.findall(section):
+                checked += 1
+                self.assertEqual(
+                    words[word.lower()], len(unconditional[label]),
+                    "Pass %s says %r cards but %d unconditional audit card(s) declare "
+                    "`pass: %s`: %s"
+                    % (label, word, len(unconditional[label]), label,
+                       ", ".join(sorted(unconditional[label]))))
+        self.assertTrue(checked, "no pass section stated a card count - the guard is inert")
+
     def test_every_audit_card_declares_a_pass(self):
         """A card `revision-pass` cannot place is a card that never runs."""
         from swlib import kb

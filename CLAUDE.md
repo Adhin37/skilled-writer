@@ -49,7 +49,8 @@ novel-init -> mc-design -> lead-interest -> character-profile -----------+
         |                     |                         [8b: register]  [9b: opening]
         |                     |                         [9c: foreknowledge]  [9e: the curve]
         |                     v
-        +-- continuity-summary (write) -- gate> --> the next brief's WATCH row
+        +-- continuity-summary (write) -- gate> ---> the next brief's GATE block
+                                                    + WATCH: readset re-lints the last 5
 ```
 
 `write-chapter` is the main loop and the only skill that produces prose. Three orderings are
@@ -68,8 +69,12 @@ step the user *had* to take: a gate that has to be summoned is a gate that is sk
 run is long. Two things hold it in place. The step 6 report carries a `Gate:` line naming what was
 fixed and which passes ran without their card, and `sw readset` names any ungated chapter when it
 assembles the next one's read-set. What the gate had to fix goes into the CCS block as `gate>`, and
-the recurring entries come back as the next brief's WATCH row — so a defect is fixed at the draft
-rather than re-fixed at the gate, chapter after chapter.
+the next brief opens on a GATE block carrying **both halves**: a **WATCH row** — the checks that
+fired in two or more of the last five chapters, which `sw readset` counts by re-linting them, three
+at most — and the recent **`gate>` lines echoed verbatim** beside it. The two are computed from
+different sources on purpose: no script can tell that two differently worded gate notes are the
+same defect, so the countable half is counted and the judgement half is quoted. Either way a defect
+is fixed at the draft rather than re-fixed at the gate, chapter after chapter.
 
 ## 3. Skill registry
 

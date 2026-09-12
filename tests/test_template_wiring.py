@@ -14,7 +14,7 @@ import os
 import re
 import unittest
 
-from fixtures import TEMPLATE
+from fixtures import REPO, TEMPLATE
 
 from swlib import cmd_health, mdio
 from swlib.novelio import Novel
@@ -142,3 +142,65 @@ class TestOptionalToggles(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestTemplateAxes(unittest.TestCase):
+    """An axis the corpus mandates must have a slot in the template.
+
+    A new novel is scaffolded from `novels/_template`, so a missing slot is a field no book will
+    ever carry. `cadence` reached `voice-separation` §3 and `CLAUDE.md` §4 and neither template
+    file; `eq` reached the matrix but not the profile the matrix calls its source of truth. Both
+    were invisible because nothing checked owner -> template, only config-key -> owner.
+    """
+
+    def test_every_mandated_axis_has_a_template_slot(self):
+        missing = []
+        for axis, owner, targets in cmd_health.TEMPLATE_AXES:
+            word = re.compile(r"\b%s\b" % re.escape(axis), re.I)
+            for parts in targets:
+                if not word.search(TEMPLATE_NOVEL._text(*parts)):
+                    missing.append("%s (%s) in %s" % (axis, owner, "/".join(parts)))
+        self.assertEqual([], missing, "axes with no template slot: %s" % "; ".join(missing))
+
+    def test_the_axis_table_is_not_empty(self):
+        self.assertTrue(cmd_health.TEMPLATE_AXES, "the guard would pass vacuously")
+
+
+class TestCardScope(unittest.TestCase):
+    """A card may be narrower than the skill that owns it, never broader.
+
+    `pov-switch`'s draft card carried `when: always` while its skill and its own audit card were
+    gated on `pov.mode != single`, so every single-POV novel opened a card for a decision it does
+    not have — and spent one of twelve unconditional draft-card budget slots on it.
+    """
+
+    def test_no_card_is_broader_than_its_skill(self):
+        from swlib import kb
+
+        idx = kb.index(REPO, refresh=True)
+        broader = []
+        for kind in ("draft-card", "audit-card"):
+            for f in idx.by_type(kind):
+                skill = idx.skills.get(f.owner)
+                if skill is None:
+                    continue
+                if (cmd_health._norm_when(skill.when) != "always"
+                        and cmd_health._norm_when(f.when) == "always"):
+                    broader.append("%s (skill is `when: %s`)" % (f.rel, skill.when))
+        self.assertEqual([], broader, "cards broader than their skill: %s" % "; ".join(broader))
+
+
+class TestDanglingCardPointers(unittest.TestCase):
+    """No file points at a card that does not exist.
+
+    Benchmark run #2's D4 in its recurring form: the `timeline-engine` audit card merged into
+    `plot-threads`' and both Pass 4 texts went on naming it.
+    """
+
+    def test_health_reports_no_dangling_card(self):
+        from swlib.report import Report
+
+        rep = Report("probe")
+        cmd_health._dangling_cards(REPO, cmd_health.skill_names(REPO), rep)
+        found = [f for f in rep.findings if f.check == "card-dangling"]
+        self.assertEqual([], [f.message for f in found])

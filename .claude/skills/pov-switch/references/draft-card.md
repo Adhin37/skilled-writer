@@ -5,7 +5,7 @@ dispatcher: write-chapter
 phase: A
 order: 4
 description: POV character, and whether this is a switch
-when: always
+when: pov.mode != single
 ---
 
 # pov-switch — draft card

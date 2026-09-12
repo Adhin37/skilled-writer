@@ -24,7 +24,6 @@ section to open when that happens.
 | Which beat is played and which is reported | `story-craft/references/draft-card.md` — **first, always** |
 | Scene count, the break, per-scene goal → obstacle → turn → exit | `scene-craft/references/draft-card.md`, `chapters.scenes_per_chapter` |
 | What this chapter costs the POV character | `conflict-engine/references/draft-card.md` — never zero |
-| POV character, and whether this is a switch | `pov-switch/references/draft-card.md` + the plan row |
 | Which thread ops fire, **and the offstage question** — what moved out of the MC's sight | `plot-threads/references/draft-card.md` → `state/threads.md`, `plan/timeline.md` |
 | **The voice spread** for this chapter's speakers, **and who sounds different today** | `voice-separation/references/draft-card.md` → `bible/cast/_voices.md`, `state/growth.md` |
 | **The world channel** this chapter opens | `world-texture/references/draft-card.md` |
@@ -45,6 +44,7 @@ lines. `docs/creative-latitude.md` has the arithmetic.
 | `scaling.shape` is not `none` | **The pressure** — what gap between the MC and this chapter's opposition the arc wants, and only then who that opposition is | `power-scaling/references/draft-card.md` → `state/power.md` §6 |
 | `mc.foreknowledge` is set | **The foreknowledge spend** | `meta-knowledge/references/draft-card.md` → `state/foreknowledge.md` |
 | anyone is `form_locked` | Which bodies are locked, and what they cannot do today | `mc-design/references/draft-card.md` → `state/body.md` |
+| `pov.mode` is not `single` | POV character, and whether this is a switch | `pov-switch/references/draft-card.md` + the plan row |
 
 ## The modules — a card each, not a body
 

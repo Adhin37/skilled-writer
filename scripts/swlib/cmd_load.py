@@ -14,7 +14,7 @@ real load rather than the corpus total:
 
 **A maintainer number, never a chapter gate.** Nothing here says a chapter is good or bad, and
 no drafting decision may cite it. The one place it is enforced is `sw health`, against the corpus
-rather than against any novel - see `rules.PHASE_A_CARD_BUDGET`.
+rather than against any novel - see `rules.CARD_BUDGET`.
 """
 
 import os
@@ -82,7 +82,20 @@ def run(novel, number, repo_root="."):
     # The corpus-level budget, reported here as context rather than enforced. `sw health` owns
     # the enforcement, because the budget is a property of the corpus and not of this novel.
     always = _always_counts(idx)
-    over = [(k, v, rules.CARD_BUDGET[k]) for k, v in always.items() if v > rules.CARD_BUDGET[k]]
+    lines = ["   %-12s %6s %7s %8s" % ("kind", "cards", "budget", "words")]
+    for kind in ("draft-card", "audit-card"):
+        count, words = always[kind]
+        lines.append("   %-12s %6d %7d %8d" % (kind, count, rules.CARD_BUDGET[kind], words))
+    lines += [
+        "   The budget bounds the card COUNT. Words are recorded and bounded by nothing:",
+        "   the merges that brought the count from 42 to 35 moved 16,359 words of",
+        "   instruction to 16,550, so the number that fell is not the number that costs",
+        "   (docs/creative-latitude.md).",
+    ]
+    rep.info("the unconditional set - what every novel pays, every chapter", lines)
+
+    over = [(k, v[0], rules.CARD_BUDGET[k])
+            for k, v in always.items() if v[0] > rules.CARD_BUDGET[k]]
     if over:
         rep.warn("card-budget",
                  "%s - past the budget, a new card must merge with an existing one rather than "
@@ -93,9 +106,13 @@ def run(novel, number, repo_root="."):
 
 
 def _always_counts(idx):
-    """Unconditional cards by kind - what *every* novel pays, which is what the budget bounds."""
+    """Unconditional cards by kind - what *every* novel pays, which is what the budget bounds.
+
+    Returns (count, words). The count is the enforced number; the words are recorded beside it
+    because the count is what the budget moved and the words are what a chapter actually pays.
+    """
     out = {}
     for kind in ("draft-card", "audit-card"):
-        out[kind] = len([f for f in idx.by_type(kind)
-                         if not f.when or f.when.strip() == "always"])
+        live = [f for f in idx.by_type(kind) if not f.when or f.when.strip() == "always"]
+        out[kind] = (len(live), sum(measure(f.path)[0] for f in live))
     return out

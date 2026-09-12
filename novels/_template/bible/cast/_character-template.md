@@ -104,10 +104,12 @@ it against the rest of the cast there. See `voice-separation` §1.
 | axis | value |
 |---|---|
 | intel | 1–5, the `mc-intel-meter` ladder. May be above or below the MC's |
+| eq | 1–5, the `social-perception` ladder — how well they read *people*. A separate number from intel, and the gap between the two is most of a character |
 | articulacy | 1–5. Independent of intel — the pairing is the character |
 | wit | none / dry / warm / clowning / cruel, **and the pressure that triggers it** |
 | heat | flat / banked / quick / volatile |
 | turn length | default words per speaking turn. A number. Hold it |
+| cadence | the *shape* a turn is built in, not its content — floods then stops / builds in even clauses / starts flat and sharpens / never finishes / answers before you finish asking. Hold it; no script can check it (`voice-separation` §3) |
 | conversational blind spot | the one thing they cannot do that the MC does easily |
 
 **Thought fields** — only if `pov_eligible: true`. The thought unit is this character's metaphor
