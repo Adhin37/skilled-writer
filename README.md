@@ -110,6 +110,41 @@ The model interviews you (premise, genre, POV, tone, how smart your MC is, which
 mechanics you want), then scaffolds `novels/<your-slug>/` with a config file, a story bible, a
 cast, an arc plan and a chapter list.
 
+Two of those orderings are load-bearing rather than tidy. The title is settled before the
+workspace exists, because the slug is derived from it and never changes afterwards. And the cast
+is built minds first — the voice matrix, then who knows what, then the profiles — because eight
+speech fields painted onto minds that all reason at the MC's speed produce a cast of labelled
+clones.
+
+```mermaid
+flowchart TD
+    A["novel-init — the interview"]
+    A -- "the slug is permanent" --> B["title-craft<br>title · platform blurb · tags · slug"]
+    B --> C[("novels/&lt;slug&gt;/ scaffolded")]
+
+    A --> D["mc-design<br>the MC, and the form ledger"]
+    D --> E["lead-interest<br>skipped if romance: none"]
+    D -- "minds before lines" --> F["voice-separation<br>the whole cast on one matrix"]
+    F --> G["competence-map<br>where each mind's edge is"]
+    G --> H["character-profile<br>tier-A/B profiles · tier-C roster"]
+
+    A --> I["story-bible<br>world · factions · locations · lexicon"]
+    I --> J{"genre"}
+    J -- "fantasy · scifi · progression" --> J1["power-system"]
+    J -- "scifi" --> J2["tech-plausibility"]
+    J -- "fanfic" --> J3["fanfic-canon"]
+    J1 & J2 & J3 --> K["social-fabric<br>labour · money · law under the central rule"]
+
+    C & E & H & K --> L["story-opening<br>anchor · contract · promise · ceiling"]
+    L --> M["chapter-plan<br>the arc grid, and a row per chapter carrying temp and hooktype"]
+    M --> N(["ready for /novel-write"])
+
+    classDef store fill:#e8f0fe,stroke:#3b5fa8,color:#111827
+    classDef done fill:#e6f4ea,stroke:#2e7d4f,color:#111827
+    class C store
+    class N done
+```
+
 Then, per chapter:
 
 ```
@@ -120,6 +155,33 @@ One command, three phases. It stops after the **brief** — twelve lines naming 
 scenes, the cost and who speaks — so you can throw a chapter out for twelve lines instead of
 after twelve hundred words. Then it drafts, then it runs the full QC gate (prose, continuity,
 bias, MTL artifacts, delivery) **before** it reports anything.
+
+```mermaid
+flowchart LR
+    RS[["sw readset -c N<br>the bounded read-set,<br>plus the GATE block"]]
+    RS --> PA["Phase A · the brief<br>three candidates,<br>twelve lines"]
+    PA --> U{"the user<br>reads it"}
+    U -- "not a chapter" --> PA
+    U -- "approved" --> PB["Phase B · the draft<br>the brief and four cards,<br>nothing else held open"]
+    PB --> PC["Phase C · the gate<br>revision-pass, in full<br>Z the event, then eight more"]
+    PC -- "no event" --> PB
+    PC --> WB["state written back<br>one CCS block,<br>threads, growth, timeline"]
+    WB --> R(["reported,<br>with a Gate: line"])
+    WB -. "gate&gt; verbatim, plus the WATCH row" .-> RS
+
+    classDef user fill:#fff4d6,stroke:#a97400,color:#111827
+    classDef gate fill:#fde8e8,stroke:#b04a4a,color:#111827
+    classDef store fill:#e8f0fe,stroke:#3b5fa8,color:#111827
+    classDef done fill:#e6f4ea,stroke:#2e7d4f,color:#111827
+    class U user
+    class PC gate
+    class RS,WB store
+    class R done
+```
+
+The dotted edge is the part that compounds. What the gate had to fix is written into the ledger
+verbatim, and the checks that fired in two or more of the last five chapters are counted back
+out, so the *next* brief opens knowing what this draft keeps getting wrong.
 
 There is deliberately **no revise command**. The gate used to be one, which made it a step you
 had to remember, which made it a step that got skipped whenever a run was long. A chapter is
@@ -179,6 +241,31 @@ sample novel, as bytes handed to the model: **62% smaller at chapter 6, 81% at c
 where the whole-file set grew by 107 KB across that span the sliced one grew by 5 KB. Runs #2 and
 #4 bear this out on the dollar figures: per-chapter cost has not grown with chapter number, and
 the cold chapter 6 above cost less than the warm chapter 2 did.
+
+```mermaid
+flowchart LR
+    subgraph disk ["on disk — grows with every chapter written"]
+        direction TB
+        BB["bible/<br>world · society · cast · competence · lexicon"]
+        PP["plan/<br>arcs · chapters · the world clock"]
+        SS["state/<br>continuity · threads · timeline · growth · body · power"]
+    end
+
+    disk -- "sw readset -c N" --> RS["slices, not whole files<br>this chapter's speakers,<br>this chapter's rows,<br>the last five ledger blocks"]
+    RS --> CTX["what the model is handed<br>bounded: 62% smaller than<br>the whole-file set at chapter 6,<br>81% at chapter 45"]
+    CTX --> OUT["chapters/NNNN-slug.md"]
+    CTX --> WBK["the writeback<br>one CCS block and<br>the ledgers it touches"]
+    WBK --> disk
+
+    style disk fill:#f6f6f7,stroke:#9aa0a6,color:#111827
+    classDef store fill:#e8f0fe,stroke:#3b5fa8,color:#111827
+    classDef done fill:#e6f4ea,stroke:#2e7d4f,color:#111827
+    class BB,PP,SS store
+    class OUT done
+```
+
+The left box grows without limit; the two on its right do not. That is the whole reason chapter
+250 costs what chapter 6 costs.
 
 **These are numbers from one run of one genre**, stopped deliberately at chapter 6. All four
 benchmark runs so far have been Naruto fan fiction. It is a rough order of magnitude, not a quote.

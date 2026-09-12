@@ -102,6 +102,31 @@ headroom install apply --scope provider --providers manual --target claude --mod
 | user messages, and prior turns in cache mode | never |
 | **`Bash` output — `sw readset`, `sw lint`, `sw audit`, test runs** | **yes**, through Kompress, which is lossy ML compression |
 
+```mermaid
+flowchart LR
+    subgraph src ["what the model reads"]
+        direction TB
+        A1["Read · Grep · Glob · Edit · Write<br>skill files, chapters, state files"]
+        A2["skill bodies and cards<br>--protect-tool-results Skill"]
+        A3["user messages · prior turns<br>(cache mode)"]
+        A4["Bash output<br>sw readset · sw lint · sw audit · tests"]
+    end
+
+    A1 & A2 & A3 -- "verbatim" --> API["Anthropic API"]
+    A4 -- "Kompress · lossy ML" --> K["shortened,<br>carrying a retrieval marker"]
+    K --> API
+    K -. "headroom_retrieve exists, but the drafter<br>must notice something is missing to call it" .-> A4
+
+    style src fill:#f6f6f7,stroke:#9aa0a6,color:#111827
+    classDef safe fill:#e6f4ea,stroke:#2e7d4f,color:#111827
+    classDef risk fill:#fde8e8,stroke:#b04a4a,color:#111827
+    class A1,A2,A3 safe
+    class A4,K risk
+```
+
+The one red path is the one the toolkit leans on hardest. Everything the drafter opens by hand is
+protected; the single bounded call that was built to replace opening things by hand is not.
+
 Four consequences, in the order they will bite:
 
 1. **The read-set can arrive shortened.** `sw readset` is the whole bounded read-set and it

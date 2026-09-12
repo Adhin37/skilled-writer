@@ -137,6 +137,17 @@ through the full contract.
 | **audit cards opened** | **0** | **16** |
 | words | 1,044 mean | 1,249 |
 
+```mermaid
+xychart
+    title "Cards opened — run #4, warm session vs cold session"
+    x-axis ["draft cards, warm (4 ch)", "draft cards, cold (1 ch)", "audit cards, warm (4 ch)", "audit cards, cold (1 ch)"]
+    y-axis "cards opened" 0 --> 20
+    bar [5, 17, 0, 16]
+```
+
+The warm bars cover four chapters and the cold bars cover one, which makes the gap worse than it
+looks rather than better.
+
 **Cost per chapter is flat — slightly better than flat.** The claim holds.
 
 The finding nobody was looking for is the rest of the table. The cold agent reported, unprompted,

@@ -411,6 +411,20 @@ opposition's tier minus the MC's. It is also why *One Punch Man* is not a counte
 configuration: it inverts the distance deliberately and relocates the tension, so `shape: inverted`
 is supported and demands `substitute_tension` in writing.
 
+```mermaid
+xychart
+    title "The intended shape — tier climbs five times, the gap never widens"
+    x-axis "chapter" [1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
+    y-axis "bars: the MC's tier · line: pressure" -1 --> 6
+    bar [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5]
+    line [1, 2, 0, 1, 2, 1, 0, 2, 1, 2, 1]
+```
+
+A schematic of the target, not measured data. The bars are what a magnitude tracker would have
+watched, and they say the book is working. The line is what a reader actually feels, and it is the
+one that has to keep moving without trending — which is why a flat stretch of it is a defect
+`sw curve` can find and a rising tier cannot hide.
+
 Two consequences follow that are worth stating because they look like duplication and are not. The
 ladder moved from `bible/` to `state/power.md` §2, because you cannot judge pressure without it and
 `state/` is what the read-set loads; and the escalation budget moved with it into §4, widened with
