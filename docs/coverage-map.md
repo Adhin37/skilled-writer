@@ -15,8 +15,10 @@ skill good* but *is there a subject with no owner at all*. Grepping the corpus f
 candidates returned zero hits for emotional intelligence, "read the room", age-appropriate,
 logistics, ecology and "group scene".
 
-Corpus at the time of writing: **44 skills, 118 knowledge files — 30 draft cards, 32 audit cards,
-56 references — 115 concepts.**
+Corpus: **44 skills, 111 reference files — 26 draft cards, 29 audit cards, 56 others — 115
+concepts.** `sw kb list` prints the live index and ends with those totals. `sw load` prints what
+one chapter of a given novel actually resolves to, which is the number that matters and is always
+smaller: a module that is off for this book costs nothing.
 
 ---
 

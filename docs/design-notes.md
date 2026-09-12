@@ -368,6 +368,21 @@ is emphatic because it is rare, and a chapter that marks every interior beat has
 narrator into a thought bubble. The convention is recorded per novel in `channels:` and the
 linter reads it from there.
 
+**One to three is a range, and for a long time only the three was checked.** Benchmark run #4
+wrote **zero** direct thoughts in four of six chapters and every check stayed green, because a
+channel nobody opens is a channel nobody can get wrong. That is the same shape as the form-ledger
+failure in run #3 — rule 9's "a prohibition is satisfied by silence" — arriving on a different
+rule, and it is worth stating as a general law rather than a second patch:
+
+> **When a rule is soft per instance, something still has to count it in aggregate. When a rule
+> bounds a range, check both ends.**
+
+A sweep for the same shape found one more, and a worse one: `revision-pass`'s own form check was
+built entirely of prohibitions (*nothing borrowed from a later stage*, *no capability exceeded*),
+so the rule written specifically to close this hole had never reached a checkbox. Every box in it
+was satisfiable by an empty chapter. The first box there is now the positive one, and it is the
+only box in that check an empty chapter fails.
+
 The non-obvious collision: a thought containing a contraction breaks a naive parser, and so does a
 speech running across paragraphs, which opens a quote on each paragraph and closes only on the
 last. Both are handled in `swlib/textstats.py` and pinned by `tests/test_channels.py`.
@@ -441,12 +456,42 @@ and say so in the report. A ticked box that was never checked is worse than an u
 **They find, they do not judge.** A linter locates a string; whether that string is a defect is a
 decision. Nothing rewrites a prose body, because `mtl-detox` requires the sentence rewritten
 rather than the synonym swapped, and an auto-fixer would do precisely the forbidden thing. The
-only files the scripts edit are chapter frontmatter, the `wc:` field of a CCS block, and a fresh
-scaffold.
+only files the scripts edit are chapter frontmatter, the `wc:` field of a CCS block, a fresh
+scaffold, `selftest`'s own throwaway directory, and an export bundle written into a directory that
+does not yet exist.
 
 **A clean run is not a passed revision.** It means the mechanical passes found nothing. The
 distributional ones and the judgement ones are untouched by it. `bias-guard` has no script at all,
 deliberately, so that no green line can ever be mistaken for a bias pass.
+
+### The third level, and the trap inside it
+
+Findings come at three levels, and the third is easy to misread as "less important". It is not:
+**a `note` is a finding that cannot be judged in one chapter.** One `X, not Y` antithesis is good
+writing. One scene where nobody interrupts is a scene. Each is a fingerprint only at density, so
+each is a note, and that is correct.
+
+The trap is what follows. Both mechanisms in this toolkit that look *across* chapters — the
+read-set's WATCH row and `sw history`'s habit table — were built to read defects and warns. So
+the findings that are only meaningful across chapters were the only ones excluded from the only
+two things that look across chapters. Run #4 shipped five of six chapters with `house-style`
+firing and the drafter was never told once; the book's antithesis rate was rising while the
+report said zero defects.
+
+Notes now feed both, in a second bucket, and nothing is promoted — per-chapter output is
+unchanged, and a test asserts the bucket is chosen by a finding's level rather than its name.
+Two details that only appear once you build it:
+
+- **Notes fire far more often than warns**, so a frequency-first sort evicts every recurring warn
+  from a short row. Warns rank strictly above notes; the cap went 3 → 4 so the new tier has more
+  than one slot.
+- **The note tier holds two different things.** A *habit* note says what the draft keeps doing
+  wrong. A *situation* note reports what a chapter contains — `group-scene` flags three or more
+  speakers so the right craft gets applied, and its own message ends "Read it and discount it". A
+  book with group scenes in every chapter has group scenes; that is not a habit and it must never
+  reach a row that says what the gate keeps having to fix. `rules.HABIT_NOTE_CHECKS` is an
+  allowlist for exactly this reason: a new note check is a situation note until somebody decides
+  otherwise, and a test fails if it is in neither set.
 
 The same caution applies to any judged pass. The strongest off-the-shelf model judges agree with
 human preference on creative writing about 73% of the time, and rubric judges are measurably

@@ -28,3 +28,9 @@ merge conflicts in your prose.
 
 If you do want a novel under version control, the clean option is its own repository. The
 quick option is `git add -f novels/my-slug`.
+
+**Which means there is no undo.** An uncommitted novel has no history to roll back to, and the
+toolkit deliberately does not write backups — a tool that silently copies your prose around is a
+tool that eventually restores the wrong version over the right one. If you are about to ask for a
+redraft of something you might want back, copy the file yourself first. `sw stamp` and the CCS
+ledger are the only things that ever write into a novel, and neither touches a prose body.

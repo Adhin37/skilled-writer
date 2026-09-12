@@ -50,7 +50,7 @@ novel-init -> mc-design -> lead-interest -> character-profile -----------+
         |                     |                         [9c: foreknowledge]  [9e: the curve]
         |                     v
         +-- continuity-summary (write) -- gate> ---> the next brief's GATE block
-                                                    + WATCH: readset re-lints the last 5
+                                          + cand> z4>   + WATCH: readset re-lints the last 5
 ```
 
 `write-chapter` is the main loop and the only skill that produces prose. Three orderings are
@@ -200,12 +200,16 @@ resolve both against this novel's config. Opening a module's `SKILL.md` mid-draf
    `state/foreknowledge.md`, spent on the page with a cost, and it lands one legible win before its
    first failure — `foreknowledge_first_win_ch` < `foreknowledge_fails_ch`. It decays because the
    MC acted, not because a chapter number arrived (`meta-knowledge`).
-7. **Four channels, held apart.** `"…"` speech · `'…'` direct thought, 1–3 per chapter — **a
-   range, and the floor is checked too**, because a channel nobody opens is a channel that
-   cannot be got wrong and run #4 left it shut in four chapters of six — POV character only · `[…]` meta · unmarked free indirect discourse as the default carrier of
+7. **Four channels, held apart.** `"…"` speech · `'…'` direct thought, 1–3 per chapter, POV
+   character only · `[…]` meta · unmarked free indirect discourse as the default carrier of
    interiority. The marks come from `channels:` in `novel.md`. An apostrophe is not a thought mark;
    a `'…'` inside a `"…"` is a nested quotation. Nothing else in a prose body is markup
    (`narrator-voice`).
+   Corollary — **1–3 is a range, and the floor binds too.** A channel nobody opens is a channel
+   nobody can get wrong, so only the ceiling was ever checked and run #4 left the thought channel
+   shut in four chapters of six with every check green. This is rule 9's silence clause on a
+   different rule, and the general form is worth carrying: **when a rule is soft per instance,
+   something still has to count it in aggregate.**
 8. **The MC is never stupid.** Failures come from missing information, opposed will, or cost —
    never from the MC forgetting what they already know (`mc-intel-meter`).
    Corollary — **and nobody else is the MC.** Intel, articulacy and wit are per-character axes in
@@ -381,7 +385,9 @@ novels/<slug>/
   state/
     continuity.md       CCS ledger — machine-only, compressed
     threads.md          open promises / foreshadowing, with ages
-    timeline.md         in-world calendar + divergence ledger + crisis board
+    timeline.md         in-world calendar + divergence ledger + crisis board. The read-set
+                        carries the recent log rows and the live crises; Pass 1 gates elapsed
+                        time and travel against it
     growth.md           per-character development ladder position
     body.md             form & appearance ledger (only if a character changes form)
     power.md            ladder, pressure log, gain log, boosts, curve plan (unless shape: none)
@@ -393,6 +399,16 @@ Chapter files carry YAML frontmatter (`number`, `title`, `pov`, `arc`, `event`, 
 `wordcount`, `status`). **`event`** is what happens, in one retellable clause — the Pass Z gate.
 **`delivers`** is what is materially different at the end — the Pass 9 gate. `wordcount` is a
 measured fact that later tools read, never a target.
+
+One CCS block per chapter, appended in order and never rewritten to be tidier — `sw state`
+checks the sequence, because a block in the wrong place is a chapter that happened at the wrong
+time. `continuity-summary/references/block-format.md` is the line reference. Two of those lines
+exist to make a step falsifiable rather than to carry story state: **`cand>`** records the
+candidates Phase A did not take and why the taken one won, and **`z4>`** records Pass Z4's answer
+— the thing here a competent hack would not have written — or the literal `none`. Both are the
+only place their step leaves a trace, because the Phase A brief is written into the conversation
+and discarded. `none` is a legitimate `z4>` entry and counting it is the point: one is a chapter,
+a run of them is a habit, and `sw history` counts them.
 
 `plan/chapters.md` carries `temp` and `hooktype` per row — the register ledger, decided at plan
 time and checked distributionally by `sw arc` (`hook-and-pacing`).
@@ -465,17 +481,17 @@ contradiction waiting for whichever skill gets edited next. Rationale:
 | `lint <novel> -c N` | `revision-pass` Pass 0 · `mtl-detox` · `prose-quality` · `narrator-voice` |
 | `cast <novel>` | `voice-separation` · `competence-map` · `novel-init` |
 | `curve <novel>` | `revision-pass` Pass 9e · `power-scaling` · the arc-boundary pass |
-| `state <novel>` | `continuity-summary` self-check · `plot-threads` · `chapter-plan` |
+| `state <novel>` | `continuity-summary` self-check · `plot-threads` · `chapter-plan` — also block ordering, and the headings every read-set slices by, checked against this novel rather than the template |
 | `arc <novel> -a N` | the arc-boundary pass — trends, rotation, thread ages |
 | `status <novel>` | `/novel-status` |
 | `stamp <novel> -c N` | `revision-pass` Pass 10 · `write-chapter` step 4 |
 | `newnovel <slug>` | `novel-init` step 3 |
 | `audit <novel>` | the independent whole-novel gate — every per-chapter check, plus `history`'s cross-chapter habit findings, because a habit is by definition invisible in one chapter |
-| `history <novel>` | the whole book as a series — dialogue and length trends, recurring lint checks, thread ages, the pressure series |
+| `history <novel>` | the whole book as a series — dialogue and length trends, recurring checks at every level, the `widening` section (Z4's answers and the recorded candidates), thread ages, the pressure series |
 | `load <novel> -c N` | what the toolkit hands the drafter for one chapter — cards, words, checkboxes and negations, per phase. Measures the **instructions**, never the chapter |
 | `trace [novel]` | what a run cost, and **which skill files it actually opened** — the finding-9 check |
 | `export <novel> --okf --out <dir>` | project a novel into an Open Knowledge Format bundle — an **export target, never the working format**, because `readset` hands over slices and a bundle hands over whole files |
-| `health` | the toolkit's own wiring: skills, cards, references, **scope claims and cross-skill duplication**, the template accessors, the docs |
+| `health` | the toolkit's own wiring: skills, cards, references, **scope claims and cross-skill duplication**, the **card and word budgets**, the template accessors, the docs |
 | `selftest` | the dry run — build a whole novel in a temp dir and run every command against it, clean and seeded |
 | `doctor` | start here when anything behaves oddly |
 

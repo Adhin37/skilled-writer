@@ -25,22 +25,22 @@ automatically when only one novel exists.
 
 | command | what it does | writes? |
 |---|---|---|
-| `readset <novel> -c N` | Assembles the bounded read-set for chapter N — the sliced rows, not the whole files, plus the active optional/genre modules and the file to open for each. Opens with a GATE section: any earlier chapter still at `status: drafted`, and the WATCH row (checks that fired in 2+ of the last 5 chapters, plus the recent `gate>` lines). `--chars`, `--locs`, `--society`, `--out` | only with `--out` |
-| `lint <novel> [-c N \| --all]` | Sweeps one chapter, or every chapter with `--all`: MTL banned phrases, the AI-default cut list, narration exclamation marks, the four channels, thought budget, apostrophe collisions, stray markup, frontmatter, anchor vocabulary, ledger agreement | no |
+| `readset <novel> -c N` | Assembles the bounded read-set for chapter N — the sliced rows, not the whole files, plus the active optional/genre modules and the file to open for each. Also carries the world clock — the recent `state/timeline.md` log rows and the live crises. Opens with a GATE section: any earlier chapter still at `status: drafted`, the WATCH row (checks that fired in 2+ of the last 5 chapters, warns ranked above habit notes, 4 at most), the recent `gate>` lines, and the last five `z4>` answers. `--chars`, `--locs`, `--society`, `--out` | only with `--out` |
+| `lint <novel> [-c N \| --all]` | Sweeps one chapter, or every chapter with `--all`: MTL banned phrases, the AI-default cut list, narration exclamation marks, the four channels, the thought budget and its floor, apostrophe collisions, stray markup, frontmatter, anchor vocabulary, ledger agreement | no |
 | `arc <novel> [-a N]` | The distributional pass over one arc: per-chapter words, dialogue share, anchor count and ledger presence; the dialogue trend; the length spread; hooks; cast rotation; thread operations; foreknowledge. Ends with the judged half it cannot do | no |
-| `load <novel> -c N` | What the toolkit hands the drafter for one chapter: cards, words of procedure, checkboxes and negations, per phase, plus the corpus card budget | no |
+| `load <novel> -c N` | What the toolkit hands the drafter for one chapter: cards, words of procedure, checkboxes and negations, per phase, plus the corpus card budget and the word budget beside it | no |
 | `cast <novel>` | Audits `_voices.md` and `_competence.md` as tables: the straddle rule, the wit cap, the three-way clash, the `eq` axis, turn and hand-habit collisions, the deep-expertise budget, missing rows and referrals | no |
 | `curve <novel>` | The power curve: gain step size and cadence, the four requirements on every gain, unpaid boost debts, a second climax boost, pressure monotony, the trivial budget, the flat stretch, tier rising while pressure falls, and the `pwr>` line's agreement with `state/power.md`. No-ops when `scaling.shape` is `none` | no |
-| `state <novel>` | Ledger against chapters, required CCS lines, block length, thread tension against last use, plan-row completeness, the promotion trigger, book-digest staleness | no |
+| `state <novel>` | Ledger against chapters, required CCS lines, block length, **block ordering**, thread tension against last use, plan-row completeness, the promotion trigger, book-digest staleness, and the section headings every read-set slices by — checked against this novel rather than the template | no |
 | `status <novel>` | Progress aggregation for `/novel-status`, and a warning for any chapter the phase C gate never ran on | no |
 | `stamp <novel> [-c N]` | Measures the body and writes `wordcount:`. `--status`, `--ledger` | **yes** |
 | `newnovel <slug>` | Copies `novels/_template` to `novels/<slug>` | **yes** |
 | `audit <novel>` | Inventory plus `lint --all`, `cast`, `state` and `curve` in one pass — the independent whole-novel gate | no |
-| `history <novel>` | The whole book as a series rather than one chapter: per-chapter words, dialogue share, thought and meta counts, the dialogue and length trends, which lint checks recur across chapters, thread ages, the pressure series, and cadence from file mtimes. `--json` | no |
+| `history <novel>` | The whole book as a series rather than one chapter: per-chapter words, dialogue share, thought and meta counts, the dialogue and length trends, which checks recur across chapters and at what level, the `widening` section (Pass Z4's answers and the recorded candidates), thread ages, the pressure series, and cadence from file mtimes. `--json` | no |
 | `trace [novel]` | What the run cost and **which skill files it actually opened**, from Claude Code's own transcripts: API responses, the four token classes, wall clock, cost, per-chapter attribution, tool counts. `--since`, `--until`, `--transcripts`, `--rates`, `--json` | no |
 | `kb <action> [args]` | Queries the craft knowledge base, derived from skill and reference frontmatter on every call and never stored. `owner <slug>` names the skill that owns a concept; `show <slug>` adds what teaches it and who cites it; `list [--type T] [--json]` prints the whole index; `search <terms>` finds passages with their heading and owner, unranked; `cards <novel> -c N [--phase A]` and `passes <novel> -c N` resolve the card set for one chapter against `novel.md`; `validate` runs the structural checks `health` also runs | no |
 | `export <novel> --okf` | Projects a novel into an OKF v0.2 bundle: one document per character, location, thread and chapter, plus the ledgers, an `index.md` carrying `okf_version` and a `log.md`. Knowledge *about* the novel, not the prose — every document carries a `resource:` naming the repo file it came from. `--out` must name a directory that does not yet exist | **yes**, into `--out` only |
-| `health` | The toolkit's own wiring: skill frontmatter, uncited and dangling references, draft/audit cards against their dispatcher, `CLAUDE.md` section 3 against the directory listing, `optional:` toggles, orphan `novel.md` keys, every template accessor, documented commands against implemented ones, `.claude/commands/` against `CLAUDE.md` section 7, **every skill's `owns:` claim for completeness and exclusivity, any pair of skills carrying the same 10-word passage, and any skill discussing another's concept without naming its owner**, line-number citations | no |
+| `health` | The toolkit's own wiring: skill frontmatter, uncited and dangling references, draft/audit cards against their dispatcher, `CLAUDE.md` section 3 against the directory listing, `optional:` toggles, orphan `novel.md` keys, every template accessor, documented commands against implemented ones, `.claude/commands/` against `CLAUDE.md` section 7, the **card and word budgets** on the unconditional card set, **every skill's `owns:` claim for completeness and exclusivity, any pair of skills carrying the same 10-word passage, and any skill discussing another's concept without naming its owner**, line-number citations | no |
 | `selftest` | Builds a complete novel in a throwaway directory and runs every command against it — twice, once clean and once with named defects planted. No model, no network, a few seconds. `--keep` | temp dir only |
 | `doctor` | Python version, repo root, novels found | no |
 
@@ -53,8 +53,17 @@ automatically when only one novel exists.
 | `2` | bad usage, or a novel/chapter that does not exist |
 
 Findings print one per line as `LEVEL path:line: [check] message`, at three levels: **DEFECT**
-(a named gate failure), **warn** (look at it), **note** (informational; `--show note` to see
-them, `-q` for defects only).
+(a named gate failure), **warn** (look at it), **note** (`--show note` to see them, `-q` for
+defects only).
+
+**The note level is not "less important", it is "not judgeable in one chapter".** One antithesis
+is good writing; one scene where nobody interrupts is a scene. Those checks are notes precisely
+because any single instance is fine — and a *recurrence* is a drafting habit worth fixing in the
+procedure. So the two commands that look across chapters, `history` and `readset`'s WATCH row,
+count habit notes alongside warns, while nothing per-chapter is scored on them. Which notes count
+as habits is an allowlist (`rules.HABIT_NOTE_CHECKS`); a note that merely reports what a chapter
+*contains* rather than what it keeps doing wrong — `group-scene`, whose own message says to read
+it and discount it — is excluded by name.
 
 ## The dialogue and cast sections
 
@@ -192,11 +201,14 @@ the difference stays visible instead of merely fixed.
 - **`history` does not score a chapter.** It prints word counts and dialogue shares as a series
   because the defects worth finding are distributional, and it repeats that length is scored on
   nothing, because that table is the one most likely to be read as a scoreboard.
+- **`load` does not score a novel.** It measures the *instructions*, so its output does not move
+  when the prose does, and no drafting decision may cite it. Its two enforced numbers — the card
+  budget and the word budget — bind the corpus and are checked by `health`, never against a book.
 
 ## Tests
 
 ```bash
-python3 -m unittest discover tests    # the suite
+python3 -m unittest discover tests    # the suite (382)
 python3 scripts/sw.py selftest        # the same thing end to end, through the real CLI
 ```
 
@@ -209,6 +221,14 @@ parser that under-detects does not look like a broken parser — it looks like a
 Each case in `tests/test_channels.py` names, in its docstring, the wrong behaviour it pins down:
 multi-paragraph speech counted as narration, curly thought marks invisible, an unmatched quote
 spanning a whole file, `'twas` reported as an unterminated thought.
+
+`tests/test_load.py` and `tests/test_trace.py` cover the two commands that measure the
+**toolkit** rather than a novel, and they were the last two with no tests at all — which was the
+wrong way round. A defect in `trace`'s skill detection once made the headline number wrong for
+three benchmark runs and nothing failed, because a broken measurement does not look broken, it
+looks like a result. Both suites assert the standing contract as well as the behaviour: neither
+command may raise above a warn, `load`'s output must not move when the prose does, and no `trace`
+finding may name a chapter-quality check.
 
 `tests/test_template_wiring.py` guards the seam the other modules cannot see. Every other test
 supplies its own tables, so a parser can select on a column the **shipped template** does not have

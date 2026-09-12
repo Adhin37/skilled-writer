@@ -41,6 +41,13 @@ before it is drafted, and `sw arc` checks the distribution across the arc rather
 chapter. One register for a whole book — every scene the same pitch, every chapter closing on the
 same shape — is what reads as machine-written, and no list of banned phrases catches it.
 
+**Which means the interesting defects are habits, not errors.** One `X, not Y` antithesis is good
+writing; twenty-five across seven thousand words is a fingerprint. So those checks stay advisory
+in any one chapter and are counted across the book, and what recurred is handed to the *next*
+chapter's brief — the draft is told what the gate keeps having to fix, before it writes. A
+defect caught at the draft is cheaper than the same defect re-fixed at the gate, six chapters
+running.
+
 ## Setup
 
 Clone the repo and open it with [Claude Code](https://claude.com/claude-code). There is nothing
@@ -63,7 +70,8 @@ whether the model remembered to look.
 
 ```bash
 python3 scripts/sw.py doctor        # start here; reports version and workspace
-python3 -m unittest discover tests  # the toolchain's own tests
+python3 scripts/sw.py selftest      # builds a novel in a temp dir and proves every check fires
+python3 -m unittest discover tests  # the toolchain's own tests (382)
 ```
 
 **Nothing breaks without it.** Every skill that names a command keeps its manual checklist
@@ -105,9 +113,17 @@ cast, an arc plan and a chapter list.
 Then, per chapter:
 
 ```
-/novel-write          # drafts the next planned chapter, updates all state
-/novel-revise         # QC gate: prose, continuity, bias, MTL artifacts
+/novel-write          # brief -> draft -> gate, and all the state written back
 ```
+
+One command, three phases. It stops after the **brief** — twelve lines naming the event, the
+scenes, the cost and who speaks — so you can throw a chapter out for twelve lines instead of
+after twelve hundred words. Then it drafts, then it runs the full QC gate (prose, continuity,
+bias, MTL artifacts, delivery) **before** it reports anything.
+
+There is deliberately **no revise command**. The gate used to be one, which made it a step you
+had to remember, which made it a step that got skipped whenever a run was long. A chapter is
+never handed back ungated, and the next chapter's read-set names any chapter that was.
 
 Other commands: `/novel-status`, `/novel-plan`, `/novel-character`, `/novel-recap`, `/novel-toggle`.
 
@@ -148,6 +164,13 @@ python3 scripts/sw.py audit novels/<slug>
 It reports word count as a fact and scores only whether the recorded number is *true*, because a
 wrong one propagates into the continuity ledger.
 
+**Read the habit findings first.** Most of what makes a book read as machine-written is fine in
+any single chapter and damning across six — one antithesis is good writing, one scene where
+nobody interrupts is a scene. Those checks are therefore `note` level per chapter, and `audit`
+counts them across the book: a check firing on most chapters is a drafting habit, and the repair
+belongs in the procedure rather than in one chapter. The same counts feed the next chapter's
+read-set, so the draft is warned before it repeats itself rather than after.
+
 **On the read-set.** Most of the bill above is the model reading state back in, and the read-set
 is specified as *slices* — this chapter's speakers, this chapter's locations, the last five
 ledger blocks. A model cannot read half a file, so in practice it read all of them, and the
@@ -163,7 +186,7 @@ benchmark runs so far have been Naruto fan fiction. It is a rough order of magni
 ## The skills
 
 **Core loop** — `novel-init`, `title-craft`, `mc-design`, `story-bible`, `story-opening`,
-`chapter-plan`, `continuity-summary`, `write-chapter`, `revision-pass`
+`chapter-plan`, `story-craft`, `continuity-summary`, `write-chapter`, `revision-pass`
 
 **World** — `story-bible`, `social-fabric`, `world-texture`
 
@@ -184,7 +207,7 @@ audit card in the pass its frontmatter names — never through its `SKILL.md`. `
 `sw kb passes` resolve which ones apply to this novel and this chapter, and print what did not
 apply and why.
 
-Sixteen of these deserve a note:
+Eighteen of these deserve a note:
 
 - **`title-craft`** runs once, before the workspace directory even exists, and owns the two
   things a stranger sees *before* chapter 1 is available to them: the **title** and the
@@ -311,6 +334,20 @@ Sixteen of these deserve a note:
   double interesting still enforced, namely what has diverged since they split, and which single
   thing failed to copy.
 
+- **`story-craft`** owns the scene-or-summary decision and the build-up, and it exists because a
+  reader of an earlier run said the novel "goes fast to the finish line". The failure is
+  asymmetric — machine fiction does not pad trivia, it **glosses the important beat**, reporting
+  a turn in a past-perfect clause that a reader never got to watch. The reconciling rule is that
+  build-up is not *less happening*; it is the same beats delivered as scene instead of summary,
+  so summary is for bridges and the turn always gets played. It also carries the loop's **only
+  widening step**: before the brief is written, three candidate answers to the chapter's central
+  question, differing in what somebody *does* rather than in wording, with the second or third
+  taken unless the first is clearly best. Every other card in the draft converges on one answer,
+  which is right individually and, summed over fifteen cards, produces the median of everything
+  the rules allow — competent, unsurprising, and what a reader means by "machine-written" when
+  they cannot point at a line. The rejected candidates go to the ledger, so the step leaves a
+  trace somebody can check.
+
 - **The world trio.** `story-bible` records what is true and where things are. **`social-fabric`**
   works out the society under it — labour, money, law, knowledge, belief, mobility — and runs the
   **propagation test**: every hard rule of the magic or technology is forced down through
@@ -379,28 +416,49 @@ hand or via `/novel-toggle`. Optional skills read their own key and no-op if it 
 
 [`scripts/sw.py`](scripts/README.md) — Python 3.8+, standard library only.
 
+**Per novel** — the ones a chapter actually uses:
+
 | command | what it does |
 |---|---|
-| `readset <novel> -c N` | assembles the bounded read-set for chapter N — sliced rows, not whole files |
-| `lint <novel> [-c N \| --all]` | one chapter, or every chapter: MTL phrases, the AI-default cut list, the four channels, thought budget, apostrophe collisions, stray markup, frontmatter, anchor vocabulary |
+| `readset <novel> -c N` | assembles the bounded read-set for chapter N — sliced rows, not whole files, plus which modules are live and what the gate keeps having to fix |
+| `lint <novel> [-c N \| --all]` | one chapter, or every chapter: MTL phrases, the AI-default cut list, the four channels, the thought budget and its floor, apostrophe collisions, stray markup, frontmatter, anchor vocabulary |
 | `arc <novel> [-a N]` | the distributional pass over one arc: dialogue trend, length spread, hooks, cast rotation, thread ops, anchor coverage |
 | `cast <novel>` | the voice matrix and competence grid as tables: straddle, wit cap, three-way clash, expertise budget |
-| `state <novel>` | ledger against chapters, required CCS lines, thread tension against last use, plan-row completeness, promotion triggers |
+| `curve <novel>` | the power curve: pressure series, gain spacing, boosts and their debts, the trivial budget |
+| `state <novel>` | ledger against chapters, required CCS lines, block ordering, headings the read-set slices by, thread tension against last use, plan-row completeness, promotion triggers |
+| `history <novel>` | the whole book as a series — dialogue and length trends, which checks recur, Z4's answers, thread ages, the pressure series |
 | `status <novel>` | progress aggregation for `/novel-status` |
 | `stamp <novel> -c N` | measures the body, writes `wordcount:` and `status:` |
 | `newnovel <slug>` | portable copy of `novels/_template` |
-| `audit <novel>` | the independent whole-novel gate |
-| `doctor` | environment and workspace check |
+| `audit <novel>` | the independent whole-novel gate — every per-chapter check plus the cross-chapter habit findings |
+| `export <novel> --okf --out <dir>` | project a novel into an Open Knowledge Format bundle. An export target, never the working format |
+
+**About the toolkit itself** — these measure the *process*, and score no chapter:
+
+| command | what it does |
+|---|---|
+| `kb owner\|show\|list\|search <slug>` | whose rule is this? The craft-side counterpart of `readset`. `kb cards` resolves a chapter's card set |
+| `load <novel> -c N` | what the drafter is handed before a word of story state: cards, words, checkboxes and negations, per phase |
+| `trace [novel]` | what a run cost, and which skill files it actually opened |
+| `health` | wiring: skills, cards, references, scope claims, cross-skill duplication, the card and word budgets |
+| `selftest` | builds a whole novel in a temp dir, runs every command against it clean, then plants a defect per check and proves each is caught |
+| `doctor` | environment and workspace check — start here when anything behaves oddly |
 
 Exit `0` clean, `1` findings that need a decision, `2` bad usage. Findings print one per line as
 `LEVEL path:line: [check] message`.
 
-Three things they deliberately do not do. **They never edit a prose body** — `mtl-detox` requires
+Four things they deliberately do not do. **They never edit a prose body** — `mtl-detox` requires
 the sentence rewritten rather than the synonym swapped, so an auto-fixer would do precisely the
 forbidden thing; linters report, the model rewrites. **There is no script for `bias-guard`**,
 because its defects are distributional and a green line from a linter must never be readable as a
-bias pass. And **a clean run is not a passed revision** — it means the mechanical passes found
+bias pass. **A clean run is not a passed revision** — it means the mechanical passes found
 nothing, and says nothing about delivery, voice separation, competence or bias.
+
+And **nothing here decides whether a chapter ships.** This repo has twice built a number that
+did — first a word count, then a dialogue share — and both were optimised rather than satisfied:
+chapters landed on the declared minimum to the word. Every measurement since is reported and
+scored on nothing, the cross-chapter findings raise a habit rather than a verdict, and the tests
+assert that no per-chapter note can be promoted into something that gates.
 
 ## Layout
 
@@ -412,6 +470,7 @@ CLAUDE.md                         the operating contract, loaded every session
 .claude/settings.json             shared permissions (relative paths — portable)
 scripts/sw.py                     the mechanical toolkit (optional, Python 3.8+)
 tests/                            unittest suite for the toolchain (stdlib, no novel needed)
+docs/                             design notes, the benchmark runs, coverage and latitude maps
 novels/_template/                 the per-novel scaffold
 novels/<slug>/                    your novel: config, bible, plan, state, chapters (gitignored)
 ```
