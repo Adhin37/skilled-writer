@@ -24,7 +24,7 @@ nobody was looking for, which a second, cold agent then explained.
 | Produced | 1 scaffolded novel + **5 gated chapters**, 5,904 words |
 | Run | **$31.58**, 56m 54s, 277 API responses |
 | Cost per 1,000 finished words | **$5.35** (run #2: $3.35) |
-| `sw audit` | **0 defects**, 11 warnings (run #3: 0 defects, 16 warnings) |
+| `sw audit` | **0 defects**, 11 warnings (run #3: 0 defects, 16 warnings) — 17 re-linted today, see below |
 | Skills that loaded | **13 of 44** warm · **24 of 44** cold (run #2: 27 of 41) |
 | **Cards opened** | **5 across five warm chapters** · **33 in one cold chapter** |
 | Toolkit defects found | **8** (3 high) |
@@ -192,15 +192,97 @@ work, and the twenty audit cards are not.
 | T1 | **`sw trace`'s skill detection is blind to Bash reads.** It scans `file_path`/`path` arguments and the `Skill` tool, never a shell command string. It reported **"0 of 44 skills opened"** for a run that opened thirteen, because the model read them with `cat`/`sed` | **high** | **fixed** — the scanner now reads command strings too; run #4's number was recovered retroactively |
 | T2 | **Contract fidelity decays inside a session.** 5 cards opened across five warm chapters and zero audit cards, against 33 in one cold chapter of the same novel. `readset` printed the full resolved set with paths on every invocation in both cases | **high** | **open** — the finding of the run |
 | T7 | **`sw readset` silently dropped the voice matrix, the growth ladder and the competence grid.** `_match` compared whole name cells for equality, so a `chg>` line naming `Yakumo` never matched the matrix row `Yakumo Kurama` — and the read-set header tells the drafter not to open the source files for anything it lists. Caught only because the cold agent went and read them anyway | **high** | **fixed** — token matching, with a single shared token accepted only when it belongs to one row |
-| T3 | **The three-candidate step and Pass Z4 leave no artifact**, so neither can be evaluated by any run | medium | **open** |
+| T3 | **The three-candidate step and Pass Z4 leave no artifact**, so neither can be evaluated by any run | medium | **fixed** — two optional CCS lines, `cand>` and `z4>`; `sw history` has a `widening` section and the read-set echoes the last five answers |
 | T4 | **`sw lint`'s `[group-scene]` check matches on any name token ≥2 characters**, so a shared clan surname matches every clan member. In a Kurama-clan novel it flagged four speakers in scenes with one | medium | **fixed** — a token shared by several rows is dropped |
 | T8 | **`[group-scene]` never attributes a spoken span to a person**, so a character named inside someone else's line counts as present and speaking. Its message claimed otherwise | low | **fixed** — the note now states what it measures and says naming is not speaking |
-| T5 | **Nothing checks CCS block ordering.** A block landed out of sequence and `sw state`/`sw lint` passed it — they check block *content*, never block *sequence*. Caught by the writing agent on a manual re-read | medium | **open** |
-| T6 | **`sw curve` requires a `pwr>` line on every CCS block once `scaling.shape` is not `none`, including chapters with no confrontation.** Stated in the reference but the worked example shows only the combat case; the agent missed it until chapter 5 and had to backfill all five blocks | low | **open** |
+| T5 | **Nothing checks CCS block ordering.** A block landed out of sequence and `sw state`/`sw lint` passed it — they check block *content*, never block *sequence*. Caught by the writing agent on a manual re-read | medium | **fixed** — `sw state` checks the sequence, and `selftest` plants one |
+| T6 | **`sw curve` requires a `pwr>` line on every CCS block once `scaling.shape` is not `none`, including chapters with no confrontation.** Stated in the reference but the worked example shows only the combat case; the agent missed it until chapter 5 and had to backfill all five blocks | low | **fixed** — the message and the audit card give the no-contest form outright |
 
 T1 is the one that should worry a maintainer most, because it is a **measurement** defect and the
 finding-9 number is what runs #1, #2 and #3 were all scored on. Those numbers are only valid for
 runs in which the model happened to read with the `Read` tool.
+
+## What reading the chapters found
+
+Added 2026-09-12. Limitation 6 below said no human had read run #4's output, and that every
+decisive finding in runs #1–#3 came from exactly that. Somebody read them. The two findings are
+not about the prose — which is good, and the gate's unaided repairs hold up — but about what the
+toolkit is able to *see*.
+
+### A. Every habit-shaped check was invisible to both habit detectors
+
+`cmd_lint.check_counts` built its `checks` dict from defect- and warn-level findings only. Both
+cross-chapter mechanisms read it: the read-set's WATCH row and `sw history`'s habit table.
+Meanwhile every check that measures a habit is deliberately a **note**, because one antithesis is
+good writing and one uninterrupted scene is a scene.
+
+So the findings that are *only* meaningful across chapters were structurally excluded from the
+only two things in the toolkit that look across chapters.
+
+| check | fired on | reached WATCH | in `sw history` |
+|---|---|---|---|
+| `house-style` (the `X, not Y` antithesis) | **5 of 6** | no | no |
+| `filter-verb` | 5 of 6 | no | no |
+| `texture` (nobody interrupted, no contractions, over-long turns) | 4 of 6 | no | no |
+| `weasel` | 2 of 6 | no | no |
+| `turn-length` past `TURN_CEILING` | ch2 at 48, ch6 at 49 | no | no |
+
+The antithesis rate across the book is **25 constructions in 7,153 words — 3.5 per 1,000, rising
+to 7.2/1k in chapter 6**, against run #2's 2.5/1k on the same tell. It is the construction
+`prose-quality/references/ai-default-tells.md` documents best and it got *worse*, unseen, because
+no single chapter crosses the 6.0/1k per-chapter threshold.
+
+This page had already noticed the chapter-2 turn-length case and called out exactly this
+mechanism — *"that breach is a `note` — so it never reaches the WATCH row"* — and treated it as
+one check's problem. It was the whole tier's.
+
+Fixed. Notes now feed both detectors, in a second bucket. Two things the first attempt got wrong:
+notes fire far more often, so a frequency-first sort evicted every recurring warn from a
+three-item row — warns rank strictly above notes now, and `WATCH_CAP` went 3 → 4. And the note
+tier holds two different kinds of thing: `group-scene` reports what a chapter *contains* and its
+own message ends *"Read it and discount it"*. `rules.HABIT_NOTE_CHECKS` is an allowlist,
+`SITUATION_NOTE_CHECKS` its counterpart, and a test fails if a note check lands in neither.
+
+No note was promoted to a warn or a defect. Per-chapter lint output is byte-identical on both
+live novels — the invariant that matters, given this repo has twice built a number that decided
+whether a chapter shipped and had it optimised rather than satisfied.
+
+### B. "A prohibition is satisfied by silence" recurs, and nobody had swept for it
+
+`thought-budget` checked only the ceiling. `CLAUDE.md` hard rule 7 declares `'…'` direct thought
+at **1–3 per chapter**; run #4 wrote **zero in four of six chapters**, and neither lint, nor the
+gate, nor the ledger said a word. The channel the user chose deliberately went unused in
+two-thirds of the book.
+
+That is run #3's rule-9 discovery — *a drafter who never mentions the body never contradicts the
+ledger* — recurring on a different rule. The repo named the failure shape and never checked
+whether any other rule had it.
+
+The sweep found one more, and it is the sharper one: **the gate's own form check was made
+entirely of prohibitions.** Rule 9's *twice* — the rule written specifically to close this hole
+for the body ledger — lives in `mc-design/references/form-ledger.md` and had never reached a
+checkbox in `revision-pass`. Every box in that check was satisfiable by an empty chapter.
+
+Both are fixed; the floor is a note, because one interior-free chapter is a choice and a run of
+them is the finding, which is what finding A's tier is now for.
+
+Checked and **not** a problem: `set>` facts, recorded on every block of both novels. Deliberately
+left unscripted: `world-texture`'s non-visual detail, and the plain-sentence third —
+`textstats.py` documents why shape cannot see the latter, and that decision stands.
+
+### C. `state/timeline.md` reached no read-set at all
+
+Written every chapter by `continuity-summary`, gated by `revision-pass` Pass 1 and
+`plot-threads`' audit card, exported by `sw export` — and absent from `sw readset`, including
+from its NOT LOADED list, so a drafter could not have asked for it by name. That is the mechanism
+behind the cold agent finding its Log table empty for five chapters.
+
+### What this says about the run's numbers
+
+"0 defects, 11 warnings" was true and meant less than it sounded, in a way nobody could have
+measured at the time: three of the book's five most-fired checks could not reach a warning at
+all. Re-linted today the same six chapters raise **five** `history-habit` findings. The chapters
+did not change.
 
 ## What run #3 established
 
@@ -275,9 +357,9 @@ is, and no run before this one could have told the difference.
    an easier job than chapter 1. Repeat it before restructuring anything on the strength of it.
 4. **Candidates and Z4 remain unevaluated** (T3).
 5. Cache multipliers are the standard published ratios, not confirmed for this account.
-6. **No human has read these chapters.** Every previous run's decisive finding came from that and
-   from nothing a script produced. Until someone does, "0 defects, 11 warnings" means what it has
-   always meant here, which is less than it sounds.
+6. ~~**No human has read these chapters.**~~ **Done, 2026-09-12** — see *What reading the
+   chapters found* above. It held again: two defects, neither visible to any script, and the
+   larger of them was a blind spot in the scripts themselves.
 
 ## Reproduce it
 

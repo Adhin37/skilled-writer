@@ -172,9 +172,24 @@ All six, in the order below. Measured against the same live novel at chapter 6.
 fell 17% and the instruction load rose 1.2% — Phase C alone grew by 374 words. The merges in item
 6 moved text between files rather than removing it, and a merged card costs a drafter exactly what
 its two halves cost separately. `rules.CARD_BUDGET` bounds the card *count*, so nothing objected.
-The prune (item 6 of the plan, sequenced last) is therefore the item that is still outstanding,
-and `sw load` now prints the unconditional word figure beside the card budget so the next attempt
-has the right number in front of it.
+
+**Closed 2026-09-12, as a ratchet rather than a cut.** `rules.CARD_WORD_BUDGET` bounds the words
+too, enforced by `sw health` beside the count, set a hair above the measured figure so a wording
+fix is free and a genuine addition is not. That was the actual hole: the ratchet was on the wrong
+number.
+
+The cutting half is reported honestly as **largely spent**. This plan named three safe cuts and
+two of them no longer have anything to take: there is not one checkbox text shared between any
+two skills (`sw health`'s duplication rule got there first), and the boxes restating a `sw lint`
+finding went in the same pass that wrote this section. What remains is prose, and prose is where
+the advice lives — so the budget is a ceiling to lower deliberately, never a licence to cut
+advice toward a number.
+
+And benchmark run #4 **demoted the item**, which this file should say plainly: the same corpus was
+affordable to a cold agent (33 cards, $3.21) and unaffordable to a warm one (5 cards across five
+chapters). What decays is not the size of the instruction but the model's willingness to spend
+context on it once the conversation is long. The prune is maintenance. A fresh session per chapter
+is the quality fix.
 
 1. **`sw load <novel> -c N`** reports cards, words, checkboxes and negations per phase, and
    `rules.CARD_BUDGET` caps the unconditional set at 12 draft cards and 15 audit cards. `sw health`

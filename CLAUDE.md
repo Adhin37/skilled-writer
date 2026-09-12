@@ -70,11 +70,20 @@ run is long. Two things hold it in place. The step 6 report carries a `Gate:` li
 fixed and which passes ran without their card, and `sw readset` names any ungated chapter when it
 assembles the next one's read-set. What the gate had to fix goes into the CCS block as `gate>`, and
 the next brief opens on a GATE block carrying **both halves**: a **WATCH row** — the checks that
-fired in two or more of the last five chapters, which `sw readset` counts by re-linting them, three
+fired in two or more of the last five chapters, which `sw readset` counts by re-linting them, four
 at most — and the recent **`gate>` lines echoed verbatim** beside it. The two are computed from
 different sources on purpose: no script can tell that two differently worded gate notes are the
 same defect, so the countable half is counted and the judgement half is quoted. Either way a defect
 is fixed at the draft rather than re-fixed at the gate, chapter after chapter.
+
+**The row counts notes as well as warns, and that is most of what it is for.** A check that
+measures a habit is a `note` per chapter on purpose — one antithesis is good writing, one
+uninterrupted scene is a scene — so until 2026-09-12 every habit was invisible to the only two
+things that look across chapters. Run #4 shipped five of six chapters with `house-style` firing
+and told the next draft nothing. Warns rank above notes in the row, and a note that merely
+reports what a chapter *contains* rather than what it keeps doing wrong — `group-scene` — is
+excluded by name (`rules.HABIT_NOTE_CHECKS`). Nothing is promoted: a note is never a defect, and
+no chapter is scored on the row.
 
 ## 3. Skill registry
 
@@ -191,8 +200,9 @@ resolve both against this novel's config. Opening a module's `SKILL.md` mid-draf
    `state/foreknowledge.md`, spent on the page with a cost, and it lands one legible win before its
    first failure — `foreknowledge_first_win_ch` < `foreknowledge_fails_ch`. It decays because the
    MC acted, not because a chapter number arrived (`meta-knowledge`).
-7. **Four channels, held apart.** `"…"` speech · `'…'` direct thought, 1–3 per chapter, POV
-   character only · `[…]` meta · unmarked free indirect discourse as the default carrier of
+7. **Four channels, held apart.** `"…"` speech · `'…'` direct thought, 1–3 per chapter — **a
+   range, and the floor is checked too**, because a channel nobody opens is a channel that
+   cannot be got wrong and run #4 left it shut in four chapters of six — POV character only · `[…]` meta · unmarked free indirect discourse as the default carrier of
    interiority. The marks come from `channels:` in `novel.md`. An apostrophe is not a thought mark;
    a `'…'` inside a `"…"` is a nested quotation. Nothing else in a prose body is markup
    (`narrator-voice`).
@@ -480,12 +490,13 @@ clean run is not a passed revision** — the distributional and judgement passes
 and `bias-guard` has no script at all, deliberately.
 
 The last five review the **process** rather than the novel, and the same rules bind them: `load`
-counts what a drafter is handed and scores no chapter — its one enforced number is the **card
-budget**, which binds the corpus rather than any novel, so past it a new rule merges into the card
-that already owns its neighbourhood instead of opening a file
-([docs/creative-latitude.md](docs/creative-latitude.md)), `trace`
+counts what a drafter is handed and scores no chapter — its enforced numbers are the **card
+budget** and the **word budget** beside it, both binding the corpus rather than any novel, so past
+the first a new rule merges into the card that already owns its neighbourhood instead of opening a
+file, and past the second an addition has to be paid for with a cut — a merge does not pay for
+itself ([docs/creative-latitude.md](docs/creative-latitude.md)), `trace`
 measures a run and scores nothing, `history` prints trends and raises no defect of its own — its
-two cross-chapter findings are warns, and `audit` is where they are meant to be read — `health` checks
+cross-chapter findings are warns, and `audit` is where they are meant to be read — `health` checks
 wiring and says nothing about whether a skill's advice is good, and `selftest` proves the pipeline
 runs without proving any chapter is worth reading. `trace` is the only command that reads outside
 the repo; it takes usage, timestamps and tool names from Claude Code's transcripts and never

@@ -178,6 +178,14 @@ So the next sweep does not re-litigate it.
 
 ## Still open
 
+- **One-sided rules.** A rule stated as a range or a positive requirement, where only the
+  violation-by-excess is detectable and the violation-by-absence is invisible. Two were found and
+  closed on 2026-09-12 (the `'…'` thought floor, and the gate's form check, which was made
+  entirely of prohibitions and so could not catch rule 9's own *twice*). The pattern is named in
+  `mc-design/references/form-ledger.md` rule 9 and is worth re-running against any new rule that
+  states a range. `set>` was checked and is fine; `world-texture`'s non-visual detail and the
+  plain-sentence third are deliberately unscripted.
+
 - **Trauma at novel scale.** `conflict-engine/references/aftermath.md` covers a cost persisting
   across chapters. A character changed permanently by what happened to them is
   `character-development`'s ladder, and the two have not been reconciled in one place.
