@@ -60,6 +60,37 @@ Mid-scene switching is forbidden in all modes. Two heads in one scene is head-ho
 An antagonist POV trades menace for understanding. Spend it deliberately: the chapter where the
 reader stops being afraid of the villain and starts being afraid *for* someone.
 
+### Non-human viewpoints
+
+A beast, a construct, an artificial mind or a god may sit in `pov.pov_characters`. The bar is the
+same as anyone's — a name on the ordered list, a `pov_eligible: true` row in `bible/cast/_voices.md`
+§3, a declared thought unit — with one thing required first: **build the mind before you grant it
+the camera** (`character-profile/references/nonhuman.md`). That file's third question, what the
+character has no concept of, stops being characterisation the moment they narrate and becomes the
+**limit on what the prose may notice**. A mind with no concept of lying does not narrate somebody
+lying; it reports what was done and said, and the reader assembles the deception it cannot see.
+That gap is the whole reason to spend a chapter here, and it is free dramatic irony.
+
+**The thought unit may not be `words`.** The seven values are in
+`voice-separation/references/channels.md`, and a non-linguistic mind takes one of the other six —
+usually bodies, rules or images. This is not a formality: it is the field that supplies the
+chapter's metaphors, so choosing it is how the narration stops sounding like a person with an
+unusual vocabulary.
+
+**The channel that breaks is direct thought.** `narrator-voice` owns the four channels and the
+budget on each; what matters here is that `'…'` is defined as the verbatim sentence a character
+puts to themselves *in words*, and a mind without language has none to put. So for a non-linguistic
+POV the channel is **declared shut for their chapters** rather than left empty — the same move
+`narrator-voice` makes when it puts `channels.free_indirect: unmarked` in config so that an absence
+reads as a decision and not an omission. Free indirect carries the whole interior instead, which it
+is already the default for and has no budget. The other way round — a creature that thinks in
+quoted English sentences — is the people-in-costume failure arriving through the typography.
+
+Expect `sw lint` to note the empty thought channel, and expect `speech-share` to run low in a
+chapter whose POV does not talk. Both are correct about the numbers and wrong about this chapter.
+Neither is a defect; say so in the gate report's `Gate:` line and do not fix them by giving the
+character words.
+
 ## When a switch is justified
 
 A switch must pass **at least one**:
@@ -118,5 +149,6 @@ deciding mid-draft is how a switch ends up unjustified. Record the POV in the CC
 - [ ] Nothing on the page exceeds this POV's knowledge
 - [ ] What they notice differs from what the previous POV would have noticed
 - [ ] Their thought unit is not the MC's, and it is the source of this chapter's metaphors
+- [ ] A non-human POV narrates within what it has a concept of, and did not think in quoted words
 - [ ] The MC has not been absent for more than two chapters
 - [ ] No mid-scene switching anywhere in the chapter

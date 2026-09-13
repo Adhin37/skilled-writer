@@ -31,7 +31,7 @@ Most stories write the first and skip the other two.
 |---|---|---|
 | **the scene** | changes what is possible now | already covered — `combat-choreography` owns damage inside an exchange |
 | **days** | pain, sleep, fever, and the hundred ordinary things that need two hands | a task that is now awkward; somebody helping and being resented for it |
-| **permanently** | a capability is gone, or costs more | it is in the character's continuity facts, and it shapes what they volunteer for |
+| **permanently** | a capability is gone, or costs more | it shapes what they volunteer for. `character-development` owns what is left once the days run out — `character-development/references/lasting-harm.md` |
 
 **The middle row is the one that carries the realism.** A character who is badly hurt and then
 appears three chapters later at full strength has taught the reader that injuries are scene

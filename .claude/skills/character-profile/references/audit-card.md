@@ -4,7 +4,7 @@ owner: character-profile
 dispatcher: revision-pass
 pass: "2"
 pass_kind: distributional
-description: Character + voice
+description: Whether a walk-on could be swapped out unchanged, and who has earned a profile
 when: always
 ---
 

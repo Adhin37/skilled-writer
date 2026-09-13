@@ -4,7 +4,7 @@ owner: world-texture
 dispatcher: revision-pass
 pass: "5"
 pass_kind: judgement
-description: World
+description: Detail that is load-bearing, budgeted, and noticed by this POV rather than established
 when: always
 ---
 

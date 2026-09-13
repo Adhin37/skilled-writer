@@ -27,6 +27,7 @@ scene is a skipped chapter.
 | file | open it when |
 |---|---|
 | `references/group-scenes.md` | the scene has three or more speakers — roles, blocking, turn allocation, and who is deliberately silent. At three, a scene changes category |
+| `references/negotiation.md` | the turn of the scene is who concedes what — a bargain, a hearing, a truce, a council, an interrogation where both sides hold something |
 | `references/draft-card.md` | never, by you. `write-chapter` Phase A opens it |
 | `references/audit-card.md` | never, by you. `revision-pass` Passes 4 and 9 open it |
 
@@ -138,7 +139,7 @@ room. One spatial anchor per paragraph in action; one every three exchanges in d
 | Training | a montage of competence | show the cost and the failure, not the progression. One stage of the ladder per scene at most, and only when a stage actually turns over — practice between stages is a clause, not a scene (`competence-map/references/acquisition-ladder.md`) |
 | Discovery | a lecture | the POV character wants something *else*; discovery interrupts it |
 | Aftermath | drifting reflection | make it a decision scene: what will they do now |
-| Political | names and titles the reader can't hold | ground in one concrete thing on the table |
+| Political | names and titles the reader can't hold | ground in one concrete thing on the table, and decide what each side would actually settle for (`references/negotiation.md`) |
 
 ## Transitions
 

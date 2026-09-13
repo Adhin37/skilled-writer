@@ -38,6 +38,10 @@ Answer these before the standard profile, and let them constrain every field in 
    with no concept of lying, of privacy, of scarcity, of endings, or of *other minds* behaves
    consistently strangely, and the strangeness needs no explaining because it is load-bearing.
 
+If this character is going to **narrate** rather than appear, answer the three questions first and
+then go to `pov-switch` §Non-human viewpoints — it owns whether they are eligible, and question 3
+becomes a hard limit on what the prose is allowed to notice.
+
 ## The standard profile, adjusted
 
 Fill the usual template, with these substitutions:

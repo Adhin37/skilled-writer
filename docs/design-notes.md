@@ -122,6 +122,16 @@ Most cases were obvious once asked. A few were genuine splits, and the split is 
 | the delivery test | `scene-craft` owns the five questions | `revision-pass` owns that Pass 9 is a gate, and where the answers go |
 | levels vs tiers | `power-scaling` owns the ladder and the mapping | `litrpg-system` owns how levels are rendered |
 | the `event` field | `chapter-plan`, because it is decided at plan time | `write-chapter` checks the row carries a real one |
+| lasting harm | `character-development` owns the altered baseline — permanent, and it does not reset | `conflict-engine` owns what the chapter *took*; `grimdark-consequences` owns the severity band when it is on |
+
+The last row is the one that had no owner rather than two. `conflict-engine/references/aftermath.md`
+gave permanent harm a single table row — *"it is in the character's continuity facts"* — and
+`character-development/references/ladders.md` defines regression as **temporary and visible**, so a
+character permanently altered by what happened to them was neither. The third owner is the reason it
+went unnoticed: `permanent-consequence` belongs to `grimdark-consequences`, which is **optional**, so
+the corpus read as covered while every default novel had nothing. The split follows the existing
+pattern in this table — the skill that owns the *state over time* owns the altered baseline, and the
+skill that owns the *transaction* keeps the price.
 
 `scene-craft` gained an audit card in the process. It was consulted by two passes and had only a
 draft card, which is why `revision-pass` had been carrying its table instead of opening it — a

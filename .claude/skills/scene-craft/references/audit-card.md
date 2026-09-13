@@ -4,7 +4,7 @@ owner: scene-craft
 dispatcher: revision-pass
 pass: "4, 9"
 pass_kind: mechanical
-description: Structure
+description: Want, friction, and a change that is not a summary of events
 when: always
 ---
 

@@ -4,7 +4,7 @@ owner: power-scaling
 dispatcher: revision-pass
 pass: "9e"
 pass_kind: judgement
-description: Power curve
+description: Pressure decided before the opponent, and a gap that closed at most one tier
 when: scaling.shape != none
 ---
 

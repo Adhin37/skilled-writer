@@ -4,7 +4,7 @@ owner: bias-guard
 dispatcher: revision-pass
 pass: "6"
 pass_kind: distributional
-description: Bias
+description: Whether any group is uniform, anyone is a reward, and who pays for a prejudice on the page
 when: always
 ---
 

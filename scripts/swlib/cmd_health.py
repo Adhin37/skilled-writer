@@ -28,6 +28,7 @@ TABLE_ACCESSORS = [
     ("gain_rows",       ("state", "power.md"),               ("ch", "source", "new problem")),
     ("boost_rows",      ("state", "power.md"),               ("ch", "boost", "the debt")),
     ("curve_plan_rows", ("state", "power.md"),               ("arc", "pressure band")),
+    ("divergence_rows", ("state", "timeline.md"),            ("ch", "mc action", "effect")),
     ("plan_rows",       ("plan", "chapters.md"),             ("#", "title", "delivers")),
     ("voice_rows",      ("bible", "cast", "_voices.md"),     ("character", "intel", "artic",
                                                               "wit")),
@@ -48,6 +49,7 @@ TEMPLATE_AXES = [
                                       ("bible", "cast", "_character-template.md")]),
     ("cadence", "voice-separation",  [("bible", "cast", "_voices.md"),
                                       ("bible", "cast", "_character-template.md")]),
+    ("lasting harm", "character-development", [("state", "growth.md")]),
 ]
 
 # A card is written by the skill that owns the defect and opened by the dispatcher that needs
@@ -371,6 +373,12 @@ BOILERPLATE = (
     "one card two owners",
     "the card budget is why they share a file",
     "and each half names its owner",
+    # The boundary heading a reference opens when it sits next to somebody else's rule. Three
+    # files carry it and more will, because "cite the owner and stop" is the rule rather than a
+    # style. Only the heading is exempt: its table's column names differ file to file, one of
+    # them is used once, and exempting a header on one file's evidence is how this tuple grows
+    # into a hole.
+    "where this is not the right file",
 )
 
 OVERLAP_RUN = 10        # words, normalised, before a shared passage counts

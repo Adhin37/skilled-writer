@@ -4,7 +4,7 @@ owner: meta-knowledge
 dispatcher: revision-pass
 pass: "9c"
 pass_kind: distributional
-description: Foreknowledge
+description: What was known at what grain, what the spend cost, and what it invalidated
 when: mc.foreknowledge is set
 ---
 

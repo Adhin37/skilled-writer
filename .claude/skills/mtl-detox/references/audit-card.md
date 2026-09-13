@@ -4,7 +4,7 @@ owner: mtl-detox
 dispatcher: revision-pass
 pass: "7"
 pass_kind: distributional
-description: MTL detox
+description: Crowd reactions, rank recitals and face-slap loops - the artifacts no script can see
 when: always
 ---
 

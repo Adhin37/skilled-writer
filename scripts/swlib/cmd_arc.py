@@ -98,6 +98,7 @@ def run(novel, arc=None):
     _cast(novel, rep, blocks)
     _hooks(rep, blocks)
     _threads(novel, rep, blocks, lo, hi)
+    _divergence(novel, rep, lo, hi)
     _foreknowledge(novel, rep, blocks)
     _curve(novel, rep, lo, hi)
     _judged(novel, rep, arc)
@@ -328,6 +329,54 @@ def _threads(novel, rep, blocks, lo, hi):
                      "not yet a verdict" % (msg, max(drafted - lo + 1, 0), hi - lo + 1), path=path)
         else:
             rep.defect("arc-payoff", msg, path=path)
+
+
+def _effect(cell):
+    """First bare word of an `effect` cell: `` `unchanged` (she was confined) `` -> `unchanged`.
+
+    The legend allows `unchanged` with a stated reason appended, so the whole cell is never a
+    clean token and only the leading word decides.
+    """
+    words = re.sub(r"[^a-z0-9 ]", " ", cell.lower()).split()
+    return words[0] if words else ""
+
+
+def _divergence(novel, rep, lo, hi):
+    """The divergence ledger's own arc rule, which nothing enforced until now.
+
+    `state/timeline.md` carries the line verbatim - *every arc must contain at least one row that
+    is not `unchanged`* - and it was the one-sided shape in its purest form: a row is only ever
+    wrong by saying something, so an empty ledger cleared every check in the repo. Both live
+    novels ran six chapters that way, one of them while declaring `reactivity: 4`.
+
+    It stays a warn. An MC who genuinely changed nothing this arc is a legitimate arc - a siege,
+    a confinement, a stretch spent learning - and the point is that it becomes a stated decision
+    rather than an empty table nobody looked at.
+    """
+    rows = []
+    for r in novel.divergence_rows():
+        digits = re.sub(r"\D", "", r.get("ch"))
+        if digits and lo <= int(digits) <= hi:
+            rows.append((int(digits), _effect(r.get("effect"))))
+
+    moved = [(n, e) for n, e in rows if e and e != "unchanged"]
+    rep.info("divergence this arc", [
+        "   rows:   %s" % (", ".join("ch%d %s" % (n, e or "?") for n, e in sorted(rows)) or "none"),
+        "   moved:  %d of %d" % (len(moved), len(rows)),
+    ])
+    if moved:
+        return
+
+    drafted = max([c.number for c in novel.chapters() if c.number] or [0])
+    msg = ("chapters %d-%d have no divergence row that is not `unchanged` - the MC passed through "
+           "the arc without touching the world track, and `state/timeline.md` states the arc rule "
+           "that forbids it (timeline-engine)" % (lo, hi))
+    path = novel.path("state", "timeline.md")
+    if drafted < hi:
+        rep.note("arc-divergence", "%s. The arc is %d of %d chapters in, so this is a position, "
+                 "not yet a verdict" % (msg, max(drafted - lo + 1, 0), hi - lo + 1), path=path)
+    else:
+        rep.warn("arc-divergence", msg, path=path)
 
 
 def _foreknowledge(novel, rep, blocks):

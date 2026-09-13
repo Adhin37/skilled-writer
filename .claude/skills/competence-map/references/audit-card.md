@@ -4,7 +4,7 @@ owner: competence-map
 dispatcher: revision-pass
 pass: "3"
 pass_kind: distributional
-description: Intelligence + knowledge
+description: Provenance for every stated fact, and whether anyone admitted not knowing
 when: always
 ---
 

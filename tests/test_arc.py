@@ -92,5 +92,64 @@ class TestArcPass(unittest.TestCase):
             self.assertTrue(any("no chapters in range" in m for m in messages(rep)))
 
 
+def add_divergence(fx, ch, effect):
+    """Put one row into `state/timeline.md`'s divergence ledger."""
+    with open(fx.path("state", "timeline.md"), encoding="utf-8") as fh:
+        text = fh.read()
+    head = "| ch | MC action | track id | effect | order | who noticed | reciprocity opened |"
+    sep = "|---|---|---|---|---|---|---|"
+    row = "| %d | she leaned on the clerk | W01 | %s | 1st | nobody | a favour owed |" % (ch, effect)
+    fx.write("state/timeline.md", text.replace(head + "\n" + sep,
+                                               head + "\n" + sep + "\n" + row, 1))
+
+
+class TestArcDivergence(unittest.TestCase):
+    """`state/timeline.md` states the arc rule; until now nothing read the table.
+
+    The one-sided shape at its purest: a divergence row is only ever wrong by saying something,
+    so an empty ledger cleared every check in the repo.
+    """
+
+    def find(self, fx):
+        return [m for m in messages(cmd_arc.run(fx.novel(), 1)) if "divergence row" in m]
+
+    def test_an_empty_divergence_ledger_is_found(self):
+        with NovelFixture() as fx:
+            build(fx, 6, pay=True)
+            self.assertEqual(len(self.find(fx)), 1)
+
+    def test_unchanged_rows_alone_do_not_satisfy_the_arc_rule(self):
+        with NovelFixture() as fx:
+            build(fx, 6, pay=True)
+            add_divergence(fx, 3, "`unchanged` (she was confined all arc)")
+            self.assertEqual(len(self.find(fx)), 1)
+
+    def test_one_real_divergence_row_clears_it(self):
+        with NovelFixture() as fx:
+            build(fx, 6, pay=True)
+            add_divergence(fx, 3, "created")
+            self.assertEqual(self.find(fx), [])
+
+    def test_a_row_outside_the_arc_does_not_count(self):
+        with NovelFixture() as fx:
+            build(fx, 6, pay=True)
+            add_divergence(fx, 99, "created")
+            self.assertEqual(len(self.find(fx)), 1)
+
+    def test_it_is_never_a_defect(self):
+        """An MC who genuinely changed nothing is a legitimate arc, not a blocked ship."""
+        with NovelFixture() as fx:
+            build(fx, 6, pay=True)
+            levels = {f.level for f in cmd_arc.run(fx.novel(), 1).findings
+                      if f.check == "arc-divergence"}
+            self.assertTrue(levels)
+            self.assertNotIn("defect", levels)
+
+    def test_effect_reads_only_the_leading_word(self):
+        self.assertEqual(cmd_arc._effect("`unchanged` (she was confined)"), "unchanged")
+        self.assertEqual(cmd_arc._effect("**created**"), "created")
+        self.assertEqual(cmd_arc._effect("   "), "")
+
+
 if __name__ == "__main__":
     unittest.main()

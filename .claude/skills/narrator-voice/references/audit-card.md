@@ -4,7 +4,7 @@ owner: narrator-voice
 dispatcher: revision-pass
 pass: "10"
 pass_kind: mechanical
-description: Mechanics
+description: Whether free indirect carries the interiority, and every surviving thought mark sits at a decision
 when: always
 ---
 

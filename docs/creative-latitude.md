@@ -245,10 +245,23 @@ note about dashes.
 
 - ~~**`tests/test_corpus.py` hardcodes `DRAFT_CARD_OWNERS` and `MODULE_CARD_OWNERS`.**~~ **Done** —
   both registries are derived from frontmatter and the tests assert the property rather than the list.
-- **`kb passes` descriptions are inconsistent.** Cards written before the expansion describe
-  themselves by pass name — "Bias", "Structure" — and newer ones by what they check. The
-  dispatcher line is only useful in the second form; normalise.
-- **Pass 2 now opens five cards**, the widest in the gate. First candidate for the merge that
-  item 1's budget would force.
+- ~~**`kb passes` descriptions are inconsistent.**~~ **Done, 2026-09-13** — eleven audit cards
+  described themselves by pass name (`Bias`, `Structure`, `Prose + microtension`) and the rest by
+  what they check. All eleven rewritten to the second form. Draft cards were already consistent,
+  which is the tell: the label form is what a card written *as a pass heading* looks like, and the
+  dispatcher line is a routing decision, not a section title.
+- ~~**Pass 2 now opens five cards**, the widest in the gate. First candidate for the merge that
+  item 1's budget would force.~~ **Decided against, 2026-09-13.** Three reasons, in the order they
+  settle it. It is **no longer the widest** — Pass 4 also opens five (`scene-craft`,
+  `conflict-engine`, `plot-threads`, plus `combat-choreography` and `battle-scale`), and both
+  passes are three cards for a default novel, because two of Pass 2's five are conditional
+  (`pov-switch` off unless `pov.mode` allows it, `romance-arc` off unless the module is on). The
+  **merge buys nothing that binds**: the unconditional audit set sits at 15 of 15 cards but 6745 of
+  6800 words, so the count is the slack constraint and the words are the tight one — and item 6
+  measured that a merged card costs what its halves cost separately. And Pass 2's three
+  unconditional cards are owned by three different skills, so the merge would put
+  `voice-separation`, `character-profile` and `dialogue-voice` in one file: a wider land-grab than
+  any of the four existing merges, which each joined two owners with an adjacent concern. If the
+  budget forces a merge later, take it from a pair that already share a neighbourhood.
 - **`sw kb cards` could not reach its novel argument** — fixed in `sw.py`; see
   [coverage-map.md](coverage-map.md).

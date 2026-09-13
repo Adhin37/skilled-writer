@@ -3,8 +3,8 @@
 Where each named character currently stands on their arc ladder. Maintained by
 `character-development`. The writer reads this to know how a character should *sound* today.
 
-| character | rate | rung | since ch | next trigger | voice delta so far |
-|---|---|---|---|---|---|
+| character | rate | rung | since ch | next trigger | voice delta so far | lasting harm |
+|---|---|---|---|---|---|---|
 
 **Tier A and tier B only.** Walk-ons do not develop and have no row here; they live as one line
 in `bible/cast/_extras.md`. A walk-on who needs a row is a promotion, not a row.
@@ -13,6 +13,9 @@ in `bible/cast/_extras.md`. A walk-on who needs a row is a promotion, not a row.
 **rung**: 1–5 on a tier-A ladder in `bible/cast/<char>.md`; `B1`→`B2` for a tier-B shift
 **voice delta**: what has audibly changed in their speech since rung 1 — the single most
 important column. If it is empty for a character who has advanced a rung, that is a defect.
+**lasting harm**: what they can no longer do cheaply, and the chapter it happened in. Permanent —
+a separate axis from the rung, which moves, and from regression, which reverts. `—` is common and
+correct (`character-development/references/lasting-harm.md`).
 
 ---
 

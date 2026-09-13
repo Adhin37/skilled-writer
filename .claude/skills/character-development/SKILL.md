@@ -6,7 +6,7 @@ metadata:
   tier: character
   force: structural
   when: always
-  owns: [arc-ladder, voice-delta]
+  owns: [arc-ladder, voice-delta, lasting-harm]
 ---
 
 # character-development
@@ -24,6 +24,7 @@ hear it?**
 | file | open it when |
 |---|---|
 | `references/ladders.md` | a rung actually moves — somebody is learning something, sliding backwards under pressure, or the MC is the one changing |
+| `references/lasting-harm.md` | something taken in an earlier arc has not come back, or you are about to write a recovery the story never paid for |
 
 ## Who has an arc at all
 
@@ -122,7 +123,8 @@ Called by `write-chapter`, step 1.
 
 1. Read `state/growth.md` rows for the tier-A and tier-B characters in this chapter. Walk-ons have
    no rows; if one is on the page, read their line in `bible/cast/_extras.md` instead and move on.
-2. For each: what rung, what voice delta applies, is their trigger scheduled here?
+2. For each: what rung, what voice delta applies, is their trigger scheduled here? If their
+   `lasting harm` column is filled, does anything this chapter ask them for the thing it took?
 3. If a trigger fires: write the advance **as a scene beat**, not narration. The character does
    something their rung-1 self would not have done, and someone notices.
 4. Apply every accumulated voice delta to their dialogue. This is the step that gets skipped.
@@ -154,6 +156,7 @@ Called by `write-chapter`, step 1.
 - [ ] No delta moved a character onto the MC's voice axes
 - [ ] Any skill stage that advanced is legal under `competence-map`, and changed how they speak
 - [ ] The MC's pain ledger has an entry for this chapter
+- [ ] Nobody recovered from recorded lasting harm off the page, or because chapters passed
 - [ ] No tier-A character has been at rung 1 for two full arcs while on-page
 - [ ] No tier-C walk-on was given a rung, an epiphany or an interior life
 - [ ] No growth was narrated rather than demonstrated

@@ -332,6 +332,12 @@ class Novel(object):
         return t.rows if t else []
 
     @_memo
+    def divergence_rows(self):
+        t = self._table_by_headers(
+            self._text("state", "timeline.md"), "ch", "mc action", "effect")
+        return t.rows if t else []
+
+    @_memo
     def plan_rows(self):
         t = self._table_by_headers(self._text("plan", "chapters.md"), "#", "title", "delivers")
         return t.rows if t else []

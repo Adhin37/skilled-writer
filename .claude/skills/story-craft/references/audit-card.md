@@ -4,7 +4,7 @@ owner: story-craft
 dispatcher: revision-pass
 pass: "9f"
 pass_kind: judgement
-description: Pacing + build-up
+description: Whether the most important beat is in scene, and nothing that matters happened offstage
 when: always
 ---
 

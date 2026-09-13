@@ -181,21 +181,81 @@ So the next sweep does not re-litigate it.
 ## Still open
 
 - **One-sided rules.** A rule stated as a range or a positive requirement, where only the
-  violation-by-excess is detectable and the violation-by-absence is invisible. Two were found and
-  closed on 2026-09-12 (the `'…'` thought floor, and the gate's form check, which was made
-  entirely of prohibitions and so could not catch rule 9's own *twice*). The pattern is named in
-  `mc-design/references/form-ledger.md` rule 9 and is worth re-running against any new rule that
-  states a range. `set>` was checked and is fine; `world-texture`'s non-visual detail and the
-  plain-sentence third are deliberately unscripted.
+  violation-by-excess is detectable and the violation-by-absence is invisible. The pattern is named
+  in `mc-design/references/form-ledger.md` rule 9 and is worth re-running against any new rule that
+  states a range. **Swept again on 2026-09-13** — results below.
 
-- **Trauma at novel scale.** `conflict-engine/references/aftermath.md` covers a cost persisting
-  across chapters. A character changed permanently by what happened to them is
-  `character-development`'s ladder, and the two have not been reconciled in one place.
-- **Politics and negotiation as a scene type.** Partly covered — `social-fabric` has the
-  institutions, `dialogue-voice` the subtext, `mc-intel-meter/references/plans-and-lies.md` the
-  leverage — but nothing owns the shape of a negotiation scene the way `scene-craft` owns a scene.
-- **Non-human POV.** `character-profile/references/nonhuman.md` builds one; `pov-switch` has not
-  been asked whether one can narrate.
+- ~~**Trauma at novel scale.**~~ **Closed 2026-09-13.** `character-development` owns
+  `lasting-harm`; `conflict-engine/references/aftermath.md`'s *permanently* row hands off to it
+  instead of stopping at continuity facts, and `state/growth.md` carries the column.
+- ~~**Politics and negotiation as a scene type.**~~ **Closed 2026-09-13.**
+  `scene-craft/references/negotiation.md`, a scene type under `scene-craft` with no slug of its
+  own, on the `group-scenes.md` precedent.
+- ~~**Non-human POV.**~~ **Closed 2026-09-13.** `pov-switch` §Non-human viewpoints answers
+  eligibility and what the four channels mean for a mind without language.
+
+### The one-sided-rule sweep, 2026-09-13
+
+Method: every stated range, floor or positive requirement in the corpus, against the one question
+— **does anything count this in aggregate?** Recorded in full so the next sweep starts here.
+
+**Found and closed: the divergence ledger's own arc rule.** `state/timeline.md` carries the line
+verbatim — *every arc must contain at least one row that is not `unchanged`* — and **no script read
+the table at all**; the only mention of it anywhere in `scripts/` was a `readset` comment excluding
+it from the read-set. It is the shape at its purest: a divergence row is only ever wrong by *saying*
+something, so an empty ledger cleared every check in the repo. Both live novels were running that
+way at six chapters with `sw audit` reporting 0 defects, one of them while declaring
+`timeline.reactivity: 4`. Closed by `_divergence` in `cmd_arc.py` (`arc-divergence`), with
+`novelio.divergence_rows()` registered in `TABLE_ACCESSORS` so the template cannot drift the columns
+out from under it silently — the failure `plan_rows()` already had once.
+
+It is a **warn**, never a defect, and it lives in `sw arc` rather than `sw audit` because it is an
+*arc* rule and `audit` has no arc to evaluate it against. An MC who genuinely changed nothing this
+arc is legitimate — a siege, a confinement, a stretch spent learning — and the point of the check is
+that this becomes a stated decision rather than an empty table nobody looked at.
+
+**Checked and found fine — do not re-litigate:**
+
+| rule | why it is covered |
+|---|---|
+| `'…'` direct thought 1–3 | floor is a note and sits in `rules.HABIT_NOTE_CHECKS`; ceiling is a defect |
+| speech share 25–40% | `SPEECH_FLOOR` defect below 10%, warn below 25%, warn above 40% |
+| temperature / hooktype | `TEMP_RUN_MAX` and `HOOK_WINDOW_MAX` cap repeats, `ARC_MIN_DISTINCT` is the floor |
+| the 45-word dialogue turn | CLAUDE.md allows one chapter in five; `texture` is a habit note and the WATCH row fires at two in five, so the allowance *is* the check |
+| threads closed per arc | `arc-payoff`, with the drafting-position rule so an unfinished arc is a note |
+| foreknowledge spent | `arc-foreknowledge` warns when an arc spends none |
+| `wld>` presence | `sw state` warns on a block that omits it |
+| CCS block keys | every key in `block-format.md` is read by at least one script; no orphans |
+
+**Left alone, with reasons:** `set>` facts (checked, fine) · `world-texture`'s non-visual detail and
+the plain-sentence third (deliberately unscripted — `textstats.py` documents why shape cannot see
+the third) · em-dash, house-style and closer rates (ceilings only, and a floor would be meaningless).
+
+**Found, not closed.** Two, both raised by the steps immediately before this sweep:
+
+- **The inverse shape: a check that fires where the rule does not apply.** A non-linguistic POV
+  chapter (`pov-switch` §Non-human viewpoints) trips `thought-budget`'s floor and drags
+  `speech-share` down, both correct about the numbers and wrong about the chapter. `thought-budget`
+  is in `HABIT_NOTE_CHECKS`, so a run of such chapters reaches the WATCH row and tells the next
+  draft to open a channel that character cannot have. The existing suppressor,
+  `narration.interiority: low`, is novel-level and too coarse — the same novel's human POV chapters
+  should still be checked. The fact needed to scope it is already on disk: `pov-switch` requires a
+  declared thought unit per POV character in `bible/cast/_voices.md` §3, so lint could read it
+  rather than gaining a new config key. Resolved in prose for now — the channel is *declared shut*
+  and the `Gate:` line says so — which is correct but manual.
+- ~~**`sw health`'s overlap detector versus a shared section form.**~~ **Closed 2026-09-13**, and
+  half of it deliberately left alone. The heading *Where this is not the right file* plus the table
+  header `| the case | the owner |` yielded exactly three shared 10-word runs against `OVERLAP_MAX`
+  of 2, so two skills adopting both warned on boilerplate rather than on copied advice — which is
+  what happened between `character-development` and `scene-craft` while this plan was being written.
+  **Only the heading is now in `BOILERPLATE`.** It is a genuine convention: three references carry
+  it, and *cite the owner and stop* is a rule rather than a style, so more will. The column header
+  is not — exactly one file uses it, `aftermath.md` writes the same section as prose, and exempting
+  a two-word-pair header on one file's evidence is precisely how the tuple grows into the hole its
+  own comment warns about. The section under the heading is free to be a table or a paragraph, and
+  its columns are free to say something; `negotiation.md`'s read *what you are actually writing* /
+  *whose rule it is*, which is better than *the case* / *the owner* and cost nothing to keep.
+
 - ~~**The `eq` axis is unproven in a real run.**~~ **Settled by benchmark run #4.** Given only a
   premise and no mention of the axis, the writing agent set `mc.eq_tier` and filled `eq` for every
   cast row, with a real spread against `intel` (4/3/5/3/4 against 4/3/5/3/4) and a deliberate

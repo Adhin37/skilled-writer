@@ -4,7 +4,7 @@ owner: prose-quality
 dispatcher: revision-pass
 pass: "8"
 pass_kind: judgement
-description: Prose + microtension
+description: Emotion carried by behaviour, dead stage business, and something unresolved on every page
 when: always
 ---
 

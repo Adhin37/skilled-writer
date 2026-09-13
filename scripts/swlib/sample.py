@@ -994,12 +994,12 @@ THREADS_MD = '''# Thread ledger
 
 GROWTH_MD = '''# Growth ledger
 
-| character | rate | rung | since ch | next trigger | voice delta so far |
-|---|---|---|---|---|---|
-| Wren | 5 | 2 | 6 | naming her master out loud | shorter sentences, no hedges under pressure |
-| Maro | 3 | 1 | 5 | his account being called in | has stopped narrating his own cleverness |
-| Bel | 2 | 1 | 3 | the oven going cold | says "we" where she used to say "the row" |
-| Ossian | 2 | 1 | 4 | losing the roster page | explains a refusal he would once have left bare |
+| character | rate | rung | since ch | next trigger | voice delta so far | lasting harm |
+|---|---|---|---|---|---|---|
+| Wren | 5 | 2 | 6 | naming her master out loud | shorter sentences, no hedges under pressure | no lawful master, so every trade question costs her a favour (ch 6) |
+| Maro | 3 | 1 | 5 | his account being called in | has stopped narrating his own cleverness | will not ask to be repaid; asks for work instead (ch 6) |
+| Bel | 2 | 1 | 3 | the oven going cold | says "we" where she used to say "the row" | — |
+| Ossian | 2 | 1 | 4 | losing the roster page | explains a refusal he would once have left bare | — |
 
 ## Skill ladders
 
