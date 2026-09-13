@@ -43,7 +43,7 @@ Every candidate is judged on all three. A title that does two is a rename waitin
 
 | job | the reader's question | how it is answered |
 |---|---|---|
-| **Shelf** | what kind of book is this? | one word carrying genre freight — *Shinobi*, *Dungeon*, *Necromancer*, *Ledger*, *Void* |
+| **Shelf** | what kind of book is this? | one word carrying genre freight — *Dungeon*, *Necromancer*, *Starship*, *Ledger*, *Void* |
 | **Promise** | what pleasure am I being offered? | the specific thing, not the category: *levelling up* is a shelf, *levelling up alone* is a promise |
 | **Hook** | why this one and not the four beside it? | a contradiction, a refusal, an incongruity, or a destination stated too boldly |
 
@@ -80,7 +80,7 @@ least bad rather than choosing between real alternatives.
 | 2 | **First-person claim** | the MC states an intent, a refusal, or a flat fact | *I Refuse to Feed the Dragon* |
 | 3 | **The mechanism** | the story's central rule or object, as a noun phrase | *The Ledger of Small Debts* |
 | 4 | **Understated flat** | one or two plain words, dry, confident, no ornament | *Delve* · *Rangemaster* |
-| 5 | **The destination** | the thing the reader is being promised they will reach | *The New God of Shinobi* |
+| 5 | **The destination** | the thing the reader is being promised they will reach | *The New God of Ash* |
 
 Two hard constraints on the set:
 
@@ -147,15 +147,15 @@ the same shape `mc-design` uses for "Surprise me", and for the reason it gives t
 your recommendation.
 
 ```
-1. Naruto: The New God of Shinobi   (Recommended)
+1. The New God of Ash   (Recommended)
    Promises the destination hard and early. Searchable, and the escalation is the draw.
    Costs you: you now owe the reader that ending, and the title spoils the shape of the arc.
 
-2. Naruto: The Ledger of Small Debts
-   Promises a quieter, mechanism-led story about what favours cost in a shinobi village.
+2. The Ledger of Small Debts
+   Promises a quieter, mechanism-led story about what favours cost in a company town.
    Costs you: a smaller shelf. Readers browsing for power fantasy will scroll past it.
 
-3. Naruto: Refuse the Will of Fire
+3. I Will Not Carry the Lamp
    Promises a refusal — the reader knows immediately what the MC is against.
    Costs you: it reads as edgy if the book is not actually about that argument.
 ```
@@ -171,11 +171,11 @@ the title will not be found by fandom search, then do as they ask.
 Record:
 
 ```yaml
-title: "Naruto: The New God of Shinobi"
+title: "The New God of Ash"
 title_alternates:                     # the runners-up, kept for a rename at an arc boundary
-  - "Naruto: The Ledger of Small Debts"
-  - "Naruto: Refuse the Will of Fire"
-slug: "naruto-new-god-of-shinobi"
+  - "The Ledger of Small Debts"
+  - "I Will Not Carry the Lamp"
+slug: "new-god-of-ash"
 ```
 
 And write the blurb into the `# Hook (platform blurb)` section of `novel.md`.
@@ -190,7 +190,7 @@ Derive it: kebab-case of the title, articles and prepositions dropped, **4–5 w
 
 | title | slug |
 |---|---|
-| *Naruto: The New God of Shinobi* | `naruto-new-god-of-shinobi` |
+| `<Source Work>`: *The New God of Ash* | `source-work-new-god-of-ash` |
 | *The Necromancer Who Buried Nothing* | `necromancer-buried-nothing` |
 | *Delve* | `delve` |
 

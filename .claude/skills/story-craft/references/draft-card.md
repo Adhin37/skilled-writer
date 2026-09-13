@@ -60,7 +60,7 @@ If not, the chapter is not ready. Not "add words to it" — find out why the dra
 it, because that is almost always the real problem.
 
 Benchmark run #2 is what this test exists to catch. Its plan was strong: chapter 2 walks into a
-massacre and carries out a survivor, chapter 4 is the Hokage personally probing a lie. Those
+massacre and carries out a survivor, chapter 4 is the governor personally probing a lie. Those
 chapters ran 1,457 and 1,213 words and were pitched exactly like the chapter about persuading a
 child to eat rice. Nothing was mis-planned. The set pieces were simply never *played* — they were
 summarised in scene, at a controlled distance, and closed on a quiet ironic line. A story that

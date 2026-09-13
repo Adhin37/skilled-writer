@@ -189,7 +189,7 @@ Generate five candidates across five distinct strategies, screen them, and prese
 survivors with what each promises **and** what each costs. Then write the 60–120 word platform
 blurb against the chosen title.
 
-For **fan fiction the source work must be in the title line** — `Naruto: The New God of Shinobi`.
+For **fan fiction the source work must be in the title line** — `<Source Work>: The New God of Ash`.
 Readers browse fanfic by fandom; a title without the source name is invisible to its only
 audience. This is a discoverability fact, not a style preference, and it is the one thing in this
 step you say plainly even if the user overrules you.

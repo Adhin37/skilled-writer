@@ -135,9 +135,9 @@ never something smaller.
 
 Nothing in this toolkit tracked register before, which is why benchmark run #2 did not have one.
 Five chapters, one temperature: quiet, interior, controlled, ironic. A massacre, a forged
-record, a Hokage interrogation and a child refusing a bowl of rice all read at exactly the same
-pitch — and a reader who cannot point at a bad sentence still closes the tab, because a book with
-one gear is a book that does not seem to care which scene it is in.
+record, a governor's interrogation and a child refusing a bowl of rice all read at exactly the
+same pitch — and a reader who cannot point at a bad sentence still closes the tab, because a
+book with one gear is a book that does not seem to care which scene it is in.
 
 Every planned row in `plan/chapters.md` declares a **temp** before it is drafted:
 

@@ -16,7 +16,7 @@ threads: []            # ids touched, e.g. ["^T03", "~T11", "vT07"]
      `event:` and `delivers:` are a pair, and they fail in opposite directions.
 
      `event:` is what HAPPENS — the thing a reader would retell in one clause, with a concrete
-     verb and a target. "She lies to the Hokage about the recovery list." It exists because a
+     verb and a target. "She lies to the inspector about the missing shipment." It exists because a
      gate phrased in abstractions gets satisfied by abstractions: asked only for a difference, a
      model writes "proximity that isn't refused" and ships 1,100 words of somebody being quietly
      moved. Abstract-state nouns are rejected outright. The beat `event:` names gets the most

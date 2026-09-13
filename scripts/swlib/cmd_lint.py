@@ -150,7 +150,7 @@ def _event_field(ch, rep):
     for _off, hit, label in rules.scan(ev, rules.EVENT_ABSTRACT):
         rep.defect("event", "`event:` contains %s: `%s`" % (label, hit), path=p, line=1,
                    detail='"%s" - name what happened, not what it did to anyone. '
-                          '"She lies to the Hokage about the recovery list" is an event; '
+                          '"She lies to the inspector about the missing shipment" is an event; '
                           '"trust deepens" is that event\'s effect.' % ev[:90])
 
 

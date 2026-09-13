@@ -2,7 +2,7 @@
 # ── IDENTITY ─────────────────────────────────────────────────────────────────
 # Filled by title-craft, once, before the scaffold exists.
 title: "Untitled"         # fanfic: the source work goes in the title line —
-                          #   "Naruto: The New God of Shinobi"
+                          #   "<Source Work>: The New God of Ash"
 title_alternates: []      # screened runners-up, kept for a rename at an arc boundary
 slug: "untitled"          # kebab-case, 4-5 words. PERMANENT: the title may change,
                           #   the directory every path hangs off does not

@@ -21,7 +21,7 @@ Invoke the `novel-init` skill and follow it exactly:
    changed once the tree exists. Five candidates across five distinct strategies, screened, three
    presented with what each promises and what each costs; then the 60–120 word blurb written
    against the chosen title. For fan fiction the source work goes in the title line
-   (`Naruto: The New God of Shinobi`) — readers browse by fandom, and a title without it is
+   (`<Source Work>: The New God of Ash`) — readers browse by fandom, and a title without it is
    invisible to its only audience.
 4. Copy `novels/_template/` to `novels/<slug>/` and fill in every file in the order the skill
    specifies — `novel.md` first, then bible, MC, love interest, rest of cast, arc plan, chapter

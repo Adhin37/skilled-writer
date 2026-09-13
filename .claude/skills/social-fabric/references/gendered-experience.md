@@ -41,8 +41,8 @@ it varies by society, by class, by scene, and by each character's stance.
 
 ## 1. Declare the terms, per novel
 
-Gender norms are a setting, not a constant, and they are not the same in Konoha, Gormenghast and a
-generation ship. Answer these in `bible/society.md` §Gendered terms, in one line each. Where the
+Gender norms are a setting, not a constant, and they are not the same in a garrison town,
+Gormenghast and a generation ship. Answer these in `bible/society.md` §Gendered terms, in one line each. Where the
 answer is "no difference", write that — it is a real answer and it must then hold everywhere.
 
 | question | what it decides on the page |

@@ -20,17 +20,21 @@ invisible to the only audience it has.
 Default form — **prefix, colon, title**:
 
 ```
-Naruto: The New God of Shinobi
+Ironhelm: The New God of Ash
 ```
+
+Below, *Ironhelm* stands in for whatever `fanfic.source` holds and *Duskwatch* for one of its
+canon places — substitute this novel's own.
 
 | form | when | example |
 |---|---|---|
-| **Prefix + colon** *(default)* | almost always | *Naruto: The New God of Shinobi* |
-| **Embedded** | only when a canon proper noun sits naturally inside the title *and* is as searchable as the source name | *The Hokage Who Stayed Dead* · *Reborn in Konoha* |
-| **Prefix + embedded** | never — it stutters | ~~*Naruto: Reborn in Konoha*~~ |
+| **Prefix + colon** *(default)* | almost always | *Ironhelm: The New God of Ash* |
+| **Embedded** | only when a canon proper noun sits naturally inside the title *and* is as searchable as the source name | *The Warden Who Stayed Dead* · *Reborn in Duskwatch* |
+| **Prefix + embedded** | never — it stutters | ~~*Ironhelm: Reborn in Duskwatch*~~ |
 
 Choose embedded only if you can name the search term a reader would type and point to it in the
-title. *Konoha* qualifies. *Hogwarts* qualifies. A minor character's name does not.
+title — a capital, a school, an order, the word on the cover. *Hogwarts* is the shape of a term
+that qualifies. A minor character's name does not.
 
 Use the **source's most-searched name**, not its most correct one — the form on the anime/manga
 cover a reader would recognise, matching `fanfic.source`. If the work is known by two names, use

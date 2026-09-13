@@ -197,7 +197,7 @@ Share is how *much* the cast speaks. This is whether it sounds spoken.
   marks, and all four are invisible to share, fragment rate and contraction rate:
   1. **Stacked subordinate clauses** — three or more `because` / `since` / `which` / `and I` limbs
      in one turn, each qualifying the last.
-  2. **The rhetorical aside** — a parenthetical inserted for effect (*"and I include grown shinobi
+  2. **The rhetorical aside** — a parenthetical inserted for effect (*"and I include the veterans
      in that"*). Speech has asides; it does not aim them.
   3. **The epigram close** — a turn landing on a balanced aphorism. Good once a book. A cast where
      everyone does it is one writer talking to themselves in several hats.

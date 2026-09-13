@@ -250,8 +250,8 @@ def _debuts(novel, rep, rows):
     if found:
         lines.append("   `speaks after` is the words between a character's first mention and "
                      "their first line.")
-        lines.append("   `matched` is the name token that was found - a clan name shared with "
-                     "the world (`Uchiha`) can")
+        lines.append("   `matched` is the name token that was found - a clan or house name "
+                     "shared with the world can")
         lines.append("   match before the person does, and no counting rule separates the two. "
                      "Read it and discount it.")
         lines.append("   Printed, never scored: deferring a placement is a choice, and doing it "

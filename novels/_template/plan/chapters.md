@@ -24,7 +24,7 @@ Column meanings — every middle column is mandatory before a row may be drafted
 - **obstacle** — what stands in the way, with a will of its own where possible.
 - **turn** — the thing that is not what the POV character expected. Every chapter turns.
 - **event** — the thing that *happens*, in one clause a reader could retell: a concrete verb and
-  a target. "She lies to the Hokage about the recovery list." Not a state, not an effect, and
+  a target. "She lies to the inspector about the missing shipment." Not a state, not an effect, and
   never an abstract noun — `trust`, `proximity`, `attention`, `tension` and their family are
   rejected outright, because they describe what an event *did* rather than the event. This is the
   column that stops a chapter being 1,100 words of somebody's interior weather, and the beat it

@@ -76,7 +76,7 @@ Ranked by cost, cheapest first. Same ladder as `world-texture` §1, applied to o
 | 1 | **A rule biting someone** | Rations are recounted because the war budget moved — now the reader knows there is a war, an authority, and scarcity, and nobody explained anything |
 | 2 | **A character working around the world** | She performs bad handwriting on purpose, because literacy in a four-year-old is a thing that gets *noticed here* |
 | 3 | **An unexplained assumed reference** | "You'll test for the Academy like everyone else." Nobody says what the Academy is. The reader now knows one exists, that it tests, and that it is normal |
-| 4 | **Direct statement** | "Konoha had been at war for six years." Costs the most; budget it |
+| 4 | **Direct statement** | "Thornhall had been at war for six years." Costs the most; budget it |
 
 **One named proper noun a reader could search is worth three pages of atmosphere.** The name is
 the anchor. A story that withholds the name of its own world is not being mysterious.
@@ -234,8 +234,8 @@ The blurb makes a promise. The page has to keep it.
 > **`opening.promise` must be *touched on the page* by `promise_touched_by_ch` (default 3), and
 > the MC's central advantage must land one legible win by `first_win_by_ch` (default 5).**
 
-The defect this prevents is specific and common: a blurb that promises *"she knows what's coming
-for the Uchiha"* attached to ten thousand words in which the MC never once thinks about the future.
+The defect this prevents is specific and common: a blurb that promises *"she knows which house
+falls first"* attached to ten thousand words in which the MC never once thinks about the future.
 The blurb is not marketing that happens near the book. It is the contract, and readers arrive
 holding it.
 

@@ -95,7 +95,7 @@ Work in batches of 10–12.
    invented first is a title the chapter has to serve.
 
    **`event`** is what *happens*: one clause a reader could retell, a concrete verb and a target.
-   *"She lies to the Hokage about the recovery list."* Abstract-state nouns — `trust`,
+   *"She lies to the inspector about the missing shipment."* Abstract-state nouns — `trust`,
    `proximity`, `attention`, `tension`, `doubt` — are rejected, because they name what an event
    did rather than the event. If a row has no event, the chapter has nothing to dramatize and
    gets merged with a neighbour.
