@@ -372,6 +372,39 @@ is, and no run before this one could have told the difference.
    chapters found* above. It held again: two defects, neither visible to any script, and the
    larger of them was a blind spot in the scripts themselves.
 
+## The two test novels
+
+Both were **deleted on 2026-09-13** to clear the working tree for run #5. `novels/` is gitignored,
+so this section is the only surviving record of what they were.
+
+| | run #3 | run #4 |
+|---|---|---|
+| slug | `naruto-will-not-be-sealed` | `naruto-heiress-remembers-wrong` |
+| title | *Naruto: I Will Not Be Sealed* | *Naruto: The Heiress Who Remembers Wrong* |
+| chapters | 5, all `revised` | 6, all `revised` — ch 6 is the cold one |
+| body words | 4,695 | 5,904 warm · 7,153 including ch 6 |
+| how it shipped | coordinator-directed redraft of all five | first pass, no human intervention |
+
+Chapters in order, with word counts:
+
+- **run #3** — The Morning Lesson (1,190) · A Precedent (978) · What the Field Saw (789) · The
+  Question She Couldn't Answer (819) · Ask Me Again (919)
+- **run #4** — Within Range (1,728) · The Council Decided (1,120) · Lord Third (1,028) · A Small
+  True Thing (952) · What Sachi Saw (1,076) · **Past Fifteen Seconds** (1,249, the cold session)
+
+**Final `sw audit`, taken the day they were deleted, under the current toolkit.** These are not
+comparable to the run-time figures, and the gap is the point:
+
+| | at run time | 2026-09-13, final |
+|---|---|---|
+| run #3 | 0 defects, 16 warnings | **0 defects, 19 warnings, 50 notes** |
+| run #4 | 0 defects, 11 warnings | **0 defects, 17 warnings, 49 notes** |
+
+Not one word of either novel changed. The toolkit did: notes now feed both habit detectors
+(finding A), so recurring work that could not reach a warning at run time is counted here. **A
+run #5 comparison must be made against this column**, never against the run-time numbers — which
+is the same trap finding A describes, one level up.
+
 ## Reproduce it
 
 ```bash
@@ -386,8 +419,9 @@ python3 scripts/sw.py trace  --session <agent-id>
 time window alone is not enough either: the session driving an agent runs in the same repo at the
 same time. Use `--session`.
 
-**The novels are not in the repo.** `.gitignore` excludes everything under `novels/` except the
-template. The numbers here and the test suite are the surviving artifacts.
+**The novels are not in the repo**, and as of 2026-09-13 they are not on disk either.
+`.gitignore` excludes everything under `novels/` except the template, so the numbers here, the
+section above and the test suite are the surviving artifacts.
 
 ### The measurement rules that produced these numbers
 
