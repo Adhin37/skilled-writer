@@ -301,12 +301,23 @@ CARD_BUDGET = {"draft-card": 12, "audit-card": 15}
 # exactly what its two halves cost separately and nothing, anywhere, objected. That is the hole
 # this closes: the ratchet was on the wrong number.
 #
-# Set a hair above the measured figure, so a wording fix is free and a genuine addition is not.
-# It is a CEILING to be lowered, never a target to fill: the maintenance task is to cut toward
+# Raised 2026-09-13: 6400 -> 7600 and 6800 -> 8000. It had been set a hair above the measured
+# figure, and the hair turned out to be one word - the draft cards stood at 6399/6400 and the
+# audit cards at 6775/6800, so a wording fix had to be paid for with a cut somewhere else and
+# the ceiling was bounding rephrasing rather than growth. The harness now compresses context by
+# default, subagents included, so what a card costs to CARRY stopped being scarce. What a
+# drafter holds open at once did not, which is why `CARD_BUDGET` above does not move.
+#
+# The raise is sized as ONE WORKED EXAMPLE PER CARD, ~110 words, and that is what it is for.
+# `CLAUDE.md` section 8 makes the spend asymmetric: length spent on an example is a better card,
+# length spent on another prohibition is the failure this was built against. The number to watch
+# on a card is its count of things you must not do, never its word count.
+#
+# Still a CEILING to be lowered, never a target to fill: the maintenance task is to cut toward
 # it and then lower it again. `docs/creative-latitude.md` item 6 is the standing work.
 #
 # What it does NOT license is cutting advice to hit a number. The two obvious cuts named in that
 # plan are already spent - `sw health`'s duplication rule means there is not one checkbox text
 # shared between any two skills, and the boxes that merely restated a `sw lint` finding were
 # taken in the same pass. What is left is prose, and prose is where the advice lives.
-CARD_WORD_BUDGET = {"draft-card": 6400, "audit-card": 6800}
+CARD_WORD_BUDGET = {"draft-card": 7600, "audit-card": 8000}

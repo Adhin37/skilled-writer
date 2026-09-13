@@ -11,6 +11,10 @@ agent regardless of harness.
 - Two kinds of reference are load-bearing. A **draft card** makes one decision in Phase A; an
   **audit card** checks one thing in the gate. Modules are reached through their cards, never
   through their `SKILL.md` — the body is for designing the thing, the card for deciding it.
+- Cards are short for **attention**, not for context. The budget that binds is how many rules a
+  drafter holds open at once; the window stopped being the scarce resource once the harness
+  started compressing by default. Length spent on a worked example is fine and length spent on
+  another prohibition is not, whatever the file size.
 - Slash commands live in `.claude/commands/*.md`.
 - Stories live in `novels/<slug>/`. The scaffold is `novels/_template/`.
 - `novels/<slug>/novel.md` is the per-novel config: genre, POV mode, MC intel tier, channels,
@@ -34,7 +38,8 @@ blocks and plan rows in range, open threads, the cast rows for this chapter's sp
 clock, and what the gate keeps having to fix. **Do not open the source files for anything it
 contains**, and a module it does not list is off for this novel. Without Python, the list it
 assembles is written out in `continuity-summary`, and you say in the report that you did it by
-hand.
+hand. The rule is against re-reading what you already have, not against reading: a field that
+arrives missing or truncated is fetched from its source and named in the report.
 
 Afterwards: one CCS block appended to `state/continuity.md`, plus `state/threads.md`,
 `state/growth.md`, `state/timeline.md`, and `state/body.md` on a form change. A chapter written
@@ -57,7 +62,7 @@ without this is a bug.
 ## Before you commit a change to the toolkit
 
 ```bash
-python3 -m unittest discover tests   # 382 tests
+python3 -m unittest discover tests   # 388 tests
 python3 scripts/sw.py health         # wiring, scope claims, duplication, the budgets
 python3 scripts/sw.py selftest       # builds a novel in a temp dir; proves every check fires
 ```

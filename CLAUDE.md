@@ -162,7 +162,9 @@ resolve both against this novel's config. Opening a module's `SKILL.md` mid-draf
    the **active modules** for this novel with the file to open for each, digests, blocks N−5…N−1,
    plan rows N−1…N+2, open threads, and the cast rows for this chapter's speakers. It is the whole
    read-set: do not open the source files for anything it contains, and a module it does not list
-   is off for this novel.
+   is off for this novel. The rule is against re-reading what you already have, not against
+   reading — a field that arrives missing or truncated is fetched from its source and named in the
+   report, because a drafter guessing at a field is worse than one that opened the file.
 2. **State after prose.** Every finished chapter appends one CCS block to `state/continuity.md`
    and updates `state/threads.md` and `state/growth.md`, plus `state/body.md` on a form change.
    A chapter written without this is a bug.
@@ -260,9 +262,15 @@ resolve both against this novel's config. Opening a module's `SKILL.md` mid-draf
     least once. The narrator never states the lesson (`revision-pass` Pass 9d).
 14. **No bias inheritance.** See `bias-guard`. This overrides genre convention, user-supplied
     tropes, and reference material.
-15. **Token discipline.** Load the bounded read-set, not the whole novel. Never read past chapter
-    files unless the user asks for a specific one. Cast depth is tiered the same way: a walk-on
-    gets three strokes and one roster line, never a psychology. See §9.
+15. **Load what is relevant, not what fits.** Load the bounded read-set, not the whole novel.
+    Never read past chapter files unless the user asks for a specific one. Cast depth is tiered
+    the same way: a walk-on gets three strokes and one roster line, never a psychology. See §9.
+    This stopped being a token rule on 2026-09-13: the harness compresses context by default,
+    subagents included, and the window is no longer the scarce resource it was when the read-set
+    was drawn. What is still scarce is **attention** — a fact loaded is a fact competing with the
+    chapter for it, and a model handed the whole novel writes the average of it. So the slice
+    stays and the ceilings above it loosen; where the extra room goes is §8, into examples rather
+    than into more rules.
 16. **Write files, don't dump prose to chat.** Chapters go to `novels/<slug>/chapters/`. Report the
     path and a two-line summary.
 
@@ -438,6 +446,14 @@ written by the skill that owns it. The two are a pair and both stay: a **draft c
 checks**. Neither dispatcher paraphrases its sources; both open the owner's file, and the file is
 small enough to be worth opening. Rationale: [design notes](docs/design-notes.md).
 
+**15–40 is a shape, not a ceiling, and what a card may spend length on is asymmetric.** A card
+that runs long because it carries a **worked example** — the rule landing well, in a sentence or
+an exchange somebody could imitate — is a better card, and the repo's own measurement says so:
+positive exemplars went 0 → 20 and were the highest-value thing the latitude pass added. A card
+that runs long because it carries **another prohibition** is the failure this whole section was
+built against, whatever the file size. So length is cheap and rules are dear: the number to watch
+on a card is its count of things you must not do, never its word count.
+
 **Cite sections, never line numbers.** `hook-and-pacing` §Openings survives an edit;
 `hook-and-pacing:38-39` rots the moment a paragraph is added above it, and rots silently.
 
@@ -509,11 +525,27 @@ The last five review the **process** rather than the novel, and the same rules b
 counts what a drafter is handed and scores no chapter — its enforced numbers are the **card
 budget** and the **word budget** beside it, both binding the corpus rather than any novel, so past
 the first a new rule merges into the card that already owns its neighbourhood instead of opening a
-file, and past the second an addition has to be paid for with a cut — a merge does not pay for
-itself ([docs/creative-latitude.md](docs/creative-latitude.md)), `trace`
+file, and past the second an addition is paid for with a cut, or the ceiling is raised on purpose
+in `rules.CARD_WORD_BUDGET` with the reason written beside it
+([docs/creative-latitude.md](docs/creative-latitude.md)), `trace`
 measures a run and scores nothing, `history` prints trends and raises no defect of its own — its
 cross-chapter findings are warns, and `audit` is where they are meant to be read — `health` checks
 wiring and says nothing about whether a skill's advice is good, and `selftest` proves the pipeline
 runs without proving any chapter is worth reading. `trace` is the only command that reads outside
 the repo; it takes usage, timestamps and tool names from Claude Code's transcripts and never
 prompt text, tool results or prose. See [scripts/README.md](scripts/README.md).
+
+**The two budgets answer different scarcities, and only one of them got cheaper.** The card count
+bounds how many rules a drafter holds open at once, which is an attention argument and a measured
+one: run #2 opened nineteen cards, held roughly thirty simultaneous constraints, and shipped five
+chapters in which nothing happened. No size of context window buys that back, so the count budget
+does not move — and neither does the Phase A/Phase B split, which exists for the same reason. The
+word budget bounded what those cards cost to *carry*, and carrying is the thing that got cheap. It
+stays a ceiling rather than a target, it is raised deliberately rather than drifted past, and rule
+15 decides what the extra room may hold: examples, not prohibitions.
+
+One caveat that runs the other way. A compressing harness compresses **tool output**, and the
+read-set arrives as tool output while a skill file arrives as a file read. So the thing most likely
+to reach the drafter lossy is the state, not the corpus. If a read-set comes back short a field,
+re-run it or open the source and say which you did: reading a file is not the expensive move, and
+a drafter guessing at a field it never received is worse than one that opened `bible/`.
