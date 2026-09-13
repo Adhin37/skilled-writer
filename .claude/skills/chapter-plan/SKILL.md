@@ -154,13 +154,13 @@ Four deadlines are not a shape. They say how fast the reader must be *told* thin
 about what the reader has *watched*, and a plan that satisfies all four can still open on a story
 already in progress. Rows 1–5 therefore also carry a temperature and a scene intent:
 
-| row | temperature | what it is for | the beat that must be **played**, not reported |
-|---|---|---|---|
-| 1 | low external, full internal | the ordinary world working, and something already wrong in it | the routine performed correctly, by someone who is good at it |
-| 2 | rising | the cost of the ordinary world; who has power here | a rule biting somebody — ideally not the MC |
-| 3 | rising | the first real attempt, and its price | the attempt, in full, including the part that fails |
-| 4 | hot | the frame turns toward the MC | the moment the MC becomes visible to the thing that matters |
-| 5 | hot | the MC acts and pays | the payment |
+| row | temperature | what it is for | the beat that must be **played**, not reported | world entry — one fact, and the channel carrying it |
+|---|---|---|---|---|
+| 1 | low external, full internal | the ordinary world working, and something already wrong in it | the routine performed correctly, by someone who is good at it | what kind of world this is — a rule visibly in force, as consequence |
+| 2 | rising | the cost of the ordinary world; who has power here | a rule biting somebody — ideally not the MC | who pays whom: money, labour or permission, as friction |
+| 3 | rising | the first real attempt, and its price | the attempt, in full, including the part that fails | the institution or the ladder, as an assumed reference nobody explains |
+| 4 | hot | the frame turns toward the MC | the moment the MC becomes visible to the thing that matters | what the mechanism does to a person, as consequence |
+| 5 | hot | the MC acts and pays | the payment | what the world charges, as friction the MC works through |
 
 **Row 1's temperature is about external danger only.** It still costs the POV character something,
 still turns, still hooks — `conflict-engine` and the skim test do not switch off for chapter 1. What
@@ -169,6 +169,15 @@ low temperature buys is *room to play the beat* rather than report it.
 **The scene-intent column is the point.** Each of those beats is exactly the kind an outline
 compresses: "she had done this four times before", "the wards had never failed until now". Written
 as a plan row, they get chapters. Left to the draft, they get clauses (`story-craft`).
+
+**The world-entry column is a curve where the deadlines are only a floor.** `anchor_by_ch` says
+when a reader must be oriented. It does not say which fact arrives in chapter 4 — so an opening
+can meet every deadline by spending the entire world in chapter 1 and leaving rows 2–5 nothing new
+to give. That reads as front-loading at the time and as a thin world by chapter 8. One fact per
+row, each named with the channel that delivers it; `world-texture` owns the channel ladder and the
+budget. The entries above are defaults, not a schema — replace them with this book's facts. And a
+fact that arrives only as mood has not arrived: the row is kept when somebody handles something.
+The pace those five rows set is the one the book is then held to (`story-opening` §2).
 
 **The frame rule.** *An escalation rung may not be scheduled before the frame it depends on.*
 Before planning a chapter in which being noticed is dangerous, find the earlier row where the

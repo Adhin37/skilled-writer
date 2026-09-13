@@ -21,10 +21,12 @@ each chapter, name the one thing a reader would miss. If you cannot, merge it wi
 
 ## Serial-specific practices
 
-- **The retention curve** is `story-opening`'s — it owns the chapter-1 figures and what they
-  imply about where the effort goes.
-  therefore has its own skill — **`story-opening`** owns the anchor, the genre contract, the
-  promise ledger and the stakes ceiling for everything up to `opening.contract_by_ch + 2`.
+- **The opening is a different job and has its own skill.** `story-opening` owns the retention
+  curve — the chapter-1 figures and what they imply about where the effort goes — along with the
+  anchor, the genre contract, the promise ledger and the stakes ceiling, for everything up to
+  `opening.contract_by_ch + 2`. It also sets the **pace contract**: the rate those first chapters
+  promise, recorded in `opening.pace_contract`. This skill takes the wheel afterwards, and keeping
+  that rate is most of what the temperature ledger and the rhythm below are for.
 - **Front-load the promise.** Chapters 1–3 must establish the MC's want, the world's constraint,
   and the tone. Readers decide by chapter 3, sometimes by chapter 1.
 - **Chapter 1 is not a prologue.** Prologues are skipped. If the prologue material matters, it is

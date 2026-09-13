@@ -19,6 +19,8 @@ scene shape, and before bias, so any world or cultural material it adds is still
       direct description
 - [ ] **2–4 sensory details per scene**, at least one non-visual, none delivered as a block. This
       file owns that number; no other skill states it
+- [ ] **Something in this world got handled.** Name the noun the POV character picked up, pushed
+      past or paid for. Sensed-only means atmosphere, which no budget here catches
 - [ ] No establishing paragraph, no run over three descriptive sentences, no gazetteer sentence,
       no history lecture, no explanation of a reference made two pages earlier
 - [ ] Every location hit its `bible/world.md` sensory signature within 100 words of arrival, and a

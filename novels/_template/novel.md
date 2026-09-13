@@ -137,6 +137,8 @@ opening:
   promise_touched_by_ch: 3  # `promise` has reached the page, not just the blurb
   first_win_by_ch: 5        # the central advantage lands one legible win, before it fails
   stakes_ceiling: ""        # the worst thing allowed to happen before the frame is on the page
+  pace_contract: ""         # the tempo chapters 1–3 promise, in your own words. Never scored.
+                            # "one problem a chapter, solved or made worse; a tier takes fifteen"
 
 # ── THEME ────────────────────────────────────────────────────────────────────
 # What the book argues, and the best argument against it. Both are for the author:

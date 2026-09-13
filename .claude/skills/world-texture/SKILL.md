@@ -14,15 +14,21 @@ metadata:
 `story-bible` and `social-fabric` decide what is **true**. This skill decides what reaches the
 **reader**, and in what quantity.
 
-Two opposite failures, both fatal, and most drafts contain both:
+Three failures, and most drafts contain more than one:
 
 | failure | symptom | cause |
 |---|---|---|
 | **Flat** | the scene could be anywhere; swap the proper nouns and nothing breaks | the world exists only in `bible/` |
 | **Bloated** | readers skim; chapters open with paragraphs of scenery and history | the world reaches the page as description instead of as pressure |
+| **Atmospheric** | the world is vivid and nobody handles it; light, weather, smell and mood do the work while the POV character stands in the place rather than working through it | the world reaches the page as *feeling* instead of as *object* |
 
 The fix for flat is never "add description". It is **more consequence, more friction** — the
 same detail count, doing work.
+
+**Atmospheric is the one the budget below cannot see**, because mood is not description: it is
+sensed, it arrives as interiority, and a chapter can be 4% description and still be entirely
+weather. It is also the measured default of machine-written prose, at two to three times the human
+rate and worst in a chapter's opening sentences — `references/narrative-space.md`.
 
 ---
 
@@ -31,6 +37,7 @@ same detail count, doing work.
 | file | open it when |
 |---|---|
 | `references/overbuilding.md` | the world reads as flat and generic, or as bloated — the symptoms of each, and how depth is implied rather than explained |
+| `references/narrative-space.md` | the world is vivid and inert — atmosphere where handling should be. The five kinds of space, what was measured, and the handled-noun repair |
 | `references/audit-card.md` | never, by you. `revision-pass` Pass 5 opens it |
 
 ## 1. The four delivery channels
@@ -53,6 +60,24 @@ channel 1   The toll-taker weighed her coat, decided it was worth a copper, and 
 channel 2   She went the long way around the fountain. Fountains had ears.
 channel 3   "Not on a levy day," he said, and that was the end of the plan.
 ```
+
+**The channel decides how much a fact costs. Mode decides whether it landed at all.** A place
+reaches a reader as something a person *handles* or as something that *washes over them*, and the
+second is the default a drafter falls into — measurably, in every chapter's first sentences.
+
+**The handled-noun test.** Name the noun this scene's POV character's hands or feet dealt with.
+Not looked at, not smelled, not felt the mood of: picked up, pushed past, climbed, paid for, put
+down. No such noun means the world was felt and not inhabited, however good the sensory writing.
+
+```
+felt        The forge-quarter smelled of hot iron, and the heat pressed against her face.
+handled     She turned her shoulder to get past the quench-barrel, and the heat came off
+            it hard enough that she took the long side of the aisle.
+```
+
+The repair is never more description and never less atmosphere — it is giving the same detail
+something to be in the way of. The evidence, and the three cheapest places to spend it:
+`references/narrative-space.md`.
 
 ## 2. The description budget
 

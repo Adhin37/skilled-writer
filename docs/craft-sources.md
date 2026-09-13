@@ -6,7 +6,8 @@ only — nothing here is loaded at runtime. The runtime knowledge lives in
 (benchmark finding 9).
 
 Researched 2026-09-09, prompted by a reader report that the generated novel "goes fast to the
-finish line", with no build-up of world or character.
+finish line", with no build-up of world or character. Extended 2026-09-13 with the world half; that
+pass is the second half of this file.
 
 ## The finding that shaped everything
 
@@ -37,6 +38,40 @@ detail is in each skill.
 | C4 | `chapter-one.md` gave world ~35% of chapter 1; `world-texture` capped description at ≤8% | stated: 35% is share of *attention*, 8% governs channel 4 only |
 | C5 | `story-bible` "introduce constraints when they bind" made a setup phase illegal | scoped to *explanation*; a constraint may be shown working before it binds |
 | C6 | "story velocity is read as competence" read as a licence to compress | qualified: cut bridges, never summarise beats |
+| C7 | `world-texture` capped **direct description** at ≤8% — the one mode models already match — while the mode they overproduce was unbudgeted, and is what `narrator-voice`'s free-indirect default produces | the budget still governs volume; §1 now governs **mode**, and the third failure is named *Atmospheric* (second pass, below) |
+
+## The second pass, 2026-09-13 — how the world arrives
+
+The first pass was about **events**: which beats get played. It said so itself, in
+`why-ai-rushes.md` implication 3 — *the failure concentrates in the second half, not the opening*.
+That is correct and it is why the opening had no pacing guard. This pass is about the **world**,
+and it lands in the opposite place.
+
+**The finding: models do not skip world-building, they deliver it in the wrong mode.** Human
+fiction grounds a storyworld in space characters *move through and act on*; machine fiction
+produces atmosphere — space that is sensed, moody, and never handled.
+
+| source | what it established | what it produced |
+|---|---|---|
+| [How LLMs Build Fictional Worlds, arXiv:2609.02482](https://arxiv.org/abs/2609.02482) | five kinds of narrative space after Rohrbacher (2025); human text runs on **action space**, all four models tested overproduce **perceived space** — openings 0.47 against a human 0.19, whole chapters 0.17–0.33 against 0.083, two to three times human even at their within-chapter low; stable across narrative time, present from chapter 1, peaking at every chapter boundary; **descriptive space is the category models match most closely** | `world-texture/references/narrative-space.md`; the *Atmospheric* failure row and the handled-noun test in §1; C7 above |
+| [WebNovelBench, arXiv:2505.14818](https://arxiv.org/abs/2505.14818) | scores LLM novelists against the web-novel distribution — this toolkit's exact genre — and names *Richness of Sensory Detail* a weak dimension for mid-tier models | supporting evidence for keeping `world-texture`'s 2–4 per scene as a floor, not only a ceiling |
+| [Lost in Stories / ConStory-Bench, arXiv:2603.05890](https://arxiv.org/html/2603.05890v1) | *World-building & Setting* is a first-class consistency-error category beside plot and character | supports `story-bible` and the `set>` line; no new rule |
+| [Royal Road: slow burn](https://www.royalroad.com/forums/thread/143611) · practitioner writing on serial pacing | the opening is a **tempo promise**; readers choose a serial on the rate the first chapters set, and breaking it late reads as betrayal — *"plot, promise, progression, and payoff, is how a slow burn keeps its heat"* | `opening.pace_contract`; `story-opening` §2 and its `pace-contract` slug |
+
+**Why it hits us harder than it hits the paper's subjects.** The authors note that each chapter was
+prompted separately, so every chapter start behaves like an opening and perceived space peaks at
+the boundaries. They treat that as an artifact. For us it is the production model — run #4 of the
+benchmark established a fresh session per chapter as the quality fix — so the peak is not an
+artifact, it is our steady state.
+
+**The caveat, kept deliberately.** The paper measures a textual divergence from human fiction and
+explicitly declines to say what it means for a reader; it notes that readers in one study rated AI
+stories as *more* absorbing. So this is grounds for a craft default, not for a gate — which is the
+same conclusion the first pass reached by a different road.
+
+**No check was written for it, and that is a decision.** Telling action space from perceived space
+needed fine-tuned BERT classifiers at macro-F1 0.82. A regex would be guessing, and a check that
+guesses is a number somebody writes toward (`docs/coverage-map.md`).
 
 ## What is measured, and what is deliberately not
 

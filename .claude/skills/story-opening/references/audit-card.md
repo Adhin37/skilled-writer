@@ -13,9 +13,9 @@ when: chapter <= opening.contract_by_ch + 2
 Opened by `revision-pass` **Pass 9b**, on chapters up to `opening.contract_by_ch + 2`. Skip
 entirely outside that range.
 
-Two of these are judgement calls a checklist cannot make, and this is exactly the pass that
-silently no-ops when it is worked from a summary. If the anchor test or the ceiling is close,
-open `SKILL.md` §1 and §3.
+Three of these are judgement calls a checklist cannot make — the anchor test, the ceiling, and the
+rate — and this is exactly the pass that silently no-ops when it is worked from a summary. If any
+of the three is close, open `SKILL.md` §1, §2 and §3.
 
 - [ ] **The anchor test.** Could a stranger reading only this chapter say what kind of story this
       is, where and when it happens, and what the POV character wants? Three shrugs is a fail
@@ -24,12 +24,19 @@ open `SKILL.md` §1 and §3.
 - [ ] Anchor-vocabulary count for this chapter is not zero — the `anchor? yes` terms in
       `bible/lexicon.md`. Across chapters 1–5 collectively, zero is a hard failure. `sw lint`
       prints the count and the terms it matched; a low but non-zero count is still a judgement call
+- [ ] **This chapter's world entry arrived, and it arrived as something handled.** Name the fact
+      `plan/chapters.md` scheduled for this row, and the noun the POV character pushed past, paid
+      for or picked up. Sensed only — smelled, lit, felt — is atmosphere, which no budget catches,
+      and the opening is where a drafter defaults to it hardest
 - [ ] **The stakes ceiling.** Has any consequence escalated past the reader's ability to price it?
       Before a threat is dangerous, its mechanism must have been on the page — not in the bible.
       A threat the reader cannot price reads as somebody being arbitrarily strict
 - [ ] `opening.promise` has been touched by `promise_touched_by_ch`
 - [ ] The central advantage lands a legible win by `first_win_by_ch`, before any failure
 - [ ] Chapter 1 only: the MC **acts**. They are not delivered through the chapter by other people
+- [ ] **The rate is the declared one.** This chapter runs at `opening.pace_contract` — one problem
+      or three, an arc's question or a chapter's — rather than quietly promising a tempo the rest
+      of the book will not keep. At this chapter's rate, what would chapter 40 be?
 
 **The genre contract.** By `opening.contract_by_ch`, a reader can say what kind of pleasure this
 book is offering, and the page has delivered a sample of it rather than a promise of it.

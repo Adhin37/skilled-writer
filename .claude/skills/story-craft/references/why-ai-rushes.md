@@ -43,9 +43,13 @@ moments with a summary".
 2. **The lever is concreteness, not word count.** Length gating was removed from this repo twice for
    being gameable. Concreteness is the quantity that actually matters, and its countable proxy is
    whether a turn sits inside a past-perfect clause.
-3. **Watch the second half hardest.** The measured failure concentrates at the setback and the
-   climax, which in a 25-chapter arc is `chapter-plan`'s rows 12–14 and 23–24 — not the opening.
-   The opening complaint and this one have the same cause and different locations.
+3. **Watch the second half hardest — for events.** The measured failure concentrates at the setback
+   and the climax, which in a 25-chapter arc is `chapter-plan`'s rows 12–14 and 23–24 — not the
+   opening. The opening complaint and this one have the same cause and different locations.
+   **This is about which beats get played, and it is not a clearance for the opening.** The other
+   half of pacing — how the *world* arrives — was measured later and sits in the opposite place:
+   the skew is largest in a chapter's first sentences and peaks again at every chapter boundary.
+   `world-texture` owns it, in `world-texture/references/narrative-space.md`.
 4. **A model told only "be concise" will comply.** Every rule in `CLAUDE.md` §5 that bans padding is
    correct and none of them says what to spend words *on*. That asymmetry is why §5 now carries the
    build-up counterweight.

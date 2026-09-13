@@ -37,6 +37,9 @@ channel 3   "Not on a levy day," he said, and that was the end of the plan.
 decorating. **The fix for a flat world is never "add description"** — it is more consequence, more
 friction, the same detail count doing work.
 
+**Then name the noun somebody handles** — picked up, pushed past, paid for. Sensed-only is
+atmosphere, and no budget catches it.
+
 ## The budget, per scene and per chapter
 
 Direct description **≤8% of the chapter's words** · sensory details **2–4 per scene**, at least one
@@ -57,4 +60,4 @@ not the same ones re-explained: its anchor, and only what has changed.
 Every detail must characterise the noticer, set up a later beat, anchor a location, carry a social
 fact, or create friction. The best do two.
 
-The world reads flat, or bloated: `references/overbuilding.md`.
+Flat, bloated or inert: `references/overbuilding.md` · `references/narrative-space.md`.

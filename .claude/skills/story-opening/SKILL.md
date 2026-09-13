@@ -6,7 +6,7 @@ metadata:
   tier: core
   force: structural
   when: always
-  owns: [world-anchor, genre-contract, promise-ledger, stakes-ceiling, retention-curve]
+  owns: [world-anchor, genre-contract, promise-ledger, stakes-ceiling, retention-curve, pace-contract]
 ---
 
 # story-opening
@@ -96,6 +96,18 @@ they have a vague unease, and it is indistinguishable from the feeling of readin
 canon so thoroughly that its absence is invisible to them. Grep is the cure: count occurrences of
 your five biggest canon nouns across chapters 1–5. **Zero is a bug.**
 
+### One world fact per chapter, on a named channel
+
+A deadline says *by when*. It does not say *which fact, in which chapter* — so an opening can meet
+every deadline above by spending the whole world in chapter 1 and delivering nothing new in 2
+through 5. That is the shape a reader calls front-loaded, and it is also how a book that opened
+rich starts feeling thin by chapter 8.
+
+`chapter-plan` §Arc 1 carries a **world entry** column for rows 1–5: the one fact that arrives in
+that chapter, and which delivery channel carries it. Fill it at plan time, before any of the five
+is drafted, and the anchor stops being a deadline and becomes a curve. A fact that arrives only as
+atmosphere has not arrived — `world-texture` owns the channels and that test.
+
 ## 2. The genre contract
 
 > **By `contract_by_ch` (default 3), a reader who liked chapter 3 can predict the *kind* of
@@ -117,6 +129,38 @@ Name the contract in `novel.md` → `opening.promise` and check it on the page:
 
 **Deliberate subversion is allowed, early and signalled.** If chapter 40 breaks the contract,
 chapter 3 must contain the thing that, on reread, was the warning.
+
+### The pace contract
+
+> **The opening promises a *rate* as well as a kind, and a reader trusts the rate long after they
+> have stopped noticing anything else about chapter 1.**
+
+Nobody announces it and no reader could quote it. But someone who liked chapter 3 has already
+measured how much happens in one chapter, how long a problem is allowed to stay open, and how far
+the MC moved in three — and that measurement is the tempo they subscribed at. It is why the
+complaint that ends a subscription is rarely *"too slow"*, since plenty of slow books hold their
+readers. It is *"it changed"*.
+
+The trap belongs to openings specifically: an opening drafted to convert runs faster than the book
+can sustain. Three chapters that raise a problem and settle it inside the chapter, followed by an
+arc where one question runs for twelve, is a broken promise even when nothing in that later arc is
+badly written.
+
+So write the rate down before chapter 1, in `novel.md` → `opening.pace_contract`, in your own words:
+
+| this book runs at | say it like this |
+|---|---|
+| one problem a chapter | *"each chapter raises one problem and closes it or makes it worse; an arc runs five"* |
+| a slow burn | *"a question stays open for a whole arc; one tier every fifteen chapters, and the price is visible three chapters before it is paid"* |
+| episodic serial | *"a self-contained chapter, one running thread underneath it, paid every tenth"* |
+
+Then **chapters 1–3 are written at that rate**, not at whatever rate converts best. Whatever they
+do *is* the promise, so the cheap way to keep a pace contract is an honest opening rather than a
+faster book.
+
+**Nothing scores this.** Like the ending contract `timeline-engine` owns, it is the author's own
+sentence, checked by reading it against the page. This skill sets it; `hook-and-pacing` keeps it
+for the rest of the book, through the register ledger and the arc rhythm it owns.
 
 ## 3. The stakes ceiling
 

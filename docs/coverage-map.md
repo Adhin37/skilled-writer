@@ -15,7 +15,7 @@ skill good* but *is there a subject with no owner at all*. Grepping the corpus f
 candidates returned zero hits for emotional intelligence, "read the room", age-appropriate,
 logistics, ecology and "group scene".
 
-Corpus: **44 skills, 111 reference files — 26 draft cards, 29 audit cards, 56 others — 115
+Corpus: **44 skills, 114 reference files — 26 draft cards, 29 audit cards, 59 others — 117
 concepts.** `sw kb list` prints the live index and ends with those totals. `sw load` prints what
 one chapter of a given novel actually resolves to, which is the number that matters and is always
 smaller: a module that is off for this book costs nothing.
@@ -45,6 +45,7 @@ smaller: a module that is off for this book costs nothing.
 | Person, tense, distance, the four channels | `narrator-voice` | body · `references/filtering.md` | draft card (B) · audit 10 | always |
 | Whether the book switches viewpoint | `pov-switch` | body | draft card · audit 2 | `pov.mode != single` |
 | What the first chapters owe the reader | `story-opening` | body · `references/chapter-one.md` | draft card · audit 9b | ch ≤ contract+2 |
+| **The rate those chapters promise — `pace-contract`** | `story-opening` | body §2 | draft card · audit 9b | *new* · ch ≤ contract+2 |
 | What the book argues, and the case against | `revision-pass` | `references/owned-passes.md` §9d | audit 9d | `theme` set |
 | The ending contract, and what may never be taken | `timeline-engine` | body §The ending contract | `plot-threads`' card · audit 4 | always |
 
@@ -60,6 +61,8 @@ smaller: a module that is off for this book costs nothing.
 | **Religion, ritual, oaths, taboo** | `social-fabric` | `references/belief-and-ritual.md` | — | *new* · the story enters it |
 | How gender is lived in this society | `social-fabric` | `references/gendered-experience.md` | — | design |
 | How any of it reaches the page, at a budget | `world-texture` | body · `references/overbuilding.md` | draft card · audit 5 | always |
+| **Whether it is handled or only felt — the mode, not the volume** | `world-texture` | body §1 · `references/narrative-space.md` | draft card · audit 5 | *new* · always |
+| **Which world fact arrives in which of chapters 1–5** | `chapter-plan` | body §Arc 1 | `story-opening`'s cards | *new* · arc 1 |
 | Magic, cultivation, superhuman rules | `power-system` | body · **`references/system-design.md`** | **draft card · audit 5** | fantasy/scifi/progression |
 | Technology, the one speculation, second-order effects | `tech-plausibility` | body | **audit 5** | scifi |
 | Canon facts, the divergence point, the OOC budget | `fanfic-canon` | body · `references/canon-handling.md` | **draft card · audit 5** | fanfic |
@@ -129,6 +132,11 @@ modules included.
 Bold rows above are what this pass added: **17 module cards, 7 audit cards for always-on skills
 that had none, 2 new skills and 12 new references.**
 
+**Three of the bold rows are later and are not in those counts** — the world pass of 2026-09-13,
+which added no skill and no card: `world-texture`'s mode rule and its `narrative-space.md`,
+`chapter-plan`'s world-entry column for chapters 1–5, and `story-opening`'s `pace-contract`, a
+config slot rather than a check. Provenance: [craft-sources.md](craft-sources.md) §The second pass.
+
 **`social-perception` has no card of its own.** It was written with one and the card budget
 took it the same day: its draft half sits on `mc-intel-meter`'s draft card and its audit half
 is Pass 3b on `mc-intel-meter`'s audit card, each naming both owners ([creative-latitude.md](creative-latitude.md)
@@ -161,6 +169,12 @@ So the next sweep does not re-litigate it.
   `voice-separation/references/age-register.md` states that age does not get an axis. A check
   that guesses is a number somebody writes toward. The group-scene note has no such problem —
   three speakers in a scene is a fact, not an inference — so that one exists.
+- **A lint check for narrative space.** The atmosphere failure — a world that is vivid, inside
+  every budget, and never handled — is measured and real, and it stays a craft default carried by
+  `world-texture/references/narrative-space.md` and one box on each of two cards. Separating action
+  space from perceived space took the source paper fine-tuned classifiers at macro-F1 0.82. A
+  regex over mood words would be inferring, which is the same objection as the bullet above, and a
+  chapter would be edited to beat it. The handled-noun test is a question a person answers.
 - **Any addition to `CLAUDE.md` §5.** The seven commitments and ten bans are unchanged. That
   section's own history — a hundred prohibitions that a machine-written novel satisfied completely
   — is the reason expansion goes into knowledge and wiring rather than into more rules.
