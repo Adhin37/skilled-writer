@@ -208,6 +208,19 @@ output, including every one that no script could see.
   construction, and a run with no positive controls cannot tell a working mechanism from an
   unexercised one.
 
+**The procedure for this step is [`reader-review.md`](reader-review.md).** Follow it rather than
+reading however you happen to read: it fixes the order (blind pass, then reconcile against
+`bible/` and `state/`), the output shape, and the 0–5 scale, which is what makes one run's read
+comparable with the next one's. It stays in `docs/` for the same reason this file does — a rubric
+the drafter can see is a rubric the drafter writes toward.
+
+The instruction has been here since run #1 and the procedure has not, which is why §8 has been the
+most valuable step in this protocol and the least reproducible. A cold read of run #5 returned
+**3 / 5** on plot-starvation and register monotony against **0 defects** from `sw audit` and an
+in-run impression of *"the prose is good and the dialogue is the best any run has produced"*
+(`benchmark.md`, *What the chapters look like*). Three instruments, three answers, and nothing in
+the toolkit noticing they disagreed. §5 of the review procedure is about that disagreement.
+
 ### The measurement commands
 
 ```bash
@@ -302,7 +315,8 @@ during    [ ] agent brief: authoring only, no mention of measurement, do not rea
           [ ] claims verified against disk, not against the agent's report
 after     [ ] stopped at the declared count
           [ ] measurement commands run, trace scoped with --session
-          [ ] every chapter read by a human
+          [ ] every chapter read by a human, per reader-review.md
+          [ ] reader review: verdict, ranked findings, unowned findings, divergence
           [ ] fixes designed only now; one owner each; no numeric ship gate
           [ ] tests + health + selftest green again; audit diffed against the baseline
           [ ] write-up in benchmark.md; halves of a split run never pooled

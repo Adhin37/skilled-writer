@@ -21,10 +21,10 @@ Write **three one-line answers** to the chapter's central question — how the p
 actually happens — and take the second or third unless the first is clearly the best story.
 
 ```
-1  She confronts Halden about the ledger.                    <- the first thing anyone would write
+1  She confronts Marek about the ledger.                     <- the first thing anyone would write
 2  She lets him keep believing she hasn't noticed, and
    uses the afternoon he thinks he has.
-3  She tells Tsuru instead, who is the wrong person to tell.
+3  She tells Sabra instead, who is the wrong person to tell.
 ```
 
 Sixty seconds, and it is the only step in the whole draft loop that **widens** rather than

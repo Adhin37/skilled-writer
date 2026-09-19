@@ -329,13 +329,14 @@ def _group_scenes(novel, ch, rep):
     get an axis. A check that guesses is a number somebody optimises.
 
     **It counts speakers, not mentions.** Until benchmark run #5 it fired when three cast tokens
-    appeared anywhere in the scene, dialogue included - so chapter 4, a two-hander between Halden
-    and Verrick with one deliberately silent third party, was reported as six cast members, three
-    of whom were a name in a simile and two names inside the MC's own line. The note carried a
-    caveat telling the reader to discount it, which is an accurate description of a number that
-    should not have been the headline. The run #4 fix for the shared-token false positive settled
-    the principle: this match is used to *count speakers*, a stronger claim than a ledger row and
-    one nobody can discount by eye, so a bad signal is removed rather than annotated.
+    appeared anywhere in the scene, dialogue included - so chapter 4, a two-hander between the MC
+    and a senior official with one deliberately silent third party, was reported as six cast
+    members, three of whom were a name in a simile and two names inside the MC's own line. The
+    note carried a caveat telling the reader to discount it, which is an accurate description of a
+    number that should not have been the headline. The run #4 fix for the shared-token false
+    positive settled the principle: this match is used to *count speakers*, a stronger claim than
+    a ledger row and one nobody can discount by eye, so a bad signal is removed rather than
+    annotated.
 
     What replaces it is `speech_paragraphs`' attribution - a speaker counts when exactly one cast
     name appears in the narration outside the quotes - shared with `cmd_cast._turn_lengths` so the

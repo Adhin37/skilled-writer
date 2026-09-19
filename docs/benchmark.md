@@ -185,6 +185,126 @@ stale `wordcount: 0`. They are the toolkit correctly refusing to call an interru
 in the book, 56 and 63 words, are both past `TURN_CEILING` and both were inserted or left by the
 gate. That is not a coincidence; it is O20 below.
 
+That paragraph is an in-run impression and the section below disagrees with it. Both are kept.
+
+## Post-hoc cold read, 2026-09-19
+
+Added after the run closed, and the first uncontaminated read this repo has. The reader had not
+seen [`test-run-protocol.md`](test-run-protocol.md), this file, or any `bible/`, `state/` or
+`plan/` file, was not told the chapters came from a benchmark, and read only
+`novels/grain-beneath-the-lie/chapters/`. It is what produced
+[`reader-review.md`](reader-review.md), which is now the procedure for protocol §8; this section is
+that file's worked example in full.
+
+### Verdict: 3 / 5
+
+*Would read chapter 6; problems that would stop me by chapter 10.* Competent, atmospheric, well
+made at the sentence — and after five chapters and ~7,700 words there is still no story beyond *a
+man suspects the evidence was faked*. That gap is the whole of the score.
+
+### What works
+
+The central conceit is the best thing here: forensic magic as a **bureaucratic trade** — three
+ritual questions, flux on a cloth, an evidence tag checked twice, a report that "files clean". A
+fresh spine for a fantasy mystery, delivered through procedure rather than explained.
+
+**Chapter 3's control experiment is the smartest beat in the five chapters**, and the run's
+clearest positive control: the MC tests the phenomenon on a worthless training blank to rule out
+*this is just what strain feels like*. A protagonist who falsifies his own hypothesis is real
+mystery craft. *"Eleven-nineteen answered twice. This did it once, the way every clean thing is
+supposed to."*
+
+Chapter 2's chit is clean dramatic irony — he walks away relieved, the clerk logs the thing he was
+told did not happen. Mira's *"Look how well that worked"* is the best line in the book.
+
+### What cost it, ranked
+
+**1. Five chapters of prologue.** Inventory: reads a knife (1), is deflected (2), re-tests
+privately (3), is reprimanded (4), eats stew (5). One chapter of story stretched over five. Nothing
+is investigated, no suspect exists, no theory of the crime is advanced — not even a wrong one for
+the reader to hold. Jorin Cray is the entire emotional stake and gets **two lines and one walk
+across a room**; the murder victim has no name. Chapters 4 and 5 share an in-world day with four
+days left on the clock, and the chapter spends it at dinner.
+
+**2. One temperature, five times.** Five two-handers in a row, all in the same hushed key:
+Ada/exam room, Ilona/alcove, Ada/bench, Verrick/office, Mira/flat. No crowd, no street, no set
+piece, no tempo break. Nothing is loud, so the quiet has nothing to be quiet against. Every scene
+also closes on the same gesture — a small ironic withholding: *"did not let himself think about
+what he was actually signing"* · *"the case had a face"* · *"waiting only for the room to catch up
+to it"* · *"It didn't make the face any easier to read"* · *"He would have to go around it."* Any
+one of those is good. Five is a tic.
+
+**3. The prose is written in the negative.** 235 negative constructions in 7,700 words — *nothing*
+×31, *never* ×24. Things are described as what they are not: *"Not agreement. Not surprise
+either."* · *"not to speak but to the stack of case files"* · *"not like information handed over,
+but like a verdict already reached somewhere else."* And the signature move — **"That's not an
+answer"** — appears **four times across three chapters in two mouths**. When the antagonist and the
+love-interest-shaped-character reach for the same parry, they have stopped being two people.
+
+**4. One character, four functions.** Halden is real; nobody else is yet. Ada has one note and no
+interior life — her one cost, a favour spent for five days' warning, is asserted and never
+dramatized. Ilona appears once and vanishes for three chapters. Verrick is the officious bureaucrat
+from stock, down to *"sounded almost satisfied."* Thales is the biggest unforced error: a silent
+man who squares an unneeded file edge, and the chapter tells us **four separate times** that his
+face is unreadable. That is furniture with a label on it.
+
+**5. The world is named, not built.** Calderford, the Silt, Founding Row, the Compact, the Ebb log
+reset, the Bench — handsome nouns, and the reader could not draw the city, price a flux ration or
+place the century. The one piece of real texture, a mildew line from three winters of flooding,
+arrives in chapter 5. Worse for a mystery: **the threat cannot be priced.** What re-graining costs,
+who can do it, why it is believed impossible — all gestured at, so when Halden says the floor under
+his life is not solid, the reader takes his word rather than feeling it.
+
+**6. The reveal is monologued.** Chapter 5's turn — Mira believed Edon all along — is the emotional
+high point and arrives almost entirely as her speech. The father's ruin, the licence, his death:
+the most dramatic events in the book happened offstage six years ago and reach the reader as
+dinner-table exposition. The one properly dramatic beat is her setting the needle down, which she
+never does.
+
+### The three changes that would move it to a 4
+
+1. Give the reader a suspect or a theory by chapter 3 — not the answer, a shape. The antagonist is
+   currently *institutions, vaguely*.
+2. Break the two-hander. One chapter with three or more people in public, where the MC has to
+   manage a room instead of a conversation.
+3. Put the condemned man on the page as a person before his clock runs out. The stake is currently
+   an abstraction with a docket number.
+
+### What the instruments said
+
+Re-run 2026-09-19, after chapter 4's three defects were repaired: `sw audit` now reports
+**0 defects, 10 warnings, 52 notes**. This is the column that justifies the exercise.
+
+| cold-read finding | what the toolkit said |
+|---|---|
+| **1. no story underway after five chapters** | **nothing.** Every chapter carries a valid `event:` and `delivers:`, Pass Z passed on all five, `sw audit` returns 0 defects. No check looks across chapters and asks whether a story has started |
+| **2. five consecutive two-handers** | **nothing.** `sw arc` rotates `temp`/`hooktype`; `group-scene` is a situation note explicitly excluded from the WATCH row (`rules.SITUATION_NOTE_CHECKS`). Its inverse — a run of two-person scenes — is unmeasured |
+| **3a. negation density, 235 / 7.7k** | **nothing.** `house-style` counts `Not X.` fragments as one construction among several; the overall negative register is not a measure |
+| **3b. one line, four times, two mouths** | **nothing.** `echo` is within-chapter; no check finds an author signature recurring across chapters *and* across speakers |
+| **4. cast as functions** | **partial.** `arc-cast` warned *only one matrix character appears in the whole arc* — that is rotation, not depth, and cannot see that Thales is furniture |
+| **5. world named, not built** | **nothing**, by construction: every tool reads `bible/`, so no tool can notice a fact that never left it |
+| **6. climax monologued** | **partial.** Four `texture` notes on 45+ word turns, including the 56- and 63-word ones, correctly flag the symptom |
+| — | `house-style` 3/5, `texture` 3/5, `weasel` 3/5, all correctly surfaced as drafting habits |
+
+**Five findings have no owner** — `sw kb owner` resolves nothing for 1, 2, 3a, 3b and 5. Those are
+the toolkit's blind spots, and no other instrument in the repo could have produced them.
+
+The second, structural gap: `sw audit --show note` emits **52 unranked notes**, and a reader
+produces six ordered reasons and a verdict. Nothing converts findings into *would a reader
+continue?*, and ranking is most of what a review is.
+
+### Divergence
+
+| source | verdict |
+|---|---|
+| in-run impression | *"the prose is good and the dialogue is the best any run has produced"* |
+| `sw audit`, re-linted | 0 defects, 10 warnings, 52 notes |
+| cold read | **3 / 5**, plot-starvation and register monotony |
+
+Recorded, not reconciled. Per [`reader-review.md`](reader-review.md) §5, the in-run impression is
+the suspect one: the coordinator approved every brief and knew what each chapter was for, which is
+exactly the read a published serial never gets.
+
 ## Toolkit defect log
 
 Severities: **D** defect · **P** positive control · **C** confound (harness, not toolkit) ·
@@ -534,6 +654,7 @@ In rough order of what each would settle per unit of effort.
 
 | | why it is next |
 |---|---|
+| **Run the reader review as a first-class step**, per [`reader-review.md`](reader-review.md) | new on 2026-09-19 and exercised once, on this run's own output. Two things to measure: whether a second blind reader lands within one point of 3/5 on the same five chapters, and whether the unowned-findings column stays the most useful output. If it reproduces, §8 has a procedure; if it does not, it is a rubric and should be cut back |
 | **Interrupt a chapter on purpose**, mid-Phase C, and count cards on resume | the only cheap way to arbitrate run #4's headline against run #5's. The corpus was already changed on it (P4), which is defensible only while the change stays additive |
 | **Run one chapter cold against one warm, same toolkit, same day** | five runs in and the warm/cold contrast is still n=1 a side. The 09-19 session was cold but the toolkit had moved underneath it |
 | **Turn the proxy off for one run** | every token, cost and cache figure since 2026-09-13 is confounded, and no run has a clean one to compare against |

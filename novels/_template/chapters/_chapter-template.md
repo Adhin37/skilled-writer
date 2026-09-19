@@ -24,7 +24,7 @@ threads: []            # ids touched, e.g. ["^T03", "~T11", "vT07"]
      chapter is not finished.
 
      `delivers:` is what is DIFFERENT after: a fact learned, a relationship moved, a position
-     lost, a door closed. "She asks about the recount" is events. "She is now a person Tsuru
+     lost, a door closed. "She asks about the recount" is events. "She is now a person Marek
      watches on purpose" is a delivery.
 
      THE FOUR CHANNELS (see bible/lexicon.md — set once, never varied):

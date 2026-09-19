@@ -14,7 +14,7 @@ Opened by `write-chapter` Phase A when the module is on. Two lines, and the hone
 hard chapter is often none.
 
 ```
-who      Pell - dry, and it fires when he is frightened
+who      the quartermaster - dry, and it fires when he is frightened
 where    early, over the inventory, before the summons arrives
 ```
 
