@@ -231,6 +231,53 @@ class TestAgentWiring(unittest.TestCase):
             found = [d for d in f.run().findings if d.check.startswith("agent-")]
             self.assertEqual(found, [])
 
+    AGENT = ("---\nname: reader\ndescription: reads.\nhooks:\n"
+             "  PreToolUse:\n    - matcher: \"Read\"\n      hooks:\n"
+             "        - type: command\n          command: %s\n---\n\nbody\n")
+
+    def guard(self, fake, rel):
+        d = os.path.join(fake.dir, os.path.dirname(rel))
+        if not os.path.isdir(d):
+            os.makedirs(d)
+        with open(os.path.join(fake.dir, rel), "w", encoding="utf-8", newline="\n") as fh:
+            fh.write("#\n")
+
+    def test_a_project_dir_placeholder_is_resolved_not_skipped(self):
+        """The documented form must still be *checked*, or adopting it retires the check.
+
+        A pattern that only reads bare relative paths matches nothing in
+        `"${CLAUDE_PROJECT_DIR}"/scripts/...`, so the missing script goes unreported and the
+        wiring looks sound precisely because it was written the recommended way.
+        """
+        with Fake() as f:
+            f.skill("alpha", frontmatter=TestRoleWiring.FM % ("alpha", "draft", "a-thing"))
+            self.agent(f, "reader", self.AGENT
+                       % '\'python3 "${CLAUDE_PROJECT_DIR}"/scripts/hooks/gone.py\'')
+            self.assertIn("agent-hook", checks(f.run()))
+
+    def test_a_relative_hook_path_is_a_warning_even_when_the_script_is_there(self):
+        """Hooks run in the current directory, which follows a worktree or a cd. A relative
+        path resolves when the cwd happens to be right and is skipped silently when it is
+        not - the same unguarded agent as a missing script, with nothing on disk to show it."""
+        with Fake() as f:
+            f.skill("alpha", frontmatter=TestRoleWiring.FM % ("alpha", "draft", "a-thing"))
+            self.guard(f, "scripts/hooks/guard.py")
+            self.agent(f, "reader", self.AGENT % '"python3 scripts/hooks/guard.py"')
+            rep = f.run()
+            self.assertNotIn("agent-hook", checks(rep),
+                             "the script is there; nothing is broken yet")
+            self.assertIn("agent-hook", checks(rep, "warn"))
+
+    def test_the_placeholder_form_draws_no_warning(self):
+        with Fake() as f:
+            f.skill("alpha", frontmatter=TestRoleWiring.FM % ("alpha", "draft", "a-thing"))
+            self.guard(f, "scripts/hooks/guard.py")
+            self.agent(f, "reader", self.AGENT
+                       % '\'python3 "${CLAUDE_PROJECT_DIR}"/scripts/hooks/guard.py\'')
+            rep = f.run()
+            self.assertNotIn("agent-hook", checks(rep))
+            self.assertNotIn("agent-hook", checks(rep, "warn"))
+
 
 class TestCommandDocs(unittest.TestCase):
 

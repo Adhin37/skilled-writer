@@ -661,23 +661,48 @@ def _agents(repo_root, rep):
             rep.defect("agent-frontmatter",
                        "%s declares no `description:` - nothing can route to it" % fname,
                        path=path)
-        for script in _hook_scripts(mdio.read_text(path)):
+        for written, script in _hook_scripts(mdio.read_text(path)):
             if not os.path.isfile(os.path.join(repo_root, script)):
                 rep.defect("agent-hook",
                            "%s wires a hook to `%s`, which does not exist - the hook is skipped "
                            "and the agent runs unguarded" % (fname, script), path=path)
+            elif "CLAUDE_PROJECT_DIR" not in written and not written.startswith("/"):
+                rep.warn("agent-hook",
+                         "%s wires a hook to the relative path `%s`. Hooks run in the current "
+                         "directory, which follows a worktree or a cd and is not pinned to the "
+                         "project root, so this resolves only when the cwd happens to be right - "
+                         "and when it is not, the hook is skipped and the agent runs unguarded. "
+                         'Use "${CLAUDE_PROJECT_DIR}"/%s' % (fname, written, script), path=path)
     if names:
         rep.info("agents", ["   %s" % ", ".join(names)])
 
 
-_HOOK_CMD = re.compile(r"""command:\s*["']?(?:python3?|sh|bash)\s+([^"'\s]+)""")
+_HOOK_CMD = re.compile(r"""command:\s*['"]?(?:python3?|sh|bash)\s+(\S.*?)['"]?\s*$""", re.M)
+_PROJECT_DIR = re.compile(r"""\$\{?CLAUDE_PROJECT_DIR\}?""")
 
 
 def _hook_scripts(text):
-    """Script paths named by a frontmatter hook. Deliberately shallow: it reads the raw file
-    rather than the parsed YAML, because the nested hook shape is three levels deep and a
-    half-parsed one would report nothing rather than report a problem."""
-    return _HOOK_CMD.findall(text)
+    """Script paths named by a frontmatter hook, as (as written, resolved against the repo) pairs.
+
+    Deliberately shallow: it reads the raw file rather than the parsed YAML, because the nested
+    hook shape is three levels deep and a half-parsed one would report nothing rather than report
+    a problem.
+
+    `${CLAUDE_PROJECT_DIR}` is the documented way to name a script that must resolve whatever the
+    cwd is, and it has to be resolved here rather than matched around: a pattern that only reads
+    bare relative paths finds nothing in the recommended form, so adopting the recommendation
+    would silently retire the check that the script exists.
+    """
+    out = []
+    for rest in _HOOK_CMD.findall(text):
+        parts = rest.split()
+        if not parts:
+            continue
+        written = parts[0]
+        resolved = _PROJECT_DIR.sub("", written).replace('"', "").replace("'", "").lstrip("/")
+        if resolved:
+            out.append((written, resolved))
+    return out
 
 
 def _card_budget(repo_root, rep):

@@ -10,7 +10,7 @@ hooks:
     - matcher: "Read|Glob|Grep"
       hooks:
         - type: command
-          command: "python3 scripts/hooks/reader_guard.py"
+          command: 'python3 "${CLAUDE_PROJECT_DIR}"/scripts/hooks/reader_guard.py'
 ---
 
 You are a reader, not an editor and not a reviewer of a system. You have been handed some
