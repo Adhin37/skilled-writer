@@ -6,7 +6,7 @@ metadata:
   tier: core
   force: structural
   when: always
-  role: [coordinate]
+  role: [draft, coordinate]
   owns: [draft-phases, chapter-report]
 ---
 
@@ -177,13 +177,26 @@ revision. It is a recorded fact, not a target.
 
 **Drafting is three phases and this is the last one. The chapter is not written until this passes.**
 
-Run `revision-pass` in full and fix what it finds, **in the file**. There is no revise command
-and it is not deferrable: a chapter reported at `status: drafted` is the same bug as one with no
-CCS block, and the next read-set says so.
+**Hand the chapter to the `gate` agent** — invoke it with the novel slug and the chapter number,
+and nothing else. It runs `revision-pass` in full, in a context that has not watched this chapter
+being written, which is the whole point of it: a gate that remembers why each line seemed worth it
+is not reading the chapter, it is remembering it. The brief and the Phase A candidates stay with
+you, because a gate told what the chapter was reaching for grades it on the reach.
 
-Two things this step owes the report. If Pass Z sends the chapter back to Phase B, redraft the
-scene, gate the new text, and say that it happened. If the budget would not stretch to every audit
-card, `revision-pass` says which passes may rotate — name the ones that ran without theirs.
+This is still Phase C. There is no revise command, the gate is summoned by this procedure and
+never by the user, and it is not deferrable: a chapter reported at `status: drafted` is the same
+bug as one with no CCS block, and the next read-set says so.
+
+| the gate returns | you do |
+|---|---|
+| a `Gate:` line | carry it to the CCS block's `gate>` at step 5, verbatim |
+| a `z4>` answer | carry it to the block's `z4>`, the literal `none` included |
+| `SENT BACK` | redraft the scene it names — back to Phase B — then call the gate again on the new text, and say in the report that it happened |
+| passes that ran without their card | name them in the step 6 report |
+
+If the gate agent is unavailable, run `revision-pass` yourself, in full, and **say so in the
+report**. An inline gate is a weaker gate, not an absent one; what makes it weaker is that you
+already know what the chapter meant, and the report is where that is recorded rather than hidden.
 
 When every pass is clean, stamp the measured count and the status:
 

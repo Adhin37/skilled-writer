@@ -5,7 +5,10 @@ argument-hint: "[optional: 'arc 3' | 'next 10 chapters' | a direction to take]"
 
 Plan ahead.
 
-Resolve the active novel, then invoke the `chapter-plan` skill.
+Resolve the active novel, then **invoke the `architect` agent**, which owns `plan/` and runs
+`chapter-plan`. Planning is a design decision, not a drafting one: it decides what the story is,
+and the drafter is handed the result. If the agent is unavailable, run `chapter-plan` inline and
+say so.
 
 Interpret `$ARGUMENTS`:
 

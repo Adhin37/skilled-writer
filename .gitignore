@@ -77,3 +77,11 @@ $RECYCLE.BIN/
 # ---------------------------------------------------------------------------
 __pycache__/
 *.py[cod]
+
+# ---------------------------------------------------------------------------
+# Benchmark marker
+# Present only while a test run is under way. It arms the coordinator half of
+# scripts/hooks/write_scope.py (docs/test-run-protocol.md §2), so committing it
+# would silently refuse every main-session write under novels/ for everyone.
+# ---------------------------------------------------------------------------
+/.test-run

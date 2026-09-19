@@ -22,5 +22,18 @@
       "Bash(date:*)"
     ]
   },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PROJECT_DIR}\"/scripts/hooks/write_scope.py"
+          }
+        ]
+      }
+    ]
+  },
   "remoteControlAtStartup": false
 }

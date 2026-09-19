@@ -5,6 +5,7 @@ learns they broke a pointer. If they were only ever run against synthetic fixtur
 could drift out from under them exactly the way `plan_rows()` did.
 """
 
+import json
 import os
 import shutil
 import tempfile
@@ -277,6 +278,78 @@ class TestAgentWiring(unittest.TestCase):
             rep = f.run()
             self.assertNotIn("agent-hook", checks(rep))
             self.assertNotIn("agent-hook", checks(rep, "warn"))
+
+
+class TestSettingsHooks(unittest.TestCase):
+    """The one hook `TestAgentWiring` structurally cannot see.
+
+    A guard that dispatches on *which* agent is calling has to be registered project-wide,
+    because the coordinator is the main session and has no agent file to carry frontmatter. So
+    the hook whose entire job is catching the role nothing else can catch lives in a file the
+    agent check never opens, and its path rots exactly as silently.
+    """
+
+    def settings(self, fake, payload):
+        d = os.path.join(fake.dir, ".claude")
+        if not os.path.isdir(d):
+            os.makedirs(d)
+        with open(os.path.join(d, "settings.json"), "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(payload)
+
+    def hooks(self, command):
+        return json.dumps({"hooks": {"PreToolUse": [
+            {"matcher": "Write|Edit", "hooks": [{"type": "command", "command": command}]}]}})
+
+    def fake(self):
+        f = Fake()
+        f.__enter__()
+        self.addCleanup(f.__exit__, None, None, None)
+        f.skill("alpha", frontmatter=TestRoleWiring.FM % ("alpha", "draft", "a-thing"))
+        return f
+
+    def guard(self, fake, rel):
+        d = os.path.join(fake.dir, os.path.dirname(rel))
+        if not os.path.isdir(d):
+            os.makedirs(d)
+        with open(os.path.join(fake.dir, rel), "w", encoding="utf-8", newline="\n") as fh:
+            fh.write("#\n")
+
+    def test_a_missing_script_is_a_defect(self):
+        f = self.fake()
+        self.settings(f, self.hooks('python3 "${CLAUDE_PROJECT_DIR}"/scripts/hooks/gone.py'))
+        self.assertIn("settings-hook", checks(f.run()))
+
+    def test_a_relative_path_is_a_warning_even_when_the_script_is_there(self):
+        f = self.fake()
+        self.guard(f, "scripts/hooks/guard.py")
+        self.settings(f, self.hooks("python3 scripts/hooks/guard.py"))
+        rep = f.run()
+        self.assertNotIn("settings-hook", checks(rep))
+        self.assertIn("settings-hook", checks(rep, "warn"))
+
+    def test_the_placeholder_form_is_clean(self):
+        f = self.fake()
+        self.guard(f, "scripts/hooks/guard.py")
+        self.settings(f, self.hooks('python3 "${CLAUDE_PROJECT_DIR}"/scripts/hooks/guard.py'))
+        rep = f.run()
+        self.assertNotIn("settings-hook", checks(rep))
+        self.assertNotIn("settings-hook", checks(rep, "warn"))
+
+    def test_settings_that_do_not_parse_are_a_defect(self):
+        """Every permission and every hook in the file is being ignored, silently."""
+        f = self.fake()
+        self.settings(f, '{"hooks": {"PreToolUse": [},}')
+        self.assertIn("settings-hook", checks(f.run()))
+
+    def test_settings_with_no_hooks_key_is_not_a_defect(self):
+        f = self.fake()
+        self.settings(f, json.dumps({"permissions": {"allow": ["Read(**)"]}}))
+        self.assertNotIn("settings-hook", checks(f.run()))
+
+    def test_no_settings_file_is_not_a_defect(self):
+        f = self.fake()
+        found = [d for d in f.run().findings if d.check == "settings-hook"]
+        self.assertEqual(found, [])
 
 
 class TestCommandDocs(unittest.TestCase):

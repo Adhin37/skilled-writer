@@ -56,6 +56,28 @@ not a state file, not a plan row, not one character of YAML frontmatter.
 | `sed -i`, `tee`, `>`, `>>`, `cp`/`mv`/`rm` into it, a `python3 -c` that opens a file for writing | every `sw` command that only prints: `readset` `lint` `audit` `history` `state` `cast` `curve` `arc` `status` `load` `trace` `kb` `health` `selftest` `doctor` |
 | `sw stamp`, `sw newnovel` — they write, so the agent runs them | copying *out* of `novels/` into the scratchpad, which is how anything survives |
 
+### Arm the guard: `touch .test-run`
+
+Since 2026-09-19 this rule has a mechanism, and it is opt-in by design. `scripts/hooks/write_scope.py`
+runs before every `Write`, `Edit` and `NotebookEdit` in the session and in every subagent, and it
+refuses a path under `novels/` from the **coordinator** — the call with no `agent_id` — whenever a
+`.test-run` file exists at the project root. Subagent writes are unaffected: each role is held to
+its own column of the §10 table instead.
+
+```bash
+touch .test-run       # first thing, before §5's pre-flight
+rm .test-run          # after the write-up, not before
+```
+
+Do it first, and record in the defect log that you did. **An unarmed run is not a failed run, but
+it is a weaker one** — the number it reports rests on the coordinator having remembered, which is
+precisely the thing the rule exists because nobody does. If you find the marker missing partway
+through, create it, say when, and treat everything before that point as resting on goodwill.
+
+The guard fails open on anything it cannot parse, so it will never be the reason a run stalls. It
+also cannot see a shell redirect: `sed -i`, `tee` and `>` go through `Bash`, not `Write`, and the
+table above is still the binding rule. The hook narrows the gap; it does not close it.
+
 **The moment the rule exists for** is not the moment you feel like rewriting a paragraph. It is the
 moment the run breaks, the fix is one line of YAML, and a repair by hand is faster than another
 agent round-trip. That is the expensive moment, and the correct move is the slow one.
@@ -124,6 +146,7 @@ date -u +%FT%TZ                                  # record the UTC start
 python3 -m unittest discover tests               # must be green before anything starts
 python3 scripts/sw.py health
 python3 scripts/sw.py selftest
+touch .test-run                                  # arms the coordinator write guard (§2)
 ```
 
 - **A run against a broken toolkit measures nothing.** All three must pass first.
@@ -316,6 +339,7 @@ before    [ ] test run or normal run — established
           [ ] baseline audit/lint column captured
           [ ] stop condition declared
           [ ] answer sheet written for the interview
+          [ ] `.test-run` created — the write guard is armed, not merely intended
 during    [ ] agent brief: authoring only, no mention of measurement, do not read docs/
           [ ] no coordinator write under novels/ — not once
           [ ] toolkit frozen

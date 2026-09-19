@@ -596,6 +596,23 @@ all-or-nothing on the `Skill` tool — so for every other role, scoping is a pre
 hook, and the honest word for it is **routing**, not a sandbox. Say so rather than implying a wall
 that is not there.
 
+**The path hook is `scripts/hooks/write_scope.py`**, and it holds the `writes` column above: the
+architect to `bible/` `plan/` `novel.md`, the drafter to `chapters/` `state/`, the gate to the
+chapter it was handed. It is registered **once**, project-wide in `.claude/settings.json`, and
+dispatches on which agent is calling — because a settings-file hook is the only kind that also
+runs for the **coordinator**, which is the main session and has no agent file to carry one. A
+`permissions.deny` rule cannot do this job: deny rules are global, so denying `Write(novels/**)`
+to stop the coordinator stops the drafter too. The guard **fails open** on anything it does not
+understand — an unknown agent, an unparseable payload — because a guard that blocks work it was
+never meant to judge is a guard that gets switched off.
+
+**The coordinator's half is armed by a marker, not by assumption.** `CLAUDE.md` bans the
+coordinator from writing under `novels/` *in a test run*, and says in as many words that this
+"does not apply to a normal run, where editing a chapter on request is the job". So the guard
+refuses the main session only while a **`.test-run` file exists at the project root**. Create it
+when a benchmark starts, delete it when the run is written up — `docs/test-run-protocol.md` §2.
+Without it the rule is back to goodwill, which is what it was when run #4 was repaired by hand.
+
 ### Rules that bind a role, not the toolkit
 
 Four rules in this file read as though they bind everyone. They do not, and a role that inherits

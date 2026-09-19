@@ -8,6 +8,7 @@ below and asserts this command finds nothing, so the two cannot drift apart.
 It audits the repo, never a novel. Nothing here reads a chapter.
 """
 
+import json
 import os
 import re
 
@@ -96,6 +97,7 @@ def run(repo_root, commands=None):
     _force(repo_root, rep)
     _role(repo_root, rep)
     _agents(repo_root, rep)
+    _settings_hooks(repo_root, rep)
     _card_budget(repo_root, rep)
     _card_scope(repo_root, rep)
     _dangling_cards(repo_root, names, rep)
@@ -662,17 +664,8 @@ def _agents(repo_root, rep):
                        "%s declares no `description:` - nothing can route to it" % fname,
                        path=path)
         for written, script in _hook_scripts(mdio.read_text(path)):
-            if not os.path.isfile(os.path.join(repo_root, script)):
-                rep.defect("agent-hook",
-                           "%s wires a hook to `%s`, which does not exist - the hook is skipped "
-                           "and the agent runs unguarded" % (fname, script), path=path)
-            elif "CLAUDE_PROJECT_DIR" not in written and not written.startswith("/"):
-                rep.warn("agent-hook",
-                         "%s wires a hook to the relative path `%s`. Hooks run in the current "
-                         "directory, which follows a worktree or a cd and is not pinned to the "
-                         "project root, so this resolves only when the cwd happens to be right - "
-                         "and when it is not, the hook is skipped and the agent runs unguarded. "
-                         'Use "${CLAUDE_PROJECT_DIR}"/%s' % (fname, written, script), path=path)
+            _check_hook(repo_root, rep, "agent-hook", fname, written, script, path,
+                        "the agent runs unguarded")
     if names:
         rep.info("agents", ["   %s" % ", ".join(names)])
 
@@ -695,14 +688,84 @@ def _hook_scripts(text):
     """
     out = []
     for rest in _HOOK_CMD.findall(text):
-        parts = rest.split()
-        if not parts:
-            continue
-        written = parts[0]
-        resolved = _PROJECT_DIR.sub("", written).replace('"', "").replace("'", "").lstrip("/")
-        if resolved:
-            out.append((written, resolved))
+        pair = _script_from_command(rest)
+        if pair:
+            out.append(pair)
     return out
+
+
+_INTERPRETERS = ("python3", "python", "py", "sh", "bash")
+
+
+def _script_from_command(cmd):
+    """`python3 "${CLAUDE_PROJECT_DIR}"/a/b.py --flag` -> (as written, resolved against the repo).
+
+    Tolerates the interpreter already having been eaten by the caller's pattern, because the two
+    callers arrive from different directions: `_HOOK_CMD` consumes it, JSON does not.
+    """
+    parts = [x for x in cmd.split() if x]
+    while parts and parts[0].rsplit("/", 1)[-1] in _INTERPRETERS:
+        parts.pop(0)
+    if not parts:
+        return None
+    written = parts[0]
+    resolved = _PROJECT_DIR.sub("", written).replace('"', "").replace("'", "").lstrip("/")
+    return (written, resolved) if resolved else None
+
+
+def _check_hook(repo_root, rep, check, where, written, script, path, consequence):
+    """One hook command, checked twice: the script is there, and the path survives a changed cwd."""
+    if not os.path.isfile(os.path.join(repo_root, script)):
+        rep.defect(check, "%s wires a hook to `%s`, which does not exist - the hook is skipped "
+                          "and %s" % (where, script, consequence), path=path)
+    elif "CLAUDE_PROJECT_DIR" not in written and not written.startswith("/"):
+        rep.warn(check, "%s wires a hook to the relative path `%s`. Hooks run in the current "
+                        "directory, which follows a worktree or a cd and is not pinned to the "
+                        "project root, so this resolves only when the cwd happens to be right - "
+                        "and when it is not, the hook is skipped and %s. "
+                        'Use "${CLAUDE_PROJECT_DIR}"/%s'
+                        % (where, written, consequence, script), path=path)
+
+
+SETTINGS_REL = os.path.join(".claude", "settings.json")
+
+
+def _settings_hooks(repo_root, rep):
+    """The same wiring check for `.claude/settings.json`, which is not an agent file.
+
+    A guard that dispatches on which agent is calling can only be registered here, because the
+    coordinator is the main session and has no agent file to carry frontmatter. So the one hook
+    whose whole job is to catch the role that cannot be caught elsewhere is the one hook `_agents`
+    cannot see, and its path rots in silence the same way.
+
+    Parsed as JSON rather than pattern-matched: unlike the three-deep YAML in agent frontmatter,
+    this shape parses reliably, and a settings file that does not parse is a defect on its own.
+    """
+    path = os.path.join(repo_root, SETTINGS_REL)
+    if not os.path.isfile(path):
+        return
+    try:
+        cfg = json.loads(mdio.read_text(path))
+    except ValueError as exc:
+        rep.defect("settings-hook",
+                   "settings.json does not parse as JSON (%s) - every hook and permission in it "
+                   "is being ignored" % exc, path=path)
+        return
+    hooks = cfg.get("hooks")
+    if not isinstance(hooks, dict):
+        return
+    for event in sorted(hooks):
+        for entry in hooks.get(event) or []:
+            if not isinstance(entry, dict):
+                continue
+            for hook in entry.get("hooks") or []:
+                if not isinstance(hook, dict):
+                    continue
+                pair = _script_from_command(str(hook.get("command") or ""))
+                if pair:
+                    _check_hook(repo_root, rep, "settings-hook",
+                                "settings.json %s" % event, pair[0], pair[1], path,
+                                "every role it guards runs unguarded")
 
 
 def _card_budget(repo_root, rep):

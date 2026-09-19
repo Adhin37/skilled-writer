@@ -7,6 +7,13 @@ Start a new webnovel.
 
 If `$ARGUMENTS` is non-empty, treat it as the user's premise and skip the opening question.
 
+**This command has two halves and they belong to different roles.** Steps 1–3 talk to the user, so
+they stay with you: an interview relayed through a subagent loses the thing that makes it an
+interview. Steps 4–5 decide and write what the story is, and those go to the **`architect` agent**,
+which owns `bible/`, `plan/` and `novel.md`. Hand it the interview answers, the chosen title and
+the blurb; it does the scaffold and fills every file. If the agent is unavailable, do it inline and
+say so.
+
 Invoke the `novel-init` skill and follow it exactly:
 
 1. Get the premise in the user's own words (or from `$ARGUMENTS`).
