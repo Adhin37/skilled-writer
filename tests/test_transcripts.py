@@ -157,6 +157,27 @@ class TestDiscovery(unittest.TestCase):
                          "subagent usage is not in the parent transcript; missing these "
                          "reports a multi-agent run as costing nothing")
 
+    def test_subagent_usage_reaches_the_totals(self):
+        """Finding the file is not the measurement; the tokens have to land in the sum.
+
+        The parent writes its sidechain rows with empty usage, so a multi-agent run's whole cost
+        sits in the per-agent files. Discovery without aggregation prices a split pipeline at
+        whatever the coordinator alone spent, which is the one reading that would make moving
+        work into subagents look free.
+        """
+        with Root() as root:
+            root.write("projects/-work-repo/s1.jsonl", [
+                row(requestId="p", message={"id": "p", "usage": usage(read=100, out=10)}),
+                row(requestId="side", isSidechain=True,
+                    message={"id": "side", "usage": usage()})])
+            root.write("projects/-work-repo/s1/subagents/agent-abc.jsonl",
+                       [row(requestId="a", message={"id": "a", "usage": usage(read=900, out=90)})])
+            agg = transcripts.aggregate(transcripts.sessions_for("/work/repo", root.dir))
+        self.assertEqual(agg["sessions"], 2)
+        self.assertEqual((agg["cache_read_input_tokens"], agg["output_tokens"]), (1000, 100),
+                         "the subagent's 900/90 is nine tenths of this run and is only in its "
+                         "own file")
+
     def test_a_missing_root_is_not_an_error(self):
         self.assertEqual(transcripts.sessions_for("/work/repo", "/nope/not/here"), [])
 
