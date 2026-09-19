@@ -231,10 +231,18 @@ def _channels(novel, ch, rep):
                  % (share, rules.SPEECH_FLOOR, rules.SPEECH_TARGET_LOW,
                     rules.SPEECH_TARGET_HIGH), path=p)
     elif share < rules.SPEECH_TARGET_LOW:
-        rep.warn("speech-share", "%.1f%% spoken aloud, below the %.0f-%.0f%% target"
+        # A note, and the demotion is the whole point. Benchmark run #5 watched this warn get
+        # cleared rather than satisfied: chapter 2 went 23.3% -> 25.3% against a 25.0 threshold
+        # by having 34 words of dialogue inserted at the gate, one insertion breaking the
+        # scene's established blocking - while a 56-word turn past TURN_CEILING sat untouched in
+        # the same chapter, because that one was only a note. The severity tier is the
+        # incentive. This repo has now built the same number three times (word count, the
+        # speech floor, this band) and had it written toward all three times.
+        rep.note("speech-share", "%.1f%% spoken aloud, below the %.0f-%.0f%% target - weigh it "
+                 "across the arc, never by adding lines to this chapter"
                  % (share, rules.SPEECH_TARGET_LOW, rules.SPEECH_TARGET_HIGH), path=p)
     elif share > rules.SPEECH_TARGET_HIGH:
-        rep.warn("speech-share", "%.1f%% spoken aloud, above the %.0f%% target - check for "
+        rep.note("speech-share", "%.1f%% spoken aloud, above the %.0f%% target - check for "
                  "talking heads" % (share, rules.SPEECH_TARGET_HIGH), path=p)
 
     # The budget is a range - `CLAUDE.md` hard rule 7 says 1-3 - and only the ceiling was ever
@@ -256,6 +264,23 @@ def _channels(novel, ch, rep):
                  "a book that never opens it has three channels, not four"
                  % (rules.THOUGHT_FLOOR, rules.THOUGHT_BUDGET,
                     novel.get("narration.interiority")), path=p)
+
+    # Rule 7 on PERSON as well as count. A thought mark says "this is the character's own voice,
+    # now"; a span with no first or second person in it, in the narrator's past tense, is free
+    # indirect discourse wearing the marks - which is the channel doing nothing except emphasis,
+    # and it passed run #5's gate because the only thing anybody counted was how many there were.
+    # A note: which of the four channels a sentence belongs in is a craft call, and `narrator-
+    # voice` owns it. This finds the span and quotes it back.
+    for m in thoughts:
+        inner = m.group(1)
+        if (rules.FIRST_SECOND_PERSON.search(inner) or rules.PRESENT_MARKERS.search(inner)
+                or not rules.PAST_MARKERS.search(inner)):
+            continue
+        rep.note("thought-person",
+                 "direct-thought marks around a span with nobody in it, in the narrator's tense "
+                 "- if this is the narrator's voice it is free indirect discourse and needs no "
+                 "marks (narrator-voice, the four channels)",
+                 path=p, line=ch.line_of(m.start()), detail=inner[:110])
 
     for line_no, text in ch.unterminated_thoughts():
         rep.defect("channel-collision",
@@ -302,6 +327,21 @@ def _group_scenes(novel, ch, rep):
     omission: detecting who is a child would mean either guessing from a turn length or adding an
     axis to the matrix, and `voice-separation/references/age-register.md` states that age does not
     get an axis. A check that guesses is a number somebody optimises.
+
+    **It counts speakers, not mentions.** Until benchmark run #5 it fired when three cast tokens
+    appeared anywhere in the scene, dialogue included - so chapter 4, a two-hander between Halden
+    and Verrick with one deliberately silent third party, was reported as six cast members, three
+    of whom were a name in a simile and two names inside the MC's own line. The note carried a
+    caveat telling the reader to discount it, which is an accurate description of a number that
+    should not have been the headline. The run #4 fix for the shared-token false positive settled
+    the principle: this match is used to *count speakers*, a stronger claim than a ledger row and
+    one nobody can discount by eye, so a bad signal is removed rather than annotated.
+
+    What replaces it is `speech_paragraphs`' attribution - a speaker counts when exactly one cast
+    name appears in the narration outside the quotes - shared with `cmd_cast._turn_lengths` so the
+    two cannot drift apart again. That makes the count a **lower bound**: a turn tagged only as
+    *"the older woman said"* is invisible to it. So coverage is printed beside the count, and a
+    scene this cannot see is a scene it stays quiet about rather than one it guesses at.
     """
     names = [r.first() for r in novel.voice_rows()]
     # A token shared by several cast members identifies none of them. Every name in a clan novel
@@ -323,27 +363,33 @@ def _group_scenes(novel, ch, rep):
         return
 
     body = ch.body
-    bounds = [0] + [m.end() for m in re.finditer(r"^\s*\*\s\*\s\*\s*$", body, re.M)]
-    bounds.append(len(body))
-    ranges = ch.speech_ranges
+    paragraphs = ch.speech_paragraphs()
 
-    for index in range(len(bounds) - 1):
-        start, end = bounds[index], bounds[index + 1]
-        spans = [(a, b) for a, b in ranges if a >= start and b <= end]
-        if len(spans) < 3:
+    for index, (start, end) in enumerate(ch.scene_bounds()):
+        turns = [p for p in paragraphs if p[0] >= start and p[1] <= end]
+        if len(turns) < 3:
+            continue
+        speakers, attributed = set(), 0
+        for _pstart, _pend, _spans, around in turns:
+            hits = [n for n, toks in tokens.items()
+                    if any(re.search(r"\b%s\b" % re.escape(t), around) for t in toks)]
+            if len(hits) == 1:
+                attributed += 1
+                speakers.add(hits[0])
+        if len(speakers) < 3:
             continue
         segment = body[start:end]
-        here = [n for n, toks in tokens.items()
-                if any(re.search(r"\b%s\b" % re.escape(t), segment) for t in toks)]
-        if len(here) < 3:
-            continue
+        named = [n for n, toks in tokens.items()
+                 if any(re.search(r"\b%s\b" % re.escape(t), segment) for t in toks)]
         rep.note("group-scene",
-                 "scene %d names %d cast members and carries %d spoken spans (%s) - at three "
-                 "speakers the scene changes category: one driver, the rest blocking or "
-                 "pressure, and somebody silent on purpose. Naming is not speaking: nothing "
-                 "here attributes a span to a person, so a character mentioned inside someone "
-                 "else's line is counted. Read it and discount it"
-                 % (index + 1, len(here), len(spans), ", ".join(sorted(here))),
+                 "scene %d has %d speakers with an attributed turn (%s) - at three speakers the "
+                 "scene changes category: one driver, the rest blocking or pressure, and somebody "
+                 "silent on purpose. %d of %d turns name their speaker outside the quotes, so "
+                 "this is a floor: a turn tagged only as \"the older woman said\" is invisible "
+                 "here. %d cast names appear in the scene at all, mentions included, which is not "
+                 "a speaker count"
+                 % (index + 1, len(speakers), ", ".join(sorted(speakers)), attributed,
+                    len(turns), len(named)),
                  path=ch.path, line=ch.line_of(start))
 
 

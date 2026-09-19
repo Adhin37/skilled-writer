@@ -11,11 +11,16 @@ matrix is well-formed; the model still says the chapter is.
 
 import re
 
+from . import textstats
 from .report import Report
 
 # competence-map: deep-expertise budget, by cast tier.
 DEEP_LEVELS = ("exceptional", "best alive")
 DEEP_BUDGET = {"mc": 3, "a": 2, "b": 1, "c": 1}
+
+# Attributed turns before a per-speaker measurement is worth printing. Attribution is a floor
+# rather than a census, so a speaker with three tagged lines is an anecdote.
+MIN_ATTRIBUTED_TURNS = 4
 
 
 def _int(val, default=None):
@@ -234,10 +239,11 @@ def _debuts(novel, rep, rows):
     if not chapters:
         return
     world = _world_terms(novel)
+    declared = novel.cast_frontmatter()
     lines = ["   %-24s %-7s %-9s %-12s %-10s %s"
              % ("character", "debut", "at word", "speaks after", "matched",
                 "the sentence they arrive in")]
-    found = False
+    found, stale = False, []
     for x in sorted(rows, key=lambda r: r["name"]):
         hit = _first_mention(chapters, x["name"], world)
         if not hit:
@@ -247,6 +253,20 @@ def _debuts(novel, rep, rows):
         lines.append("   %-24s ch %-4d %-9d %-12s %-10s %s"
                      % (x["name"][:24], ch.number, len(ch.body[:off].split()),
                         "-" if gap is None else "%d words" % gap, tok[:10], sentence[:46]))
+        says = _int((declared.get(x["name"]) or {}).get("first_appears"))
+        if says and says != ch.number:
+            stale.append("%s says %d, reads ch %d" % (x["name"], says, ch.number))
+    if stale:
+        # A note, because a character may legitimately be named before they appear and the match
+        # is a token match - the `matched` column exists because a house name shared with the
+        # world can hit before the person does. What a note cannot be is absent: this field was
+        # in both cast templates from the start, read by nothing, and wrong in two of run #5's
+        # seven files by chapter 4.
+        rep.note("first-appears",
+                 "%s - `first_appears:` disagrees with where the name first reaches the page. "
+                 "A name may be spoken of before it walks on, so read it; a field nothing reads "
+                 "is a field that drifts" % "; ".join(stale),
+                 path=novel.path("bible", "cast"))
     if found:
         lines.append("   `speaks after` is the words between a character's first mention and "
                      "their first line.")
@@ -305,13 +325,45 @@ def _cadence(rep, spoken):
     rep.info("cadence, as far as counting reaches", lines)
 
 
-def _paragraph_bounds(body):
-    """(start, end) for each blank-line-separated paragraph, in order."""
-    out, pos = [], 0
-    for para in body.split("\n\n"):
-        out.append((pos, pos + len(para)))
-        pos += len(para) + 2
-    return out
+def _alternate(ch, paragraphs, names):
+    """Fill unattributed turns in two-speaker scenes, where the convention verifies itself.
+
+    Benchmark run #5, O14: the better the dialogue, the less the voice checks can see. Attribution
+    needs a cast name in the narration around the line, so a well-written untagged two-hander -
+    the scene a writer is *supposed* to be able to leave untagged - scored 4 of 52 lines. Below
+    four sentences `_cadence` bails, so run #3's cadence test never ran, on a chapter where two
+    characters demonstrably shared a cadence. The instrument went blind exactly where the prose
+    got good.
+
+    This recovers turns without loosening the conservatism anywhere else, because it never
+    *assumes* alternation - it checks it. Inside one scene, with exactly two speakers attributed,
+    an unattributed run is filled only when it is bracketed at both ends by attributed turns whose
+    parity agrees: if the ends are the same speaker the gap must be even, if they differ it must be
+    odd. A run whose ends disagree with the count between them is a scene that is not strictly
+    alternating, and it stays unattributed. So does anything before the first tag or after the
+    last, which has no second bracket to check against.
+
+    Recovered turns are counted separately from directly attributed ones and printed that way, so
+    a reader can always tell how much of the number is inference.
+    """
+    filled = list(names)
+    for start, end in ch.scene_bounds():
+        idx = [i for i, p in enumerate(paragraphs) if p[0] >= start and p[1] <= end]
+        cast = {names[i] for i in idx if names[i]}
+        if len(cast) != 2:
+            continue
+        anchors = [i for i in idx if names[i]]
+        for a, b in zip(anchors, anchors[1:]):
+            gap = idx.index(b) - idx.index(a)
+            if gap < 2:
+                continue
+            same = names[a] == names[b]
+            if same != (gap % 2 == 0):
+                continue                    # the scene does not alternate across this run
+            other = next(n for n in cast if n != names[a])
+            for step in range(1, gap):
+                filled[idx[idx.index(a) + step]] = names[a] if step % 2 == 0 else other
+    return filled
 
 
 def _turn_lengths(novel, rep, rows):
@@ -346,38 +398,28 @@ def _turn_lengths(novel, rep, rows):
     # punctuate a long speech - halved the speaker's measured turn length. The bug was fixed in
     # `textstats.speech_line_lengths` for the chapter mean and survived here, in the per-speaker
     # view, which is the one that exists precisely to catch what a chapter mean hides.
-    measured, spoken, attributed, total = {}, {}, 0, 0
+    measured, spoken, attributed, recovered, total = {}, {}, 0, 0, 0
     for ch in chapters:
         body = ch.body
-        ranges = ch.speech_ranges
-        i = 0
-        for para_start, para_end in _paragraph_bounds(body):
-            spans = []
-            while i < len(ranges) and ranges[i][0] < para_end:
-                if ranges[i][0] >= para_start:
-                    spans.append(ranges[i])
-                i += 1
-            if not spans:
-                continue
+        # One paragraph with speech in it is one turn, and `around` is the narration outside the
+        # quotes. Both come from `textstats.Chapter.speech_paragraphs`, which `cmd_lint`'s
+        # group-scene check shares so the two cannot drift apart again.
+        paragraphs = ch.speech_paragraphs()
+        names = []
+        for _para_start, _para_end, spans, around in paragraphs:
             total += 1
-            words = sum(len(body[s:e].split()) for s, e in spans)
-            if not words:
-                continue
-            # Every scrap of narration in the paragraph that is NOT inside a quote. The tag most
-            # often sits *between* two spans - `"…," Sara said. "…"` - so taking only the text
-            # before the first and after the last throws away the attribution evidence.
-            around, cursor = "", para_start
-            for s, e in spans:
-                around += body[cursor:s]
-                cursor = e
-            around += body[cursor:para_end]
             hits = [n for n, toks in tokens.items()
                     if any(re.search(r"\b%s\b" % re.escape(t), around) for t in toks)]
-            if len(hits) != 1:
+            names.append(hits[0] if len(hits) == 1 else None)
+        attributed += sum(1 for n in names if n)
+        filled = _alternate(ch, paragraphs, names)
+        recovered += sum(1 for a, b in zip(names, filled) if b and not a)
+        for (_para_start, _para_end, spans, _around), name in zip(paragraphs, filled):
+            words = sum(len(body[s:e].split()) for s, e in spans)
+            if not words or not name:
                 continue
-            attributed += 1
-            measured.setdefault(hits[0], []).append(words)
-            spoken.setdefault(hits[0], []).append(
+            measured.setdefault(name, []).append(words)
+            spoken.setdefault(name, []).append(
                 " ".join(body[s:e].strip('\"\u201c\u201d') for s, e in spans))
 
     lines = ["   %-24s %-9s %-9s %-7s %s"
@@ -388,7 +430,7 @@ def _turn_lengths(novel, rep, rows):
         mean = sum(got) / float(len(got))
         want = declared[name]
         off = ""
-        if len(got) >= 4 and want and abs(mean - want) / float(want) > 0.4:
+        if len(got) >= MIN_ATTRIBUTED_TURNS and want and abs(mean - want) / float(want) > 0.4:
             off = "%+.0f%% against their own row" % ((mean - want) * 100.0 / want)
             flagged.append(name)
         lines.append("   %-24s %-9d %-9.1f %-7d %s" % (name[:24], want, mean, len(got), off))
@@ -398,13 +440,63 @@ def _turn_lengths(novel, rep, rows):
                  "when one" % (attributed, total))
     lines.append("   cast name appears around it, so an unattributed line is silence here, not a "
                  "short turn.")
+    if recovered:
+        lines.append("   %d more recovered by alternation inside two-speaker scenes, bracketed at "
+                     "both ends." % recovered)
     rep.info("turn length, declared vs measured", lines)
     _cadence(rep, spoken)
+    _contractions(novel, rep, spoken)
     if flagged:
         rep.note("turn-drift", "%s speak at more than 40%% off their declared turn length - a "
                  "chapter mean hides this, which is how it survived several revision passes in "
                  "benchmark run #2" % ", ".join(flagged), path=novel.path("bible", "cast",
                                                                          "_voices.md"))
+
+
+def _contractions(novel, rep, spoken):
+    """Each speaker's measured contraction rate against the cell their own file declares.
+
+    `sw lint` measures contractions one way only: pooled across every speaker in the chapter, and
+    flagged only when there are too *few* ("a cast that never says…"). So a character whose
+    §Speech fingerprint says `contractions: never` and who contracts in every line is invisible
+    twice over. Benchmark run #5, chapter 4: the guild master's file declares `never`, his dialogue
+    carried ten, and the only thing in the toolkit that noticed was the drafter reading its own
+    cast file during Pass 10.
+
+    A note, never a gate, and the reason is the repo's most-repeated lesson: a number a chapter has
+    to clear is a number somebody writes toward. A character may break his own fingerprint because
+    the scene is better for it - the note says what it saw and the drafter decides. `never` and
+    `always` are the only two cells this reads; anything conditional ("drops them when lying") is a
+    judgement and is left alone.
+    """
+    fingerprints = novel.fingerprints()
+    if not fingerprints:
+        return
+    flagged = []
+    for name in sorted(spoken):
+        declared = str((fingerprints.get(name) or {}).get("contractions", "")).strip().lower()
+        if declared not in ("never", "always"):
+            continue
+        turns = spoken[name]
+        if len(turns) < MIN_ATTRIBUTED_TURNS:
+            continue
+        text = " ".join(turns)
+        words = len(text.split())
+        if not words:
+            continue
+        hits = len(textstats.CONTRACTION_RE.findall(text))
+        if declared == "never" and hits:
+            flagged.append("%s declares `never` and contracts %.1f times per 100 spoken words "
+                           "(%d in %d attributed turns)"
+                           % (name, hits * 100.0 / words, hits, len(turns)))
+        elif declared == "always" and not hits:
+            flagged.append("%s declares `always` and contracts nothing across %d attributed turns"
+                           % (name, len(turns)))
+    if flagged:
+        rep.note("fingerprint", "a speech fingerprint and the page disagree: %s. The cell is in "
+                 "the character's own file and no other check reads it - break it on purpose or "
+                 "fix one of the two" % "; ".join(flagged),
+                 path=novel.path("bible", "cast"))
 
 
 def _world_terms(novel):

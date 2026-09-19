@@ -163,16 +163,27 @@ def _digest(novel, rep, blocks):
 def _threads(novel, rep, blocks, last_ch):
     tpath = novel.path("state", "threads.md")
     rows = novel.threads()
-    declared = {}
+    # `plot-threads` owns the id format and documents it as `T01`, `T02`. The pattern here was
+    # `^T\d+`, so benchmark run #5's ledger - which numbered its threads `TH01` - matched nothing,
+    # `declared` came back empty, and every check below was skipped in silence while the summary
+    # line above went on counting nine open threads. A parser whose input drifts must say so
+    # rather than fall quiet, so the shape is read loosely and the drift is reported once.
+    declared, odd = {}, []
     for r in rows:
         tid = r.first().strip().strip("*")
-        if re.match(r"^T\d+", tid):
+        if rules.THREAD_ID.match(tid):
             declared[tid] = r
+            if not rules.THREAD_ID_CANON.match(tid):
+                odd.append(tid)
+    if odd:
+        rep.warn("threads", "thread ids %s are not the `T01` form `plot-threads` documents - "
+                 "they are read here, but every tool that greps for `T\\d+` will miss them"
+                 % ", ".join(sorted(odd)[:6]), path=tpath)
 
     last_seen = {}
     for b in blocks:
         for line in b.keys().get("thr", []):
-            for tid in re.findall(r"[~^vx]?(T\d+)", line):
+            for tid in rules.THREAD_ID_IN_TEXT.findall(line):
                 last_seen[tid] = max(last_seen.get(tid, 0), b.number)
 
     for tid in sorted(last_seen):
@@ -186,9 +197,21 @@ def _threads(novel, rep, blocks, last_ch):
         if status not in ("open", "escalated"):
             continue
         seen = last_seen.get(tid)
+        opened = re.sub(r"\D", "", str(r.get("opened", ""))) or "?"
+        if opened.isdigit() and int(opened) > last_ch:
+            # Benchmark run #5 pre-registered threads as opened at ch 6 and ch 9 before ch 1
+            # existed, and every check passed: the "never operated on" warn below was itself
+            # gated on `opened <= last_ch`, so a thread that could not possibly have been
+            # operated on was the one case exempted from being asked about. The age below then
+            # came out negative. A plan is a fine thing to write down; it is not an open promise,
+            # and a ledger that counts it as one is counting a debt nobody has taken on yet.
+            rep.warn("threads", "%s is declared open at ch %s, but the book is only %d chapters "
+                     "long - a thread planned ahead is not an open promise. Plan it in "
+                     "plan/arcs.md, or open it when the chapter opens it"
+                     % (tid, opened, last_ch), path=tpath, line=r.line_no)
+            continue
         if seen is None:
-            opened = re.sub(r"\D", "", str(r.get("opened", ""))) or "?"
-            if opened.isdigit() and int(opened) <= last_ch:
+            if opened.isdigit():
                 rep.warn("threads", "%s is open, opened at ch %s, and no ledger block has ever "
                          "operated on it" % (tid, opened), path=tpath, line=r.line_no)
             continue
@@ -206,7 +229,9 @@ def _threads(novel, rep, blocks, last_ch):
             continue
         opened = re.sub(r"\D", "", str(r.get("opened", "")))
         due = re.sub(r"\D", "", str(r.get("due", "")))
-        age = last_ch - int(opened) if opened.isdigit() else None
+        # Clamped: a thread opened in the future aged backwards, and a negative age sorted to the
+        # top of the oldest-first list, putting the newest promise where the oldest belongs.
+        age = max(0, last_ch - int(opened)) if opened.isdigit() else None
         if age is not None:
             ages.append((tid, age))
         if due.isdigit() and last_ch > int(due):

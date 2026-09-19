@@ -52,9 +52,9 @@ sits from the POV character's mind.
 
 | distance | example |
 |---|---|
-| **cool** — camera outside | *Rin crossed the market and stopped at the third stall.* |
-| **medium** — reports thought | *Rin crossed the market, watching for the stall he had been told about.* |
-| **close** — the prose thinks in his idiom | *Third stall. The one with the bad awning. Rin kept his hands where the seller could see them.* |
+| **cool** — camera outside | *Hallam crossed the market and stopped at the third stall.* |
+| **medium** — reports thought | *Hallam crossed the market, watching for the stall he had been told about.* |
+| **close** — the prose thinks in his idiom | *Third stall. The one with the bad awning. Hallam kept his hands where the seller could see them.* |
 | **deep** — no seam between prose and thought | *Third stall, bad awning, and the seller's eyes already on his hands. Fine. Let him look.* |
 
 **Distance is a rhythm, not a setting.** The craft is in moving it deliberately:

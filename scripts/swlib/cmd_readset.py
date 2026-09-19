@@ -160,16 +160,55 @@ def _names_from_chg(block):
     return out
 
 
+def _row_cast(novel, row):
+    """Cast names this chapter's own plan row mentions, in any cell.
+
+    `resolve_locations` twenty lines below has always done this - `hay += " " + " ".join(
+    row.cells)` - and characters were the half that read the POV cell alone. Benchmark run #5
+    measured the cost: chapter 2's VOICE MATRIX carried a character who is not in chapter 2 and
+    omitted its second speaker, who is named in four cells of chapter 2's own plan row. The
+    draft-time guard that no two speakers in a scene share all three voice axes was being run on
+    the wrong pair, and it failed on exactly the chapters that introduce somebody.
+
+    Conservatism is `cmd_lint._group_scenes`': a token shared by several cast rows identifies
+    none of them, so a short name only matches on a token that belongs to exactly one row. The
+    full name always matches.
+    """
+    names = [r.first().strip() for r in novel.voice_rows() if r.first().strip()]
+    hay = " ".join(row.cells)
+    if not names or not hay.strip():
+        return []
+    shared = {}
+    for name in names:
+        for t in set(t for t in re.split(r"[^\w']+", name) if len(t) >= 3):
+            shared[t] = shared.get(t, 0) + 1
+    out = []
+    for name in names:
+        toks = [name] + [t for t in re.split(r"[^\w']+", name)
+                         if len(t) >= 3 and shared.get(t, 0) == 1]
+        if any(re.search(r"\b%s\b" % re.escape(t), hay, re.I) for t in toks):
+            out.append(name)
+    return out
+
+
 def resolve_characters(novel, number, explicit=None):
-    """Explicit list wins; otherwise the plan row's POV plus everyone who changed recently."""
+    """Explicit list wins; otherwise this chapter's own plan row plus everyone who changed recently.
+
+    The `chg>` half is kept because it is additive rather than wrong: somebody who moved two
+    chapters ago is worth carrying into this one. It was never the whole answer, and on its own
+    it answers a question about the past.
+    """
     if explicit:
         return [c.strip() for c in explicit if c.strip()], "given on the command line"
-    names, why = [], "plan row POV + `chg>` names from blocks %d-%d" % (max(1, number - 3), number - 1)
+    names = []
+    why = "plan row %d (every cell) + `chg>` names from blocks %d-%d" % (
+        number, max(1, number - 3), number - 1)
     row = novel.plan_row(number)
     if row:
         pov = row.get("pov").strip()
         if pov:
             names.extend(p.strip() for p in re.split(r"[/,+&]| and ", pov) if p.strip())
+        names.extend(_row_cast(novel, row))
     for b in novel.blocks():
         if b.number is not None and number - 3 <= b.number <= number - 1:
             names.extend(_names_from_chg(b))
@@ -295,16 +334,26 @@ def watch_row(novel, number):
                 if c.number is not None and lo <= c.number <= number - 1]
     if not chapters:
         return [], []
+    # Counted in CHAPTERS, never in findings. Two checks deliberately fire at more than one
+    # level in the same chapter - `house-style` notes each construction and warns on the
+    # aggregate rate - so a check seen in both buckets used to be counted twice for the one
+    # chapter, and the row printed `house-style (6 of last 4)`. An impossible number is the
+    # visible half; the quiet half is that the inflated count also decides the ranking into a
+    # four-slot row, so a habit could evict a warn by being counted twice rather than by
+    # recurring. `seen` is per chapter for that reason.
     hits = {}
     tier = {}
     for c in chapters:
         counts = cmd_lint.check_counts(novel, c)
+        seen = set()
         for check in counts["checks"]:
-            hits[check] = hits.get(check, 0) + 1
             tier[check] = 0
+            seen.add(check)
         for check in counts["notes"]:
-            hits[check] = hits.get(check, 0) + 1
             tier.setdefault(check, 1)
+            seen.add(check)
+        for check in seen:
+            hits[check] = hits.get(check, 0) + 1
     named = sorted(((v, k) for k, v in hits.items() if v >= WATCH_MIN),
                    key=lambda vk: (tier[vk[1]], -vk[0], vk[1]))
     row = ["%s (%d of last %d)" % (k, v, len(chapters)) for v, k in named[:WATCH_CAP]]

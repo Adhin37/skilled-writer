@@ -41,6 +41,29 @@ what the protagonist *wants*, and who stops them.
 Ask with `AskUserQuestion`, batching up to 4 questions per call. Always lead each option list
 with the choice you recommend for this premise, marked `(Recommended)`.
 
+**Four fields are the author's words and take no recommendation.** Everything else in this
+interview is a design decision you are qualified to lead on; these four are the ones the rest of
+the toolkit later enforces *against* you, and a field you drafted is a field you will read as
+negotiable when a chapter wants it to be.
+
+| verbatim-only | what it is |
+|---|---|
+| `ending.contract` | what a good ending looks like, in their sentence |
+| `ending.non_negotiables` | who or what may not be taken. `timeline-engine` treats this as absolute |
+| `opening.promise` | the contract the reader arrives holding |
+| `style.read_like` | the voice references, as named |
+
+Ask these in plain chat, not with options, and write down what you are given. You may ask a
+follow-up, read the answer back, and tidy grammar. You may not supply the answer, extend the list,
+or offer a menu to pick from.
+
+> *Good:* "You said Dara has to come out of this alive. Anyone else on that list, or is it just
+> her?" — "Just her." → `non_negotiables: ["Dara survives"]`
+>
+> *Not:* "I'd suggest *Dara survives* and *the workshop is not destroyed* — sound right?" Benchmark
+> run #5 did exactly this and the author agreed, which is the trap: an author agreeing to your
+> list is not the same as an author naming theirs, and the second item was never theirs.
+
 **Round A — the shape**
 
 | question | options |

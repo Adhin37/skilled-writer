@@ -22,6 +22,9 @@ agent regardless of harness.
 - `scripts/sw.py` is a stdlib-only Python 3.8+ program that does the countable work. It is an
   optimisation, never a dependency: every skill that names a command keeps its manual checklist
   underneath.
+- **A benchmark or test run of the toolkit follows [docs/test-run-protocol.md](docs/test-run-protocol.md)**,
+  read before the run starts. It binds the coordinating session — the one that never writes a file
+  under `novels/` — and not the agent doing the writing, which is told not to read `docs/` at all.
 
 ## The one rule that matters most
 
@@ -62,7 +65,7 @@ without this is a bug.
 ## Before you commit a change to the toolkit
 
 ```bash
-python3 -m unittest discover tests   # 388 tests
+python3 -m unittest discover tests   # 437 tests
 python3 scripts/sw.py health         # wiring, scope claims, duplication, the budgets
 python3 scripts/sw.py selftest       # builds a novel in a temp dir; proves every check fires
 ```

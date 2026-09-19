@@ -327,3 +327,47 @@ class TestPacingMarkers(unittest.TestCase):
             levels = {f.level for f in rep.findings if f.check == "pacing"}
             self.assertTrue(levels, "no pacing finding on deliberately reported prose")
             self.assertEqual(levels, {"note"})
+
+
+class TestSpeechParagraphs(unittest.TestCase):
+    """`speech_paragraphs` — the one attribution rule, shared by `sw cast` and `sw lint`.
+
+    It exists because the two had drifted: `cmd_cast._turn_lengths` attributed a turn only when
+    one cast name appeared in the narration outside the quotes, while `cmd_lint._group_scenes`
+    counted a name anywhere in the scene and reported benchmark run #5's chapter 4 — a two-hander
+    — as six people.
+    """
+
+    def _chapter(self, body):
+        """Returns `(chapter body as stored, paragraphs)` — offsets index the stored body, which
+        is not the string handed to `add_chapter`.
+        """
+        with NovelFixture() as fx:
+            fx.add_chapter(1, body)
+            ch = fx.novel().chapter(1)
+            return ch.body, ch.speech_paragraphs()
+
+    def _paras(self, body):
+        return self._chapter(body)[1]
+
+    def test_a_tag_between_two_spans_is_kept(self):
+        """`"…," Sara said. "…"` is the ordinary way to punctuate a long speech. Taking only the
+        text before the first span and after the last throws the attribution evidence away.
+        """
+        got = self._paras('"Go on," Sara said. "I am listening."\n')
+        self.assertEqual(len(got), 1)
+        self.assertIn("Sara said", got[0][3])
+
+    def test_paragraphs_without_speech_are_skipped(self):
+        got = self._paras('He waited by the door.\n\n"Go on," Sara said.\n\nThe room was cold.\n')
+        self.assertEqual(len(got), 1)
+
+    def test_offsets_locate_the_paragraph_in_the_body(self):
+        body, got = self._chapter('He waited.\n\n"Go on," Sara said.\n')
+        start, end, spans_, _around = got[0]
+        self.assertEqual(body[start:end].strip(), '"Go on," Sara said.')
+        self.assertEqual([body[s:e] for s, e in spans_], ['"Go on,"'])
+
+    def test_around_excludes_the_spoken_words(self):
+        got = self._paras('"Go on," Sara said.\n')
+        self.assertNotIn("Go on", got[0][3])

@@ -9,6 +9,13 @@ context, explicit state files, deterministic procedures. The arguments behind th
 [docs/design-notes.md](docs/design-notes.md) — read that when editing the toolkit, not when
 writing a chapter.
 
+**If this is a benchmark or test run of the toolkit** — the user asking for a test run, a trial run
+or a benchmark rather than a chapter of their own novel — read
+[docs/test-run-protocol.md](docs/test-run-protocol.md) before anything else and follow it for the
+whole run. It binds the **coordinator**, never the drafter, and its first rule is that the
+coordinator writes no file under `novels/`: a run where a human repaired the output measures the
+human. It does not apply to a normal run, where editing a chapter on request is the job.
+
 ---
 
 ## 1. Resolve the active novel first

@@ -40,7 +40,7 @@ as a warn; none is a defect, because any one instance is fine.
 | tell | what it looks like | run #2 |
 |---|---|---|
 | **The antithesis** | *"It was weather, not prophecy."* · *"Not relief."* · *"this one was confirmation, not ease"* | 18 in 7.3k words |
-| **The em-dash appositive** | A clause, then a dash, then a noun phrase re-explaining it: *"took Suzune's slip first, the small, automatic courtesy of a captain who still remembered which of her people didn't waste her time."* | 62 dashes; 11.4/1k in ch1 |
+| **The em-dash appositive** | A clause, then a dash, then a noun phrase re-explaining it: *"took Larke's slip first, the small, automatic courtesy of a captain who still remembered which of her people didn't waste her time."* | 62 dashes; 11.4/1k in ch1 |
 | **The aphoristic close** | A scene ends on a portable generalisation: *"A promise kept was one data point. It was not yet a pattern."* | nearly every scene break |
 | **The abstract as object** | *"turning eight years of careful, controlled arithmetic over in her hands"* | recurring |
 | **The stage direction** | *"A beat."* written into the prose as if it were a script | 4× in ch5 alone |

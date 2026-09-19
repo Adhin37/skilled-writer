@@ -590,10 +590,13 @@ many files at once should check these two detectors first.
 
 ## Related reading
 
-- [`benchmark.md`](benchmark.md) — run #1: what the toolkit costs to operate, and the defects that
-  only appeared under load.
-- [`history/upgrade-plan.md`](history/upgrade-plan.md) — the current inventory, the research behind the last round
-  of changes, and what is still open.
+- [`benchmark.md`](benchmark.md) — every run: what the toolkit costs to operate, the defects that
+  only appeared under load, and what is still open.
+- [`test-run-protocol.md`](test-run-protocol.md) — how a benchmark run is conducted: what the
+  coordinator may and may not touch, the intervention policy, and the traps that have cost a run
+  before. Read before a run, not during a chapter.
+- [`craft-sources.md`](craft-sources.md) — what was researched, where it came from, and which rule
+  it produced. Provenance only; nothing in it is loaded at runtime.
 - [`coverage-map.md`](coverage-map.md) — what an agent needs in order to write a novel, mapped to
   the owner, file and card that supply it, plus what was deliberately left unowned.
 - [`creative-latitude.md`](creative-latitude.md) — the corpus measured as 17.6 negations per

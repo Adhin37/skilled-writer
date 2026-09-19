@@ -216,7 +216,7 @@ found there made her put the cloth down. "Sit."
 
 "Sit down, Wren."
 
-Wren sat. The stool was too low, the way it had been since they were twelve, and sitting on it put
+Wren sat. The stool was too low. It had been too low since they were twelve, and sitting on it put
 her at the height of the board, which was where Bel put people she intended to feed.
 
 Through the wall came the sound of the row going about its morning: a bucket set down, somebody
@@ -380,8 +380,8 @@ probably still be a saltwright at the end of it. The other one put the levy offi
 denied attending for nine days running, and there was no version of asking it that ended with
 anybody handing her back a seal.
 
-She did the arithmetic twice, the way she did everything twice, and both times it came out the
-same, and both times she disliked the answer for exactly as long as it took her to accept it.''',
+She did the arithmetic twice. She did everything twice. Both times it came out the same, and both
+times she disliked the answer for exactly as long as it took her to accept it.''',
     ),
     dict(
         title="The Ghost at the Waterline",
@@ -437,7 +437,7 @@ I learned it from his. He tells the room it’s the one fault he never got out o
 laughing with them."
 
 Maro was quiet for a moment. Out on the harbour somebody was working a winch, and the sound came
-up through the floor of the counting room the way it had every evening of her apprenticeship.
+up through the floor of the counting room, as it had every evening of her apprenticeship.
 
 "So he wrote your name on the stone," he said, "in his own hand, which is close enough to yours
 that no clerk in Ashfall would look at it twice."

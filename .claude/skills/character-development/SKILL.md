@@ -138,7 +138,7 @@ Called by `write-chapter`, step 1.
 
 | pattern | why it fails | instead |
 |---|---|---|
-| Narrating growth: "she had grown so much since Ashfall" | tells the reader to feel a change they were not shown | let her make a choice her old self could not |
+| Narrating growth: "she had grown so much since Corveth" | tells the reader to feel a change they were not shown | let her make a choice her old self could not |
 | Growth by power gain | levels are not beliefs | a new capability creates a new problem; the *problem* moves the rung |
 | The training montage | bad at it Tuesday, good at it Friday | the five stages, with the plateau around 2, and a named source for each advance |
 | A skill acquired for free | the reader values what was paid for | name what the practice took — hours, a hand, a relationship, the thing they did not do instead |

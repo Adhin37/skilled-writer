@@ -120,7 +120,7 @@ a single chapter, because a per-chapter rule here is satisfied by appending a se
 5. **Rotate types.** Three revelation hooks in a row and the reader stops feeling them.
    Benchmark run #2 closed *four of five* chapters on the same shape — a short, withheld,
    ironic line of narration with nobody speaking: *"The gate hung open." · "The small hand found
-   hers, tighter, in her sleep." · "Neither did Enko." · "The door stayed shut, this time, and
+   hers, tighter, in her sleep." · "Neither did Odell." · "The door stayed shut, this time, and
    nobody was watching it."* Each one is a good last line. Together they are a tic, and a reader
    registers the sameness long before they could say what is repeating. `sw lint` reports this
    as `closer-sameness`.

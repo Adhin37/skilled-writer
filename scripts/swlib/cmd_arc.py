@@ -308,7 +308,7 @@ def _threads(novel, rep, blocks, lo, hi):
     ops = {"~": [], "^": [], "v": [], "x": []}
     for b in blocks:
         for line in b.keys().get("thr", []):
-            for op, tid in re.findall(r"([~^vx])(T\d+)", line):
+            for op, tid in rules.THREAD_OP_IN_TEXT.findall(line):
                 ops[op].append("%s@%d" % (tid, b.number))
     rep.info("threads this arc", [
         "   opened:    %s" % (", ".join(ops["~"]) or "none"),

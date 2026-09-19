@@ -39,7 +39,7 @@ Record every cost in the plan row and in the CCS block. Log the MC's in the pain
 (`state/growth.md`).
 
 **Legibility test.** State the cost in one concrete sentence. *"He suffered"* fails.
-*"He can't go back to Ashfall, and his sister is still there"* passes.
+*"He can't go back to Drayle, and his sister is still there"* passes.
 
 ## Escalation is about what is lost, not what is fought
 

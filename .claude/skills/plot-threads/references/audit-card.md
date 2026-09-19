@@ -73,6 +73,6 @@ A world that only moves when the MC is watching is a stage set.
 
 ## What it looks like when it lands
 
-`^T03` — the debt is not paid this chapter and is not mentioned either; what happens is that Wren
-declines a job she would have taken in chapter 4, and Bel notices. The thread advanced without
+`^T03` — the debt is not paid this chapter and is not mentioned either; what happens is that Cressa
+declines a job she would have taken in chapter 4, and Adair notices. The thread advanced without
 anybody saying its name.

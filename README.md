@@ -71,7 +71,7 @@ whether the model remembered to look.
 ```bash
 python3 scripts/sw.py doctor        # start here; reports version and workspace
 python3 scripts/sw.py selftest      # builds a novel in a temp dir and proves every check fires
-python3 -m unittest discover tests  # the toolchain's own tests (382)
+python3 -m unittest discover tests  # the toolchain's own tests (437)
 ```
 
 **Nothing breaks without it.** Every skill that names a command keeps its manual checklist
@@ -206,12 +206,16 @@ Three things worth knowing before you start:
 
 - **You are not paying for prose.** Output was under 2% of the bill. The rest is the model reading
   state back in. Cheap chapters come from a small read-set, not from short chapters.
-- **Write each chapter in a fresh session.** This is the single most important operating habit,
-  and it is not mainly about cost. Measured in run #4: an agent five chapters into one
-  conversation opened **5** of its ~36 resolved skill cards and **none** of the revision gate's.
-  A cold agent given the identical read-set for the next chapter opened **33**, and cost slightly
-  less. The read-set is bounded; the session is not, and what a long session rations away first is
-  the contract. `/novel-write` in a new session picks up from the state files.
+- **Re-enter through the read-set after any interruption**, and when in doubt write each chapter in
+  a fresh session. This is the single most important operating habit, and it is not mainly about
+  cost. Measured in run #4: an agent five chapters into one conversation opened **5** of its ~36
+  resolved skill cards and **none** of the revision gate's, where a cold agent given the identical
+  read-set opened **33** and cost slightly less. Run #5 found the mechanism — the same warm agent
+  opened **29** cards for one chapter and **1** for the chapter a rate limit interrupted. It is not
+  session length that rations the contract away; the contract is re-derived per chapter in the
+  run-up to the draft, and an interruption anywhere in that run-up loses it silently. A fresh
+  session guarantees the re-derivation, which is why it is still the safe default.
+  `/novel-write` in a new session picks up from the state files.
 - **Setup is about three chapters' worth of spend.** It buys a bible, a cast with a voice matrix
   and a competence grid, the society layer, an arc plan and twelve planned chapters.
 
@@ -558,7 +562,7 @@ CONTRIBUTING.md                   optional local tooling, and what it costs the 
 .claude/settings.json             shared permissions (relative paths — portable)
 scripts/sw.py                     the mechanical toolkit (optional, Python 3.8+)
 tests/                            unittest suite for the toolchain (stdlib, no novel needed)
-docs/                             design notes, the benchmark runs, coverage and latitude maps
+docs/                             design notes, benchmark runs, the test-run protocol, maps
 novels/_template/                 the per-novel scaffold
 novels/<slug>/                    your novel: config, bible, plan, state, chapters (gitignored)
 ```

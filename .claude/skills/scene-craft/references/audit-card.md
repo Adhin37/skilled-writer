@@ -30,7 +30,7 @@ One sentence each, and none of them strained.
 | **Next** | What does the reader now need to see? | The hook asks a question the chapter already answered |
 
 **Change is not a summary of events.** *"He asks about the recount"* is events; *"he is now
-someone Tsuru watches on purpose"* is a change. A model asked only for "a difference" will name the
+someone Tarran watches on purpose"* is a change. A model asked only for "a difference" will name the
 smallest one it can find and write eleven hundred words around it, which is why Pass Z gates on the
 event first.
 

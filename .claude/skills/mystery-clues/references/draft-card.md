@@ -16,7 +16,7 @@ chapter plan row.
 **Produce two lines for the brief:**
 
 ```
-mode     ahead - the reader saw the ledger's second page in ch 6; Halden did not
+mode     ahead - the reader saw the ledger's second page in ch 6; Rennick did not
 clue     C4 planted, disguised as a complaint about the delivery rota
 ```
 

@@ -107,6 +107,14 @@ Names are the most visible worldbuilding and the easiest to get wrong.
 - **Say what it does.** Prefer terms that are transparent to an English reader over invented
   vocabulary that must be glossed. Invent only where the concept has no English equivalent.
 - **Cap the invented-word budget** at roughly one new term per chapter early on, fewer later.
+- **No name from an example belongs in a novel.** Every name in this toolkit's worked examples is
+  a placeholder chosen to make a rule legible, and each one is deliberately confined to a single
+  skill so that none of them ever looks like a house name. Benchmark run #5 named its protagonist,
+  its antagonist and the protagonist's sister after three of them — the drafter had read the names
+  a dozen times across the cards it was holding open, which is exactly what makes a name feel
+  available. If a candidate name arrived from something you read rather than from this world's
+  sound patterns, it is the wrong name. The same goes for names lifted from a published novel, and
+  for fanfic from anything outside the source work's own naming conventions.
 
 ## Exposition discipline
 

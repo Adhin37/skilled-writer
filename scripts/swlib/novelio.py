@@ -382,6 +382,56 @@ class Novel(object):
             rows.extend(t.rows)
         return rows
 
+    @_memo
+    def fingerprints(self):
+        """`{character name: {field: value}}` from each cast file's §Speech fingerprint table.
+
+        Keyed by the `name:` the character's own file declares, so it joins to `_voices.md` by the
+        same string `voice_rows` returns. Eight fields are declared per character and nothing read
+        one until benchmark run #5, where a character whose file says `contractions: never` spoke
+        ten of them in a single chapter: `sw lint` pools every speaker into one chapter-wide rate
+        and only ever flags the low side, so the only thing that noticed was the drafter's own
+        Pass 10. A declared field that no tool reads is a field that drifts.
+        """
+        out = {}
+        for name in self.cast_files():
+            text = self._text("bible", "cast", name + ".md")
+            if not text:
+                continue
+            fm, _ = mdio.split_frontmatter(text)
+            who = str((mdio.parse_yaml(fm) or {}).get("name", "")).strip()
+            table = self._table_by_headers(text, "field", "value")
+            if not who or not table:
+                continue
+            fields = {}
+            for row in table.rows:
+                if len(row.cells) >= 2 and row.cells[0].strip():
+                    fields[row.cells[0].strip().lower()] = row.cells[1].strip()
+            if fields:
+                out[who] = fields
+        return out
+
+    @_memo
+    def cast_frontmatter(self):
+        """`{character name: frontmatter dict}` for every cast profile.
+
+        `first_appears:` has been in both cast templates since the scaffold was written and was
+        read by nothing at all, which is how it came to be wrong in two of run #5's seven files.
+        It is also exactly the field a tool needs to check CLAUDE.md rule 8's clause that every
+        named character is placed before they carry a scene.
+        """
+        out = {}
+        for name in self.cast_files():
+            text = self._text("bible", "cast", name + ".md")
+            if not text:
+                continue
+            fm, _ = mdio.split_frontmatter(text)
+            data = mdio.parse_yaml(fm) or {}
+            who = str(data.get("name", "")).strip()
+            if who:
+                out[who] = data
+        return out
+
     def cast_files(self):
         d = self.path("bible", "cast")
         if not os.path.isdir(d):

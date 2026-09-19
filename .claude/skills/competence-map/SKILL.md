@@ -13,7 +13,7 @@ metadata:
 
 The default AI character is a **generalist with no edges**. Ask them about metallurgy, they answer.
 Ask about canon law, court etiquette, field medicine, the price of grain — they answer, at the same
-confident depth, in the same paragraph. Nobody says *I don't know*. Nobody says *ask Dael, that's
+confident depth, in the same paragraph. Nobody says *I don't know*. Nobody says *ask Auden, that's
 his end*. Nobody is wrong about a thing they were never taught.
 
 Real people are narrow. Someone spends a decade getting good at one thing, is passable at three

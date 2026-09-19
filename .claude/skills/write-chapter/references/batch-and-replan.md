@@ -29,9 +29,25 @@ completely means an interruption leaves whole chapters behind it, never a half-w
 
 Per-chapter cost climbs with conversation length rather than with the novel's length — measured on
 run #1, cache reads rose about 34% across three chapters inside one session while the read-set
-stayed the same size. The read-set is bounded; the session is not. For a long run, start a fresh
-session every few chapters. Nothing is lost: the whole point of the state files is that chapter N
-is writable from `novels/<slug>/` alone.
+stayed the same size. The read-set is bounded; the session is not. Nothing is lost by starting
+over: the whole point of the state files is that chapter N is writable from `novels/<slug>/` alone.
+
+## After an interruption, re-enter through the read-set
+
+**A chapter resumed mid-flight starts again at step 0.** Do not continue from where you stopped.
+Re-run `sw readset`, re-resolve the card set with `sw kb cards`, and open the cards the phase
+names — even if you were four hundred words into the draft and the brief is still above you in the
+conversation.
+
+The reason is measured. Run #4 read a warm agent five chapters deep opening 5 of ~36 resolved
+cards against a cold agent's 33 and concluded that a long session rations the contract away. Run
+#5 found the sharper edge: the same warm agent, in the same conversation, opened **twenty-nine**
+cards for one chapter and **one** for the chapter a rate limit had landed in. Length was not what
+did it. The contract is re-derived per chapter and lives in the run-up to the draft, so an
+interruption anywhere in that run-up loses it silently — the draft continues, the cards do not,
+and every check downstream stays green because nothing counts what you opened.
+
+This costs one read-set call. Continuing without it costs the gate.
 
 ## When the plan and the draft disagree
 

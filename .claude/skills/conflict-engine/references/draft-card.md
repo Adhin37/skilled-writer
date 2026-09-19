@@ -26,7 +26,7 @@ sources, and what the antagonist did for their own reasons.
 | **large** (every arc) | a person, a capability, a belief, a place they cannot return to |
 | **defining** (every 2–3 arcs) | a loss partly the MC's own fault, and unrepairable |
 
-**Legibility test.** *"He suffered"* fails. *"He can't go back to Ashfall, and his sister is still
+**Legibility test.** *"He suffered"* fails. *"He can't go back to Drayle, and his sister is still
 there"* passes.
 
 ## The stake rung — escalate this, not enemy power

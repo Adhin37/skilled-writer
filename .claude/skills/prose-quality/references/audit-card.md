@@ -63,6 +63,6 @@ work, the positive standards for the rest. The seven measured tells and why they
 
 ## What it looks like when it lands
 
-Three plain sentences, then one that turns: *The office was cold. Maro had the window open and no
+Three plain sentences, then one that turns: *The office was cold. Larke had the window open and no
 intention of closing it. She sat where he pointed.* Nothing is loaded, nothing is ironic, and the
 paragraph after it can afford to be.

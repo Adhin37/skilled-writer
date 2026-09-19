@@ -19,15 +19,15 @@ One block per chapter. Fixed key order. Lowercase keys, `>` separator, ` / ` bet
 =C0042= pov:Rin | loc:Ashfall Market>Guild undercroft | t:D12 dusk | wc:1840 | arc:2
 dlv> Rin can no longer use the Guild archive, and knows who closed it to him
 ev> buys forged map / spots guild seal is a fake / tails the forger / hides in undercroft
-chg> Rin: wary->suspicious(Guild) ; Dael: admits debt, -2 trust w/Rin
+chg> Rin: wary->suspicious(Guild) ; Ferran: admits debt, -2 trust w/Rin
 pwr> P=+1 vs the Warden's man (T4 vs Rin T3) survived, ribs / Echo-step x2 (nosebleed, 6h lock) / limit shown: fails indoors
-kno> Rin+{seal forged} Rin-{who paid} ; reader+{Dael paid} ; Dael-{Rin saw him}
+kno> Rin+{seal forged} Rin-{who paid} ; reader+{Ferran paid} ; Ferran-{Rin saw him}
 thr> ~T14(forged-seal) ^T03(father-debt) vT09(oath to Mira: she forgives him)
 obj> get the buyer's name -> next: read the Guild ledger
 bod> Rin: F2 juvenile, unchanged / could not reach the top shelf, stacked crates instead
 wld> Vesh: opens a file on Rin (institution, latency 10, fires ~ch52) / W04 grain levy unmoved
 fk> spent K3(forger's name) to place himself in the undercroft -> K3 spent ; K7,K9 now suspect (she was never there in the remembered version)
-set> undercroft: wet chalk smell, one lamp / Rin owns Dael's coat now
+set> undercroft: wet chalk smell, one lamp / Rin owns Ferran's coat now
 cand> 2:Rin reports the seal to the Guild 3:Rin sells the forger's name to Vesh -> took 3, the other two leave him with nothing to trade
 z4> the forger is the one who warns him, and does it for free, which costs Rin more than a price would have
 hook> the ledger's first line is his father's name
@@ -68,7 +68,7 @@ v      paid off              ()     parenthetical cost or qualifier
 
 ### Hard rules for writing a block
 
-1. **No adjectives of quality.** `ev> a brutal, desperate fight` is wrong. `ev> fights Karth to a
+1. **No adjectives of quality.** `ev> a brutal, desperate fight` is wrong. `ev> fights Ondre to a
    draw / breaks two ribs` is right. Record facts, not impressions.
 2. **No prose sentences.** No articles where they can be dropped. No "then", "and then".
 3. **Never omit `kno>`.** Dramatic irony, reveals and idiot-ball prevention all run off it.
@@ -86,11 +86,11 @@ v      paid off              ()     parenthetical cost or qualifier
 
 ```
 =ARC2= ch26-50 | q:can Rin buy back his father's name? | a:no, he burns it instead
-ev> guild ledger names father / Rin trades the map to Vesh / undercroft raid / Dael dies
+ev> guild ledger names father / Rin trades the map to Vesh / undercroft raid / Ferran dies
 chg> Rin: rung2->rung4 (stops asking permission) ; Vesh: ally->creditor
 kno> Rin+{father sold the seal willingly} ; reader+{Vesh ordered the raid}
 thr> paid:T03,T09 open:T14,T21 new:T27(Vesh's claim on Rin)
-cost> Dael dead / Rin's name blacklisted in Ashfall / left hand scarred
+cost> Ferran dead / Rin's name blacklisted in Ashfall / left hand scarred
 end> Rin leaves Ashfall owing Vesh a favour he cannot define
 ```
 

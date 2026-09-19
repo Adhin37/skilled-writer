@@ -48,6 +48,6 @@ prose going vague.
 
 ## What it looks like when it lands
 
-The chapter opens in Maro's head and the reader knows inside two sentences, before the label,
-because he is counting something. What he notices about the room is the rent on it. Wren noticed
+The chapter opens in Brennes's head and the reader knows inside two sentences, before the label,
+because he is counting something. What he notices about the room is the rent on it. Talle noticed
 the salt line.

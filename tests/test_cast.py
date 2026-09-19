@@ -6,6 +6,7 @@ know them and everything in their life." Both were true of a novel on which ever
 reported clean.
 """
 
+import re
 import unittest
 
 from fixtures import NovelFixture, NOVEL_MD  # noqa: F401
@@ -106,6 +107,184 @@ class TestDebutLedger(unittest.TestCase):
             fx.add_chapter(1, "Ana counted.\n\nBo arrived.\n")
             rep = cmd_cast.run(fx.novel())
             self.assertEqual([c for c, lv in findings(rep) if c == "debuts"], [])
+
+
+class TestAlternationRecovery(unittest.TestCase):
+    """Benchmark run #5, O14. Attribution needs a cast name in the narration around a line, so a
+    well-written untagged two-hander — the scene a writer is supposed to be able to leave untagged
+    — scored 4 of 52 lines, `_cadence` bailed under its four-sentence floor, and run #3's cadence
+    test never ran on the one chapter where two characters demonstrably shared a cadence. The
+    instrument went blind exactly where the prose got good.
+
+    The recovery never assumes the convention, it checks it: a gap is filled only when the
+    attributed turns bracketing it agree on parity, so a scene that is not strictly alternating
+    reports nothing rather than reporting a guess.
+    """
+
+    ROWS = ("| Ana | MC | 3 | 3 | dry | flat | 6 | taps | still | the door |",
+            "| Bo | A | 1 | 2 | warm | quick | 9 | rubs | smaller | the floor |")
+
+    def _lines(self, body):
+        with NovelFixture() as fx:
+            fx.write("bible/cast/_voices.md", voices(*self.ROWS))
+            fx.add_chapter(1, body)
+            rep = cmd_cast.run(fx.novel())
+        for heading, lines in rep.sections:
+            if heading.startswith("turn length"):
+                return lines
+        return []
+
+    def _recovered(self, body):
+        for line in self._lines(body):
+            m = re.search(r"(\d+) more recovered", line)
+            if m:
+                return int(m.group(1))
+        return 0
+
+    def _count(self, name, body):
+        for line in self._lines(body):
+            parts = line.split()
+            if parts and parts[0] == name:
+                return int(parts[3])          # character, declared, measured, lines
+        return 0
+
+    # Ana and Bo tag the outer turns; the four between them are bare quotes. Four unattributed
+    # turns and an even gap means the run ends on the speaker it started with — consistent.
+    ALTERNATING = "\n\n".join([
+        'Ana set the slip down. "One two three four five six," she said.',
+        '"Seven eight nine ten eleven twelve."',
+        '"Thirteen fourteen fifteen sixteen."',
+        '"Seventeen eighteen nineteen twenty."',
+        '"Twenty-one twenty-two twenty-three."',
+        'Bo pushed it back. "Twenty-four twenty-five twenty-six," Bo said.',
+    ]).replace("she said", "Ana said")
+
+    def test_a_bracketed_run_is_recovered(self):
+        self.assertEqual(self._recovered(self.ALTERNATING), 4)
+
+    def test_recovered_turns_reach_the_speakers_own_row(self):
+        """The point of the recovery: a per-speaker number that was n=1 becomes a sample."""
+        self.assertEqual(self._count("Ana", self.ALTERNATING), 3)
+        self.assertEqual(self._count("Bo", self.ALTERNATING), 3)
+
+    def test_a_run_whose_ends_disagree_on_parity_stays_unattributed(self):
+        """Two turns between two tags by the same speaker cannot be strict alternation — it would
+        land the second tag on Bo. The scene is one this cannot read, so it says nothing rather
+        than guessing."""
+        body = "\n\n".join([
+            'Ana set the slip down. "One two three," Ana said.',
+            '"Four five six seven."',
+            '"Eight nine ten eleven."',
+            'Ana pushed it back. "Fifteen sixteen," Ana said.',
+            'Bo shrugged. "Seventeen eighteen," Bo said.',
+        ])
+        self.assertEqual(self._recovered(body), 0)
+
+    def test_nothing_is_recovered_before_the_first_tag_or_after_the_last(self):
+        """An unbracketed run has only one end to check against, which is not a check."""
+        body = "\n\n".join([
+            '"One two three four."',
+            '"Five six seven eight."',
+            'Ana looked up. "Nine ten eleven," Ana said.',
+            'Bo looked back. "Twelve thirteen," Bo said.',
+            '"Fourteen fifteen sixteen."',
+        ])
+        self.assertEqual(self._recovered(body), 0)
+
+    def test_a_third_speaker_switches_the_recovery_off(self):
+        """Alternation is a two-speaker convention. With three on the page the next line is a
+        choice, not a turn order, and `scene-craft` says so."""
+        rows = self.ROWS + ("| Cy | B | 2 | 2 | none | flat | 7 | still | busy | the wall |",)
+        body = self.ALTERNATING + '\n\nCy shook his head. "Twenty-seven twenty-eight," Cy said.'
+        with NovelFixture() as fx:
+            fx.write("bible/cast/_voices.md", voices(*rows))
+            fx.add_chapter(1, body)
+            rep = cmd_cast.run(fx.novel())
+        text = " ".join(l for h, ls in rep.sections if h.startswith("turn length") for l in ls)
+        self.assertNotIn("recovered by alternation", text)
+
+    def test_recovery_does_not_reach_across_a_scene_break(self):
+        """Two scenes are two conversations. Bracketing across the break would pair the last turn
+        of one with the first of the next, which is not a bracket at all."""
+        body = "\n\n".join([
+            'Ana set it down. "One two three," Ana said.',
+            '"Four five six seven."',
+            "* * *",
+            '"Eight nine ten eleven."',
+            'Bo pushed it back. "Twelve thirteen," Bo said.',
+        ])
+        self.assertEqual(self._recovered(body), 0)
+
+
+PROFILE = """---
+name: "%s"
+tier: A
+role: supporting
+first_appears: %s
+status: alive
+---
+
+# %s
+"""
+
+
+class TestFirstAppearsIsRead(unittest.TestCase):
+    """`first_appears:` has sat in both cast templates since the scaffold was written and was
+    read by nothing at all, which is how it came to be wrong in two of benchmark run #5's seven
+    profiles. It is also exactly the field a tool needs to check CLAUDE.md rule 8's clause that
+    every named character is placed before they carry a scene, and the debut ledger beside it
+    already knows the true answer.
+    """
+
+    ROWS = ("| Ana | MC | 3 | 3 | dry | flat | 14 | taps | still | the door |",
+            "| Bo | A | 1 | 2 | warm | quick | 8 | rubs | smaller | the floor |")
+
+    def _run(self, first_appears, body=None):
+        body = body or "Ana counted them twice.\n\nBo came in late.\n"
+        with NovelFixture() as fx:
+            fx.write("bible/cast/_voices.md", voices(*self.ROWS))
+            fx.write("bible/cast/bo.md", PROFILE % ("Bo", first_appears, "Bo"))
+            fx.add_chapter(1, body)
+            return cmd_cast.run(fx.novel())
+
+    def test_a_wrong_first_appears_is_named(self):
+        msgs = [f.message for f in self._run(4).findings if f.check == "first-appears"]
+        self.assertTrue(msgs)
+        self.assertIn("Bo", msgs[0])
+        self.assertIn("4", msgs[0])
+
+    def test_the_true_chapter_is_printed_beside_the_declared_one(self):
+        """The finding is only useful if it says what to write instead."""
+        msgs = [f.message for f in self._run(4).findings if f.check == "first-appears"]
+        self.assertIn("1", msgs[0])
+
+    def test_a_correct_first_appears_says_nothing(self):
+        rep = self._run(1)
+        self.assertEqual([f for f in rep.findings if f.check == "first-appears"], [])
+
+    def test_an_unset_first_appears_says_nothing(self):
+        """The template ships `0`, and a scaffold that has not been filled in yet is not a
+        defect - `novel-init` owns that, and nagging about it here would fire on every new
+        novel before a word is written."""
+        rep = self._run(0)
+        self.assertEqual([f for f in rep.findings if f.check == "first-appears"], [])
+
+    def test_it_is_never_more_than_a_note(self):
+        """A character who genuinely first appears offstage, or in a chapter the read-set does
+        not reach, is a legitimate reason for the field to disagree with the prose."""
+        for f in self._run(4).findings:
+            if f.check == "first-appears":
+                self.assertEqual(f.level, "note")
+
+    def test_a_character_outside_the_read_window_is_not_guessed_at(self):
+        """A name that never appears in any chapter on disk has no measured debut to compare
+        against, so there is nothing to say."""
+        with NovelFixture() as fx:
+            fx.write("bible/cast/_voices.md", voices(*self.ROWS))
+            fx.write("bible/cast/cy.md", PROFILE % ("Cy", 9, "Cy"))
+            fx.add_chapter(1, "Ana counted them twice.\n")
+            rep = cmd_cast.run(fx.novel())
+            self.assertEqual([f for f in rep.findings if f.check == "first-appears"], [])
 
 
 class TestTurnLength(unittest.TestCase):
@@ -256,3 +435,84 @@ class TestEqAxis(unittest.TestCase):
         rep = self._run("| Bo | A | 4 | 4 | 4 | none | flat | 10 | still | busy | the board |",
                         novel_md=md)
         self.assertIn(("eq", "defect"), findings(rep))
+
+
+CAST_FILE = """---
+name: "%s"
+tier: B
+first_appears: 1
+---
+
+## Speech fingerprint
+
+| field | value |
+|---|---|
+| register | clerical |
+| contractions | %s |
+"""
+
+
+class TestSpeechFingerprint(unittest.TestCase):
+    """The declared `contractions` cell, read against the page for the first time.
+
+    Benchmark run #5: a guild master's file declared `never` and his dialogue carried ten. Nine
+    cast rows in that novel declared the field and no command had ever opened one - `sw lint`
+    pools every speaker into a single chapter-wide rate and only flags the low side, so the only
+    thing that caught it was the drafter reading its own cast file during Pass 10.
+    """
+
+    MC = "| Rin | MC | 3 | 3 | dry | flat | 14 | taps | still | the door |"
+    BO = "| Bo | A | 4 | 4 | none | flat | 10 | still | busy | the board |"
+    CY = "| Cy | B | 2 | 2 | warm | quick | 8 | rubs | smaller | the floor |"
+
+    def _run(self, declared, prose, who="Bo"):
+        with NovelFixture() as fx:
+            fx.write("bible/cast/_voices.md", voices(self.MC, self.BO, self.CY))
+            fx.write("bible/cast/bo.md", CAST_FILE % (who, declared))
+            fx.add_chapter(1, prose)
+            return cmd_cast.run(fx.novel())
+
+    CONTRACTS = ('"I don\'t know," Bo said.\n\n'
+                 '"It isn\'t mine," Bo said.\n\n'
+                 '"You can\'t have it," Bo said.\n\n'
+                 '"That\'s the whole of it," Bo said.\n')
+    PLAIN = ('"I do not know," Bo said.\n\n'
+             '"It is not mine," Bo said.\n\n'
+             '"You cannot have it," Bo said.\n\n'
+             '"That is the whole of it," Bo said.\n')
+
+    def test_declared_never_against_a_contracting_speaker_is_noted(self):
+        rep = self._run("never", self.CONTRACTS)
+        self.assertIn(("fingerprint", "note"), findings(rep))
+
+    def test_declared_always_against_a_speaker_who_never_contracts_is_noted(self):
+        rep = self._run("always", self.PLAIN)
+        self.assertIn(("fingerprint", "note"), findings(rep))
+
+    def test_a_kept_fingerprint_is_silent(self):
+        rep = self._run("never", self.PLAIN)
+        self.assertEqual([c for c, lv in findings(rep) if c == "fingerprint"], [])
+
+    def test_it_is_never_more_than_a_note(self):
+        """A character may break his own fingerprint because the scene is better for it. A
+        number a chapter has to clear is a number somebody writes toward.
+        """
+        rep = self._run("never", self.CONTRACTS)
+        self.assertEqual([lv for c, lv in findings(rep) if c == "fingerprint"], ["note"])
+
+    def test_a_conditional_cell_is_left_to_judgement(self):
+        """`drops them when lying` is not arithmetic, and a check that guesses gets optimised."""
+        rep = self._run("drops them when formal", self.CONTRACTS)
+        self.assertEqual([c for c, lv in findings(rep) if c == "fingerprint"], [])
+
+    def test_too_few_attributed_turns_to_judge(self):
+        rep = self._run("never", '"I don\'t know," Bo said.\n\n"It isn\'t mine," Bo said.\n')
+        self.assertEqual([c for c, lv in findings(rep) if c == "fingerprint"], [])
+
+    def test_a_cast_file_with_no_fingerprint_table_is_not_an_error(self):
+        with NovelFixture() as fx:
+            fx.write("bible/cast/_voices.md", voices(self.MC, self.BO, self.CY))
+            fx.write("bible/cast/bo.md", '---\nname: "Bo"\ntier: B\n---\n\nNo table here.\n')
+            fx.add_chapter(1, self.CONTRACTS)
+            rep = cmd_cast.run(fx.novel())
+        self.assertEqual([c for c, lv in findings(rep) if c == "fingerprint"], [])

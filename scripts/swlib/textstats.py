@@ -42,7 +42,7 @@ _ELISION_RE = re.compile(
 
 # An apostrophe with a letter on both sides is a contraction wherever it appears - the same rule
 # that keeps `'Start with what you're sure of.'` from breaking the thought parser.
-_CONTRACTION_RE = re.compile(r"\b\w+[\u2019']\w+\b")
+CONTRACTION_RE = re.compile(r"\b\w+[\u2019']\w+\b")
 
 _PARA_SPLIT = re.compile(r"\n[ \t]*\n")
 SENTENCE_END = re.compile(r"[.!?]+[\"”'’)\]]*(?:\s+|$)")
@@ -320,8 +320,20 @@ class Chapter(object):
         return [n for n in (sum(len(s.split()) for s in para)
                             for para in self._speech_by_paragraph()) if n]
 
-    def _speech_by_paragraph(self):
-        """The spoken spans of each paragraph, in order, skipping paragraphs with no speech."""
+    def speech_paragraphs(self):
+        """`(start, end, spans, around)` for each paragraph that contains speech.
+
+        `around` is every scrap of the paragraph that is *not* inside a quote, in order. The
+        attribution tag most often sits **between** two spans - `"…," she said. "…"` - so taking
+        only the text before the first span and after the last throws the evidence away.
+
+        The rule lives here rather than in a caller because two commands need the same one and had
+        drifted apart. `cmd_cast._turn_lengths` counted a turn for a speaker only when exactly one
+        cast name appeared in `around`, which is conservative and right. `cmd_lint._group_scenes`
+        counted a cast member *present* when their name appeared anywhere in the scene - inside
+        somebody else's dialogue included - and reported benchmark run #5's chapter 4, a two-hander
+        with a silent third party, as six people.
+        """
         out, ranges = [], self.speech_ranges
         if not ranges:
             return out
@@ -329,15 +341,25 @@ class Chapter(object):
         for para in body.split("\n\n"):
             start, end = pos, pos + len(para)
             pos = end + 2
-            got = []
+            spans = []
             while i < len(ranges) and ranges[i][0] < end:
-                s, e = ranges[i]
-                if s >= start:
-                    got.append(body[s:e])
+                if ranges[i][0] >= start:
+                    spans.append(ranges[i])
                 i += 1
-            if got:
-                out.append(got)
+            if not spans:
+                continue
+            around, cursor = "", start
+            for s, e in spans:
+                around += body[cursor:s]
+                cursor = e
+            around += body[cursor:end]
+            out.append((start, end, spans, around))
         return out
+
+    def _speech_by_paragraph(self):
+        """The spoken spans of each paragraph, in order, skipping paragraphs with no speech."""
+        body = self.body
+        return [[body[s:e] for s, e in spans] for _, _, spans, _ in self.speech_paragraphs()]
 
     @property
     def speech_span_lengths(self):
@@ -404,7 +426,7 @@ class Chapter(object):
         words = self.speech_words
         if not words:
             return 0.0
-        n = sum(len(_CONTRACTION_RE.findall(s)) for s in self.speech_spans)
+        n = sum(len(CONTRACTION_RE.findall(s)) for s in self.speech_spans)
         return n * 100.0 / words
 
     @property
@@ -625,6 +647,17 @@ class Chapter(object):
 
     def scene_breaks(self):
         return len(re.findall(r"^\s*\*\s\*\s\*\s*$", self.body, re.M))
+
+    def scene_bounds(self):
+        """`(start, end)` for each scene, split on the one correct break form.
+
+        Two commands slice a chapter into scenes - `cmd_lint`'s group-scene note and
+        `cmd_cast`'s alternation recovery - and a scene boundary that means one thing in one and
+        another in the other is the drift `speech_paragraphs` was written to end.
+        """
+        edges = [0] + [m.end() for m in re.finditer(r"^\s*\*\s\*\s\*\s*$", self.body, re.M)]
+        edges.append(len(self.body))
+        return [(edges[i], edges[i + 1]) for i in range(len(edges) - 1)]
 
 
 def load_chapters(chapters_dir, channels=None):

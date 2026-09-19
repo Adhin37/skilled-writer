@@ -6,7 +6,7 @@ numbers so it does not have to open six files to count them.
 
 import re
 
-from . import cmd_readset
+from . import cmd_readset, rules
 from .report import Report
 
 
@@ -46,7 +46,7 @@ def run(novel):
     last_seen = {}
     for b in blocks:
         for line in b.keys().get("thr", []):
-            for tid in re.findall(r"[~^vx]?(T\d+)", line):
+            for tid in rules.THREAD_ID_IN_TEXT.findall(line):
                 last_seen[tid] = max(last_seen.get(tid, 0), b.number)
     trows = []
     for r in novel.threads():

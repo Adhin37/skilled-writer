@@ -126,13 +126,34 @@ SUMMARY_MARKERS = _compile([
 # good writing in isolation; the disease is density, so the gate is the aggregate rate in
 # `_house_style`, not any one line. A rule that defects on ", not " would ban a legitimate
 # sentence and teach the drafter to write around the checker instead of varying its register.
+# The fragment negation, widened after benchmark run #5. The original `Not\s+\w+\.` matched
+# exactly one shape - `Not yet.` - and nothing longer, never covered `No`, and required the
+# sentence to open after `[.!?]` plus one space, which a paragraph break is not. Run #5 wrote
+# eleven of these across three chapters and the detector caught none, so what the drafter cleared
+# was the measurement. Three things keep the widening honest:
+#   * it stays a FRAGMENT test - a span carrying a finite auxiliary or copula is a sentence that
+#     happens to begin with a negator, and the lookahead refuses it;
+#   * no commas, so `No, he said.` and `Not knowing what else to do, he waited.` stay out;
+#   * five words at most, because past that a negation is doing work rather than posturing;
+#   * a sentence starts at `[.!?]` or a PARAGRAPH break, never at any newline - the sample novel
+#     is hard-wrapped and `she had\nnot stopped moving since the bell.` is not a fragment.
+# Widening a regex adds no prohibition to any card, which is why this is the cheap half of the
+# fix - and why CLAUDE.md section 5's thesis stands: the next register fills the hole anyway.
+_FRAGMENT_NEGATION = (
+    r"(?:^|(?<=[.!?])|(?<=\n\n))[\"“”\s]*(?:Not|No)\b"
+    r"(?![^.!?\n]*\b(?:is|are|was|were|am|be|been|being|has|have|had|do|does|did|will|"
+    r"would|can|could|shall|should|may|might|must)\b)"
+    r"(?:\s+[\w'’-]+){0,5}\s*[.!?]"
+)
+
 CLAUDE_REGISTER = _compile([
     (r",\s+not\s+(?!to\b|be\b|have\b|only\b|just\b|yet\b)\w+", "X, not Y antithesis"),
     (r",\s+never\s+(?:a|an|the)\b", ", never a - antithesis"),
-    (r"(?:^|(?<=[.!?]\s))Not\s+\w+\.", "`Not X.` fragment negation"),
+    (_FRAGMENT_NEGATION, "`Not X.` fragment negation"),
     (r"\bA beat\.", "`A beat.` - a stage direction, not prose"),
     (r"\bthe kind of \w+ (?:that|who|a|an|you|one|people)\b", "the kind of X that"),
-    (r"\bthe way (?:you|one|people)\b", "the way you/one/people - generalising aside"),
+    (r"\bthe way (?:you|one|people|he|she|they|it|we|i|an?|the|his|her|their|its|every|"
+     r"(?-i:[A-Z][a-z]+))\b", "the way X does Y - generalising aside"),
     (r"\bnot (?:because|out of|from)\b[^.;]{2,40}\bbut (?:because|out of|from)\b",
      "not because X but because Y"),
     (r"\bfor (?:exactly )?as long as (?:an?|the) \w+ would\b", "for exactly as long as X would"),
@@ -189,10 +210,47 @@ HABIT_NOTE_CHECKS = frozenset((
     "texture",          # the dialogue floors: no interruption, no contraction, over-long turns
     "pacing",           # reported-event constructions, and summarising toward the scene
     "thought-budget",   # the floor only - the ceiling is a defect and never reaches here
+    "speech-share",     # the target band only - the floor is still a warn, and a habit of
+                        # sitting under the band is what the window defect is for
+    "thought-person",   # narration in thought marks - one is a slip, a run of them is the
+                        # drafter using the channel as emphasis
 ))
 SITUATION_NOTE_CHECKS = frozenset((
     "group-scene",      # three or more speakers present - a category, not a defect
 ))
+
+# narrator-voice, the four channels. A direct thought is the POV character's own voice in their
+# own present tense; free indirect discourse is the narrator's voice carrying the character's
+# slant, and it is the default carrier of interiority precisely because it does not need marks.
+# Rule 7 was enforced on COUNT only, so benchmark run #5 put `'He'd made more of it than it was.'`
+# inside thought marks in a third-person past novel - narration wearing the marks - and lint
+# counted it as one of the legal one to three. That is rule 9's silence clause in a third place:
+# a rule checked on one axis is satisfied on that axis.
+#
+# The screen is deliberately narrow, because the interesting half of this is a judgement.
+# `'She's lying.'` is a perfectly good thought about somebody else, so a present-tense marker
+# ends the check; `'I should have known.'` is the POV character's own voice, so a first- or
+# second-person pronoun ends it too. What is left is a span with no speaker in it, in the
+# narrator's tense - and a possessive `'s` reads as present here, which errs toward silence.
+FIRST_SECOND_PERSON = re.compile(
+    r"\b(?:i|me|my|mine|myself|we|us|our|ours|ourselves|you|your|yours|yourself|yourselves)\b"
+    r"|\b(?:i|we|you)['’](?:m|re|ve|ll|d)\b", re.I)
+PRESENT_MARKERS = re.compile(
+    r"\b(?:is|are|am|has|have|do|does|can|shall|will)\b|['’](?:s|re|m|ve|ll)\b", re.I)
+PAST_MARKERS = re.compile(
+    r"\b(?:was|were|had|been|did|would|could|should)\b|['’]d\b", re.I)
+
+# ------------------------------------------------------------------ thread ids
+# `plot-threads` owns the format and documents it as `T01`, `T02`. Five commands parsed it with
+# their own copy of `T\d+`, so benchmark run #5 - which numbered its threads `TH01` - had every
+# thread check in `sw state` go quiet while `sw status` went on counting nine open threads from
+# the same file. A check that falls silent reads exactly like a check that passed, which is the
+# failure this repo keeps re-learning. One pattern, read loosely; `THREAD_ID_CANON` is what
+# `cmd_state` warns against so the drift announces itself instead of disabling the suite.
+THREAD_ID = re.compile(r"^T[A-Z]{0,3}\d+$")
+THREAD_ID_CANON = re.compile(r"^T\d+$")
+THREAD_ID_IN_TEXT = re.compile(r"[~^vx]?\b(T[A-Z]{0,3}\d+)\b")
+THREAD_OP_IN_TEXT = re.compile(r"([~^vx])(T[A-Z]{0,3}\d+)\b")
 
 EVENT_MAX_WORDS = 14
 EMDASH_RATE_WARN = 6.0          # per 1,000 words; run #2 chapter 1 ran 11.4

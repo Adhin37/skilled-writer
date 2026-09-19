@@ -24,7 +24,7 @@ directory that does not yet exist. CLAUDE.md section 4 names it explicitly.
 import datetime
 import os
 
-from . import mdio
+from . import mdio, rules
 from .report import Report
 
 OKF_VERSION = "0.2"
@@ -186,10 +186,9 @@ def _chapters(b, novel):
 
 
 def _thread_ids(blk):
-    import re
     if blk is None:
         return []
-    return sorted(set(re.findall(r"\bT\d+", " ".join(blk.keys().get("thr", [])))))
+    return sorted(set(rules.THREAD_ID_IN_TEXT.findall(" ".join(blk.keys().get("thr", [])))))
 
 
 _LEDGERS = (("state/power.md", "Power Ledger", "power.md"),

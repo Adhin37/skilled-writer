@@ -301,3 +301,31 @@ class TestGroupScene(unittest.TestCase):
                         '"She has gone," Rin said.\n\n'
                         '"I saw," Bo said.\n')
         self.assertEqual(levels(rep, "group-scene"), ["note"])
+
+    def test_a_name_spoken_inside_someone_elses_line_is_not_a_speaker(self):
+        """Benchmark run #5, chapter 4. A two-hander plus one silent observer was reported as six
+        cast members: the check matched cast tokens anywhere in the scene, so two people named
+        inside the MC's own dialogue and one in a narration simile were counted as speaking.
+        """
+        rep = self._run('"Sit down," Rin said.\n\n'
+                        '"I asked Cy about it, and Di said the same," Bo said.\n\n'
+                        'Cy had always been easier to read than this.\n\n'
+                        '"That is not an answer," Rin said.\n')
+        self.assertEqual(levels(rep, "group-scene"), [])
+
+    def test_an_untagged_turn_is_silence_rather_than_a_guess(self):
+        """The count is a floor, not a census. A turn attributed only as "the older woman said"
+        cannot be assigned, so the check stays quiet instead of inferring a third speaker.
+        """
+        rep = self._run('"Sit down," Rin said.\n\n'
+                        '"I will not," Bo said.\n\n'
+                        '"Both of you," said the older woman in the doorway.\n')
+        self.assertEqual(levels(rep, "group-scene"), [])
+
+    def test_the_note_reports_speakers_and_its_own_coverage(self):
+        rep = self._run('"Sit down," Rin said.\n\n'
+                        '"I will not," Bo said.\n\n'
+                        '"Both of you," Cy said, and closed the door.\n')
+        text = [f.message for f in rep.findings if f.check == "group-scene"][0]
+        self.assertIn("3 speakers with an attributed turn", text)
+        self.assertIn("3 of 3 turns name their speaker outside the quotes", text)

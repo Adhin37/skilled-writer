@@ -39,8 +39,8 @@ card. Pass 6 found nothing.
 Re-gating a chapter on its own, two lines, unless something structural was rewritten:
 
 ```
-Re-gated ch 42 — delivers: Dael now owes the house a favour he cannot pay.
-Cut a crowd-reaction paragraph, applied Dael's rung-3 voice delta, replaced the ending
+Re-gated ch 42 — delivers: Ovin now owes the house a favour he cannot pay.
+Cut a crowd-reaction paragraph, applied Ovin's rung-3 voice delta, replaced the ending
 (it ran three paragraphs past the hook).
 ```
 

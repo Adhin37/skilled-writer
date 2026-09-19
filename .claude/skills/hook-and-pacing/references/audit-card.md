@@ -52,5 +52,5 @@ answer, in concrete terms, in final position.
 ## What it looks like when it lands
 
 Opens: *The rain had got into the salt again.* Somewhere, somebody, a problem, no recap. Closes on
-Maro counting the coins a second time and getting a different number — concrete, final position,
+Odell counting the coins a second time and getting a different number — concrete, final position,
 and a question the chapter did not answer.

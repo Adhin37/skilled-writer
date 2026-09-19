@@ -46,7 +46,7 @@ loss every two or three arcs. The ledger here is the record of what that ladder 
 character, so an arc can be audited for whether anything was actually paid.
 
 **Adversity must be legible.** The reader should be able to state what it cost, in one sentence,
-in concrete terms. "He suffered" is not a cost. "He can never go back to Ashfall, and his sister
+in concrete terms. "He suffered" is not a cost. "He can never go back to Corveth, and his sister
 is still there" is.
 
 **The relationship requirement.** At least three relationships that change *shape* over the

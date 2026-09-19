@@ -48,6 +48,6 @@ requirements in romantic clothing, and that skill is not toggleable.
 
 ## What it looks like when it lands
 
-Bel is not interested in him, says so once, and goes on being the person who runs the yard. Three
+Sorrel is not interested in him, says so once, and goes on being the person who runs the yard. Three
 chapters later she is still not interested and it has not become tension. Somebody in this book is
 simply indifferent to the protagonist.

@@ -115,7 +115,7 @@ narrator's register, and the narrator's register is the MC's.
 Recorded in `bible/cast/_extras.md`, one line:
 
 ```
-Marek Oss — toll clerk, Ashfall east gate — ch 12, 19 — alive
+Jessa Oss — toll clerk, Redmoor east gate — ch 12, 19 — alive
   wants: to close early | tic: stamps twice, checks the second | carries: the gate levy doubled
   last month and nobody was told why | voice: answers in three words or fewer
 ```
@@ -158,7 +158,7 @@ to introduce (action, never a catalogue of appearance), `story-opening` owned th
 the gap between them was exactly this rule.
 
 **Deliver it in motion, not as a dossier.** The wrong repair is an appositive label — *Enko
-Mizusawa, the station chief,* — which is a caption, not an introduction. The right one is the
+Halloway, the station chief,* — which is a caption, not an introduction. The right one is the
 character doing the thing that establishes them while the scene is already moving.
 
 | the three | wrong | right |
@@ -169,10 +169,10 @@ character doing the thing that establishes them while the scene is already movin
 
 A second, in a different key — the three delivered in one moving sentence rather than a table:
 
-> The quartermaster did not look up from the crate he was counting. "Whatever it is, Dael signs
+> The quartermaster did not look up from the crate he was counting. "Whatever it is, Calla signs
 > for it, not me." He went back to counting, and got the number wrong, and started again.
 
-Relation (he answers to Dael), power (he can refuse, and does), stroke (he is rattled and hiding
+Relation (he answers to Calla), power (he can refuse, and does), stroke (he is rattled and hiding
 it) — none of it captioned, all of it while the scene keeps moving.
 
 **Their stance is theirs, not their gender's.** Every tier-A and tier-B profile records one `stance` — what this character does about what their society expects of their gender, from conforming and benefiting to enforcing it on others. `social-fabric` owns the table and the six terms it hangs off (`social-fabric/references/gendered-experience.md`); no trait follows from gender alone, which `bias-guard` §Gender already settles.

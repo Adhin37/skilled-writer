@@ -235,6 +235,64 @@ class TestReadsetCharacterMatching(unittest.TestCase):
         self.assertEqual([], self.match(["Kakashi"]))
 
 
+class TestReadsetResolvesSpeakersFromThisChapter(unittest.TestCase):
+    """Benchmark run #5. `resolve_characters` read the plan row's POV cell and nothing else, then
+    topped the list up with `chg>` names from the three previous blocks - so a chapter's read-set
+    described the *previous* chapters' cast. Run #5's chapter 2 got a voice-matrix row for a
+    character who is not in chapter 2 and no row for Ilona Kest, its second speaker, who is named
+    in four cells of chapter 2's own plan row. The draft-time rule that no two speakers in a scene
+    share all three voice axes was therefore checked on the wrong pair, and failed on exactly the
+    chapters that introduce somebody. `resolve_locations`, twenty lines below, already read the
+    whole row.
+    """
+
+    PLAN = (
+        "| # | title | pov | arc | temp | hooktype | goal | obstacle | turn | event | delivers |"
+        " cost | threads | hook | status |\n"
+        "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|\n"
+        "| 1 | One | Ana Holt | 1 | tense | reveal | ask | Bo Renwick refuses | Bo lies |"
+        " she asks | a lie | an hour | T1 | out | planned |\n"
+    )
+    VOICES = (
+        "# Cast voice matrix\n\n## 1. THE MATRIX\n\n"
+        "| character | tier | intel | artic | wit | heat | turn | hands | pressure | first move |\n"
+        "|---|---|---|---|---|---|---|---|---|---|\n"
+        "| Ana Holt | MC | 3 | 3 | dry | flat | 14 | taps | still | the door |\n"
+        "| Bo Renwick | A | 2 | 4 | none | quick | 10 | still | busy | the board |\n"
+        "| Cy Renwick | B | 1 | 2 | warm | flat | 8 | rubs | smaller | the floor |\n"
+    )
+
+    def resolve(self):
+        from swlib import cmd_readset
+        with NovelFixture() as fx:
+            fx.write("plan/chapters.md", self.PLAN)
+            fx.write("bible/cast/_voices.md", self.VOICES)
+            fx.add_chapter(1, BODY)
+            names, why = cmd_readset.resolve_characters(fx.novel(), 1)
+            return names, why
+
+    def test_a_speaker_named_only_in_a_middle_cell_is_resolved(self):
+        names, _why = self.resolve()
+        self.assertIn("Bo Renwick", names)
+
+    def test_the_pov_character_still_leads(self):
+        names, _why = self.resolve()
+        self.assertEqual("Ana Holt", names[0])
+
+    def test_a_shared_surname_does_not_drag_in_the_whole_family(self):
+        """The row says `Bo Renwick`, so `Cy Renwick` is not in it. Matching on `Renwick` would
+        hand back a family for every scene, which is `_group_scenes`' lesson on a second command.
+        """
+        names, _why = self.resolve()
+        self.assertNotIn("Cy Renwick", names)
+
+    def test_the_provenance_line_says_which_row_it_read(self):
+        """The read-set tells the drafter not to open source files for anything it lists, so the
+        line under a section is the only place a wrong slice can announce itself."""
+        _names, why = self.resolve()
+        self.assertIn("plan row 1", why)
+
+
 class TestReadsetGateSection(unittest.TestCase):
     """The read-set names what the phase C gate left behind, before the chapter is drafted."""
 
@@ -446,6 +504,71 @@ class TestDialogueStarvation(unittest.TestCase):
             self.assertNotIn("speech-starvation", body)
 
 
+class TestSpeechTargetBand(unittest.TestCase):
+    """Benchmark run #5, F1. The floor became a window in run #2 because a per-chapter number
+    that decides whether a chapter ships gets written toward. The **target band** kept a
+    per-chapter warn, which is the same writable number one severity tier down, and run #5
+    watched it get written toward: chapter 2 went 23.3% -> 25.3% against a 25.0 threshold by
+    having 34 words of dialogue inserted at the gate, one insertion breaking the scene's
+    blocking - while a 56-word turn past `TURN_CEILING` sat untouched in the same chapter,
+    because that one was only a note. The drafter cleared the cheap one. The severity tier is
+    the incentive, so the band is a note and the floor keeps its warn.
+    """
+
+    QUIET = TestDialogueStarvation.QUIET
+    LOUD = TestDialogueStarvation.LOUD
+
+    def _levels(self, loud, quiet):
+        """One chapter built from `loud` spoken paragraphs and `quiet` narration ones."""
+        from swlib import cmd_lint, rules
+        with NovelFixture() as fx:
+            fx.add_chapter(1, "\n".join([self.LOUD] * loud + [self.QUIET] * quiet))
+            novel = fx.novel()
+            ch = list(novel.chapters())[0]
+            rep = cmd_lint.lint_chapter(novel, ch)
+            return ch.speech_share, [f.level for f in rep.findings if f.check == "speech-share"]
+
+    def test_under_the_target_band_is_a_note(self):
+        from swlib import rules
+        share, levels = self._levels(1, 6)
+        self.assertTrue(rules.SPEECH_FLOOR <= share < rules.SPEECH_TARGET_LOW,
+                        "fixture landed at %.1f%%, not in the band under test" % share)
+        self.assertEqual(levels, ["note"])
+
+    def test_over_the_target_band_is_a_note(self):
+        from swlib import rules
+        share, levels = self._levels(1, 1)
+        self.assertGreater(share, rules.SPEECH_TARGET_HIGH)
+        self.assertEqual(levels, ["note"])
+
+    def test_inside_the_band_says_nothing(self):
+        from swlib import rules
+        share, levels = self._levels(1, 2)
+        self.assertTrue(rules.SPEECH_TARGET_LOW <= share <= rules.SPEECH_TARGET_HIGH)
+        self.assertEqual(levels, [])
+
+    def test_the_floor_keeps_its_warn(self):
+        """The demotion is the band only. Under the floor is still a warn, and sustained
+        starvation is still the `speech-starvation` defect over a window."""
+        from swlib import rules
+        share, levels = self._levels(0, 3)
+        self.assertLess(share, rules.SPEECH_FLOOR)
+        self.assertEqual(levels, ["warn"])
+
+    def test_the_band_reaches_the_cross_chapter_row(self):
+        """A demotion that stopped here would trade a gamed number for a silent one. The band is
+        a habit check, so five chapters of thin dialogue reach the WATCH row and `sw history`
+        instead of one chapter's gate."""
+        from swlib import cmd_lint, rules
+        self.assertIn("speech-share", rules.HABIT_NOTE_CHECKS)
+        with NovelFixture() as fx:
+            fx.add_chapter(1, "\n".join([self.LOUD] + [self.QUIET] * 6))
+            novel = fx.novel()
+            counts = cmd_lint.check_counts(novel, list(novel.chapters())[0])
+            self.assertIn("speech-share", counts["notes"])
+            self.assertNotIn("speech-share", counts["checks"])
+
+
 class TestHabitNotes(unittest.TestCase):
     """The note tier reaches the two cross-chapter detectors, and never reaches a chapter.
 
@@ -565,6 +688,94 @@ class TestHabitNotes(unittest.TestCase):
                 self.assertTrue(any(check in item for item in row),
                                 "recurring warn %r evicted from WATCH by notes: %r"
                                 % (check, row))
+
+
+class TestChaptersAreCountedOnce(unittest.TestCase):
+    """Both cross-chapter detectors count CHAPTERS, not findings.
+
+    `house-style` is deliberately two-level - it notes each construction and warns on the
+    aggregate rate - so a chapter carrying both put its number into the tally twice. The WATCH
+    row printed `house-style (6 of last 4)` on a four-chapter novel and `sw history` said
+    `fires on 6 of 4 chapters`, which is the visible half. The quiet half is that the same
+    number decides the ranking into a four-slot row and crosses `history`'s habit threshold, so
+    a check could take a slot, or be declared a habit, by being counted twice rather than by
+    recurring.
+    """
+
+    # Enough antitheses to cross HOUSE_RATE_WARN, so every chapter carries `house-style` as a
+    # warn AND as per-construction notes - the two-level case, which is the whole point.
+    LOUD = "\n\n".join(["The room was cold, not empty.",
+                         "She counted the coins, not the notes.",
+                         "It was weather, not prophecy.",
+                         "He wanted an answer, not a hearing.",
+                         "The door was shut, not locked."]) + "\n"
+
+    def _novel(self, fx, chapters=4):
+        for n in range(1, chapters + 1):
+            fx.add_chapter(n, self.LOUD)
+        return fx.novel()
+
+    def test_the_two_level_case_is_actually_two_level(self):
+        """If this fails the rest of the class proves nothing."""
+        from swlib import cmd_lint
+        with NovelFixture() as fx:
+            novel = self._novel(fx)
+            counts = cmd_lint.check_counts(novel, list(novel.chapters())[0])
+            self.assertIn("house-style", counts["checks"])
+            self.assertIn("house-style", counts["notes"])
+
+    def test_the_watch_row_never_counts_past_its_window(self):
+        from swlib import cmd_readset
+        with NovelFixture() as fx:
+            novel = self._novel(fx)
+            row, _gate = cmd_readset.watch_row(novel, 5)
+            hits = [item for item in row if item.startswith("house-style")]
+            self.assertEqual(hits, ["house-style (4 of last 4)"], row)
+
+    def test_no_check_in_the_row_counts_past_its_window(self):
+        """Stated as an invariant rather than about one check: N of last M with N > M is
+        nonsense whoever prints it."""
+        from swlib import cmd_readset
+        with NovelFixture() as fx:
+            novel = self._novel(fx)
+            row, _gate = cmd_readset.watch_row(novel, 5)
+            for item in row:
+                m = re.search(r"\((\d+) of last (\d+)\)", item)
+                self.assertTrue(m, item)
+                self.assertLessEqual(int(m.group(1)), int(m.group(2)), item)
+
+    def test_the_history_habit_line_never_counts_past_the_book(self):
+        with NovelFixture() as fx:
+            self._novel(fx)
+            _code, out, _err = run("history", fx.root)
+            for m in re.finditer(r"fires on (\d+) of (\d+) chapters", out):
+                self.assertLessEqual(int(m.group(1)), int(m.group(2)), m.group(0))
+
+    def test_a_two_level_check_is_not_declared_a_habit_it_has_not_earned(self):
+        """The threshold reads the same inflated number. A check firing in two chapters of
+        five must not reach a three-chapter bar by being counted at both levels."""
+        from swlib import cmd_history
+        from swlib.report import Report
+        rows = [{"number": 1, "checks": {"house-style": 1}, "notes": {"house-style": 4}},
+                {"number": 2, "checks": {"house-style": 1}, "notes": {"house-style": 4}},
+                {"number": 3, "checks": {}, "notes": {}},
+                {"number": 4, "checks": {}, "notes": {}},
+                {"number": 5, "checks": {}, "notes": {}}]
+        rep = Report()
+        cmd_history._defects(rep, rows)
+        self.assertEqual([f for f in rep.findings if f.check == "history-habit"], [])
+
+    def test_it_still_reports_a_habit_that_did_recur(self):
+        """The counting fix must not buy its correctness by going quiet."""
+        from swlib import cmd_history
+        from swlib.report import Report
+        rows = [{"number": n, "checks": {"house-style": 1}, "notes": {"house-style": 4}}
+                for n in range(1, 5)]
+        rep = Report()
+        cmd_history._defects(rep, rows)
+        msgs = [f.message for f in rep.findings if f.check == "history-habit"]
+        self.assertEqual(len(msgs), 1)
+        self.assertIn("4 of 4 chapters", msgs[0])
 
 
 class TestNoteTierRegistry(unittest.TestCase):

@@ -256,9 +256,14 @@ note about dashes.
   `conflict-engine`, `plot-threads`, plus `combat-choreography` and `battle-scale`), and both
   passes are three cards for a default novel, because two of Pass 2's five are conditional
   (`pov-switch` off unless `pov.mode` allows it, `romance-arc` off unless the module is on). The
-  **merge buys nothing that binds**: the unconditional audit set sits at 15 of 15 cards but 6745 of
-  6800 words, so the count is the slack constraint and the words are the tight one — and item 6
-  measured that a merged card costs what its halves cost separately. And Pass 2's three
+  **merge buys nothing that binds**: on the day this was decided the unconditional audit set sat at
+  15 of 15 cards and 6745 of 6800 words, so the count was the slack constraint and the words the
+  tight one — and item 6 measured that a merged card costs what its halves cost separately.
+  *(`CARD_WORD_BUDGET` was raised to 7600/8000 in `b674380`, sized at one worked example per card,
+  with the reason written beside the constant. The set now reads 6775 of 8000, which leaves the
+  conclusion standing and reverses the reasoning: the words are slack too, and the card **count**
+  is the only thing still at its ceiling. Both budgets are live; `sw load` prints the current
+  figures and this paragraph is not the place to read them.)* And Pass 2's three
   unconditional cards are owned by three different skills, so the merge would put
   `voice-separation`, `character-profile` and `dialogue-voice` in one file: a wider land-grab than
   any of the four existing merges, which each joined two owners with an adjacent concern. If the

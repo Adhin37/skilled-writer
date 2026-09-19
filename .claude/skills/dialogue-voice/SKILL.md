@@ -134,7 +134,7 @@ line to the person whose domain it is, let the speaker say they do not know and 
 let them be confidently **wrong**, which is usually the best scene of the three
 (`competence-map` §2 , §3).
 
-**"I don't know" is a strong line.** So is "that's not my end", "ask Dael", and "I'd guess, but
+**"I don't know" is a strong line.** So is "that's not my end", "ask Vetch", and "I'd guess, but
 it's a guess". They read as competence, not weakness — a character who knows the edge of their own
 knowledge is more credible than one who always has an answer.
 

@@ -47,5 +47,5 @@ count.
 ## What it looks like when it lands
 
 He reads the stone, and pays an hour of that morning for it — so he cannot afterwards say where he
-ate, and Bel notices he cannot. Same two details as every other time: the cold in the fingers, the
+ate, and Dovan notices he cannot. Same two details as every other time: the cold in the fingers, the
 taste of iron. Nobody explains the rule.

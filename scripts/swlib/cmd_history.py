@@ -200,15 +200,23 @@ def _defects(rep, rows):
     recurring warn from a recurring note; neither is a chapter defect, and this command raises
     nothing that decides whether a chapter ships.
     """
+    # One chapter contributes one number per check, whatever level it fired at. `house-style`
+    # notes each construction and warns on the aggregate rate, so a chapter carrying both used
+    # to append its number twice and the habit line read `fires on 6 of 4 chapters`. The count
+    # is also the threshold below, so the double entry could declare a habit out of a check that
+    # fired in fewer chapters than the rule requires.
     by_check = {}
     level = {}
     for r in rows:
-        for check, n in r["checks"].items():
-            by_check.setdefault(check, []).append(r["number"])
+        seen = set()
+        for check in r["checks"]:
             level[check] = "warn"
-        for check, n in r.get("notes", {}).items():
-            by_check.setdefault(check, []).append(r["number"])
+            seen.add(check)
+        for check in r.get("notes", {}):
             level.setdefault(check, "note")
+            seen.add(check)
+        for check in sorted(seen):
+            by_check.setdefault(check, []).append(r["number"])
     if not by_check:
         rep.info("lint over time", ["   no findings of any level in any chapter"])
         return
@@ -276,7 +284,7 @@ def _threads(novel, rep, rows, data):
     seen = {}
     for b in novel.blocks():
         for line in b.keys().get("thr", []):
-            for tid in re.findall(r"[~^vx]?(T\d+)", line):
+            for tid in rules.THREAD_ID_IN_TEXT.findall(line):
                 seen[tid] = max(seen.get(tid, 0), b.number)
     out, lines = [], ["   %-6s %-10s %-6s %-34s %s"
                       % ("id", "status", "tens", "thread", "last touched")]
