@@ -6,6 +6,7 @@ metadata:
   tier: optional
   force: structural
   when: optional.romance-arc == on
+  role: [design, draft, gate]
   owns: [romance-beats]
 ---
 

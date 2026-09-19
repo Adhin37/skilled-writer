@@ -6,6 +6,7 @@ metadata:
   tier: core
   force: structural
   when: always
+  role: [coordinate]
   owns: [pass-order, story-gate, gate-report]
 ---
 

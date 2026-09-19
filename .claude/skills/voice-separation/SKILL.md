@@ -6,6 +6,7 @@ metadata:
   tier: character
   force: structural
   when: always
+  role: [design, draft, gate]
   owns: [voice-matrix, mirror-clause, transplant-test, default-gesture-set, first-move, drift-check]
 ---
 

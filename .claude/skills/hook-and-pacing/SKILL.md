@@ -6,6 +6,7 @@ metadata:
   tier: craft
   force: structural
   when: always
+  role: [design, draft, gate]
   owns: [chapter-opening, chapter-hook, temperature-ledger, release-cadence]
 ---
 

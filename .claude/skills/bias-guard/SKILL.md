@@ -6,6 +6,7 @@ metadata:
   tier: craft
   force: absolute
   when: always
+  role: [design, draft, gate]
   owns: [inherited-bias, essentialism-ban]
 ---
 

@@ -6,6 +6,7 @@ metadata:
   tier: core
   force: structural
   when: always
+  role: [design, draft]
   owns: [mc-sheet, golden-finger, form-ledger, option-triad]
 ---
 

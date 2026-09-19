@@ -6,6 +6,7 @@ metadata:
   tier: craft
   force: structural
   when: always
+  role: [draft, gate]
   owns: [stake-ladder, chapter-cost]
 ---
 

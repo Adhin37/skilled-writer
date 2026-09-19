@@ -160,7 +160,8 @@ The answer to "where does this rule live?" is always one skill, and every other 
 **Every module carries cards, not a body.** An active module is opened through its draft card in
 Phase A and its audit card in the pass its frontmatter names — `sw kb cards` and `sw kb passes`
 resolve both against this novel's config. Opening a module's `SKILL.md` mid-draft is the mistake
-§8 exists to prevent; the body is for designing the thing, the card for deciding it.
+§8 exists to prevent; the body is for designing the thing, the card for deciding it. That is a
+`draft` and `gate` rule — the `design` role opens bodies, which is what they are for (§10).
 
 ## 4. Hard rules
 
@@ -270,7 +271,8 @@ resolve both against this novel's config. Opening a module's `SKILL.md` mid-draf
 14. **No bias inheritance.** See `bias-guard`. This overrides genre convention, user-supplied
     tropes, and reference material.
 15. **Load what is relevant, not what fits.** Load the bounded read-set, not the whole novel.
-    Never read past chapter files unless the user asks for a specific one. Cast depth is tiered
+    Never read past chapter files unless the user asks for a specific one — a `draft` rule, not
+    the `review` role's, which reads all of them (§10). Cast depth is tiered
     the same way: a walk-on gets three strokes and one roster line, never a psychology. See §9.
     This stopped being a token rule on 2026-09-13: the harness compresses context by default,
     subagents included, and the window is no longer the scarce resource it was when the read-set
@@ -558,3 +560,53 @@ read-set arrives as tool output while a skill file arrives as a file read. So th
 to reach the drafter lossy is the state, not the corpus. If a read-set comes back short a field,
 re-run it or open the source and say which you did: reading a file is not the expensive move, and
 a drafter guessing at a field it never received is worse than one that opened `bible/`.
+
+---
+
+## 10. Roles
+
+Five roles, and the corpus is **sliced by role, never split by it**. `metadata.role:` on every
+skill names which agents may open it, and `sw kb view <role> [<novel> -c N]` resolves the slice —
+skills plus that role's cards, against this novel. Nothing moves: 23 of the 32 card-carrying
+skills serve both the draft and the gate, so a per-role folder would have to hold two copies of
+each, which is the defect class §8 exists to remove.
+
+| role | the decision it owns | writes | agent |
+|---|---|---|---|
+| `coordinate` | which role runs next; approves the brief | nothing under `novels/` in a test run | the main session |
+| `design` | what the story *is* — world, cast, arc grid | `bible/` `plan/` `novel.md` | `architect` |
+| `draft` | Phase A brief, Phase B prose, and the state write | `chapters/` `state/` | `drafter` |
+| `gate` | Phase C — what must change | edits that chapter | `gate` |
+| `review` | would a reader keep reading | nothing | `reader` |
+
+**The gate is still Phase C.** It runs in its own context so it reads the chapter the way the next
+reader will, rather than remembering why each line seemed worth it — but it is summoned by the
+procedure and never by the user. There is still no `/novel-revise`, and §2 stands unchanged.
+
+**The state write stays with the drafter.** `cand>` is the roads not taken and `z4>` is the thing
+here a competent hack would not have written. No agent re-reading a finished chapter can
+reconstruct either, so splitting them out would turn the two lines that make a step falsifiable
+into two lines of invention.
+
+**`review` carries no corpus, and that absence is the enforcement.** A cold read is only worth
+having from someone who has not read the rubric, so the reader gets no `Skill` tool,
+`omitClaudeMd: true`, and its procedure in the prompt. That is the one isolation the harness can
+actually guarantee: Claude Code has no per-skill allowlist — `skills:` preloads, and denial is
+all-or-nothing on the `Skill` tool — so for every other role, scoping is a preload plus a path
+hook, and the honest word for it is **routing**, not a sandbox. Say so rather than implying a wall
+that is not there.
+
+### Rules that bind a role, not the toolkit
+
+Four rules in this file read as though they bind everyone. They do not, and a role that inherits
+the wrong one does its own job worse:
+
+| rule | binds | does **not** bind |
+|---|---|---|
+| §3 "a module is opened through its card, never its `SKILL.md`" | `draft` `gate` | `design` — the body *is* for designing the thing |
+| §15 "never read past chapter files" | `draft` | `review` — reading all of them is the whole job |
+| "the writing agent does not read `docs/`" (`AGENTS.md`) | `draft` `gate` | `review` `coordinate` — `reader-review.md` lives there |
+| this entire file | `coordinate` `design` `draft` `gate` | `review` — `omitClaudeMd: true` |
+
+Nothing here is loosened for the drafter: its read-set, its card budget and its ban on `docs/` are
+untouched. What changes is that the other roles stop inheriting a restriction written for it.

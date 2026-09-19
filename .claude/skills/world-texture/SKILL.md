@@ -6,6 +6,7 @@ metadata:
   tier: core
   force: structural
   when: always
+  role: [design, draft, gate]
   owns: [description-budget, sensory-signature, delivery-channel]
 ---
 

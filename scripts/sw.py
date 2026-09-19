@@ -319,6 +319,13 @@ def do_kb(args):
     from anywhere but a novel directory.
     """
     novel = None
+    if args.action == "view":
+        # `view` takes a role first and a novel optionally after it, so the greedy `args`
+        # swallows both - the same argparse shape `cards` works around just below.
+        if not getattr(args, "novel", None) and len(args.args) > 1:
+            args.novel = args.args[-1]
+        if getattr(args, "novel", None) and args.chapter is not None:
+            novel = _novel(args)
     if args.action in ("cards", "passes"):
         # `args` is nargs="*" and `novel` is the nargs="?" after it, so argparse gives the
         # greedy one everything and the novel slot stays empty - `sw kb cards novels/x -c 1`

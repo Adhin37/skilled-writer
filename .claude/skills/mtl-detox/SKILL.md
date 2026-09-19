@@ -6,6 +6,7 @@ metadata:
   tier: craft
   force: stylistic
   when: always
+  role: [gate]
   owns: [banned-phrase-list, translationese]
 ---
 

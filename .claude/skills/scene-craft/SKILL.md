@@ -6,6 +6,7 @@ metadata:
   tier: craft
   force: structural
   when: always
+  role: [draft, gate]
   owns: [scene-unit, scene-exit, chapter-assembly, delivery-test]
 ---
 

@@ -94,12 +94,16 @@ def run(repo_root, commands=None):
     _overlap(repo_root, names, rep)
     _kb(repo_root, rep)
     _force(repo_root, rep)
+    _role(repo_root, rep)
+    _agents(repo_root, rep)
     _card_budget(repo_root, rep)
     _card_scope(repo_root, rep)
     _dangling_cards(repo_root, names, rep)
     rep.info("scope", [
-        "   %d skills, %d template accessors, %d template sections, %d template axes checked"
-        % (len(names), len(TABLE_ACCESSORS), len(SECTION_LOOKUPS), len(TEMPLATE_AXES)),
+        "   %d skills, %d roles, %d template accessors, %d template sections, %d template "
+        "axes checked"
+        % (len(names), len(kb.ROLES), len(TABLE_ACCESSORS), len(SECTION_LOOKUPS),
+           len(TEMPLATE_AXES)),
         "   This is wiring only. It says nothing about whether a skill's advice is any good.",
     ])
     return rep
@@ -585,6 +589,95 @@ def _force(repo_root, rep):
             rep.defect("skill-force",
                        "`%s` declares force `%s`, which is not one of %s"
                        % (name, skill.force, ", ".join(kb.FORCE)), path=path)
+
+
+def _role(repo_root, rep):
+    """Every skill declares which agent may open it.
+
+    A role is a view over the corpus, not a location in it - 23 of the 32 card-carrying skills
+    serve both the draft and the gate, so a per-role folder split would have to duplicate them.
+    A skill with no role is a skill no agent reaches; a misspelled role is worse, because it
+    presents as a skill quietly missing from a view rather than as an error.
+
+    The card budget is *not* re-checked here. `CARD_BUDGET` bounds the unconditional card set by
+    kind, `_card_budget` below already enforces it, and draft-card/audit-card map one-to-one onto
+    the draft and gate roles - so a per-role check would be the same check under a second name.
+    """
+    idx = kb.index(repo_root, refresh=True)
+    for name in idx.roleless():
+        rep.defect("skill-role",
+                   "`%s` declares no `metadata.role:` - no agent's view contains it, so nothing "
+                   "reaches it" % name,
+                   path=os.path.join(skills_dir(repo_root), name, "SKILL.md"))
+    for name, role in idx.bad_roles():
+        rep.defect("skill-role",
+                   "`%s` declares role `%s`, which is not one of %s"
+                   % (name, role, ", ".join(kb.ROLES)),
+                   path=os.path.join(skills_dir(repo_root), name, "SKILL.md"))
+    for role in kb.ROLES:
+        if role in kb.ROLES_WITHOUT_CORPUS:
+            continue
+        if not idx.view(role)[0]:
+            rep.warn("skill-role",
+                     "no skill declares role `%s` - the role resolves to an empty view" % role)
+
+
+AGENTS_REL = os.path.join(".claude", "agents")
+
+
+def _agents(repo_root, rep):
+    """Role agents: the frontmatter parses, the name matches, and the hooks point at real files.
+
+    A hook whose script has moved does not fail loudly - Claude Code logs it and runs the agent
+    anyway, so the isolation quietly stops existing while every test still passes. That is the
+    same failure shape as a card whose dispatcher was renamed, and it is checked here for the
+    same reason.
+
+    Nothing here judges an agent's prompt. This is wiring.
+    """
+    root = os.path.join(repo_root, AGENTS_REL)
+    if not os.path.isdir(root):
+        return
+    names = []
+    for fname in sorted(os.listdir(root)):
+        if not fname.endswith(".md"):
+            continue
+        path = os.path.join(root, fname)
+        stem = fname[:-3]
+        names.append(stem)
+        raw = mdio.split_frontmatter(mdio.read_text(path))[0]
+        if not raw.strip():
+            rep.defect("agent-frontmatter",
+                       "%s has no YAML frontmatter - it cannot load as an agent" % fname,
+                       path=path)
+            continue
+        cfg = mdio.parse_yaml(raw)
+        declared = str(cfg.get("name") or "").strip()
+        if declared != stem:
+            rep.defect("agent-frontmatter",
+                       "%s declares `name: %s` - it must match the filename"
+                       % (fname, declared or "(none)"), path=path)
+        if not str(cfg.get("description") or "").strip():
+            rep.defect("agent-frontmatter",
+                       "%s declares no `description:` - nothing can route to it" % fname,
+                       path=path)
+        for script in _hook_scripts(mdio.read_text(path)):
+            if not os.path.isfile(os.path.join(repo_root, script)):
+                rep.defect("agent-hook",
+                           "%s wires a hook to `%s`, which does not exist - the hook is skipped "
+                           "and the agent runs unguarded" % (fname, script), path=path)
+    if names:
+        rep.info("agents", ["   %s" % ", ".join(names)])
+
+
+_HOOK_CMD = re.compile(r"""command:\s*["']?(?:python3?|sh|bash)\s+([^"'\s]+)""")
+
+
+def _hook_scripts(text):
+    """Script paths named by a frontmatter hook. Deliberately shallow: it reads the raw file
+    rather than the parsed YAML, because the nested hook shape is three levels deep and a
+    half-parsed one would report nothing rather than report a problem."""
+    return _HOOK_CMD.findall(text)
 
 
 def _card_budget(repo_root, rep):

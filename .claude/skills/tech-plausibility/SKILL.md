@@ -6,6 +6,7 @@ metadata:
   tier: genre
   force: structural
   when: genre in [scifi] or subgenre in [scifi]
+  role: [design, gate]
   owns: [speculation-budget, second-order-effects]
 ---
 

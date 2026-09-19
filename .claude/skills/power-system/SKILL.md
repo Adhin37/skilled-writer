@@ -6,6 +6,7 @@ metadata:
   tier: genre
   force: structural
   when: genre in [fantasy, progression, scifi] or subgenre in [fantasy, progression, scifi]
+  role: [design, draft, gate]
   owns: [magic-rules, ability-cost]
 ---
 

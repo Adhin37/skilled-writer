@@ -6,6 +6,7 @@ metadata:
   tier: gated
   force: structural
   when: pov.mode != single
+  role: [design, draft, gate]
   owns: [pov-mode, viewpoint-switch]
 ---
 

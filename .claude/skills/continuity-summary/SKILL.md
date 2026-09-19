@@ -6,6 +6,7 @@ metadata:
   tier: core
   force: structural
   when: always
+  role: [draft, coordinate]
   owns: [ccs-block-format, read-set-assembly, arc-digest]
 ---
 

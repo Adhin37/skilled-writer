@@ -6,6 +6,7 @@ metadata:
   tier: optional
   force: structural
   when: optional.grimdark-consequences == on
+  role: [design, draft, gate]
   owns: [permanent-consequence]
 ---
 

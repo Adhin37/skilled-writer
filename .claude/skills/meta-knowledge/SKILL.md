@@ -6,6 +6,7 @@ metadata:
   tier: character
   force: structural
   when: always
+  role: [design, draft, gate]
   owns: [foreknowledge-ledger, observer-paradox]
 ---
 

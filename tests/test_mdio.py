@@ -75,5 +75,39 @@ class TestYaml(unittest.TestCase):
         self.assertEqual(cfg["genre"], "fantasy")
 
 
+class TestMapsNestedInLists(unittest.TestCase):
+    """Agent frontmatter nests a map inside a list item, which this parser does not model.
+
+    It used to raise TypeError on it, which meant a valid file took down whatever was reading
+    the directory. The contract is now: parse what you can model, skip what you cannot, never
+    raise - and never let the skipped lines leak into the enclosing map as if they were its own.
+    """
+
+    FM = (
+        "name: reader\n"
+        "description: a thing\n"
+        "tools: Read, Glob\n"
+        "hooks:\n"
+        "  PreToolUse:\n"
+        "    - matcher: \"Read|Glob\"\n"
+        "      hooks:\n"
+        "        - type: command\n"
+        "          command: \"python3 scripts/hooks/guard.py\"\n"
+        "omitClaudeMd: true\n")
+
+    def test_it_does_not_raise(self):
+        cfg = mdio.parse_yaml(self.FM)
+        self.assertEqual(cfg.get("name"), "reader")
+
+    def test_top_level_keys_after_the_nesting_still_parse(self):
+        # The regression that matters: a key *following* the unmodelled block must not be lost.
+        self.assertIs(mdio.parse_yaml(self.FM).get("omitClaudeMd"), True)
+
+    def test_the_nested_keys_do_not_leak_into_the_root(self):
+        cfg = mdio.parse_yaml(self.FM)
+        for leaked in ("matcher", "type", "command"):
+            self.assertNotIn(leaked, cfg)
+
+
 if __name__ == "__main__":
     unittest.main()

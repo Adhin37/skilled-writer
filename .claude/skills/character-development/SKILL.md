@@ -6,6 +6,7 @@ metadata:
   tier: character
   force: structural
   when: always
+  role: [design]
   owns: [arc-ladder, voice-delta, lasting-harm]
 ---
 

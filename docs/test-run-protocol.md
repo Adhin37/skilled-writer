@@ -214,6 +214,17 @@ reading however you happen to read: it fixes the order (blind pass, then reconci
 comparable with the next one's. It stays in `docs/` for the same reason this file does — a rubric
 the drafter can see is a rubric the drafter writes toward.
 
+**Run the blind pass with the `reader` agent.** `.claude/agents/reader.md` does §1 and §3 — the
+read and the verdict — and it is the only reader in the table whose blindness is enforced rather
+than promised: no `Skill` tool, `omitClaudeMd: true` so it does not inherit `CLAUDE.md`, and a
+`PreToolUse` hook that allows `chapters/` and the procedure and refuses everything else. **You do
+§2, §4 and §5 yourself**, with its findings in hand; those need `bible/` and `sw kb owner`, and a
+reader that opens either has stopped being one.
+
+A note worth keeping, because it was nearly missed: before `omitClaudeMd`, *any* agent spawned to
+do this step inherited the whole operating contract and arrived knowing `event:`, Pass Z and the
+ten bans. It would have read as a reader and graded as the toolkit.
+
 The instruction has been here since run #1 and the procedure has not, which is why §8 has been the
 most valuable step in this protocol and the least reproducible. A cold read of run #5 returned
 **3 / 5** on plot-starvation and register monotony against **0 defects** from `sw audit` and an

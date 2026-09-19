@@ -6,6 +6,7 @@ metadata:
   tier: core
   force: structural
   when: always
+  role: [design]
   owns: [premise-interview, scaffold]
 ---
 

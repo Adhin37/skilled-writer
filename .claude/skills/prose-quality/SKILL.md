@@ -6,6 +6,7 @@ metadata:
   tier: craft
   force: stylistic
   when: always
+  role: [gate]
   owns: [line-edit, microtension, register-range, ai-default-tells]
 ---
 

@@ -6,6 +6,7 @@ metadata:
   tier: core
   force: structural
   when: always
+  role: [design, draft, gate]
   owns: [world-anchor, genre-contract, promise-ledger, stakes-ceiling, retention-curve, pace-contract]
 ---
 

@@ -6,6 +6,7 @@ metadata:
   tier: optional
   force: stylistic
   when: optional.comedy-levity == on
+  role: [design, draft]
   owns: [humour-placement]
 ---
 

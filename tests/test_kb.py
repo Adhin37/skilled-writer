@@ -239,5 +239,68 @@ class TestCardResolution(unittest.TestCase):
         self.assertEqual([f.owner for f, _s, _w in fired], ["b"])
 
 
+class TestRoles(unittest.TestCase):
+    """The role axis: which agent may open a skill.
+
+    Roles route; they move nothing. The tests that matter are that every skill is reachable by
+    somebody, that the draft/gate halves still agree with the cards on disk, and that the one
+    role with no corpus stays that way - a `review` view that started returning skills would
+    mean the blind reader had quietly stopped being blind.
+    """
+
+    def setUp(self):
+        self.idx = kb.index(REPO, refresh=True)
+
+    def test_every_skill_declares_a_role(self):
+        self.assertEqual(self.idx.roleless(), [])
+
+    def test_no_skill_declares_an_unknown_role(self):
+        self.assertEqual(self.idx.bad_roles(), [])
+
+    def test_draft_role_matches_the_draft_cards_on_disk(self):
+        by_card = set()
+        for f in self.idx.by_type("draft-card"):
+            by_card.add(f.owner)
+        by_role = set(s.name for s in self.idx.view("draft")[0])
+        # Every skill carrying a draft card must be in the draft view. The converse does not
+        # hold: `bias-guard` is force: absolute and binds the drafter with no card of its own.
+        self.assertEqual(by_card - by_role, set())
+
+    def test_gate_role_matches_the_audit_cards_on_disk(self):
+        by_card = set(f.owner for f in self.idx.by_type("audit-card"))
+        by_role = set(s.name for s in self.idx.view("gate")[0])
+        self.assertEqual(by_card - by_role, set())
+
+    def test_review_carries_no_corpus(self):
+        skills, cards = self.idx.view("review")
+        self.assertEqual(skills, [])
+        self.assertEqual(cards, [])
+        self.assertIn("review", kb.ROLES_WITHOUT_CORPUS)
+
+    def test_the_dispatchers_are_the_coordinate_role(self):
+        self.assertEqual(sorted(s.name for s in self.idx.view("coordinate")[0]),
+                         ["continuity-summary", "revision-pass", "write-chapter"])
+
+    def test_skills_serve_more_than_one_role(self):
+        # The argument against a per-role folder split, asserted rather than asserted-in-prose:
+        # if this ever drops to zero the split becomes free and this test should be deleted.
+        both = [s for s in self.idx.skills.values()
+                if "draft" in s.role and "gate" in s.role]
+        self.assertGreater(len(both), 20)
+
+    def test_every_role_but_review_reaches_something(self):
+        for role in kb.ROLES:
+            if role in kb.ROLES_WITHOUT_CORPUS:
+                continue
+            self.assertTrue(self.idx.view(role)[0], "role %s resolves to an empty view" % role)
+
+    def test_view_resolves_cards_against_a_novel(self):
+        ctx = kbexpr.Context(None, chapter=1)
+        skills, cards = self.idx.view("draft", ctx)
+        self.assertTrue(skills)
+        self.assertTrue(cards)
+        self.assertTrue(all(f.type == "draft-card" for f, _s, _w in cards))
+
+
 if __name__ == "__main__":
     unittest.main()

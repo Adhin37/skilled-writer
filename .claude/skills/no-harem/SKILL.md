@@ -6,6 +6,7 @@ metadata:
   tier: optional
   force: structural
   when: optional.no-harem == on
+  role: [design, gate]
   owns: [reciprocity]
 ---
 

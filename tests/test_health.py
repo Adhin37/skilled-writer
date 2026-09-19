@@ -159,6 +159,79 @@ class TestSkillWiring(unittest.TestCase):
             self.assertNotIn("line-citation", checks(f.run()))
 
 
+class TestRoleWiring(unittest.TestCase):
+    """The role axis is only worth having if a broken one is noisy.
+
+    A missing role is a skill no agent's view reaches; a misspelled one is worse, because it
+    presents as a skill quietly absent from a view rather than as an error.
+    """
+
+    FM = ("name: %s\ndescription: does a thing.\nmetadata:\n"
+          "  type: skill\n  tier: craft\n  force: structural\n  when: always\n"
+          "  role: [%s]\n  owns: [%s]")
+
+    def test_a_skill_with_no_role_is_a_defect(self):
+        with Fake() as f:
+            f.skill("alpha", frontmatter=(
+                "name: alpha\ndescription: does a thing.\nmetadata:\n"
+                "  type: skill\n  tier: craft\n  force: structural\n  when: always\n"
+                "  owns: [alpha-thing]"))
+            self.assertIn("skill-role", checks(f.run()))
+
+    def test_a_misspelled_role_is_a_defect(self):
+        with Fake() as f:
+            f.skill("alpha", frontmatter=self.FM % ("alpha", "drafy", "alpha-thing"))
+            self.assertIn("skill-role", checks(f.run()))
+
+    def test_a_well_formed_role_is_accepted(self):
+        with Fake() as f:
+            f.skill("alpha", frontmatter=self.FM % ("alpha", "draft, gate", "alpha-thing"))
+            roles = [d for d in f.run().findings if d.check == "skill-role"
+                     and d.level == "defect"]
+            self.assertEqual(roles, [])
+
+
+class TestAgentWiring(unittest.TestCase):
+    """Role agents. A hook whose script has moved is logged and skipped, not raised - so the
+    isolation stops existing while every other check stays green. Same shape as a card whose
+    dispatcher was renamed, checked for the same reason."""
+
+    def agent(self, fake, name, text):
+        d = os.path.join(fake.dir, ".claude", "agents")
+        if not os.path.isdir(d):
+            os.makedirs(d)
+        with open(os.path.join(d, name + ".md"), "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(text)
+
+    def test_a_hook_pointing_at_a_missing_script_is_a_defect(self):
+        with Fake() as f:
+            f.skill("alpha", frontmatter=TestRoleWiring.FM % ("alpha", "draft", "a-thing"))
+            self.agent(f, "reader", "---\nname: reader\ndescription: reads.\nhooks:\n"
+                                    "  PreToolUse:\n    - matcher: \"Read\"\n      hooks:\n"
+                                    "        - type: command\n"
+                                    "          command: \"python3 scripts/hooks/gone.py\"\n"
+                                    "---\n\nbody\n")
+            self.assertIn("agent-hook", checks(f.run()))
+
+    def test_a_name_that_does_not_match_the_filename_is_a_defect(self):
+        with Fake() as f:
+            f.skill("alpha", frontmatter=TestRoleWiring.FM % ("alpha", "draft", "a-thing"))
+            self.agent(f, "reader", "---\nname: raeder\ndescription: reads.\n---\n\nbody\n")
+            self.assertIn("agent-frontmatter", checks(f.run()))
+
+    def test_a_missing_description_is_a_defect(self):
+        with Fake() as f:
+            f.skill("alpha", frontmatter=TestRoleWiring.FM % ("alpha", "draft", "a-thing"))
+            self.agent(f, "reader", "---\nname: reader\n---\n\nbody\n")
+            self.assertIn("agent-frontmatter", checks(f.run()))
+
+    def test_no_agents_directory_is_not_a_defect(self):
+        with Fake() as f:
+            f.skill("alpha", frontmatter=TestRoleWiring.FM % ("alpha", "draft", "a-thing"))
+            found = [d for d in f.run().findings if d.check.startswith("agent-")]
+            self.assertEqual(found, [])
+
+
 class TestCommandDocs(unittest.TestCase):
 
     def test_a_documented_command_that_does_not_exist_is_a_defect(self):

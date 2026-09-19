@@ -6,6 +6,7 @@ metadata:
   tier: character
   force: structural
   when: always
+  role: [draft, gate]
   owns: [speech-fingerprint, dialogue-density, subtext]
 ---
 

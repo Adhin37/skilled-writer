@@ -6,6 +6,7 @@ metadata:
   tier: optional
   force: structural
   when: optional.litrpg-system == on
+  role: [design, draft, gate]
   owns: [system-layer, status-screen]
 ---
 

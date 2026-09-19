@@ -6,6 +6,7 @@ metadata:
   tier: optional
   force: stylistic
   when: optional.slice-of-life-texture == on
+  role: [design, draft]
   owns: [downtime]
 ---
 

@@ -199,7 +199,14 @@ def parse_yaml(text):
                     nxt = lines[j]
                     break
             child = [] if (nxt and nxt.strip().startswith("- ")) else {}
-            container[key] = child
+            # A mapping nested inside a *list item* - `- matcher: x` then `hooks:` beneath it -
+            # is valid YAML this parser does not model, and it used to raise TypeError here.
+            # Degrade rather than explode: skip the key, but still push the child so the lines
+            # under it do not leak into the enclosing map as though they were its own.
+            # Agent frontmatter (`.claude/agents/*.md`) is the shape that found this; the keys
+            # any caller reads from it are top level.
+            if isinstance(container, dict):
+                container[key] = child
             stack.append((indent, child))
             continue
 
@@ -207,7 +214,8 @@ def parse_yaml(text):
                and _continues_scalar(lines[i])):
             val = val + " " + _strip_comment(lines[i]).strip()
             i += 1
-        container[key] = _scalar(val)
+        if isinstance(container, dict):
+            container[key] = _scalar(val)
     return root
 
 

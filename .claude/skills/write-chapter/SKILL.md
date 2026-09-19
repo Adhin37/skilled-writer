@@ -6,6 +6,7 @@ metadata:
   tier: core
   force: structural
   when: always
+  role: [coordinate]
   owns: [draft-phases, chapter-report]
 ---
 

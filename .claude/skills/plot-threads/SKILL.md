@@ -6,6 +6,7 @@ metadata:
   tier: craft
   force: structural
   when: always
+  role: [design, draft, gate]
   owns: [thread-ledger, promise-payoff]
 ---
 

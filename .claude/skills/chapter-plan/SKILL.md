@@ -6,6 +6,7 @@ metadata:
   tier: core
   force: structural
   when: always
+  role: [design]
   owns: [arc-grid, chapter-construction-list, event-field]
 ---
 

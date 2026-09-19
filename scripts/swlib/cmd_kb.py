@@ -16,7 +16,7 @@ import re
 from . import kb, kbexpr, mdio
 from .report import Report
 
-ACTIONS = ("owner", "show", "list", "search", "cards", "passes", "validate")
+ACTIONS = ("owner", "show", "list", "search", "cards", "passes", "view", "validate")
 
 
 def run(repo_root, args, novel=None):
@@ -31,6 +31,8 @@ def run(repo_root, args, novel=None):
         return _search(repo_root, args)
     if action in ("cards", "passes"):
         return _cards(repo_root, args, novel)
+    if action == "view":
+        return _view(repo_root, args, novel)
     return _validate(repo_root, args)
 
 
@@ -175,6 +177,60 @@ def _cards(repo_root, args, novel):
         for f, why in skipped:
             print("  %-22s %s" % (f.owner, "; ".join(why)))
     print("\n%d of %d applied." % (len(fired), total))
+    return 0
+
+
+def _view(repo_root, args, novel):
+    """One role's slice of the corpus - what an agent for this role may open.
+
+    This is what generates `.claude/agents/*.md` frontmatter. Hand-maintaining a skill list per
+    agent would be a second copy of the corpus, drifting from the first the way the duplicated
+    chapter-proportions table did before `metadata.owns:` existed.
+    """
+    role = _need(args, "a role (%s)" % ", ".join(kb.ROLES))
+    if role is None:
+        return 2
+    if role not in kb.ROLES:
+        print("no such role: `%s`  (roles: %s)" % (role, ", ".join(kb.ROLES)))
+        return 2
+    idx = kb.index(repo_root)
+
+    if role in kb.ROLES_WITHOUT_CORPUS:
+        print("# VIEW - %s. This role carries no corpus, and that is the point." % role)
+        print("  A cold read is only worth having from a reader who has not read the rubric, so")
+        print("  the role is defined by what it is denied. The agent gets no `Skill` tool and")
+        print("  `omitClaudeMd: true`; its procedure arrives in the prompt. See")
+        print("  docs/reader-review.md.")
+        return 0
+
+    number = args.chapter
+    ctx = None
+    if novel is not None and number is not None:
+        ctx = kbexpr.Context(novel, chapter=number, speakers=_speakers(novel, number))
+    skills, cards = idx.view(role, ctx, phase=getattr(args, "phase", None))
+
+    print("# VIEW - %s. Open these and no others." % role)
+    print("\n-- skills (%d)" % len(skills))
+    for sk in skills:
+        print("   %-24s %-9s %-11s %s"
+              % (sk.name, sk.tier or "-", sk.force or "-", ", ".join(sk.owns)))
+
+    kind = dict((v, k) for k, v in kb.CARD_ROLES.items()).get(role)
+    if kind:
+        total = len(idx.by_type(kind))
+        if ctx is None:
+            print("\n-- %ss: %d in the corpus. Pass a novel and -c N to resolve this run's set."
+                  % (kind, total))
+        else:
+            print("\n-- %ss for chapter %s (%d of %d applied)"
+                  % (kind, number, len(cards), total))
+            for f, state, _why in cards:
+                mark = " ?" if state is kbexpr.UNKNOWN else ""
+                cond = ("  [%s]" % f.when) if f.when and f.when != "always" else ""
+                print("   %-22s %s%s%s" % (f.owner, f.rel, cond, mark))
+            # No budget verdict here. `CARD_BUDGET` bounds the *unconditional* set - what every
+            # novel pays - and this is one novel's resolved set, a different number. `sw load`
+            # measures it and `sw health` enforces it; a third copy would drift from both.
     return 0
 
 

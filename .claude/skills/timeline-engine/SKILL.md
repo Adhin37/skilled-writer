@@ -6,6 +6,7 @@ metadata:
   tier: craft
   force: structural
   when: always
+  role: [design]
   owns: [world-clock, divergence-ledger, ending-contract]
 ---
 

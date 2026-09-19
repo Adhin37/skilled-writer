@@ -49,14 +49,30 @@ def skills_dir(repo_root):
 # `docs/creative-latitude.md`.
 FORCE = ("absolute", "structural", "stylistic")
 
+# Which agent may open a skill. A role is a *view* over the corpus, never a location in it: 23 of
+# the 32 card-carrying skills serve both the draft and the gate, so splitting the corpus into
+# per-role folders would have to duplicate them - the defect class `metadata.owns:` exists to
+# remove. The axis routes; it moves nothing.
+ROLES = ("design", "draft", "gate", "review", "coordinate")
+
+# `review` carries no corpus, deliberately. A cold read is only worth having from someone who has
+# not read the rubric, so the role is defined by what it is denied rather than what it is given -
+# and that is the one isolation Claude Code can actually enforce, because a reader needs no
+# `Skill` tool at all. See docs/reader-review.md.
+ROLES_WITHOUT_CORPUS = ("review",)
+
+# A card's kind already names the role that opens it; `dispatcher:` was the proto-role axis.
+CARD_ROLES = {"draft-card": "draft", "audit-card": "gate"}
+
 
 class SkillEntry(object):
-    __slots__ = ("name", "path", "description", "owns", "tier", "force", "when", "meta")
+    __slots__ = ("name", "path", "description", "owns", "tier", "force", "when", "meta", "role")
 
-    def __init__(self, name, path, description, owns, tier, when, meta, force=None):
+    def __init__(self, name, path, description, owns, tier, when, meta, force=None, role=None):
         self.name, self.path, self.description = name, path, description
         self.owns, self.tier, self.when, self.meta = owns, tier, when, meta
         self.force = force
+        self.role = role or []
 
     def __repr__(self):
         return "<skill %s owns=%d>" % (self.name, len(self.owns))
@@ -129,6 +145,7 @@ class Index(object):
                            tier=str(meta.get("tier") or "").strip() or None,
                            when=str(meta.get("when") or "").strip() or None,
                            force=str(meta.get("force") or "").strip() or None,
+                           role=_as_list(meta.get("role")),
                            meta=meta)
         self.skills[name] = entry
         for slug in owns:
@@ -220,6 +237,35 @@ class Index(object):
             if kbexpr.evaluate(skill.when, ctx)[0] is kbexpr.FALSE:
                 off.append(name)
         return off
+
+    def view(self, role, ctx=None, phase=None):
+        """One role's slice of the corpus: ([SkillEntry], [(FileEntry, state, why)]).
+
+        What an agent for this role may open, and nothing else. When `ctx` is given the card set
+        is resolved against that novel, so the answer is this run's, not the corpus's.
+
+        A role with no corpus returns two empty lists, and that is an answer rather than a miss -
+        see `ROLES_WITHOUT_CORPUS`.
+        """
+        skills = [s for _, s in sorted(self.skills.items()) if role in s.role]
+        kind = None
+        for card_kind, card_role in CARD_ROLES.items():
+            if card_role == role:
+                kind = card_kind
+        if kind is None or ctx is None:
+            return skills, []
+        fired, _skipped = self.cards(kind, ctx, phase=phase)
+        return skills, fired
+
+    def roleless(self):
+        """Skills declaring no role. A skill no agent may open is a skill nothing reaches."""
+        return sorted(n for n, s in self.skills.items() if not s.role)
+
+    def bad_roles(self):
+        """(skill, role) pairs naming a role that does not exist. Catches a typo, which would
+        otherwise present as a skill quietly vanishing from a view."""
+        return sorted((n, r) for n, s in self.skills.items()
+                      for r in s.role if r not in ROLES)
 
     def cards(self, kind, ctx, phase=None):
         """Resolve a card set. Returns ([(FileEntry, state, why)], [(FileEntry, why)]).

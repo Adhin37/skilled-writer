@@ -6,6 +6,7 @@ metadata:
   tier: optional
   force: structural
   when: optional.mystery-clues == on
+  role: [design, draft, gate]
   owns: [clue-ledger, fair-play]
 ---
 

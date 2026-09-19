@@ -6,6 +6,7 @@ metadata:
   tier: gated
   force: structural
   when: content.romance != none
+  role: [design]
   owns: [primary-lead]
 ---
 

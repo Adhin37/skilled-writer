@@ -6,6 +6,7 @@ metadata:
   tier: character
   force: structural
   when: always
+  role: [design, gate]
   owns: [cast-tiers, character-debut, walk-on-roster]
 ---
 

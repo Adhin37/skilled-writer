@@ -25,6 +25,8 @@ agent regardless of harness.
 - **A benchmark or test run of the toolkit follows [docs/test-run-protocol.md](docs/test-run-protocol.md)**,
   read before the run starts. It binds the coordinating session — the one that never writes a file
   under `novels/` — and not the agent doing the writing, which is told not to read `docs/` at all.
+  That ban is scoped to the `draft` and `gate` roles; the `review` role's whole procedure lives in
+  `docs/reader-review.md`. See **[CLAUDE.md](CLAUDE.md) §10**.
 
 ## The one rule that matters most
 
@@ -57,6 +59,9 @@ without this is a bug.
   gates and both were optimised rather than satisfied. Every measurement is reported and gates
   nothing; findings that are only meaningful in aggregate are counted across chapters and raised
   as a *habit*, never as a per-chapter verdict.
+- **A role is a view, not a folder.** Every skill declares `metadata.role:`, and
+  `python3 scripts/sw.py kb view <role>` prints that agent's whole slice. 23 of the 32
+  card-carrying skills serve both the draft and the gate, so nothing is moved to scope it.
 - **One concept, one owner.** Every skill declares `metadata.owns:` in frontmatter, and the claim
   is exclusive. State the rules you own; for everything else, cite the owner by name and stop.
   `python3 scripts/sw.py kb owner <slug>` answers "whose rule is this?" without opening anything.

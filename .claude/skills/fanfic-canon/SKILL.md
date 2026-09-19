@@ -6,6 +6,7 @@ metadata:
   tier: genre
   force: structural
   when: genre in [fanfic] or subgenre in [fanfic]
+  role: [design, draft, gate]
   owns: [canon-ledger, divergence-point, ooc-budget, oc-test]
 ---
 

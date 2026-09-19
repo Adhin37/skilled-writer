@@ -6,6 +6,7 @@ metadata:
   tier: optional
   force: structural
   when: optional.battle-scale == on
+  role: [design, draft, gate]
   owns: [mass-combat, attrition, command-legibility]
 ---
 

@@ -6,6 +6,7 @@ metadata:
   tier: craft
   force: structural
   when: always
+  role: [draft, gate]
   owns: [four-channels, narrative-distance, person-and-tense, head-hopping, italics]
 ---
 
