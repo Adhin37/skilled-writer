@@ -435,6 +435,20 @@ def build(novel, number, chars=None, locs=None, want_society=False):
                 % (z4_nones, len(z4s)))
             add("       three candidates, not in the prose - widen before drafting, not after.")
 
+    bnum, btext = novel.brief()
+    if bnum == number and btext:
+        # Phase A already ran for this chapter. Handing the brief back is what makes a resume
+        # cost the draft instead of the decisions - and its `cand` line is the one the CCS block
+        # copies at step 5, so a session that died between approval and the gate loses neither.
+        add("\n## BRIEF ON FILE (state/brief.md - phase A already ran for this chapter)")
+        add(btext)
+        add("Drafted from this, not from a new one. Change a line if the chapter has moved on,")
+        add("and write the change back to `state/brief.md` before phase B.")
+    elif bnum is not None and bnum != number:
+        add("\n## BRIEF ON FILE")
+        add("state/brief.md holds ch %d's brief, not ch %d's - phase A has not run here yet."
+            % (bnum, number))
+
     add("\n## 0. CONFIG (novel.md, the fields that gate a chapter)")
     add("\n".join(cfg_lines))
 

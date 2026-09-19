@@ -1,4 +1,4 @@
-"""`sw trace` - what the run cost, and which skills it actually opened.
+"""`sw trace` - what the run cost, and which skills and cards it actually opened.
 
 The rest of the toolkit reviews the novel. This reviews the run: tokens, dollars, wall clock,
 and the finding that motivated the command - `docs/benchmark.md` found that 21 of 37 skills were
@@ -119,6 +119,7 @@ def run(repo_root, novel=None, rates=None, transcript_root=None, include_all=Fal
     _cost_section(rep, rates, per_model, cost, agg)
     _chapter_section(rep, sessions, rates, data, since)
     _skill_section(rep, repo_root, novel, agg, data)
+    _card_section(rep, agg, data)
     _tool_section(rep, agg)
 
     data["sessions"] = [{
@@ -205,20 +206,26 @@ def _chapter_section(rep, sessions, rates, data, since=None):
     data["by_chapter"] = buckets
     if not buckets:
         return
-    lines = ["   %-20s %4s %6s %9s %13s %10s %9s  %s"
-             % ("novel", "ch", "resp", "wall", "cache read", "output", "cost", "last write")]
+    lines = ["   %-20s %4s %6s %9s %13s %10s %9s %7s  %s"
+             % ("novel", "ch", "resp", "wall", "cache read", "output", "cost", "cards",
+                "last write")]
     quick = []
     for b in buckets:
         b["cost_usd"] = round(total_cost(rates, b["by_model"]), 4)
         pre = b["chapter"] == 0
-        lines.append("   %-20s %4s %6d %9s %13s %10s %9s  %s"
+        lines.append("   %-20s %4s %6d %9s %13s %10s %9s %7s  %s"
                      % (b["slug"][:20], "-" if pre else b["chapter"], b["responses"],
                         _hms(b["duration_s"]),
                         "{:,}".format(b["cache_read_input_tokens"]),
                         "{:,}".format(b["output_tokens"]),
-                        "$%.2f" % b["cost_usd"], (b["until"] or "?")[:19]))
+                        "$%.2f" % b["cost_usd"],
+                        "%d/%d" % (b["draft_cards"], b["audit_cards"]),
+                        (b["until"] or "?")[:19]))
         if not pre and b["responses"] and b["duration_s"] < 30:
             quick.append(b["chapter"])
+    lines.append("   `cards` is draft/audit opened in that bucket. A Phase A card opened for the")
+    lines.append("   next chapter before this one's file is finished lands here, so treat a")
+    lines.append("   boundary-straddling pair as one figure rather than two.")
     lines.append("   Rows are in order of last write, which is not chapter order when a later")
     lines.append("   session revised an earlier chapter.")
     lines.append("   Attributed by the LAST write of each chapter file: a revision rewrites it,")
@@ -282,6 +289,37 @@ def _skill_section(rep, repo_root, novel, agg, data):
                            "opened in this run: %s" % (len(never), ", ".join(never[:8])),
                  detail="benchmark finding 9. A skill whose file never enters context contributes "
                         "only whatever another skill paraphrases of it.")
+
+
+def _card_section(rep, agg, data):
+    """Cards opened, which `trace` could not report until 2026-09-19.
+
+    A skill file says the drafter reached for the advice; a card says it reached for the
+    decision. Benchmark runs #4 and #5 both made the card count their headline and both had to
+    assemble it by hand out of the agent transcript, which is the kind of measurement that gets
+    done once and then estimated. It scores nothing: there is no correct number of cards, and the
+    card budgets in `rules.py` bind the corpus rather than any run.
+    """
+    cards = agg["cards"]
+    total = cards["draft"] + cards["audit"]
+    data["cards"] = {"draft": cards["draft"], "audit": cards["audit"],
+                     "by_card": agg["card_files"]}
+    if not total:
+        return
+    lines = ["   %d card open(s): %d draft, %d audit"
+             % (total, cards["draft"], cards["audit"])]
+    hits = sorted(agg["card_files"].items(), key=lambda kv: (-kv[1], kv[0]))
+    row = []
+    for k, v in hits:
+        row.append("%s x%d" % (k, v))
+        if len(row) == 3:
+            lines.append("   " + "  ".join(row))
+            row = []
+    if row:
+        lines.append("   " + "  ".join(row))
+    lines.append("   Counted, never scored. Phase A spends draft cards and Phase C audit cards,")
+    lines.append("   so a run with one and not the other is a phase that did not happen.")
+    rep.info("cards", lines)
 
 
 def _tool_section(rep, agg):

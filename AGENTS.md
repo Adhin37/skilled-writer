@@ -65,7 +65,7 @@ without this is a bug.
 ## Before you commit a change to the toolkit
 
 ```bash
-python3 -m unittest discover tests   # 437 tests
+python3 -m unittest discover tests   # 448 tests
 python3 scripts/sw.py health         # wiring, scope claims, duplication, the budgets
 python3 scripts/sw.py selftest       # builds a novel in a temp dir; proves every check fires
 ```

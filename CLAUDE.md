@@ -407,6 +407,8 @@ novels/<slug>/
     body.md             form & appearance ledger (only if a character changes form)
     power.md            ladder, pressure log, gain log, boosts, curve plan (unless shape: none)
     foreknowledge.md    grain, inventory, spend log, observer paradox (only if the MC foreknows)
+    brief.md            the approved Phase A brief for the chapter in progress. One, overwritten
+                        each chapter, and the only scratch file here — nothing is appended to it
   chapters/NNNN-<slug>.md
 ```
 
@@ -421,8 +423,8 @@ time. `continuity-summary/references/block-format.md` is the line reference. Two
 exist to make a step falsifiable rather than to carry story state: **`cand>`** records the
 candidates Phase A did not take and why the taken one won, and **`z4>`** records Pass Z4's answer
 — the thing here a competent hack would not have written — or the literal `none`. Both are the
-only place their step leaves a trace, because the Phase A brief is written into the conversation
-and discarded. `none` is a legitimate `z4>` entry and counting it is the point: one is a chapter,
+only place their step leaves a trace once the chapter is done — the brief itself is a scratch
+file, written to `state/brief.md` at Phase A and overwritten by the next chapter's. `none` is a legitimate `z4>` entry and counting it is the point: one is a chapter,
 a run of them is a habit, and `sw history` counts them.
 
 `plan/chapters.md` carries `temp` and `hooktype` per row — the register ledger, decided at plan
@@ -512,7 +514,7 @@ contradiction waiting for whichever skill gets edited next. Rationale:
 | `audit <novel>` | the independent whole-novel gate — every per-chapter check, plus `history`'s cross-chapter habit findings, because a habit is by definition invisible in one chapter |
 | `history <novel>` | the whole book as a series — dialogue and length trends, recurring checks at every level, the `widening` section (Z4's answers and the recorded candidates), thread ages, the pressure series |
 | `load <novel> -c N` | what the toolkit hands the drafter for one chapter — cards, words, checkboxes and negations, per phase. Measures the **instructions**, never the chapter |
-| `trace [novel]` | what a run cost, and **which skill files it actually opened** — the finding-9 check |
+| `trace [novel]` | what a run cost, and **which skill files and cards it actually opened** — the finding-9 check, and the card count two benchmark runs assembled by hand |
 | `export <novel> --okf --out <dir>` | project a novel into an Open Knowledge Format bundle — an **export target, never the working format**, because `readset` hands over slices and a bundle hands over whole files |
 | `health` | the toolkit's own wiring: skills, cards, references, **scope claims and cross-skill duplication**, the **card and word budgets**, the template accessors, the docs |
 | `selftest` | the dry run — build a whole novel in a temp dir and run every command against it, clean and seeded |

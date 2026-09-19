@@ -21,9 +21,9 @@ last. Each pass is a search-and-decide, not a re-read.
 ## Pass Z — the story gate. Run this first, and be willing to stop here.
 
 Sixteen passes in a fixed order is the right shape for *fixing* a chapter and the wrong shape for
-deciding whether it is worth fixing. Run #2 ran all sixteen on every chapter and shipped five
-`status: revised` chapters a reader flagged as machine-written on page one. Nothing in the sixteen
-asked the only question that mattered. Three that do, gating all of it:
+deciding whether it is worth fixing. Run #2 ran all sixteen and shipped five `status: revised`
+chapters a reader flagged as machine-written on page one. Four questions that do ask, gating all
+of it:
 
 | | question | fails when |
 |---|---|---|
@@ -32,11 +32,11 @@ asked the only question that mattered. Three that do, gating all of it:
 | **Z3** | Would a reader **click next**? | The last line is the fourth withheld beat in a row, or the hook asks what the chapter answered |
 | **Z4** | Name the thing here **a competent hack would not have written**. | The honest answer is nothing. Everything in the chapter is the obvious version, done well |
 
-**Z4 is the one that can fail a chapter for being safe**, and it is the only question in the gate
-that can. Z1 to Z3 are structural, and a chapter can satisfy all three and still be entirely
-predictable — which is a fair description of what run #2 shipped past sixteen passes. A hundred
-prohibitions cannot produce a surprise; they can only remove the bad ways of failing to have one
-(`CLAUDE.md` §5, and `docs/creative-latitude.md` for the measurement).
+**Z4 is the one that can fail a chapter for being safe**, and the only question in the gate that
+can: Z1 to Z3 are structural, and a chapter can satisfy all three and still be entirely
+predictable — which is a fair description of what run #2 shipped. A hundred prohibitions cannot
+produce a surprise; they only remove the bad ways of failing to have one (`CLAUDE.md` §5, and
+`docs/creative-latitude.md` for the measurement).
 
 What counts as an answer: a choice the reader did not see coming and believes afterwards · a
 character who wanted the opposite of what the scene needed · a detail nobody would have invented
@@ -46,13 +46,13 @@ well written.
 
 A failed Z4 is **not** a stop. **Write the answer to the block's `z4>` line, `none` included** —
 the only trace this pass leaves, and one written to flatter the chapter defeats the point of
-asking. Name the one place it could have taken the riskier option, and carry that into the next
-brief — habits are invisible in one chapter. Three failures in five is the finding, and the
+asking. Name the one place it could have taken the riskier option and carry that into the next
+brief. Three failures in five is the finding, and the
 repair is in Phase A's three candidates (`story-craft`'s card), not in the prose.
 
 If Z1 or Z2 fails, **stop**. Do not run passes 0–10. A chapter whose central event never got
 played does not have prose problems, and polishing it yields a well-written chapter nobody wants
-to read — precisely what run #2 shipped, five times. `sw lint` reports the countable half:
+to read. `sw lint` reports the countable half:
 `event` for Z1, `closer-sameness` for Z3. Z2 is yours.
 
 Stopping here means **going back to Phase B** and playing the scene, then gating the new text. It
@@ -62,16 +62,13 @@ is the loop working, and the report says it happened.
 
 ## Before you start — this file does not carry other skills' checklists
 
-It used to, and that is what made it dangerous: a model reading only this file ran every pass at
-checklist depth while `bias-guard`, `voice-separation`, `competence-map` and `prose-quality` were
-read **zero** times across 200 measured turns, boxes ticked on every chapter. So the judgement
-passes now live with the skill that owns the defect, as a small **audit card** — cheap to open,
-and written by the owner, so nothing here is a paraphrase.
+It used to, and a model reading only this file ran every pass at checklist depth while
+`bias-guard`, `voice-separation`, `competence-map` and `prose-quality` were read **zero** times
+across 200 measured turns. So the judgement passes live with the skill that owns the defect, as a
+small **audit card** — cheap to open, written by the owner, so nothing here is a paraphrase.
 
-Six passes have no other owner — 1, 4, 7's structural half, 9's, 9d and 10. Their checks moved
-one file down to **`references/owned-passes.md`**, written as check / failure / cheapest repair,
-so this body stays the pass order and the gates rather than a checklist nobody opened a source
-for.
+Six passes have no other owner — 1, 4, 7's structural half, 9's, 9d and 10. Their checks live one
+file down in **`references/owned-passes.md`**, as check / failure / cheapest repair.
 
 Run `python3 scripts/sw.py kb passes novels/<slug> -c <N>`. It names the audit card for each
 pass below, with 9b, 9c and 9e already resolved against `novel.md`, so a pass whose card does not
@@ -80,9 +77,9 @@ its `pass` in frontmatter — open the one whose `pass` matches the row you are 
 
 **Active modules arrive the same way.** A module this novel switches on — by an `optional:`
 toggle or by `genre` — carries an audit card with a `pass` like everything else, and `kb passes`
-prints it in the row it belongs to rather than as a separate stage. Open the card, never the
-module's `SKILL.md`. The command also prints what did **not** open and why, which is the only
-way a trigger that has quietly gone wrong becomes visible.
+prints it in its own row rather than as a separate stage. Open the card, never the module's
+`SKILL.md`. It also prints what did **not** open and why, which is the only way a trigger that has
+quietly gone wrong becomes visible.
 
 | pass | kind of defect | what to open |
 |---|---|---|
@@ -107,19 +104,9 @@ way a trigger that has quietly gone wrong becomes visible.
 | 10 Mechanics | mechanical | `references/owned-passes.md` §Pass 10, and the four channels |
 
 **Each card binds at its owner's force**, and `kb passes` marks the two that are not
-`structural`. It changes what a finding obliges you to do:
-
-| force | a finding means | owed to the report |
-|---|---|---|
-| **absolute** | fix it. There is no other outcome, and no reason is accepted | nothing — it is simply fixed |
-| **structural** | fix it, or keep it and say why in the `Gate:` line | one clause |
-| **stylistic** | **decide.** Keep it whenever the sentence does something the plain version would not | nothing |
-
-A stylistic card that comes back with findings you deliberately kept is a card that worked. Those
-rules exist to catch a *habit* rather than a sentence, so read them across the chapter and spend
-the latitude they give you — `prose-quality` §Range before polish and §When to break these state
-what its own rules are protecting, and `CLAUDE.md` §How hard each of these binds sets the three
-forces.
+`structural`. It changes what a finding obliges you to do, and a stylistic finding you kept on
+purpose is a card that worked: **`references/fixing-and-reporting.md` §What a finding obliges
+you to do**.
 
 **Run Pass 0 first.** It settles every mechanical row in seconds and for no tokens, which buys the
 budget for the cards. A clean sweep is **not** a passed revision: it says nothing about Z, 2, 3,
@@ -129,8 +116,8 @@ If the budget will not stretch to every card, rotate — but **say which passes 
 card**, in the report's `Gate:` line. Three never rotate: **Pass Z**, **Pass 6**, and **Pass 9c**
 when the MC knows the future.
 
-The budget is thinnest exactly here, and structurally so: Phase A spent the draft cards and phase
-B spent a chapter before this pass was reached. Rotating and saying so is honest. Ticking a box you
+The budget is thinnest exactly here, and structurally so: Phase A spent the draft cards and Phase
+B spent a chapter before this pass was reached. Rotating and saying so is honest; ticking a box you
 did not check is what put five machine-written chapters past sixteen passes.
 
 ---
@@ -146,8 +133,8 @@ python3 scripts/sw.py curve novels/<slug>           # the power curve, if scalin
 `lint` covers Pass 7 in full, the countable half of Pass 8, Pass 10 in full, the default-gesture
 sweep in Pass 2, the anchor count in Pass 9b, and the ledger's agreement with the chapter. `cast`
 settles the arithmetic in Passes 2 and 3 — the straddle rule, the wit cap, the three-way clash,
-the deep-expertise budget. `curve` settles the arithmetic in Pass 9e — step size, gain cadence,
-unpaid boost debts, pressure monotony and the `pwr>` line's agreement with the ledger. The sweep
+the deep-expertise budget. `curve` does the same for Pass 9e — step size, gain cadence, unpaid
+boost debts, pressure monotony, `pwr>` against the ledger. The sweep
 tells you **where** to look and never **whether** it is a problem.
 
 Findings print as `LEVEL path:line: [check] message`. A **DEFECT** is a named gate failure; a
@@ -174,8 +161,8 @@ named character for the first time**, and **`pov-switch/references/audit-card.md
 If the budget will not carry all four, drop `character-profile`'s first and `pov-switch`'s second,
 and name them in the `Gate:` line.
 
-A first appearance is the half of this pass that has no script and the one a reader notices
-first: run `sw cast` and read the debut ledger before deciding this pass has passed.
+A first appearance is the half of this pass with no script and the one a reader notices first:
+run `sw cast` and read the debut ledger before calling this pass passed.
 
 ## Pass 3 — Intelligence and knowledge
 
@@ -185,10 +172,10 @@ seam they fail at.
 
 ## Pass 3b — Reading people
 
-On **`mc-intel-meter`'s card**, already open from Pass 3. It sits here rather than with character
-because it audits the same kind of claim: Pass 3 asks whether anybody knew something they should
-not, and this asks whether anybody *understood* something they should not. `social-perception`
-owns the rules; the card's second half carries them.
+On **`mc-intel-meter`'s card**, already open from Pass 3. It sits here because it audits the same
+kind of claim: Pass 3 asks whether anybody knew something they should not, this whether anybody
+*understood* something they should not. `social-perception` owns the rules; the card's second half
+carries them.
 
 ## Pass 4 — Structure
 
@@ -230,18 +217,17 @@ Open `prose-quality/references/audit-card.md` §Register.
 
 ## Pass 9 — Delivery
 
-**The pass that decides whether the chapter is finished**, and it replaced the old word-count check
-entirely. Length is evidence of nothing.
+**The pass that decides whether the chapter is finished.** Length is evidence of nothing.
 
 Open **`scene-craft/references/audit-card.md`** — `scene-craft` owns the delivery test, and the card
 carries the five questions and the scene-level checks. Write the **Change** answer into `delivers:`
 and the Z1 answer into `event:`: two fields that fail in opposite directions. Run #2 wrote five
-strong `delivers:` lines, every one describing a shift in somebody's interior state, which is
-exactly how a chapter passes this pass while nothing happens in it.
+strong `delivers:` lines, every one a shift in somebody's interior state — which is how a chapter
+passes this pass while nothing happens in it.
 
-Also open **`hook-and-pacing/references/audit-card.md`**: the chapter's first and last sentences
-carry most of a serial's retention, and both of their defects are distributional — read against
-the previous five chapters, never scored on this one. What is left over belongs to this pass
+Also open **`hook-and-pacing/references/audit-card.md`**: first and last sentences carry most of a
+serial's retention, and both defects are distributional — read against the previous five
+chapters, never scored on this one. What is left over belongs to this pass
 alone: **`references/owned-passes.md` §Pass 9**.
 
 ## Pass 9b — The opening — chapters ≤ `opening.contract_by_ch + 2` only
@@ -262,9 +248,9 @@ measured failure of machine-written fiction is a narrated theme, not an absent o
 ## Pass 9e — The power curve — only if `scaling.shape` is not `none`
 
 Open **`power-scaling/references/audit-card.md`**. Run `sw curve` first if you have not: it finds
-the step-size, cadence, unpaid-debt, monotony and ledger-agreement defects, which leaves the card
-the three things a script cannot see — whether the gain was earned on the page, whether the
-opponent is a person or a number, and whether the win felt free.
+the step-size, cadence, unpaid-debt, monotony and ledger-agreement defects, leaving the card the
+three a script cannot see — whether the gain was earned on the page, whether the opponent is a
+person or a number, and whether the win felt free.
 
 It sits after delivery for the reason its card gives, and before Pass 10 so a corrected tier still
 reaches the frontmatter and the CCS `pwr>` line.
@@ -278,6 +264,20 @@ the scene-or-summary call and the repair, which is never more words.
 `sw lint` prints a **pacing** line — summary markers, words before the first scene, summary-shaped
 paragraph share. It says where to look and settles nothing.
 
+## Pass 9g — Read what you changed
+
+Every pass above **edits**, and none of them reads an edit — each opens the chapter as the last one
+left it, so the gate's own repairs are the only text in the chapter nobody reads twice. Run #5 put
+three defects into a finished chapter that way, one of them clean on every mechanical check.
+
+Re-read **only the spans you touched**, plus the paragraph either side. A read, not a checklist:
+no card, nothing to tick. Did the replacement replace anything · does an inserted line still fit
+the blocking · did the fix contradict its own sentence · did your fixes all reach for the same
+word. Worked examples of all four, and what each one cost:
+**`references/fixing-and-reporting.md` §Read what you changed**.
+
+Whatever this pass has to undo is still a gate fix and belongs in the `Gate:` line.
+
 ## Pass 10 — Mechanics
 
 Frontmatter, scene breaks, the POV label, and the measured word count — **`references/owned-passes.md`
@@ -287,8 +287,7 @@ Frontmatter, scene breaks, the POV label, and the measured word count — **`ref
 python3 scripts/sw.py stamp novels/<slug> -c <n> --status revised --ledger
 ```
 
-**The four channels** are `narrator-voice`'s to enforce — open that skill's audit card. This file
-does not carry other skills' checklists.
+**The four channels** are `narrator-voice`'s to enforce — open that skill's audit card.
 
 ---
 

@@ -48,8 +48,7 @@ is cheap, and skipping one is what produces the drift that ruins long serials.
 Phase A spends the cards below and produces **one brief**; Phase B drafts from that brief and four
 cards, nothing else. Why it is split this way: `references/draft-cards.md`.
 
-The brief is twelve lines — thirteen when the read-set printed a WATCH row — written into the
-chat, not into a file.
+The brief is thirteen lines — fourteen when the read-set printed a WATCH row.
 
 ```
 Ch 12 — "The Second Quarter"
@@ -62,15 +61,29 @@ speakers Wren, Hesk, Maro   (Hesk differs from Wren on intel + articulacy)
 world    the levy office charges for its own paperwork
 asks     Wren does not know what a counter-claim costs; she has to ask Noor
 threads  ^T02  vT04
+cand     1:she pays the levy 2:she talks Maro into paying -> took 3, the other two keep the house
 watch    campaign-clause (3 of last 5) | speech-share (2 of last 5)
 next     the quarter answers in nine days
 ```
 
+The **`cand` line is `story-craft`'s three candidates** — the two you did not take, numbered as its
+card numbers them, and why the taken one won. It is in the brief rather than only in your head
+because this is where the user can still say *take the second one*, and because step 5 copies it
+instead of remembering it.
+
 **Then stop and show it to the user.** They approve it, change a line, or throw it out — the
 cheapest gate in the toolkit, because a chapter that was going to be a thousand words of somebody
-quietly feeling something gets caught for twelve lines instead of after the draft. Skip the stop
+quietly feeling something gets caught for thirteen lines instead of after the draft. Skip the stop
 only if told to (`/novel-write --no-confirm`, or "just write the next five"): Phase A still
 happens, you simply do not wait.
+
+**Then write the approved brief to `novels/<slug>/state/brief.md`**, verbatim, replacing whatever
+is there. One file, overwritten every chapter, holding the brief the draft is actually being
+written from. It is the only thing in the loop that exists solely in the conversation, and a
+conversation is the one place state does not survive: run #5 lost a chapter's candidates outright
+when the session holding them died, and `cand> unrecorded` is what the ledger got. On a resume
+`sw readset` hands the brief straight back, so a dead session costs the draft and not the
+decisions.
 
 **Two gates, both before drafting.**
 
@@ -187,7 +200,7 @@ deferrable to "later". When the block is written,
 | written | when |
 |---|---|
 | the CCS block, plus a `gate>` line naming what Phase C had to fix | always. `continuity-summary` owns when the line is present and when it is absent |
-| a `cand>` line: the Phase A candidates you did not take, and why the taken one won | always, when the three-candidate step ran. It is the only place that step's output survives the conversation |
+| a `cand>` line: the Phase A candidates you did not take, and why the taken one won | always, when the three-candidate step ran. **Copy the brief's `cand` line from `state/brief.md`** rather than recalling it — the ledger is where that step's output survives the run, and a remembered candidate is a candidate nobody can check |
 | a `z4>` line: Pass Z4's answer, or the literal `none` | always. `none` is a real answer and the reason the line exists — one is a chapter, a run of them is a habit |
 | `state/threads.md`, `state/growth.md`, `state/timeline.md` | always |
 | `set>` facts into `bible/world.md`, `bible/society.md`, `bible/lexicon.md` | a location anchor, price, custom or name reached the page. One never recorded drifts by its third appearance |

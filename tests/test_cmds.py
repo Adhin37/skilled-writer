@@ -945,3 +945,60 @@ class TestLedgerOrdering(unittest.TestCase):
             fx.add_ledger([1, 2, 3])
             _code, out, _err = run("state", fx.root)
             self.assertNotIn("is written after", out)
+
+
+BRIEF = '''# Brief
+
+```
+Ch 2 — "The Second Quarter"
+event    Wren files the counter-claim and is put out of the house
+cand     1:she pays the levy 2:she talks Maro into paying -> took 3, the other two keep the house
+next     the quarter answers in nine days
+```
+'''
+
+
+class TestReadsetBriefOnFile(unittest.TestCase):
+    """Benchmark run #5: the Phase A brief lived only in the conversation.
+
+    Every other decision the loop makes lands in a file. This one did not, so a compaction or a
+    dead session took it outright and the ledger got `cand> unrecorded` - losing the only artifact
+    that makes the widening step falsifiable. The brief is written to `state/brief.md` on
+    approval, and the read-set hands it back so a resume costs the draft and not the decisions.
+    """
+
+    @staticmethod
+    def brief_block(out):
+        return out.split("## BRIEF ON FILE", 1)[1].split("\n## 0.", 1)[0] \
+            if "## BRIEF ON FILE" in out else ""
+
+    def test_a_brief_for_this_chapter_is_handed_back(self):
+        with NovelFixture() as fx:
+            fx.write("state/brief.md", BRIEF)
+            _code, out, _err = run("readset", fx.root, "-c", "2")
+            block = self.brief_block(out)
+            self.assertIn("Wren files the counter-claim", block)
+            self.assertIn("cand", block, "the line step 5 copies is the point of persisting it")
+
+    def test_a_brief_for_another_chapter_is_not_this_chapter_s(self):
+        with NovelFixture() as fx:
+            fx.write("state/brief.md", BRIEF)
+            _code, out, _err = run("readset", fx.root, "-c", "3")
+            block = self.brief_block(out)
+            self.assertIn("ch 2", block)
+            self.assertNotIn("Wren files the counter-claim", block,
+                             "a stale brief must not read as this chapter's plan")
+
+    def test_the_shipped_template_holds_no_brief(self):
+        """The scaffold ships a placeholder, and a placeholder is not a brief."""
+        with NovelFixture() as fx:
+            self.assertEqual(fx.novel().brief(), (None, ""))
+            _code, out, _err = run("readset", fx.root, "-c", "1")
+            self.assertNotIn("## BRIEF ON FILE", out)
+
+    def test_prose_outside_the_fence_is_not_read_as_a_brief(self):
+        """The file explains itself in prose above the block; only the fenced brief is data."""
+        with NovelFixture() as fx:
+            fx.write("state/brief.md",
+                     "Ch 9 is discussed here in prose and must not count.\n\n" + BRIEF)
+            self.assertEqual(fx.novel().brief()[0], 2)

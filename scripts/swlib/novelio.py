@@ -207,6 +207,30 @@ class Novel(object):
 
     # ----------------------------------------------------------------- ledger
 
+    def brief(self):
+        """The Phase A brief on file, as `(chapter number, text)`, or `(None, "")`.
+
+        The brief is the only thing the loop decides that lived solely in the conversation, so a
+        compaction or a dead session took it outright - run #5's chapter 4 shipped with
+        `cand> unrecorded` for exactly that reason. `write-chapter` writes it here on approval and
+        the read-set hands it back, which makes a resume cost the draft rather than the decisions.
+
+        It is a scratch file: the number is read from the brief's own first line and nothing here
+        checks, scores or repairs it. A brief for another chapter is simply not this chapter's.
+        """
+        text = self._text("state", "brief.md")
+        if not text:
+            return None, ""
+        body = None
+        for block in re.findall(r"^```[^\n]*\n(.*?)^```", text, re.M | re.S):
+            if re.search(r"^Ch\s+\d+", block, re.M):
+                body = block
+                break
+        if body is None:
+            return None, ""
+        m = re.search(r"^Ch\s+(\d+)", body, re.M)
+        return int(m.group(1)), body.strip("\n")
+
     @property
     def ledger_text(self):
         return self._text("state", "continuity.md")

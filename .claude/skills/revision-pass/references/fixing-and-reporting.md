@@ -10,6 +10,21 @@ Open this when a pass has found something and you are deciding what to change, w
 writing the report at the end, or when you are gating a chapter that was drafted in an earlier
 session.
 
+## What a finding obliges you to do
+
+The card's owner declares a `force`, and `sw kb passes` marks it. It decides the outcome:
+
+| force | a finding means | owed to the report |
+|---|---|---|
+| **absolute** | fix it. There is no other outcome, and no reason is accepted | nothing — it is simply fixed |
+| **structural** | fix it, or keep it and say why in the `Gate:` line | one clause |
+| **stylistic** | **decide.** Keep it whenever the sentence does something the plain version would not | nothing |
+
+A stylistic card that comes back with findings you deliberately kept is a card that worked. Those
+rules exist to catch a *habit* rather than a sentence, so read them across the chapter and spend
+the latitude they give you (`prose-quality` §Range before polish and §When to break these;
+`CLAUDE.md` §How hard each of these binds).
+
 ## Fixing
 
 - **Fix in the file.** Do not report a defect and leave it.
@@ -25,6 +40,50 @@ session.
   permanent change to who they are.
 
 Set `status: revised` in the frontmatter when every pass is clean.
+
+## Read what you changed
+
+Pass 9g. The passes above run in order, each reading the chapter as the one before it left it, so
+**the gate's own edits are the only text in the chapter that nobody reads twice**. Every example
+below shipped in a finished chapter.
+
+**1 — the replacement that replaced nothing.** A pass found a line that answered the wrong
+question, wrote a better one, and left the first in place:
+
+> "I stayed quiet because it was cheaper than telling him."
+>
+> *(two speeches later)*
+>
+> "Leave it," she said. "I kept it to myself. It cost less that way."
+
+Two versions of one beat, consecutively, and the second opens on *"Leave it"* — a refusal answering
+a question that was three lines earlier and is now answered. Nothing mechanical sees this: a
+repeated **phrase** is caught, a repeated **proposition** in different words is not, and building a
+detector for it would mean judging the prose rather than finding it. So it is a question here
+instead. Cut one. Usually the first, because the second is the one the pass thought was better.
+
+**2 — the insert that broke the blocking.** A share-of-dialogue finding was cleared by adding
+thirty-four words of speech, and one of the new lines was given to somebody the previous paragraph
+had sent out of the room. The line satisfies the finding perfectly; it was written against the
+finding rather than against the scene. Before you keep an inserted line, check who is still
+present, who is holding what, and whose turn it was.
+
+**3 — the fix that contradicted its own sentence.** An edit reached one end of a clause and not the
+other:
+
+> No dust on the sill, where a year of it had settled thick enough to write in.
+
+The detail is stated and withdrawn in one breath. The intended reading — *no dust, because somebody
+has been here* — needs the second half rewritten too, and the reader stops on the version that
+shipped.
+
+**4 — the fixes that all reached for the same word.** Four repairs of the same kind in one chapter
+will reach for one word, and it lands three times in twelve hundred words: fine once, a tic at that
+density, and below the floor of every counter because no single instance is wrong. Ovin's chapter
+did it with a one-word register label used as an attribution. `prose-quality` owns the rule and the
+repair.
+
+Whatever this pass undoes is still a gate fix, and goes in the `Gate:` line like any other.
 
 ## Reporting
 

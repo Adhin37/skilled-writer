@@ -46,10 +46,10 @@ The candidates are cheap here and expensive later: this is the last point at whi
 still one line long.
 
 **Number them, because the numbers are written down.** The rejected two and the reason the taken
-one won go to the CCS block's `cand>` line at step 5 (`continuity-summary/references/block-format.md`).
-That line is the only place this step's output survives: the Phase A brief is written into the
-conversation and discarded, so before it existed, benchmark run #4 ran five chapters through this
-card and no measurement could tell whether the step had happened at all.
+one won go on the brief's `cand` line, and from there to the CCS block's `cand>` line at step 5
+(`continuity-summary/references/block-format.md`). That ledger line is where this step's output
+survives the run: before it existed, benchmark run #4 ran five chapters through this card and no
+measurement could tell whether the step had happened at all.
 
 **The rule: the important beat gets the scene.** The chapter's `event:` field names it. The test
 is arithmetic, and it is the one to run first:

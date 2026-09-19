@@ -40,6 +40,13 @@ SKILL_PATH = re.compile(r"(?:^|/)\.claude/skills/([a-z0-9][a-z0-9._-]*)/(.+)$")
 SKILL_IN_TEXT = re.compile(r"\.claude/skills/([a-z0-9][a-z0-9._-]*)/([A-Za-z0-9._/-]+)")
 CHAPTER_PATH = re.compile(r"(?:^|/)novels/([^/]+)/chapters/(\d+)[^/]*$")
 
+# A card open, which is a skill open with a phase attached. Counted separately from the skill
+# because the two answer different questions: a skill file says the drafter reached for the
+# advice, a card says it reached for the decision, and benchmark runs #4 and #5 both turned on
+# the card number while `trace` could only report the skill one. Those runs counted cards by
+# hand out of the transcript; this is that hand-count, so nobody has to do it again.
+CARD_FILE = re.compile(r"references/(draft|audit)-card\.md$")
+
 # Rows carrying no real usage. `<synthetic>` is Claude Code's own placeholder for a message it
 # generated locally (an interrupt notice, a hook result) and never sent to an API.
 SYNTHETIC_MODELS = ("<synthetic>",)
@@ -151,6 +158,7 @@ class Session(object):
         self.skills = {}            # skill name -> times opened
         self.skill_files = {}       # "name/file.md" -> times opened
         self.artifacts = []         # (timestamp, novel slug, chapter number)
+        self.card_opens = []        # (timestamp, skill name, "draft"|"audit")
         self.first_ts = ""
         self.last_ts = ""
         self.models = {}
@@ -295,16 +303,26 @@ def _scan_tools(sess, message, stamp):
                         seen.add((skill, rest))
                         _bump(sess.skills, skill)
                         _bump(sess.skill_files, "%s/%s" % (skill, rest))
+                        _note_card(sess, stamp, skill, rest)
             continue
         unix = path.replace("\\", "/")
         m = SKILL_PATH.search(unix)
         if m:
             _bump(sess.skills, m.group(1))
             _bump(sess.skill_files, "%s/%s" % (m.group(1), m.group(2)))
+            _note_card(sess, stamp, m.group(1), m.group(2))
         if name in ("Write", "Edit", "NotebookEdit"):
             c = CHAPTER_PATH.search(unix)
             if c:
                 sess.artifacts.append((stamp, c.group(1), int(c.group(2))))
+
+
+def _note_card(sess, stamp, skill, rest):
+    """Record a draft/audit card open. A card is a file, so it is already counted as a skill
+    open; this adds the phase and the timestamp, which is what buckets it against a chapter."""
+    c = CARD_FILE.search(rest.replace("\\", "/"))
+    if c:
+        sess.card_opens.append((stamp, skill, c.group(1)))
 
 
 def transcript_files(root):
@@ -369,6 +387,8 @@ def aggregate(sessions):
         "tools": {},
         "skills": {},
         "skill_files": {},
+        "cards": {"draft": 0, "audit": 0},
+        "card_files": {},
         "models": {},
         "first_ts": "",
         "last_ts": "",
@@ -387,6 +407,9 @@ def aggregate(sessions):
                          (s.skill_files, "skill_files"), (s.models, "models")):
             for k, v in src.items():
                 _bump(agg[dst], k, v)
+        for _stamp, skill, kind in s.card_opens:
+            agg["cards"][kind] += 1
+            _bump(agg["card_files"], "%s (%s)" % (skill, kind))
         if s.first_ts and (not agg["first_ts"] or s.first_ts < agg["first_ts"]):
             agg["first_ts"] = s.first_ts
         if s.last_ts > agg["last_ts"]:
@@ -418,7 +441,7 @@ def by_chapter(sessions, since=None):
     buckets = [{"slug": k[0], "chapter": k[1], "until": ts, "responses": 0,
                 "input_tokens": 0, "cache_write_5m": 0, "cache_write_1h": 0,
                 "cache_read_input_tokens": 0, "output_tokens": 0, "first_ts": "", "last_ts": "",
-                "by_model": {}}
+                "draft_cards": 0, "audit_cards": 0, "by_model": {}}
                for k, ts in ordered]
 
     responses = []
@@ -435,7 +458,8 @@ def by_chapter(sessions, since=None):
     # disease. With no `since`, cmd_trace reports the unscoped span instead of moving cost.
     head = since or ""
     pre = {"responses": 0, "input_tokens": 0, "cache_write_5m": 0, "cache_write_1h": 0,
-           "cache_read_input_tokens": 0, "output_tokens": 0, "by_model": {}}
+           "cache_read_input_tokens": 0, "output_tokens": 0,
+           "draft_cards": 0, "audit_cards": 0, "by_model": {}}
 
     idx = 0
     for r in responses:
@@ -469,10 +493,30 @@ def by_chapter(sessions, since=None):
             b["first_ts"] = stamp
         if stamp > b["last_ts"]:
             b["last_ts"] = stamp
+    # Cards ride the same boundaries as responses, and inherit the same weakness: a Phase A
+    # card opened for chapter N+1 before chapter N's file is finished lands in N's bucket. That
+    # is stated in the report rather than corrected, because the alternative is guessing which
+    # chapter a card was "really" for.
+    cards = []
+    for sess in sessions:
+        cards.extend(sess.card_opens)
+    cards.sort(key=lambda c: c[0] or "")
+    idx = 0
+    for stamp, _skill, kind in cards:
+        stamp = stamp or ""
+        if head and stamp and stamp < head:
+            pre[kind + "_cards"] += 1
+            continue
+        while idx < len(buckets) and stamp > buckets[idx]["until"]:
+            idx += 1
+        if idx >= len(buckets):
+            break
+        buckets[idx][kind + "_cards"] += 1
+
     for b in buckets:
         b["duration_s"] = _span_seconds(b["first_ts"], b["last_ts"])
         b["cache_creation_input_tokens"] = b["cache_write_5m"] + b["cache_write_1h"]
-    if pre["responses"]:
+    if pre["responses"] or pre["draft_cards"] or pre["audit_cards"]:
         pre["cache_creation_input_tokens"] = pre["cache_write_5m"] + pre["cache_write_1h"]
         buckets.insert(0, dict(pre, slug="(before --since)", chapter=0, until=head,
                                first_ts="", last_ts="", duration_s=0))

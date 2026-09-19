@@ -71,7 +71,7 @@ whether the model remembered to look.
 ```bash
 python3 scripts/sw.py doctor        # start here; reports version and workspace
 python3 scripts/sw.py selftest      # builds a novel in a temp dir and proves every check fires
-python3 -m unittest discover tests  # the toolchain's own tests (437)
+python3 -m unittest discover tests  # the toolchain's own tests (448)
 ```
 
 **Nothing breaks without it.** Every skill that names a command keeps its manual checklist
@@ -252,7 +252,7 @@ flowchart LR
         direction TB
         BB["bible/<br>world · society · cast · competence · lexicon"]
         PP["plan/<br>arcs · chapters · the world clock"]
-        SS["state/<br>continuity · threads · timeline · growth · body · power"]
+        SS["state/<br>continuity · threads · timeline · growth · body · power · brief"]
     end
 
     disk -- "sw readset -c N" --> RS["slices, not whole files<br>this chapter's speakers,<br>this chapter's rows,<br>the last five ledger blocks"]
@@ -530,7 +530,7 @@ hand or via `/novel-toggle`. Optional skills read their own key and no-op if it 
 |---|---|
 | `kb owner\|show\|list\|search <slug>` | whose rule is this? The craft-side counterpart of `readset`. `kb cards` resolves a chapter's card set |
 | `load <novel> -c N` | what the drafter is handed before a word of story state: cards, words, checkboxes and negations, per phase |
-| `trace [novel]` | what a run cost, and which skill files it actually opened |
+| `trace [novel]` | what a run cost, and which skill files and cards it actually opened |
 | `health` | wiring: skills, cards, references, scope claims, cross-skill duplication, the card and word budgets |
 | `selftest` | builds a whole novel in a temp dir, runs every command against it clean, then plants a defect per check and proves each is caught |
 | `doctor` | environment and workspace check — start here when anything behaves oddly |

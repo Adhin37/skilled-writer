@@ -219,6 +219,7 @@ the session transcript remains traceable.
 | O27 | D | **`group-scene` counts mentions and reports them as speakers.** Chapter 4 is a two-hander; `sw lint` called it six, listing three people who are not in the room. One note claimed **four speakers across three spoken spans** | **fixed** — F11 |
 | O28 | D | **A thread-id format drift silently disabled every thread check.** `cmd_state` matched `^T\\d+`; this novel's ledger numbers its threads `TH01`, so `declared` came back empty and `sw state` reported **no thread findings at all** while `sw status`, parsing the same file, listed nine open threads. Found while verifying F7, which was inert on real data until this was fixed. Five modules each carried their own copy of the pattern | **fixed** — one pattern in `rules.py`, plus a warn when an id leaves the documented form |
 | O30 | M | **The coordinator reached for the novel's files, repeatedly.** Across three sessions I moved to hand-edit a chapter, a state file and a frontmatter field — each time because the repair was one line and another agent round-trip was not, which is the moment the rule exists for. The user stopped it three times. Nothing in the repo said the rule out loud: it lived in a plan file that expired with its session, and run #3's `gate>` lines are what it costs when it is not said | **fixed** — [`test-run-protocol.md`](test-run-protocol.md) §2 |
+| O31 | D | **Nothing in the gate re-reads what the gate changed.** Every pass edits, and each opens the chapter as the previous pass left it — so the gate's own repairs are the only text in a chapter that nobody reads twice. Chapter 5's three reader-visible problems are all that shape (a beat stacked on its own replacement, a clause contradicting its own edit, a word every repair reached for), as is O20's inserted line given to somebody the previous paragraph had sent out of the room. Chapter 5 was clean on every mechanical check | **fixed** — `revision-pass` Pass 9g, a read with four questions and no card; worked examples in its `fixing-and-reporting.md` |
 | O29 | D | **Both cross-chapter detectors counted findings, not chapters.** `house-style` fires at two levels in one chapter by design — a note per construction, a warn on the aggregate rate — so a chapter carrying both put its number in twice. The WATCH row printed **`house-style (6 of last 4)`** and `sw history` said **`fires on 6 of 4 chapters`**. The impossible number is the visible half; the same count also ranks the four-slot WATCH row and crosses `history`'s habit threshold, so a check could take a slot, or be declared a habit, by being counted twice rather than by recurring. Latent since the note tier was built, and F2 made it visible by pushing `house-style` over the warn rate | **fixed** — count chapters, `cmd_readset.watch_row` and `cmd_history._defects` |
 
 ### Positive controls at chapter 4, logged deliberately
@@ -290,13 +291,13 @@ Five pre-existing issues from the plan, all attributable to before the run:
 
 | | what | fix |
 |---|---|---|
-| P1 | stated test counts had drifted | `README.md`, `AGENTS.md` and this page all read 437 |
+| P1 | stated test counts had drifted | `README.md`, `AGENTS.md` and this page were reconciled, and have been kept in step since — 448 after the post-run repairs |
 | P2 | `docs/design-notes.md` linked `history/upgrade-plan.md`, which does not exist | replaced with `craft-sources.md`; the benchmark entry beside it now says "every run" rather than "run #1" |
 | P3 | `docs/creative-latitude.md` cited `CARD_WORD_BUDGET` as 6400/6800 | the figure was true on the day that entry was closed, so it is date-stamped rather than rewritten, and the raise to 7600/8000 is recorded beside it. The set now reads 6775 of 8000, which **leaves the conclusion standing and reverses its reasoning** — the words are slack and the card count is the only thing still at its ceiling |
 | P4 | `write-chapter/references/batch-and-replan.md` said "start a fresh session every few chapters" against `README.md`'s per-chapter conclusion | resolved **in run #5's direction, not run #4's**: a new §*After an interruption, re-enter through the read-set* says a resumed chapter restarts at step 0. This is the corpus change the finding above called for and noted was missing |
 | P5 | prior-run character names in runtime-loaded references | two left after the `921d38f` scrub — `Suzune` in `prose-quality/references/ai-default-tells.md` and `Mizusawa` in `character-profile/SKILL.md`. Both gone; a fandom-vocabulary sweep of `.claude/`, `novels/_template/` and `scripts/` is clean apart from two `cmd_cast.py` code comments that record a measurement and print nothing |
 
-`sw health` 0/0/0, `sw selftest` 0/0/0, **437 tests passing (+49)**.
+`sw health` 0/0/0, `sw selftest` 0/0/0, **437 tests passing (+49)** on the day the run closed.
 
 On `sw audit novels/grain-beneath-the-lie`, **defects are unchanged at 3** — the invariant this
 repo holds after twice building a number that decided whether a chapter shipped. Warnings went 4 →
@@ -498,9 +499,10 @@ What the run bought:
 - **Run #4's headline finding does not reproduce**, and the replacement — that the contract is
   re-derived per chapter and lost at an interruption rather than decaying with session age — is
   better evidenced and less comfortable. n=2 against n=2.
-- **Sixteen toolkit defects in the log, fifteen fixed outright and one (O22) partly** — plus two
-  watch items and three methodology errors of mine. Two of the sixteen, O28 and O29, were found not
-  by the novel but by reading what the tool printed after the run. O28 is the one worth carrying: a thread-id format
+- **Seventeen toolkit defects in the log, sixteen fixed outright and one (O22) partly** — plus two
+  watch items and three methodology errors of mine. Two of them, O28 and O29, were found not
+  by the novel but by reading what the tool printed after the run, and O31 by reading the two
+  chapters the measurement does not count. O28 is the one worth carrying: a thread-id format
   drift had silently disabled every thread check in `sw state` while `sw status` listed nine open
   threads from the same file. *A check that goes quiet reads exactly like a check that passed.*
 - **`#2/D1` regressed and was caught**: `SPEECH_TARGET_LOW` was a numeric ship gate in everything
@@ -513,7 +515,17 @@ What the run bought:
 - **A protocol.** The coordinator kept reaching for the novel's files (O30), so the rules that were
   a paragraph in a plan file are now [`test-run-protocol.md`](test-run-protocol.md).
 
-Final state of the toolkit: **437 tests**, `sw health` 0/0/0, `sw selftest` 0/0/0, `sw audit` on the
+### What the run changed after it closed
+
+Three repairs, all from reading the finished chapters rather than from a script.
+
+| | what changed |
+|---|---|
+| **O31 — the gate never re-reads its own edits** | `revision-pass` gains **Pass 9g**, between 9f and 10: re-read only the spans you touched plus a paragraph either side, four questions, no card and nothing to tick. Worked examples of all four — each one shipped in a finished chapter — in `references/fixing-and-reporting.md`. The body was at its size ceiling, so the pass was paid for with cuts: the run #2 anecdote told five times is told twice, and the force table moved to the reference whose trigger already covers it |
+| **`sw trace` counts cards** | a `cards` column in the per-chapter table and a `-- cards` section with the per-card breakdown. Two runs made the card count their headline and both assembled it by hand out of the transcript, which is how a measurement gets done once and estimated thereafter. Same caveat as the hand-count, stated in the output: a Phase A card opened for chapter N+1 before N's file is finished lands in N's row |
+| **The brief is a file** | the brief gains a `cand` line — so the *user* sees the rejected candidates while they can still say *take the second one* — and is written to `state/brief.md` on approval. `sw readset` hands it back when its chapter matches the one being drafted, and says so when it does not. Nothing scores it, nothing is appended to it, and the next chapter overwrites it |
+
+Final state of the toolkit: **448 tests**, `sw health` 0/0/0, `sw selftest` 0/0/0, `sw audit` on the
 finished novel 0 defects.
 
 ### What run #6 must do
@@ -525,11 +537,11 @@ In rough order of what each would settle per unit of effort.
 | **Interrupt a chapter on purpose**, mid-Phase C, and count cards on resume | the only cheap way to arbitrate run #4's headline against run #5's. The corpus was already changed on it (P4), which is defensible only while the change stays additive |
 | **Run one chapter cold against one warm, same toolkit, same day** | five runs in and the warm/cold contrast is still n=1 a side. The 09-19 session was cold but the toolkit had moved underneath it |
 | **Turn the proxy off for one run** | every token, cost and cache figure since 2026-09-13 is confounded, and no run has a clean one to compare against |
-| **Persist `cand>` when the brief is approved, not at the gate** | 3 of 5 blocks carry it; chapter 4's reads `unrecorded` because the session holding the brief died. The artifact that makes the widening step falsifiable is the one thing the loop never persists |
+| ~~**Persist `cand>` when the brief is approved, not at the gate**~~ — **done 2026-09-19** | 3 of 5 blocks carried it; chapter 4's read `unrecorded` because the session holding the brief died. The brief now carries a `cand` line, is written to `state/brief.md` on approval, and step 5 copies that line instead of recalling it. Run #6 measures whether the copy actually happens |
 | **Go past five chapters** | arc rollup, long-run voice drift, `timeline-engine` at scale and the WATCH cap (O23) are all untestable at five. A cap that fills by chapter 4 is either a row or a wall and nothing here can say which |
 | **Ask `metadata.force:` directly** | sixth run pending, still zero evidence. A run with no deliberate stylistic break is indistinguishable from one where the tiers changed nothing — so watch for a `Gate:` line that names one, and if none ever comes, that is the answer |
-| **Decide about the repeated proposition** | chapter 5 shipped the same beat twice in different words, lint 0/0/0. The self-echo check matches phrases. A paraphrase detector would judge prose rather than find it, so the honest options are *leave it to the reader* or *a gate question, not a script* — pick one on purpose |
-| **Teach `sw trace` to count cards** | card counts have been the headline of two runs running and are still assembled by hand out of the agent transcript |
+| ~~**Decide about the repeated proposition**~~ — **decided 2026-09-19** | chapter 5 shipped the same beat twice in different words, lint 0/0/0. A paraphrase detector would judge prose rather than find it, so it is **a gate question and not a script**: Pass 9g asks it of the spans the gate itself edited, which is where all three instances came from. Run #6 says whether asking is enough |
+| ~~**Teach `sw trace` to count cards**~~ — **done 2026-09-19** | card counts had been the headline of two runs running and were still assembled by hand out of the agent transcript. `trace` now reports them per chapter and per card |
 
 ## Limitations
 
@@ -594,7 +606,7 @@ age the same way the moment F1 or F2 lands.
 ## Reproduce it
 
 ```bash
-python3 -m unittest discover tests    # 437 tests
+python3 -m unittest discover tests    # 448 tests
 python3 scripts/sw.py selftest        # the pipeline, plus planted defects that must be caught
 python3 scripts/sw.py health          # wiring only
 python3 scripts/sw.py audit  novels/<slug> --show note
@@ -606,10 +618,12 @@ python3 scripts/sw.py trace  novels/<slug> --session <agent-id>
 time window alone is not enough either: the session driving an agent runs in the same repo at the
 same time. Use `--session`.
 
-**`trace` does not count cards**, only skills. The card figures on this page were counted directly
-out of the agent transcript by matching `skills/<name>/references/(draft|audit)-card.md` against
-every tool-use argument, then bucketed by timestamp against each chapter's last write. If card
-counts are going to keep being the headline of these runs, that belongs in `trace`.
+**The card figures on this page were counted by hand**, out of the agent transcript, by matching
+`skills/<name>/references/(draft|audit)-card.md` against every tool-use argument and bucketing by
+timestamp against each chapter's last write. `sw trace` does that itself as of 2026-09-19 — a
+`cards` column in the per-chapter table and a `-- cards` section with the per-card breakdown — so
+run #6's figures come out of the tool. The buckets carry the caveat the hand-count had: a Phase A
+card opened for chapter N+1 before chapter N's file is finished lands in N's row.
 
 ### The measurement rules that produced these numbers
 

@@ -139,9 +139,11 @@ python3 scripts/sw.py selftest
 
 ## 6. During the run
 
-- **Log the Phase A brief.** It exists nowhere else — it is written into the conversation and
-  discarded, and a session death takes it outright. Run #5's chapter 4 carries `cand> unrecorded`
-  for exactly this reason.
+- **Log the Phase A brief.** Since 2026-09-19 the agent writes the approved brief to
+  `state/brief.md`, but that file holds one brief and the next chapter overwrites it — so the
+  *series* of them still exists nowhere but your log, and whether the agent writes the file at all
+  is one of the things run #6 is measuring. Run #5's chapter 4 carries `cand> unrecorded` because
+  the session holding its brief died.
 - **Log every interruption**: timestamp, which phase it landed in, and what the agent did on
   resume. Run #5's headline finding came entirely out of these rows.
 - **Write every finding down the moment you see it** — see below. This is the rule that decides
@@ -226,7 +228,7 @@ grep -n 'cand>\|z4>\|pwr>' novels/<slug>/state/continuity.md
 | trap | what to do |
 |---|---|
 | **`sw trace` unscoped aggregates every session ever run in this repo** — and a time window is not enough, because the driving session runs in the same repo at the same time | always `--session <agentId>` |
-| **`sw trace` does not count cards**, only skills | count `skills/<name>/references/(draft\|audit)-card.md` in the agent transcript's tool args, bucketed by timestamp against each chapter's last write |
+| Cards used to need counting by hand | `sw trace` reports them since 2026-09-19 — a `cards` column per chapter, a `-- cards` section per card. A Phase A card opened for chapter N+1 before N's file is finished lands in N's row, so read a boundary-straddling pair as one figure |
 | **Subagent usage is not in the parent transcript** | read the per-agent transcript file |
 | **The toolkit changes under the novels** | compare against the re-linted column, never against run-time numbers |
 | **A phrase grep over this repo lies** — 80-column wrapping breaks clauses across lines | `tr '\n' ' '` first, or grep a two-word window |

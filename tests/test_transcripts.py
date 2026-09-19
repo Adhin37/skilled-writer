@@ -364,3 +364,98 @@ class TestRunScoping(unittest.TestCase):
             buckets = transcripts.by_chapter(sessions)
             self.assertEqual([b["chapter"] for b in buckets], [1])
             self.assertEqual(buckets[0]["responses"], 2)
+
+
+class TestCardCounting(unittest.TestCase):
+    """Runs #4 and #5 both made cards-opened the headline and both counted them by hand.
+
+    A hand-count is a measurement that gets done once and estimated forever after, and the number
+    it produces is the one the benchmark argues from. It is counted here instead, and - the whole
+    point of the separation - it is counted per *phase*: Phase A spends draft cards and Phase C
+    audit cards, so a run with one and not the other is a phase that did not happen.
+    """
+
+    def _cards(self, path):
+        with Root() as root:
+            root.write("projects/-work-repo/s1.jsonl", [row(message={"content": [
+                {"type": "tool_use", "name": "Read", "input": {"file_path": path}}]})])
+            return transcripts.sessions_for("/work/repo", root.dir)[0].card_opens
+
+    def test_a_draft_card_is_recorded_with_its_phase(self):
+        cards = self._cards("/r/.claude/skills/story-craft/references/draft-card.md")
+        self.assertEqual([(c[1], c[2]) for c in cards], [("story-craft", "draft")])
+
+    def test_an_audit_card_is_recorded_with_its_phase(self):
+        cards = self._cards("/r/.claude/skills/bias-guard/references/audit-card.md")
+        self.assertEqual([(c[1], c[2]) for c in cards], [("bias-guard", "audit")])
+
+    def test_a_reference_that_is_not_a_card_is_not_counted(self):
+        self.assertEqual(self._cards("/r/.claude/skills/prose-quality/references/"
+                                     "ai-default-tells.md"), [])
+        self.assertEqual(self._cards("/r/.claude/skills/revision-pass/SKILL.md"), [])
+
+    def test_a_card_opened_with_bash_counts(self):
+        """The same hole run #4's T1 found for skills: a shell read never reaches `file_path`."""
+        with Root() as root:
+            root.write("projects/-work-repo/s1.jsonl", [row(message={"content": [
+                {"type": "tool_use", "name": "Bash", "input": {
+                    "command": "cat .claude/skills/conflict-engine/references/draft-card.md"}}]})])
+            cards = transcripts.sessions_for("/work/repo", root.dir)[0].card_opens
+        self.assertEqual([(c[1], c[2]) for c in cards], [("conflict-engine", "draft")])
+
+    def test_aggregate_totals_and_names_them(self):
+        with Root() as root:
+            root.write("projects/-work-repo/s1.jsonl", [row(message={"content": [
+                {"type": "tool_use", "name": "Read", "input": {"file_path": p}}
+                for p in (".claude/skills/scene-craft/references/draft-card.md",
+                          ".claude/skills/scene-craft/references/audit-card.md",
+                          ".claude/skills/bias-guard/references/audit-card.md")]})])
+            agg = transcripts.aggregate(transcripts.sessions_for("/work/repo", root.dir))
+        self.assertEqual(agg["cards"], {"draft": 1, "audit": 2})
+        self.assertEqual(agg["card_files"]["scene-craft (draft)"], 1)
+        self.assertEqual(agg["card_files"]["bias-guard (audit)"], 1)
+
+    def test_cards_bucket_against_the_chapter_they_preceded(self):
+        def card_row(ts, skill, kind):
+            return row(timestamp=ts, requestId="c" + ts, message={
+                "id": "c" + ts, "usage": usage(), "content": [
+                    {"type": "tool_use", "name": "Read", "input": {
+                        "file_path": "/r/.claude/skills/%s/references/%s-card.md"
+                                     % (skill, kind)}}]})
+
+        def write_row(ts, ch):
+            return row(timestamp=ts, requestId="w" + ts, message={
+                "id": "w" + ts, "usage": usage(), "content": [
+                    {"type": "tool_use", "name": "Write",
+                     "input": {"file_path": "/work/repo/novels/b/chapters/%04d-x.md" % ch}}]})
+
+        rows = [card_row("2026-09-05T10:00:00.000Z", "story-craft", "draft"),
+                card_row("2026-09-05T10:01:00.000Z", "bias-guard", "audit"),
+                write_row("2026-09-05T10:02:00.000Z", 1),
+                card_row("2026-09-05T10:03:00.000Z", "scene-craft", "draft"),
+                write_row("2026-09-05T10:04:00.000Z", 2)]
+        with Root() as root:
+            root.write("projects/-work-repo/s1.jsonl", rows)
+            buckets = transcripts.by_chapter(transcripts.sessions_for("/work/repo", root.dir))
+        self.assertEqual([(b["chapter"], b["draft_cards"], b["audit_cards"]) for b in buckets],
+                         [(1, 1, 1), (2, 1, 0)])
+
+    def test_cards_before_since_land_in_the_pre_bucket_not_in_chapter_one(self):
+        """The same head guard responses got in run #2's F5, for the same reason."""
+        rows = [row(timestamp="2026-09-05T09:00:00.000Z", requestId="old", message={
+                    "id": "old", "usage": usage(), "content": [
+                        {"type": "tool_use", "name": "Read", "input": {
+                            "file_path": "/r/.claude/skills/mtl-detox/references/"
+                                         "audit-card.md"}}]}),
+                row(timestamp="2026-09-05T12:00:00.000Z", requestId="w", message={
+                    "id": "w", "usage": usage(), "content": [
+                        {"type": "tool_use", "name": "Write", "input": {
+                            "file_path": "/work/repo/novels/b/chapters/0001-x.md"}}]})]
+        with Root() as root:
+            root.write("projects/-work-repo/s1.jsonl", rows)
+            sess = transcripts.sessions_for("/work/repo", root.dir)
+            buckets = transcripts.by_chapter(sess, since="2026-09-05T11:00")
+        pre = [b for b in buckets if b["chapter"] == 0]
+        self.assertEqual(len(pre), 1, "a card opened before the window is still reported")
+        self.assertEqual(pre[0]["audit_cards"], 1)
+        self.assertEqual([b["audit_cards"] for b in buckets if b["chapter"] == 1], [0])
