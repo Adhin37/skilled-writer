@@ -29,7 +29,7 @@ same detail count, doing work.
 **Atmospheric is the one the budget below cannot see**, because mood is not description: it is
 sensed, it arrives as interiority, and a chapter can be 4% description and still be entirely
 weather. It is also the measured default of machine-written prose, at two to three times the human
-rate and worst in a chapter's opening sentences — `references/narrative-space.md`.
+rate and worst in a chapter's opening sentences — `roles/draft/world-texture.narrative-space.md`.
 
 ---
 
@@ -37,9 +37,9 @@ rate and worst in a chapter's opening sentences — `references/narrative-space.
 
 | file | open it when |
 |---|---|
-| `references/overbuilding.md` | the world reads as flat and generic, or as bloated — the symptoms of each, and how depth is implied rather than explained |
-| `references/narrative-space.md` | the world is vivid and inert — atmosphere where handling should be. The five kinds of space, what was measured, and the handled-noun repair |
-| `.claude/roles/gate/world-texture.audit-card.md` | never, by you. `revision-pass` Pass 5 opens it |
+| `roles/draft/world-texture.overbuilding.md` | the world reads as flat and generic, or as bloated — the symptoms of each, and how depth is implied rather than explained |
+| `roles/draft/world-texture.narrative-space.md` | the world is vivid and inert — atmosphere where handling should be. The five kinds of space, what was measured, and the handled-noun repair |
+| `roles/gate/world-texture.audit-card.md` | never, by you. `revision-pass` Pass 5 opens it |
 
 ## 1. The four delivery channels
 
@@ -78,7 +78,7 @@ handled     She turned her shoulder to get past the quench-barrel, and the heat 
 
 The repair is never more description and never less atmosphere — it is giving the same detail
 something to be in the way of. The evidence, and the three cheapest places to spend it:
-`references/narrative-space.md`.
+`roles/draft/world-texture.narrative-space.md`.
 
 ## 2. The description budget
 
@@ -100,7 +100,7 @@ anchor — what kind of world this is, and for fan fiction which one and when (`
 That debt is paid through channels 1–3, *not* by raising the channel-4 budget. A reader who does
 not know where they are needs a rule biting someone, not a paragraph of scenery.
 
-**This is not in tension with `story-opening/references/chapter-one.md` §5**, which gives roughly
+**This is not in tension with `roles/draft/story-opening.chapter-one.md` §5**, which gives roughly
 35% of chapter 1 to "World". That figure is a share of the reader's **attention**, not of direct
 description: a third of the chapter is *about* the world, delivered as scenes in which the world
 does something to somebody. The ≤8% cap governs only channel 4. A chapter can be 35% world and 4%

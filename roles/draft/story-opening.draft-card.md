@@ -54,7 +54,7 @@ somebody. Chapter 4 owes a new fact as much as chapter 1 does.
 or feet actually deal with — what got pushed past, paid for, picked up, put down? A world that is
 only smelled, lit and felt is atmosphere. It passes every budget `world-texture` owns, and the
 machine default is worst precisely here: in a chapter's first fifteen sentences, at more than twice
-the human rate (`.claude/skills/world-texture/references/narrative-space.md`).
+the human rate (`roles/draft/world-texture.narrative-space.md`).
 
 ```
 felt        The compound smelled of wet stone and cold incense, and the quiet had weight.
@@ -97,4 +97,4 @@ became slow, but because it changed. Whatever these three chapters do is the pro
 If the slot is empty, fill it in `novel.md` now. Three chapters from here it stops being a decision
 and becomes a measurement of what was already published.
 
-Drafting chapter 1 itself: `.claude/skills/story-opening/references/chapter-one.md`.
+Drafting chapter 1 itself: `roles/draft/story-opening.chapter-one.md`.

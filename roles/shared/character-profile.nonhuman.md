@@ -7,7 +7,7 @@ description: beasts, constructs, artificial minds and gods - built as characters
 # character-profile — non-human characters
 
 Open this when a named character is not a person: an animal, a monster, a construct, an artificial
-mind, a god, a thing wearing a body. `references/special-cases.md` covers antagonists, mirrors and
+mind, a god, a thing wearing a body. `roles/shared/character-profile.special-cases.md` covers antagonists, mirrors and
 canon characters; this is the other axis.
 
 The two failures are symmetrical, and most stories commit one while trying to avoid the other.

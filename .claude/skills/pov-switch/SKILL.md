@@ -66,14 +66,14 @@ reader stops being afraid of the villain and starts being afraid *for* someone.
 A beast, a construct, an artificial mind or a god may sit in `pov.pov_characters`. The bar is the
 same as anyone's — a name on the ordered list, a `pov_eligible: true` row in `bible/cast/_voices.md`
 §3, a declared thought unit — with one thing required first: **build the mind before you grant it
-the camera** (`character-profile/references/nonhuman.md`). That file's third question, what the
+the camera** (`roles/shared/character-profile.nonhuman.md`). That file's third question, what the
 character has no concept of, stops being characterisation the moment they narrate and becomes the
 **limit on what the prose may notice**. A mind with no concept of lying does not narrate somebody
 lying; it reports what was done and said, and the reader assembles the deception it cannot see.
 That gap is the whole reason to spend a chapter here, and it is free dramatic irony.
 
 **The thought unit may not be `words`.** The seven values are in
-`voice-separation/references/channels.md`, and a non-linguistic mind takes one of the other six —
+`roles/draft/voice-separation.channels.md`, and a non-linguistic mind takes one of the other six —
 usually bodies, rules or images. This is not a formality: it is the field that supplies the
 chapter's metaphors, so choosing it is how the narration stops sounding like a person with an
 unusual vocabulary.
@@ -117,7 +117,7 @@ asleep and the chapter needs filling.
 3. **Different eyes see different things.** A soldier entering a room registers exits and hands.
    A merchant registers cloth and prices. If the new POV notices the same details the last one
    would, the switch bought nothing.
-   Two mechanical checks (`voice-separation/references/channels.md`): their **thought unit** — images, words, numbers,
+   Two mechanical checks (`roles/draft/voice-separation.channels.md`): their **thought unit** — images, words, numbers,
    bodies, rules, people, money — supplies this chapter's metaphors, and no two POV characters may
    share one. Their **thought speed** — ahead of the scene, with it, one beat behind — sets whether
    the narration arrives at conclusions before or after the reader does. A POV character whose

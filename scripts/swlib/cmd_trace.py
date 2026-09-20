@@ -18,7 +18,7 @@ from .report import Report
 
 
 def _skill_roster(repo_root):
-    d = os.path.join(repo_root, ".claude", "skills")
+    d = kb.skills_dir(repo_root)
     if not os.path.isdir(d):
         return []
     return sorted(name for name in os.listdir(d)

@@ -193,7 +193,7 @@ Added after the run closed, and the first uncontaminated read this repo has. The
 seen [`test-run-protocol.md`](test-run-protocol.md), this file, or any `bible/`, `state/` or
 `plan/` file, was not told the chapters came from a benchmark, and read only
 `novels/grain-beneath-the-lie/chapters/`. It is what produced
-[`reader-review.md`](reader-review.md), which is now the procedure for protocol §8; this section is
+[`roles/review/reader-review.md`](roles/review/reader-review.md), which is now the procedure for protocol §8; this section is
 that file's worked example in full.
 
 ### Verdict: 3 / 5
@@ -301,7 +301,7 @@ continue?*, and ranking is most of what a review is.
 | `sw audit`, re-linted | 0 defects, 10 warnings, 52 notes |
 | cold read | **3 / 5**, plot-starvation and register monotony |
 
-Recorded, not reconciled. Per [`reader-review.md`](reader-review.md) §5, the in-run impression is
+Recorded, not reconciled. Per [`roles/review/reader-review.md`](roles/review/reader-review.md) §5, the in-run impression is
 the suspect one: the coordinator approved every brief and knew what each chapter was for, which is
 exactly the read a published serial never gets.
 
@@ -414,8 +414,8 @@ Five pre-existing issues from the plan, all attributable to before the run:
 | P1 | stated test counts had drifted | `README.md`, `AGENTS.md` and this page were reconciled, and have been kept in step since — 448 after the post-run repairs |
 | P2 | `docs/design-notes.md` linked `history/upgrade-plan.md`, which does not exist | replaced with `craft-sources.md`; the benchmark entry beside it now says "every run" rather than "run #1" |
 | P3 | `docs/creative-latitude.md` cited `CARD_WORD_BUDGET` as 6400/6800 | the figure was true on the day that entry was closed, so it is date-stamped rather than rewritten, and the raise to 7600/8000 is recorded beside it. The set now reads 6775 of 8000, which **leaves the conclusion standing and reverses its reasoning** — the words are slack and the card count is the only thing still at its ceiling |
-| P4 | `write-chapter/references/batch-and-replan.md` said "start a fresh session every few chapters" against `README.md`'s per-chapter conclusion | resolved **in run #5's direction, not run #4's**: a new §*After an interruption, re-enter through the read-set* says a resumed chapter restarts at step 0. This is the corpus change the finding above called for and noted was missing |
-| P5 | prior-run character names in runtime-loaded references | two left after the `921d38f` scrub — `Suzune` in `prose-quality/references/ai-default-tells.md` and `Mizusawa` in `character-profile/SKILL.md`. Both gone; a fandom-vocabulary sweep of `.claude/`, `novels/_template/` and `scripts/` is clean apart from two `cmd_cast.py` code comments that record a measurement and print nothing |
+| P4 | `roles/draft/write-chapter.batch-and-replan.md` said "start a fresh session every few chapters" against `README.md`'s per-chapter conclusion | resolved **in run #5's direction, not run #4's**: a new §*After an interruption, re-enter through the read-set* says a resumed chapter restarts at step 0. This is the corpus change the finding above called for and noted was missing |
+| P5 | prior-run character names in runtime-loaded references | two left after the `921d38f` scrub — `Suzune` in `roles/gate/prose-quality.ai-default-tells.md` and `Mizusawa` in `character-profile/SKILL.md`. Both gone; a fandom-vocabulary sweep of `.claude/`, `novels/_template/` and `scripts/` is clean apart from two `cmd_cast.py` code comments that record a measurement and print nothing |
 
 `sw health` 0/0/0, `sw selftest` 0/0/0, **437 tests passing (+49)** on the day the run closed.
 
@@ -563,7 +563,7 @@ in the corpus:
 | A mother and her six-year-old with different declared axes, a clean `sw cast`, and one voice between them | **the cadence test** (`voice-separation` §3), `references/age-register.md`, and the `cadence` axis |
 | `form_locked` applied but decorative — zero limit-that-bites beats in five chapters, every check green | **`CLAUDE.md` hard rule 9's second half**: a prohibition is satisfied by silence, so the form must reach the page twice per chapter |
 | Stray italics used as emphasis | `narrator-voice`'s "nothing else is markup" clause and `lint`'s italic rule |
-| Em-dash density, sentence-rhythm runs, weasel words, a `"A beat."` fragment | `prose-quality/references/ai-default-tells.md` |
+| Em-dash density, sentence-rhythm runs, weasel words, a `"A beat."` fragment | `roles/gate/prose-quality.ai-default-tells.md` |
 | A setup that never paid off as a physical limit | `story-craft`'s build-up thesis |
 
 Run #3's lasting contribution is **hard rule 9's silence clause**, and it is the sharpest lesson in
@@ -654,7 +654,7 @@ In rough order of what each would settle per unit of effort.
 
 | | why it is next |
 |---|---|
-| **Run the reader review as a first-class step**, per [`reader-review.md`](reader-review.md) | new on 2026-09-19 and exercised once, on this run's own output. Two things to measure: whether a second blind reader lands within one point of 3/5 on the same five chapters, and whether the unowned-findings column stays the most useful output. If it reproduces, §8 has a procedure; if it does not, it is a rubric and should be cut back |
+| **Run the reader review as a first-class step**, per [`roles/review/reader-review.md`](roles/review/reader-review.md) | new on 2026-09-19 and exercised once, on this run's own output. Two things to measure: whether a second blind reader lands within one point of 3/5 on the same five chapters, and whether the unowned-findings column stays the most useful output. If it reproduces, §8 has a procedure; if it does not, it is a rubric and should be cut back |
 | **Interrupt a chapter on purpose**, mid-Phase C, and count cards on resume | the only cheap way to arbitrate run #4's headline against run #5's. The corpus was already changed on it (P4), which is defensible only while the change stays additive |
 | **Run one chapter cold against one warm, same toolkit, same day** | five runs in and the warm/cold contrast is still n=1 a side. The 09-19 session was cold but the toolkit had moved underneath it |
 | **Turn the proxy off for one run** | every token, cost and cache figure since 2026-09-13 is confounded, and no run has a clean one to compare against |

@@ -69,7 +69,7 @@ across 200 measured turns. So the judgement passes live with the skill that owns
 small **audit card** — cheap to open, written by the owner, so nothing here is a paraphrase.
 
 Six passes have no other owner — 1, 4, 7's structural half, 9's, 9d and 10. Their checks live one
-file down in **`references/owned-passes.md`**, as check / failure / cheapest repair.
+file down in **`roles/gate/revision-pass.owned-passes.md`**, as check / failure / cheapest repair.
 
 Run `python3 scripts/sw.py kb passes novels/<slug> -c <N>`. It names the audit card for each
 pass below, with 9b, 9c and 9e already resolved against `novel.md`, so a pass whose card does not
@@ -86,27 +86,27 @@ quietly gone wrong becomes visible.
 |---|---|---|
 | Z Story gate | judgement | nothing — the three questions above |
 | 0 Mechanical sweep | mechanical | nothing — run the commands |
-| 1 Continuity | mechanical | `references/owned-passes.md` §Pass 1 — the read-set is the authority |
+| 1 Continuity | mechanical | `roles/gate/revision-pass.owned-passes.md` §Pass 1 — the read-set is the authority |
 | 2 Character + voice | **distributional** | — |
 | 3 Intelligence + knowledge | **distributional** | — |
 | 3b Reading people | **distributional** | — |
-| 4 Structure | mechanical | three cards, four owners — `references/owned-passes.md` §Pass 4 lists them |
+| 4 Structure | mechanical | three cards, four owners — `roles/gate/revision-pass.owned-passes.md` §Pass 4 lists them |
 | 5 World | judgement | — |
 | 6 Bias | **distributional** | — **every chapter, never rotated** |
-| 7 MTL detox | **distributional** | `references/owned-passes.md` §Pass 7 — the banned list is `sw lint`'s; the structural half is not |
+| 7 MTL detox | **distributional** | `roles/gate/revision-pass.owned-passes.md` §Pass 7 — the banned list is `sw lint`'s; the structural half is not |
 | 8 Prose + microtension | judgement | — |
-| 8b Register + house style | **distributional** | `prose-quality/references/ai-default-tells.md` — the tells this model produces once the MTL list is already clean |
-| 9 Delivery | judgement | `references/owned-passes.md` §Pass 9, plus `hook-and-pacing`'s card |
+| 8b Register + house style | **distributional** | `roles/gate/prose-quality.ai-default-tells.md` — the tells this model produces once the MTL list is already clean |
+| 9 Delivery | judgement | `roles/gate/revision-pass.owned-passes.md` §Pass 9, plus `hook-and-pacing`'s card |
 | 9b Opening | **judgement** | chapters in range only — `kb passes` resolves it |
 | 9c Foreknowledge | **distributional** | only if `mc.foreknowledge` — not rotatable |
-| 9d Theme | judgement | `references/owned-passes.md` §Pass 9d |
+| 9d Theme | judgement | `roles/gate/revision-pass.owned-passes.md` §Pass 9d |
 | 9e Power curve | judgement | only if `scaling.shape` is not `none` |
 | 9f Pacing + build-up | **judgement** | — |
-| 10 Mechanics | mechanical | `references/owned-passes.md` §Pass 10, and the four channels |
+| 10 Mechanics | mechanical | `roles/gate/revision-pass.owned-passes.md` §Pass 10, and the four channels |
 
 **Each card binds at its owner's force**, and `kb passes` marks the two that are not
 `structural`. It changes what a finding obliges you to do, and a stylistic finding you kept on
-purpose is a card that worked: **`references/fixing-and-reporting.md` §What a finding obliges
+purpose is a card that worked: **`roles/gate/revision-pass.fixing-and-reporting.md` §What a finding obliges
 you to do**.
 
 **Run Pass 0 first.** It settles every mechanical row in seconds and for no tokens, which buys the
@@ -147,16 +147,16 @@ not run. The scripts are an optimisation, never a dependency.
 ## Pass 1 — Continuity
 
 Against the read-set, which is the authority. Seven checks and the `form_locked` form check:
-**`references/owned-passes.md` §Pass 1**.
+**`roles/gate/revision-pass.owned-passes.md` §Pass 1**.
 
 ## Pass 2 — Character and voice
 
-Open **`.claude/roles/gate/voice-separation.audit-card.md`** — the cast as separate minds, and, in its
+Open **`roles/gate/voice-separation.audit-card.md`** — the cast as separate minds, and, in its
 second half, whether anybody has *become* somebody else (`character-development`'s concepts, on
 the same card because the two fail together). Then
-**`.claude/roles/gate/dialogue-voice.audit-card.md`** for the lines. Add
-**`.claude/roles/gate/character-profile.audit-card.md`** if the chapter has walk-ons **or introduces any
-named character for the first time**, and **`.claude/roles/gate/pov-switch.audit-card.md`** when
+**`roles/gate/dialogue-voice.audit-card.md`** for the lines. Add
+**`roles/gate/character-profile.audit-card.md`** if the chapter has walk-ons **or introduces any
+named character for the first time**, and **`roles/gate/pov-switch.audit-card.md`** when
 `pov.mode` is not `single`. Work them there.
 
 If the budget will not carry all four, drop `character-profile`'s first and `pov-switch`'s second,
@@ -167,8 +167,8 @@ run `sw cast` and read the debut ledger before calling this pass passed.
 
 ## Pass 3 — Intelligence and knowledge
 
-Open **`.claude/roles/gate/mc-intel-meter.audit-card.md`** and
-**`.claude/roles/gate/competence-map.audit-card.md`**. Two different things, and the first card names the
+Open **`roles/gate/mc-intel-meter.audit-card.md`** and
+**`roles/gate/competence-map.audit-card.md`**. Two different things, and the first card names the
 seam they fail at.
 
 ## Pass 3b — Reading people
@@ -184,28 +184,28 @@ Three cards: **`scene-craft`** (goal, obstacle, turn, exit — already open from
 **`conflict-engine`** (what the chapter cost) and **`plot-threads`** (the ops against the ledger,
 **and `timeline-engine`'s world track and ending contract** on its second half — one card, two
 owners). The skim test is the only row with no other owner:
-**`references/owned-passes.md` §Pass 4**.
+**`roles/gate/revision-pass.owned-passes.md` §Pass 4**.
 
 ## Pass 5 — World
 
-Open **`.claude/roles/gate/world-texture.audit-card.md`**. It runs after structure for the reason that card
+Open **`roles/gate/world-texture.audit-card.md`**. It runs after structure for the reason that card
 gives, and before bias so that anything it adds is still audited by Pass 6.
 
 ## Pass 6 — Bias — never skipped, never negotiable
 
-Open **`.claude/roles/gate/bias-guard.audit-card.md`**. Every chapter, and never rotated. That skill
+Open **`roles/gate/bias-guard.audit-card.md`**. Every chapter, and never rotated. That skill
 explains why it has no script.
 
 ## Pass 7 — MTL detox
 
-Open **`.claude/roles/gate/mtl-detox.audit-card.md`**. `sw lint` searches the whole banned list and counts
+Open **`roles/gate/mtl-detox.audit-card.md`**. `sw lint` searches the whole banned list and counts
 narration exclamation marks and rhetorical questions — that is the countable half, and a clean
 sweep says nothing about the rest. The five structural checks no script can see are in
-**`references/owned-passes.md` §Pass 7**.
+**`roles/gate/revision-pass.owned-passes.md` §Pass 7**.
 
 ## Pass 8 — Prose and microtension
 
-Open **`.claude/roles/gate/prose-quality.audit-card.md`**. `sw lint` has already found the cut-list
+Open **`roles/gate/prose-quality.audit-card.md`**. `sw lint` has already found the cut-list
 phrases, filter verbs, repeated openings, same-length runs and the dialogue share; the card
 carries what a script cannot hear.
 
@@ -214,41 +214,41 @@ carries what a script cannot hear.
 Pass 7 catches MTL slop; Pass 8 catches weak lines. Neither catches prose with no bad sentences
 and no range — what run #2 shipped.
 
-Open `.claude/roles/gate/prose-quality.audit-card.md` §Register.
+Open `roles/gate/prose-quality.audit-card.md` §Register.
 
 ## Pass 9 — Delivery
 
 **The pass that decides whether the chapter is finished.** Length is evidence of nothing.
 
-Open **`.claude/roles/gate/scene-craft.audit-card.md`** — `scene-craft` owns the delivery test, and the card
+Open **`roles/gate/scene-craft.audit-card.md`** — `scene-craft` owns the delivery test, and the card
 carries the five questions and the scene-level checks. Write the **Change** answer into `delivers:`
 and the Z1 answer into `event:`: two fields that fail in opposite directions. Run #2 wrote five
 strong `delivers:` lines, every one a shift in somebody's interior state — which is how a chapter
 passes this pass while nothing happens in it.
 
-Also open **`.claude/roles/gate/hook-and-pacing.audit-card.md`**: first and last sentences carry most of a
+Also open **`roles/gate/hook-and-pacing.audit-card.md`**: first and last sentences carry most of a
 serial's retention, and both defects are distributional — read against the previous five
 chapters, never scored on this one. What is left over belongs to this pass
-alone: **`references/owned-passes.md` §Pass 9**.
+alone: **`roles/gate/revision-pass.owned-passes.md` §Pass 9**.
 
 ## Pass 9b — The opening — chapters ≤ `opening.contract_by_ch + 2` only
 
 Skip entirely outside that range. Inside it, open
-**`.claude/roles/gate/story-opening.audit-card.md`**.
+**`roles/gate/story-opening.audit-card.md`**.
 
 ## Pass 9c — Foreknowledge — only if `mc.foreknowledge` is set
 
-Open **`.claude/roles/gate/meta-knowledge.audit-card.md`**. Not rotatable.
+Open **`roles/gate/meta-knowledge.audit-card.md`**. Not rotatable.
 
 ## Pass 9d — Theme
 
 Skip if `theme.controlling_idea` is empty. This pass tests **restraint, not presence** — the
 measured failure of machine-written fiction is a narrated theme, not an absent one. Four checks:
-**`references/owned-passes.md` §Pass 9d**.
+**`roles/gate/revision-pass.owned-passes.md` §Pass 9d**.
 
 ## Pass 9e — The power curve — only if `scaling.shape` is not `none`
 
-Open **`.claude/roles/gate/power-scaling.audit-card.md`**. Run `sw curve` first if you have not: it finds
+Open **`roles/gate/power-scaling.audit-card.md`**. Run `sw curve` first if you have not: it finds
 the step-size, cadence, unpaid-debt, monotony and ledger-agreement defects, leaving the card the
 three a script cannot see — whether the gain was earned on the page, whether the opponent is a
 person or a number, and whether the win felt free.
@@ -258,7 +258,7 @@ reaches the frontmatter and the CCS `pwr>` line.
 
 ## Pass 9f — Pacing and build-up
 
-Open **`.claude/roles/gate/story-craft.audit-card.md`**. Pass 9 asks whether the chapter delivered; this
+Open **`roles/gate/story-craft.audit-card.md`**. Pass 9 asks whether the chapter delivered; this
 asks whether it delivered at the **right size**, which no delivery test can see. `story-craft` owns
 the scene-or-summary call and the repair, which is never more words.
 
@@ -275,13 +275,13 @@ Re-read **only the spans you touched**, plus the paragraph either side. A read, 
 no card, nothing to tick. Did the replacement replace anything · does an inserted line still fit
 the blocking · did the fix contradict its own sentence · did your fixes all reach for the same
 word. Worked examples of all four, and what each one cost:
-**`references/fixing-and-reporting.md` §Read what you changed**.
+**`roles/gate/revision-pass.fixing-and-reporting.md` §Read what you changed**.
 
 Whatever this pass has to undo is still a gate fix and belongs in the `Gate:` line.
 
 ## Pass 10 — Mechanics
 
-Frontmatter, scene breaks, the POV label, and the measured word count — **`references/owned-passes.md`
+Frontmatter, scene breaks, the POV label, and the measured word count — **`roles/gate/revision-pass.owned-passes.md`
 §Pass 10**. Stamping runs **last**, because a pass that changes the body changes the count:
 
 ```bash
@@ -294,7 +294,7 @@ python3 scripts/sw.py stamp novels/<slug> -c <n> --status revised --ledger
 
 ## When something fails
 
-Open **`references/fixing-and-reporting.md`** — the repair order, what to do when a fix
+Open **`roles/gate/revision-pass.fixing-and-reporting.md`** — the repair order, what to do when a fix
 contradicts the plan or reveals a bible gap, the report format, and re-gating a chapter that was
 drafted earlier.
 

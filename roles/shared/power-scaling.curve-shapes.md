@@ -110,7 +110,7 @@ monitoring.
 
 **Fan fiction.** The source's own power structure is the ladder, and canon characters get tiers
 from how they are *depicted behaving*, not from wiki numbers
-(`timeline-engine/references/fanfic-mode.md`). The genre-specific trap is a self-insert whose
+(`roles/shared/timeline-engine.fanfic-mode.md`). The genre-specific trap is a self-insert whose
 `start_tier` is set against canon's endgame rather than against the arc the fic actually opens in —
 a tier-1 opening in a world whose ladder tops out at 7 is the correct configuration even when the
 MC "knows" they will get there.

@@ -23,7 +23,7 @@ at init. Grow it only when the story enters a layer it has not shown.
 ## Prices
 
 One anchor wage, and six prices expressed in **days of ordinary work** — the unit a reader feels.
-Fill these once; do not grow the table. See `social-fabric/references/prices-and-stakes.md`.
+Fill these once; do not grow the table. See `roles/shared/social-fabric.prices-and-stakes.md`.
 
 **Anchor:** a ___ earns ___ a day. ___ = 1 ___, ___ = 1 ___.
 
@@ -42,7 +42,7 @@ and it is logged like any other.
 ## Belief and ritual
 
 Question 5 in practice, filled only if the story enters it. Four answers, one oath, two taboos.
-See `social-fabric/references/belief-and-ritual.md`.
+See `roles/design/social-fabric.belief-and-ritual.md`.
 
 | | |
 |---|---|
@@ -71,7 +71,7 @@ One table per hard rule from `power-system.md` / `canon.md`. See `social-fabric`
 ## Gendered terms
 
 <!-- One line each. "No difference" is a real answer and must then hold everywhere.
-     Then propagate them like any other rule - see social-fabric/references/gendered-experience.md -->
+     Then propagate them like any other rule - see roles/design/social-fabric.gendered-experience.md -->
 
 | question | this society's answer |
 |---|---|

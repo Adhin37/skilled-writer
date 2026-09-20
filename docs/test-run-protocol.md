@@ -153,9 +153,9 @@ touch .test-run                                  # arms the coordinator write gu
 - **Capture the baseline** — the `sw audit` / per-chapter lint column as it stands today, before
   any toolkit change. Diffing against it afterwards is what proves a cross-chapter fix did not leak
   into per-chapter scoring.
-- **Record the proxy state, the model, and the harness shape** in the configuration table. Every
-  token and cost figure is confounded by a compressing proxy; that has to be written down, not
-  remembered.
+- **Record the proxy state, the model, and the harness shape** in the configuration table. No
+  proxy has sat in front of the harness since 2026-09-20; if one is put back, every token and cost
+  figure it touches is confounded, and that has to be written down, not remembered.
 - **Declare the stop condition in advance** — N chapters — and write it into the log.
 - **`novels/` is gitignored and there is no undo.** Anything you want to survive the run goes to
   the scratchpad *and* into the write-up.
@@ -231,7 +231,7 @@ output, including every one that no script could see.
   construction, and a run with no positive controls cannot tell a working mechanism from an
   unexercised one.
 
-**The procedure for this step is [`reader-review.md`](reader-review.md).** Follow it rather than
+**The procedure for this step is [`roles/review/reader-review.md`](roles/review/reader-review.md).** Follow it rather than
 reading however you happen to read: it fixes the order (blind pass, then reconcile against
 `bible/` and `state/`), the output shape, and the 0–5 scale, which is what makes one run's read
 comparable with the next one's. It stays in `docs/` for the same reason this file does — a rubric
@@ -279,7 +279,7 @@ grep -n 'cand>\|z4>\|pwr>' novels/<slug>/state/continuity.md
 | **Subagent usage is not in the parent transcript** | read the per-agent transcript file |
 | **The toolkit changes under the novels** | compare against the re-linted column, never against run-time numbers |
 | **A phrase grep over this repo lies** — 80-column wrapping breaks clauses across lines | `tr '\n' ' '` first, or grep a two-word window |
-| **The compressing proxy mangles Bash output** and leaves no mark | pull anything you need verbatim with `Read`, not `cat` |
+| **A compressing proxy mangles Bash output** and leaves no mark — none since 2026-09-20, so check rather than assume | pull anything you need verbatim with `Read`, not `cat` |
 | **zsh does not word-split unquoted variable expansions** | one `sw` invocation per command; never a loop over a string of arguments |
 
 ## 9. Fixing, after the run has stopped
@@ -350,7 +350,7 @@ during    [ ] agent brief: authoring only, no mention of measurement, do not rea
           [ ] claims verified against disk, not against the agent's report
 after     [ ] stopped at the declared count
           [ ] measurement commands run, trace scoped with --session
-          [ ] every chapter read by a human, per reader-review.md
+          [ ] every chapter read by a human, per roles/review/reader-review.md
           [ ] reader review: verdict, ranked findings, unowned findings, divergence
           [ ] fixes designed only now; one owner each; no numeric ship gate
           [ ] tests + health + selftest green again; audit diffed against the baseline

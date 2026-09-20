@@ -35,8 +35,8 @@ the two promise the same book; the slug is derived last so it is derived from so
 
 | file | open it when |
 |---|---|
-| `references/listing-kit.md` | the listing step: tags, cover brief, cadence, launch stock — and again when a secondary element becomes prominent enough to earn its tag |
-| `references/fanfic-and-renaming.md` | the novel is fan fiction (the source-in-title rule is mandatory there), or an arc boundary has left the title naming a state the story has left |
+| `roles/design/title-craft.listing-kit.md` | the listing step: tags, cover brief, cadence, launch stock — and again when a secondary element becomes prominent enough to earn its tag |
+| `roles/design/title-craft.fanfic-and-renaming.md` | the novel is fan fiction (the source-in-title rule is mandatory there), or an arc boundary has left the title naming a state the story has left |
 
 ## The three jobs
 

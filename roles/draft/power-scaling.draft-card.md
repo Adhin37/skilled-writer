@@ -53,5 +53,5 @@ A **boost** is temporary reach with an expiry and a **debt** decided before use.
 to let the MC *survive* a P≥+2 encounter, not win it. It may resolve an arc climax **at most once in
 the novel**.
 
-Tier names never appear in the prose. Choosing or changing the shape: `.claude/skills/power-scaling/references/curve-shapes.md`.
-The curve is not landing: `.claude/skills/power-scaling/references/failure-modes.md`.
+Tier names never appear in the prose. Choosing or changing the shape: `roles/shared/power-scaling.curve-shapes.md`.
+The curve is not landing: `roles/shared/power-scaling.failure-modes.md`.

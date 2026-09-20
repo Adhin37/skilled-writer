@@ -58,4 +58,4 @@ If the frame will not settle, take **the body**. It is the default and the most 
 terror and cost arrive through one person's hundred metres whatever else is happening on the field.
 Take the decision frame only when the POV character's own orders are the thing going wrong, and the
 line frame only when an earlier chapter already established that unit. For the campaign around the
-engagement — supply, movement, why armies actually lose — `.claude/skills/battle-scale/references/logistics.md`.
+engagement — supply, movement, why armies actually lose — `roles/shared/battle-scale.logistics.md`.

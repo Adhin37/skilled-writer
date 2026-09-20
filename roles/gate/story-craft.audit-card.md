@@ -39,7 +39,7 @@ that was played goes back to being a bridge.
 
 The repair is stated above and it is the only one: find the beat that was reported and play it,
 and hand its words back from a bridge that did not need them.
-`.claude/skills/story-craft/references/scene-and-summary.md` carries the worked decision and the past-perfect
+`roles/shared/story-craft.scene-and-summary.md` carries the worked decision and the past-perfect
 catalogue.
 
 ## What it looks like when it lands

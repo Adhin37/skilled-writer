@@ -36,9 +36,9 @@ ceiling and the promise ledger. After that this skill is done and `hook-and-paci
 
 | § | file | open it when |
 |---|---|---|
-| 5, 6 | `references/chapter-one.md` | drafting chapter 1 itself, or wiring the opening arc into planning and revision |
+| 5, 6 | `roles/draft/story-opening.chapter-one.md` | drafting chapter 1 itself, or wiring the opening arc into planning and revision |
 
-The revision-time check is `.claude/roles/gate/story-opening.audit-card.md`, opened by `revision-pass` Pass 9b.
+The revision-time check is `roles/gate/story-opening.audit-card.md`, opened by `revision-pass` Pass 9b.
 
 ## 1. The anchor
 
@@ -224,7 +224,7 @@ it. That is the difference between a reader who is oriented and a reader who is 
 second is what makes chapter 2 get opened.
 
 The row above says *low external danger*, not *no pressure*: chapter 1 still opens on something
-already wrong and still ends on a hook (`references/chapter-one.md` §5), and it still costs the POV
+already wrong and still ends on a hook (`roles/draft/story-opening.chapter-one.md` §5), and it still costs the POV
 character something (`conflict-engine`). Build-up is not a quieter chapter — it is the same beats
 played rather than reported. `story-craft` owns that decision.
 

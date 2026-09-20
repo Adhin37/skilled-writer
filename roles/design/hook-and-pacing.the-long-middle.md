@@ -9,7 +9,7 @@ description: chapters 40 to 120 - what makes a serial's middle go flat, and the 
 Open this at any arc boundary past arc 2, or when a stretch of the novel is competently written
 and nobody can say what it is building toward.
 
-`references/arc-rhythm.md` covers the shape of one arc. This is the problem that only exists at
+`roles/shared/hook-and-pacing.arc-rhythm.md` covers the shape of one arc. This is the problem that only exists at
 length: the opening is a solved problem with its own skill, the ending has a contract, and between
 them is the part where serials actually die. `CLAUDE.md` §5 bans the flat middle; this is how it
 arrives, which is never as a decision.

@@ -22,7 +22,7 @@ reader learns a place.
 
 Six to ten rows, in **days**, not miles. The last two columns are the ones that do plot work.
 Travel here is what `revision-pass` Pass 1 checks a chapter against, so when a scene and this
-table disagree, the scene moves. See `story-bible/references/geography-and-travel.md`.
+table disagree, the scene moves. See `roles/gate/story-bible.geography-and-travel.md`.
 
 | from → to | days, on foot | days, fast | what makes it slower | what is in between |
 |---|---|---|---|---|

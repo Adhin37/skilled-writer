@@ -31,7 +31,7 @@ readers notice oddness immediately.
 
 ## The three plants, and why the second one matters most
 
-`references/foreshadowing.md` owns the plant ladder. Applied to a reversal:
+`roles/shared/plot-threads.foreshadowing.md` owns the plant ladder. Applied to a reversal:
 
 1. **Ambient** — the fact arrives doing another job entirely. Nobody weights it.
 2. **Noticed and dismissed** — somebody in the story remarks on it and is given a reason not to

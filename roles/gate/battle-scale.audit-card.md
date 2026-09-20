@@ -46,7 +46,7 @@ somebody out of breath.
 | The MC personally decided the field | a scaling problem wearing armour | `power-scaling` — make the field bigger |
 | Everyone fought to the death | almost nobody dies fighting | let the line break, and put the dying in the pursuit and the wounds |
 | The battle is won and nothing else moved | the engagement cost nothing | `conflict-engine` |
-| The army arrived fed, dry and on time | the campaign was skipped | `.claude/skills/battle-scale/references/logistics.md` |
+| The army arrived fed, dry and on time | the campaign was skipped | `roles/shared/battle-scale.logistics.md` |
 
 ## What it looks like when it lands
 

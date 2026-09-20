@@ -102,5 +102,5 @@ Where a character is not human, the signature is still four entries and still le
 outside; what changes is that **rung 3 gets harder for everyone**, because the observer has no
 priors. That is a resource rather than a problem: a reader watching a person misread a
 non-human's stillness is watching the misread mechanism at its clearest.
-`character-profile/references/nonhuman.md` owns how such a character is built; this file owns
+`roles/shared/character-profile.nonhuman.md` owns how such a character is built; this file owns
 what somebody looking at them is allowed to conclude.

@@ -32,8 +32,8 @@ ending the author declared.
 
 | file | open it when |
 |---|---|
-| `references/reaction-and-governor.md` | a faction or canon power is about to react to the MC, or escalation is running hotter than the reader can carry |
-| `references/fanfic-mode.md` | the novel is a fanfic. This is where the world's clock does most of its work |
+| `roles/shared/timeline-engine.reaction-and-governor.md` | a faction or canon power is about to react to the MC, or escalation is running hotter than the reader can carry |
+| `roles/shared/timeline-engine.fanfic-mode.md` | the novel is a fanfic. This is where the world's clock does most of its work |
 
 ## Weight by genre
 

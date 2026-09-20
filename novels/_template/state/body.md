@@ -10,7 +10,7 @@ Maintained by `mc-design`. **Always in the read-set while any character has `for
 > silence. **Every chapter puts the current form on the page at least twice**: once as a limit
 > that bites, and once as the world reacting to the body. A form that never costs the character
 > anything is decorative, and no check can see its absence —
-> `mc-design/references/form-ledger.md`, rule 9.
+> `roles/shared/mc-design.form-ledger.md`, rule 9.
 
 Delete this file if no character changes form during the novel.
 

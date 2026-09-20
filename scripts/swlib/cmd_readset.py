@@ -58,7 +58,6 @@ CONFIG_KEYS = [
 ]
 
 
-SKILLS_REL = os.path.join(".claude", "skills")
 _REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 

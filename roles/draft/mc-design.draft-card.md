@@ -47,4 +47,4 @@ adapts offscreen. The lever set being smaller than the knowledge is usually the 
 - **No final-form detail may appear in an earlier stage's description**, however incidental.
 - Appearance is *how the world reads them*, never an inventory (`bias-guard`).
 
-Building or amending the ledger, and the stage table: `.claude/skills/mc-design/references/form-ledger.md`.
+Building or amending the ledger, and the stage table: `roles/shared/mc-design.form-ledger.md`.

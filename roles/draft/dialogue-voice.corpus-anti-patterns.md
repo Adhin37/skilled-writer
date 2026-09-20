@@ -28,7 +28,7 @@ When a character's voice starts drifting mid-serial:
 | Everyone is articulate | Articulacy is an axis, and it is independent of intelligence. Give someone artic 2 and let them be exactly right in five words. |
 | Every ally is as quick as the MC | The cast has to straddle the MC's tier, not sit on it. Put somebody below it and let them be correct about something concrete. |
 | Two characters are interchangeable | They share intel + artic + wit. Change one axis or merge the characters. |
-| The clone sounds like the original | Correct, if they are a declared mirror. Then ask what has diverged since they split, and what the tell is. `voice-separation/references/mirror-clause.md` |
+| The clone sounds like the original | Correct, if they are a declared mirror. Then ask what has diverged since they split, and what the tell is. `roles/shared/voice-separation.mirror-clause.md` |
 | Dialogue explains the plot | Move it to narration or delete it. The reader is smarter than this. |
 | Characters agree too fast | Someone should want the conversation to go somewhere else. |
 | A scene is two heads talking in a void | Add a beat: where the bodies are, what one of them is doing with their hands. |

@@ -2,6 +2,7 @@
 type: reference
 owner: revision-pass
 description: "Pass 1, and keep it open to Pass 10 - the six passes that have no other owner"
+provenance: docs/design-notes.md §"Why the gate is delivery, not length"
 ---
 
 # revision-pass — the passes nobody else owns
@@ -39,7 +40,7 @@ Read `state/body.md` §1–§2 first; the CURRENT FORM row is the only descripti
 
 - [ ] **The form reached the page twice** — once as a limit that bites, once as the world
       reacting to it. This box is the only one here that an empty chapter fails; `mc-design`
-      owns the rule and the two halves (`mc-design/references/form-ledger.md` rule 9)
+      owns the rule and the two halves (`roles/shared/mc-design.form-ledger.md` rule 9)
 - [ ] Not every frail or childish beat was a performance the character chose. When all of them
       are, the form has stopped being a body and become a tactic
 - [ ] Every physical description matches the CURRENT FORM row — nothing borrowed from a later stage
@@ -78,7 +79,7 @@ One row has no other owner and stays here:
 
 `sw lint` searches the whole banned list and counts narration exclamation marks and rhetorical
 questions. These five are the ones no script can see, and the card in
-`.claude/roles/gate/mtl-detox.audit-card.md` is where the detail lives.
+`roles/gate/mtl-detox.audit-card.md` is where the detail lives.
 
 - [ ] No crowd-reaction block — a paragraph of unnamed onlookers narrating how impressive the scene was
 - [ ] No rank recital or system lecture delivered as narration
@@ -104,7 +105,7 @@ than against this one.
 
 **Length.** If the chapter is far outside `chapters.length_band`, ask *once* whether the material
 was split in the wrong place, then move on. Never pad, never trim, and never record a length
-judgement — `docs/design-notes.md` §"Why the gate is delivery, not length" is why.
+judgement.
 
 ---
 
@@ -144,4 +145,4 @@ python3 scripts/sw.py stamp novels/<slug> -c <n> --status revised --ledger
 Without Python, measure the body with `wc -w` and write both numbers by hand.
 
 **The four channels** are `narrator-voice`'s to enforce, not this file's — open
-`.claude/roles/gate/narrator-voice.audit-card.md`.
+`roles/gate/narrator-voice.audit-card.md`.

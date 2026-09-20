@@ -64,7 +64,7 @@ The half of a campaign a serial usually skips, and the half a reader remembers:
 
 - **Somebody's field is the camp.** They are not compensated. They are still there afterwards.
 - **Prices move.** A war is a demand shock; grain, iron, horses and boots all cost differently
-  within a week, and somebody is getting rich (`social-fabric/references/prices-and-stakes.md`).
+  within a week, and somebody is getting rich (`roles/shared/social-fabric.prices-and-stakes.md`).
 - **News travels at its own speed** and arrives distorted. The version three towns away is a
   different event, and people are making decisions on it — `social-fabric` owns how fast news moves.
 - **The wounded go somewhere.** Who feeds them. Who is expected to take them in. What happens to

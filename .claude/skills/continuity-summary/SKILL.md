@@ -25,7 +25,7 @@ happened, generate a summary for them separately — do not soften the ledger.
 
 | file | open it when |
 |---|---|
-| `references/block-format.md` | writing a block or a digest. The line reference, the notation legend and the hard rules |
+| `roles/shared/continuity-summary.block-format.md` | writing a block or a digest. The line reference, the notation legend and the hard rules |
 
 ## The three tiers
 

@@ -2,6 +2,7 @@
 type: reference
 owner: world-texture
 description: the world is present but nothing happens in it - the atmosphere failure, what it is measured to be, and the repair
+provenance: docs/craft-sources.md §The second pass
 ---
 
 # world-texture — narrative space, or why the world reads as weather
@@ -96,5 +97,3 @@ A thing put down or picked up, which is how a reader learns what a person is car
 somebody handling something has spent its most expensive sentences on the mode the page is worst
 at by default. This is also the cheapest possible version of `hook-and-pacing`'s ban on opening on
 setting: the fix is not a different subject, it is the same place with a verb in it.
-
-Provenance and figures: `docs/craft-sources.md` §The second pass.

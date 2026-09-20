@@ -44,7 +44,7 @@ answer, in concrete terms, in final position.
 
 | symptom | what it actually is | go to |
 |---|---|---|
-| Every chapter closes on a withheld beat | one hook shape doing the whole book | `.claude/skills/hook-and-pacing/references/arc-rhythm.md` — rotate the type, not the intensity |
+| Every chapter closes on a withheld beat | one hook shape doing the whole book | `roles/shared/hook-and-pacing.arc-rhythm.md` — rotate the type, not the intensity |
 | Every chapter closes on an ironic line | the register never changes | `prose-quality` §Range before polish |
 | The opening summarises the last chapter | recap where the anchor should be | one clause, then move |
 | The hook is strong and the chapter delivered nothing | the hook is doing the chapter's job | Pass Z, and `scene-craft`'s card |

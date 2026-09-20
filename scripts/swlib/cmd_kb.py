@@ -103,7 +103,7 @@ def _list(repo_root, args):
             "files": [{"path": f.rel, "type": f.type, "owner": f.owner,
                        "dispatcher": f.dispatcher, "phase": f.phase, "pass": f.pass_,
                        "order": f.order, "when": f.when, "concepts": f.concepts,
-                       "description": f.description}
+                       "provenance": f.provenance, "description": f.description}
                       for f in idx.files if not want or f.type == want],
             "owners": idx.owners,
         }
@@ -200,7 +200,7 @@ def _view(repo_root, args, novel):
         print("  A cold read is only worth having from a reader who has not read the rubric, so")
         print("  the role is defined by what it is denied. The agent gets no `Skill` tool and")
         print("  `omitClaudeMd: true`; its procedure arrives in the prompt. See")
-        print("  docs/reader-review.md.")
+        print("  roles/review/reader-review.md.")
         return 0
 
     number = args.chapter

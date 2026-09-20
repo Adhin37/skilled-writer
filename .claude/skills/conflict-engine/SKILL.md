@@ -19,9 +19,9 @@ out of tension around chapter 40 and never recovers it, no matter how much happe
 
 | file | open it when |
 |---|---|
-| `references/aftermath.md` | the last chapter took something physical or psychological and this one has to carry it — injury at three time-scales, exhaustion, and what violence costs the person who did it |
-| `.claude/roles/draft/conflict-engine.draft-card.md` | never, by you. `write-chapter` Phase A opens it |
-| `.claude/roles/gate/conflict-engine.audit-card.md` | never, by you. `revision-pass` Pass 4 opens it |
+| `roles/design/conflict-engine.aftermath.md` | the last chapter took something physical or psychological and this one has to carry it — injury at three time-scales, exhaustion, and what violence costs the person who did it |
+| `roles/draft/conflict-engine.draft-card.md` | never, by you. `write-chapter` Phase A opens it |
+| `roles/gate/conflict-engine.audit-card.md` | never, by you. `revision-pass` Pass 4 opens it |
 
 ---
 

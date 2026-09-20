@@ -30,7 +30,7 @@ character lives.
 
 | file | open it when |
 |---|---|
-| `references/reading-people.md` | writing the moment somebody judges somebody — the observation ladder, what each tier is allowed to conclude, and how a misread is written so the reader sees past it |
+| `roles/shared/social-perception.reading-people.md` | writing the moment somebody judges somebody — the observation ladder, what each tier is allowed to conclude, and how a misread is written so the reader sees past it |
 
 **This skill has no card of its own.** Its decision is made beside the intelligence tier, on
 `mc-intel-meter`'s draft card, and audited beside it at Pass 3b on `mc-intel-meter`'s audit card —
@@ -127,7 +127,7 @@ before she came in* is a reading. *She had decided to refuse him* is narration t
 character's head, and in a limited POV it is a viewpoint breach (`pov-switch`, `narrator-voice`).
 
 The ladder from observation to conclusion, per tier, with worked examples:
-`references/reading-people.md`.
+`roles/shared/social-perception.reading-people.md`.
 
 ## 6. Where it meets the other character skills
 

@@ -251,7 +251,7 @@ resolve both against this novel's config. Opening a module's `SKILL.md` mid-draf
    five chapters with every check green. So every chapter puts the current form on the page
    **twice**: once as a limit that bites, once as the world reacting to it. When every childish or
    frail thing the character does is a deliberate performance they control, the form has stopped
-   being a body and become a tactic (`mc-design/references/form-ledger.md`, rule 9).
+   being a body and become a tactic (`roles/shared/mc-design.form-ledger.md`, rule 9).
 10. **Nothing is free.** Every win is paid for (`conflict-engine`). The world is not free either:
     it acts on its own clock at the intensity set by `timeline.reactivity`, and it may never make
     `ending.contract` unreachable.
@@ -274,12 +274,14 @@ resolve both against this novel's config. Opening a module's `SKILL.md` mid-draf
     Never read past chapter files unless the user asks for a specific one — a `draft` rule, not
     the `review` role's, which reads all of them (§10). Cast depth is tiered
     the same way: a walk-on gets three strokes and one roster line, never a psychology. See §9.
-    This stopped being a token rule on 2026-09-13: the harness compresses context by default,
-    subagents included, and the window is no longer the scarce resource it was when the read-set
-    was drawn. What is still scarce is **attention** — a fact loaded is a fact competing with the
-    chapter for it, and a model handed the whole novel writes the average of it. So the slice
-    stays and the ceilings above it loosen; where the extra room goes is §8, into examples rather
-    than into more rules.
+    This stopped being a token rule on 2026-09-13: a bounded read-set costs a few thousand tokens
+    against a window measured in hundreds of thousands, so the window is not the scarce resource it
+    was when the read-set was drawn. Until 2026-09-20 this paragraph credited a compressing proxy
+    instead, which was then measured and removed — it cost more window than it saved, and a rule
+    resting on a harness feature that can be uninstalled rests on nothing. What is still scarce is
+    **attention** — a fact loaded is a fact competing with the chapter for it, and a model handed
+    the whole novel writes the average of it. So the slice stays and the ceilings above it loosen;
+    where the extra room goes is §8, into examples rather than into more rules.
 16. **Write files, don't dump prose to chat.** Chapters go to `novels/<slug>/chapters/`. Report the
     path and a two-line summary.
 
@@ -329,7 +331,7 @@ first and bans second, and there are ten of them.
   *"in the next instant"*, *"trash!"*, *"you dare?"*, *"little did he know"*.
 - No house-style tic on repeat: the `X, not Y` antithesis, the em-dash appositive that re-explains
   the clause before it, the aphorism at every scene close, `"A beat."` written into prose. Each is
-  good once and is a fingerprint at density (`prose-quality/references/ai-default-tells.md`).
+  good once and is a fingerprint at density (`roles/gate/prose-quality.ai-default-tells.md`).
 - No important beat delivered as a past-perfect clause. *"She had spent three weeks making it
   true"* is a campaign that happened offstage.
 - No exposition dumps of rank ladders, no establishing paragraphs, no history lectures. This bans
@@ -421,7 +423,7 @@ measured fact that later tools read, never a target.
 
 One CCS block per chapter, appended in order and never rewritten to be tidier — `sw state`
 checks the sequence, because a block in the wrong place is a chapter that happened at the wrong
-time. `continuity-summary/references/block-format.md` is the line reference. Two of those lines
+time. `roles/shared/continuity-summary.block-format.md` is the line reference. Two of those lines
 exist to make a step falsifiable rather than to carry story state: **`cand>`** records the
 candidates Phase A did not take and why the taken one won, and **`z4>`** records Pass Z4's answer
 — the thing here a competent hack would not have written — or the literal `none`. Both are the
@@ -555,11 +557,15 @@ word budget bounded what those cards cost to *carry*, and carrying is the thing 
 stays a ceiling rather than a target, it is raised deliberately rather than drifted past, and rule
 15 decides what the extra room may hold: examples, not prohibitions.
 
-One caveat that runs the other way. A compressing harness compresses **tool output**, and the
-read-set arrives as tool output while a skill file arrives as a file read. So the thing most likely
-to reach the drafter lossy is the state, not the corpus. If a read-set comes back short a field,
-re-run it or open the source and say which you did: reading a file is not the expensive move, and
-a drafter guessing at a field it never received is worse than one that opened `bible/`.
+One caveat, dormant but not dead. Anything that compresses this harness compresses **tool
+output**, and the read-set arrives as tool output while a skill file arrives as a file read — so
+the thing most likely to reach the drafter lossy is the state, not the corpus, which is the
+opposite of what the budgets above are written against. Nothing compresses as of 2026-09-20: the
+proxy that did was removed after run #5 caught it shortening a read-set from 515 words to 397,
+WATCH row included, with the drafter never noticing and never re-fetching. Read this paragraph
+again before putting anything in front of the harness. The instruction it produced is rule 1's —
+a field that arrives short is re-fetched from its source and named in the report — and that one
+stands whether or not anything is compressing.
 
 ---
 
@@ -622,7 +628,7 @@ the wrong one does its own job worse:
 |---|---|---|
 | §3 "a module is opened through its card, never its `SKILL.md`" | `draft` `gate` | `design` — the body *is* for designing the thing |
 | §15 "never read past chapter files" | `draft` | `review` — reading all of them is the whole job |
-| "the writing agent does not read `docs/`" (`AGENTS.md`) | `draft` `gate` | `review` `coordinate` — `reader-review.md` lives there |
+| "the writing agent does not read `docs/`" (`AGENTS.md`) | `draft` `gate` `review` | `coordinate` — `docs/` is six maintainer files and nothing else |
 | this entire file | `coordinate` `design` `draft` `gate` | `review` — `omitClaudeMd: true` |
 
 Nothing here is loosened for the drafter: its read-set, its card budget and its ban on `docs/` are

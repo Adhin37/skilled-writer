@@ -60,4 +60,4 @@ not the same ones re-explained: its anchor, and only what has changed.
 Every detail must characterise the noticer, set up a later beat, anchor a location, carry a social
 fact, or create friction. The best do two.
 
-Flat, bloated or inert: `.claude/skills/world-texture/references/overbuilding.md` · `.claude/skills/world-texture/references/narrative-space.md`.
+Flat, bloated or inert: `roles/draft/world-texture.overbuilding.md` · `roles/draft/world-texture.narrative-space.md`.

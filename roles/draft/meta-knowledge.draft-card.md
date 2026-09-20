@@ -56,4 +56,4 @@ starts **rationing**, which is a far more interesting character than one who is 
 pressure. Events butterfly; character does not. That is the graceful path out of the oracle problem.
 
 If the inventory scene has not happened yet, it is due by `opening.first_win_by_ch`:
-`meta-knowledge` §2. Foreknowledge is not landing: `.claude/skills/meta-knowledge/references/failure-modes.md`.
+`meta-knowledge` §2. Foreknowledge is not landing: `roles/draft/meta-knowledge.failure-modes.md`.

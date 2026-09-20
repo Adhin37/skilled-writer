@@ -64,7 +64,7 @@ generate pressure was to add one. Each addition retroactively shrinks everything
 achieved, which is why long serials feel like they are deflating.
 
 **Fix.** Set `endgame` now, even mid-novel, and make the revealed tier the last one. Then move the
-conflict off the ladder — this is what `plateau-late` exists for (`curve-shapes.md` §6). A ladder
+conflict off the ladder — this is what `plateau-late` exists for (`roles/shared/power-scaling.curve-shapes.md` §6). A ladder
 that stops is a story that can end.
 
 ### The unpaid boost

@@ -28,14 +28,46 @@ from . import kbexpr, mdio, rules
 
 SKILLS_REL = os.path.join(".claude", "skills")
 
-# The role trees. `.claude/skills/` stays the design tree and Claude Code's discovery root - the
-# bare names in an agent's `skills:` frontmatter resolve through it, so the bodies cannot move.
-# What moves is everything a `draft` or `gate` agent opens, which is never a body.
-ROLES_REL = os.path.join(".claude", "roles")
+# The role trees live at the repo root: the point of a physical split is that the roles are
+# visible at `ls` and `.claude/` goes back to meaning harness config. `.claude/skills/`
+# stays the design tree and Claude Code's discovery root - the bare names in an agent's
+# `skills:` frontmatter resolve through it, so the 44 bodies cannot move.
+ROLES_REL = "roles"
+
+# Every layout the role trees have ever had, longest first so the alternation below can never
+# match a suffix of a longer one. `CITATION` and the transcript scanners are built from this
+# rather than spelling a path of their own, because that is precisely how they drifted before:
+# the constant and the regex were two independent copies of one string, and `Index.resolve()`
+# answers None *silently* when they disagree - so a desync surfaces as a clean run, not an error.
+#
+# The old form stays recognised deliberately and permanently. A citation written before a move
+# still names a real file on the day of the move, which is what lets the migration find the text
+# it has to rewrite. Resolving is not the same as being correct, and the check that insists the
+# text actually be rewritten is `test_corpus.py::test_every_referenced_file_exists`, which asks
+# the filesystem rather than the index.
+ROLES_DIRS = (".claude/roles", "roles")
+_ROLES_ALT = "(?:%s)" % "|".join(re.escape(d) for d in ROLES_DIRS)
+
+# Made to agree here rather than by convention, because the failure is silent either way.
+assert ROLES_REL.replace(os.sep, "/") in ROLES_DIRS, \
+    "ROLES_REL=%r is not one of the layouts CITATION can match" % (ROLES_REL,)
 
 # `shared` states the property rather than the membership: opened by more than one role. Design
-# reads every bucket, because a body still cites its own notes wherever they now sit.
-BUCKETS = ("draft", "gate", "shared")
+# reads every bucket, because a body still cites its own notes wherever they now sit - so
+# `design` is where a note lands that NO card and NO dispatcher body reaches, not where the
+# architect's reading stops.
+#
+# The closure that sorts a note into one of these must seed from the dispatcher bodies as well as
+# from the cards. `draft` and `gate` each open exactly one body - their dispatcher, preloaded by
+# the harness and named in the Read guard - so what those bodies cite is reachable by that role.
+# A card-only closure files `revision-pass.owned-passes.md` as design, and that file carries six
+# of the gate's passes.
+BUCKETS = ("draft", "gate", "shared", "design")
+
+# The one body each writing role opens. Not an exemption: these are preloaded through `skills:`,
+# and naming them here is what keeps the bucket closure agreeing with what the role can reach.
+DISPATCHER_BODIES = {"draft": ("write-chapter", "continuity-summary"),
+                     "gate": ("revision-pass",)}
 
 # The reserved card filenames, and the dispatcher each one answers to. A card is opened by its
 # dispatcher rather than cited by its own skill, which is why it is the one inversion in the
@@ -52,7 +84,7 @@ TYPES = ("skill", "draft-card", "audit-card", "reference")
 #   references/x.md                     this skill's own
 #   other-skill/references/x.md         another skill's
 #   .claude/skills/other/references/x.md  the same, written out
-#   .claude/roles/<bucket>/owner.x.md   the post-move form, resolved by path
+#   roles/<bucket>/owner.x.md          the post-move form, resolved by path
 #   x.md                                bare, meaning "mine" - four of these exist
 #
 # Deliberately NOT a general `*.md` matcher: `CLAUDE.md`, `state/threads.md` and `novel.md` are
@@ -64,7 +96,7 @@ TYPES = ("skill", "draft-card", "audit-card", "reference")
 CITATION = re.compile(
     r"(?:\.claude/skills/)?(?:(?P<skill>[a-z][a-z0-9]*(?:-[a-z0-9]+)*)/)?"
     r"references/(?P<ref>[A-Za-z0-9._-]+\.md)"
-    r"|(?P<rel>\.claude/roles/[a-z]+/(?P<rolefile>[A-Za-z0-9._-]+\.md))"
+    r"|(?<![\w/-])(?P<rel>" + _ROLES_ALT + r"/[a-z]+/(?P<rolefile>[A-Za-z0-9._-]+\.md))"
     r"|(?<![/\w-])(?P<bare>[a-z][a-z0-9-]*\.md)\b")
 
 _CACHE = {}
@@ -93,11 +125,12 @@ ROLES = ("design", "draft", "gate", "review", "coordinate")
 # `review` carries no corpus, deliberately. A cold read is only worth having from someone who has
 # not read the rubric, so the role is defined by what it is denied rather than what it is given -
 # and that is the one isolation Claude Code can actually enforce, because a reader needs no
-# `Skill` tool at all. See docs/reader-review.md.
+# `Skill` tool at all. See roles/review/reader-review.md.
 ROLES_WITHOUT_CORPUS = ("review",)
 
 # A card's kind already names the role that opens it; `dispatcher:` was the proto-role axis.
 CARD_ROLES = {"draft-card": "draft", "audit-card": "gate"}
+_CARD_KIND_BY_ROLE = dict((role, kind) for kind, role in CARD_ROLES.items())
 
 
 class SkillEntry(object):
@@ -115,7 +148,7 @@ class SkillEntry(object):
 
 class FileEntry(object):
     __slots__ = ("path", "rel", "type", "owner", "dispatcher", "phase", "pass_",
-                 "order", "description", "when", "concepts", "bucket", "cite")
+                 "order", "description", "when", "concepts", "bucket", "cite", "provenance")
 
     def __init__(self, **kw):
         for slot in self.__slots__:
@@ -179,7 +212,7 @@ class Index(object):
         exists under three different skills, two of which land in the same bucket.
 
         The stem after the first dot is what the rest of the corpus cites the file by, so
-        `references/mirror-clause.md` and `.claude/roles/shared/voice-separation.mirror-clause.md`
+        `references/mirror-clause.md` and `roles/shared/voice-separation.mirror-clause.md`
         resolve to one entry. Owner names contain no dots, which is what makes the split safe.
         """
         root = roles_dir(self.repo_root)
@@ -268,6 +301,7 @@ class Index(object):
             order=cfg.get("order"),
             description=str(cfg.get("description") or "").strip(),
             when=str(cfg.get("when") or "").strip() or None,
+            provenance=str(cfg.get("provenance") or "").strip() or None,
             concepts=_as_list(cfg.get("concepts"))))
         entry = self.files[-1]
         self._by_rel[entry.rel] = entry
@@ -315,6 +349,49 @@ class Index(object):
                    sorted((f for f in self.files if f.owner == skill),
                           key=lambda f: f.cite or os.path.basename(f.path)))
         return out
+
+    def reachable(self, role):
+        """Every corpus file a writing role can arrive at, as a set of `rel` paths.
+
+        The transitive closure of citation, seeded from what the harness hands that role without
+        it asking: its cards, resolved by the dispatcher at run time, and the **one body** it
+        opens - named in `DISPATCHER_BODIES`, preloaded through `skills:`, and granted by path in
+        the Read guard. Finds files; judges nothing. `cmd_health._partition()` is what turns a
+        disagreement between this and the on-disk bucket into a defect.
+
+        Seeding from cards alone is the mistake that has now been made twice, and it fails
+        quietly both times: `revision-pass.owned-passes.md` is cited thirteen times and every one
+        of them is from `revision-pass/SKILL.md`, so a card-only closure sees no citation at all
+        and files six of the gate's own passes as unreachable. Nothing errors - the gate simply
+        stops opening them.
+        """
+        seeds = [f for f in self.files if f.type == _CARD_KIND_BY_ROLE.get(role)]
+        work = [(f.path, f.owner, f.rel) for f in seeds]
+        work += [(self.skills[n].path, n, "SKILL:%s" % n)
+                 for n in DISPATCHER_BODIES.get(role, ()) if n in self.skills]
+        seen = set()
+        while work:
+            path, owner, rel = work.pop()
+            if rel in seen:
+                continue
+            seen.add(rel)
+            for m in CITATION.finditer(mdio.read_text(path)):
+                target = self.resolve(m, owner)
+                if target is not None and target.rel not in seen:
+                    work.append((target.path, target.owner, target.rel))
+        return seen
+
+    def bucket_for(self, rel, reach):
+        """Where a file belongs, given `{role: reachable(role)}`. The partition's whole rule.
+
+        `shared` states a property rather than a membership - opened by more than one role - and
+        `design` is the residue: a note no card and no dispatcher body reaches. Design reads
+        every bucket, so this is never a claim about where the architect stops looking.
+        """
+        roles = sorted(r for r in CARD_ROLES.values() if rel in reach.get(r, ()))
+        if len(roles) > 1:
+            return "shared"
+        return roles[0] if roles else "design"
 
     def resolve(self, match, citing=None):
         """The file a `CITATION` match names, or None. Finds a file; judges nothing.

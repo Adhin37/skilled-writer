@@ -15,7 +15,7 @@ in `bible/cast/_extras.md`. A walk-on who needs a row is a promotion, not a row.
 important column. If it is empty for a character who has advanced a rung, that is a defect.
 **lasting harm**: what they can no longer do cheaply, and the chapter it happened in. Permanent —
 a separate axis from the rung, which moves, and from regression, which reverts. `—` is common and
-correct (`character-development/references/lasting-harm.md`).
+correct (`roles/design/character-development.lasting-harm.md`).
 
 ---
 

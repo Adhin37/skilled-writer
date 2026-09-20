@@ -13,7 +13,7 @@ Open this when a rung actually moves: somebody is learning something, sliding ba
 ## The other ladder — skills
 
 Beliefs are not the only thing that moves. Characters also **acquire competence**, and that runs on
-its own ladder in the skill section of `state/growth.md` (`competence-map/references/acquisition-ladder.md`). The two are
+its own ladder in the skill section of `state/growth.md` (`roles/draft/competence-map.acquisition-ladder.md`). The two are
 independent — progress on one does not imply progress on the other. `competence-map` owns the
 stage table, the three legal sources of an advance, and the montage rule. What belongs here is what
 an advance has to *sound* like:

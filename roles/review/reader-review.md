@@ -1,8 +1,7 @@
 # Reader review
 
-The procedure for [`test-run-protocol.md`](test-run-protocol.md) §8 — *then read the chapters
-yourself*. It turns that step from an instruction into a measurement with a fixed output shape, so
-one run's read is comparable with the next one's.
+The procedure for a test run's *then read the chapters yourself* step. It turns that instruction
+into a measurement with a fixed output shape, so one run's read is comparable with the next one's.
 
 One sentence holds the rest up. **Every instrument in this repo reads the novel with the bible
 open, and a reader does not have one.** `sw lint` reads chapter files, `sw audit` reads state,
@@ -10,11 +9,11 @@ open, and a reader does not have one.** `sw lint` reads chapter files, `sw audit
 reader has only the page. That is not a weaker position, it is a different one, and it is the only
 position from which you can see that a thing the novel knows never reached anybody.
 
-This file lives in `docs/` for the reason the protocol does: the drafting agent is told not to read
-`docs/`, and a rubric the drafter can see is a rubric the drafter writes toward. **Never cite this
-file from `.claude/**`, never summarise it into a skill, and never show its scale to a drafter.**
-Protocol §9 has the receipts — word count, dialogue share and `SPEECH_TARGET_LOW` were each
-optimised rather than satisfied, and each was visible.
+This file lives in `roles/review/` for the reason the role does: it is the one tree no drafting
+agent is ever given, and a rubric the drafter can see is a rubric the drafter writes toward.
+**Never cite this file from the corpus, never summarise it into a skill, and never show its scale
+to a drafter.** The receipts are on the maintainer's side of the repo — word count, dialogue share
+and `SPEECH_TARGET_LOW` were each optimised rather than satisfied, and each was visible.
 
 ---
 
@@ -31,12 +30,12 @@ repairs the prose silently, in the reader's head, exactly where the defect is.
 | reader | quality of read | what to do |
 |---|---|---|
 | the `reader` agent (`.claude/agents/reader.md`) | **best** | preferred. It has no `Skill` tool and `omitClaudeMd: true`, so the corpus cannot reach it. Give it the chapter directory |
-| a fresh session, or a human who did not follow the run | **good** | hand over this file and the chapter paths. Not [the worked example](reader-review-example.md) — it carries a verdict |
+| a fresh session, or a human who did not follow the run | **good** | hand over this file and the chapter paths. Not [the worked example](roles/review/reader-review-example.md) — it carries a verdict |
 | the coordinator, some days later | **usable** | note it in the write-up as a contaminated read and expect it to score high |
 | the coordinator, same session | **not a read** | do it anyway if there is no alternative, but record the verdict as an impression, never as a review |
 
-Run #5's cold read, [the worked example](reader-review-example.md), came from a reader who had not seen this file, the
-protocol, or `benchmark.md`, and was not told the chapters were a benchmark. That is the standard
+Run #5's cold read, [the worked example](roles/review/reader-review-example.md), came from a reader who had not seen this file, the
+protocol, or the benchmark record, and was not told the chapters were a benchmark. That is the standard
 to reproduce.
 
 **Do not read `sw audit` output first.** Numbers anchor. A reader who knows `house-style` fired on
@@ -233,13 +232,13 @@ wc -w [0-9]*.md
 
 Then, and only then, the protocol's own measurement commands — `sw audit`, `sw history`,
 `sw arc` — to see what the instruments caught and what they did not. The comparison is a finding in
-its own right; [the worked example](reader-review-example.md) shows the shape.
+its own right; [the worked example](roles/review/reader-review-example.md) shows the shape.
 
 ---
 
 ## 7. Worked example
 
-Split out to [`reader-review-example.md`](reader-review-example.md) — run #5's cold read, with the
+Split out to [`roles/review/reader-review-example.md`](roles/review/reader-review-example.md) — run #5's cold read, with the
 output shape of every phase above filled in.
 
 It is a separate file because it contains a verdict. A reader handed the example along with the

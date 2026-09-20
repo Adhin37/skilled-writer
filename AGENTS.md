@@ -12,9 +12,9 @@ agent regardless of harness.
   **audit card** checks one thing in the gate. Modules are reached through their cards, never
   through their `SKILL.md` — the body is for designing the thing, the card for deciding it.
 - Cards are short for **attention**, not for context. The budget that binds is how many rules a
-  drafter holds open at once; the window stopped being the scarce resource once the harness
-  started compressing by default. Length spent on a worked example is fine and length spent on
-  another prohibition is not, whatever the file size.
+  drafter holds open at once; the window is not the scarce resource, since a bounded read-set
+  costs a few thousand tokens against a very large one. Length spent on a worked example is fine
+  and length spent on another prohibition is not, whatever the file size.
 - Slash commands live in `.claude/commands/*.md`.
 - Stories live in `novels/<slug>/`. The scaffold is `novels/_template/`.
 - `novels/<slug>/novel.md` is the per-novel config: genre, POV mode, MC intel tier, channels,
@@ -25,8 +25,9 @@ agent regardless of harness.
 - **A benchmark or test run of the toolkit follows [docs/test-run-protocol.md](docs/test-run-protocol.md)**,
   read before the run starts. It binds the coordinating session — the one that never writes a file
   under `novels/` — and not the agent doing the writing, which is told not to read `docs/` at all.
-  That ban is scoped to the `draft` and `gate` roles; the `review` role's whole procedure lives in
-  `docs/reader-review.md`. See **[CLAUDE.md](CLAUDE.md) §10**.
+  That ban now binds `review` as well: the reader's whole procedure moved out to
+  `roles/review/reader-review.md`, so `docs/` is six maintainer files and the coordinator is the
+  only role that opens any of them. See **[CLAUDE.md](CLAUDE.md) §10**.
 
 ## The one rule that matters most
 

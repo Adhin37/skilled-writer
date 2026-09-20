@@ -34,7 +34,7 @@ normal profile at their tier, plus the `mirror:` block in the frontmatter — `m
 from the source character's, changed only where their separate life has changed them.
 
 Three things the profile must still answer, because they are what makes a double a character rather
-than a duplicate file (`voice-separation/references/mirror-clause.md`):
+than a duplicate file (`roles/shared/voice-separation.mirror-clause.md`):
 
 - **What has diverged since `diverged_ch`**, and at what rate. Different experiences make different
   people; a copy who has lived thirty chapters apart and sounds identical is a puppet, which is

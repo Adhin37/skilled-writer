@@ -124,9 +124,9 @@ Most cases were obvious once asked. A few were genuine splits, and the split is 
 | the `event` field | `chapter-plan`, because it is decided at plan time | `write-chapter` checks the row carries a real one |
 | lasting harm | `character-development` owns the altered baseline — permanent, and it does not reset | `conflict-engine` owns what the chapter *took*; `grimdark-consequences` owns the severity band when it is on |
 
-The last row is the one that had no owner rather than two. `conflict-engine/references/aftermath.md`
+The last row is the one that had no owner rather than two. `roles/design/conflict-engine.aftermath.md`
 gave permanent harm a single table row — *"it is in the character's continuity facts"* — and
-`character-development/references/ladders.md` defines regression as **temporary and visible**, so a
+`roles/draft/character-development.ladders.md` defines regression as **temporary and visible**, so a
 character permanently altered by what happened to them was neither. The third owner is the reason it
 went unnoticed: `permanent-consequence` belongs to `grimdark-consequences`, which is **optional**, so
 the corpus read as covered while every default novel had nothing. The split follows the existing
@@ -275,7 +275,7 @@ every model of this family writes it.
 Two consequences. The section is now seven positive commitments and ten bans, because a model
 given only prohibitions optimises for avoidance and has nothing left over for invention. And the
 tells that matter are measured off this repo's actual output rather than copied from a generic
-list — `prose-quality/references/ai-default-tells.md` names seven, with counts.
+list — `roles/gate/prose-quality.ai-default-tells.md` names seven, with counts.
 
 The positive rule is the load-bearing one: **some sentences must carry information and nothing
 else.** The disease is uniform density, not any construction. An early version of `sw lint` tried
@@ -444,7 +444,7 @@ set up in. A table nothing reads is not a rule, it is a note.
 The one place this skill deliberately does *not* go is severity. Whether a loss hurts belongs to
 `conflict-engine`'s stake ladder, and the two axes move independently: raising both every arc is
 arithmetically a working curve and dramatically nothing, because the reader never experiences a
-tier, only the gap. That failure has a name in `power-scaling/references/failure-modes.md` — the
+tier, only the gap. That failure has a name in `roles/shared/power-scaling.failure-modes.md` — the
 treadmill — along with the six other ways a curve dies, five of which are countable and therefore
 belong to `sw curve` rather than to a checklist nobody rereads.
 

@@ -77,7 +77,7 @@ first human reader as having stiff dialogue and characters who were never introd
 | turn length | `cast` | each speaker's measured mean against the `turn` their own matrix row declares, with attribution coverage |
 | `near-clash` | `cast` | two speakers alike on intel **and** articulacy, differing only in wit |
 | `eq-*` | `cast` | the `eq` axis: a matrix with no values, nobody reading people better than the MC, a cast whose `eq` always equals `intel`, and two speakers sharing both. All warns; the only defect is a matrix that contradicts `mc.eq_tier` |
-| `group-scene` | `lint` | which scenes have three or more cast members speaking, and who they are — a trigger surface for `scene-craft/references/group-scenes.md`, never a verdict |
+| `group-scene` | `lint` | which scenes have three or more cast members speaking, and who they are — a trigger surface for `roles/design/scene-craft.group-scenes.md`, never a verdict |
 
 **None of these is a gate.** They are notes and warns, and there is a test asserting the texture
 findings can never be raised to a defect. This repo has twice built a number that decided whether
@@ -87,7 +87,7 @@ points. Read them to find where to look; fix what a reader would feel.
 
 There is no companion check for a child's or an elderly character's register, and that is a
 decision rather than a gap: detecting who is a child would mean guessing from a turn length or
-adding an axis to the voice matrix, and `voice-separation/references/age-register.md` states that
+adding an axis to the voice matrix, and `roles/design/voice-separation.age-register.md` states that
 age does not get an axis. A check that guesses is a number somebody writes toward.
 
 Turn-length attribution is deliberately conservative: a line counts for a speaker only when

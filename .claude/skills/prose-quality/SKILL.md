@@ -22,8 +22,8 @@ nothing is pushing back.
 
 | file | open it when |
 |---|---|
-| `references/ai-default-tells.md` | **the house style** — `sw lint` reports `house-style`, `em-dash` or `closer-sameness`; a chapter reads as machine-made and no banned phrase explains why; or you are revising chapter 1 of a new novel |
-| `.claude/roles/gate/prose-quality.audit-card.md` | never, by you. `revision-pass` Pass 8 opens it |
+| `roles/gate/prose-quality.ai-default-tells.md` | **the house style** — `sw lint` reports `house-style`, `em-dash` or `closer-sameness`; a chapter reads as machine-made and no banned phrase explains why; or you are revising chapter 1 of a new novel |
+| `roles/gate/prose-quality.audit-card.md` | never, by you. `revision-pass` Pass 8 opens it |
 
 ## Range before polish
 
@@ -62,7 +62,7 @@ register, not a person, and `narration.voice_notes` plus `style.read_like` in `n
 give it more than one.
 
 Full diagnosis, the seven measured tells and why they cluster:
-`references/ai-default-tells.md`.
+`roles/gate/prose-quality.ai-default-tells.md`.
 
 ## Positive standards
 
@@ -96,7 +96,7 @@ nodding. If it does not change something, delete it. Nodding is the single most 
 **A beat that identifies nobody is stage business.** The default gesture set — `voice-separation`
 owns the list, and `sw lint` sweeps for it — is available to every character and therefore attached
 to none. Replace with that character's own hand-habit or pressure move
-(`voice-separation/references/channels.md`), or cut the beat — `dialogue-voice` owns the trade.
+(`roles/draft/voice-separation.channels.md`), or cut the beat — `dialogue-voice` owns the trade.
 
 ## Filter verbs and telling
 

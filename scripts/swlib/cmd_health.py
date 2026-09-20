@@ -121,6 +121,7 @@ def run(repo_root, commands=None):
     _kb(repo_root, rep)
     _force(repo_root, rep)
     _role(repo_root, rep)
+    _partition(repo_root, rep)
     _agents(repo_root, rep)
     _settings_hooks(repo_root, rep)
     _card_budget(repo_root, rep)
@@ -152,7 +153,7 @@ def _corpus_floor(repo_root, rep):
     idx = kb.index(repo_root, refresh=True)
     for shortfall in idx.shortfalls:
         rep.defect("corpus-floor", shortfall,
-                   detail="rules.CORPUS_FLOOR. Check that .claude/skills/ and .claude/roles/ "
+                   detail="rules.CORPUS_FLOOR. Check that .claude/skills/ and roles/ "
                           "are both present before trusting any other line of this report.")
 
 
@@ -201,15 +202,23 @@ def _references(idx, names, rep):
     `_dangling_cards`, which was the same check narrowed to cards and written with its own
     third copy of the citation regex. One regex now, `kb.CITATION`, and one resolver.
     """
-    owned_text = {}
+    # J1 - every reference is cited by something its own owner wrote. Asked through the
+    # resolver, not by looking for the basename in the owner's text: a role file is
+    # `<owner>.<stem>.md` on disk and is legally cited by either its full path or its bare stem,
+    # and a substring test sees only the first. So the old form reported a live pointer as an
+    # orphan - the same string-matching heuristic this check was rewritten to stop using, left
+    # behind in the one place it still decided something. Same resolver as J2, one call each.
+    cited = set()
     for name in names:
-        owned_text[name] = "\n".join(mdio.read_text(p) for p in idx.owned_files(name))
-
-    # J1 - every reference is cited by something its own owner wrote.
+        for path in idx.owned_files(name):
+            for m in kb.CITATION.finditer(mdio.read_text(path)):
+                target = idx.resolve(m, name)
+                if target is not None:
+                    cited.add((name, target.rel))
     for f in idx.files:
         if f.type != "reference":
             continue
-        if os.path.basename(f.path) not in owned_text.get(f.owner, ""):
+        if (f.owner, f.rel) not in cited:
             rep.defect("skill-reference",
                        "%s is never cited by anything %s owns - a pointer without a trigger is "
                        "not read" % (f.rel, f.owner), path=f.path)
@@ -243,6 +252,13 @@ def _references(idx, names, rep):
             # unusable, which is how a check gets switched off. The qualified forms carry
             # `references/` or a role path, so an unresolved one is unambiguously broken.
             if m.group("bare"):
+                continue
+            # A role path the index cannot resolve but which **exists on disk** is not broken.
+            # `roles/review/` is the case: the reader carries no corpus, so `kb.BUCKETS` does not
+            # list it and `resolve()` answers None for two files that open perfectly well. The
+            # defect this check raises is about openability, so the filesystem is the right
+            # oracle for it - the index is the right one for everything above.
+            if m.group("rel") and os.path.isfile(os.path.join(idx.repo_root, m.group("rel"))):
                 continue
             rep.defect("skill-reference",
                        "cites `%s`, which does not exist - the reader is sent to a file "
@@ -683,6 +699,135 @@ def _role(repo_root, rep):
         if not idx.view(role)[0]:
             rep.warn("skill-role",
                      "no skill declares role `%s` - the role resolves to an empty view" % role)
+
+
+# `<owner>.<stem>.md`, and owner names contain no dots - which is what makes the split safe.
+ROLE_FILE = re.compile(r"^[a-z][a-z0-9-]*\.[a-z0-9-]+\.md$")
+
+
+def _partition(repo_root, rep):
+    """The role trees are a partition, and this is the check that replaces a prose rule.
+
+    Five assertions, one per way the layout can go wrong. They are what makes "a drafting agent
+    never opens a `SKILL.md`" unfalsifiable rather than obeyed: there is no body in the tree to
+    open, and a file in the wrong bucket is a visibly wrong path rather than a subtly wrong file.
+
+    **A sixth assertion from Part 7 is deliberately absent** - *no `draft/` file is reachable
+    from an audit card, and none in `gate/` from a draft card*. It is the special case of the
+    closure assertion below where the disagreement is a card's, so implementing it would be a
+    second copy of a check under a different name, which is the defect class this repo exists to
+    remove. `kb.Index.reachable()` computes both closures once and the bucket comparison catches
+    it: a `draft/` file the gate reaches wants `shared`, and wanting `shared` while sitting in
+    `draft/` is already a defect.
+
+    A missing `roles/` is **not** reported here. `_corpus_floor` owns "the corpus vanished", it
+    runs first, and it is anchored to this repo - so a two-skill fixture that never writes a role
+    file is silent here rather than being asked to have a partition it has no reason to.
+    """
+    root = kb.roles_dir(repo_root)
+    if not os.path.isdir(root):
+        return
+    idx = kb.index(repo_root, refresh=True)
+
+    # 1 - no body in a role tree. The whole point, and the one that needs no index.
+    # 2 - one bucket deep, `.md` only, named `<owner>.<stem>.md`.
+    known = set(kb.BUCKETS) | set(kb.ROLES_WITHOUT_CORPUS)
+    for name in sorted(os.listdir(root)):
+        path = os.path.join(root, name)
+        if not os.path.isdir(path):
+            rep.defect("partition",
+                       "roles/%s is a file at the root of the role trees - every corpus file "
+                       "belongs to exactly one bucket" % name, path=path)
+            continue
+        if name not in known:
+            rep.defect("partition",
+                       "roles/%s/ is not a bucket - the buckets are %s"
+                       % (name, ", ".join(sorted(known))), path=path)
+            continue
+        for fname in sorted(os.listdir(path)):
+            fpath = os.path.join(path, fname)
+            if fname == "SKILL.md":
+                rep.defect("partition",
+                           "roles/%s/SKILL.md is a skill body inside a role tree - a body is "
+                           "for designing the thing, a card for deciding it" % name, path=fpath)
+            elif os.path.isdir(fpath):
+                rep.defect("partition",
+                           "roles/%s/%s/ is a subdirectory - a bucket is flat, so a path can "
+                           "go straight to Read with no resolution step" % (name, fname),
+                           path=fpath)
+            elif not fname.endswith(".md"):
+                rep.defect("partition", "roles/%s/%s is not a `.md` file" % (name, fname),
+                           path=fpath)
+            elif name not in kb.ROLES_WITHOUT_CORPUS and not ROLE_FILE.match(fname):
+                # `review` is exempt: the reader carries no corpus, so its two files are
+                # documents rather than owned notes and neither declares an owner to prefix.
+                rep.defect("partition",
+                           "roles/%s/%s is not `<owner>.<stem>.md` - the prefix is the checksum "
+                           "on the declared owner" % (name, fname), path=fpath)
+
+    # 3 - the closure agrees with the shelf. The one with teeth: it is what tells you a NEW
+    #     note cited from both sides belongs in `shared/`, before either role is refused it.
+    reach = dict((role, idx.reachable(role)) for role in kb.CARD_ROLES.values())
+    for f in idx.files:
+        want = idx.bucket_for(f.rel, reach)
+        if f.bucket is None:
+            rep.defect("partition",
+                       "%s is a corpus file outside the role trees - it belongs in "
+                       "roles/%s/" % (f.rel, want), path=f.path)
+        elif f.bucket != want:
+            rep.defect("partition",
+                       "%s sits in roles/%s/ but is reached by %s - it belongs in roles/%s/"
+                       % (f.rel, f.bucket, _reached_by(f.rel, reach) or "neither role", want),
+                       path=f.path)
+
+    # 4 - and a skill that writes a card declares the role that opens it. A warn, not a defect:
+    #     the card is the evidence and `metadata.role:` is the declaration, so a disagreement is
+    #     a stale declaration far more often than it is a misfiled card.
+    #
+    #     Scoped to CARDS, not to every file the skill owns, and the wider form was tried first
+    #     and is wrong. A note's bucket is a property of the citation GRAPH - who cites it -
+    #     while `metadata.role:` is a property of the SKILL, and the two legitimately diverge
+    #     wherever a merged card names a second owner: `roles/draft/character-development.ladders.md`
+    #     sits in the drafter's tree because `voice-separation`'s draft card cites it, and the
+    #     drafter still never opens `character-development/SKILL.md`. The wide form fired on six
+    #     such cases here, which is how a warn stops being read.
+    for f in idx.files:
+        role = kb.CARD_ROLES.get(f.type)
+        skill = idx.skills.get(f.owner)
+        if role and skill is not None and role not in (skill.role or []):
+            rep.warn("partition",
+                     "`%s` owns %s but does not declare `metadata.role: %s` - the role that "
+                     "opens the card does not have the skill in its view"
+                     % (f.owner, f.rel, role), path=skill.path)
+
+    # 5 - and nothing in a writing role's tree sends it into `docs/`. `design` is exempt, being
+    #     the one role that is not denied it; every other bucket, `review` included, is bound.
+    #     Maintainer-facing rationale belongs in `provenance:`, where it costs no body words and
+    #     cannot read as an instruction. Without this the ban is a sentence in `AGENTS.md`.
+    for bucket in sorted(known - {"design"}):
+        bdir = os.path.join(root, bucket)
+        if not os.path.isdir(bdir):
+            continue
+        for fname in sorted(os.listdir(bdir)):
+            if not fname.endswith(".md"):
+                continue
+            fpath = os.path.join(bdir, fname)
+            body = mdio.split_frontmatter(mdio.read_text(fpath))[1]
+            for i, line in enumerate(body.split("\n"), 1):
+                m = DOCS_CITATION.search(line)
+                if m:
+                    rep.defect("partition",
+                               "roles/%s/%s cites `%s`, which its own role may not open - move "
+                               "maintainer rationale to `provenance:` in the frontmatter"
+                               % (bucket, fname, m.group(0)), path=fpath, line=i)
+                    break
+
+
+DOCS_CITATION = re.compile(r"\bdocs/[A-Za-z0-9._-]+\.md")
+
+
+def _reached_by(rel, reach):
+    return ", ".join(sorted(r for r in reach if rel in reach[r]))
 
 
 AGENTS_REL = os.path.join(".claude", "agents")

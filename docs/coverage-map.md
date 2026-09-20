@@ -166,12 +166,12 @@ So the next sweep does not re-litigate it.
   satisfied. `docs/design-notes.md` §Why the scripts do not judge is the argument.
 - **A lint check for a child's or an elderly character's register.** Detecting who is a child
   means guessing from a turn length or adding an axis to the voice matrix, and
-  `voice-separation/references/age-register.md` states that age does not get an axis. A check
+  `roles/design/voice-separation.age-register.md` states that age does not get an axis. A check
   that guesses is a number somebody writes toward. The group-scene note has no such problem —
   three speakers in a scene is a fact, not an inference — so that one exists.
 - **A lint check for narrative space.** The atmosphere failure — a world that is vivid, inside
   every budget, and never handled — is measured and real, and it stays a craft default carried by
-  `world-texture/references/narrative-space.md` and one box on each of two cards. Separating action
+  `roles/draft/world-texture.narrative-space.md` and one box on each of two cards. Separating action
   space from perceived space took the source paper fine-tuned classifiers at macro-F1 0.82. A
   regex over mood words would be inferring, which is the same objection as the bullet above, and a
   chapter would be edited to beat it. The handled-noun test is a question a person answers.
@@ -196,14 +196,14 @@ So the next sweep does not re-litigate it.
 
 - **One-sided rules.** A rule stated as a range or a positive requirement, where only the
   violation-by-excess is detectable and the violation-by-absence is invisible. The pattern is named
-  in `mc-design/references/form-ledger.md` rule 9 and is worth re-running against any new rule that
+  in `roles/shared/mc-design.form-ledger.md` rule 9 and is worth re-running against any new rule that
   states a range. **Swept again on 2026-09-13** — results below.
 
 - ~~**Trauma at novel scale.**~~ **Closed 2026-09-13.** `character-development` owns
-  `lasting-harm`; `conflict-engine/references/aftermath.md`'s *permanently* row hands off to it
+  `lasting-harm`; `roles/design/conflict-engine.aftermath.md`'s *permanently* row hands off to it
   instead of stopping at continuity facts, and `state/growth.md` carries the column.
 - ~~**Politics and negotiation as a scene type.**~~ **Closed 2026-09-13.**
-  `scene-craft/references/negotiation.md`, a scene type under `scene-craft` with no slug of its
+  `roles/design/scene-craft.negotiation.md`, a scene type under `scene-craft` with no slug of its
   own, on the `group-scenes.md` precedent.
 - ~~**Non-human POV.**~~ **Closed 2026-09-13.** `pov-switch` §Non-human viewpoints answers
   eligibility and what the four channels mean for a mind without language.

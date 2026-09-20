@@ -6,6 +6,7 @@ phase: A
 order: 8
 description: Who is on the page, what each can supply, and who has to ask
 when: always
+provenance: docs/creative-latitude.md
 ---
 
 # competence-map — draft card
@@ -18,7 +19,7 @@ a convenient mouth answering, the fix is a rewrite, not an edit.
 `character-profile`'s, which owns the tiers, the debut and the walk-on roster. They are the same
 decision seen from two sides — who is in this scene, and what can each of them actually supply — and
 a walk-on's third stroke *is* their competence map. Each half names its owner; the card budget is
-why they share a file (`docs/creative-latitude.md`).
+why they share a file.
 
 **Produce two lines:** the thing this chapter needs known, whose map covers it, and who must go to
 somebody else for it — and the cast tier of anyone new, decided **before they speak**.
@@ -61,8 +62,8 @@ Every stated fact carries a provenance: **taught · did · told · read · openl
 cannot name one, they cannot say the line. Foreknowledge is a sixth, bounded to the declared grain
 and inventory — and it is never provenance for a *skill*.
 
-Somebody learning something across chapters: `.claude/skills/competence-map/references/acquisition-ladder.md`. A god, immortal or
-artificial mind with `knowledge_scope: broad`: `.claude/skills/competence-map/references/broad-knowledge.md`.
+Somebody learning something across chapters: `roles/draft/competence-map.acquisition-ladder.md`. A god, immortal or
+artificial mind with `knowledge_scope: broad`: `roles/shared/competence-map.broad-knowledge.md`.
 
 ## Anyone new — `character-profile`'s half
 
@@ -87,7 +88,7 @@ narrator's register, which is the MC's.
 
 Do not stop to build a profile mid-draft; sketch, log the roster line in Step 5, promote at a third
 appearance. The tiers are `character-profile`'s rule, and what an A or B record contains is
-`.claude/skills/character-profile/references/tier-a-and-b.md`.
+`roles/draft/character-profile.tier-a-and-b.md`.
 
 `bias-guard` applies at every tier and is broken most often at C. One detail is all a walk-on
 gets, and the corpus default will make that detail a stereotype unless the stroke is chosen

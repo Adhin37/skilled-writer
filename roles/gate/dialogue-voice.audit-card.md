@@ -45,10 +45,10 @@ and let somebody take the rest off them.
 
 | symptom | what it actually is | go to |
 |---|---|---|
-| Every line is answerable and complete | nobody is talking, they are reading prose aloud | `.claude/skills/dialogue-voice/references/spoken-register.md` |
+| Every line is answerable and complete | nobody is talking, they are reading prose aloud | `roles/gate/dialogue-voice.spoken-register.md` |
 | Two speakers are distinct on paper and identical on the page | they share a cadence | `voice-separation` §3, the cadence test |
 | The subtext is explained in the beat after it | the narration does not trust the line | delete the beat |
-| A character says exactly what they mean, always | no `won't say` | `.claude/skills/dialogue-voice/references/subtext.md` |
+| A character says exactly what they mean, always | no `won't say` | `roles/gate/dialogue-voice.subtext.md` |
 
 ## What it looks like when it lands
 

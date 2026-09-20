@@ -13,7 +13,7 @@ import unittest
 
 from fixtures import REPO  # noqa: F401  (puts scripts/ on sys.path)
 
-from swlib import cmd_health
+from swlib import cmd_health, kb
 
 
 def checks(rep, level="defect"):
@@ -26,6 +26,7 @@ class Fake(object):
     def __enter__(self):
         self.dir = tempfile.mkdtemp(prefix="sw-health-")
         self.skills = os.path.join(self.dir, ".claude", "skills")
+        self.roles = os.path.join(self.dir, "roles")
         os.makedirs(self.skills)
         return self
 
@@ -41,12 +42,28 @@ class Fake(object):
         with open(os.path.join(d, "SKILL.md"), "w", encoding="utf-8", newline="\n") as fh:
             fh.write("---\n%s\n---\n\n# %s\n\n%s\n" % (fm, name, body))
         for fname, text in (references or {}).items():
-            rd = os.path.join(d, "references")
-            if not os.path.isdir(rd):
-                os.makedirs(rd)
-            with open(os.path.join(rd, fname), "w", encoding="utf-8", newline="\n") as fh:
-                fh.write(text)
+            self.role_file(name, fname, text)
         return d
+
+    def role_file(self, owner, stem, text, bucket=None):
+        """A corpus file in the tree the real repo keeps it in: `roles/<bucket>/owner.stem.md`.
+
+        It used to write `<skill>/references/<stem>.md`, which `kb` still resolves - the old
+        layout stays recognised so a citation written before the move can be found and rewritten.
+        But `_partition()` asks where a file **sits**, not whether it resolves, so a fixture repo
+        shaped the old way defects on a layout no real repo has any more. The bucket is inferred
+        from the stem for the same reason `kb.CARD_KINDS` does: a card's kind names the role that
+        opens it, and everything else is shared until a closure says otherwise.
+        """
+        if bucket is None:
+            bucket = kb.CARD_ROLES.get(kb.CARD_KINDS.get(stem, (None,))[0], "shared")
+        d = os.path.join(self.roles, bucket)
+        if not os.path.isdir(d):
+            os.makedirs(d)
+        path = os.path.join(d, "%s.%s" % (owner, stem))
+        with open(path, "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(text)
+        return path
 
     def command(self, name):
         d = os.path.join(self.dir, ".claude", "commands")

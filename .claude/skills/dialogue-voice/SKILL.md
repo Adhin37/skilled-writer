@@ -21,8 +21,8 @@ is speaking, the scene is broken.** This skill is how you pass that test cheaply
 
 | file | open it when |
 |---|---|
-| `references/subtext.md` | building a scene between two people who want different things, or a scene is reading as an exchange of facts |
-| `references/corpus-anti-patterns.md` | two characters will not separate however hard you push the fingerprints, or the dialogue is reading as machine-translated |
+| `roles/gate/dialogue-voice.subtext.md` | building a scene between two people who want different things, or a scene is reading as an exchange of facts |
+| `roles/draft/dialogue-voice.corpus-anti-patterns.md` | two characters will not separate however hard you push the fingerprints, or the dialogue is reading as machine-translated |
 
 ## The layer under this one
 
@@ -37,7 +37,7 @@ Two rules from that skill bind every scene written here:
   `sw cast` checks them.
 
 The exception is a declared **mirror** — a clone, avatar, double or body-snatch, who is permitted
-to share the original's fingerprint. See `voice-separation/references/mirror-clause.md`.
+to share the original's fingerprint. See `roles/shared/voice-separation.mirror-clause.md`.
 
 ## Before writing a scene
 
@@ -112,7 +112,7 @@ not *"Fine," he said angrily* but *"Fine." He put the cup down harder than he me
 
 **Beats carry blocking, and the beat must be theirs.** Use action beats to keep bodies in space and
 to control rhythm — one every three to four exchanges, more in tense scenes, fewer in fast ones.
-Draw each from that character's **hands** field and **pressure move** (`voice-separation/references/channels.md`), so
+Draw each from that character's **hands** field and **pressure move** (`roles/draft/voice-separation.channels.md`), so
 the beat identifies the speaker as well as the line does. Never from the default gesture set
 (`voice-separation` owns the list, and `sw lint` sweeps for it): those gestures belong to everyone
 and therefore to nobody. A line with no beat beats a line with a generic one.
@@ -176,7 +176,7 @@ speaking. Do not write toward the floor. A chapter inflated with muttering to cl
 the padding this target exists to prevent, and it has happened — benchmark run #2, chapter 2, at
 10.2%.
 
-Open `references/spoken-register.md` §Why a cast goes quiet for the diagnostic and the two
+Open `roles/gate/dialogue-voice.spoken-register.md` §Why a cast goes quiet for the diagnostic and the two
 structural consequences of a silent cast.
 
 ## How it sounds spoken
@@ -210,7 +210,7 @@ Share is how *much* the cast speaks. This is whether it sounds spoken.
 - **Register is per character.** A cast where nobody says *don't* reads as translated.
 
 `sw lint` prints a **dialogue texture** line per chapter: read it to find where to look, never as
-a target. Open `references/spoken-register.md` for the measured failure and the repair table.
+a target. Open `roles/gate/dialogue-voice.spoken-register.md` for the measured failure and the repair table.
 
 ## Subtext
 
@@ -232,7 +232,7 @@ Both empty means the scene has no subtext available and needs none — a clerk r
 allowed to just refuse it. Empty for *every* scene in a chapter means the chapter is a briefing.
 
 The five techniques, the rules of use, and the four scenes where subtext is the wrong tool:
-**`references/subtext.md`**. Two that are never negotiable — **never gloss it** (if the reader
+**`roles/gate/dialogue-voice.subtext.md`**. Two that are never negotiable — **never gloss it** (if the reader
 might miss it, add a beat, not a sentence of interpretation), and **articulacy sets the shape, not
 the presence** (a low-articulacy character's subtext is a changed subject and a hand on a
 doorframe, not an epigram).

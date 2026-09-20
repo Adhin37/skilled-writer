@@ -44,7 +44,7 @@ Resolved against the live novel at chapter 6:
 Sixteen thousand words of instruction and 596 prohibitions reach the model before a line of story
 state does.
 
-`write-chapter/references/draft-cards.md` describes benchmark run #2 as having opened **nineteen
+`roles/draft/write-chapter.card-index.md` describes benchmark run #2 as having opened **nineteen
 cards** and held "roughly thirty simultaneous constraints", and says of the result: *"a model
 spending its budget on not-failing has none left for deciding what happens."* Phase A is at
 nineteen cards again. Phase C is at twenty-three.

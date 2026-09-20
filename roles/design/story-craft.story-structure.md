@@ -27,7 +27,7 @@ that follows; a short act three works if the climax resolves what the story prom
 third has not built anything to climax from.
 
 For a serial, the act boundary that matters is not the novel's — it is the arc's, and the reader's
-decision to continue, which happens far earlier. See `references/serial-pacing.md`.
+decision to continue, which happens far earlier. See `roles/design/story-craft.serial-pacing.md`.
 
 ## Try/fail cycles — how a win becomes earned
 
@@ -59,7 +59,7 @@ understanding of the problem is proven wrong, a false victory reveals a larger t
 reactive protagonist becomes an active one.
 
 The measured machine failure is to introduce the major setback and the climax briefly and settle
-both quickly, which flattens the arc — see `references/why-ai-rushes.md`. Pressure should be rising
+both quickly, which flattens the arc — see `roles/design/story-craft.why-ai-rushes.md`. Pressure should be rising
 *from* the midpoint, not discharging at it.
 
 ## The story spine

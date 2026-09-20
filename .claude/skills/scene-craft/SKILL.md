@@ -27,10 +27,10 @@ scene is a skipped chapter.
 
 | file | open it when |
 |---|---|
-| `references/group-scenes.md` | the scene has three or more speakers — roles, blocking, turn allocation, and who is deliberately silent. At three, a scene changes category |
-| `references/negotiation.md` | the turn of the scene is who concedes what — a bargain, a hearing, a truce, a council, an interrogation where both sides hold something |
-| `.claude/roles/draft/scene-craft.draft-card.md` | never, by you. `write-chapter` Phase A opens it |
-| `.claude/roles/gate/scene-craft.audit-card.md` | never, by you. `revision-pass` Passes 4 and 9 open it |
+| `roles/design/scene-craft.group-scenes.md` | the scene has three or more speakers — roles, blocking, turn allocation, and who is deliberately silent. At three, a scene changes category |
+| `roles/design/scene-craft.negotiation.md` | the turn of the scene is who concedes what — a bargain, a hearing, a truce, a council, an interrogation where both sides hold something |
+| `roles/draft/scene-craft.draft-card.md` | never, by you. `write-chapter` Phase A opens it |
+| `roles/gate/scene-craft.audit-card.md` | never, by you. `revision-pass` Passes 4 and 9 open it |
 
 ## The scene unit
 
@@ -137,10 +137,10 @@ room. One spatial anchor per paragraph in action; one every three exchanges in d
 | Conversation | two people exchanging information | give each a different want, and let one lie |
 | Fight | choreography without stakes | decide before writing what is lost by the end. See `combat-choreography` |
 | Travel | a montage of distance | either something happens on the road, or it is one sentence |
-| Training | a montage of competence | show the cost and the failure, not the progression. One stage of the ladder per scene at most, and only when a stage actually turns over — practice between stages is a clause, not a scene (`competence-map/references/acquisition-ladder.md`) |
+| Training | a montage of competence | show the cost and the failure, not the progression. One stage of the ladder per scene at most, and only when a stage actually turns over — practice between stages is a clause, not a scene (`roles/draft/competence-map.acquisition-ladder.md`) |
 | Discovery | a lecture | the POV character wants something *else*; discovery interrupts it |
 | Aftermath | drifting reflection | make it a decision scene: what will they do now |
-| Political | names and titles the reader can't hold | ground in one concrete thing on the table, and decide what each side would actually settle for (`references/negotiation.md`) |
+| Political | names and titles the reader can't hold | ground in one concrete thing on the table, and decide what each side would actually settle for (`roles/design/scene-craft.negotiation.md`) |
 
 ## Transitions
 

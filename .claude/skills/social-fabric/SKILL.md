@@ -29,10 +29,10 @@ it can constrain a scene, be contradicted, or recur. Target **600–1,000 words*
 
 | file | open it when |
 |---|---|
-| `references/genre-notes.md` | the society layer is built and has to reach a chapter, or you want the notes on how the six questions land in fantasy, scifi and fanfic |
-| `references/gendered-experience.md` | building the society layer, or the cast's men and women move through the world identically and read as one another with different names |
-| `references/prices-and-stakes.md` | a scene turns on what something costs, the MC gains or loses money, or the arc's financial stakes keep coming out vague — the anchor wage, the six prices, and debt as a deadline |
-| `references/belief-and-ritual.md` | the story enters a temple, a funeral, a wedding, an oath, a festival or a taboo — or question 5 is answered and has reached no scene |
+| `roles/design/social-fabric.genre-notes.md` | the society layer is built and has to reach a chapter, or you want the notes on how the six questions land in fantasy, scifi and fanfic |
+| `roles/design/social-fabric.gendered-experience.md` | building the society layer, or the cast's men and women move through the world identically and read as one another with different names |
+| `roles/shared/social-fabric.prices-and-stakes.md` | a scene turns on what something costs, the MC gains or loses money, or the arc's financial stakes keep coming out vague — the anchor wage, the six prices, and debt as a deadline |
+| `roles/design/social-fabric.belief-and-ritual.md` | the story enters a temple, a funeral, a wedding, an oath, a festival or a taboo — or question 5 is answered and has reached no scene |
 
 ## 1. The six load-bearing questions
 
@@ -103,7 +103,7 @@ Societies are not uniform, and a uniform one reads as fake in one paragraph.
 - **Gender changes the same fact too**, in whatever way this society decides — and what each
   character *does* about that expectation is theirs, not their gender's. The six terms to declare,
   the stance table that keeps it from becoming two templates, and how it reaches dialogue:
-  `references/gendered-experience.md`. The floor in §5 binds all of it.
+  `roles/design/social-fabric.gendered-experience.md`. The floor in §5 binds all of it.
 
 ## 4. Counter-pressure
 

@@ -49,7 +49,7 @@ moved first), **cost** (they saw the answer and could not afford it), and the **
 four conditions `social-perception` owns — the signal on the page, the reading reasonable for their
 tier, the true cause also visible, and a price. Reach for the established blind spot only if
 `mc.blind_spots` already names it. Emotional signatures and what a tier may conclude about a person
-are `.claude/skills/social-perception/references/reading-people.md`.
+are `roles/shared/social-perception.reading-people.md`.
 
 ## What it looks like when it lands
 

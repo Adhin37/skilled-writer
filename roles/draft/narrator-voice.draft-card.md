@@ -59,4 +59,4 @@ how the page conveys numbness · fragment sentences as you go closer.
 Interiority is **reaction and decision, not transcript** — roughly one interior beat per page, at
 the moment of choice. Metaphors come from *this* POV's thought unit.
 
-The prose feels remote or second-hand: `.claude/skills/narrator-voice/references/filtering.md`.
+The prose feels remote or second-hand: `roles/draft/narrator-voice.filtering.md`.

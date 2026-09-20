@@ -25,7 +25,7 @@ than asking the user to supply anything.
 
 | file | open it when |
 |---|---|
-| `references/scaffold.md` | Step 3: the interview is done and the workspace is about to be written. Also holds the defaults table and the failure modes |
+| `roles/design/novel-init.scaffold.md` | Step 3: the interview is done and the workspace is about to be written. Also holds the defaults table and the failure modes |
 
 ## Step 1 — Get the premise in the user's words
 
@@ -158,7 +158,7 @@ Then the **`scaling:`** block. Ask exactly one question — the rest is derived:
 
 Those are `scaling.shape` — `climb` · `inverted` · `regression` · `plateau-late`. For a novel with
 no capability ladder at all, set `none` and the skill and its ledger switch off; before reaching
-for it, note that an ordinary MC still has a curve (`power-scaling/references/curve-shapes.md` §7).
+for it, note that an ordinary MC still has a curve (`roles/shared/power-scaling.curve-shapes.md` §7).
 
 Then, without asking: `start_tier` from the shape (1–2 for `climb`), `tiers` and `ceiling_tier`
 from the premise's scope, and **`scaling.endgame`** — the final opposition and its tier, in one

@@ -47,7 +47,7 @@ is cheap, and skipping one is what produces the drift that ruins long serials.
 **Drafting is three phases and this is the first one. It ends with you stopping.**
 
 Phase A spends the cards below and produces **one brief**; Phase B drafts from that brief and four
-cards, nothing else. Why it is split this way: `references/draft-cards.md`.
+cards, nothing else. Why it is split this way: `roles/draft/write-chapter.card-index.md`.
 
 The brief is thirteen lines — fourteen when the read-set printed a WATCH row.
 
@@ -136,10 +136,10 @@ the tell no phrase list catches.
 
 Hold these while writing. Each names its owner, and the detail is there rather than here.
 
-- **Voice and the four channels.** `.claude/roles/draft/narrator-voice.draft-card.md`. `'…'` direct thought
+- **Voice and the four channels.** `roles/draft/narrator-voice.draft-card.md`. `'…'` direct thought
   stays **1–3 for the whole chapter**, at decisions; interiority lives unmarked, in free indirect
   discourse. Distance does not change mid-chapter unless `pov-switch` says a switch is happening.
-- **Dialogue.** `.claude/roles/draft/dialogue-voice.draft-card.md`. Every named speaker satisfies their
+- **Dialogue.** `roles/draft/dialogue-voice.draft-card.md`. Every named speaker satisfies their
   fingerprint, and **25–40% of the words sit inside `"…"`**, spoken aloud to another person. Under
   10% is a defect: on a silent cast every voice check in this toolkit no-ops.
 - **Voice spread.** The brief's `speakers` line. Nobody but a declared mirror reasons at the MC's
@@ -156,7 +156,7 @@ Hold these while writing. Each names its owner, and the detail is there rather t
   character. The world's *rules* reach the reader by biting someone.
 - **Shape and movement.** The brief fixed the scene split; the proportions it sits in are
   `scene-craft` §Chapter assembly, and the cuts are §Entering and leaving — enter late, leave
-  early. **Chapter 1 has its own shape**, in `story-opening/references/chapter-one.md`.
+  early. **Chapter 1 has its own shape**, in `roles/draft/story-opening.chapter-one.md`.
 - **Active modules.** Apply each active module's card as you write, not afterwards.
 - **The watch line.** Whatever the brief's `watch` names, this draft does not do again — a clause
   here, a rewrite in Phase C.
@@ -253,8 +253,8 @@ Do not paste the chapter into chat unless asked.
 ## When something goes wrong, or the run is long
 
 - **A drafted chapter feels wrong and you want the name of what is wrong** — open
-  `references/failure-modes.md`. Thirty symptoms, each with its cause and the skill that owns
+  `roles/draft/write-chapter.failure-modes.md`. Thirty symptoms, each with its cause and the skill that owns
   the repair.
 - **The user asked for several chapters, or the draft left the plan behind** — open
-  `references/batch-and-replan.md`. The per-chapter loop rule, the 5-chapter check-in, the
+  `roles/draft/write-chapter.batch-and-replan.md`. The per-chapter loop rule, the 5-chapter check-in, the
   fresh-session rule for cost, and how to amend a plan row without abandoning the arc.

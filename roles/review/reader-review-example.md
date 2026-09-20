@@ -1,6 +1,6 @@
 # Reader review — worked example
 
-Run #5, cold read, 2026-09-19. The output shape of [`reader-review.md`](reader-review.md), filled
+Run #5, cold read, 2026-09-19. The output shape of [`roles/review/reader-review.md`](roles/review/reader-review.md), filled
 in, on `novels/grain-beneath-the-lie`.
 
 **This file is split out of the procedure deliberately.** It carries a verdict, a ranked finding
@@ -13,7 +13,6 @@ or writing a run up, never while performing one.
 
 ## The read
 Five chapters, ~7,700 words, `novels/grain-beneath-the-lie`. Abridged to show the output shape.
-The full text is in [`benchmark.md`](benchmark.md).
 
 **R1 — the story.** *"A forensic examiner suspects the evidence in a murder case was faked."* That
 is where the sentence stops after five chapters. No suspect, no theory, no move made. The finding

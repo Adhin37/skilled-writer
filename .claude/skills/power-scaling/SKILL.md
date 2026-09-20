@@ -35,9 +35,9 @@ Section numbers are stable — other skills cite them — so the gaps are delibe
 
 | § | file | open it when |
 |---|---|---|
-| 6, 7 | `references/curve-shapes.md` | choosing or changing `scaling.shape`, or the curve has to work in a genre whose conventions fight it — cultivation, litrpg, superhero, mundane |
-| 8 | `references/failure-modes.md` | the curve is not landing and you need the named shape of what went wrong |
-| — | `.claude/roles/gate/power-scaling.audit-card.md` | never, by you. `revision-pass` Pass 9e opens it |
+| 6, 7 | `roles/shared/power-scaling.curve-shapes.md` | choosing or changing `scaling.shape`, or the curve has to work in a genre whose conventions fight it — cultivation, litrpg, superhero, mundane |
+| 8 | `roles/shared/power-scaling.failure-modes.md` | the curve is not landing and you need the named shape of what went wrong |
+| — | `roles/gate/power-scaling.audit-card.md` | never, by you. `revision-pass` Pass 9e opens it |
 
 ## 1. The two ladders, and pressure
 

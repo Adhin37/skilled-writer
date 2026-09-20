@@ -49,7 +49,7 @@ moments with a summary".
    **This is about which beats get played, and it is not a clearance for the opening.** The other
    half of pacing — how the *world* arrives — was measured later and sits in the opposite place:
    the skew is largest in a chapter's first sentences and peaks again at every chapter boundary.
-   `world-texture` owns it, in `world-texture/references/narrative-space.md`.
+   `world-texture` owns it, in `roles/draft/world-texture.narrative-space.md`.
 4. **A model told only "be concise" will comply.** Every rule in `CLAUDE.md` §5 that bans padding is
    correct and none of them says what to spend words *on*. That asymmetry is why §5 now carries the
    build-up counterweight.

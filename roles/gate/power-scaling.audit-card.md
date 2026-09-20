@@ -48,7 +48,7 @@ If a box fails, the repair is almost always to **move the pressure rather than t
 the opponent against the gap the arc plan asked for, and re-price the win. A gain missing one of
 its four conditions is cut back to a boost with a stated expiry and a debt; a boost that resolved a
 second arc climax is cut outright. If the curve itself is the problem rather than this chapter,
-`.claude/skills/power-scaling/references/failure-modes.md`.
+`roles/shared/power-scaling.failure-modes.md`.
 
 ## What it looks like when it lands
 

@@ -103,7 +103,7 @@ and the ledger is cheap.
 If the golden finger produces duplicates — clones, avatars, projections, a split self, a mind
 copied into another body — or if the story gives the MC a doppelganger, each copy is its own
 character file with a `mirror:` block — the exemption `voice-separation` grants.
-`voice-separation/references/mirror-clause.md` owns the fields that block carries and what each
+`roles/shared/voice-separation.mirror-clause.md` owns the fields that block carries and what each
 one has to answer.
 
 Two things this ledger contributes. A copy with a different body is `form_locked: true` with its

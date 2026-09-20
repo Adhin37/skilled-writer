@@ -14,6 +14,7 @@ import unittest
 from fixtures import REPO
 
 SKILLS = os.path.join(REPO, ".claude", "skills")
+ROLES = os.path.join(REPO, "roles")
 
 
 def skill_names():
@@ -28,15 +29,16 @@ def read(path):
 
 # Every citation form the corpus allows: the repo-relative path a role-tree file must use, and
 # the rootless `<owner>/references/<stem>.md` a body may still use about its own neighbourhood.
-CITATION = re.compile(r"`(\.claude/(?:skills|roles)/[A-Za-z0-9._/-]+\.md"
+CITATION = re.compile(r"`((?:\.claude/(?:skills|roles)|roles)/[A-Za-z0-9._/-]+\.md"
                       r"|(?:[a-z][a-z0-9-]*/)?references/[a-z0-9-]+\.md)`")
 
 
 def all_docs():
     """Every markdown file that may carry a citation."""
     out = []
-    for root, _dirs, files in os.walk(os.path.join(REPO, ".claude")):
-        out += [os.path.join(root, f) for f in files if f.endswith(".md")]
+    for tree in (os.path.join(REPO, ".claude"), ROLES):
+        for root, _dirs, files in os.walk(tree):
+            out += [os.path.join(root, f) for f in files if f.endswith(".md")]
     out.append(os.path.join(REPO, "CLAUDE.md"))
     out.append(os.path.join(REPO, "README.md"))
     return sorted(out)
@@ -121,7 +123,7 @@ class TestCitations(unittest.TestCase):
                 skill_dir = os.path.dirname(skill_dir)
             for m in CITATION.finditer(read(path)):
                 target = m.group(1)
-                if target.startswith(".claude/"):
+                if target.startswith((".claude/", "roles/")):
                     full = os.path.join(REPO, target)
                 elif target.startswith("references/"):
                     full = os.path.join(skill_dir, target)
@@ -142,7 +144,7 @@ class TestCitations(unittest.TestCase):
         rootless = re.compile(r"`((?:[a-z][a-z0-9-]*/)?references/[a-z0-9-]+\.md)`")
         bad = []
         for path in all_docs():
-            if "/.claude/roles/" not in path.replace(os.sep, "/"):
+            if not path.replace(os.sep, "/").startswith(ROLES.replace(os.sep, "/") + "/"):
                 continue
             for m in rootless.finditer(read(path)):
                 bad.append("%s -> %s" % (os.path.relpath(path, REPO), m.group(1)))
@@ -189,17 +191,31 @@ class TestArchitecture(unittest.TestCase):
         self.assertEqual(sorted(fat), [])
 
     def test_every_reference_states_its_trigger(self):
-        """A pointer without a condition is not read, so every reference says when to open it."""
-        thin = []
-        for s in skill_names():
-            refdir = os.path.join(SKILLS, s, "references")
-            if not os.path.isdir(refdir):
+        """A pointer without a condition is not read, so every reference says when to open it.
+
+        Walks the role trees, which is where every non-body file now lives. It used to walk
+        `<skill>/references/` and went **vacuous** the moment the last one emptied - the loop
+        `continue`d 44 times and reported a clean pass over nothing. That is this file's
+        recurring failure: a layout-dependent test does not break when the layout moves, it
+        stops looking. So the count is asserted rather than assumed.
+        """
+        from swlib import kb
+        thin, seen = [], 0
+        # `kb.BUCKETS`, not `os.listdir` - `roles/review/` holds the reader's procedure, which is
+        # a document rather than a corpus file, and the reader is the one role with no corpus.
+        for bucket in kb.BUCKETS:
+            bdir = os.path.join(ROLES, bucket)
+            if not os.path.isdir(bdir):
                 continue
-            for f in sorted(os.listdir(refdir)):
-                text = body(os.path.join(refdir, f))
-                if not re.search(r"(?i)open (this|it|the)|opened by", text[:900]):
-                    thin.append("%s/references/%s" % (s, f))
+            for f in sorted(os.listdir(bdir)):
+                if not f.endswith(".md"):
+                    continue
+                seen += 1
+                if not re.search(r"(?i)open (this|it|the)|opened by",
+                                 body(os.path.join(bdir, f))[:900]):
+                    thin.append("%s/%s" % (bucket, f))
         self.assertEqual(sorted(thin), [])
+        self.assertGreater(seen, 100, "the role trees went empty and this test stopped looking")
 
     def test_revision_pass_does_not_paraphrase_its_sources(self):
         """The dispatcher points at audit cards; it does not carry their checklists."""
@@ -207,7 +223,7 @@ class TestArchitecture(unittest.TestCase):
         for skill in ("voice-separation", "competence-map", "bias-guard",
                       "world-texture", "prose-quality", "story-opening", "meta-knowledge",
                       "story-craft"):
-            self.assertIn(".claude/roles/gate/%s.audit-card.md" % skill, body,
+            self.assertIn("roles/gate/%s.audit-card.md" % skill, body,
                           "revision-pass must open %s's card" % skill)
 
     def test_every_module_is_reached_through_a_card(self):

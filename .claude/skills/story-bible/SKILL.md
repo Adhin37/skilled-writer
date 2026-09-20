@@ -28,7 +28,7 @@ never recorded, contradicted forty chapters later.
 
 | file | open it when |
 |---|---|
-| `references/geography-and-travel.md` | the story leaves where it started, a plan depends on somebody arriving, or a chapter moved people and you cannot say how long it took — the distance table, the rates, and what a map is actually for |
+| `roles/gate/story-bible.geography-and-travel.md` | the story leaves where it started, a plan depends on somebody arriving, or a chapter moved people and you cannot say how long it took — the distance table, the rates, and what a map is actually for |
 
 ---
 

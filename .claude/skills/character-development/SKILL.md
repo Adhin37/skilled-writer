@@ -24,8 +24,8 @@ hear it?**
 
 | file | open it when |
 |---|---|
-| `references/ladders.md` | a rung actually moves — somebody is learning something, sliding backwards under pressure, or the MC is the one changing |
-| `references/lasting-harm.md` | something taken in an earlier arc has not come back, or you are about to write a recovery the story never paid for |
+| `roles/draft/character-development.ladders.md` | a rung actually moves — somebody is learning something, sliding backwards under pressure, or the MC is the one changing |
+| `roles/design/character-development.lasting-harm.md` | something taken in an earlier arc has not come back, or you are about to write a recovery the story never paid for |
 
 ## Who has an arc at all
 

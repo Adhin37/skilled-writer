@@ -39,7 +39,7 @@ class TestAgainstTheRealCorpus(unittest.TestCase):
 
     def test_card_counts_match_the_filesystem(self):
         for kind, stem in (("draft-card", ".draft-card.md"), ("audit-card", ".audit-card.md")):
-            bucket = os.path.join(REPO, ".claude", "roles", kb.CARD_ROLES[kind])
+            bucket = os.path.join(REPO, kb.ROLES_REL, kb.CARD_ROLES[kind])
             on_disk = [f for f in os.listdir(bucket) if f.endswith(stem)]
             self.assertEqual(len(self.idx.by_type(kind)), len(on_disk), kind)
 
@@ -48,7 +48,7 @@ class TestAgainstTheRealCorpus(unittest.TestCase):
         for kind, role in kb.CARD_ROLES.items():
             for f in self.idx.by_type(kind):
                 self.assertEqual(f.bucket, role, f.rel)
-                self.assertTrue(f.rel.startswith(".claude/roles/%s/" % role), f.rel)
+                self.assertTrue(f.rel.startswith("%s/%s/" % (kb.ROLES_REL, role)), f.rel)
                 self.assertEqual(os.path.basename(f.rel), "%s.%s.md" % (f.owner, kind), f.rel)
 
     def test_a_card_knows_its_dispatcher(self):
@@ -98,8 +98,9 @@ class TestReproducesTheDispatcherTables(unittest.TestCase):
     # must not go quiet when the layout moves under them: a regex that stops matching turns
     # `test_phase_b_owners_match_the_bullets` into a skip whose message says the bullets were
     # deleted. They were not. That is the migration's correctness proof reporting success.
-    CARD = re.compile(r"`(?:\.claude/roles/[a-z]+/)?([a-z-]+)[/.](?:references/)?draft-card\.md`")
-    AUDIT = re.compile(r"`(?:\.claude/roles/[a-z]+/)?([a-z-]+)[/.](?:references/)?audit-card\.md`")
+    _TREE = r"(?:(?:%s)/[a-z]+/)?" % "|".join(re.escape(d) for d in kb.ROLES_DIRS)
+    CARD = re.compile(r"`" + _TREE + r"([a-z-]+)[/.](?:references/)?draft-card\.md`")
+    AUDIT = re.compile(r"`" + _TREE + r"([a-z-]+)[/.](?:references/)?audit-card\.md`")
 
     def setUp(self):
         self.idx = kb.index(REPO, refresh=True)
@@ -389,6 +390,25 @@ class TestCitationResolution(unittest.TestCase):
         a = self._resolve(".claude/skills/story-craft/references/draft-card.md")
         b = self._resolve("story-craft/references/draft-card.md")
         self.assertEqual(a.rel, b.rel)
+
+    def test_a_word_ending_in_roles_is_not_a_role_citation(self):
+        """The role tree sits at the repo root, so `roles/` is no longer preceded by a literal
+        `.claude/` that bounds the match on its left. A lookbehind does that job instead, and
+        without it any word ending in "roles" starts a citation.
+        """
+        m = kb.CITATION.search("controles/draft/story-craft.draft-card.md")
+        self.assertIsNone(m if m is None else m.group("rolefile"))
+
+    def test_both_role_tree_layouts_resolve_to_the_same_file(self):
+        """A citation written before a move still names a real file on the day of the move,
+        which is what lets the migration find the text it has to rewrite. Resolving is not the
+        same as being correct: `test_corpus.test_every_referenced_file_exists` asks the
+        filesystem, and that is the check that insists the text actually be rewritten.
+        """
+        for layout in kb.ROLES_DIRS:
+            m = kb.CITATION.search("`%s/draft/story-craft.draft-card.md`" % layout)
+            self.assertIsNotNone(m, layout)
+            self.assertEqual(m.group("rolefile"), "story-craft.draft-card.md", layout)
 
     def test_the_bare_form_is_a_citation_only_when_the_owner_has_the_file(self):
         """One card cites this way, and a closure blind to it filed the note as unreachable."""

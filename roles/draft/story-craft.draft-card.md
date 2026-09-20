@@ -6,6 +6,7 @@ phase: A
 order: 1
 description: Which beat is played and which is reported
 when: always
+provenance: docs/creative-latitude.md
 ---
 
 # story-craft — draft card
@@ -31,7 +32,7 @@ Sixty seconds, and it is the only step in the whole draft loop that **widens** r
 narrows. Every other card in Phase A converges on one answer, which is correct for each of them
 individually and, summed over nineteen cards, produces the median of everything the rules allow —
 competent, defensible, and the thing a reader means by "machine-written" when they cannot point at
-a line (`docs/creative-latitude.md`).
+a line.
 
 Three rules make it work rather than becoming a ritual:
 
@@ -47,7 +48,7 @@ still one line long.
 
 **Number them, because the numbers are written down.** The rejected two and the reason the taken
 one won go on the brief's `cand` line, and from there to the CCS block's `cand>` line at step 5
-(`.claude/skills/continuity-summary/references/block-format.md`). That ledger line is where this step's output
+(`roles/shared/continuity-summary.block-format.md`). That ledger line is where this step's output
 survives the run: before it existed, benchmark run #4 ran five chapters through this card and no
 measurement could tell whether the step had happened at all.
 
@@ -95,5 +96,5 @@ Skipping it entirely makes a chapter a highlight reel; overrunning it stops the 
 (`scene-craft` §The follow-through).
 
 If a box fails, the repair is the same one every time: find the beat that was reported and play
-it — the want, the friction, the turn, in front of the reader. `.claude/skills/story-craft/references/scene-and-summary.md`
+it — the want, the friction, the turn, in front of the reader. `roles/shared/story-craft.scene-and-summary.md`
 carries the worked decision and the past-perfect catalogue.

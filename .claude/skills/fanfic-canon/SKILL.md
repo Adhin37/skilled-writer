@@ -23,7 +23,7 @@ do not forgive a character who would never have said that.
 
 | file | open it when |
 |---|---|
-| `references/canon-handling.md` | writing a canon character, deciding how far one may drift, introducing an original character, or settling what counts as canon |
+| `roles/draft/fanfic-canon.canon-handling.md` | writing a canon character, deciding how far one may drift, introducing an original character, or settling what counts as canon |
 
 ## Rule zero — write original prose
 

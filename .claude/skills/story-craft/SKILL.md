@@ -23,12 +23,12 @@ fast to the finish line.
 
 | file | open it when |
 |---|---|
-| `references/scene-and-summary.md` | deciding whether a beat is a scene, or a chapter reads as a highlight reel — the worked version of the decision below |
-| `references/story-structure.md` | planning an arc or a novel, or a win is landing unearned — three-act proportion, try/fail cycles, the midpoint |
-| `references/serial-pacing.md` | setting release cadence or arc temperature, or retention is the question — the webnovel-specific layer |
-| `references/why-ai-rushes.md` | a draft is compressed and you want the measured reason, or you are editing this toolkit's pacing rules |
-| `.claude/roles/draft/story-craft.draft-card.md` | opened by `write-chapter` at drafting time |
-| `.claude/roles/gate/story-craft.audit-card.md` | opened by `revision-pass` Pass 9f |
+| `roles/shared/story-craft.scene-and-summary.md` | deciding whether a beat is a scene, or a chapter reads as a highlight reel — the worked version of the decision below |
+| `roles/design/story-craft.story-structure.md` | planning an arc or a novel, or a win is landing unearned — three-act proportion, try/fail cycles, the midpoint |
+| `roles/design/story-craft.serial-pacing.md` | setting release cadence or arc temperature, or retention is the question — the webnovel-specific layer |
+| `roles/design/story-craft.why-ai-rushes.md` | a draft is compressed and you want the measured reason, or you are editing this toolkit's pacing rules |
+| `roles/draft/story-craft.draft-card.md` | opened by `write-chapter` at drafting time |
+| `roles/gate/story-craft.audit-card.md` | opened by `revision-pass` Pass 9f |
 
 ---
 
@@ -104,7 +104,7 @@ ban on them does not license skipping this.
   common machine failure is to introduce the setback and the climax briefly and settle both quickly,
   which flattens the whole arc.
 
-Open `references/story-structure.md` when planning; the proportions and the try/fail patterns are
+Open `roles/design/story-craft.story-structure.md` when planning; the proportions and the try/fail patterns are
 there with their sources.
 
 ## Self-check

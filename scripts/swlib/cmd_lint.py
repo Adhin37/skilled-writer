@@ -320,12 +320,12 @@ def _group_scenes(novel, ch, rep):
     A note, and deliberately only a note. It is a **trigger surface**, not a verdict: at three
     speakers a scene changes category - turn allocation stops being alternation, somebody has to
     be deliberately silent, and the reader needs position and property to keep four people apart
-    (`scene-craft/references/group-scenes.md`). Nothing here says the scene is wrong. It says the
+    (`roles/design/scene-craft.group-scenes.md`). Nothing here says the scene is wrong. It says the
     reference applies, which is the thing nobody remembers to check.
 
     There is no matching check for a child's register, and that is a decision rather than an
     omission: detecting who is a child would mean either guessing from a turn length or adding an
-    axis to the matrix, and `voice-separation/references/age-register.md` states that age does not
+    axis to the matrix, and `roles/design/voice-separation.age-register.md` states that age does not
     get an axis. A check that guesses is a number somebody optimises.
 
     **It counts speakers, not mentions.** Until benchmark run #5 it fired when three cast tokens

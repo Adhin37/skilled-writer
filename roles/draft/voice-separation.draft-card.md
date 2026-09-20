@@ -6,6 +6,7 @@ phase: A
 order: 7
 description: "The voice spread for this chapter's speakers, and who sounds different today"
 when: always
+provenance: docs/creative-latitude.md
 ---
 
 # voice-separation — draft card
@@ -17,8 +18,7 @@ introduced at the moment the speakers are chosen — not at the moment the lines
 **One card, two owners.** The spread is `voice-separation`'s; today's **delta** — who has moved and
 how a reader would hear it — is `character-development`'s, which owns the arc ladder and its
 triggers. They are one decision at the desk: you cannot choose how somebody sounds today without
-the table of how everybody sounds. The card budget is why they share a file
-(`docs/creative-latitude.md`).
+the table of how everybody sounds. The card budget is why they share a file.
 
 **Produce two lines:** this chapter's speakers as matrix rows side by side, with which of them
 differs from the MC on two or more axes — and which one character sounds different today, and the
@@ -72,7 +72,7 @@ raise their articulacy to the MC's level or grant them the MC's wit, take one
 that runs *more oblique*, *slower*, *quieter*, *funnier in a worse way*. The only exception is a
 character whose arc **is** becoming like the MC — and then somebody on the page says so, and it
 reads as loss or as threat. The ladder, the rates and what a rung costs are
-`character-development`'s: `.claude/skills/character-development/references/ladders.md` when one moves.
+`character-development`'s: `roles/draft/character-development.ladders.md` when one moves.
 
-Clones, avatars and doubles are the one exemption: `.claude/skills/voice-separation/references/mirror-clause.md`. Bodies and
-non-POV minds while drafting: `.claude/skills/voice-separation/references/channels.md`.
+Clones, avatars and doubles are the one exemption: `roles/shared/voice-separation.mirror-clause.md`. Bodies and
+non-POV minds while drafting: `roles/draft/voice-separation.channels.md`.

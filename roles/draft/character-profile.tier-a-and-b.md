@@ -52,16 +52,16 @@ the promotion signal. Take it — promotions are how a cast stays alive.
    above `professional` (three for the MC), each paid for with a scene showing how it was acquired,
    scheduled or already written. Add the **referral** — who they go to when it runs out, and what
    asking costs them. If this character is a god, an immortal, a cultivator or an artificial mind,
-   set `knowledge_scope: broad` and fill the shape *and* the boundary (`competence-map/references/broad-knowledge.md`).
+   set `knowledge_scope: broad` and fill the shape *and* the boundary (`roles/shared/competence-map.broad-knowledge.md`).
 4. **Behaviour rules** — five to eight if/then rules, phrased so another writer could run them.
    These make the character predictable enough that breaking a rule reads as a *event*.
 5. **Voice axes, then the speech fingerprint.** The axes first — intel, articulacy, wit and its
    trigger, heat, turn length, the conversational blind spot, and the thought fields if
-   `pov_eligible` (`voice-separation` §1 and `voice-separation/references/channels.md`). Then all eight fingerprint fields and three
+   `pov_eligible` (`voice-separation` §1 and `roles/draft/voice-separation.channels.md`). Then all eight fingerprint fields and three
    calibration lines in three emotional states (`dialogue-voice`). In that order: eight surface
    habits laid over a mind identical to the MC's produce a labelled clone, which is the defect the
    axes exist to prevent. This is the step most often skipped and most often regretted.
-6. **Body & habit** — the three body fields (`voice-separation/references/channels.md`): default state, **the hands**,
+6. **Body & habit** — the three body fields (`roles/draft/voice-separation.channels.md`): default state, **the hands**,
    and the pressure move — plus, for tier A, their habitual standing distance and what they do when
    someone crosses it. Gestures rather than portraiture; describe what the body *does*. Nothing
    from the default gesture set (`voice-separation` owns the list) — those identify nobody. No beauty catalogue; see `bias-guard`. If this character's body changes over

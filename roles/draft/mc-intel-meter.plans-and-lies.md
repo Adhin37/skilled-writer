@@ -9,7 +9,7 @@ description: plans, operations and deception on the page - what the reader is to
 Open this when the chapter contains a plan the reader is shown, an operation being executed, or
 somebody lying to somebody who might catch it.
 
-`references/writing-intelligence.md` covers deduction — how a character reaches a conclusion. This
+`roles/draft/mc-intel-meter.writing-intelligence.md` covers deduction — how a character reaches a conclusion. This
 covers the other half: what they **do** with it, which is where most of the visible evidence of a
 character's intelligence actually lives.
 

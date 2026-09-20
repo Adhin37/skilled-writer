@@ -19,7 +19,7 @@ copies of fields in each profile; the profile is the source of truth, this is th
 | **pressure** | still · bigger · smaller · busy · closer · leaves |
 | **first move** | what they reach for or look at first when the situation changes |
 | **cadence** | the *shape* a turn is built in, not its content — floods then stops · builds in even clauses · starts flat and sharpens · never finishes · answers before you finish asking. No script can check it; see §2, the cadence test (`voice-separation` §3) |
-| **stance** | what they do about what this society expects of their gender: conforms-benefits · conforms-resents · exploits · defies-openly · defies-quietly · oblivious · enforces. Any character takes any value; two of the same gender should differ (`social-fabric/references/gendered-experience.md`) |
+| **stance** | what they do about what this society expects of their gender: conforms-benefits · conforms-resents · exploits · defies-openly · defies-quietly · oblivious · enforces. Any character takes any value; two of the same gender should differ (`roles/design/social-fabric.gendered-experience.md`) |
 
 ---
 

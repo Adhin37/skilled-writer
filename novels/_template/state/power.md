@@ -92,7 +92,7 @@ village to `scaling.endgame`.
 
 Shape for one arc: open near +2 so the arc has a wall, hold +1 through the middle, place the gain
 about two-thirds through, and land the climax at +1 *after* it. See
-`power-scaling/references/curve-shapes.md` §6.
+`roles/shared/power-scaling.curve-shapes.md` §6.
 
 Check the last row against `ending.contract`. A curve that arrives where the ending cannot happen
 is a defect on both sides (`timeline-engine` §The ending contract).

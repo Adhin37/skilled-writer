@@ -6,6 +6,7 @@ phase: A
 order: 5
 description: Which thread ops fire, and what the world does while the MC is elsewhere
 when: always
+provenance: docs/creative-latitude.md
 ---
 
 # plot-threads — draft card
@@ -18,7 +19,7 @@ reconciled afterwards is how promises get quietly abandoned.
 `timeline-engine`'s, which owns the world clock, the divergence ledger and the ending contract.
 Both answer the same question from opposite ends — what is moving that this chapter has to respect,
 whether or not the MC can see it — so they are one card, and each half names its owner. The card
-budget is why they share a file (`docs/creative-latitude.md`).
+budget is why they share a file.
 
 **Produce two lines:** the thread ops firing this chapter, in CCS notation, for the `thr>` line;
 and the offstage question, one line, for the `wld>` line.
@@ -51,8 +52,8 @@ genre contract, `opening.promise` touched on the page, and the advantage's first
 are promises to a reader who has not yet decided to keep reading, so they cannot be paid late:
 `plot-threads` §The promise ledger — arc 1 only.
 
-Planting a setup, or auditing for forgotten promises: `.claude/skills/plot-threads/references/foreshadowing.md`. A reversal
-the reader is meant to re-read their way into: `.claude/skills/plot-threads/references/reveals-and-reversals.md`.
+Planting a setup, or auditing for forgotten promises: `roles/shared/plot-threads.foreshadowing.md`. A reversal
+the reader is meant to re-read their way into: `roles/draft/plot-threads.reveals-and-reversals.md`.
 
 ## The offstage question — `timeline-engine`'s half
 
@@ -73,5 +74,5 @@ Two things this card will not let you skip:
   the MC anything; it may never close the road, and `ending.non_negotiables` is absolute.
 
 The dial, the ledger, the butterfly budget and the arc-level obligation are `timeline-engine`'s:
-`.claude/skills/timeline-engine/references/reaction-and-governor.md` when a faction is about to move, and
-`.claude/skills/timeline-engine/references/fanfic-mode.md` where canon is the world track.
+`roles/shared/timeline-engine.reaction-and-governor.md` when a faction is about to move, and
+`roles/shared/timeline-engine.fanfic-mode.md` where canon is the world track.

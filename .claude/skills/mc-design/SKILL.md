@@ -25,7 +25,7 @@ not start in their final form — `state/body.md`.
 
 | file | open it when |
 |---|---|
-| `references/form-ledger.md` | the MC does not start in their final body — a reborn infant, a weakened form, a pre-evolution shape. Skip it entirely otherwise |
+| `roles/shared/mc-design.form-ledger.md` | the MC does not start in their final body — a reborn infant, a weakened form, a pre-evolution shape. Skip it entirely otherwise |
 
 ## The five questions
 

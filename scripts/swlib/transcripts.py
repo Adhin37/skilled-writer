@@ -44,10 +44,16 @@ SKILL_IN_TEXT = re.compile(r"\.claude/skills/([a-z0-9][a-z0-9._-]*)/([A-Za-z0-9.
 # these regexes read transcripts, and a transcript written before the split still carries the
 # old path. A scanner that understood only the current layout would report a drop in skill opens
 # on the day of a refactor, which is the shape of silent failure this whole scanner exists for.
+# Kept in step with `kb.ROLES_DIRS` by a test rather than by an import: this module reads
+# transcripts from outside the repo and stays standard-library-only and dependency-free on
+# purpose. `test_transcripts.py::test_the_scanner_knows_every_layout_kb_does` is the join.
+ROLE_DIRS = (".claude/roles", "roles")
+_ROLE_ALT = "(?:%s)" % "|".join(re.escape(d) for d in ROLE_DIRS)
+
 ROLE_PATH = re.compile(
-    r"(?:^|/)\.claude/roles/[a-z]+/([a-z0-9][a-z0-9-]*)\.([A-Za-z0-9._-]+\.md)$")
+    r"(?:^|/)" + _ROLE_ALT + r"/[a-z]+/([a-z0-9][a-z0-9-]*)\.([A-Za-z0-9._-]+\.md)$")
 ROLE_IN_TEXT = re.compile(
-    r"\.claude/roles/[a-z]+/([a-z0-9][a-z0-9-]*)\.([A-Za-z0-9._-]+\.md)")
+    r"(?<![\w-])" + _ROLE_ALT + r"/[a-z]+/([a-z0-9][a-z0-9-]*)\.([A-Za-z0-9._-]+\.md)")
 CHAPTER_PATH = re.compile(r"(?:^|/)novels/([^/]+)/chapters/(\d+)[^/]*$")
 
 # A card open, which is a skill open with a phase attached. Counted separately from the skill
@@ -56,7 +62,7 @@ CHAPTER_PATH = re.compile(r"(?:^|/)novels/([^/]+)/chapters/(\d+)[^/]*$")
 # the card number while `trace` could only report the skill one. Those runs counted cards by
 # hand out of the transcript; this is that hand-count, so nobody has to do it again.
 # Layout-independent on purpose: the separator before the stem is `/` under `.claude/skills/`,
-# `.` under `.claude/roles/`, and nothing at all when the stem arrives alone.
+# `.` under either role tree, and nothing at all when the stem arrives alone.
 CARD_FILE = re.compile(r"(?:^|[/.])(draft|audit)-card\.md$")
 
 # Rows carrying no real usage. `<synthetic>` is Claude Code's own placeholder for a message it

@@ -53,7 +53,7 @@ Three shapes, in rough order of how often they earn their place:
 - **A walk-away that was a bluff — or that turns out to be real.** The second is stronger and
   rarer: the party everyone assumed was desperate can genuinely leave.
 - **A third want intruding.** Somebody in the room has their own business and it will not wait.
-  At three or more speakers this becomes the dominant shape, and `references/group-scenes.md`
+  At three or more speakers this becomes the dominant shape, and `roles/design/scene-craft.group-scenes.md`
   owns it.
 
 ## How the exit reads
@@ -98,9 +98,9 @@ show that they bite.
 
 | what you are actually writing | whose rule it is |
 |---|---|
-| the plan behind the ask, what is withheld from the reader, and lying in the room | `mc-intel-meter/references/plans-and-lies.md` |
+| the plan behind the ask, what is withheld from the reader, and lying in the room | `roles/draft/mc-intel-meter.plans-and-lies.md` |
 | who at the table can read whom, and the misread | `social-perception` |
-| three or more speakers, blocking, turn allocation | `references/group-scenes.md` |
+| three or more speakers, blocking, turn allocation | `roles/design/scene-craft.group-scenes.md` |
 | what the court, guild or council *is* | `social-fabric` |
 | whether this beat deserves a scene at all | `story-craft` |
 | what the deal cost, and who pays it later | `conflict-engine` |
@@ -112,6 +112,6 @@ show that they bite.
 | The villain explains their leverage | the scene stops so somebody can narrate the stakes | let them use it once, small, and let the other side price it |
 | Both sides fully informed | with nothing to discover there is no turn, only arithmetic | each side is wrong about exactly one of the other's four numbers |
 | The clever line that wins it | a negotiation decided by phrasing teaches the reader nothing has weight | the line only lands because the walk-away shifted underneath it |
-| Terms the reader cannot price | a concession means nothing if nobody knows what the thing is worth | one anchor price on the page first (`social-fabric/references/prices-and-stakes.md`) |
+| Terms the reader cannot price | a concession means nothing if nobody knows what the thing is worth | one anchor price on the page first (`roles/shared/social-fabric.prices-and-stakes.md`) |
 | The deal that ends the problem | closes a thread and opens nothing | somebody has to go home and deliver these terms to people who were not in the room |
 | Negotiating with someone who has no choice | that is a demand, and it is a shorter scene | give the weaker party one real currency, however small |

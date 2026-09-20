@@ -1,6 +1,6 @@
 """The `reader` agent's path guard.
 
-`docs/reader-review.md` rests on one claim: a reader who has not seen what the novel *intended*
+`roles/review/reader-review.md` rests on one claim: a reader who has not seen what the novel *intended*
 can see what no instrument can, because every instrument here reads the novel with the bible
 open. The claim is worth exactly as much as the blindness, so the blindness is tested.
 
@@ -51,7 +51,14 @@ class TestWhatTheReaderMayOpen(unittest.TestCase):
         self.assertEqual(read(os.path.join(REPO, "novels/a/chapters/0001-x.md"))[0], 0)
 
     def test_the_procedure_is_allowed(self):
-        self.assertEqual(read("docs/reader-review.md")[0], 0)
+        """And it lives *inside* the tree the corpus rule denies wholesale.
+
+        `roles/review/` is under `roles/`, so this passes only while ALLOW is consulted before
+        REASONS. Reorder those two and the reader is refused its own instructions - with a
+        message about rules it was never meant to have, which reads like a correct block.
+        """
+        code, err = read("roles/review/reader-review.md")
+        self.assertEqual(code, 0, err)
 
 
 class TestWhatItMayNot(unittest.TestCase):
@@ -72,7 +79,7 @@ class TestWhatItMayNot(unittest.TestCase):
 
     def test_the_worked_example_is_blocked(self):
         # It carries a verdict. A reader who sees it will find its findings again.
-        code, err = read("docs/reader-review-example.md")
+        code, err = read("roles/review/reader-review-example.md")
         self.assertEqual(code, 2)
         self.assertIn("verdict", err)
 
@@ -83,9 +90,14 @@ class TestWhatItMayNot(unittest.TestCase):
         self.assertEqual(read("docs/test-run-protocol.md")[0], 2)
 
     def test_the_corpus_is_blocked(self):
-        code, err = read(".claude/roles/gate/prose-quality.audit-card.md")
-        self.assertEqual(code, 2)
-        self.assertIn("rules the chapters were written against", err)
+        for path in ("roles/gate/prose-quality.audit-card.md",
+                     ".claude/skills/revision-pass/SKILL.md"):
+            code, err = read(path)
+            self.assertEqual(code, 2, path)
+            # Not just blocked - blocked for the stated reason. The catch-all would refuse this
+            # too, so asserting only on the exit code would have passed while the corpus rule
+            # silently stopped covering the tree it is named for.
+            self.assertIn("rules the chapters were written against", err, path)
 
     def test_a_grep_path_is_checked_not_only_file_path(self):
         self.assertEqual(run({"tool_input": {"path": "novels/a-book/bible"}})[0], 2)

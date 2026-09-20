@@ -85,7 +85,7 @@ The reader does not need the vocabulary; the writer needs the consequences.
 ## Where this hands off
 
 Damage **inside** the scene is this skill's. Damage **afterwards** — days of it, permanently, and
-what it costs the people around them — is `conflict-engine/references/aftermath.md`, which also
+what it costs the people around them — is `roles/design/conflict-engine.aftermath.md`, which also
 owns what violence does to the person who committed it. Power used in the fight pays its price in
 the same scene (`power-system`). An engagement bigger than the people who can see each other is a
 different craft entirely (`battle-scale`).

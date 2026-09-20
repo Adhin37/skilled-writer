@@ -555,7 +555,7 @@ assert that no per-chapter note can be promoted into something that gates.
 
 ```
 CLAUDE.md                         the operating contract, loaded every session
-CONTRIBUTING.md                   optional local tooling, and what it costs the read-set
+CONTRIBUTING.md                   where to start before editing the toolkit
 .claude/skills/<name>/SKILL.md    the skills - the procedure a model executes
 .claude/skills/<name>/references/ examples, catalogues, long tables, audit cards
 .claude/commands/*.md             the slash commands

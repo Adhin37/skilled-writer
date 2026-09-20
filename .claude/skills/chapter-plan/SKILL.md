@@ -21,7 +21,7 @@ does). A serial fails at the planning layer long before it fails at the sentence
 
 | file | open it when |
 |---|---|
-| `references/titles-and-replanning.md` | filling the title column for a run of rows, or the draft has diverged and you are deciding whether to replan |
+| `roles/design/chapter-plan.titles-and-replanning.md` | filling the title column for a run of rows, or the draft has diverged and you are deciding whether to replan |
 
 ## Planning horizon
 
@@ -58,7 +58,7 @@ as a chapter surprises you, and stale rows are worse than no rows: they get foll
    referral the MC has to buy, or a skill someone starts climbing. Deciding this at the scene means
    inventing a physician on the spot. If an arc *is* a learning arc for someone, place the stage
    transitions on specific chapters and leave the practice as clauses in between
-   (`competence-map/references/acquisition-ladder.md`).
+   (`roles/draft/competence-map.acquisition-ladder.md`).
 9. Run `timeline-engine`: which world-track events fire in this arc, on which chapters, and how
    each reaches the MC. **Confirm the arc moves at least one of them** — moved, prevented,
    altered or created. An arc that leaves the world track untouched is an arc the MC was a

@@ -41,9 +41,9 @@ Section numbers are stable — other skills cite them — so the gaps are delibe
 
 | § | file | open it when |
 |---|---|---|
-| 6, 7 | `references/failure-modes.md` | foreknowledge is not landing (it is always one of seven named shapes), or you are deciding how much of the source the prose may assume |
+| 6, 7 | `roles/draft/meta-knowledge.failure-modes.md` | foreknowledge is not landing (it is always one of seven named shapes), or you are deciding how much of the source the prose may assume |
 
-The revision-time check is `.claude/roles/gate/meta-knowledge.audit-card.md`, opened by `revision-pass` Pass 9c.
+The revision-time check is `roles/gate/meta-knowledge.audit-card.md`, opened by `revision-pass` Pass 9c.
 
 ## 1. The grain
 

@@ -26,8 +26,8 @@ and a hook pull; it cannot stop a chapter from summarising its own turning point
 
 | file | open it when |
 |---|---|
-| `references/the-long-middle.md` | any arc boundary past arc 2, or a stretch that is competently written and building toward nothing anyone can name |
-| `references/arc-rhythm.md` | planning an arc's temperature, or the story is reading as relentless or as flat over a stretch of chapters |
+| `roles/design/hook-and-pacing.the-long-middle.md` | any arc boundary past arc 2, or a stretch that is competently written and building toward nothing anyone can name |
+| `roles/shared/hook-and-pacing.arc-rhythm.md` | planning an arc's temperature, or the story is reading as relentless or as flat over a stretch of chapters |
 
 ## Chapter length is not a quality metric
 
@@ -57,7 +57,7 @@ What the band is still good for:
 
 **Never pad, and never trim to a number.** If the chapter's material ends, it ends. If it runs
 long and every scene is delivering, ship it long. The only length question worth asking is the
-skim test (`references/arc-rhythm.md`): *would a reader lose anything by skipping this?*
+skim test (`roles/shared/hook-and-pacing.arc-rhythm.md`): *would a reader lose anything by skipping this?*
 
 **What to do when a chapter comes out short.** Not padding — diagnosis. A short chapter almost
 always means one of: the turn happened offstage, the cost was skipped, or a scene ended at its

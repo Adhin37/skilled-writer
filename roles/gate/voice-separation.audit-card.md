@@ -6,6 +6,7 @@ pass: "2"
 pass_kind: distributional
 description: The cast as separate minds, and whether anyone became someone else
 when: always
+provenance: docs/creative-latitude.md
 ---
 
 # voice-separation — audit card
@@ -21,8 +22,7 @@ whole job.
 **One card, two owners.** Separation is `voice-separation`'s; whether anybody has *become* a
 different person is `character-development`'s, which owns the arc ladder and the voice delta. They
 fail together — a cast that has converged and a cast that has stopped moving look identical on the
-page — so they are audited together, and each half names its owner
-(`docs/creative-latitude.md`).
+page — so they are audited together, and each half names its owner.
 
 - [ ] **Transplant test** — the MC's most characteristic line does not fit any other character's
       mouth. If it does, they are the same person with two names
@@ -65,7 +65,7 @@ them**: growth that runs more oblique, slower, quieter or funnier in a worse way
 and only a character whose arc is explicitly becoming like the MC is exempt — with somebody on the
 page saying so. Two voices that read alike are re-separated on **intel and articulacy together**,
 never on wit, which can go a whole chapter without surfacing. A declared `mirror:` is the one
-standing exemption: `.claude/skills/voice-separation/references/mirror-clause.md`.
+standing exemption: `roles/shared/voice-separation.mirror-clause.md`.
 
 ## What it looks like when it lands
 

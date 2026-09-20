@@ -6,6 +6,7 @@ phase: A
 order: 11
 description: What the POV character works out - from which clue, and what they get wrong about people
 when: always
+provenance: docs/creative-latitude.md
 ---
 
 # mc-intel-meter — draft card
@@ -17,8 +18,7 @@ retrofitted onto a drafted scene.
 **One card, two owners.** Reading a *situation* is `mc-intel-meter`'s; reading *people* is
 `social-perception`'s, which owns the `eq` ladder, the emotional signatures and the misread. They
 are one decision at the desk — what does this character conclude, and is it right — so they are
-one card, and each half names its owner. The card budget is why they share a file
-(`docs/creative-latitude.md`).
+one card, and each half names its owner. The card budget is why they share a file.
 
 **Produce two lines:** what the MC works out this chapter and the on-page fact it came from, and
 what they read in somebody and get wrong.
@@ -76,6 +76,6 @@ would produce · the true cause is also visible in something the reader saw · a
 something. Somebody with a higher `eq` than the POV is reading *them*, and may act on it first.
 
 Technique rather than rule — the intelligence / knowledge / wisdom distinction:
-`.claude/skills/mc-intel-meter/references/writing-intelligence.md`. Plans, operations and lies: `.claude/skills/mc-intel-meter/references/plans-and-lies.md`.
+`roles/draft/mc-intel-meter.writing-intelligence.md`. Plans, operations and lies: `roles/draft/mc-intel-meter.plans-and-lies.md`.
 The observation ladder and how a misread is written so the reader can see past it:
-`.claude/skills/social-perception/references/reading-people.md`.
+`roles/shared/social-perception.reading-people.md`.

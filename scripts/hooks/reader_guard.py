@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """PreToolUse guard for the `reader` agent: chapters and the procedure, nothing else.
 
-`docs/reader-review.md` is built on one claim - that a reader who has not seen what the novel
+`roles/review/reader-review.md` is built on one claim - that a reader who has not seen what the novel
 *intended* can see things no instrument can, because every instrument in the repo reads the
 novel with the bible open. That claim is only worth as much as the reader's blindness, and until
 now the blindness was a list of directories in a prompt.
@@ -23,9 +23,14 @@ import re
 import sys
 
 # Anything the reader may look at. Everything else is a block.
+#
+# Checked before REASONS, which is load-bearing rather than incidental: the procedure now lives
+# at `roles/review/reader-review.md`, inside the tree the corpus rule below denies wholesale. The
+# reader's own instructions would otherwise be refused, and the `$` anchor is what keeps the
+# worked example - which carries a verdict - on the far side of the line.
 ALLOW = (
     re.compile(r"(^|/)novels/[^/]+/chapters(/|$)"),
-    re.compile(r"(^|/)docs/reader-review\.md$"),
+    re.compile(r"(^|/)roles/review/reader-review\.md$"),
 )
 
 # Why each denial exists, so the reader is told rather than merely stopped.
@@ -35,7 +40,7 @@ REASONS = (
      "head, exactly where the defect is"),
     (re.compile(r"reader-review-example|benchmark|test-run-protocol"),
      "that carries another reader's verdict and findings, and you would find them again"),
-    (re.compile(r"(^|/)\.claude(/|$)"),
+    (re.compile(r"(^|/)(\.claude|roles)(/|$)"),
      "those are the rules the chapters were written against. A reader does not have them"),
     (re.compile(r"(^|/)novel\.md$"),
      "that is the novel's configuration and premise, not its pages"),
@@ -78,8 +83,8 @@ def main():
         if why:
             sys.stderr.write(
                 "Blocked: `%s` is not yours to open - %s.\n"
-                "Read the chapters you were pointed at, and docs/reader-review.md for the "
-                "procedure. If a finding needs a fact you do not have, that absence IS the "
+                "Read the chapters you were pointed at, and roles/review/reader-review.md for "
+                "the procedure. If a finding needs a fact you do not have, that absence IS the "
                 "finding: say so and move on.\n" % (path, why))
             return 2
     return 0

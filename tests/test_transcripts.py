@@ -230,6 +230,30 @@ class TestToolAndSkillDetection(unittest.TestCase):
         """
         self.assertIn("power-scaling",
                       self._skills("/r/.claude/skills/power-scaling/references/draft-card.md"))
+        self.assertIn("power-scaling",
+                      self._skills("/r/.claude/roles/draft/power-scaling.draft-card.md"))
+
+    def test_the_root_layout_counts(self):
+        """The tree at the repo root, which is where the role folders live now."""
+        self.assertIn("power-scaling",
+                      self._skills("/r/roles/draft/power-scaling.draft-card.md"))
+        self.assertIn("voice-separation",
+                      self._skills("/r/roles/shared/voice-separation.mirror-clause.md"))
+
+    def test_a_word_ending_in_roles_is_not_a_role_file(self):
+        """`ROLE_IN_TEXT` lost its `.claude/` anchor when the tree moved to the root, so the
+        thing that stops it matching inside a longer word is now a lookbehind rather than a
+        literal prefix. Without it `controles/draft/x.y.md` reads as an open.
+        """
+        self.assertEqual(self._skills("/r/controles/draft/power-scaling.draft-card.md"), {})
+
+    def test_the_scanner_knows_every_layout_kb_does(self):
+        """This module is standard-library-only and imports nothing from `swlib`, because it
+        reads transcripts from outside the repo. That independence is why the two copies of the
+        layout list can drift, and why the join between them has to be a test.
+        """
+        from swlib import kb
+        self.assertEqual(set(transcripts.ROLE_DIRS), set(kb.ROLES_DIRS))
 
     def test_the_skill_tool_counts(self):
         with Root() as root:

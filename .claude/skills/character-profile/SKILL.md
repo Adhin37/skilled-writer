@@ -24,10 +24,10 @@ Open one when its trigger fires, not by default.
 
 | file | open it when |
 |---|---|
-| `references/tier-a-and-b.md` | actually writing a principal's or a supporting character's file — the two procedures and the development-rate dial. Tier C never needs it |
-| `references/nonhuman.md` | the character is an animal, a monster, a construct, an artificial mind or a god — built as a character without being a person in costume |
-| `references/special-cases.md` | the character is an antagonist, a clone or double, or a canon character — or an existing profile needs amending after a chapter changed them |
-| `.claude/roles/gate/character-profile.audit-card.md` | `revision-pass` Pass 2 opens this for the walk-ons. You do not |
+| `roles/draft/character-profile.tier-a-and-b.md` | actually writing a principal's or a supporting character's file — the two procedures and the development-rate dial. Tier C never needs it |
+| `roles/shared/character-profile.nonhuman.md` | the character is an animal, a monster, a construct, an artificial mind or a god — built as a character without being a person in costume |
+| `roles/shared/character-profile.special-cases.md` | the character is an antagonist, a clone or double, or a canon character — or an existing profile needs amending after a chapter changed them |
+| `roles/gate/character-profile.audit-card.md` | `revision-pass` Pass 2 opens this for the walk-ons. You do not |
 
 ## Cast tiers — decide this before writing anything
 
@@ -71,7 +71,7 @@ Three constraints, checked in that file and not in this one:
   under another name, change one of them or merge them.
 
 Copies of a person — clones, avatars, doubles, body-snatches — are exempt, and declare it with the
-`mirror:` block in the frontmatter. See `voice-separation/references/mirror-clause.md` and the Mirrors section below.
+`mirror:` block in the frontmatter. See `roles/shared/voice-separation.mirror-clause.md` and the Mirrors section below.
 
 ## And on the competence grid, for the same reason
 
@@ -88,7 +88,7 @@ columns (`competence-map` §1).
   chapter from quietly inventing a physician because it needed one.
 
 Gods, immortals, cultivators and artificial minds are the exception here, and they declare it with
-`knowledge_scope: broad` plus a shape and a boundary (`competence-map/references/broad-knowledge.md`).
+`knowledge_scope: broad` plus a shape and a boundary (`roles/shared/competence-map.broad-knowledge.md`).
 
 ---
 
@@ -176,7 +176,7 @@ A second, in a different key — the three delivered in one moving sentence rath
 Relation (he answers to Calla), power (he can refuse, and does), stroke (he is rattled and hiding
 it) — none of it captioned, all of it while the scene keeps moving.
 
-**Their stance is theirs, not their gender's.** Every tier-A and tier-B profile records one `stance` — what this character does about what their society expects of their gender, from conforming and benefiting to enforcing it on others. `social-fabric` owns the table and the six terms it hangs off (`social-fabric/references/gendered-experience.md`); no trait follows from gender alone, which `bias-guard` §Gender already settles.
+**Their stance is theirs, not their gender's.** Every tier-A and tier-B profile records one `stance` — what this character does about what their society expects of their gender, from conforming and benefiting to enforcing it on others. `social-fabric` owns the table and the six terms it hangs off (`roles/design/social-fabric.gendered-experience.md`); no trait follows from gender alone, which `bias-guard` §Gender already settles.
 
 **Subtext is priced in what the reader already knows.** A loaded exchange between two people is
 only loaded if the reader can price the relationship. History between characters lands *after*

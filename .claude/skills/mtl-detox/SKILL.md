@@ -30,7 +30,7 @@ Run on every chapter. Not optional.
 
 | file | open it when |
 |---|---|
-| `references/catalogues.md` | `sw lint` is unavailable, or a phrase feels like an artifact and you want the full banned-phrase and structural-cliché lists |
+| `roles/gate/mtl-detox.catalogues.md` | `sw lint` is unavailable, or a phrase feels like an artifact and you want the full banned-phrase and structural-cliché lists |
 
 `sw lint` searches both catalogues on every chapter. Open the file when it cannot run, or when
 you are deciding whether a hit is a defect — which is the half it does not do.

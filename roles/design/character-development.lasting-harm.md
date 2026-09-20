@@ -9,7 +9,7 @@ description: harm that does not heal - the altered baseline, how it differs from
 Open this when something taken in an earlier arc has not come back and the character is still
 carrying it, or when you are about to write a recovery the story never paid for.
 
-`conflict-engine/references/aftermath.md` owns the cost while it is still being paid — the scene,
+`roles/design/conflict-engine.aftermath.md` owns the cost while it is still being paid — the scene,
 and the days after. This file is about what is left when the days run out and the character is
 simply **different now**.
 
@@ -17,7 +17,7 @@ simply **different now**.
 
 ## The third thing
 
-The ladder in `ladders.md` has two motions and most drafts try to force everything into one of
+The ladder in `roles/draft/character-development.ladders.md` has two motions and most drafts try to force everything into one of
 them. Harm is neither.
 
 | | what moves | does it revert | where it is recorded |
@@ -74,7 +74,7 @@ Three deliveries that work, roughly in order of how often they should be used:
 This is not a licence to damage the whole cast. A book in which everyone is permanently marked has
 the same flat register as a book in which nobody is, and it retires the contrast that makes any
 single case land — keep somebody unharmed as the measuring stick, the way a rate-1 character who
-does not change is the measuring stick in `ladders.md`.
+does not change is the measuring stick in `roles/draft/character-development.ladders.md`.
 
 Harm may resolve. The rules are the same as a rung's:
 
@@ -88,7 +88,7 @@ Harm may resolve. The rules are the same as a rung's:
 
 | the case | the owner |
 |---|---|
-| the cost in the scene, and over the days after | `conflict-engine/references/aftermath.md` |
+| the cost in the scene, and over the days after | `roles/design/conflict-engine.aftermath.md` |
 | severity bands, and what may never be undone at all | `grimdark-consequences` — the optional module. This file is the always-on version, because even a hopeful novel teaches the reader to discount a cost that evaporates |
 | what fear, grief or anger look like on *this* person | `social-perception` owns the emotional signature, and it should already be written down. Harm changes a signature; it never replaces one |
 | a skill stage that genuinely dropped | `competence-map` owns the acquisition ladder, in both directions |
@@ -114,5 +114,5 @@ It is read every chapter, because it arrives in the read-set with the rest of th
 costs nothing to carry.
 
 **At every arc boundary**, run it against the three largest costs of the arc — the test in
-`conflict-engine/references/aftermath.md` §The rule. A cost that produced no lasting harm and no
+`roles/design/conflict-engine.aftermath.md` §The rule. A cost that produced no lasting harm and no
 rung movement was a scene ending, not a price.

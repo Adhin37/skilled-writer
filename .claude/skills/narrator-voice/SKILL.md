@@ -21,7 +21,7 @@ parameters; this skill turns them into sentences and keeps them stable for 300 c
 
 | file | open it when |
 |---|---|
-| `references/filtering.md` | the prose feels remote or second-hand, opening lines are going flat, or an arc has closed and the voice needs checking for drift |
+| `roles/draft/narrator-voice.filtering.md` | the prose feels remote or second-hand, opening lines are going flat, or an arc has closed and the voice needs checking for drift |
 
 The four channels stay here: they are mechanical, they are checked every chapter, and `sw lint`
 reads the marks from `channels:` in `novel.md`.
@@ -80,7 +80,7 @@ dramatic; everywhere else it is filler.
 **Interiority is the POV character's, not the narrator's.** Every POV-eligible character has a
 **thought unit** — images, words, numbers, bodies, rules, people, money — recorded in
 `bible/cast/_voices.md` §3, along with their thought speed and what they do facing an unknown
-(`voice-separation/references/channels.md`). Two POV characters who think in the same unit narrate identically however
+(`roles/draft/voice-separation.channels.md`). Two POV characters who think in the same unit narrate identically however
 different their dialogue is, and that is the head-hopping smell readers notice without being able
 to name it.
 

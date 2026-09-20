@@ -46,7 +46,7 @@ If a box fails, **rewrite the sentence rather than substituting a word** — the
 structural repairs no linter can do: individuate or delete any crowd reacting to the POV character,
 cut any passage explaining the system that is not in a mouth with a reason and under 60 words, name
 what the winner of each confrontation paid, and read the last 200 words aloud for flat
-subject-verb-object chains of uniform length. `.claude/skills/mtl-detox/references/catalogues.md` holds the full lists.
+subject-verb-object chains of uniform length. `roles/gate/mtl-detox.catalogues.md` holds the full lists.
 
 ## What it looks like when it lands
 

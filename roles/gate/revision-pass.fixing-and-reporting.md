@@ -120,7 +120,7 @@ have them:
 gate> campaign-clause x2, speech-share 11%, Pass Z redraft of scene 2
 ```
 
-The field is `continuity-summary`'s — `continuity-summary/references/block-format.md` states when
+The field is `continuity-summary`'s — `roles/shared/continuity-summary.block-format.md` states when
 the line is present and when it is omitted, and `write-chapter` step 5 writes it.
 
 ## Re-gating an existing chapter

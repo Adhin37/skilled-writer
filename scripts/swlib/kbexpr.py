@@ -1,6 +1,6 @@
 """The trigger language: when a knowledge-base card applies.
 
-Every card in `.claude/skills/*/references/` declares a `when:` in its frontmatter, and this
+Every card in `roles/{draft,gate}/` declares a `when:` in its frontmatter, and this
 module decides whether it fires for a given novel and chapter. The conditions it replaces were
 prose in two dispatcher tables - "chapter <= `opening.contract_by_ch + 2`", "`scaling.shape` is
 not `none`" - typed by hand in both directions and readable only by a model.
