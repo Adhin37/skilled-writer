@@ -842,10 +842,24 @@ def _contract(repo_root, rep):
     whole argument - so this re-renders and diffs, and a stale block is a defect naming the one
     command that fixes it.
 
+    It also holds the other half of the pair. A rendered contract and `omitClaudeMd: true` go
+    together - the flag without the contract leaves an agent with no rules at all, and the
+    contract without the flag hands it the same rules twice - so `OMIT_CLAUDE_MD` names every
+    agent that must set it, `reader` included, and a missing flag is a defect.
+
     Silent when an agent file carries no block: rendering is opt-in per role and a repo that has
     not adopted it is not broken. What it will not tolerate is a block that exists and disagrees,
     because that is the state where two contracts are live and nobody knows which one was read.
     """
+    for agent, why in sorted(cmd_contract.OMIT_CLAUDE_MD.items()):
+        path = os.path.join(repo_root, AGENTS_REL, agent + ".md")
+        if not os.path.isfile(path):
+            continue
+        cfg = mdio.parse_yaml(mdio.split_frontmatter(mdio.read_text(path))[0])
+        if cfg.get("omitClaudeMd") is not True:
+            rep.defect("contract",
+                       "`%s` does not set `omitClaudeMd: true` - %s" % (agent, why), path=path)
+
     if not os.path.isfile(os.path.join(repo_root, cmd_contract.SOURCE)):
         return
     for role in cmd_contract.roles_with_contracts():

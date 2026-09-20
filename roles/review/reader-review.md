@@ -29,14 +29,37 @@ repairs the prose silently, in the reader's head, exactly where the defect is.
 
 | reader | quality of read | what to do |
 |---|---|---|
-| the `reader` agent (`.claude/agents/reader.md`) | **best** | preferred. It has no `Skill` tool and `omitClaudeMd: true`, so the corpus cannot reach it. Give it the chapter directory |
-| a fresh session, or a human who did not follow the run | **good** | hand over this file and the chapter paths. Not [the worked example](roles/review/reader-review-example.md) — it carries a verdict |
+| the `reader` agent (`.claude/agents/reader.md`) | **best** | preferred. It has no `Skill` tool and `omitClaudeMd: true`, so neither the corpus nor the auto-memory index reaches it — verified by inspecting a live one. Give it the chapter directory |
+| a fresh session, or a human who did not follow the run | **good** | hand over [the brief](roles/review/reader-brief.md) and the chapter paths. Not this file, and not [the worked example](roles/review/reader-review-example.md) — one frames the exercise, the other carries a verdict |
 | the coordinator, some days later | **usable** | note it in the write-up as a contaminated read and expect it to score high |
 | the coordinator, same session | **not a read** | do it anyway if there is no alternative, but record the verdict as an impression, never as a review |
 
-Run #5's cold read, [the worked example](roles/review/reader-review-example.md), came from a reader who had not seen this file, the
-protocol, or the benchmark record, and was not told the chapters were a benchmark. That is the standard
-to reproduce.
+Run #5's cold read, [the worked example](roles/review/reader-review-example.md), came from a reader who had not **seen** this
+file, the protocol, or the benchmark record. That is the standard to reproduce — and it was not
+fully met, which is worth recording rather than quietly fixing.
+
+**Two things told it anyway, and neither was a file it opened.** Its do-not-open table named the
+benchmark record and "any run notes", said the worked example "contains another reader's
+verdict", and said `.claude/` holds "the rules the chapters were written against" — so the reader
+knew the chapters were machine-made to a rubric and had been graded before. That table has been in
+`.claude/agents/reader.md` since its first commit, which predates run #5. And **this file itself
+was handed over whole**, including §3's *"compared across runs #6, #7, #8"*.
+
+Found 2026-09-20 by asking a live `reader` to inventory its own context, which is the only way
+this class of leak is visible at all — no check in this repo can see what a prompt implies.
+
+**Both are now structural.** A denial reason justifies itself *without describing what is behind
+the door*, in the agent file and in `scripts/hooks/reader_guard.py` alike. And the reader no
+longer opens this file: §1 and §3 were rewritten free of framing as
+[`roles/review/reader-brief.md`](roles/review/reader-brief.md), which is the only thing
+`reader_guard.py` allows in this directory and the only procedure the agent is pointed at. §7
+split the *verdict* out and claimed the rest could then be handed over whole; that claim was
+wrong, and this is the second half of the same argument.
+
+Two contaminants remain and are not fixable here. The harness supplies a **git-status snapshot**
+of the parent session, so a reader can see it is sitting in a toolkit repository under active
+refactor; and the spawn prompt must name the brief. Neither is a verdict about the chapters.
+Note them in the write-up rather than assuming them away.
 
 **Do not read `sw audit` output first.** Numbers anchor. A reader who knows `house-style` fired on
 three of five chapters will find house style and stop looking. The facts in §6 come *after* the
@@ -236,12 +259,21 @@ its own right; [the worked example](roles/review/reader-review-example.md) shows
 
 ---
 
-## 7. Worked example
+## 7. What the reader is actually handed
 
 Split out to [`roles/review/reader-review-example.md`](roles/review/reader-review-example.md) — run #5's cold read, with the
 output shape of every phase above filled in.
 
 It is a separate file because it contains a verdict. A reader handed the example along with the
 procedure will find the example's findings; §0's rule used to be *"hand it §1 only"*, enforced by
-whoever remembered. With the verdict gone from this file, **the procedure can be handed over
-whole** and the enforcement is the file boundary instead of a person.
+whoever remembered.
+
+**The reader is handed [`roles/review/reader-brief.md`](roles/review/reader-brief.md), and nothing
+else in this directory.** That file is §1 and §3 rewritten without the framing: no runs, no
+benchmark, no toolkit, no coordinator, no scripts — seven questions, two rules on answering them,
+a behaviour-anchored scale, and permission to count things afterwards. This file is the procedure
+*around* it and is maintainer-facing throughout.
+
+Enforcement is the file boundary rather than a person, in both directions:
+`reader_guard.py`'s allowlist names the brief with a `$` anchor, and
+`test_the_maintainer_s_procedure_is_NOT_allowed` fails if that widens to the directory.

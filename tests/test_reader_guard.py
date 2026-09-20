@@ -50,15 +50,26 @@ class TestWhatTheReaderMayOpen(unittest.TestCase):
     def test_chapters_are_allowed_by_absolute_path(self):
         self.assertEqual(read(os.path.join(REPO, "novels/a/chapters/0001-x.md"))[0], 0)
 
-    def test_the_procedure_is_allowed(self):
+    def test_the_brief_is_allowed(self):
         """And it lives *inside* the tree the corpus rule denies wholesale.
 
         `roles/review/` is under `roles/`, so this passes only while ALLOW is consulted before
         REASONS. Reorder those two and the reader is refused its own instructions - with a
         message about rules it was never meant to have, which reads like a correct block.
         """
-        code, err = read("roles/review/reader-review.md")
+        code, err = read("roles/review/reader-brief.md")
         self.assertEqual(code, 0, err)
+
+    def test_the_maintainer_s_procedure_is_NOT_allowed(self):
+        """The brief is the reader's; `reader-review.md` is the procedure around it.
+
+        That file names what the exercise is for - numbered runs, the write-up, routing findings
+        to owners - so a reader that opens it knows the chapters are being measured, which is the
+        one thing the role exists to not know. The `$` anchor on the brief is what holds the line,
+        and widening it to the directory would quietly undo the split.
+        """
+        self.assertEqual(read("roles/review/reader-review.md")[0], 2)
+        self.assertEqual(read("roles/review/reader-review-example.md")[0], 2)
 
 
 class TestWhatItMayNot(unittest.TestCase):
@@ -78,10 +89,10 @@ class TestWhatItMayNot(unittest.TestCase):
         self.assertEqual(read("novels/a-book/novel.md")[0], 2)
 
     def test_the_worked_example_is_blocked(self):
-        # It carries a verdict. A reader who sees it will find its findings again.
+        # It already reports on these chapters; a reader who sees it finds the same things.
         code, err = read("roles/review/reader-review-example.md")
         self.assertEqual(code, 2)
-        self.assertIn("verdict", err)
+        self.assertIn("already reports", err)
 
     def test_the_benchmark_log_is_blocked(self):
         self.assertEqual(read("docs/benchmark.md")[0], 2)
@@ -97,7 +108,7 @@ class TestWhatItMayNot(unittest.TestCase):
             # Not just blocked - blocked for the stated reason. The catch-all would refuse this
             # too, so asserting only on the exit code would have passed while the corpus rule
             # silently stopped covering the tree it is named for.
-            self.assertIn("rules the chapters were written against", err, path)
+            self.assertIn("how the book was made", err, path)
 
     def test_a_grep_path_is_checked_not_only_file_path(self):
         self.assertEqual(run({"tool_input": {"path": "novels/a-book/bible"}})[0], 2)

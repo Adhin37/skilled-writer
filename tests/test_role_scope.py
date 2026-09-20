@@ -175,8 +175,15 @@ class TestTheReaderHasOneOwner(unittest.TestCase, Mixin):
     def test_the_chapters_are_allowed(self):
         self.allowed("reader", "novels/a-book/chapters/0001-open.md")
 
-    def test_its_own_procedure_is_allowed(self):
-        self.allowed("reader", "roles/review/reader-review.md")
+    def test_its_own_brief_is_allowed_and_the_procedure_is_not(self):
+        """The delegation carries the split too, which is the point of delegating.
+
+        `reader-brief.md` is what a reader opens; `reader-review.md` is the maintainer procedure
+        around it and names what the exercise is for. Had this guard restated the reader's table
+        instead of calling into it, this boundary would have moved in one file and not the other.
+        """
+        self.allowed("reader", "roles/review/reader-brief.md")
+        self.refused("reader", "roles/review/reader-review.md")
 
     def test_the_bible_is_refused_with_the_reader_s_own_reason(self):
         err = self.refused("reader", "novels/a-book/bible/world.md")

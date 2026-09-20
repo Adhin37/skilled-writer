@@ -140,6 +140,23 @@ This is the methodology, not a detail.
 
 ## 5. Before the run
 
+### Start a fresh session, and do not skip this
+
+**Agent definitions are resolved once per session.** `.claude/agents/*.md` — an agent's `tools`,
+its `skills`, its `omitClaudeMd` flag and its whole prompt body — is read at session start and not
+re-read, so **a session that edited an agent file cannot run against the edit**, and the spawn
+succeeds anyway. Nothing errors; you simply measure the previous version.
+
+`.claude/settings.json` is the opposite: hooks there *are* picked up mid-session. So a run can
+easily sit on a new guard and an old agent at the same time, which is the worst of both and looks
+entirely normal. Measured 2026-09-20, twice.
+
+**So: make every toolkit change, then start a new session, then run the pre-flight below.** If an
+agent file changed at any point during the run, the run is over — finish it, write it up, and note
+that the change landed mid-run.
+
+### Pre-flight
+
 ```bash
 git rev-parse --short HEAD                       # record the SHA
 date -u +%FT%TZ                                  # record the UTC start
@@ -159,6 +176,23 @@ touch .test-run                                  # arms the coordinator write gu
 - **Declare the stop condition in advance** — N chapters — and write it into the log.
 - **`novels/` is gitignored and there is no undo.** Anything you want to survive the run goes to
   the scratchpad *and* into the write-up.
+
+### Ask the first agent what it was handed
+
+Before the first chapter, spawn the `drafter` on a throwaway question — *list the numbered
+sections of any operating contract you were given, and say whether you received a memory index* —
+and record the answer in the configuration table. It costs one cheap turn and it is the only way
+to see three things that are invisible to every check in this repo:
+
+| what you are looking for | what it means |
+|---|---|
+| §7, §8 or §10 present | `omitClaudeMd: true` did not take effect, or the agent definition is stale. The drafter is carrying the coordinator's and the maintainer's rules |
+| the contract missing entirely | the rendered block is absent or the flag is set without it. **Stop** — a drafter with no contract is not a run |
+| a memory index present | the auto-memory hooks are in the drafter's context. Check what they say before continuing; an index line naming past run outcomes is a drafter told what to avoid |
+
+**No script can do this.** `sw health` verifies the block is in the file and that the flag is
+declared; whether either reaches a running agent is a fact about the harness, and asking is the
+only instrument.
 
 ## 6. During the run
 
@@ -234,8 +268,14 @@ output, including every one that no script could see.
 **The procedure for this step is [`roles/review/reader-review.md`](roles/review/reader-review.md).** Follow it rather than
 reading however you happen to read: it fixes the order (blind pass, then reconcile against
 `bible/` and `state/`), the output shape, and the 0–5 scale, which is what makes one run's read
-comparable with the next one's. It stays in `docs/` for the same reason this file does — a rubric
-the drafter can see is a rubric the drafter writes toward.
+comparable with the next one's.
+
+**That file is yours, not the reader's.** It names what the exercise is for — numbered runs, this
+protocol, routing findings to owners — so a reader that has read it knows the chapters are being
+measured. What the reader gets is
+[`roles/review/reader-brief.md`](roles/review/reader-brief.md): the same questions and the same
+scale with the framing removed. `reader_guard.py` allows the brief by name and refuses the rest of
+that directory, so this is a file boundary rather than a thing to remember.
 
 **Run the blind pass with the `reader` agent.** `.claude/agents/reader.md` does §1 and §3 — the
 read and the verdict — and it is the only reader in the table whose blindness is enforced rather
@@ -334,12 +374,14 @@ Nothing is committed unless the user asks.
 
 ```
 before    [ ] test run or normal run — established
+          [ ] **fresh session** — no agent file edited since it started (§5)
           [ ] configuration table written, every declared variable has a reason
           [ ] tests + health + selftest green; SHA, UTC start, proxy state recorded
           [ ] baseline audit/lint column captured
           [ ] stop condition declared
           [ ] answer sheet written for the interview
           [ ] `.test-run` created — the write guard is armed, not merely intended
+          [ ] drafter asked what it was handed; contract present, §7/§8/§10 absent (§5)
 during    [ ] agent brief: authoring only, no mention of measurement, do not read docs/
           [ ] no coordinator write under novels/ — not once
           [ ] toolkit frozen
@@ -351,6 +393,8 @@ during    [ ] agent brief: authoring only, no mention of measurement, do not rea
 after     [ ] stopped at the declared count
           [ ] measurement commands run, trace scoped with --session
           [ ] every chapter read by a human, per roles/review/reader-review.md
+          [ ] reader given roles/review/reader-brief.md — never this file, never the example
+          [ ] reader asked what it was handed, and the answer recorded as a contaminant
           [ ] reader review: verdict, ranked findings, unowned findings, divergence
           [ ] fixes designed only now; one owner each; no numeric ship gate
           [ ] tests + health + selftest green again; audit diffed against the baseline

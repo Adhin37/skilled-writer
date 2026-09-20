@@ -36,6 +36,25 @@ from . import kb, mdio, rules
 # `coordinate` is the main session, which loads `CLAUDE.md` whole.
 ROLE_AGENT = {"draft": "drafter", "gate": "gate", "design": "architect"}
 
+# Agents that must not inherit the project's instructions, and the reason each one must not. A
+# rendered contract and `omitClaudeMd: true` are a **pair**: the flag without the contract leaves
+# an agent with no rules, and the contract without the flag hands it the same rules twice.
+#
+# `reader` carries no contract and is here for the other half of what the flag does. Measured
+# 2026-09-20 by inspecting two live subagents: one with the flag received neither `CLAUDE.md` nor
+# the auto-memory index, and one without it received both. The docs list auto memory nowhere in
+# the subagent startup set, so this is the only evidence there is - and for the reader it is the
+# difference between a cold read and one that arrived knowing what previous runs were criticised
+# for. Nothing else in this repo can reach that channel: it is not a tool call, so no hook sees it.
+OMIT_CLAUDE_MD = {
+    "drafter": "it carries a rendered contract, and without this it receives that contract twice",
+    "gate": "it carries a rendered contract, and without this it receives that contract twice",
+    "architect": "it carries a rendered contract, and without this it receives that contract "
+                 "twice",
+    "reader": "its whole value is not having read the rubric, and this is also the only thing "
+              "that keeps the auto-memory index out of a cold read",
+}
+
 SOURCE = "CLAUDE.md"
 BEGIN = "<!-- BEGIN GENERATED CONTRACT: sw contract %s -->"
 END = "<!-- END GENERATED CONTRACT -->"

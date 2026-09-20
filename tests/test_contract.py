@@ -48,7 +48,8 @@ The slash commands, which are the user's interface.
 Another rule.
 """
 
-AGENT = "---\nname: drafter\ndescription: writes a chapter.\ntools: Read\n---\n\n# drafter\n\nbody\n"
+AGENT = ("---\nname: drafter\ndescription: writes a chapter.\ntools: Read\n"
+         "omitClaudeMd: true\n---\n\n# drafter\n\nbody\n")
 
 
 class Fake(object):
@@ -213,6 +214,45 @@ class TestTheHealthCheck(unittest.TestCase):
             p = os.path.join(f.dir, ".claude", "agents", "drafter.md")
             write(p, f.agent().replace("A rule that binds everybody.", "A rule I tweaked here."))
             self.assertEqual(len(f.health()), 1)
+
+
+class TestTheFlagAndTheContractAreAPair(unittest.TestCase):
+    """`omitClaudeMd: true` and a rendered contract only make sense together.
+
+    The flag without the contract leaves an agent with no rules at all. The contract without the
+    flag hands it the same rules twice. And for `reader`, which carries no contract, the flag is
+    the only thing that keeps the auto-memory index out of a cold read - measured, because the
+    documentation lists auto memory nowhere in the subagent startup set.
+    """
+
+    def test_every_named_agent_sets_it_in_this_repo(self):
+        for agent in cmd_contract.OMIT_CLAUDE_MD:
+            path = os.path.join(REPO, ".claude", "agents", agent + ".md")
+            self.assertTrue(os.path.isfile(path), agent)
+            with open(path, encoding="utf-8") as fh:
+                self.assertIn("omitClaudeMd: true", fh.read(), agent)
+
+    def test_the_reader_is_named_although_it_has_no_contract(self):
+        """The two halves are separate claims, and the reader is the one that proves it.
+
+        A check that only covered contract-carrying agents would leave the role whose isolation
+        is load-bearing as the one role nothing verifies.
+        """
+        self.assertIn("reader", cmd_contract.OMIT_CLAUDE_MD)
+        self.assertNotIn("reader", cmd_contract.ROLE_AGENT.values())
+
+    def test_a_missing_flag_is_a_defect(self):
+        with Fake() as f:
+            cmd_contract.write(f.dir, "draft")
+            self.assertEqual(f.health(), [])
+            p = os.path.join(f.dir, ".claude", "agents", "drafter.md")
+            with open(p, encoding="utf-8") as fh:
+                body = fh.read()
+            write(p, body.replace("omitClaudeMd: true\n", ""))
+            found = f.health()
+            self.assertEqual(len(found), 1, found)
+            self.assertIn("omitClaudeMd", found[0].message)
+            self.assertIn("twice", found[0].message)
 
 
 class TestAgainstTheRealRepo(unittest.TestCase):
