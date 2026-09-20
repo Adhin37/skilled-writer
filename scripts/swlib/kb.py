@@ -116,10 +116,11 @@ def roles_dir(repo_root):
 # `docs/creative-latitude.md`.
 FORCE = ("absolute", "structural", "stylistic")
 
-# Which agent may open a skill. A role is a *view* over the corpus, never a location in it: 23 of
-# the 32 card-carrying skills serve both the draft and the gate, so splitting the corpus into
-# per-role folders would have to duplicate them - the defect class `metadata.owns:` exists to
-# remove. The axis routes; it moves nothing.
+# Which agent may open a skill. The corpus is split by role on disk (`BUCKETS` above), and this
+# axis is the skill-level companion to that: a card's bucket says which role opens the card, and
+# `role:` says which roles the skill it belongs to is part of. The two are allowed to disagree,
+# and `cmd_health._partition()` says where and why - a note's bucket is a property of the
+# citation graph, while `role:` is a property of the skill.
 ROLES = ("design", "draft", "gate", "review", "coordinate")
 
 # `review` carries no corpus, deliberately. A cold read is only worth having from someone who has

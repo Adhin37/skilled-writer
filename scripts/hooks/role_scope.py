@@ -19,10 +19,32 @@ the "that belongs to another role" pattern, so a drafter reading its own bucket 
 with a message about somebody else's tree - which reads exactly like a correct block. Reversing
 the two loops kills `test_a_role_reads_its_own_bucket`, by name.
 
-What this does **not** cover: `Bash`. A deliberate `cat roles/gate/...` is not intercepted, the
-same way `write_scope.py` does not intercept a `Bash` write. What closes is the accidental path
-and every tool-driven one, which is what actually happens. Say that rather than claiming a
-sandbox.
+**What this does not cover is `Bash`, and in this harness that is the main road, not a
+footnote.** Measured 2026-09-20 by probing a live `drafter`, which is the only way to learn any
+of it:
+
+  - A subagent here has **no `Grep` and no `Glob`** - they are absent from its tool list, not
+    merely scoped - so its only search is `grep` through `Bash`, which never reaches this hook.
+    The `Grep|Glob` half of the matcher and the unrooted-search rule below are inert for the
+    agents that matter, and are kept because another harness may hand them over.
+  - In **auto mode the harness instructs every agent to prefer `Bash` for reading**: *"read files
+    with cat, head, or sed -n ... rather than using the dedicated Read, Edit, or Write tools."*
+    A drafter that follows that instruction opens an audit card with `cat` and this guard never
+    runs. In the probe it arrived attached to a tool result, and the drafter obeyed the user's
+    explicit "use the Read tool" over it - which is the only reason the probe measured anything.
+
+So the honest claim is narrow, and narrower than the plan assumed. **Every `Read` an agent makes
+is judged, and a deliberate `cat` is not.** It is still worth having for two reasons that do not
+depend on being a wall: the four verdicts the probe exercised were exactly right, and the refusal
+*names the card that sent the agent somewhere it should not be*, which is the defect worth
+finding. The structural half of the job belongs to `sw health`'s partition check, which stops
+such a card being written at all.
+
+Extending this to `Bash` means pattern-matching command lines, and the failure mode runs the
+wrong way: a guard that misreads a pipeline and refuses a legitimate `sw` call is a guard
+somebody removes, and then nothing is guarded. If it is done, it should match a short list of
+plain readers (`cat`, `head`, `sed -n`, `less`) against a denied tree and fail open on everything
+else.
 
 Contract: JSON on stdin, exit 2 blocks with the reason on stderr, exit 0 allows. Stdlib only.
 Fails **open** on anything it does not understand - an unknown agent, an unparseable payload, a

@@ -282,11 +282,8 @@ Whatever this pass has to undo is still a gate fix and belongs in the `Gate:` li
 ## Pass 10 — Mechanics
 
 Frontmatter, scene breaks, the POV label, and the measured word count — **`roles/gate/revision-pass.owned-passes.md`
-§Pass 10**. Stamping runs **last**, because a pass that changes the body changes the count:
-
-```bash
-python3 scripts/sw.py stamp novels/<slug> -c <n> --status revised --ledger
-```
+§Pass 10**, which also says who stamps. A pass that changes the body changes the count, so the
+count is measured here and stamped by `write-chapter` step 4, after this pass returns.
 
 **The four channels** are `narrator-voice`'s to enforce — open that skill's audit card.
 

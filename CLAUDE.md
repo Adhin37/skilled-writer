@@ -94,9 +94,10 @@ no chapter is scored on the row.
 
 ## 3. Skill registry
 
-Every skill is `.claude/skills/<name>/SKILL.md` plus a `references/` directory. The body is the
-procedure; the references hold examples, catalogues and long tables, and are opened when the body
-says to. See §8.
+Every skill is `.claude/skills/<name>/SKILL.md` and nothing else — 44 directories, one file
+each. The body is the procedure. Everything that used to sit beside it in `references/` now lives
+in the role trees as `roles/<bucket>/<owner>.<stem>.md`, where the bucket names the role that
+opens the file, and is opened when something says to. See §8.
 
 **Each skill's frontmatter declares what it owns**, and the claim is exclusive — the table below
 says when to reach for a skill, `metadata.owns:` says whose rule a thing is when two skills both
@@ -159,9 +160,14 @@ The answer to "where does this rule live?" is always one skill, and every other 
 
 **Every module carries cards, not a body.** An active module is opened through its draft card in
 Phase A and its audit card in the pass its frontmatter names — `sw kb cards` and `sw kb passes`
-resolve both against this novel's config. Opening a module's `SKILL.md` mid-draft is the mistake
-§8 exists to prevent; the body is for designing the thing, the card for deciding it. That is a
-`draft` and `gate` rule — the `design` role opens bodies, which is what they are for (§10).
+resolve both against this novel's config. The body is for designing the thing, the card for
+deciding it.
+
+**Where each role reads, stated once and cited from everywhere else.** `design` opens
+`.claude/skills/`. `draft` opens `roles/draft/` and `roles/shared/`. `gate` opens `roles/gate/`
+and `roles/shared/`. Draft and gate each additionally load exactly one procedure body — their
+dispatcher, preloaded by the harness. Nobody has to remember this: there is no `SKILL.md` inside
+a role tree to open, and `scripts/hooks/role_scope.py` refuses the rest (§10).
 
 ## 4. Hard rules
 
@@ -174,10 +180,14 @@ resolve both against this novel's config. Opening a module's `SKILL.md` mid-draf
    reading — a field that arrives missing or truncated is fetched from its source and named in the
    report, because a drafter guessing at a field is worse than one that opened the file.
 2. **State after prose.** Every finished chapter appends one CCS block to `state/continuity.md`
-   and updates `state/threads.md` and `state/growth.md`, plus `state/body.md` on a form change.
+   and updates `state/threads.md`, `state/growth.md` and `state/timeline.md`, plus
+   `state/body.md` on a form change.
    A chapter written without this is a bug.
-3. **Never invent bible facts silently.** If a needed fact is absent, add it to `bible/` in the
-   same turn and say so. Contradicting an existing bible fact is a defect.
+3. **Never invent bible facts silently.** If a needed fact is absent, `design` adds it to
+   `bible/` in the same turn and says so; `draft` **reports** the absence and does not add it —
+   `write_scope.py` holds it out of `bible/` anyway, and a drafter that edits the world to fit
+   the chapter has removed the only signal that the world was underspecified. Contradicting an
+   existing bible fact is a defect.
    Corollary — **the world is delivered, not described.** Every world fact reaches the reader as a
    consequence, a friction or an assumed reference before it is reached as narration, and direct
    description is budgeted (`world-texture`). A world whose central rule has not reached ordinary
@@ -296,7 +306,7 @@ a reader flagged it as machine-written on page one and priced it at one star.
 avoids all of it, and what fills the vacuum is the model's own default register: every sentence
 loaded, every scene closed on a small ironic withholding, one temperature for a whole book. That
 is a *narrower* fingerprint than the cliché the bans removed. So the rules below are commitments
-first and bans second, and there are ten of them.
+first and bans second, and there are eleven of them.
 
 **The seven commitments.**
 
@@ -325,7 +335,7 @@ first and bans second, and there are ten of them.
    (`world-texture`), and a central rule that has not reached labour, money and law is a stage set
    (`social-fabric`).
 
-**The ten bans that still earn their place.**
+**The eleven bans that still earn their place.**
 
 - No stock beats: *"his expression changed drastically"*, *"as expected of"*, *"unexpectedly"*,
   *"in the next instant"*, *"trash!"*, *"you dare?"*, *"little did he know"*.
@@ -447,14 +457,16 @@ and `/novel-write <n>` on a chapter that already exists offers to re-gate it or 
 Skills are **procedures for a model with limited budget**: numbered steps, explicit formats,
 concrete examples, hard checklists. Prefer a table over a paragraph.
 
-**Procedure in the body, everything else in `references/`.** A `SKILL.md` holds what the skill
+**Procedure in the body, everything else in the role trees.** A `SKILL.md` holds what the skill
 owns, the procedure and the rules. Worked examples, failure catalogues, genre notes and long
-tables go to `references/<topic>.md`, cited with an explicit trigger — *open this when …*. Skills
-that `revision-pass` consults carry an **audit card** in their `references/`, written by that
-skill's owner; `revision-pass` opens the card rather than paraphrasing it.
+tables go to `roles/<bucket>/<owner>.<topic>.md`, cited with an explicit trigger — *open this
+when …*. Which bucket is not a judgement call: it is whichever roles can reach the file by
+citation, and `sw health` says so. Skills that `revision-pass` consults carry an **audit card** in
+`roles/gate/`, written by that skill's owner; `revision-pass` opens the card rather than
+paraphrasing it.
 
 **The same rule on the drafting side: a draft card.** A skill whose decision `write-chapter` makes
-carries a **draft card** in their `references/` — the 15–40 lines that produce that one answer,
+carries a **draft card** in `roles/draft/` — the 15–40 lines that produce that one answer,
 written by the skill that owns it. The two are a pair and both stay: a **draft card decides**, an **audit card
 checks**. Neither dispatcher paraphrases its sources; both open the owner's file, and the file is
 small enough to be worth opening. Rationale: [design notes](docs/design-notes.md).
@@ -520,6 +532,7 @@ contradiction waiting for whichever skill gets edited next. Rationale:
 | `load <novel> -c N` | what the toolkit hands the drafter for one chapter — cards, words, checkboxes and negations, per phase. Measures the **instructions**, never the chapter |
 | `trace [novel]` | what a run cost, and **which skill files and cards it actually opened** — the finding-9 check, and the card count two benchmark runs assembled by hand |
 | `export <novel> --okf --out <dir>` | project a novel into an Open Knowledge Format bundle — an **export target, never the working format**, because `readset` hands over slices and a bundle hands over whole files |
+| `contract <role> [--write]` | render one role's slice of this file into its agent, and `health` re-renders and diffs it |
 | `health` | the toolkit's own wiring: skills, cards, references, **scope claims and cross-skill duplication**, the **card and word budgets**, the template accessors, the docs |
 | `selftest` | the dry run — build a whole novel in a temp dir and run every command against it, clean and seeded |
 | `doctor` | start here when anything behaves oddly |
@@ -571,11 +584,14 @@ stands whether or not anything is compressing.
 
 ## 10. Roles
 
-Five roles, and the corpus is **sliced by role, never split by it**. `metadata.role:` on every
-skill names which agents may open it, and `sw kb view <role> [<novel> -c N]` resolves the slice —
-skills plus that role's cards, against this novel. Nothing moves: 23 of the 32 card-carrying
-skills serve both the draft and the gate, so a per-role folder would have to hold two copies of
-each, which is the defect class §8 exists to remove.
+Five roles, and the corpus is **split by role**, not merely sliced by it. `roles/draft/`,
+`roles/gate/`, `roles/shared/`, `roles/design/` and `roles/review/` hold every card and note, one
+file each, named `<owner>.<stem>.md`. Nothing is duplicated, because the unit that moves is the
+**card**, not the skill: a skill that serves both phases contributes a draft card to one tree and
+an audit card to the other, and they were always two files with two owners. `metadata.role:` on
+every skill still names which agents may open it and `sw kb view <role> [<novel> -c N]` still
+resolves the slice — but the axis now describes a tree instead of standing in for one, and
+`sw health` recomputes what each role can reach and defects on a file whose bucket disagrees.
 
 | role | the decision it owns | writes | agent |
 |---|---|---|---|
@@ -616,9 +632,15 @@ runs for the **coordinator**, which is the main session and has no agent file to
 `permissions.deny` rule cannot do this job: deny rules are global, so denying `Write(novels/**)`
 to stop the coordinator stops the drafter too. Both **fail open** on anything they do not
 understand — an unknown agent, an unparseable payload — because a guard that blocks work it was
-never meant to judge is a guard that gets switched off. And neither covers `Bash`: a deliberate
-`cat roles/gate/...` is not intercepted. What closes is the accidental path and every tool-driven
-one, which is why the word above is still **routing**.
+never meant to judge is a guard that gets switched off.
+
+**Neither covers `Bash`, and that is why the word above is still routing.** A live probe on
+2026-09-20 established how wide the gap is: a subagent here has no `Grep` and no `Glob` at all,
+so its only search is `grep` through `Bash`; and in auto mode the harness tells every agent to
+prefer `cat`, `head` and `sed -n` over the `Read` tool. Every `Read` an agent makes is judged and
+a deliberate `cat` is not — so an agent that follows its harness instruction is unguarded. What
+the guards are for is the accidental path, and the refusal naming the card that misrouted the
+agent. The structural half is `sw health`'s partition check, which stops such a card existing.
 
 **The coordinator's half is armed by a marker, not by assumption.** `CLAUDE.md` bans the
 coordinator from writing under `novels/` *in a test run*, and says in as many words that this
@@ -629,12 +651,11 @@ Without it the rule is back to goodwill, which is what it was when run #4 was re
 
 ### Rules that bind a role, not the toolkit
 
-Four rules in this file read as though they bind everyone. They do not, and a role that inherits
+Three rules in this file read as though they bind everyone. They do not, and a role that inherits
 the wrong one does its own job worse:
 
 | rule | binds | does **not** bind |
 |---|---|---|
-| §3 "a module is opened through its card, never its `SKILL.md`" | `draft` `gate` | `design` — the body *is* for designing the thing |
 | §15 "never read past chapter files" | `draft` | `review` — reading all of them is the whole job |
 | "the writing agent does not read `docs/`" (`AGENTS.md`) | `draft` `gate` `review` | `coordinate` — `docs/` is six maintainer files and nothing else |
 | this entire file | `coordinate` `design` `draft` `gate` | `review` — `omitClaudeMd: true` |

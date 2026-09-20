@@ -1,7 +1,7 @@
 # Continuity ledger (CCS)
 
 **Machine-only. Do not prettify. Do not write prose here.** Format spec and legend live in
-`.claude/skills/continuity-summary/SKILL.md`. Newest chapter blocks go at the bottom of §3.
+`roles/shared/continuity-summary.block-format.md`. Newest chapter blocks go at the bottom of §3.
 
 ---
 

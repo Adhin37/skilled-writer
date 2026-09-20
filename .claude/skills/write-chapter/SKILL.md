@@ -36,7 +36,7 @@ is cheap, and skipping one is what produces the drift that ruins long serials.
 3. Determine the chapter number: highest existing file in `chapters/` + 1, unless told otherwise.
 4. Run `continuity-summary` in **read mode** — `python3 scripts/sw.py readset novels/<slug> -c <N>`
    assembles it in one call, sliced rather than whole-file. You now have the read-set and the
-   chapter brief. Steps 1 and 2 above are in its CONFIG block, so `novel.md` needs no separate
+   entry note. Steps 1 and 2 above are in its CONFIG block, so `novel.md` needs no separate
    read. Without Python, load the list in `continuity-summary` by hand.
 5. Read the target row in `plan/chapters.md`. If it is missing or any of
    goal/obstacle/turn/cost/hook is blank, run `chapter-plan` for this row first. Do not draft
@@ -49,7 +49,7 @@ is cheap, and skipping one is what produces the drift that ruins long serials.
 Phase A spends the cards below and produces **one brief**; Phase B drafts from that brief and four
 cards, nothing else. Why it is split this way: `roles/draft/write-chapter.card-index.md`.
 
-The brief is thirteen lines — fourteen when the read-set printed a WATCH row.
+The brief is twelve lines — thirteen when the read-set printed a WATCH row.
 
 ```
 Ch 12 — "The Second Quarter"
@@ -74,7 +74,7 @@ instead of remembering it.
 
 **Then stop and show it to the user.** They approve it, change a line, or throw it out — the
 cheapest gate in the toolkit, because a chapter that was going to be a thousand words of somebody
-quietly feeling something gets caught for thirteen lines instead of after the draft. Skip the stop
+quietly feeling something gets caught for twelve lines instead of after the draft. Skip the stop
 only if told to (`/novel-write --no-confirm`, or "just write the next five"): Phase A still
 happens, you simply do not wait.
 

@@ -675,12 +675,18 @@ class TestPartition(unittest.TestCase):
     # -- 1: no body in a role tree -------------------------------------------
 
     def test_a_skill_body_inside_a_role_tree_is_a_defect(self):
-        """The whole point of the move. It is the one assertion that needs no index."""
+        """The whole point of the move. It is the one assertion that needs no index.
+
+        Exactly one finding, and the body cites `docs/` to prove it: assertion 5 would otherwise
+        add "move the rationale to `provenance:`", which is what you do to a note that belongs in
+        the tree rather than to a file that belongs outside it. A real body does cite `docs/` -
+        `revision-pass/SKILL.md` does - so this fired the first time it was tried for real.
+        """
         with Fake() as f:
             self.base(f)
             with open(os.path.join(f.roles, "draft", "SKILL.md"),
                       "w", encoding="utf-8", newline="\n") as fh:
-                fh.write("---\nname: smuggled\n---\n\n# body\n")
+                fh.write("---\nname: smuggled\n---\n\n# body\n\nSee docs/design-notes.md.\n")
             self.only(f.run(), "is a skill body inside a role tree")
 
     # -- 2: one bucket deep, `.md` only, `<owner>.<stem>.md` -----------------

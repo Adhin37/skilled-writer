@@ -2,7 +2,7 @@
 
 What was researched for this toolkit, where it came from, and which rule it produced. Provenance
 only — nothing here is loaded at runtime. The runtime knowledge lives in
-`.claude/skills/story-craft/references/`, because a file no dispatcher names never enters context
+`roles/draft/story-craft.*`, because a file no dispatcher names never enters context
 (benchmark finding 9).
 
 Researched 2026-09-09, prompted by a reader report that the generated novel "goes fast to the

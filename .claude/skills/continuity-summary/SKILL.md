@@ -100,12 +100,14 @@ If the read-set exceeds what you can hold, drop items 4 and 3-oldest first. Neve
 ## Procedure — before drafting (read mode)
 
 1. Assemble the read-set above — `sw readset novels/<slug> -c <N>`, or by hand.
-2. Produce a **chapter brief** — internal, ≤10 lines, not written to disk:
+2. Produce an **entry note** — internal, ≤10 lines, not written to disk. Not to be confused with
+   *the brief*, which is Phase A's twelve-line construction plan in `state/brief.md`; this one
+   is what you carry **into** the chapter, and it is four questions about state:
    - what the reader knows entering this chapter that the POV character does not, and vice versa
    - which threads are due
    - which characters must sound different than they did last time (from `growth.md`)
    - the one fact from the last five chapters this chapter must not contradict
-3. Hand the brief to `write-chapter`.
+3. Hand the entry note to `write-chapter`.
 
 ## Procedure — after drafting (write mode)
 

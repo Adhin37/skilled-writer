@@ -136,13 +136,15 @@ scene, and the scene is better without it.
 - [ ] `wordcount:` is **measured**, never estimated, and re-measured if any pass changed the body
 
 A wrong count propagates into `state/continuity.md` and corrupts every share computed from it, so
-stamping runs **last**. It rewrites frontmatter only, never the prose:
+stamping runs **last** — and it is not this pass's to run. `wordcount:` in the frontmatter and
+`wc:` in the CCS block are one write landing in two files, and the gate is held to `chapters/`,
+so it could do half of it. Half a paired write is how the two get out of step. Measure the body,
+**report the number**, and let `write-chapter` step 4 stamp both:
 
 ```bash
-python3 scripts/sw.py stamp novels/<slug> -c <n> --status revised --ledger
+wc -w novels/<slug>/chapters/<file>.md      # the gate measures
+python3 scripts/sw.py stamp novels/<slug> -c <n> --status revised --ledger   # step 4 stamps
 ```
-
-Without Python, measure the body with `wc -w` and write both numbers by hand.
 
 **The four channels** are `narrator-voice`'s to enforce, not this file's — open
 `roles/gate/narrator-voice.audit-card.md`.

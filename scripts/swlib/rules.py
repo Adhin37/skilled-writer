@@ -406,3 +406,23 @@ def corpus_floor_applies(repo_root):
     in it is not, and a floor that fired on fixtures would be switched off inside a week.
     """
     return os.path.isfile(os.path.join(repo_root, "scripts", "swlib", "rules.py"))
+
+
+# Which `## N.` sections of `CLAUDE.md` a role is NOT bound by. Everything else is included, and
+# the asymmetry is deliberate: a rule wrongly carried costs a few hundred words of a role's
+# attention, and one wrongly dropped costs a chapter. So a section added next month reaches every
+# role until somebody writes it into this table on purpose.
+#
+#   7   the slash commands - the user's interface to the coordinator, not a role's own procedure
+#   8   how to author a skill file - the maintainer's job. A drafter that reads it may try to do it
+#  10   the role table and the guards - each agent's own scope is in its agent file, stated once
+#
+# Measured before it was built: this drops 1,574 of 7,583 words for each of the three. It is not
+# sold as a token saving - see `CARD_WORD_BUDGET` for why this repo does not buy those - but as
+# three fewer things competing for attention with the chapter, two of which describe work the
+# role does not do.
+CONTRACT_EXCLUDES = {
+    "draft": ("7", "8", "10"),
+    "gate": ("7", "8", "10"),
+    "design": ("7", "8", "10"),
+}

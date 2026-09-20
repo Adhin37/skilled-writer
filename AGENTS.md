@@ -60,9 +60,13 @@ without this is a bug.
   gates and both were optimised rather than satisfied. Every measurement is reported and gates
   nothing; findings that are only meaningful in aggregate are counted across chapters and raised
   as a *habit*, never as a per-chapter verdict.
-- **A role is a view, not a folder.** Every skill declares `metadata.role:`, and
-  `python3 scripts/sw.py kb view <role>` prints that agent's whole slice. 23 of the 32
-  card-carrying skills serve both the draft and the gate, so nothing is moved to scope it.
+- **A role is a folder.** `roles/draft/`, `roles/gate/`, `roles/shared/`, `roles/design/` and
+  `roles/review/` hold every card and note, one file each, named `<owner>.<stem>.md`, and
+  `python3 scripts/sw.py kb view <role>` prints that agent's whole slice. Nothing is duplicated:
+  the unit is the card, not the skill, so a skill that serves both phases contributes one file to
+  each tree. Two hooks in `.claude/settings.json` hold the boundary — `write_scope.py` for what a
+  role writes, `role_scope.py` for what it reads. Neither covers `Bash`, so the word is
+  **routing**, not a sandbox.
 - **One concept, one owner.** Every skill declares `metadata.owns:` in frontmatter, and the claim
   is exclusive. State the rules you own; for everything else, cite the owner by name and stop.
   `python3 scripts/sw.py kb owner <slug>` answers "whose rule is this?" without opening anything.
@@ -71,7 +75,7 @@ without this is a bug.
 ## Before you commit a change to the toolkit
 
 ```bash
-python3 -m unittest discover tests   # 448 tests
+python3 -m unittest discover tests   # 625 tests
 python3 scripts/sw.py health         # wiring, scope claims, duplication, the budgets
 python3 scripts/sw.py selftest       # builds a novel in a temp dir; proves every check fires
 ```

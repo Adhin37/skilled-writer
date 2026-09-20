@@ -21,7 +21,7 @@ import tempfile
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from swlib import (cmd_arc, cmd_cast, cmd_curve, cmd_health, cmd_load,  # noqa: E402
-                   cmd_history, cmd_kb, cmd_lint, cmd_readset, cmd_selftest,
+                   cmd_contract, cmd_history, cmd_kb, cmd_lint, cmd_readset, cmd_selftest,
                    cmd_export, cmd_state, cmd_status, cmd_trace, cmd_write, kb)
 from swlib.novelio import Novel, resolve  # noqa: E402
 from swlib.rates import Rates  # noqa: E402
@@ -34,7 +34,7 @@ USAGE_ERROR = 2
 # a second list that drifts.
 COMMANDS = ("readset", "lint", "arc", "cast", "curve", "state", "status", "stamp", "audit",
             "newnovel", "doctor", "trace", "history", "health", "selftest", "kb", "export",
-            "load")
+            "load", "contract")
 
 
 def _novel(args):
@@ -410,6 +410,12 @@ def build_parser():
     sp.add_argument("--okf", action="store_true", help="Open Knowledge Format v0.2")
     sp.add_argument("--out", help="destination directory; must not already exist")
     sp.set_defaults(func=do_export)
+
+    sp = sub.add_parser("contract", help="render one role's slice of CLAUDE.md into its agent")
+    sp.add_argument("role", choices=cmd_contract.roles_with_contracts())
+    sp.add_argument("--write", action="store_true",
+                    help="write it into the agent file instead of printing it")
+    sp.set_defaults(func=lambda args: cmd_contract.run(REPO_ROOT, args))
 
     sp = sub.add_parser("kb", help="query the craft knowledge base - owners, cards, concepts")
     sp.add_argument("action", choices=list(cmd_kb.ACTIONS))

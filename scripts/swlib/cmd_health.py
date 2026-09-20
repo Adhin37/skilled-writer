@@ -12,7 +12,7 @@ import json
 import os
 import re
 
-from . import cmd_load, kb, mdio, rules
+from . import cmd_contract, cmd_load, kb, mdio, rules
 from .novelio import Novel
 from .report import Report
 
@@ -122,6 +122,7 @@ def run(repo_root, commands=None):
     _force(repo_root, rep)
     _role(repo_root, rep)
     _partition(repo_root, rep)
+    _contract(repo_root, rep)
     _agents(repo_root, rep)
     _settings_hooks(repo_root, rep)
     _card_budget(repo_root, rep)
@@ -673,10 +674,9 @@ def _force(repo_root, rep):
 def _role(repo_root, rep):
     """Every skill declares which agent may open it.
 
-    A role is a view over the corpus, not a location in it - 23 of the 32 card-carrying skills
-    serve both the draft and the gate, so a per-role folder split would have to duplicate them.
     A skill with no role is a skill no agent reaches; a misspelled role is worse, because it
-    presents as a skill quietly missing from a view rather than as an error.
+    presents as a skill quietly missing from a view rather than as an error. Where the files
+    themselves sit is `_partition`'s question, not this one.
 
     The card budget is *not* re-checked here. `CARD_BUDGET` bounds the unconditional card set by
     kind, `_card_budget` below already enforces it, and draft-card/audit-card map one-to-one onto
@@ -809,7 +809,11 @@ def _partition(repo_root, rep):
         if not os.path.isdir(bdir):
             continue
         for fname in sorted(os.listdir(bdir)):
-            if not fname.endswith(".md"):
+            if not fname.endswith(".md") or fname == "SKILL.md":
+                # Assertion 1 already condemns a body here, and its advice is the right advice.
+                # This one would add "move the rationale to `provenance:`", which is what you do
+                # to a note that belongs in the tree - not to a file that belongs outside it.
+                # Same reason `kb._build_roles()` declines to index it: one fault, one report.
                 continue
             fpath = os.path.join(bdir, fname)
             body = mdio.split_frontmatter(mdio.read_text(fpath))[1]
@@ -828,6 +832,34 @@ DOCS_CITATION = re.compile(r"\bdocs/[A-Za-z0-9._-]+\.md")
 
 def _reached_by(rel, reach):
     return ", ".join(sorted(r for r in reach if rel in reach[r]))
+
+
+def _contract(repo_root, rep):
+    """The rendered role contracts still match `CLAUDE.md`.
+
+    `sw contract <role> --write` copies a slice of the operating contract into that role's agent
+    file. A copy is a second thing to maintain unless something re-derives it, which is §8's
+    whole argument - so this re-renders and diffs, and a stale block is a defect naming the one
+    command that fixes it.
+
+    Silent when an agent file carries no block: rendering is opt-in per role and a repo that has
+    not adopted it is not broken. What it will not tolerate is a block that exists and disagrees,
+    because that is the state where two contracts are live and nobody knows which one was read.
+    """
+    if not os.path.isfile(os.path.join(repo_root, cmd_contract.SOURCE)):
+        return
+    for role in cmd_contract.roles_with_contracts():
+        path = cmd_contract.agent_path(repo_root, role)
+        if not os.path.isfile(path):
+            continue
+        have = cmd_contract.current(repo_root, role)
+        if have is None:
+            continue
+        if have.strip() != cmd_contract.render(repo_root, role).strip():
+            rep.defect("contract",
+                       "the `%s` contract in %s no longer matches %s - re-run `python3 "
+                       "scripts/sw.py contract %s --write`"
+                       % (role, os.path.basename(path), cmd_contract.SOURCE, role), path=path)
 
 
 AGENTS_REL = os.path.join(".claude", "agents")

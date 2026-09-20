@@ -557,9 +557,11 @@ assert that no per-chapter note can be promoted into something that gates.
 CLAUDE.md                         the operating contract, loaded every session
 CONTRIBUTING.md                   where to start before editing the toolkit
 .claude/skills/<name>/SKILL.md    the skills - the procedure a model executes
-.claude/skills/<name>/references/ examples, catalogues, long tables, audit cards
 .claude/commands/*.md             the slash commands
-.claude/settings.json             shared permissions (relative paths — portable)
+.claude/settings.json             shared permissions, and the two role guards
+roles/draft/ gate/ shared/        the cards and notes, split by the role that opens them
+roles/design/ review/             skill-body notes; the cold-read rubric the others never see
+scripts/hooks/*.py               PreToolUse guards - what each role may write, and may read
 scripts/sw.py                     the mechanical toolkit (optional, Python 3.8+)
 tests/                            unittest suite for the toolchain (stdlib, no novel needed)
 docs/                             design notes, benchmark runs, the test-run protocol, maps

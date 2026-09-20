@@ -740,7 +740,7 @@ time window alone is not enough either: the session driving an agent runs in the
 same time. Use `--session`.
 
 **The card figures on this page were counted by hand**, out of the agent transcript, by matching
-`skills/<name>/references/(draft|audit)-card.md` against every tool-use argument and bucketing by
+`roles/(draft|gate)/<owner>.(draft|audit)-card.md` against every tool-use argument, bucketing by
 timestamp against each chapter's last write. `sw trace` does that itself as of 2026-09-19 — a
 `cards` column in the per-chapter table and a `-- cards` section with the per-card breakdown — so
 run #6's figures come out of the tool. The buckets carry the caveat the hand-count had: a Phase A
