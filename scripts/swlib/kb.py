@@ -223,7 +223,12 @@ class Index(object):
             if not os.path.isdir(bdir):
                 continue
             for fname in sorted(os.listdir(bdir)):
-                if not fname.endswith(".md"):
+                if not fname.endswith(".md") or fname == "SKILL.md":
+                    # A body in a role tree is the one thing the split exists to make
+                    # impossible, and it is `cmd_health._partition()`'s assertion 1 to report.
+                    # Indexing it anyway would file it as a corpus file owned by `SKILL` and
+                    # raise a second defect advising a move to `roles/design/` - advice that is
+                    # wrong, because a body belongs in no bucket at all.
                     continue
                 prefix, _, stem = fname.partition(".")
                 if not stem:

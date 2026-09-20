@@ -6,8 +6,6 @@
       "Edit(novels/**)",
       "Write(.claude/**)",
       "Edit(.claude/**)",
-      "Write(.claude/skills/**)",
-      "Edit(.claude/skills/**)",
       "Bash(python3:*)",
       "Bash(python:*)",
       "Bash(py:*)",
@@ -30,6 +28,15 @@
           {
             "type": "command",
             "command": "python3 \"${CLAUDE_PROJECT_DIR}\"/scripts/hooks/write_scope.py"
+          }
+        ]
+      },
+      {
+        "matcher": "Read|Grep|Glob",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PROJECT_DIR}\"/scripts/hooks/role_scope.py"
           }
         ]
       }

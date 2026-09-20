@@ -8,6 +8,8 @@ under test cannot catch the corpus drifting away from it.
 
 import os
 import re
+import shutil
+import tempfile
 import unittest
 
 from fixtures import REPO
@@ -16,6 +18,11 @@ from fixtures import REPO
 def read(path):
     with open(path, encoding="utf-8") as fh:
         return fh.read()
+
+
+def write(path, text):
+    with open(path, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write(text)
 
 from swlib import kb, kbexpr
 
@@ -459,6 +466,125 @@ class TestEntryIsIndexDriven(unittest.TestCase):
         for name in self.idx.skills:
             rel = self.idx.entry(name)
             self.assertTrue(os.path.isfile(os.path.join(REPO, rel)), rel)
+
+
+class TestReachable(unittest.TestCase):
+    """The closure that sorts a corpus file into a bucket, and the seed that is easy to forget.
+
+    A writing role reaches what its cards cite - and what its **dispatcher body** cites, because
+    `draft` and `gate` each open exactly one body, preloaded through `skills:` and granted by
+    path in the Read guard. Seeding from cards alone is a mistake that has been made twice here
+    and failed silently both times: nothing errors, the role simply stops opening a file it
+    needs, and every check stays green.
+    """
+
+    OWNED_PASSES = "%s/gate/revision-pass.owned-passes.md" % kb.ROLES_REL
+
+    def setUp(self):
+        self.idx = kb.index(REPO, refresh=True)
+
+    def citers(self, entry):
+        """Every corpus file whose text resolves to `entry`. The closure's input, measured."""
+        out = []
+        for f in self.idx.files:
+            for m in kb.CITATION.finditer(read(f.path)):
+                if self.idx.resolve(m, f.owner) is entry:
+                    out.append(f.rel)
+                    break
+        for name, skill in self.idx.skills.items():
+            for m in kb.CITATION.finditer(read(skill.path)):
+                if self.idx.resolve(m, name) is entry:
+                    out.append("SKILL:%s" % name)
+                    break
+        return sorted(out)
+
+    def test_every_card_is_reachable_by_the_role_that_opens_it(self):
+        for kind, role in kb.CARD_ROLES.items():
+            reach = self.idx.reachable(role)
+            for f in self.idx.by_type(kind):
+                self.assertIn(f.rel, reach, f.rel)
+
+    def test_the_dispatcher_body_is_a_seed(self):
+        """The file that proved it, still proving it.
+
+        `revision-pass.owned-passes.md` carries six of the gate's own passes and is cited by
+        nothing but `revision-pass/SKILL.md` - so a card-only closure sees no citation of it at
+        all and files it as unreachable. Drop the body from the seed and the gate stops opening
+        Passes 1, 4, 7, 9, 9d and 10 with no error anywhere.
+        """
+        entry = self.idx._by_rel.get(self.OWNED_PASSES)
+        self.assertIsNotNone(entry, self.OWNED_PASSES)
+        self.assertEqual(self.citers(entry), ["SKILL:revision-pass"],
+                         "no card cites it - the dispatcher body is the only route")
+        self.assertIn("revision-pass", kb.DISPATCHER_BODIES["gate"])
+        self.assertIn(self.OWNED_PASSES, self.idx.reachable("gate"))
+
+    def test_neither_role_reaches_the_other_s_cards(self):
+        """Part 7's sixth assertion, asserted where it belongs rather than as a second check.
+
+        `cmd_health._partition()` does not implement it: it is the special case of the bucket
+        comparison where the disagreement is a card's, and a `draft/` file the gate reaches
+        already wants `shared/`. Pinning it here keeps the claim falsifiable without giving the
+        repo two checks that fail together.
+        """
+        draft, gate = self.idx.reachable("draft"), self.idx.reachable("gate")
+        for f in self.idx.by_type("audit-card"):
+            self.assertNotIn(f.rel, draft, f.rel)
+        for f in self.idx.by_type("draft-card"):
+            self.assertNotIn(f.rel, gate, f.rel)
+
+    def test_no_body_is_reachable_from_either_writing_role(self):
+        """Bodies enter the closure as seeds and leave it as `SKILL:<name>`, never as a path.
+
+        The distinction is the whole split: the dispatcher is preloaded, so its text is in the
+        role's context already, and nothing the closure returns is a body a role would have to
+        go and open.
+        """
+        for role in kb.CARD_ROLES.values():
+            for rel in self.idx.reachable(role):
+                self.assertFalse(rel.endswith("SKILL.md"), rel)
+                if rel.startswith("SKILL:"):
+                    self.assertIn(rel[len("SKILL:"):], kb.DISPATCHER_BODIES[role])
+
+    def test_bucket_for_states_a_property_not_a_membership(self):
+        """`shared` means opened by more than one role; `design` is the residue.
+
+        Design reads every bucket, so `design` is never a claim about where the architect stops
+        looking - only that no card and no dispatcher body arrives at the file.
+        """
+        reach = {"draft": {"a", "b"}, "gate": {"b", "c"}}
+        self.assertEqual(self.idx.bucket_for("a", reach), "draft")
+        self.assertEqual(self.idx.bucket_for("b", reach), "shared")
+        self.assertEqual(self.idx.bucket_for("c", reach), "gate")
+        self.assertEqual(self.idx.bucket_for("d", reach), "design")
+
+    def test_a_body_dropped_into_a_role_tree_is_not_a_corpus_file(self):
+        """`SKILL.md` has no `<owner>.<stem>` to read, so indexing it would invent an owner.
+
+        It would then be reported twice - once as the body it is, and once as a file that
+        "belongs in roles/design/", which is advice for a note and wrong for a body. The index
+        declines it and `cmd_health._partition()` assertion 1 owns the report.
+
+        Built in a scratch tree rather than asserted over the real corpus. This repo has no body
+        in a role tree - that is the property under test - so the same assertion against `REPO`
+        passes by having nothing to look at, which is the failure mode three tests here have
+        already been rewritten for.
+        """
+        tmp = tempfile.mkdtemp(prefix="sw-kb-")
+        try:
+            skill = os.path.join(tmp, ".claude", "skills", "alpha")
+            bucket = os.path.join(tmp, kb.ROLES_REL, "draft")
+            os.makedirs(skill)
+            os.makedirs(bucket)
+            write(os.path.join(skill, "SKILL.md"), "---\nname: alpha\n---\n\n# alpha\n")
+            write(os.path.join(bucket, "alpha.notes.md"),
+                  "---\ntype: reference\nowner: alpha\n---\n\n# notes\n")
+            write(os.path.join(bucket, "SKILL.md"), "---\nname: smuggled\n---\n\n# body\n")
+            idx = kb.index(tmp, refresh=True)
+            self.assertEqual([f.rel for f in idx.files],
+                             ["%s/draft/alpha.notes.md" % kb.ROLES_REL])
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
 
 
 if __name__ == "__main__":

@@ -602,15 +602,23 @@ all-or-nothing on the `Skill` tool — so for every other role, scoping is a pre
 hook, and the honest word for it is **routing**, not a sandbox. Say so rather than implying a wall
 that is not there.
 
-**The path hook is `scripts/hooks/write_scope.py`**, and it holds the `writes` column above: the
-architect to `bible/` `plan/` `novel.md`, the drafter to `chapters/` `state/`, the gate to the
-chapter it was handed. It is registered **once**, project-wide in `.claude/settings.json`, and
-dispatches on which agent is calling — because a settings-file hook is the only kind that also
+**The path hooks are `scripts/hooks/write_scope.py` and `scripts/hooks/role_scope.py`**, one per
+column of the table above. `write_scope` holds `writes`: the architect to `bible/` `plan/`
+`novel.md`, the drafter to `chapters/` `state/`, the gate to the chapter it was handed.
+`role_scope` holds what each role may **read**: an allowlist for the drafter and the gate — their
+own bucket, `roles/shared/`, their dispatcher body and the novel — and for the architect, which
+reads every bucket and every body, a single denial of `roles/review/`, because a rubric the novel
+gets designed toward is no better than one the drafter writes toward. The reader's half is not
+restated there: `role_scope` calls `reader_guard.verdict()`, so the reader is guarded by the
+settings hook as well as by its own frontmatter one. Both are registered **once**, project-wide
+in `.claude/settings.json`, and dispatch on which agent is calling — because a settings-file hook is the only kind that also
 runs for the **coordinator**, which is the main session and has no agent file to carry one. A
 `permissions.deny` rule cannot do this job: deny rules are global, so denying `Write(novels/**)`
-to stop the coordinator stops the drafter too. The guard **fails open** on anything it does not
+to stop the coordinator stops the drafter too. Both **fail open** on anything they do not
 understand — an unknown agent, an unparseable payload — because a guard that blocks work it was
-never meant to judge is a guard that gets switched off.
+never meant to judge is a guard that gets switched off. And neither covers `Bash`: a deliberate
+`cat roles/gate/...` is not intercepted. What closes is the accidental path and every tool-driven
+one, which is why the word above is still **routing**.
 
 **The coordinator's half is armed by a marker, not by assumption.** `CLAUDE.md` bans the
 coordinator from writing under `novels/` *in a test run*, and says in as many words that this

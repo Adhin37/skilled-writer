@@ -612,5 +612,259 @@ class TestSlashCommandWiring(unittest.TestCase):
             self.assertNotIn("slash-command", checks(f.run()))
 
 
+class TestPartition(unittest.TestCase):
+    """The role trees are a partition, and every way of breaking one has been watched to fire.
+
+    These five assertions are what replaced a prose rule. *A drafting agent never opens a
+    `SKILL.md`* used to be a sentence somebody obeyed; here it is a defect with a path in it.
+    A check nobody has seen fire is a check nobody knows works, so each assertion gets its own
+    mutation and each test asserts on the message rather than on the check name - several of
+    these mutations trip more than one assertion, and a bare `assertIn("partition", ...)` could
+    not tell which one did the work.
+    """
+
+    SKILL = ("name: %s\ndescription: does a thing.\nmetadata:\n"
+             "  type: skill\n  tier: craft\n  force: structural\n  when: always\n"
+             "  role: [%s]\n  owns: [%s]")
+    CARD = "---\ntype: %s\nowner: %s\ndispatcher: %s\n---\n\n# card\n\n%s\n"
+    NOTE = "---\ntype: reference\nowner: %s\n---\n\n# note\n\nOpen this when %s.\n"
+
+    def base(self, f):
+        """A repo whose partition is already clean, so a test's mutation is the only finding.
+
+        `alpha` carries a draft card that cites one note. Both are reached by `draft` and by
+        nothing else - `gate` has no cards here and no dispatcher body to seed from - so both
+        belong exactly where they sit, and the fixture starts at zero partition findings.
+        """
+        f.skill("alpha", frontmatter=self.SKILL % ("alpha", "draft", "alpha-thing"))
+        f.role_file("alpha", "draft-card.md",
+                    self.CARD % ("draft-card", "alpha", "write-chapter",
+                                 "Decide it. See roles/draft/alpha.notes.md"))
+        f.role_file("alpha", "notes.md", self.NOTE % ("alpha", "the call is close"),
+                    bucket="draft")
+
+    def messages(self, rep, level="defect"):
+        return [x.message for x in rep.findings
+                if x.check == "partition" and x.level == level]
+
+    def only(self, rep, needle, level="defect"):
+        """Exactly one partition finding, and it is the one the mutation was aimed at."""
+        got = self.messages(rep, level)
+        self.assertEqual(len(got), 1, got)
+        self.assertIn(needle, got[0])
+        return got[0]
+
+    # -- the baseline, without which every test below proves nothing ----------
+
+    def test_a_clean_partition_reports_nothing(self):
+        with Fake() as f:
+            self.base(f)
+            self.assertEqual(self.messages(f.run()), [])
+            self.assertEqual(self.messages(f.run(), "warn"), [])
+
+    def test_a_repo_with_no_role_trees_is_silent(self):
+        """`_corpus_floor` owns 'the corpus vanished' and is anchored to the real repo.
+
+        A two-skill fixture that never writes a role file has no partition to have, and asking
+        it for one would make every other fixture in this file noisy for no reason.
+        """
+        with Fake() as f:
+            f.skill("alpha")
+            self.assertEqual(self.messages(f.run()), [])
+
+    # -- 1: no body in a role tree -------------------------------------------
+
+    def test_a_skill_body_inside_a_role_tree_is_a_defect(self):
+        """The whole point of the move. It is the one assertion that needs no index."""
+        with Fake() as f:
+            self.base(f)
+            with open(os.path.join(f.roles, "draft", "SKILL.md"),
+                      "w", encoding="utf-8", newline="\n") as fh:
+                fh.write("---\nname: smuggled\n---\n\n# body\n")
+            self.only(f.run(), "is a skill body inside a role tree")
+
+    # -- 2: one bucket deep, `.md` only, `<owner>.<stem>.md` -----------------
+
+    def test_a_file_at_the_root_of_the_trees_is_a_defect(self):
+        with Fake() as f:
+            self.base(f)
+            with open(os.path.join(f.roles, "loose.md"),
+                      "w", encoding="utf-8", newline="\n") as fh:
+                fh.write("# loose\n")
+            self.only(f.run(), "is a file at the root of the role trees")
+
+    def test_a_directory_that_is_not_a_bucket_is_a_defect(self):
+        with Fake() as f:
+            self.base(f)
+            os.makedirs(os.path.join(f.roles, "drift"))
+            self.only(f.run(), "is not a bucket")
+
+    def test_a_subdirectory_inside_a_bucket_is_a_defect(self):
+        """A bucket is flat so a citation can go straight to `Read` with no resolution step."""
+        with Fake() as f:
+            self.base(f)
+            os.makedirs(os.path.join(f.roles, "draft", "deeper"))
+            self.only(f.run(), "is a subdirectory")
+
+    def test_a_file_that_is_not_markdown_is_a_defect(self):
+        with Fake() as f:
+            self.base(f)
+            with open(os.path.join(f.roles, "draft", "alpha.notes.txt"),
+                      "w", encoding="utf-8", newline="\n") as fh:
+                fh.write("notes\n")
+            self.only(f.run(), "is not a `.md` file")
+
+    def test_a_name_that_is_not_owner_dot_stem_is_a_defect(self):
+        """The prefix is the checksum on the declared owner, so an unprefixed name is a defect.
+
+        The file is cited from the card and declares `owner: alpha`, so it is reachable and
+        correctly bucketed - the *only* thing wrong with it is its name, which is what makes
+        this a test of the name rule rather than of the closure.
+        """
+        with Fake() as f:
+            self.base(f)
+            with open(os.path.join(f.roles, "draft", "Alpha.extra.md"),
+                      "w", encoding="utf-8", newline="\n") as fh:
+                fh.write(self.NOTE % ("alpha", "the call is closer"))
+            f.role_file("alpha", "draft-card.md",
+                        self.CARD % ("draft-card", "alpha", "write-chapter",
+                                     "Decide it. See roles/draft/alpha.notes.md and "
+                                     "roles/draft/Alpha.extra.md"))
+            self.only(f.run(), "is not `<owner>.<stem>.md`")
+
+    def test_the_reader_s_tree_is_exempt_from_the_name_rule(self):
+        """`review` carries no corpus: its files are documents, not owned notes.
+
+        They declare no `owner:` to prefix and sit deliberately outside `kb.BUCKETS`, so the
+        rule that makes the prefix a checksum has nothing to check them against.
+        """
+        with Fake() as f:
+            self.base(f)
+            os.makedirs(os.path.join(f.roles, "review"))
+            with open(os.path.join(f.roles, "review", "reader-review.md"),
+                      "w", encoding="utf-8", newline="\n") as fh:
+                fh.write("# Reader review\n\nRead the chapters and nothing else.\n")
+            self.assertEqual(self.messages(f.run()), [])
+
+    # -- 3: the closure agrees with the shelf --------------------------------
+
+    def test_a_note_both_roles_reach_belongs_in_shared(self):
+        """The assertion with teeth: it names `shared/` before either role is refused the file.
+
+        This is also where Part 7's sixth assertion went - *no `draft/` file is reachable from
+        an audit card*. That is the special case of this one where the disagreement is a card's,
+        so a separate check would have been a second copy under a different name.
+        """
+        with Fake() as f:
+            self.base(f)
+            f.skill("beta", frontmatter=self.SKILL % ("beta", "gate", "beta-thing"))
+            f.role_file("beta", "audit-card.md",
+                        self.CARD % ("audit-card", "beta", "revision-pass",
+                                     "Check it. See roles/draft/alpha.notes.md"))
+            msg = self.only(f.run(), "it belongs in roles/shared/")
+            self.assertIn("reached by draft, gate", msg)
+
+    def test_a_note_no_role_reaches_belongs_in_design(self):
+        """`design` is the residue, not a claim about where the architect stops looking.
+
+        The note is cited by `alpha`'s body, which keeps the anti-orphan check quiet - and a
+        body is not a seed unless it is a dispatcher, so nothing reaches the file.
+        """
+        with Fake() as f:
+            f.skill("alpha", body="Background: roles/draft/alpha.orphan.md",
+                    frontmatter=self.SKILL % ("alpha", "draft", "alpha-thing"))
+            f.role_file("alpha", "draft-card.md",
+                        self.CARD % ("draft-card", "alpha", "write-chapter", "Decide it."))
+            f.role_file("alpha", "orphan.md", self.NOTE % ("alpha", "designing the thing"),
+                        bucket="draft")
+            self.only(f.run(), "it belongs in roles/design/")
+
+    def test_a_corpus_file_left_outside_the_trees_is_a_defect(self):
+        """The half-done move, from the other side: the old layout still resolves, and that is
+        exactly why it needs saying. `kb` finds the file; the partition says it is in the wrong
+        place, which is the difference between a citation that opens and a tree that is true."""
+        with Fake() as f:
+            self.base(f)
+            refs = os.path.join(f.skills, "alpha", "references")
+            os.makedirs(refs)
+            with open(os.path.join(refs, "stranded.md"),
+                      "w", encoding="utf-8", newline="\n") as fh:
+                fh.write(self.NOTE % ("alpha", "the move is half done"))
+            self.only(f.run(), "is a corpus file outside the role trees")
+
+    # -- 4: the skill declares the role that opens its card ------------------
+
+    def test_a_card_whose_owner_does_not_declare_the_role_is_a_warn(self):
+        """A warn, because the card is evidence and `metadata.role:` is a declaration: a
+        disagreement is a stale declaration far more often than it is a misfiled card."""
+        with Fake() as f:
+            f.skill("alpha", frontmatter=self.SKILL % ("alpha", "design", "alpha-thing"))
+            f.role_file("alpha", "draft-card.md",
+                        self.CARD % ("draft-card", "alpha", "write-chapter", "Decide it."))
+            rep = f.run()
+            self.only(rep, "does not declare `metadata.role: draft`", level="warn")
+            self.assertEqual(self.messages(rep), [])
+
+    def test_a_note_in_another_role_s_tree_is_not_a_warn(self):
+        """Scoped to cards, and the wider form was tried first and is wrong.
+
+        A note's bucket is a property of the citation *graph* - who cites it - while
+        `metadata.role:` is a property of the *skill*, and the two diverge legitimately wherever
+        a merged card names a second owner. Here `alpha`'s draft card cites `beta`'s note, so
+        the note sits in the drafter's tree while `beta` remains a design-only skill; the wide
+        form fired on six such cases in the real repo, which is how a warn stops being read.
+        """
+        with Fake() as f:
+            f.skill("alpha", frontmatter=self.SKILL % ("alpha", "draft", "alpha-thing"))
+            f.skill("beta", body="See roles/draft/beta.ladders.md",
+                    frontmatter=self.SKILL % ("beta", "design", "beta-thing"))
+            f.role_file("alpha", "draft-card.md",
+                        self.CARD % ("draft-card", "alpha", "write-chapter",
+                                     "Decide it. See roles/draft/beta.ladders.md"))
+            f.role_file("beta", "ladders.md", self.NOTE % ("beta", "an arc advances"),
+                        bucket="draft")
+            rep = f.run()
+            self.assertEqual(self.messages(rep), [])
+            self.assertEqual(self.messages(rep, "warn"), [])
+
+    # -- 5: no writing role is sent into `docs/` -----------------------------
+
+    def test_a_role_file_that_cites_docs_is_a_defect(self):
+        """Without this the ban is one sentence in `AGENTS.md`, held by goodwill - and 15
+        citations had already crossed it, every one maintainer-facing provenance sitting in a
+        file addressed to a drafter."""
+        with Fake() as f:
+            self.base(f)
+            f.role_file("alpha", "draft-card.md",
+                        self.CARD % ("draft-card", "alpha", "write-chapter",
+                                     "Decide it. See roles/draft/alpha.notes.md.\n\n"
+                                     "The budget is why: docs/creative-latitude.md."))
+            msg = self.only(f.run(), "which its own role may not open")
+            self.assertIn("docs/creative-latitude.md", msg)
+
+    def test_provenance_in_frontmatter_is_not_a_citation(self):
+        """The fix the ban is paired with. Frontmatter costs no body words and cannot read as
+        an instruction, so the rationale stays attached to the file for whoever maintains it."""
+        with Fake() as f:
+            self.base(f)
+            f.role_file("alpha", "draft-card.md",
+                        "---\ntype: draft-card\nowner: alpha\ndispatcher: write-chapter\n"
+                        "provenance: docs/creative-latitude.md\n---\n\n"
+                        "# card\n\nDecide it. See roles/draft/alpha.notes.md\n")
+            self.assertEqual(self.messages(f.run()), [])
+
+    def test_the_design_tree_may_cite_docs(self):
+        """`design` is the one role that is not denied `docs/`, and it is the role that reads
+        the rationale. Binding it would push maintainer argument out of the tree it belongs in."""
+        with Fake() as f:
+            f.skill("alpha", body="Background: roles/design/alpha.rationale.md",
+                    frontmatter=self.SKILL % ("alpha", "design", "alpha-thing"))
+            f.role_file("alpha", "rationale.md",
+                        "---\ntype: reference\nowner: alpha\n---\n\n# why\n\n"
+                        "Open this when editing the skill. See docs/design-notes.md.\n",
+                        bucket="design")
+            self.assertEqual(self.messages(f.run()), [])
+
+
 if __name__ == "__main__":
     unittest.main()
