@@ -46,4 +46,6 @@ decides  nothing. The climb is won by the rope she stole in chapter 4
 - A level is not a second ladder: `power-scaling` owns the mapping to `state/power.md` §2 and
   whether today's advance counts as a gain.
 
-If a decision will not settle, open `litrpg-system/SKILL.md` §Narrative rules.
+If a decision will not settle, the tiebreak is always the same: **the numbers never resolve the
+conflict.** They describe capability; choices, plans and costs resolve things. Take whichever
+option puts the outcome back in a character's hands.

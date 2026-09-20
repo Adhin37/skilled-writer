@@ -24,8 +24,8 @@ costs    he is late to the meeting that was the point of the chapter
 
 The line is a thread in `state/threads.md` with its own `due` chapters. Read the row, then pick:
 meet · friction · recognition · alliance · vulnerability · admission · obstacle · cost · reversal ·
-resolution. The order and the timing live in `SKILL.md` §Structure; this card asks only whether
-today's chapter moves one of them, and which.
+resolution. They run roughly in that order and `romance-arc` owns the timing; this card asks only
+whether today's chapter moves one of them, and which.
 
 **Resolve the stage, never the relationship.** In a serial, an answered question loses its
 tension — an admission opens the question of what to do about it.

@@ -14,8 +14,9 @@ Opened by `revision-pass` **Pass 9b**, on chapters up to `opening.contract_by_ch
 entirely outside that range.
 
 Three of these are judgement calls a checklist cannot make — the anchor test, the ceiling, and the
-rate — and this is exactly the pass that silently no-ops when it is worked from a summary. If any
-of the three is close, open `SKILL.md` §1, §2 and §3.
+rate — and this is exactly the pass that silently no-ops when it is worked from a summary. **Read
+the chapter itself for those three**, and when one is close, decide it as a stranger would: a
+reader who has read this page and nothing else, with no bible behind them.
 
 - [ ] **The anchor test.** Could a stranger reading only this chapter say what kind of story this
       is, where and when it happens, and what the POV character wants? Three shrugs is a fail

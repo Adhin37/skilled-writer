@@ -51,4 +51,4 @@ can compute, doing something ordinary. One sentence, and the reader knows exactl
 - The canon plot is a live track with its own clock — `timeline-engine` owns what it does this
   chapter whether or not the MC is looking.
 
-If a decision will not settle, open `references/canon-handling.md`.
+If a decision will not settle, open `.claude/skills/fanfic-canon/references/canon-handling.md`.

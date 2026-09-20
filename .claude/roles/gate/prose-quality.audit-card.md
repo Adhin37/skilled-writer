@@ -57,9 +57,11 @@ sentence was loaded the same way and every scene closed on the same small ironic
       pitch is flat — rewrite all but one
 - [ ] Across chapters: `sw lint` reports no `closer-sameness`
 
-If a box fails, open `SKILL.md` — §Range before polish for register, §Microtension for the tension
-work, the positive standards for the rest. The seven measured tells and why they cluster are in
-`ai-default-tells.md`.
+If a box fails, fix the **range** before the line: let some sentences carry information and
+nothing else, end at least one scene flat — on an action or a line of speech, with nothing appended
+— and give the narrator a second mood from `narration.voice_notes`. A banned tic is replaced rather
+than removed, so check that the repair did not grow a new construction three times over. The seven
+measured tells and why they cluster are in `.claude/skills/prose-quality/references/ai-default-tells.md`.
 
 ## What it looks like when it lands
 

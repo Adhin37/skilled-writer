@@ -195,12 +195,17 @@ class TestDanglingCardPointers(unittest.TestCase):
 
     Benchmark run #2's D4 in its recurring form: the `timeline-engine` audit card merged into
     `plot-threads`' and both Pass 4 texts went on naming it.
+
+    Checked through `_references` J2 since the split, because a dangling card was only ever the
+    special case of a dangling citation where the target happens to be a card - and it carried
+    its own third copy of the citation regex to prove it.
     """
 
-    def test_health_reports_no_dangling_card(self):
+    def test_health_reports_no_dangling_pointer(self):
+        from swlib import kb
         from swlib.report import Report
 
         rep = Report("probe")
-        cmd_health._dangling_cards(REPO, cmd_health.skill_names(REPO), rep)
-        found = [f for f in rep.findings if f.check == "card-dangling"]
+        cmd_health._references(kb.index(REPO, refresh=True), cmd_health.skill_names(REPO), rep)
+        found = [f for f in rep.findings if "does not exist" in str(f.message)]
         self.assertEqual([], [f.message for f in found])

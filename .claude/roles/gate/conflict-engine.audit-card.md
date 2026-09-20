@@ -48,7 +48,7 @@ occupied cannot be skipped to.
 | Everything was paid by an ally | the POV character risked nothing | `scene-craft` — whose scene is this |
 | The win cost something, but only after it landed | the price was a receipt, not a stake | move the payment before the resolution |
 | Every confrontation is won and costs nothing | the face-slap loop | `mtl-detox` |
-| Three chapters running have the same cost | the ladder has stalled | `SKILL.md` §Tension maintenance across a serial |
+| Three chapters running have the same cost | the ladder has stalled | change the axis - money, standing, a person, a lie held - and stagger it |
 
 ## What it looks like when it lands
 

@@ -42,7 +42,11 @@ structures — not of Chinese fiction, which at its best has none of them. Never
 into a judgement about a culture or its literature; that is `bias-guard`'s territory and it
 overrides genre convention.
 
-If a box fails, open `SKILL.md` §Part 3, or `references/catalogues.md` for the full lists.
+If a box fails, **rewrite the sentence rather than substituting a word** — then run the four
+structural repairs no linter can do: individuate or delete any crowd reacting to the POV character,
+cut any passage explaining the system that is not in a mouth with a reason and under 60 words, name
+what the winner of each confrontation paid, and read the last 200 words aloud for flat
+subject-verb-object chains of uniform length. `.claude/skills/mtl-detox/references/catalogues.md` holds the full lists.
 
 ## What it looks like when it lands
 

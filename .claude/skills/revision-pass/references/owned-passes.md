@@ -78,7 +78,7 @@ One row has no other owner and stays here:
 
 `sw lint` searches the whole banned list and counts narration exclamation marks and rhetorical
 questions. These five are the ones no script can see, and the card in
-`mtl-detox/references/audit-card.md` is where the detail lives.
+`.claude/roles/gate/mtl-detox.audit-card.md` is where the detail lives.
 
 - [ ] No crowd-reaction block — a paragraph of unnamed onlookers narrating how impressive the scene was
 - [ ] No rank recital or system lecture delivered as narration
@@ -144,4 +144,4 @@ python3 scripts/sw.py stamp novels/<slug> -c <n> --status revised --ledger
 Without Python, measure the body with `wc -w` and write both numbers by hand.
 
 **The four channels** are `narrator-voice`'s to enforce, not this file's — open
-`narrator-voice/references/audit-card.md`.
+`.claude/roles/gate/narrator-voice.audit-card.md`.

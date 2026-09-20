@@ -25,7 +25,8 @@ page*, whether an opponent is a person or a number, or whether a win felt free, 
       this as a fight-only line, missed it for four chapters and had to backfill every block
 - [ ] The pressure was decided **before** the opponent — no opponent invented at the strength the
       scene needed and priced afterwards
-- [ ] The chapter sits inside its arc's planned band (§6), or the deviation is deliberate and the
+- [ ] The chapter sits inside its arc's planned band (`state/power.md` §6), or the deviation is
+      deliberate and the
       plan row says so
 - [ ] Nothing described the MC as more or less capable than `state/power.md` §1 says they are
 - [ ] The edge closed **at most one tier**, paid `scaling.edge_price` in the same scene, and did
@@ -43,9 +44,11 @@ page*, whether an opponent is a person or a number, or whether a win felt free, 
 - [ ] Opening arc only: the advantage has landed its first win by `opening.first_win_by_ch`, and
       the first limit is still ahead of it or landed on schedule
 
-If a box fails, open `SKILL.md`: §1 for pressure and placing an opponent, §2 for the edge, §3 for
-the step rule and boosts, §4 for the curve. If the curve itself is the problem rather than this
-chapter, open `references/failure-modes.md`.
+If a box fails, the repair is almost always to **move the pressure rather than the tier**: place
+the opponent against the gap the arc plan asked for, and re-price the win. A gain missing one of
+its four conditions is cut back to a boost with a stated expiry and a debt; a boost that resolved a
+second arc climax is cut outright. If the curve itself is the problem rather than this chapter,
+`.claude/skills/power-scaling/references/failure-modes.md`.
 
 ## What it looks like when it lands
 

@@ -98,6 +98,17 @@ def run(novel, number, repo_root="."):
     ]
     rep.info("the unconditional set - what every novel pays, every chapter", lines)
 
+    # The floor, reported here because this is the command that would otherwise print the
+    # failure as a row of zeros and call it a clean measurement. A dispatcher with no
+    # unconditional cards has nothing to open, whatever the ceilings say.
+    for kind in ("draft-card", "audit-card"):
+        if always[kind][0] == 0:
+            rep.defect("corpus-floor",
+                       "zero unconditional %ss reachable - the dispatcher opens nothing, and "
+                       "every ceiling in `rules` passes at zero. This is a broken index, not a "
+                       "light chapter" % kind,
+                       detail="rules.CORPUS_FLOOR")
+
     over = [(k, v[0], rules.CARD_BUDGET[k])
             for k, v in always.items() if v[0] > rules.CARD_BUDGET[k]]
     if over:

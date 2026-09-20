@@ -67,9 +67,12 @@ of permission, "I" becoming "we".
 
 **The one constraint this card adds:** the obvious delta always points at the protagonist —
 tighter sentences, fewer hedges, more certainty — so applied often enough it converges the whole
-cast on one register. If today's would push a character through the ceiling in §6 above, take one
-that runs *more oblique*, *slower*, *quieter*, *funnier in a worse way*. The ladder, the rates and what a rung costs are `character-development`'s —
-`character-development/SKILL.md` §Rate and §Triggers, and `character-development/references/ladders.md` when one moves.
+cast on one register. **A delta may not move a character onto the MC's axes** — if today's would
+raise their articulacy to the MC's level or grant them the MC's wit, take one
+that runs *more oblique*, *slower*, *quieter*, *funnier in a worse way*. The only exception is a
+character whose arc **is** becoming like the MC — and then somebody on the page says so, and it
+reads as loss or as threat. The ladder, the rates and what a rung costs are
+`character-development`'s: `.claude/skills/character-development/references/ladders.md` when one moves.
 
-Clones, avatars and doubles are the one exemption: `references/mirror-clause.md`. Bodies and
-non-POV minds while drafting: `references/channels.md`.
+Clones, avatars and doubles are the one exemption: `.claude/skills/voice-separation/references/mirror-clause.md`. Bodies and
+non-POV minds while drafting: `.claude/skills/voice-separation/references/channels.md`.

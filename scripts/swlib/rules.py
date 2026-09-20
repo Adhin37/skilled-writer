@@ -6,6 +6,7 @@ module can only find strings, and pretending otherwise is how a checklist become
 substitute for the skill it summarises (revision-pass, "Before you start").
 """
 
+import os
 import re
 
 
@@ -379,3 +380,29 @@ CARD_BUDGET = {"draft-card": 12, "audit-card": 15}
 # shared between any two skills, and the boxes that merely restated a `sw lint` finding were
 # taken in the same pass. What is left is prose, and prose is where the advice lives.
 CARD_WORD_BUDGET = {"draft-card": 7600, "audit-card": 8000}
+
+
+# The counter-check to every budget above, and the only number in this file that fails DOWNWARD.
+#
+# `CARD_BUDGET` and `CARD_WORD_BUDGET` are ceilings, and a ceiling cannot catch a corpus that
+# vanished: `kb.Index._build()` skips any directory without a `SKILL.md`, so a half-finished
+# move returns an EMPTY index and every check in the toolkit passes at zero. `sw health` reports
+# clean, `sw load` prints a row of zeros, both budgets are satisfied. A clean run is exactly what
+# a broken index produces, which is the worst shape a failure can take.
+#
+# So: the minimum the corpus may shrink to before something is wrong. Set well under today's
+# figures (44 / 26 / 29 / 59) because this is a tripwire for a corpus that DISAPPEARED, not a
+# ratchet on one that shrank - losing six draft cards still clears twenty, and the detector for
+# that is the `sw load` word total, which moves the moment a file stops being reachable.
+CORPUS_FLOOR = {"skill": 40, "draft-card": 20, "audit-card": 20, "reference": 50}
+
+
+def corpus_floor_applies(repo_root):
+    """Whether `CORPUS_FLOOR` binds this directory.
+
+    The floor is measured against THIS toolkit's corpus, not against any directory that happens
+    to hold a `.claude/skills/`. It is anchored on the file that declares it: a repo shipping
+    `scripts/swlib/rules.py` is the repo these numbers came from. A test fixture with two skills
+    in it is not, and a floor that fired on fixtures would be switched off inside a week.
+    """
+    return os.path.isfile(os.path.join(repo_root, "scripts", "swlib", "rules.py"))

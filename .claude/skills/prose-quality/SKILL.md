@@ -23,7 +23,7 @@ nothing is pushing back.
 | file | open it when |
 |---|---|
 | `references/ai-default-tells.md` | **the house style** — `sw lint` reports `house-style`, `em-dash` or `closer-sameness`; a chapter reads as machine-made and no banned phrase explains why; or you are revising chapter 1 of a new novel |
-| `references/audit-card.md` | never, by you. `revision-pass` Pass 8 opens it |
+| `.claude/roles/gate/prose-quality.audit-card.md` | never, by you. `revision-pass` Pass 8 opens it |
 
 ## Range before polish
 

@@ -38,7 +38,7 @@ when its trigger fires, not by default.
 | 7 | `references/mirror-clause.md` | a clone, avatar, double or body-snatch is on the page. This is the one exemption from §3 |
 | 3 | `references/age-register.md` | the cast contains a child, an adolescent or a notably old character — the cadence differences no axis in the matrix measures |
 
-The revision-time check is `references/audit-card.md`, opened by `revision-pass` Pass 2.
+The revision-time check is `.claude/roles/gate/voice-separation.audit-card.md`, opened by `revision-pass` Pass 2.
 
 ## 1. The cast voice matrix
 

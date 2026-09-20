@@ -151,12 +151,12 @@ Against the read-set, which is the authority. Seven checks and the `form_locked`
 
 ## Pass 2 — Character and voice
 
-Open **`voice-separation/references/audit-card.md`** — the cast as separate minds, and, in its
+Open **`.claude/roles/gate/voice-separation.audit-card.md`** — the cast as separate minds, and, in its
 second half, whether anybody has *become* somebody else (`character-development`'s concepts, on
 the same card because the two fail together). Then
-**`dialogue-voice/references/audit-card.md`** for the lines. Add
-**`character-profile/references/audit-card.md`** if the chapter has walk-ons **or introduces any
-named character for the first time**, and **`pov-switch/references/audit-card.md`** when
+**`.claude/roles/gate/dialogue-voice.audit-card.md`** for the lines. Add
+**`.claude/roles/gate/character-profile.audit-card.md`** if the chapter has walk-ons **or introduces any
+named character for the first time**, and **`.claude/roles/gate/pov-switch.audit-card.md`** when
 `pov.mode` is not `single`. Work them there.
 
 If the budget will not carry all four, drop `character-profile`'s first and `pov-switch`'s second,
@@ -167,8 +167,8 @@ run `sw cast` and read the debut ledger before calling this pass passed.
 
 ## Pass 3 — Intelligence and knowledge
 
-Open **`mc-intel-meter/references/audit-card.md`** and
-**`competence-map/references/audit-card.md`**. Two different things, and the first card names the
+Open **`.claude/roles/gate/mc-intel-meter.audit-card.md`** and
+**`.claude/roles/gate/competence-map.audit-card.md`**. Two different things, and the first card names the
 seam they fail at.
 
 ## Pass 3b — Reading people
@@ -188,24 +188,24 @@ owners). The skim test is the only row with no other owner:
 
 ## Pass 5 — World
 
-Open **`world-texture/references/audit-card.md`**. It runs after structure for the reason that card
+Open **`.claude/roles/gate/world-texture.audit-card.md`**. It runs after structure for the reason that card
 gives, and before bias so that anything it adds is still audited by Pass 6.
 
 ## Pass 6 — Bias — never skipped, never negotiable
 
-Open **`bias-guard/references/audit-card.md`**. Every chapter, and never rotated. That skill
+Open **`.claude/roles/gate/bias-guard.audit-card.md`**. Every chapter, and never rotated. That skill
 explains why it has no script.
 
 ## Pass 7 — MTL detox
 
-Open **`mtl-detox/references/audit-card.md`**. `sw lint` searches the whole banned list and counts
+Open **`.claude/roles/gate/mtl-detox.audit-card.md`**. `sw lint` searches the whole banned list and counts
 narration exclamation marks and rhetorical questions — that is the countable half, and a clean
 sweep says nothing about the rest. The five structural checks no script can see are in
 **`references/owned-passes.md` §Pass 7**.
 
 ## Pass 8 — Prose and microtension
 
-Open **`prose-quality/references/audit-card.md`**. `sw lint` has already found the cut-list
+Open **`.claude/roles/gate/prose-quality.audit-card.md`**. `sw lint` has already found the cut-list
 phrases, filter verbs, repeated openings, same-length runs and the dialogue share; the card
 carries what a script cannot hear.
 
@@ -214,19 +214,19 @@ carries what a script cannot hear.
 Pass 7 catches MTL slop; Pass 8 catches weak lines. Neither catches prose with no bad sentences
 and no range — what run #2 shipped.
 
-Open `prose-quality/references/audit-card.md` §Register.
+Open `.claude/roles/gate/prose-quality.audit-card.md` §Register.
 
 ## Pass 9 — Delivery
 
 **The pass that decides whether the chapter is finished.** Length is evidence of nothing.
 
-Open **`scene-craft/references/audit-card.md`** — `scene-craft` owns the delivery test, and the card
+Open **`.claude/roles/gate/scene-craft.audit-card.md`** — `scene-craft` owns the delivery test, and the card
 carries the five questions and the scene-level checks. Write the **Change** answer into `delivers:`
 and the Z1 answer into `event:`: two fields that fail in opposite directions. Run #2 wrote five
 strong `delivers:` lines, every one a shift in somebody's interior state — which is how a chapter
 passes this pass while nothing happens in it.
 
-Also open **`hook-and-pacing/references/audit-card.md`**: first and last sentences carry most of a
+Also open **`.claude/roles/gate/hook-and-pacing.audit-card.md`**: first and last sentences carry most of a
 serial's retention, and both defects are distributional — read against the previous five
 chapters, never scored on this one. What is left over belongs to this pass
 alone: **`references/owned-passes.md` §Pass 9**.
@@ -234,11 +234,11 @@ alone: **`references/owned-passes.md` §Pass 9**.
 ## Pass 9b — The opening — chapters ≤ `opening.contract_by_ch + 2` only
 
 Skip entirely outside that range. Inside it, open
-**`story-opening/references/audit-card.md`**.
+**`.claude/roles/gate/story-opening.audit-card.md`**.
 
 ## Pass 9c — Foreknowledge — only if `mc.foreknowledge` is set
 
-Open **`meta-knowledge/references/audit-card.md`**. Not rotatable.
+Open **`.claude/roles/gate/meta-knowledge.audit-card.md`**. Not rotatable.
 
 ## Pass 9d — Theme
 
@@ -248,7 +248,7 @@ measured failure of machine-written fiction is a narrated theme, not an absent o
 
 ## Pass 9e — The power curve — only if `scaling.shape` is not `none`
 
-Open **`power-scaling/references/audit-card.md`**. Run `sw curve` first if you have not: it finds
+Open **`.claude/roles/gate/power-scaling.audit-card.md`**. Run `sw curve` first if you have not: it finds
 the step-size, cadence, unpaid-debt, monotony and ledger-agreement defects, leaving the card the
 three a script cannot see — whether the gain was earned on the page, whether the opponent is a
 person or a number, and whether the win felt free.
@@ -258,7 +258,7 @@ reaches the frontmatter and the CCS `pwr>` line.
 
 ## Pass 9f — Pacing and build-up
 
-Open **`story-craft/references/audit-card.md`**. Pass 9 asks whether the chapter delivered; this
+Open **`.claude/roles/gate/story-craft.audit-card.md`**. Pass 9 asks whether the chapter delivered; this
 asks whether it delivered at the **right size**, which no delivery test can see. `story-craft` owns
 the scene-or-summary call and the repair, which is never more words.
 

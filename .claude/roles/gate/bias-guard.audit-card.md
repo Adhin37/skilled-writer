@@ -30,7 +30,10 @@ can ever be mistaken for a bias pass.
       put them by default
 
 If Pass 6 found anything, **say so in the report**, always. The user needs to know the default was
-reaching for it. If a box fails, open `SKILL.md` — §The line, then the section for the axis.
+reaching for it. If a box fails, the test is the same on every axis: **could the narrator's
+framing be quoted as a bigoted statement with nothing lost?** If yes it is the book's view rather
+than a character's — fix the framing, not the character. A character may hold the view, provided
+the story shows it as theirs and it costs somebody something the reader feels.
 
 ## What it looks like when it lands
 

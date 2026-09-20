@@ -323,6 +323,8 @@ def _validate(repo_root, args):
         return _validate_bundle(args.args[0], args)
     rep = Report("kb validate")
     idx = kb.index(repo_root)
+    for shortfall in idx.shortfalls:
+        rep.defect("corpus-floor", shortfall, detail="rules.CORPUS_FLOOR")
     for problem in idx.problems:
         rep.defect("kb-scope", problem)
     validate(idx, rep)

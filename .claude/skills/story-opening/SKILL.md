@@ -38,7 +38,7 @@ ceiling and the promise ledger. After that this skill is done and `hook-and-paci
 |---|---|---|
 | 5, 6 | `references/chapter-one.md` | drafting chapter 1 itself, or wiring the opening arc into planning and revision |
 
-The revision-time check is `references/audit-card.md`, opened by `revision-pass` Pass 9b.
+The revision-time check is `.claude/roles/gate/story-opening.audit-card.md`, opened by `revision-pass` Pass 9b.
 
 ## 1. The anchor
 

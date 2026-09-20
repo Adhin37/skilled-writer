@@ -74,4 +74,4 @@ self-qualification** (`dialogue-voice` §How it sounds spoken).
 
 Test: read the longest turn aloud. Run out of breath before the speaker does and it is prose.
 
-Two characters will not separate however hard you push: `references/corpus-anti-patterns.md`.
+Two characters will not separate however hard you push: `.claude/skills/dialogue-voice/references/corpus-anti-patterns.md`.

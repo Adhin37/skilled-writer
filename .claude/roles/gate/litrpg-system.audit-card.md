@@ -38,8 +38,8 @@ number describe what the choice cost.
 | symptom | what it actually is | go to |
 |---|---|---|
 | The block is where the chapter's emotion lives | the receipt is doing the scene's job | `scene-craft` — the level-up is not the beat |
-| A full sheet appeared | those belong a few times per novel, after a real transition | `SKILL.md` §Formatting discipline |
-| The system knows things nobody could | an unbounded oracle in brackets | `competence-map/references/broad-knowledge.md` — declare its shape and bound its access |
+| A full sheet appeared | those belong a few times per novel, after a real transition | cut it to a 3-8 line delta, and never at a chapter open |
+| The system knows things nobody could | an unbounded oracle in brackets | `.claude/skills/competence-map/references/broad-knowledge.md` — declare its shape and bound its access |
 | Numbers rose and nothing about how problems get solved changed | a receipt, not progression | `power-scaling` |
 
 ## What it looks like when it lands

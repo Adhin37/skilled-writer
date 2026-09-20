@@ -41,7 +41,7 @@ to pay, somebody else who would be hurt, different timelines for their lives.
 | symptom | what it actually is | go to |
 |---|---|---|
 | Her scenes exist to register feelings about him | the lead has stopped having an arc | `lead-interest` §Step 2 — The counterweight principle |
-| The beats are all proximity — a touch, a glance, a shared room | trust never escalated | `SKILL.md` §Rules |
+| The beats are all proximity — a touch, a glance, a shared room | trust never escalated | escalate in trust: a small truth told, being seen bad at something, an absence noticed |
 | They understand each other immediately and accurately | fifty chapters of material spent in one | let the first impression be half wrong |
 | The romance goes quiet once it is answered | it was a reward, not a plot | `plot-threads` — the thread is still open |
 

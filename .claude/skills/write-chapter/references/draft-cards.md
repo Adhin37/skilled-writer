@@ -21,15 +21,15 @@ section to open when that happens.
 
 | decision | card |
 |---|---|
-| Which beat is played and which is reported | `story-craft/references/draft-card.md` — **first, always** |
-| Scene count, the break, per-scene goal → obstacle → turn → exit | `scene-craft/references/draft-card.md`, `chapters.scenes_per_chapter` |
-| What this chapter costs the POV character | `conflict-engine/references/draft-card.md` — never zero |
-| Which thread ops fire, **and the offstage question** — what moved out of the MC's sight | `plot-threads/references/draft-card.md` → `state/threads.md`, `plan/timeline.md` |
-| **The voice spread** for this chapter's speakers, **and who sounds different today** | `voice-separation/references/draft-card.md` → `bible/cast/_voices.md`, `state/growth.md` |
-| **The world channel** this chapter opens | `world-texture/references/draft-card.md` |
-| What the POV works out and from which clue, **and what they get wrong about somebody** | `mc-intel-meter/references/draft-card.md` |
-| **Who has to ask** for what this chapter needs known, **and the cast tier of anyone new** | `competence-map/references/draft-card.md` → `bible/cast/_competence.md` |
-| Opening line strategy, closing hook | `hook-and-pacing/references/draft-card.md` |
+| Which beat is played and which is reported | `.claude/roles/draft/story-craft.draft-card.md` — **first, always** |
+| Scene count, the break, per-scene goal → obstacle → turn → exit | `.claude/roles/draft/scene-craft.draft-card.md`, `chapters.scenes_per_chapter` |
+| What this chapter costs the POV character | `.claude/roles/draft/conflict-engine.draft-card.md` — never zero |
+| Which thread ops fire, **and the offstage question** — what moved out of the MC's sight | `.claude/roles/draft/plot-threads.draft-card.md` → `state/threads.md`, `plan/timeline.md` |
+| **The voice spread** for this chapter's speakers, **and who sounds different today** | `.claude/roles/draft/voice-separation.draft-card.md` → `bible/cast/_voices.md`, `state/growth.md` |
+| **The world channel** this chapter opens | `.claude/roles/draft/world-texture.draft-card.md` |
+| What the POV works out and from which clue, **and what they get wrong about somebody** | `.claude/roles/draft/mc-intel-meter.draft-card.md` |
+| **Who has to ask** for what this chapter needs known, **and the cast tier of anyone new** | `.claude/roles/draft/competence-map.draft-card.md` → `bible/cast/_competence.md` |
+| Opening line strategy, closing hook | `.claude/roles/draft/hook-and-pacing.draft-card.md` |
 
 **Five of these carry two owners' decisions.** That is the card budget working, not a land-grab:
 past twelve unconditional cards a new rule merges into the card that already owns its
@@ -40,11 +40,11 @@ lines. `docs/creative-latitude.md` has the arithmetic.
 
 | condition | decision | card |
 |---|---|---|
-| chapter ≤ `opening.contract_by_ch + 2` | **The anchor debt** and **the ceiling check** | `story-opening/references/draft-card.md` |
-| `scaling.shape` is not `none` | **The pressure** — what gap between the MC and this chapter's opposition the arc wants, and only then who that opposition is | `power-scaling/references/draft-card.md` → `state/power.md` §6 |
-| `mc.foreknowledge` is set | **The foreknowledge spend** | `meta-knowledge/references/draft-card.md` → `state/foreknowledge.md` |
-| anyone is `form_locked` | Which bodies are locked, and what they cannot do today | `mc-design/references/draft-card.md` → `state/body.md` |
-| `pov.mode` is not `single` | POV character, and whether this is a switch | `pov-switch/references/draft-card.md` + the plan row |
+| chapter ≤ `opening.contract_by_ch + 2` | **The anchor debt** and **the ceiling check** | `.claude/roles/draft/story-opening.draft-card.md` |
+| `scaling.shape` is not `none` | **The pressure** — what gap between the MC and this chapter's opposition the arc wants, and only then who that opposition is | `.claude/roles/draft/power-scaling.draft-card.md` → `state/power.md` §6 |
+| `mc.foreknowledge` is set | **The foreknowledge spend** | `.claude/roles/draft/meta-knowledge.draft-card.md` → `state/foreknowledge.md` |
+| anyone is `form_locked` | Which bodies are locked, and what they cannot do today | `.claude/roles/draft/mc-design.draft-card.md` → `state/body.md` |
+| `pov.mode` is not `single` | POV character, and whether this is a switch | `.claude/roles/draft/pov-switch.draft-card.md` + the plan row |
 
 ## The modules — a card each, not a body
 
@@ -55,16 +55,16 @@ most novels and costs nothing when it is; the read-set names the ones that are o
 
 | condition | decision | card |
 |---|---|---|
-| `genre`/`subgenre` is fantasy, scifi or progression | Which capability fires, and what it takes | `power-system/references/draft-card.md` |
-| `genre`/`subgenre` is fanfic | Which canon fact this chapter touches | `fanfic-canon/references/draft-card.md` |
-| `optional.combat-choreography` **and physical conflict** | The five decisions before a blow | `combat-choreography/references/draft-card.md` |
-| `optional.battle-scale` **and an engagement above one fight** | Fronts, attrition, and what the POV can see | `battle-scale/references/draft-card.md` |
-| `optional.litrpg-system` | Whether a screen fires, and what it may decide | `litrpg-system/references/draft-card.md` |
-| `optional.mystery-clues` | The knowledge mode, and which clue moves | `mystery-clues/references/draft-card.md` |
-| `optional.romance-arc` | Which romantic beat fires, or none | `romance-arc/references/draft-card.md` |
-| `optional.grimdark-consequences` | What this chapter takes, and what is left to protect | `grimdark-consequences/references/draft-card.md` |
-| `optional.slice-of-life-texture` | Which ordinary thing rides inside the scene | `slice-of-life-texture/references/draft-card.md` |
-| `optional.comedy-levity` | Where the levity sits, and whose it is | `comedy-levity/references/draft-card.md` |
+| `genre`/`subgenre` is fantasy, scifi or progression | Which capability fires, and what it takes | `.claude/roles/draft/power-system.draft-card.md` |
+| `genre`/`subgenre` is fanfic | Which canon fact this chapter touches | `.claude/roles/draft/fanfic-canon.draft-card.md` |
+| `optional.combat-choreography` **and physical conflict** | The five decisions before a blow | `.claude/roles/draft/combat-choreography.draft-card.md` |
+| `optional.battle-scale` **and an engagement above one fight** | Fronts, attrition, and what the POV can see | `.claude/roles/draft/battle-scale.draft-card.md` |
+| `optional.litrpg-system` | Whether a screen fires, and what it may decide | `.claude/roles/draft/litrpg-system.draft-card.md` |
+| `optional.mystery-clues` | The knowledge mode, and which clue moves | `.claude/roles/draft/mystery-clues.draft-card.md` |
+| `optional.romance-arc` | Which romantic beat fires, or none | `.claude/roles/draft/romance-arc.draft-card.md` |
+| `optional.grimdark-consequences` | What this chapter takes, and what is left to protect | `.claude/roles/draft/grimdark-consequences.draft-card.md` |
+| `optional.slice-of-life-texture` | Which ordinary thing rides inside the scene | `.claude/roles/draft/slice-of-life-texture.draft-card.md` |
+| `optional.comedy-levity` | Where the levity sits, and whose it is | `.claude/roles/draft/comedy-levity.draft-card.md` |
 
 `tech-plausibility` and `no-harem` decide nothing at draft time and carry audit cards only —
 `revision-pass` opens them.

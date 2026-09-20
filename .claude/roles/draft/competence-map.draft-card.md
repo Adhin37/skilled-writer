@@ -61,8 +61,8 @@ Every stated fact carries a provenance: **taught · did · told · read · openl
 cannot name one, they cannot say the line. Foreknowledge is a sixth, bounded to the declared grain
 and inventory — and it is never provenance for a *skill*.
 
-Somebody learning something across chapters: `references/acquisition-ladder.md`. A god, immortal or
-artificial mind with `knowledge_scope: broad`: `references/broad-knowledge.md`.
+Somebody learning something across chapters: `.claude/skills/competence-map/references/acquisition-ladder.md`. A god, immortal or
+artificial mind with `knowledge_scope: broad`: `.claude/skills/competence-map/references/broad-knowledge.md`.
 
 ## Anyone new — `character-profile`'s half
 
@@ -86,8 +86,8 @@ behind it. Plus one axis off default from `voice-separation`'s matrix, or they s
 narrator's register, which is the MC's.
 
 Do not stop to build a profile mid-draft; sketch, log the roster line in Step 5, promote at a third
-appearance. The tiers, the swap test, the doomed-extra rule and what each record contains are
-`character-profile`'s — `character-profile/SKILL.md` and `character-profile/references/tier-a-and-b.md`.
+appearance. The tiers are `character-profile`'s rule, and what an A or B record contains is
+`.claude/skills/character-profile/references/tier-a-and-b.md`.
 
 `bias-guard` applies at every tier and is broken most often at C. One detail is all a walk-on
 gets, and the corpus default will make that detail a stereotype unless the stroke is chosen

@@ -11,7 +11,8 @@ when: genre in [fantasy, progression, scifi] or subgenre in [fantasy, progressio
 # power-system — draft card
 
 Opened by `write-chapter` Phase A whenever the genre module is live. Decides what power does in
-this chapter, not how the system is designed — for design, open `SKILL.md`.
+this chapter, not how the system is designed — the design is `power-system`'s own, settled long
+before a chapter opens.
 
 **Produce three lines for the brief.** If nothing in the chapter uses a capability, write
 `power: none` and close this card.
@@ -46,5 +47,8 @@ new      the sound it makes; the patrol captain hears it and now knows someone w
 - A permanent gain is not this card's decision. `power-scaling` owns whether one lands, at what
   price, and its row in `state/power.md` §4.
 
-If a decision will not settle, open `power-system/SKILL.md` §Writing power on the page, or
-§The four hard rules when the cost or limit is what is missing.
+If a decision will not settle, what is missing is almost always the **cost**: name a unit that
+accumulates or that somebody else can see — time, memory, the body permanently, reputation, a debt
+to a party with its own interests. Fatigue is the weakest choice because it resets overnight. If it
+is the **limit** that is missing, write the sentence beginning *this can never*, and the scene
+usually settles itself around it.

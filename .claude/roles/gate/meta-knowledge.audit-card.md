@@ -27,7 +27,10 @@ reader a book the blurb did not describe.
 - [ ] Foreknowledge did not stand in for a skill the MC has not learned
 - [ ] The `fk>` CCS line is written
 
-**Across the arc, not the chapter** — open `SKILL.md` §4 if either is in doubt:
+**Across the arc, not the chapter.** The shape the ledger has to show is inventory, then a legible
+**first win**, then a **first crack** the MC notices, then the **first failure**, then a reckoning
+where the MC acts without it. If either box is in doubt, read the spend log and find where that
+run stalled:
 
 - [ ] The advantage has produced at least one legible, uncontested win the reader watched
 - [ ] Failures so far are consequences of the MC acting, not decrees that arrived on schedule

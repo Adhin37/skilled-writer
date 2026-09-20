@@ -26,7 +26,7 @@ two files, and they fail the same way: silently, by nobody looking. Each half na
 
 A chapter that opened a thread the plan did not is not necessarily wrong; it is unrecorded, which
 is how a promise gets forgotten. Amend the plan row and check the next three
-(`revision-pass/references/fixing-and-reporting.md`).
+(`.claude/skills/revision-pass/references/fixing-and-reporting.md`).
 
 ## Checks
 
@@ -45,7 +45,7 @@ is how a promise gets forgotten. Amend the plan row and check the next three
 | symptom | what it actually is | go to |
 |---|---|---|
 | The ledger is current and the chapter still feels aimless | threads are open but none is due soon | pull a `due` forward; an open promise with no deadline is not pressure |
-| A payoff landed and felt unearned | one plant, or three plants all at the same subtlety | `references/foreshadowing.md` |
+| A payoff landed and felt unearned | one plant, or three plants all at the same subtlety | `.claude/skills/plot-threads/references/foreshadowing.md` |
 | Twelve threads open | the reader is tracking more than they can hold | close or merge two |
 | A reveal arrived with its own explanation attached | the foreshadowing was audited back to the reader | cut the retrospective clause; trust them |
 
@@ -60,7 +60,7 @@ A world that only moves when the MC is watching is a stage set.
 - [ ] Every world-track event is in the divergence ledger with what it opened. An unrecorded one
       gets re-invented differently four chapters later
 - [ ] In-world time agrees with `state/timeline.md`, and travel with the distance table
-      (`story-bible/references/geography-and-travel.md`)
+      (`.claude/skills/story-bible/references/geography-and-travel.md`)
 - [ ] Crises are within `timeline.crisis_cap` — when everything is urgent, nothing is
 - [ ] **`ending.contract` is still reachable and no non-negotiable was taken.** Absolute
 - [ ] Propagation stayed inside `timeline.butterfly_horizon`
@@ -68,7 +68,7 @@ A world that only moves when the MC is watching is a stage set.
 | symptom | what it actually is | go to |
 |---|---|---|
 | The `wld>` line restates what the MC saw | answered onstage | it is what the MC does *not* know |
-| Every faction reacts, correctly, at once | the reaction profiles have collapsed into one | `timeline-engine/references/reaction-and-governor.md` |
+| Every faction reacts, correctly, at once | the reaction profiles have collapsed into one | `.claude/skills/timeline-engine/references/reaction-and-governor.md` |
 | The world reacts so hard the MC cannot act | the governor is off | same file — the dial has a brake |
 
 ## What it looks like when it lands

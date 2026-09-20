@@ -136,10 +136,10 @@ the tell no phrase list catches.
 
 Hold these while writing. Each names its owner, and the detail is there rather than here.
 
-- **Voice and the four channels.** `narrator-voice/references/draft-card.md`. `'…'` direct thought
+- **Voice and the four channels.** `.claude/roles/draft/narrator-voice.draft-card.md`. `'…'` direct thought
   stays **1–3 for the whole chapter**, at decisions; interiority lives unmarked, in free indirect
   discourse. Distance does not change mid-chapter unless `pov-switch` says a switch is happening.
-- **Dialogue.** `dialogue-voice/references/draft-card.md`. Every named speaker satisfies their
+- **Dialogue.** `.claude/roles/draft/dialogue-voice.draft-card.md`. Every named speaker satisfies their
   fingerprint, and **25–40% of the words sit inside `"…"`**, spoken aloud to another person. Under
   10% is a defect: on a silent cast every voice check in this toolkit no-ops.
 - **Voice spread.** The brief's `speakers` line. Nobody but a declared mirror reasons at the MC's

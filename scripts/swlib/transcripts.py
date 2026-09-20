@@ -38,6 +38,16 @@ SKILL_PATH = re.compile(r"(?:^|/)\.claude/skills/([a-z0-9][a-z0-9._-]*)/(.+)$")
 # that opened thirteen. The finding-9 measurement is only as good as the tool the model happens
 # to read with, so it has to see both.
 SKILL_IN_TEXT = re.compile(r"\.claude/skills/([a-z0-9][a-z0-9._-]*)/([A-Za-z0-9._/-]+)")
+# The same two, for the role trees. A file there is `<owner>.<stem>.md`, so the owner is the
+# filename prefix rather than a directory, and the stem after the first dot is what the rest of
+# the corpus cites it by. Both forms have to be recognised at once and will for a long time:
+# these regexes read transcripts, and a transcript written before the split still carries the
+# old path. A scanner that understood only the current layout would report a drop in skill opens
+# on the day of a refactor, which is the shape of silent failure this whole scanner exists for.
+ROLE_PATH = re.compile(
+    r"(?:^|/)\.claude/roles/[a-z]+/([a-z0-9][a-z0-9-]*)\.([A-Za-z0-9._-]+\.md)$")
+ROLE_IN_TEXT = re.compile(
+    r"\.claude/roles/[a-z]+/([a-z0-9][a-z0-9-]*)\.([A-Za-z0-9._-]+\.md)")
 CHAPTER_PATH = re.compile(r"(?:^|/)novels/([^/]+)/chapters/(\d+)[^/]*$")
 
 # A card open, which is a skill open with a phase attached. Counted separately from the skill
@@ -45,7 +55,9 @@ CHAPTER_PATH = re.compile(r"(?:^|/)novels/([^/]+)/chapters/(\d+)[^/]*$")
 # advice, a card says it reached for the decision, and benchmark runs #4 and #5 both turned on
 # the card number while `trace` could only report the skill one. Those runs counted cards by
 # hand out of the transcript; this is that hand-count, so nobody has to do it again.
-CARD_FILE = re.compile(r"references/(draft|audit)-card\.md$")
+# Layout-independent on purpose: the separator before the stem is `/` under `.claude/skills/`,
+# `.` under `.claude/roles/`, and nothing at all when the stem arrives alone.
+CARD_FILE = re.compile(r"(?:^|[/.])(draft|audit)-card\.md$")
 
 # Rows carrying no real usage. `<synthetic>` is Claude Code's own placeholder for a message it
 # generated locally (an interrupt notice, a hook result) and never sent to an API.
@@ -297,16 +309,18 @@ def _scan_tools(sess, message, stamp):
                 text = args.get(field)
                 if isinstance(text, str) and text:
                     seen = set()
-                    for skill, rest in SKILL_IN_TEXT.findall(text.replace("\\", "/")):
-                        if (skill, rest) in seen:
-                            continue
-                        seen.add((skill, rest))
-                        _bump(sess.skills, skill)
-                        _bump(sess.skill_files, "%s/%s" % (skill, rest))
-                        _note_card(sess, stamp, skill, rest)
+                    unix = text.replace("\\", "/")
+                    for pattern in (SKILL_IN_TEXT, ROLE_IN_TEXT):
+                        for skill, rest in pattern.findall(unix):
+                            if (skill, rest) in seen:
+                                continue
+                            seen.add((skill, rest))
+                            _bump(sess.skills, skill)
+                            _bump(sess.skill_files, "%s/%s" % (skill, rest))
+                            _note_card(sess, stamp, skill, rest)
             continue
         unix = path.replace("\\", "/")
-        m = SKILL_PATH.search(unix)
+        m = SKILL_PATH.search(unix) or ROLE_PATH.search(unix)
         if m:
             _bump(sess.skills, m.group(1))
             _bump(sess.skill_files, "%s/%s" % (m.group(1), m.group(2)))

@@ -39,7 +39,7 @@ rate and worst in a chapter's opening sentences — `references/narrative-space.
 |---|---|
 | `references/overbuilding.md` | the world reads as flat and generic, or as bloated — the symptoms of each, and how depth is implied rather than explained |
 | `references/narrative-space.md` | the world is vivid and inert — atmosphere where handling should be. The five kinds of space, what was measured, and the handled-noun repair |
-| `references/audit-card.md` | never, by you. `revision-pass` Pass 5 opens it |
+| `.claude/roles/gate/world-texture.audit-card.md` | never, by you. `revision-pass` Pass 5 opens it |
 
 ## 1. The four delivery channels
 

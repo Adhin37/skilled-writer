@@ -215,6 +215,22 @@ class TestToolAndSkillDetection(unittest.TestCase):
         skills = self._skills("/r/.claude/skills/power-scaling/references/draft-card.md")
         self.assertIn("power-scaling", skills)
 
+    def test_a_role_tree_file_counts_as_opening_its_owner(self):
+        """In `.claude/roles/` the owner is the filename prefix, not a directory."""
+        self.assertIn("power-scaling",
+                      self._skills("/r/.claude/roles/draft/power-scaling.draft-card.md"))
+        self.assertIn("voice-separation",
+                      self._skills("/r/.claude/roles/shared/voice-separation.mirror-clause.md"))
+
+    def test_the_old_layout_still_counts_after_the_split(self):
+        """These regexes read transcripts, and a transcript outlives the layout it recorded.
+
+        A scanner taught only the current tree would report a drop in skill opens on the day of
+        a refactor - a measurement artifact indistinguishable from a model that stopped reading.
+        """
+        self.assertIn("power-scaling",
+                      self._skills("/r/.claude/skills/power-scaling/references/draft-card.md"))
+
     def test_the_skill_tool_counts(self):
         with Root() as root:
             root.write("projects/-work-repo/s1.jsonl", [row(message={"content": [
@@ -252,6 +268,12 @@ class TestToolAndSkillDetection(unittest.TestCase):
         skills = self._bash("cat .claude/skills/mtl-detox/SKILL.md "
                             ".claude/skills/mtl-detox/SKILL.md")
         self.assertEqual(1, skills["mtl-detox"])
+
+    def test_both_trees_in_one_command_count(self):
+        skills = self._bash("cat .claude/skills/write-chapter/SKILL.md "
+                            ".claude/roles/draft/conflict-engine.draft-card.md")
+        self.assertIn("write-chapter", skills)
+        self.assertIn("conflict-engine", skills)
 
     def test_a_command_naming_no_skill_is_not_a_skill_load(self):
         self.assertEqual(self._bash("ls docs/ && grep -r skills README.md"), {})
@@ -414,6 +436,18 @@ class TestCardCounting(unittest.TestCase):
         self.assertEqual(self._cards("/r/.claude/skills/prose-quality/references/"
                                      "ai-default-tells.md"), [])
         self.assertEqual(self._cards("/r/.claude/skills/revision-pass/SKILL.md"), [])
+
+    def test_a_role_tree_card_is_recorded_with_its_phase(self):
+        """The stem after the first dot is the card, and it carries no `references/` to key on."""
+        self.assertEqual(
+            [(c[1], c[2]) for c in self._cards("/r/.claude/roles/gate/bias-guard.audit-card.md")],
+            [("bias-guard", "audit")])
+        self.assertEqual(
+            [(c[1], c[2]) for c in
+             self._cards("/r/.claude/roles/draft/story-craft.draft-card.md")],
+            [("story-craft", "draft")])
+        self.assertEqual(
+            self._cards("/r/.claude/roles/shared/prose-quality.ai-default-tells.md"), [])
 
     def test_a_card_opened_with_bash_counts(self):
         """The same hole run #4's T1 found for skills: a shell read never reaches `file_path`."""

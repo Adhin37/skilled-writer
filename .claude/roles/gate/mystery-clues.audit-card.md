@@ -37,7 +37,7 @@ stop trusting every sentence afterwards. This is the only unrecoverable failure 
 | symptom | what it actually is | go to |
 |---|---|---|
 | The reveal is a character explaining at length | the drawing-room recitation | `story-craft` — dramatise it, under pressure, to someone who will act |
-| The clue was fair but nobody saw it | disguised by obscurity rather than by function | `SKILL.md` §Planting |
+| The clue was fair but nobody saw it | disguised by obscurity rather than by function | make it do another job - a transaction, a joke, a characterising detail |
 | The misdirection is never accounted for | a hole wearing a red herring's coat | `plot-threads` — it is an open promise |
 | The answer changed nothing | trivia | `conflict-engine` — knowing has to cost |
 

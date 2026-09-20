@@ -37,8 +37,11 @@ interchangeable furniture.
 - [ ] No character acted out of character for the plot's convenience
 - [ ] Antagonists present want something legible and are competent at it
 
-If a box fails, open `SKILL.md` — §First appearance for placement, §Cast tiers for the
-promotion rule, §Three strokes for walk-ons.
+If a box fails, the repair is at the first appearance: give the reader this character's
+**relation** to the POV character, **what power they hold**, and **one concrete stroke** — all three
+in motion, none of them as a caption. A walk-on gets three strokes and a roster line rather than a
+psychology, and nobody is promoted to a written profile until they turn up a third time or move
+the plot themselves.
 
 ## What it looks like when it lands
 

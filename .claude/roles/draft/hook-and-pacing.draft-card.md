@@ -55,4 +55,4 @@ a scene ended at its first obstacle instead of its consequence.
 Pace varies *within* the chapter: medium open → fast through the turn → slow for the
 follow-through → fast for the hook.
 
-Arc temperature over a run of chapters: `references/arc-rhythm.md`.
+Arc temperature over a run of chapters: `.claude/skills/hook-and-pacing/references/arc-rhythm.md`.

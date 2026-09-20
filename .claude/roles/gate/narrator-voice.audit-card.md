@@ -33,8 +33,10 @@ Three judgements are left, and they are the whole pass:
       actually say to themselves
 - [ ] No marked thought is tagged *he thought* — the mark already said it
 
-If a box fails, open `SKILL.md` §The four channels, and `references/draft-card.md` for the
-distance and interiority settings that decide where a thought should have been unmarked.
+If a box fails, the repair is at the line rather than in another file. Strip the marks and let the
+sentence keep running inside the narration, in that character's idiom. An interior beat belongs at
+a moment of choice, so the one that survives is the one where something is decided, and the rest
+go unmarked.
 
 ## What it looks like when it lands
 

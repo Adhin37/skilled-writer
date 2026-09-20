@@ -34,8 +34,10 @@ scene shape, and before bias, so any world or cultural material it adds is still
 - [ ] One or two things referred to and left unexplained, with the scene still comprehensible
 - [ ] New anchors and durable social facts are queued for the `set>` line
 
-If a box fails, open `SKILL.md`: §1–§2 for the delivery channels and the budget, §3 for the
-load-bearing test.
+If a box fails, apply the load-bearing test: a world detail must characterise the person noticing
+it, set up a later beat, anchor a location, carry a social fact, or create friction. A detail doing
+none of the five is cut however good the sentence is — and a fact that was narrated is re-delivered
+as a consequence, a friction or an assumed reference instead.
 
 ## What it looks like when it lands
 

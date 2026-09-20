@@ -54,5 +54,8 @@ the name is why anyone feels it.
 - An exceptional character changes the result **through other people** — the line holds because
   somebody was seen. `power-scaling` still binds.
 
-If the frame will not settle, open `battle-scale/SKILL.md` §1. For the campaign around the
-engagement — supply, movement, why armies actually lose — `references/logistics.md`.
+If the frame will not settle, take **the body**. It is the default and the most reliable, because
+terror and cost arrive through one person's hundred metres whatever else is happening on the field.
+Take the decision frame only when the POV character's own orders are the thing going wrong, and the
+line frame only when an earlier chapter already established that unit. For the campaign around the
+engagement — supply, movement, why armies actually lose — `.claude/skills/battle-scale/references/logistics.md`.

@@ -41,12 +41,12 @@ somebody out of breath.
 
 | symptom | what it actually is | go to |
 |---|---|---|
-| The chapter reads as a report | the frame slipped from body to decision mid-scene | `SKILL.md` §1 — pick one and go back |
-| Thousands died and the chapter feels weightless | attrition without a name in it | `SKILL.md` §4 |
+| The chapter reads as a report | the frame slipped from body to decision mid-scene | pick the one frame and re-cut the scene to it |
+| Thousands died and the chapter feels weightless | attrition without a name in it | one of the dead is somebody the reader already knew |
 | The MC personally decided the field | a scaling problem wearing armour | `power-scaling` — make the field bigger |
-| Everyone fought to the death | battles are decided by routs, and most dying happens afterwards | `SKILL.md` §4 |
+| Everyone fought to the death | almost nobody dies fighting | let the line break, and put the dying in the pursuit and the wounds |
 | The battle is won and nothing else moved | the engagement cost nothing | `conflict-engine` |
-| The army arrived fed, dry and on time | the campaign was skipped | `references/logistics.md` |
+| The army arrived fed, dry and on time | the campaign was skipped | `.claude/skills/battle-scale/references/logistics.md` |
 
 ## What it looks like when it lands
 

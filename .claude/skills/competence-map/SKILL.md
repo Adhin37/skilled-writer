@@ -44,7 +44,7 @@ when its trigger fires, not by default.
 | 5 | `references/acquisition-ladder.md` | somebody is learning something across chapters, or a skill has advanced and you need to know what that cost |
 | 6 | `references/broad-knowledge.md` | the character is a god, an immortal, a cultivator with centuries, or an artificial mind — `knowledge_scope: broad` |
 
-The revision-time check is `references/audit-card.md`, opened by `revision-pass` Pass 3.
+The revision-time check is `.claude/roles/gate/competence-map.audit-card.md`, opened by `revision-pass` Pass 3.
 
 ## 1. The knowledge map
 

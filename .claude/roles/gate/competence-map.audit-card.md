@@ -37,8 +37,9 @@ left, and it is the whole job.
 3. Let them be *wrong* about it — this usually improves the scene.
 4. Only last, add the domain to their map. That is a permanent change to who they are.
 
-If a box fails, open `SKILL.md`: §1 for the map and the four rules, §3 for provenance, §5 for the
-acquisition ladder, §6 for the broad-knowledge clause.
+The ordered fix above is the whole repair. The default underneath it is that an **unlisted domain
+is `none`** — the character does not know, and saying so is a strong line. A domain is acquired
+across chapters of costly failure, never inside one.
 
 ## What it looks like when it lands
 

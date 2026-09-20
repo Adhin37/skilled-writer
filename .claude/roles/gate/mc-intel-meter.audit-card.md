@@ -42,8 +42,14 @@ repair is one clause — hand the reader the evidence instead — and it reads b
 - [ ] Any misread satisfies all four of `social-perception` §4's conditions
 - [ ] Nobody was made socially blind so the MC could notice something
 
-If a box fails, open `SKILL.md` — §The floor for the seven rules, §Three legal failures for the
-repair — or `social-perception/SKILL.md` and `social-perception/references/reading-people.md`.
+If a box fails, the repair is to re-cause the failure. There are four legal causes and no others:
+**missing information** (they reasoned correctly from what they had, and what they had was
+incomplete or planted), **opposed will** (somebody at least as capable wanted the opposite and
+moved first), **cost** (they saw the answer and could not afford it), and the **misread**, whose
+four conditions `social-perception` owns — the signal on the page, the reading reasonable for their
+tier, the true cause also visible, and a price. Reach for the established blind spot only if
+`mc.blind_spots` already names it. Emotional signatures and what a tier may conclude about a person
+are `.claude/skills/social-perception/references/reading-people.md`.
 
 ## What it looks like when it lands
 

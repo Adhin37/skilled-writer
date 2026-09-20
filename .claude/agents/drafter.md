@@ -1,7 +1,7 @@
 ---
 name: drafter
 description: Writes one chapter - Phase A brief, Phase B prose, and the state write. Stops for brief approval and hands Phase C to the gate. Invoked by /novel-write with a novel slug and a chapter number.
-tools: Read, Write, Edit, Grep, Glob, Bash
+tools: Read, Write, Edit, Grep, Glob, Bash, Agent
 skills:
   - write-chapter
   - continuity-summary

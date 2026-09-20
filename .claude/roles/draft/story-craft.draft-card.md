@@ -47,7 +47,7 @@ still one line long.
 
 **Number them, because the numbers are written down.** The rejected two and the reason the taken
 one won go on the brief's `cand` line, and from there to the CCS block's `cand>` line at step 5
-(`continuity-summary/references/block-format.md`). That ledger line is where this step's output
+(`.claude/skills/continuity-summary/references/block-format.md`). That ledger line is where this step's output
 survives the run: before it existed, benchmark run #4 ran five chapters through this card and no
 measurement could tell whether the step had happened at all.
 
@@ -94,5 +94,6 @@ events — it is one of the events getting the scene it deserved.
 Skipping it entirely makes a chapter a highlight reel; overrunning it stops the story
 (`scene-craft` §The follow-through).
 
-If a box fails, open `story-craft/SKILL.md`, or `references/scene-and-summary.md` for the worked
-decision and the past-perfect catalogue.
+If a box fails, the repair is the same one every time: find the beat that was reported and play
+it — the want, the friction, the turn, in front of the reader. `.claude/skills/story-craft/references/scene-and-summary.md`
+carries the worked decision and the past-perfect catalogue.

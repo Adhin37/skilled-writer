@@ -60,9 +60,12 @@ narration and find the choice.
 - [ ] The MC's pain ledger has an entry
 - [ ] Nothing below tier B acquired a ladder position, a realisation, or a private thought
 
-If a box fails, open `SKILL.md`: §3 for the three checks, §5 for the body channel, §6 for
-anti-convergence, §7 for the mirror clause — or `character-development/SKILL.md` when a ladder is
-the problem.
+If a box fails, the repair is to **move somebody off the protagonist's axes rather than onto
+them**: growth that runs more oblique, slower, quieter or funnier in a worse way is still growth,
+and only a character whose arc is explicitly becoming like the MC is exempt — with somebody on the
+page saying so. Two voices that read alike are re-separated on **intel and articulacy together**,
+never on wit, which can go a whole chapter without surfacing. A declared `mirror:` is the one
+standing exemption: `.claude/skills/voice-separation/references/mirror-clause.md`.
 
 ## What it looks like when it lands
 

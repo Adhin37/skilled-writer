@@ -22,7 +22,7 @@ def _skill_roster(repo_root):
     if not os.path.isdir(d):
         return []
     return sorted(name for name in os.listdir(d)
-                  if os.path.isdir(os.path.join(d, name)) and not name.startswith("."))
+                  if os.path.isfile(os.path.join(d, name, "SKILL.md")))
 
 
 def _classify(roster, novel, repo_root):

@@ -22,8 +22,8 @@ escalating magnitudes. A reader who can tell what is impossible is a reader who 
 | file | open it when |
 |---|---|
 | `references/system-design.md` | building the system, or it exists and generates no plots — choosing the cost axis, writing limits that produce story, and the worked example |
-| `references/draft-card.md` | never, by you. `write-chapter` Phase A opens it |
-| `references/audit-card.md` | never, by you. `revision-pass` Pass 5 opens it |
+| `.claude/roles/draft/power-system.draft-card.md` | never, by you. `write-chapter` Phase A opens it |
+| `.claude/roles/gate/power-system.audit-card.md` | never, by you. `revision-pass` Pass 5 opens it |
 
 ---
 

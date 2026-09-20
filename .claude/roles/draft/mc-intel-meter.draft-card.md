@@ -76,6 +76,6 @@ would produce · the true cause is also visible in something the reader saw · a
 something. Somebody with a higher `eq` than the POV is reading *them*, and may act on it first.
 
 Technique rather than rule — the intelligence / knowledge / wisdom distinction:
-`references/writing-intelligence.md`. Plans, operations and lies: `references/plans-and-lies.md`.
+`.claude/skills/mc-intel-meter/references/writing-intelligence.md`. Plans, operations and lies: `.claude/skills/mc-intel-meter/references/plans-and-lies.md`.
 The observation ladder and how a misread is written so the reader can see past it:
-`social-perception/references/reading-people.md`.
+`.claude/skills/social-perception/references/reading-people.md`.

@@ -29,8 +29,8 @@ scene is a skipped chapter.
 |---|---|
 | `references/group-scenes.md` | the scene has three or more speakers — roles, blocking, turn allocation, and who is deliberately silent. At three, a scene changes category |
 | `references/negotiation.md` | the turn of the scene is who concedes what — a bargain, a hearing, a truce, a council, an interrogation where both sides hold something |
-| `references/draft-card.md` | never, by you. `write-chapter` Phase A opens it |
-| `references/audit-card.md` | never, by you. `revision-pass` Passes 4 and 9 open it |
+| `.claude/roles/draft/scene-craft.draft-card.md` | never, by you. `write-chapter` Phase A opens it |
+| `.claude/roles/gate/scene-craft.audit-card.md` | never, by you. `revision-pass` Passes 4 and 9 open it |
 
 ## The scene unit
 

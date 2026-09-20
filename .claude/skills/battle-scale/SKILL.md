@@ -31,8 +31,8 @@ reader can follow it, care about it, and be surprised by it.
 | file | open it when |
 |---|---|
 | `references/logistics.md` | the campaign around the battle — supply, movement, disease, money, and why armies actually lose |
-| `references/draft-card.md` | never, by you. `write-chapter` Phase A opens it |
-| `references/audit-card.md` | never, by you. `revision-pass` Pass 4 opens it |
+| `.claude/roles/draft/battle-scale.draft-card.md` | never, by you. `write-chapter` Phase A opens it |
+| `.claude/roles/gate/battle-scale.audit-card.md` | never, by you. `revision-pass` Pass 4 opens it |
 
 ## 1. The one decision: what is the reader tracking?
 

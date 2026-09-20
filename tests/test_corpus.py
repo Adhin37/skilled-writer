@@ -26,6 +26,12 @@ def read(path):
         return fh.read()
 
 
+# Every citation form the corpus allows: the repo-relative path a role-tree file must use, and
+# the rootless `<owner>/references/<stem>.md` a body may still use about its own neighbourhood.
+CITATION = re.compile(r"`(\.claude/(?:skills|roles)/[A-Za-z0-9._/-]+\.md"
+                      r"|(?:[a-z][a-z0-9-]*/)?references/[a-z0-9-]+\.md)`")
+
+
 def all_docs():
     """Every markdown file that may carry a citation."""
     out = []
@@ -100,21 +106,48 @@ class TestCitations(unittest.TestCase):
                          "section citations pointing at a heading that no longer exists")
 
     def test_every_referenced_file_exists(self):
+        """A citation is a path, and the path has to open.
+
+        `sw health`'s anti-dangling check asks a different question - whether the *index* can
+        resolve the citation - and the two stopped agreeing when the cards moved: a relative
+        `references/logistics.md` left inside a role file resolves perfectly through the owner
+        and points nowhere on disk. This is the literal-path check, which is the one the split
+        was bought for.
+        """
         missing = []
-        pattern = re.compile(r"`((?:[a-z][a-z0-9-]*/)?references/[a-z0-9-]+\.md)`")
         for path in all_docs():
             skill_dir = os.path.dirname(path)
             if os.path.basename(skill_dir) == "references":
                 skill_dir = os.path.dirname(skill_dir)
-            for m in pattern.finditer(read(path)):
+            for m in CITATION.finditer(read(path)):
                 target = m.group(1)
-                if "/references/" in target and not target.startswith("references/"):
-                    full = os.path.join(SKILLS, target)
-                else:
+                if target.startswith(".claude/"):
+                    full = os.path.join(REPO, target)
+                elif target.startswith("references/"):
                     full = os.path.join(skill_dir, target)
+                else:
+                    full = os.path.join(SKILLS, target)
                 if not os.path.isfile(full):
                     missing.append("%s -> %s" % (os.path.relpath(path, REPO), target))
         self.assertEqual(sorted(set(missing)), [], "pointers to reference files that do not exist")
+
+    def test_a_role_file_cites_by_repo_relative_path(self):
+        """Inside the role trees the only legal citation form is the whole path from the root.
+
+        `references/x.md` encoded the directory the card used to sit in, and a card no longer
+        sits in one. The rootless form is also why a reader of
+        [.claude/commands/novel-character.md](.claude/commands/novel-character.md) cannot tell
+        which tree a named file is in - the split removes the question rather than answering it.
+        """
+        rootless = re.compile(r"`((?:[a-z][a-z0-9-]*/)?references/[a-z0-9-]+\.md)`")
+        bad = []
+        for path in all_docs():
+            if "/.claude/roles/" not in path.replace(os.sep, "/"):
+                continue
+            for m in rootless.finditer(read(path)):
+                bad.append("%s -> %s" % (os.path.relpath(path, REPO), m.group(1)))
+        self.assertEqual(sorted(set(bad)), [],
+                         "role-tree citations that still name a path relative to nothing")
 
     def test_every_named_skill_exists(self):
         names = set(skill_names())
@@ -174,7 +207,7 @@ class TestArchitecture(unittest.TestCase):
         for skill in ("voice-separation", "competence-map", "bias-guard",
                       "world-texture", "prose-quality", "story-opening", "meta-knowledge",
                       "story-craft"):
-            self.assertIn("%s/references/audit-card.md" % skill, body,
+            self.assertIn(".claude/roles/gate/%s.audit-card.md" % skill, body,
                           "revision-pass must open %s's card" % skill)
 
     def test_every_module_is_reached_through_a_card(self):

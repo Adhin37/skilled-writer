@@ -51,8 +51,8 @@ genre contract, `opening.promise` touched on the page, and the advantage's first
 are promises to a reader who has not yet decided to keep reading, so they cannot be paid late:
 `plot-threads` §The promise ledger — arc 1 only.
 
-Planting a setup, or auditing for forgotten promises: `references/foreshadowing.md`. A reversal
-the reader is meant to re-read their way into: `references/reveals-and-reversals.md`.
+Planting a setup, or auditing for forgotten promises: `.claude/skills/plot-threads/references/foreshadowing.md`. A reversal
+the reader is meant to re-read their way into: `.claude/skills/plot-threads/references/reveals-and-reversals.md`.
 
 ## The offstage question — `timeline-engine`'s half
 
@@ -72,6 +72,6 @@ Two things this card will not let you skip:
   `ending.contract` unreachable? If yes, change its scale, timing or target. The world may cost
   the MC anything; it may never close the road, and `ending.non_negotiables` is absolute.
 
-The dial, the ledger, the butterfly budget and the arc-level obligation are `timeline-engine`'s —
-`timeline-engine/SKILL.md`, with `timeline-engine/references/reaction-and-governor.md` when a faction is about to
-move and `timeline-engine/references/fanfic-mode.md` where canon is the world track.
+The dial, the ledger, the butterfly budget and the arc-level obligation are `timeline-engine`'s:
+`.claude/skills/timeline-engine/references/reaction-and-governor.md` when a faction is about to move, and
+`.claude/skills/timeline-engine/references/fanfic-mode.md` where canon is the world track.

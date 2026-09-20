@@ -38,11 +38,18 @@ class TestAgainstTheRealCorpus(unittest.TestCase):
         self.assertEqual(bare, [], "every skill declares the concepts it is the authority on")
 
     def test_card_counts_match_the_filesystem(self):
-        for kind, fname in (("draft-card", "draft-card.md"), ("audit-card", "audit-card.md")):
-            on_disk = [s for s in self.idx.skills
-                       if os.path.isfile(os.path.join(REPO, ".claude", "skills", s,
-                                                      "references", fname))]
+        for kind, stem in (("draft-card", ".draft-card.md"), ("audit-card", ".audit-card.md")):
+            bucket = os.path.join(REPO, ".claude", "roles", kb.CARD_ROLES[kind])
+            on_disk = [f for f in os.listdir(bucket) if f.endswith(stem)]
             self.assertEqual(len(self.idx.by_type(kind)), len(on_disk), kind)
+
+    def test_a_card_lives_in_its_role_tree_and_nowhere_else(self):
+        """The split, as an assertion. A card under `.claude/skills/` is a half-done move."""
+        for kind, role in kb.CARD_ROLES.items():
+            for f in self.idx.by_type(kind):
+                self.assertEqual(f.bucket, role, f.rel)
+                self.assertTrue(f.rel.startswith(".claude/roles/%s/" % role), f.rel)
+                self.assertEqual(os.path.basename(f.rel), "%s.%s.md" % (f.owner, kind), f.rel)
 
     def test_a_card_knows_its_dispatcher(self):
         """The one inversion in the corpus: a card is opened by its dispatcher, not its skill."""
@@ -87,8 +94,12 @@ class TestReproducesTheDispatcherTables(unittest.TestCase):
     remains of them, which is why it reads them from disk rather than restating them.
     """
 
-    CARD = re.compile(r"`([a-z-]+)/references/draft-card\.md`")
-    AUDIT = re.compile(r"`([a-z-]+)/references/audit-card\.md`")
+    # Both citation forms, because a dispatcher may name a card either way and the tests below
+    # must not go quiet when the layout moves under them: a regex that stops matching turns
+    # `test_phase_b_owners_match_the_bullets` into a skip whose message says the bullets were
+    # deleted. They were not. That is the migration's correctness proof reporting success.
+    CARD = re.compile(r"`(?:\.claude/roles/[a-z]+/)?([a-z-]+)[/.](?:references/)?draft-card\.md`")
+    AUDIT = re.compile(r"`(?:\.claude/roles/[a-z]+/)?([a-z-]+)[/.](?:references/)?audit-card\.md`")
 
     def setUp(self):
         self.idx = kb.index(REPO, refresh=True)
@@ -117,7 +128,7 @@ class TestReproducesTheDispatcherTables(unittest.TestCase):
         self.assertEqual(got, want, "phase A card order must match write-chapter's table")
 
     def test_phase_b_owners_match_the_bullets(self):
-        want = re.findall(r"- \*\*(?:.+?)\.\*\* `([a-z-]+)/references/draft-card\.md`", self.wc)
+        want = re.findall(r"- \*\*(?:.+?)\.\*\* " + self.CARD.pattern, self.wc)
         if not want:
             self.skipTest("the phase B bullets have been deleted")
         got = sorted(f.owner for f in self.idx.by_type("draft-card") if f.phase == "B")
@@ -300,6 +311,134 @@ class TestRoles(unittest.TestCase):
         self.assertTrue(skills)
         self.assertTrue(cards)
         self.assertTrue(all(f.type == "draft-card" for f, _s, _w in cards))
+
+
+class TestOwnedFiles(unittest.TestCase):
+    """`owned_files` is the one answer to "what is a skill's corpus?".
+
+    It replaced four separate `os.walk`s of a skill's directory. A walk silently means
+    "whatever happens to be filed here", so it attributes a misfiled note to the directory
+    rather than to the owner the note declares - and it would stop comparing a file the moment
+    the file moved out of the tree, without any of the four noticing.
+    """
+
+    def setUp(self):
+        self.idx = kb.index(REPO, refresh=True)
+
+    def test_it_is_the_body_plus_everything_that_declares_the_owner(self):
+        for name in self.idx.skills:
+            owned = self.idx.owned_files(name)
+            self.assertEqual(owned[0], self.idx.skills[name].path,
+                             "the body must come first - a 10-word run spans the join")
+            declared = {f.path for f in self.idx.files if f.owner == name}
+            self.assertEqual(set(owned[1:]), declared)
+
+    def test_every_corpus_file_is_owned_by_exactly_one_skill(self):
+        """The partition property the physical split depends on, asserted before the move."""
+        seen = {}
+        for name in self.idx.skills:
+            for path in self.idx.owned_files(name)[1:]:
+                self.assertNotIn(path, seen, "%s is owned twice" % path)
+                seen[path] = name
+        self.assertEqual(len(seen), len(self.idx.files))
+
+    def test_the_order_is_stable_and_does_not_depend_on_the_directory(self):
+        """Ordered by the name the corpus cites, which is the one thing a move cannot change.
+
+        Basename order would have done before the split and after it, and gone wrong only in
+        between - a skill with one card moved and one note not yet moved sorts
+        `narrator-voice.audit-card.md` against `channels.md` and silently reorders the
+        concatenation the duplication check reads.
+        """
+        by_owner = {}
+        for f in self.idx.files:
+            by_owner.setdefault(f.owner, []).append(f)
+        for name in self.idx.skills:
+            owned = self.idx.owned_files(name)[1:]
+            cites = [f.cite for f in sorted(by_owner.get(name, []),
+                                            key=lambda f: f.path)]
+            got = []
+            for path in owned:
+                got.extend(f.cite for f in by_owner[name] if f.path == path)
+            self.assertEqual(got, sorted(cites), name)
+
+
+class TestCitationResolution(unittest.TestCase):
+    """One regex and one resolver, where there used to be three copies of the regex.
+
+    Three copies is three chances to teach the corpus a citation form that only two of them
+    accept - and the one that does not accept it reports a defect against a file that is fine.
+    """
+
+    def setUp(self):
+        self.idx = kb.index(REPO, refresh=True)
+
+    def _resolve(self, text, citing=None):
+        m = kb.CITATION.search(text)
+        return None if m is None else self.idx.resolve(m, citing)
+
+    def test_the_bare_form_means_my_own(self):
+        self.assertIsNotNone(self._resolve("references/draft-card.md", "story-craft"))
+        self.assertIsNone(self._resolve("references/draft-card.md", "bias-guard"))
+
+    def test_the_qualified_form_names_another_skill(self):
+        f = self._resolve("world-texture/references/audit-card.md", "plot-threads")
+        self.assertEqual(f.owner, "world-texture")
+
+    def test_the_written_out_form_resolves_the_same_way(self):
+        a = self._resolve(".claude/skills/story-craft/references/draft-card.md")
+        b = self._resolve("story-craft/references/draft-card.md")
+        self.assertEqual(a.rel, b.rel)
+
+    def test_the_bare_form_is_a_citation_only_when_the_owner_has_the_file(self):
+        """One card cites this way, and a closure blind to it filed the note as unreachable."""
+        self.assertIsNotNone(self._resolve("`ai-default-tells.md`.", "prose-quality"))
+        self.assertIsNone(self._resolve("`ai-default-tells.md`.", "mtl-detox"))
+
+    def test_it_resolves_none_of_the_md_files_that_are_not_citations(self):
+        """`CLAUDE.md`, `novel.md` and `state/threads.md` are named all over the corpus.
+
+        The bare form makes these *match*, which is why resolution rather than the regex is
+        what J2 keys on - see the guard in `cmd_health._references`.
+        """
+        for text in ("see CLAUDE.md section 3", "write state/threads.md", "novel.md is the truth",
+                     "chapters/0001-a.md", "open bible/world.md"):
+            for name in self.idx.skills:
+                self.assertIsNone(self._resolve(text, name), "%s (citing %s)" % (text, name))
+
+    def test_every_citation_in_the_corpus_resolves(self):
+        """J2, asserted directly against the corpus rather than through the report."""
+        bad = []
+        for name in sorted(self.idx.skills):
+            for path in self.idx.owned_files(name):
+                with open(path, encoding="utf-8") as fh:
+                    text = fh.read()
+                for m in kb.CITATION.finditer(text):
+                    if m.group("bare"):
+                        continue   # ordinary prose unless it resolves; see the regex comment
+                    if self.idx.resolve(m, name) is None:
+                        bad.append("%s -> %s" % (name, m.group(0)))
+        self.assertEqual([], bad)
+
+
+class TestEntryIsIndexDriven(unittest.TestCase):
+
+    def setUp(self):
+        self.idx = kb.index(REPO, refresh=True)
+
+    def test_it_returns_the_draft_card_where_there_is_one(self):
+        f = self.idx.entry("story-craft")
+        self.assertTrue(f.endswith("draft-card.md"), f)
+        self.assertIsNotNone(self.idx._by_rel.get(f))
+
+    def test_it_falls_back_to_the_body(self):
+        self.assertTrue(self.idx.entry("bias-guard").endswith("SKILL.md"))
+
+    def test_it_never_guesses_a_path_that_is_not_in_the_index(self):
+        """It used to `os.path.isfile` a path it had constructed, which is a second layout."""
+        for name in self.idx.skills:
+            rel = self.idx.entry(name)
+            self.assertTrue(os.path.isfile(os.path.join(REPO, rel)), rel)
 
 
 if __name__ == "__main__":

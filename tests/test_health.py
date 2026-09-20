@@ -379,6 +379,43 @@ class TestTheRealRepo(unittest.TestCase):
         self.assertGreaterEqual(len(cmd_health.SECTION_LOOKUPS), 13)
 
 
+class TestSkillNamesMeansLoadable(unittest.TestCase):
+    """`skill_names` used to return any directory, `SKILL.md` or not.
+
+    That is the shape a half-finished move leaves behind, and every check downstream then ran
+    against a body that was not there - looking for frontmatter in a file it could not open and
+    reporting the absence as the skill's fault, once per check.
+    """
+
+    def test_a_directory_with_no_body_is_not_a_skill(self):
+        with Fake() as f:
+            f.skill("real-one")
+            os.makedirs(os.path.join(f.skills, "left-behind"))
+            self.assertEqual(cmd_health.skill_names(f.dir), ["real-one"])
+            self.assertEqual(cmd_health.skill_dirs(f.dir), ["left-behind", "real-one"])
+
+    def test_but_it_is_still_a_defect(self):
+        """Excluding it from the roster must not excuse it."""
+        with Fake() as f:
+            f.skill("real-one")
+            os.makedirs(os.path.join(f.skills, "left-behind"))
+            rep = f.run()
+            messages = [str(x.message) for x in rep.findings if x.level == "defect"]
+            self.assertTrue([m for m in messages if "left-behind" in m and "SKILL.md" in m],
+                            messages)
+
+    def test_an_empty_tree_reads_as_empty_rather_than_absent(self):
+        """Present-but-empty and absent-entirely arrive by different routes."""
+        with Fake() as f:
+            rep = f.run()
+            self.assertIn("is empty", str(rep.findings[0].message))
+
+    def test_health_and_kb_agree_on_where_the_skills_are(self):
+        """Two private copies of a path is two things to move."""
+        from swlib import kb
+        self.assertEqual(cmd_health.skills_dir(REPO), kb.skills_dir(REPO))
+
+
 if __name__ == "__main__":
     unittest.main()
 

@@ -83,7 +83,7 @@ class TestWhatItMayNot(unittest.TestCase):
         self.assertEqual(read("docs/test-run-protocol.md")[0], 2)
 
     def test_the_corpus_is_blocked(self):
-        code, err = read(".claude/skills/prose-quality/references/audit-card.md")
+        code, err = read(".claude/roles/gate/prose-quality.audit-card.md")
         self.assertEqual(code, 2)
         self.assertIn("rules the chapters were written against", err)
 

@@ -66,10 +66,12 @@ LINE_CITATION = re.compile(
 
 
 def skills_dir(repo_root):
-    return os.path.join(repo_root, ".claude", "skills")
+    """`kb`'s, not a second one. Two private copies of a path is two things to move."""
+    return kb.skills_dir(repo_root)
 
 
-def skill_names(repo_root):
+def skill_dirs(repo_root):
+    """Every directory under the skills tree, loadable or not. `_skills` needs the failures."""
     d = skills_dir(repo_root)
     if not os.path.isdir(d):
         return []
@@ -77,15 +79,38 @@ def skill_names(repo_root):
                   if os.path.isdir(os.path.join(d, n)) and not n.startswith("."))
 
 
+def skill_names(repo_root):
+    """The skills that actually LOAD - a directory with a `SKILL.md` in it.
+
+    The requirement used to be absent, so a directory left behind by a half-finished move
+    counted as a skill everywhere downstream and every check ran against a body that was not
+    there. `_skills` still reports the directory that has no `SKILL.md`; nothing else has to.
+    """
+    d = skills_dir(repo_root)
+    return [n for n in skill_dirs(repo_root)
+            if os.path.isfile(os.path.join(d, n, "SKILL.md"))]
+
+
 def run(repo_root, commands=None):
     """`commands` is the dispatcher's own subcommand list, passed in to avoid importing sw.py."""
     rep = Report("health - %s" % os.path.basename(os.path.abspath(repo_root)))
+    for name in skill_dirs(repo_root):
+        if not os.path.isfile(os.path.join(skills_dir(repo_root), name, "SKILL.md")):
+            rep.defect("skill-frontmatter", "%s/ has no SKILL.md - the skill cannot load" % name,
+                       path=os.path.join(skills_dir(repo_root), name, "SKILL.md"))
     names = skill_names(repo_root)
     if not names:
-        rep.defect("skills", "no .claude/skills/ directory under %s"
-                   % os.path.abspath(repo_root).replace(os.sep, "/"))
+        # Present-but-empty and absent-entirely are different failures and the message used to
+        # report both as the second. They arrive by different routes - an empty tree is what a
+        # move that deleted before it copied leaves behind - and the fix is not the same.
+        where = os.path.abspath(repo_root).replace(os.sep, "/")
+        rep.defect("skills",
+                   "%s/.claude/skills/ is empty - no skill is reachable" % where
+                   if os.path.isdir(skills_dir(repo_root))
+                   else "no .claude/skills/ directory under %s" % where)
         return rep
 
+    _corpus_floor(repo_root, rep)
     _skills(repo_root, names, rep)
     _registry(repo_root, names, rep)
     _template(repo_root, rep)
@@ -100,7 +125,6 @@ def run(repo_root, commands=None):
     _settings_hooks(repo_root, rep)
     _card_budget(repo_root, rep)
     _card_scope(repo_root, rep)
-    _dangling_cards(repo_root, names, rep)
     rep.info("scope", [
         "   %d skills, %d roles, %d template accessors, %d template sections, %d template "
         "axes checked"
@@ -111,6 +135,27 @@ def run(repo_root, commands=None):
     return rep
 
 
+# ---------------------------------------------------------------------- floor
+
+def _corpus_floor(repo_root, rep):
+    """Everything else here is a ceiling. This is the floor, and it runs first.
+
+    Every budget in this toolkit bounds the corpus from above, and an empty corpus satisfies all
+    of them: `kb.Index._build()` skips a directory with no `SKILL.md`, so a half-finished move
+    returns nothing and `sw health` reports 0/0/0 against a corpus no agent can reach. A clean
+    run is what the worst failure looks like, which is why this is the first check in the file
+    rather than one more in the list.
+
+    `rules.CORPUS_FLOOR` holds the numbers and `kb.Index._floor()` does the counting, so the
+    same shortfall reaches `sw kb validate` and `sw load` without being computed three times.
+    """
+    idx = kb.index(repo_root, refresh=True)
+    for shortfall in idx.shortfalls:
+        rep.defect("corpus-floor", shortfall,
+                   detail="rules.CORPUS_FLOOR. Check that .claude/skills/ and .claude/roles/ "
+                          "are both present before trusting any other line of this report.")
+
+
 # --------------------------------------------------------------------- skills
 
 def _skills(repo_root, names, rep):
@@ -118,10 +163,6 @@ def _skills(repo_root, names, rep):
     bodies = {}
     for name in names:
         path = os.path.join(root, name, "SKILL.md")
-        if not os.path.isfile(path):
-            rep.defect("skill-frontmatter", "%s/ has no SKILL.md - the skill cannot load" % name,
-                       path=path)
-            continue
         text = mdio.read_text(path)
         bodies[name] = text
         fm, body = mdio.split_frontmatter(text)
@@ -143,54 +184,76 @@ def _skills(repo_root, names, rep):
                        "%s/SKILL.md declares no `description:` - the dispatcher picks skills "
                        "by description alone" % name, path=path, line=1)
 
-    _references(root, names, bodies, rep)
-    _line_citations(root, names, rep)
+    idx = kb.index(repo_root, refresh=True)
+    _references(idx, names, rep)
+    _line_citations(idx, names, rep)
 
 
-def _references(root, names, bodies, rep):
+def _references(idx, names, rep):
+    """Two jobs, and they are opposite: nothing orphaned, nothing dangling.
+
+    **J1, anti-orphan.** A `type: reference` file is cited by at least one file with the same
+    owner - the body, the draft card or the audit card. Stated that way it is a claim about
+    OWNERSHIP rather than about directories, so it survives the file moving to another tree,
+    and it is the invariant the repo actually means: a pointer without a trigger is not read.
+
+    **J2, anti-dangling.** Every citation resolves to a file that exists. This subsumes the old
+    `_dangling_cards`, which was the same check narrowed to cards and written with its own
+    third copy of the citation regex. One regex now, `kb.CITATION`, and one resolver.
+    """
+    owned_text = {}
     for name in names:
-        refdir = os.path.join(root, name, "references")
-        body = bodies.get(name, "")
-        present = []
-        if os.path.isdir(refdir):
-            present = sorted(f for f in os.listdir(refdir) if f.endswith(".md"))
+        owned_text[name] = "\n".join(mdio.read_text(p) for p in idx.owned_files(name))
 
-        for fname in present:
-            owner = CARD_OWNERS.get(fname)
-            if owner:
-                token = "%s/references/%s" % (name, fname)
-                if owner not in bodies:
-                    rep.defect("skill-card", "%s exists but its dispatcher `%s` is missing"
-                               % (token, owner))
-                continue
-            if ("references/%s" % fname) not in body:
-                rep.defect("skill-reference",
-                           "%s/references/%s is never cited by its own SKILL.md - a pointer "
-                           "without a trigger is not read" % (name, fname),
-                           path=os.path.join(refdir, fname))
-
-        # A citation is `references/x.md` for this skill's own, or `other/references/x.md` for
-        # another skill's. Reading the tail alone turns every cross-skill pointer into a false
-        # "does not exist" against the citing skill.
-        cites = re.findall(r"(?:([a-z][a-z0-9-]*)/)?references/([A-Za-z0-9._-]+\.md)", body)
-        for owner, cited in sorted(set(cites)):
-            target_skill = owner or name
-            path = os.path.join(root, target_skill, "references", cited)
-            if os.path.isfile(path):
-                continue
-            where = ("%s/references/%s" % (owner, cited)) if owner else ("references/%s" % cited)
+    # J1 - every reference is cited by something its own owner wrote.
+    for f in idx.files:
+        if f.type != "reference":
+            continue
+        if os.path.basename(f.path) not in owned_text.get(f.owner, ""):
             rep.defect("skill-reference",
-                       "%s/SKILL.md cites %s, which does not exist" % (name, where),
-                       path=os.path.join(root, name, "SKILL.md"))
+                       "%s is never cited by anything %s owns - a pointer without a trigger is "
+                       "not read" % (f.rel, f.owner), path=f.path)
 
+    # A card is the one inversion in the corpus: it is opened by its dispatcher rather than
+    # cited by its own skill, so J1 cannot reach it. Check the edge it does have instead.
+    for f in idx.files:
+        if f.type in ("draft-card", "audit-card") and f.dispatcher not in idx.skills:
+            rep.defect("skill-card", "%s exists but its dispatcher `%s` is missing"
+                       % (f.rel, f.dispatcher), path=f.path)
 
-def _line_citations(root, names, rep):
+    # J2 - and every pointer lands on a real file, from anywhere in the corpus.
+    scanned = [(None, os.path.join(idx.repo_root, "CLAUDE.md"))]
     for name in names:
-        for dirpath, _dirs, files in os.walk(os.path.join(root, name)):
-            for fname in sorted(f for f in files if f.endswith(".md")):
-                path = os.path.join(dirpath, fname)
-                text = mdio.read_text(path)
-                for i, line in enumerate(text.split("\n"), 1):
+        scanned += [(name, p) for p in idx.owned_files(name)]
+    for citing, path in scanned:
+        if not os.path.isfile(path):
+            continue
+        text = mdio.read_text(path)
+        seen = set()
+        for m in kb.CITATION.finditer(text):
+            raw = m.group(0)
+            if raw in seen:
+                continue
+            seen.add(raw)
+            if idx.resolve(m, citing) is not None:
+                continue
+            # A BARE `x.md` is a citation only when the owner has a file by that name -
+            # `novel.md`, `state/threads.md` and `CLAUDE.md` are named all over the corpus and
+            # none is a pointer at a knowledge file. Reporting those would make the check
+            # unusable, which is how a check gets switched off. The qualified forms carry
+            # `references/` or a role path, so an unresolved one is unambiguously broken.
+            if m.group("bare"):
+                continue
+            rep.defect("skill-reference",
+                       "cites `%s`, which does not exist - the reader is sent to a file "
+                       "that never opens" % raw, path=path)
+
+
+def _line_citations(idx, names, rep):
+    for name in names:
+        for path in idx.owned_files(name):
+            text = mdio.read_text(path)
+            for i, line in enumerate(text.split("\n"), 1):
                     m = LINE_CITATION.search(line)
                     if not m:
                         continue
@@ -470,10 +533,10 @@ def _uncited(repo_root, names, owners, rep):
     Only multi-word concepts are checked. A single word like `title` or `pressure` is ordinary
     vocabulary, and flagging it would train people to sprinkle citations rather than mean them.
     """
-    root = skills_dir(repo_root)
+    idx = kb.index(repo_root, refresh=True)
     raw, words = {}, {}
     for name in names:
-        raw[name] = _skill_corpus(root, name)
+        raw[name] = _skill_corpus(idx, name)
         words[name] = " ".join(_normalise(raw[name]))
 
     for slug, owner in sorted(owners.items()):
@@ -488,10 +551,10 @@ def _uncited(repo_root, names, owners, rep):
                 rep.warn("skill-scope", "%s discusses `%s` %d times and never names %s, which owns "
                                         "it - cite the owner or drop the passage"
                          % (name, slug, seen, owner),
-                         path=os.path.join(root, name, "SKILL.md"))
+                         path=os.path.join(skills_dir(repo_root), name, "SKILL.md"))
 
 
-def _skill_corpus(root, name):
+def _skill_corpus(idx, name):
     """Every `.md` body under a skill, frontmatter stripped.
 
     Frontmatter is structure, not craft advice, and stripping it protects both duplication
@@ -503,11 +566,9 @@ def _skill_corpus(root, name):
     in the prose should count. One break is noisy and one is silent; the silent one is worse.
     """
     parts = []
-    for sub, _dirs, files in os.walk(os.path.join(root, name)):
-        for f in sorted(files):
-            if f.endswith(".md"):
-                _fm, body = mdio.split_frontmatter(mdio.read_text(os.path.join(sub, f)))
-                parts.append(body)
+    for path in idx.owned_files(name):
+        _fm, body = mdio.split_frontmatter(mdio.read_text(path))
+        parts.append(body)
     return "\n".join(parts)
 
 
@@ -518,10 +579,10 @@ def _overlap(repo_root, names, rep):
     actually grew was copied, and a copy is what drifts. Citing a concept is free: a code span is
     stripped before comparison, so pointing at an owner never trips this.
     """
-    root = skills_dir(repo_root)
+    idx = kb.index(repo_root, refresh=True)
     shingles = {}
     for name in names:
-        shingles[name] = _runs(_normalise(_skill_corpus(root, name)))
+        shingles[name] = _runs(_normalise(_skill_corpus(idx, name)))
 
     for i, a in enumerate(names):
         for b in names[i + 1:]:
@@ -531,7 +592,7 @@ def _overlap(repo_root, names, rep):
                 rep.warn("skill-overlap", "%s and %s share %d passages of %d+ words - one of them "
                                           "owns this and the other should cite it. e.g. \"%s...\""
                          % (a, b, len(both), OVERLAP_RUN, sample[:70]),
-                         path=os.path.join(root, a, "SKILL.md"))
+                         path=os.path.join(skills_dir(repo_root), a, "SKILL.md"))
 
 
 # ------------------------------------------------------------------ commands
@@ -837,42 +898,6 @@ def _card_scope(repo_root, rep):
                            "fires for novels the skill is switched off for"
                            % (f.rel, f.owner, owner_when),
                            path=f.path, line=1)
-
-
-def _dangling_cards(repo_root, names, rep):
-    """A pointer at a card file that does not exist.
-
-    Benchmark run #2's D4 was `revision-pass` naming `mtl-detox` with no card behind the name, and
-    it recurred: the `timeline-engine` audit card merged into `plot-threads`' and both Pass 4 texts
-    went on telling the reviewer to open four cards. A gate instructed to open a missing file
-    either burns a turn or skips the check in silence, and `_cards` cannot see it because it is
-    anchored on cards that exist.
-    """
-    root = skills_dir(repo_root)
-    known = set(names)
-    pointer = re.compile(r"\b([a-z][a-z0-9]*(?:-[a-z0-9]+)+)/references/((?:draft|audit)-card\.md)")
-    scanned = [os.path.join(repo_root, "CLAUDE.md")]
-    for name in names:
-        skill_dir = os.path.join(root, name)
-        scanned.append(os.path.join(skill_dir, "SKILL.md"))
-        refdir = os.path.join(skill_dir, "references")
-        if os.path.isdir(refdir):
-            scanned += [os.path.join(refdir, f) for f in sorted(os.listdir(refdir))
-                        if f.endswith(".md")]
-    for path in scanned:
-        if not os.path.isfile(path):
-            continue
-        text = mdio.read_text(path)
-        seen = set()
-        for skill, card in pointer.findall(text):
-            if skill not in known or (skill, card) in seen:
-                continue
-            seen.add((skill, card))
-            if not os.path.isfile(os.path.join(root, skill, "references", card)):
-                rep.defect("card-dangling",
-                           "names `%s/references/%s`, which does not exist - the reader is sent "
-                           "to a file that never opens" % (skill, card),
-                           path=path)
 
 
 def _commands(repo_root, commands, rep):

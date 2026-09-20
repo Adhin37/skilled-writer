@@ -27,8 +27,8 @@ fast to the finish line.
 | `references/story-structure.md` | planning an arc or a novel, or a win is landing unearned — three-act proportion, try/fail cycles, the midpoint |
 | `references/serial-pacing.md` | setting release cadence or arc temperature, or retention is the question — the webnovel-specific layer |
 | `references/why-ai-rushes.md` | a draft is compressed and you want the measured reason, or you are editing this toolkit's pacing rules |
-| `references/draft-card.md` | opened by `write-chapter` at drafting time |
-| `references/audit-card.md` | opened by `revision-pass` Pass 9f |
+| `.claude/roles/draft/story-craft.draft-card.md` | opened by `write-chapter` at drafting time |
+| `.claude/roles/gate/story-craft.audit-card.md` | opened by `revision-pass` Pass 9f |
 
 ---
 

@@ -39,10 +39,10 @@ count.
 
 | symptom | what it actually is | go to |
 |---|---|---|
-| The cost is fatigue and the next chapter opens rested | the system has no real economy | `SKILL.md` §The four hard rules — pick a cost that accumulates or that others can see |
+| The cost is fatigue and the next chapter opens rested | the system has no real economy | re-price it on an axis that accumulates or that others can see |
 | The fight turned on whose tier was higher | tier became the answer to conflicts | `power-scaling` — the gap is the story, the magnitude is not |
 | A rule was explained mid-scene so the win would parse | the rule arrived two chapters late | `world-texture` — deliver it as a consequence, earlier |
-| The gain solved problems and created none | the escalation axis has slipped onto numbers | `SKILL.md` §Progression without creep |
+| The gain solved problems and created none | the escalation axis has slipped onto numbers | every gain creates a new problem - visibility, dependence, a debt - or it is not granted |
 
 ## What it looks like when it lands
 

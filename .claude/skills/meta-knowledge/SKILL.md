@@ -43,7 +43,7 @@ Section numbers are stable — other skills cite them — so the gaps are delibe
 |---|---|---|
 | 6, 7 | `references/failure-modes.md` | foreknowledge is not landing (it is always one of seven named shapes), or you are deciding how much of the source the prose may assume |
 
-The revision-time check is `references/audit-card.md`, opened by `revision-pass` Pass 9c.
+The revision-time check is `.claude/roles/gate/meta-knowledge.audit-card.md`, opened by `revision-pass` Pass 9c.
 
 ## 1. The grain
 

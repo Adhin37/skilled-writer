@@ -20,8 +20,9 @@ turn length — are the countable half and say nothing about whether anyone soun
 
 No turn past about 45 words, or exactly one in the chapter and you can say who lets them finish
 and why. The essay tells are what share and contraction rate cannot see: stacked subordinate
-clauses, the aimed parenthetical aside, the epigram close, pre-announced self-qualification
-(`SKILL.md` §How it sounds spoken).
+clauses, the aimed parenthetical aside, the epigram close, pre-announced self-qualification. The
+repair is a cut rather than a rewrite: find the sentence the speaker would really have stopped at,
+and let somebody take the rest off them.
 
 ## Checks
 
@@ -44,10 +45,10 @@ clauses, the aimed parenthetical aside, the epigram close, pre-announced self-qu
 
 | symptom | what it actually is | go to |
 |---|---|---|
-| Every line is answerable and complete | nobody is talking, they are reading prose aloud | `references/spoken-register.md` |
+| Every line is answerable and complete | nobody is talking, they are reading prose aloud | `.claude/skills/dialogue-voice/references/spoken-register.md` |
 | Two speakers are distinct on paper and identical on the page | they share a cadence | `voice-separation` §3, the cadence test |
 | The subtext is explained in the beat after it | the narration does not trust the line | delete the beat |
-| A character says exactly what they mean, always | no `won't say` | `references/subtext.md` |
+| A character says exactly what they mean, always | no `won't say` | `.claude/skills/dialogue-voice/references/subtext.md` |
 
 ## What it looks like when it lands
 
