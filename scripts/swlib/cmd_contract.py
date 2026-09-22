@@ -20,6 +20,12 @@ would be forgotten. Distinctions inside a section are stated *inline* in `CLAUDE
 §4.3 says in as many words that `design` adds a bible fact and `draft` reports it - which is the
 pattern §10's own role table already uses.
 
+**Order is source order, and that is worth keeping.** The rendered block runs §1 → §9 as
+`CLAUDE.md` writes them, which puts the hard rules and what-good-looks-like in the middle and the
+mechanical-toolkit reference last. Nothing here depends on that, but if anything ever truncates a
+long prompt, the part lost first is the one a drafter can most afford to lose. Reordering
+`CLAUDE.md` would quietly give that up.
+
 **The default is "this binds you".** `CONTRACT_EXCLUDES` lists only what a role does not get, so
 a new section reaches every role until somebody decides otherwise. That is the failure direction
 to want: a rule wrongly carried costs a few hundred words, and one wrongly dropped costs a
@@ -103,6 +109,41 @@ def render(repo_root, role):
         lines.append(body)
     lines += [END, ""]
     return "\n".join(lines)
+
+
+# A `§N` pointer inside the contract body. Named sections (`§How hard each of these binds`,
+# `hook-and-pacing` §Openings) are deliberately not matched: only a number can name a section this
+# renderer might have dropped.
+CROSSREF = re.compile(r"§(\d+)")
+
+
+def dangling(repo_root, role):
+    """`§N` pointers in a role's slice that name a section the role was not given.
+
+    A cross-reference is fine in `CLAUDE.md`, where every section is present, and becomes a
+    pointer into nothing the moment a slice is cut - and the role cannot follow it even in
+    principle, because `role_scope.py` refuses it `CLAUDE.md`. Found 2026-09-22 by asking a live
+    drafter what it held: three sentences in its own contract pointed at §8 and §10 as though
+    they were in front of it.
+
+    The generated header is skipped on purpose. Its omissions line *names* §7, §8 and §10, which
+    is the one place in the file those numbers should appear - telling a role what it does not
+    have is the opposite of pointing it at something it cannot read.
+    """
+    drop = set(rules.CONTRACT_EXCLUDES.get(role, ()))
+    if not drop:
+        return []
+    body = render(repo_root, role)
+    first = HEADING.search(body)
+    if first is None:
+        return []
+    out = []
+    for m in CROSSREF.finditer(body, first.start()):
+        if m.group(1) not in drop:
+            continue
+        line = body.count("\n", 0, m.start())
+        out.append((m.group(0), body.split("\n")[line].strip()))
+    return out
 
 
 def agent_path(repo_root, role):

@@ -216,6 +216,64 @@ class TestTheHealthCheck(unittest.TestCase):
             self.assertEqual(len(f.health()), 1)
 
 
+class TestASliceDoesNotPointAtWhatWasCut(unittest.TestCase):
+    """A `§N` cross-reference is fine in the source and dangles the moment a slice is taken.
+
+    Found 2026-09-22 by asking a live drafter what it held: three sentences in its own contract
+    pointed at §8 and §10 as though they were in front of it, and `role_scope.py` refuses it
+    `CLAUDE.md`, so it could not have followed them even in principle. Nothing else could have
+    seen this - the render is correct, the diff is clean, and only a reader of the *result*
+    notices that a pointer leads nowhere.
+    """
+
+    def test_a_pointer_at_an_excluded_section_is_found(self):
+        with Fake() as f:
+            path = os.path.join(f.dir, "CLAUDE.md")
+            with open(path, encoding="utf-8") as fh:
+                src = fh.read()
+            write(path, src.replace("A rule that binds everybody.",
+                                    "A rule that binds everybody. See §7."))
+            found = cmd_contract.dangling(f.dir, "draft")
+            self.assertEqual(len(found), 1, found)
+            self.assertEqual(found[0][0], "§7")
+
+    def test_a_pointer_at_a_kept_section_is_not(self):
+        with Fake() as f:
+            path = os.path.join(f.dir, "CLAUDE.md")
+            with open(path, encoding="utf-8") as fh:
+                src = fh.read()
+            write(path, src.replace("A rule that binds everybody.",
+                                    "A rule that binds everybody. See §9."))
+            self.assertEqual(cmd_contract.dangling(f.dir, "draft"), [])
+
+    def test_the_omissions_line_is_not_itself_a_dangling_pointer(self):
+        """It names §7, §8 and §10 by number, which is the one place they belong.
+
+        Telling a role what it does not have is the opposite of pointing it at something it
+        cannot read - so the scan starts at the first section heading, and a check that forgot
+        that would fire on every contract in the repo and be switched off within the week.
+        """
+        with Fake() as f:
+            self.assertIn("§7", cmd_contract.render(f.dir, "draft"))
+            self.assertEqual(cmd_contract.dangling(f.dir, "draft"), [])
+
+    def test_it_is_a_defect_and_names_the_line(self):
+        with Fake() as f:
+            cmd_contract.write(f.dir, "draft")
+            path = os.path.join(f.dir, "CLAUDE.md")
+            with open(path, encoding="utf-8") as fh:
+                src = fh.read()
+            write(path, src.replace("A rule that binds everybody.",
+                                    "A rule that binds everybody. See §7."))
+            msgs = [x.message for x in f.health()]
+            self.assertTrue(any("cites §7" in m for m in msgs), msgs)
+            self.assertTrue(any("See §7." in m for m in msgs), msgs)
+
+    def test_this_repo_has_none(self):
+        for role in cmd_contract.roles_with_contracts():
+            self.assertEqual(cmd_contract.dangling(REPO, role), [], role)
+
+
 class TestTheFlagAndTheContractAreAPair(unittest.TestCase):
     """`omitClaudeMd: true` and a rendered contract only make sense together.
 

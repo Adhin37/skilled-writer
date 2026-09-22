@@ -847,6 +847,10 @@ def _contract(repo_root, rep):
     contract without the flag hands it the same rules twice - so `OMIT_CLAUDE_MD` names every
     agent that must set it, `reader` included, and a missing flag is a defect.
 
+    And it checks that a slice does not point at what was cut. A `§N` cross-reference is fine in
+    `CLAUDE.md`, where every section is present, and is a pointer into nothing the moment a slice
+    is taken - which a live drafter found in its own contract three times before this existed.
+
     Silent when an agent file carries no block: rendering is opt-in per role and a repo that has
     not adopted it is not broken. What it will not tolerate is a block that exists and disagrees,
     because that is the state where two contracts are live and nobody knows which one was read.
@@ -874,6 +878,12 @@ def _contract(repo_root, rep):
                        "the `%s` contract in %s no longer matches %s - re-run `python3 "
                        "scripts/sw.py contract %s --write`"
                        % (role, os.path.basename(path), cmd_contract.SOURCE, role), path=path)
+        for ref, line in cmd_contract.dangling(repo_root, role):
+            rep.defect("contract",
+                       "the `%s` contract cites %s, a section that role is not given - reword it "
+                       "in %s or the pointer leads nowhere: \"%s\""
+                       % (role, ref, cmd_contract.SOURCE, line),
+                       path=os.path.join(repo_root, cmd_contract.SOURCE))
 
 
 AGENTS_REL = os.path.join(".claude", "agents")

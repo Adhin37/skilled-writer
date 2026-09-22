@@ -160,7 +160,7 @@ no chapter is scored on the row.
 Every skill is `.claude/skills/<name>/SKILL.md` and nothing else — 44 directories, one file
 each. The body is the procedure. Everything that used to sit beside it in `references/` now lives
 in the role trees as `roles/<bucket>/<owner>.<stem>.md`, where the bucket names the role that
-opens the file, and is opened when something says to. See §8.
+opens the file, and is opened when something says to.
 
 **Each skill's frontmatter declares what it owns**, and the claim is exclusive — the table below
 says when to reach for a skill, `metadata.owns:` says whose rule a thing is when two skills both
@@ -230,7 +230,7 @@ deciding it.
 `.claude/skills/`. `draft` opens `roles/draft/` and `roles/shared/`. `gate` opens `roles/gate/`
 and `roles/shared/`. Draft and gate each additionally load exactly one procedure body — their
 dispatcher, preloaded by the harness. Nobody has to remember this: there is no `SKILL.md` inside
-a role tree to open, and `scripts/hooks/role_scope.py` refuses the rest (§10).
+a role tree to open, and `scripts/hooks/role_scope.py` refuses the rest.
 
 ## 4. Hard rules
 
@@ -345,7 +345,7 @@ a role tree to open, and `scripts/hooks/role_scope.py` refuses the rest (§10).
     tropes, and reference material.
 15. **Load what is relevant, not what fits.** Load the bounded read-set, not the whole novel.
     Never read past chapter files unless the user asks for a specific one — a `draft` rule, not
-    the `review` role's, which reads all of them (§10). Cast depth is tiered
+    the `review` role's, which reads all of them. Cast depth is tiered
     the same way: a walk-on gets three strokes and one roster line, never a psychology. See §9.
     This stopped being a token rule on 2026-09-13: a bounded read-set costs a few thousand tokens
     against a window measured in hundreds of thousands, so the window is not the scarce resource it
@@ -354,7 +354,7 @@ a role tree to open, and `scripts/hooks/role_scope.py` refuses the rest (§10).
     resting on a harness feature that can be uninstalled rests on nothing. What is still scarce is
     **attention** — a fact loaded is a fact competing with the chapter for it, and a model handed
     the whole novel writes the average of it. So the slice stays and the ceilings above it loosen;
-    where the extra room goes is §8, into examples rather than into more rules.
+    where the extra room goes is into examples rather than into more rules.
 16. **Write files, don't dump prose to chat.** Chapters go to `novels/<slug>/chapters/`. Report the
     path and a two-line summary.
 

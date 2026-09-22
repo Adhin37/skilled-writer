@@ -277,12 +277,22 @@ measured. What the reader gets is
 scale with the framing removed. `reader_guard.py` allows the brief by name and refuses the rest of
 that directory, so this is a file boundary rather than a thing to remember.
 
-**Run the blind pass with the `reader` agent.** `.claude/agents/reader.md` does §1 and §3 — the
-read and the verdict — and it is the only reader in the table whose blindness is enforced rather
-than promised: no `Skill` tool, `omitClaudeMd: true` so it does not inherit `CLAUDE.md`, and a
-`PreToolUse` hook that allows `chapters/` and the procedure and refuses everything else. **You do
-§2, §4 and §5 yourself**, with its findings in hand; those need `bible/` and `sw kb owner`, and a
-reader that opens either has stopped being one.
+**Run the blind pass with the `reader` agent.** `.claude/agents/reader.md` does the read and the
+verdict, and it is the only reader in the table whose blindness is enforced rather than promised:
+no `Skill` tool, `omitClaudeMd: true` — which keeps out the auto-memory index as well as
+`CLAUDE.md`, measured — and a `PreToolUse` hook that allows `chapters/` and
+[`roles/review/reader-brief.md`](roles/review/reader-brief.md) and refuses everything else,
+**this file and the worked example included**. **You do §2, §4 and §5 yourself**, with its
+findings in hand; those need `bible/` and `sw kb owner`, and a reader that opens either has
+stopped being one.
+
+**Then ask it what it was handed, in a separate turn after the verdict is written.** Not before:
+the question names the fact that its context is under examination, which is itself a hint. Record
+the answer beside the verdict. Two contaminants are known and unfixable — the harness supplies a
+git-status snapshot of the parent session, so the reader can see it is in a toolkit repository,
+and the spawn prompt must name the brief — and a third would be new information. A cold read whose
+contamination is written down is worth more than one assumed to be clean, which is the same
+argument §5's divergence check makes about the in-run impression.
 
 A note worth keeping, because it was nearly missed: before `omitClaudeMd`, *any* agent spawned to
 do this step inherited the whole operating contract and arrived knowing `event:`, Pass Z and the
