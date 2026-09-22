@@ -156,6 +156,17 @@ to read. Avoid the beauty-catalogue; describe what the body *does*, not how it r
 | with | current state | what they want from them | unspoken |
 |---|---|---|---|
 
+## Good company
+<!-- Why a reader would want to spend twenty minutes with this person. Two lines, both concrete.
+     This is not likeability as niceness — a bitter, difficult character can be excellent company.
+     It is what the reader gets out of watching them.
+     Required for the MC (`mc-design`), worth having for any tier-A. -->
+
+- **Good at and visibly enjoys:** <!-- the thing they do well and are not miserable doing. The
+     reader's pleasure is watching competence that the character also likes. -->
+- **Who likes them, and why:** <!-- at least one person, with the specific reason. If nobody in
+     the cast likes this character, the reader has no cue to either. -->
+
 ## Arc ladder
 
 Five rungs from who they are now to who they end as. Each rung names the **trigger** (the kind

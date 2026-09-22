@@ -31,6 +31,10 @@ narration:
   person: third-limited
   tense: past
 
+tone:
+  register: grounded
+  warmth: measured
+
 pov:
   mode: single
 

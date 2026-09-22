@@ -7,7 +7,7 @@ metadata:
   force: structural
   when: always
   role: [draft, gate]
-  owns: [speech-fingerprint, dialogue-density, subtext]
+  owns: [speech-fingerprint, dialogue-density, subtext, rapport]
 ---
 
 # dialogue-voice
@@ -91,6 +91,10 @@ innkeeper does not muse about fate; she says the room is taken and the levy went
 **Characters talk past each other.** Real dialogue is two agendas colliding. Each speaker wants
 something from the exchange; they rarely want the same thing. Before writing a conversation, name
 what each side wants from it. If one side wants nothing, cut them or give them a want.
+
+**Same side, sometimes.** That is the default, not the whole repertoire: a cast whose every
+exchange is a collision is a room of opponents, and agreement separates voices as hard as an
+argument. Four moves in `roles/draft/dialogue-voice.same-side.md`; off at `tone.warmth: cold`.
 
 **Subtext by default.** Characters say the second-best thing. The direct statement is reserved —
 which is what makes it land when it comes. This is a procedure, not a mood; see §Subtext, below.

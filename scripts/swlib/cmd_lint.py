@@ -40,6 +40,7 @@ def lint_chapter(novel, ch, rep=None):
     _pacing(ch, rep)
     _phrases(ch, rep)
     _house_style(ch, rep)
+    _negation(ch, rep)
     _register(novel, ch, rep)
     _rhythm(ch, rep)
     _anchor(novel, ch, rep)
@@ -194,6 +195,30 @@ def _house_style(ch, rep):
                  "density. Ban a tic and the default register grows another, so what matters is "
                  "the repetition, not the phrase (prose-quality \u00a7Range before polish)"
                  % (phrase, n), path=p)
+
+
+def _negation(ch, rep):
+    """The narrator who defines everything by what it isn't.
+
+    Run #5's cold read counted 235 negative constructions in 7,700 words and named the texture
+    before it could name a bad sentence: things arriving as "not agreement", "no answer at all",
+    "which was also not the answer", and the same parry - "that's not an answer" - in three
+    different mouths. `sw audit` returned zero defects on that novel.
+
+    A note, and only the density means anything: defining by exclusion is a real move and one
+    instance is good writing. Narration only, on `emdash_rate`'s precedent - a character refusing
+    something is dialogue doing its job. This never becomes a warn; see rules.NEGATION_RATE_NOTE.
+    """
+    if ch.words < rules.RATE_MIN_WORDS:
+        return
+    hits = len(rules.NEGATION_WORDS.findall(ch.outside_speech))
+    if ch.negation_rate > rules.NEGATION_RATE_NOTE and hits >= rules.NEGATION_MIN_HITS:
+        rep.note("negation-density",
+                 "%d negative constructions in the narration (%.1f per 1000 words, over %.0f) - "
+                 "a narrator defining things by what they are not. Good once; at this density it "
+                 "is the register, and no phrase list catches it (prose-quality "
+                 "\u00a7Range before polish)"
+                 % (hits, ch.negation_rate, rules.NEGATION_RATE_NOTE), path=ch.path)
 
 
 def _register(novel, ch, rep):

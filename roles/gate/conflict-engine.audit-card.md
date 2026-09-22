@@ -4,7 +4,7 @@ owner: conflict-engine
 dispatcher: revision-pass
 pass: "4"
 pass_kind: judgement
-description: What the chapter cost, and whether anything was free
+description: What the chapter cost, what it gave back, and whether anything was free
 when: always
 ---
 
@@ -32,6 +32,9 @@ word *realises*, nothing was paid.
 - [ ] Any failure came from a choice, and its consequences persist past this chapter
 - [ ] The cost landed on the POV character, not on somebody offstage
 - [ ] At least two threads remain open
+- [ ] **Something in this chapter was worth the price** — one thing a reader would want kept, on
+      the page, legible enough to point at. Unearned and small counts best; a payout for winning
+      is a scoreboard. Skip at `tone.warmth: cold`
 
 ## Escalation
 
@@ -48,6 +51,7 @@ occupied cannot be skipped to.
 | Everything was paid by an ally | the POV character risked nothing | `scene-craft` — whose scene is this |
 | The win cost something, but only after it landed | the price was a receipt, not a stake | move the payment before the resolution |
 | Every confrontation is won and costs nothing | the face-slap loop | `mtl-detox` |
+| Every chapter takes and none gives | an instalment plan on a thing the reader has yet to see | `conflict-engine` §What the chapter gives back |
 | Three chapters running have the same cost | the ladder has stalled | change the axis - money, standing, a person, a lie held - and stagger it |
 
 ## What it looks like when it lands

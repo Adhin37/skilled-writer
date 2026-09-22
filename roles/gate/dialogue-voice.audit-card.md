@@ -34,6 +34,9 @@ and let somebody take the rest off them.
 - [ ] Somebody was interrupted, trailed off, or answered a question that was not asked
 - [ ] Swap test on the walk-ons: could another extra have this scene with no edit?
 - [ ] Each speaker wants something distinct from this conversation
+- [ ] At least one exchange runs on something other than a parry, where the chapter has room for
+      it: if every conversation is two agendas colliding, one of them wanted the same thing
+      (`dialogue-voice` §Rules, same side). Off at `tone.warmth: cold`
 - [ ] No dialogue explaining what both speakers already know
 - [ ] Nobody explained a subject their competence map does not cover, and somebody said they did
       not know, deferred, or turned out to be wrong (`competence-map`)

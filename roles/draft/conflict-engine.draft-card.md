@@ -4,7 +4,7 @@ owner: conflict-engine
 dispatcher: write-chapter
 phase: A
 order: 3
-description: What this chapter costs the POV character
+description: What this chapter costs the POV character, and what it gives back
 when: always
 ---
 
@@ -28,6 +28,24 @@ sources, and what the antagonist did for their own reasons.
 
 **Legibility test.** *"He suffered"* fails. *"He can't go back to Drayle, and his sister is still
 there"* passes.
+
+## What it gives back — the other half
+
+One line, beside the cost. **Nothing is free, and something has to be worth the price**
+(`conflict-engine` §What the chapter gives back). A chapter that only takes is an instalment plan
+on a thing the reader has yet to see.
+
+| scale | examples |
+|---|---|
+| **small** (most chapters) | somebody is glad to see somebody · work done well and noticed · a joke that lands · ten minutes with the danger out of the room |
+| **medium** (every ~5) | somebody chooses the MC at a cost to themselves · a hard-won skill finally works |
+| **large** (every arc) | a thing the MC has been protecting is still standing, and they can see it |
+
+**Same legibility test as the cost.** Weak: *"He felt better."* Strong: *"Kesh saved him the end
+seat, which she had been doing for nine days and both of them had left unmentioned."*
+
+Make it small and make it unearned. A payout that only arrives on a win has taught the reader that
+warmth is a scoreboard. Skip this section entirely at `tone.warmth: cold`.
 
 ## The stake rung — escalate this, not enemy power
 

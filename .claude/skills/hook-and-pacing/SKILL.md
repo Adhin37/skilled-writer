@@ -157,10 +157,28 @@ Every planned row in `plan/chapters.md` declares a **temp** before it is drafted
 
 - Never the same temp three chapters running.
 - At least four distinct temps across an arc.
-- `quiet` and `warm` are *earned*: they land because the chapter before them was `loud` or
-  `bleak`. Two quiet chapters in a row is not a rest, it is a stall.
+- **Every temperature is earned, in both directions.** `quiet` and `warm` land because the
+  chapter before them was `loud` or `bleak`; `bleak` and `tense` land because something before
+  them was worth keeping. Two quiet chapters running is a stall, and so is a fourth grim one —
+  the reader stops paying emotional attention to a book that never repays it. Until 2026-09-22
+  only the first half of this rule was written down, which is most of why five runs came out at
+  one temperature.
 - The temp is written **before** drafting. Set afterwards it is a label; set beforehand it is a
   constraint the prose has to satisfy.
+
+**What `warm` and `funny` actually require**, since a label is not a method and these two are the
+rows a drafter is most likely to write as a cold chapter with a nice thing in it:
+
+| | it is working when | it is not when |
+|---|---|---|
+| `warm` | the connection is *not undercut* — no ironic tag on the last line, no pulling back to safety | the scene closes on the narrator declining to feel it |
+| `funny` | the joke comes from character and the stakes survive it | the narration signals that a line was funny |
+
+The move that ruins both is the same one: reaching the good beat and then flinching off it. A
+`warm` chapter is allowed to simply land, and one that isn't allowed to land was a `quiet` chapter
+mislabelled. `conflict-engine` §What the chapter gives back is where the material comes from;
+`comedy-levity` owns humour placement when it is switched on, and `voice-separation` owns who in
+the cast can carry a joke at all.
 
 `sw arc` prints the ledger and flags runs, thin variety, and hook repeats. It does not score any
 chapter, and it must not — a number attached to one chapter is a number the next chapter gets

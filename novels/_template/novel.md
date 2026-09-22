@@ -19,6 +19,18 @@ narration:
   interiority: high       # high | medium | low
   voice_notes: ""         # e.g. "dry, understated, short sentences under stress"
 
+# ── TONE ─────────────────────────────────────────────────────────────────────
+# What the book is like to spend an evening with. `novel-init` Round D asks for this and
+# until 2026-09-22 there was nowhere to put the answer, so it was asked aloud and dropped.
+#
+# `warmth` is the dial every warmth rule in the toolkit reads (`narrator-voice` §The tone
+# axis). `cold` makes them inert — the setting for a story whose point is that nobody is
+# safe and nobody is kind. `measured` is the default and means what it says: the book is
+# allowed to be warm sometimes and does not have to be.
+tone:
+  register: grounded      # grounded | adventurous | bleak | wry   (novel-init Round D)
+  warmth: measured        # cold | measured | warm
+
 # ── STYLE TARGET ─────────────────────────────────────────────────────────────
 # The single cheapest lever on register, and the only one that works by imitation rather
 # than by prohibition. A model matches an example far more reliably than it obeys a rule,

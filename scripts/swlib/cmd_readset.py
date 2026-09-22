@@ -40,6 +40,7 @@ CONFIG_KEYS = [
     "genre", "subgenre",
     "narration.person", "narration.tense", "narration.distance", "narration.interiority",
     "narration.voice_notes",
+    "tone.register", "tone.warmth",
     "style.read_like", "style.avoid",
     "pov.mode", "pov.switch_granularity", "pov.label_switches",
     "mc.name", "mc.intel_tier", "mc.origin", "mc.form_locked",
@@ -54,7 +55,7 @@ CONFIG_KEYS = [
     "theme.controlling_idea", "theme.counter_case",
     "timeline.reactivity", "timeline.crisis_cap",
     "content.rating", "content.romance",
-    "ending.contract",
+    "ending.contract", "ending.tone",
 ]
 
 

@@ -7,7 +7,7 @@ metadata:
   force: structural
   when: always
   role: [draft, gate]
-  owns: [stake-ladder, chapter-cost]
+  owns: [stake-ladder, chapter-cost, chapter-reward]
 ---
 
 # conflict-engine
@@ -41,6 +41,37 @@ Record every cost in the plan row and in the CCS block. Log the MC's in the pain
 
 **Legibility test.** State the cost in one concrete sentence. *"He suffered"* fails.
 *"He can't go back to Drayle, and his sister is still there"* passes.
+
+## What the chapter gives back
+
+The other half of the rule above, and the half this toolkit spent five benchmark runs without.
+**Nothing is free — and something has to be worth the price.** A book that only ever takes is not
+tense, it is an instalment plan on a thing the reader has never been shown. Run #5 was scored
+3 / 5 by a cold reader with zero defects against it; the prose was good and there was nothing in
+it anybody would want.
+
+This is not a reward the MC is handed. It is the thing the cost is *measured against* — and if the
+reader cannot name it, they cannot price anything that happens to it.
+
+| scale | what it looks like |
+|---|---|
+| **small** (most chapters) | somebody is glad to see somebody. A job done well and noticed. A joke that lands. Ten minutes where the danger is not in the room |
+| **medium** (every ~5) | a person chooses the MC when they did not have to. A skill the MC worked for finally does the thing |
+| **large** (every arc) | something the MC has been protecting is still standing, and they can see it |
+
+**The legibility test is the same one the cost gets.** *"He felt better"* fails. *"Kesh saved him
+the end seat, which she had been doing for nine days and neither of them had mentioned"* passes —
+a reader can point at it, and a reader can price its loss.
+
+**Where it goes wrong.** Not in omitting it; in making it a reward for winning. The strongest
+version is unearned and small and happens while the chapter is about something else: the thing
+that is good here is good whether or not the MC deserved it today. A chapter that pays out only
+on success has taught the reader that warmth is a scoreboard.
+
+**`tone.warmth: cold` stands this section down** — see `narrator-voice` §The tone axis. A story
+whose subject is that nobody is safe is allowed to have nothing worth protecting, and it pays for
+that choice in the only currency that matters here: the reader has to want something else instead,
+and `power-scaling` §substitute tension is where that gets decided.
 
 ## Escalation is about what is lost, not what is fought
 

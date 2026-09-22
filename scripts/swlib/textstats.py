@@ -553,6 +553,25 @@ class Chapter(object):
             return 0.0
         return self.outside_speech.count("\u2014") * 1000.0 / words
 
+    @property
+    def negation_rate(self):
+        """Negative constructions per 1,000 body words, narration only.
+
+        Run #5's cold read counted 235 of these in 7,700 words and described the result as a
+        narrator who defines everything by what it isn't - things reaching the reader as "not
+        agreement", "no answer at all", "which was also not the answer". The measure already
+        existed as a grep recipe in the review tree; it is here so it can recur across chapters
+        and reach the WATCH row, which a maintainer's grep cannot.
+
+        Narration only, on the `emdash_rate` precedent: a character denying something is dialogue
+        doing its job, and speech is where a flat refusal belongs.
+        """
+        from . import rules
+        words = self.words
+        if not words:
+            return 0.0
+        return len(rules.NEGATION_WORDS.findall(self.outside_speech)) * 1000.0 / words
+
     # There is no `plain_share` here on purpose. The first version of this file scored the
     # share of syntactically simple narration sentences, on the theory that the house style is
     # uniformly loaded prose. It does not discriminate: it scored "A promise kept was one data

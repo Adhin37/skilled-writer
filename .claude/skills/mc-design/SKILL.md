@@ -184,6 +184,13 @@ Three MC-specific additions:
 - **`mc.competence_domains`** records where the tier applies at full strength — at most three, and
   the same three that get rows in `bible/cast/_competence.md` (`competence-map` §1). The paired
   **`mc.blind_spots`** needs at least two.
+- **Good company** — two lines in the profile, and the only part of the MC sheet that asks about
+  the *reader's* experience rather than the character's. **What they are good at and visibly
+  enjoy**, and **who likes them, and why.** Neither is niceness: a bitter, difficult person can be
+  excellent company, and the question is what a reader gets out of watching them for twenty
+  minutes. The second line is the one that gets skipped — if nobody in the cast likes the POV
+  character, the reader has no cue to either, and run #5 shipped an MC nobody in his own book was
+  glad to see. Skip neither at `tone.warmth: cold`; there the answers get grimmer, not absent.
 - **`mc.gf_known_by`** lists who has guessed what the advantage is. It starts empty, and every name
   added to it is a plot event that also belongs in `state/threads.md`.
 

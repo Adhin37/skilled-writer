@@ -6,8 +6,10 @@ only — nothing here is loaded at runtime. The runtime knowledge lives in
 (benchmark finding 9).
 
 Researched 2026-09-09, prompted by a reader report that the generated novel "goes fast to the
-finish line", with no build-up of world or character. Extended 2026-09-13 with the world half; that
-pass is the second half of this file.
+finish line", with no build-up of world or character. Extended 2026-09-13 with the world half.
+Extended again 2026-09-22 with **why readers stay** — prompted by a report that readers were
+dropping the novels after two chapters, and by the observation that neither earlier pass contains
+a single source on character appeal, humour or emotional payoff.
 
 ## The finding that shaped everything
 
@@ -83,3 +85,62 @@ This project has twice built a number that decided whether a chapter shipped —
 dialogue share — and both were optimised rather than satisfied, the second within five chapters.
 Concreteness is the quantity that matters and it is not reliably countable; the markers only say
 where to look.
+
+---
+
+# Third pass — why readers stay (2026-09-22)
+
+Prompted by a user report: readers drop after two chapters. Three candidate causes were offered —
+the light-novel format not being respected, missing craft knowledge, and a tone that is relentlessly
+cold. This pass covers the second and third. The first turned out not to be a knowledge gap: the
+toolkit has no light-novel register because it was built as a literary-craft toolkit pointed at
+webnovel platforms, which is a register decision rather than a missing source.
+
+## The finding that shaped this pass
+
+The two earlier passes are both about **structure** — where the beat goes, how the world arrives.
+Neither asks why a reader would want to spend an evening with these people. The corpus had the same
+shape: measured at 118 checkboxes demanding a cost against roughly 9 on the relief side, and a
+prohibition-to-generation ratio of 18.8 : 1 (`docs/creative-latitude.md`). A toolkit with a cost
+ledger and no reward ledger produces books that are well made and that nobody finishes.
+
+| source | what it established | what it produced |
+|---|---|---|
+| [Royal Road: ch1→ch2 retention](https://www.royalroad.com/forums/thread/134345) · [Reader drop rate](https://www.royalroad.com/forums/thread/111699) | the first three chapters are where readers settle in, see what the story is, and **gauge whether they like the characters**; authors treat sub-25% chapter-2 retention as a problem and disagree on the good band (>50% vs >70%) | confirms character appeal as an early-retention factor rather than a late one; `mc-design` §Good company |
+| [Jane Friedman, connecting readers to characters](https://janefriedman.com/connect-characters/) · [Writers Helping Writers: attachment](https://writershelpingwriters.net/2018/12/goal-oriented-storytelling-attachment/) · [Nathan Bransford](https://nathanbransford.com/blog/2019/10/5-ways-to-make-a-character-more-sympathetic) | attachment is built from **many small moments**, not one big one — the "glue" of empathy. Named levers: show them caring about something concrete; **social validation** (other characters value them, so the reader does); vulnerability; competence shown while trying; goal specificity | `mc-design` §Good company, both fields. The social-validation lever was absent from the toolkit entirely: nothing anywhere asked whether anyone in the cast likes the POV character |
+| [Green & Appel, *Narrative Transportation* (2024)](https://www.mcm.uni-wuerzburg.de/fileadmin/06110300/2024/Pdfs/Green___Appel__2024__Advances_Preprint.pdf) · [Bal & Veltkamp, PLOS One](https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0055341) | transportation = focused attention + **emotional engagement** + mental imagery + cognitive detachment; it is the *emotional* component specifically that produces identification and liking | grounds the axis in something other than taste: the component that makes a reader stay is the one the corpus had no rule for |
+| [Writer's Digest, pacing for emotional impact](https://www.writersdigest.com/pacing-for-emotional-impact-in-fiction-building-tension-and-release-in-a-novel) · [Hunger Mountain, idiosyncratic tone](https://hungermtn.org/idiosyncratic-tone-in-the-novel/) · [comic relief](https://en.wikipedia.org/wiki/Comic_relief) | a book in one tone becomes monotonous regardless of execution quality; grimdark fatigue is distinct from boredom — the story keeps asking for emotional attention without repaying it; relief is a structural device, not a lapse | `hook-and-pacing` §The temperature ledger: `bleak` and `tense` are now earned on the same terms `warm` and `quiet` always were |
+| [Progression fantasy](https://en.wikipedia.org/wiki/Progression_fantasy) · [Cozy fantasy](https://en.wikipedia.org/wiki/Cozy_fantasy) | in this toolkit's own target genres, warmth is **load-bearing appeal** rather than a concession: banter and slice-of-life beside the training arcs are named reread drivers, and an adjacent genre is built entirely on community and friendship | settles the question of whether warmth is a genre-neutral default. It is, for these genres; `tone.warmth: cold` is the opt-out for the ones where it is not |
+
+## What it produced in the corpus
+
+| finding | change |
+|---|---|
+| the author's declared tone was discarded — `novel-init` Round D asked for it and no field existed | `tone.register` / `tone.warmth` in the template, in `CONFIG_KEYS`, owned by `narrator-voice` §The tone axis |
+| the cost rule had no counterpart | `conflict-engine` gains `chapter-reward`, merged into its existing Phase A and Pass 4 cards |
+| dialogue had no shape for people on the same side | `dialogue-voice` gains `rapport`; `roles/draft/dialogue-voice.same-side.md` |
+| the one always-on tone gate ran anti-warmth | the microtension card regains the relief valve its own skill always had |
+| nothing asked whether anyone likes the POV character | `mc-design` §Good company; a slot in the character template |
+| the negative register was measured only by a maintainer's grep | `negation-density`, a habit note that reaches the WATCH row |
+
+## The caveats, kept deliberately
+
+**The Royal Road threads 403 on automated fetch.** Those figures come from search summaries, not
+from reading the threads. They agree with the ~50% first-chapter drop the first pass already
+established from the same forums, which is why they were used at all — but a human should open
+them before anything is leaned on harder than "character appeal matters early".
+
+**The craft sources are practitioner advice, not measurement.** The attachment levers are what
+working editors and novelists say works. They are not evidence in the sense the transportation
+papers are, and they are used here the way the first pass used Swain: as a source of craft
+defaults, never of gates.
+
+**The absorption caveat from the second pass still stands and cuts against this one.** Readers in
+one study rated AI stories as *more* absorbing. Transportation is not a complete account of why
+these novels get dropped, and nothing here should be read as one.
+
+**Nothing became a ship gate.** `negation-density` is a note and is in `HABIT_NOTE_CHECKS`; the
+emotional-direction finding is a note on `sw arc`. This project has three times built a number that
+decided whether a chapter shipped — word count, dialogue share, `SPEECH_TARGET_LOW` — and all three
+were optimised rather than satisfied. Warmth is a licence in this toolkit, never a quota, and no
+chapter is scored on it.

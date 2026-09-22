@@ -32,12 +32,20 @@ surface: flatter arousal curves and less tension than human prose, page by page,
 plot is eventful. Tension at this scale does not come from stakes. It comes from two feelings
 that do not fit, inside one person, right now.
 
+**Mixed feeling is the target, rather than misery or a threat at every paragraph end.** A
+cheerful scene carries it perfectly well — a celebration where one person is doing arithmetic about the
+bill has more tension than a fight between people who each feel exactly one thing. The card used
+to carry the demand without this paragraph, which is how a novel at `tone.warmth: measured` got
+audited as though it were `cold` (`narrator-voice` §The tone axis).
+
 - [ ] Open the chapter at three points at random. Each one has something unresolved on the page —
       a want pulling against a fear, a courtesy over a grudge, a decision not yet made
 - [ ] No stretch of more than a page where everyone present feels one simple thing
 - [ ] Agreement scenes still carry friction: someone concedes and minds it, or wants something the
       agreement does not give them
-- [ ] The narration is not reassuring the reader that things are fine
+- [ ] **Both directions.** A page with everything resolved reads flat; a chapter where
+      *everything* is fraught is as monotonous, and it is the more tiring of the two. If every
+      scene here is loaded, the repair is a page allowed to be fine
 
 **Register** — opened by `revision-pass` Pass 8b. The failure Pass 7 and Pass 8 both miss: prose
 with no bad sentences and no range. Benchmark run #2 passed every phrase check in this toolkit,

@@ -53,8 +53,9 @@ reason: nothing is at risk when everything is lost.
 
 - **Preserve something the reader wants protected.** Grimdark works because there is something to
   lose. If everything is already ash, no stake registers.
-- **Small mercies are load-bearing.** A kindness that costs the giver something, and holds, is
-  what makes the losses land.
+- **Small mercies are load-bearing.** `conflict-engine` §What the chapter gives back owns this now
+  and it is live in every novel, not only this one — what changes here is the ratio, not the rule.
+  A kindness that costs the giver something and holds is what makes a loss land.
 - **Forward motion.** Every chapter still has a goal and a turn. Suffering is not a plot; a
   character *choosing* under pressure is.
 - **Competence is still rewarded.** Skill and preparation should improve outcomes, or the reader

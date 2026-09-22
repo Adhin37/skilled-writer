@@ -113,6 +113,8 @@ Then fill in, in this order:
 | scaling.tiers | `7` | Enough room for five gains and two tiers the MC never reaches. |
 | scaling.edge_worth | `1` if there is a golden finger, else `0` | One tier is an advantage; two is a second ladder. |
 | scaling.endgame | never defaulted | Derive it from `ending.contract` and write it down at init. |
+| tone.register | never defaulted | Round D asks it. Record the user's own word — `grounded`, `adventurous`, `bleak`, `wry`. |
+| tone.warmth | `measured` | The book may be warm and need not be. `cold` is a real choice, not a failure to pick; it stands every warmth rule down. |
 | ending.tone | `hopeful` | Never default the *contract* — ask for it in the user's words. |
 | title | never defaulted | Always show three screened candidates. `"Untitled"` reaching the scaffold is a bug. |
 | optional | only `no-harem` and `combat-choreography` on | Adding mechanics later is easy; removing them mid-serial is not. |

@@ -46,6 +46,19 @@ you'll recall". If more than a clause is needed, the previous chapter's hook was
   ledger"* is.
 - **Hook honesty**: deliver what you implied, or something better — never something smaller.
 
+## Writing to the declared `temp`
+
+The plan row already chose it. The job here is to write that chapter rather than the narrator's
+default one — a `loud` row drafted in the house register is a `quiet` chapter with shouting in it.
+
+The two rows that most often come out flat are `warm` and `funny`, because one reflex spoils both:
+reaching the good beat and flinching off it. A `warm` chapter lets the connection **land** — the
+last line carries it, and the scene stays there. A `funny` one lets the stakes survive the joke and
+leaves the reader to find it. A beat held back from landing was a `quiet` row mislabelled.
+
+`hook-and-pacing` §The temperature ledger has the full table, including what `bleak` and `tense`
+have to be earned against.
+
 ## Length is not a quality metric
 
 Nothing here gates on `chapters.length_band`. **Never pad, and never trim to a number.** A chapter

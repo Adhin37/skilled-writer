@@ -7,7 +7,7 @@ metadata:
   force: structural
   when: always
   role: [draft, gate]
-  owns: [four-channels, narrative-distance, person-and-tense, head-hopping, italics]
+  owns: [four-channels, narrative-distance, person-and-tense, head-hopping, italics, tone-axis]
 ---
 
 # narrator-voice
@@ -88,6 +88,35 @@ to name it.
 their minds reach the page through their **first move** (`voice-separation` owns the field and
 the examples). Three people enter the same room; one checks the door, one checks the faces, one checks
 the exit they came in by. Three minds, one POV, no head-hopping.
+
+## The tone axis
+
+`novel.md` → `tone.warmth` is the novel's standing answer to a question the corpus spent its first
+year not asking: **how much of this book is allowed to be good to read?**
+
+| `tone.warmth` | what it licenses |
+|---|---|
+| `cold` | the story's subject is that nobody is safe and nobody is kind. Warmth appears as something being taken, and everything below stands down |
+| `measured` | the default. The book is allowed to be warm and is never obliged to be. Most novels |
+| `warm` | people liking each other is part of what the reader came for, and survives contact with the plot |
+
+It is a **licence, not a quota.** Nothing counts warm scenes and no chapter is scored on this, for
+the reason `hook-and-pacing` §The temperature ledger gives about scoring a `temp`.
+
+**What it changes for the narrator.** The narrator has moods — blunt, hurried, warm, unfair, bored
+— and a voice with one attitude is a register rather than a person (`prose-quality` §Range before
+polish owns that argument). `tone.warmth` says which end of that range this book actually uses. At
+`measured` or `warm`, a narrator who never once sounds fond of anybody is out of range, and that is
+a drafting note rather than a defect.
+
+**What it does not change.** Not the cost — `conflict-engine` owns what a chapter takes and what it
+gives back, and both are live at every setting. Not who is funny — `voice-separation` owns the
+`wit` axis and its cap. Not the per-chapter temperature — `hook-and-pacing` owns the ledger. This
+axis is read by those rules; it does not restate them.
+
+`tone.register` (`grounded` · `adventurous` · `bleak` · `wry`) is the same answer in the
+interview's words, kept because the drafter writes better from the author's phrasing than from a
+derived value. Where the two disagree, `warmth` is the one the rules read.
 
 ## The four channels
 

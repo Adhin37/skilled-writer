@@ -240,6 +240,21 @@ def _register(novel, rep, chapters):
                      "aim for %d"
                      % (len(set(hooks)), ", ".join(sorted(set(hooks))), rules.ARC_MIN_DISTINCT))
 
+    # Four distinct temperatures is variety of PACE and says nothing about emotional direction:
+    # {tense, bleak, procedural, quiet} satisfies every check above and is one mood for a whole
+    # arc. A note, never a warn, and never a quota - nothing here says how many warm chapters an
+    # arc should have, only that an arc with none of them made that choice by default rather than
+    # on purpose. Off at `tone.warmth: cold`, where it is the point (narrator-voice, the tone axis).
+    warmth = str(novel.get("tone.warmth") or "measured").strip().lower()
+    if warmth != "cold" and temps and len(chapters) >= rules.ARC_MIN_DISTINCT:
+        if not ({"warm", "funny"} & set(temps)):
+            rep.note("register",
+                     "no `warm` or `funny` row anywhere in this arc (%s) - four distinct "
+                     "temperatures is variety of pace, and this arc still has one emotional "
+                     "direction. Not a quota: check it was a choice"
+                     % ", ".join(sorted(set(temps))),
+                     path=novel.path("plan", "chapters.md"))
+
 
 def _delivery(rep, chapters):
     """`delivers:` present, and no two chapters delivering the same thing twice."""

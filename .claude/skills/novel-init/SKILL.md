@@ -25,6 +25,7 @@ than asking the user to supply anything.
 
 | file | open it when |
 |---|---|
+| `roles/design/novel-init.register-presets.md` | Round A: the user cannot name a style target, or names one and leaves `style.sample` empty. Five original sample paragraphs to pick a pair from and edit with them |
 | `roles/design/novel-init.scaffold.md` | Step 3: the interview is done and the workspace is about to be written. Also holds the defaults table and the failure modes |
 
 ## Step 1 — Get the premise in the user's words
@@ -126,8 +127,13 @@ straight to Round D if it is None.
 | question | options |
 |---|---|
 | Tone | Grounded and costly · Adventurous and warm · Bleak · Wry and comic |
+| How warm is it allowed to be? | Warm — people liking each other is part of it · Measured *(recommended)* · Cold — nobody is safe and nobody is kind |
 | Content ceiling | Teen · Mature (violence and consequence on the page) |
 | How much does the world push back? | Responsive — it notices and adapts *(recommended)* · Ripples — mostly local changes · Adaptive — the opposition plans around you specifically · Predatory — the world reorganises around you |
+
+**Record the Tone answer** in `tone.register` and the warmth answer in `tone.warmth`. Before
+2026-09-22 this round asked for tone and had nowhere to put the answer, so five benchmark runs
+were drafted without it. `narrator-voice` §The tone axis owns what each setting licenses.
 
 Then ask, in chat because it needs free text: **what does a good ending look like for this
 story?** Record the answer verbatim in `ending.contract`, and ask who or what must survive

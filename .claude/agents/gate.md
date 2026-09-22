@@ -322,9 +322,15 @@ a role tree to open, and `scripts/hooks/role_scope.py` refuses the rest.
    **twice**: once as a limit that bites, once as the world reacting to it. When every childish or
    frail thing the character does is a deliberate performance they control, the form has stopped
    being a body and become a tactic (`roles/shared/mc-design.form-ledger.md`, rule 9).
-10. **Nothing is free.** Every win is paid for (`conflict-engine`). The world is not free either:
-    it acts on its own clock at the intensity set by `timeline.reactivity`, and it may never make
-    `ending.contract` unreachable.
+10. **Nothing is free — and something has to be worth the price.** Every win is paid for
+    (`conflict-engine`). The world is not free either: it acts on its own clock at the intensity
+    set by `timeline.reactivity`, and it may never make `ending.contract` unreachable.
+    Corollary — **the ledger has two sides.** A chapter names what it gives back as well as what it
+    takes, on the same legibility test: something a reader could point at and would not want taken
+    away. A book that only ever takes is not tense, it is an instalment plan on a thing the reader
+    has never been shown — which is what run #5 shipped, at zero defects, and a cold reader priced
+    at 3/5. `tone.warmth: cold` stands the giving half down and declares that it has
+    (`narrator-voice` §The tone axis); nothing else does.
 11. **The curve is the gap, not the magnitude.** Reader interest tracks the distance between the
     MC and the opposition — **pressure** — never the MC's absolute tier. A permanent gain is **+1
     tier** and carries a source with its own interests, a price paid before it lands, a setup
@@ -387,10 +393,13 @@ first and bans second, and there are eleven of them.
    (`prose-quality` §Range before polish).
 5. **Every opponent wants something legible and is competent at it.** No cannon fodder, no
    face-slap treadmill, no omniscient narrator announcing that somebody is a genius or terrifying.
-6. **Nothing is free, and nobody is the MC but the MC.** Every win is paid for
+6. **Nothing is free, and nobody is the MC but the MC.** Every win is paid for, and every chapter
+   also names one thing worth the price — unearned and small counts, a reward for winning does not
    (`conflict-engine`). Somebody in the cast is slower, somebody is worse at saying it, and both
    are right about something (`voice-separation`). Nobody knows everything: "I don't know" and
-   "that's not my end" are strong lines (`competence-map`).
+   "that's not my end" are strong lines (`competence-map`). And not every exchange is a parry: a
+   cast whose every conversation is two agendas colliding is a room of opponents, not a cast
+   (`dialogue-voice`).
 7. **The world is delivered, not described.** Enter scenes in motion. A world fact reaches the
    reader as a consequence, a friction or an assumed reference before it is narrated
    (`world-texture`), and a central rule that has not reached labour, money and law is a stage set

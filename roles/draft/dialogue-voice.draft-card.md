@@ -64,6 +64,29 @@ dodge is the information) · **irony** · **the displaced object** (nominally ab
 about the marriage). **Never gloss it** — if the reader might miss it, add a beat, not a sentence of
 interpretation.
 
+## One exchange on the same side
+
+Once in a run of scenes, where it fits. A cast whose every conversation is two agendas colliding
+reads as a room of opponents — run #5 put one parry in three mouths because the skill described a
+single shape. `roles/draft/dialogue-voice.same-side.md` has the four moves; the one worth reaching
+for first is **shorthand**, because what a pair leaves out is specific to that pair, and the
+exchange belongs to them alone.
+
+> "You ate."
+>
+> "I ate at four."
+>
+> "Bread doesn't count as eating at four." Renna put the bowl down where his hand already was,
+> which was how he knew she had been watching him not eat. "Don't say thank you, it's insulting."
+>
+> "Thank you."
+>
+> "Insulting."
+
+Two voices, both left intact, and the chapter can still take something from each of them. The
+transplant test still applies: if either line moves to another mouth unedited, rewrite it. Off at
+`tone.warmth: cold`.
+
 ## A turn is not an essay
 
 **Past ~45 words in one turn you are writing prose with quote marks on it.** One deliberate

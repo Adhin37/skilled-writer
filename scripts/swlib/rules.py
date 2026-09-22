@@ -215,6 +215,8 @@ HABIT_NOTE_CHECKS = frozenset((
                         # sitting under the band is what the window defect is for
     "thought-person",   # narration in thought marks - one is a slip, a run of them is the
                         # drafter using the channel as emphasis
+    "negation-density", # the density only - one negative construction is a good sentence, and
+                        # a narrator who defines everything by what it isn't is a habit
 ))
 SITUATION_NOTE_CHECKS = frozenset((
     "group-scene",      # three or more speakers present - a category, not a defect
@@ -253,11 +255,31 @@ THREAD_ID_CANON = re.compile(r"^T\d+$")
 THREAD_ID_IN_TEXT = re.compile(r"[~^vx]?\b(T[A-Z]{0,3}\d+)\b")
 THREAD_OP_IN_TEXT = re.compile(r"([~^vx])(T[A-Z]{0,3}\d+)\b")
 
+# prose-quality "Range before polish", and run #5's cold read, which counted 235 of these in
+# 7,700 words and called it a narrator who defines everything by what it isn't: things arriving
+# as "not agreement", "no answer at all", "which was also not the answer". The measure lived as a
+# grep recipe in the review tree and could only ever be run by hand on a finished novel; here it
+# recurs across chapters and reaches the WATCH row.
+#
+# One instance is good writing - defining by exclusion is a real move - so this is a NOTE and the
+# only thing that carries weight is the density. Never promote it: a per-chapter number that
+# decides whether a chapter ships is a number the next chapter gets written toward, and this repo
+# has done that three times already (word count, dialogue share, SPEECH_TARGET_LOW).
+NEGATION_WORDS = re.compile(
+    r"\b(?:not|never|nothing|nobody|none|nor|neither|no|"
+    r"cannot|can't|won't|wasn't|isn't|didn't|doesn't|don't|hadn't|hasn't|haven't|"
+    r"wouldn't|couldn't|shouldn't|aren't|weren't)\b", re.I)
+
 EVENT_MAX_WORDS = 14
 EMDASH_RATE_WARN = 6.0          # per 1,000 words; run #2 chapter 1 ran 11.4
 HOUSE_RATE_WARN = 6.0           # CLAUDE_REGISTER hits per 1,000 words...
 HOUSE_MIN_HITS = 4              # ...and never on fewer hits than this: a rate needs a density
 RATE_MIN_WORDS = 400            # below this, per-1,000-word rates are noise
+NEGATION_RATE_NOTE = 22.0       # negations per 1,000 NARRATION words. Calibrated on run #5,
+NEGATION_MIN_HITS = 12          # ...which ran 20.9-28.1 across five chapters and was read cold
+                                # as "a narrator who defines everything by what it isn't". This
+                                # fires on four of those five; chapter 5, the one the benchmark
+                                # singled out for the one warm beat that landed, sits under it
 CLOSER_SHORT_WORDS = 12         # a chapter-ending line this short, with nobody speaking
 CLOSER_WINDOW = 5               # ...in this many consecutive chapters...
 CLOSER_WINDOW_MAX = 2           # ...more than this often is a tic, not a choice

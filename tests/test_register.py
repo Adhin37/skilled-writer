@@ -10,6 +10,7 @@ window, for the reason `docs/design-notes.md` gives at length: a number that dec
 chapter ships is a number the next chapter gets written toward.
 """
 
+import io
 import unittest
 
 from fixtures import MULTI_PARAGRAPH_SPEECH, NovelFixture
@@ -202,6 +203,40 @@ class TestRegisterLedger(unittest.TestCase):
             msgs = messages(cmd_arc.run(fx.novel(), 1))
             self.assertTrue(any("hook shape `reveal` used 3 times" in m for m in msgs))
 
+    def test_an_arc_with_no_warm_or_funny_row_is_noted(self):
+        """Four distinct temps is variety of pace and can still be one emotional direction."""
+        with NovelFixture() as fx:
+            self._plan(fx, [("tense", "reveal"), ("bleak", "decision"), ("procedural", "quiet"),
+                            ("quiet", "reversal"), ("tense", "arrival")])
+            msgs = messages(cmd_arc.run(fx.novel(), 1))
+            self.assertTrue(any("one emotional direction" in m for m in msgs), msgs)
+
+    def test_it_is_a_note_and_never_a_warn(self):
+        with NovelFixture() as fx:
+            self._plan(fx, [("tense", "reveal"), ("bleak", "decision"), ("procedural", "quiet"),
+                            ("quiet", "reversal"), ("tense", "arrival")])
+            rep = cmd_arc.run(fx.novel(), 1)
+            got = [f.level for f in rep.findings if "emotional direction" in f.message]
+            self.assertEqual(got, ["note"])
+
+    def test_one_warm_row_clears_it(self):
+        with NovelFixture() as fx:
+            self._plan(fx, [("tense", "reveal"), ("bleak", "decision"), ("warm", "quiet"),
+                            ("quiet", "reversal"), ("procedural", "arrival")])
+            msgs = messages(cmd_arc.run(fx.novel(), 1))
+            self.assertFalse(any("one emotional direction" in m for m in msgs), msgs)
+
+    def test_a_cold_novel_is_exempt(self):
+        """`tone.warmth: cold` is a declared choice, not a defect to report back."""
+        with NovelFixture() as fx:
+            self._plan(fx, [("tense", "reveal"), ("bleak", "decision"), ("procedural", "quiet"),
+                            ("quiet", "reversal"), ("tense", "arrival")])
+            text = io.open(fx.path("novel.md"), encoding="utf-8").read()
+            self.assertIn("warmth: measured", text, "fixture lost its tone block")
+            fx.write("novel.md", text.replace("warmth: measured", "warmth: cold", 1))
+            msgs = messages(cmd_arc.run(fx.novel(), 1))
+            self.assertFalse(any("one emotional direction" in m for m in msgs), msgs)
+
     def test_an_unknown_temp_is_rejected(self):
         with NovelFixture() as fx:
             self._plan(fx, [("sombre", "reveal")])
@@ -213,6 +248,55 @@ class TestRegisterLedger(unittest.TestCase):
             msgs = messages(lint_one(fx))
             self.assertTrue(any("has no `temp`" in m for m in msgs))
             self.assertTrue(any("has no `hooktype`" in m for m in msgs))
+
+
+class TestNegationDensity(unittest.TestCase):
+    """The narrator who defines everything by what it isn't.
+
+    Run #5's cold read counted 235 of these in 7,700 words and named the texture before it could
+    name a bad sentence. `sw audit` returned zero defects on that novel. A note, never a warn:
+    one negative construction is a good sentence and only the density is a finding.
+    """
+
+    # ~28 negations per 1000 narration words, which is where run #5 sat.
+    DENSE = ("She did not look up. It was not agreement, and it was not surprise either. "
+             "Nothing in the ledger said so. No one had asked her, and she had never offered. "
+             "The tally was not wrong, which was not the same as being right. ") * 12
+
+    PLAIN = ("She looked up. The ledger said forty barrels and the yard held forty barrels. "
+             "She counted them again because counting twice was the job. The tally matched. "
+             "She signed the sheet and carried it across the yard to the weighing house. ") * 12
+
+    def test_the_density_notes(self):
+        with NovelFixture() as fx:
+            fx.add_chapter(1, self.DENSE)
+            self.assertEqual(levels(lint_one(fx), "negation-density"), ["note"])
+
+    def test_plain_narration_raises_nothing(self):
+        with NovelFixture() as fx:
+            fx.add_chapter(1, self.PLAIN)
+            self.assertEqual(levels(lint_one(fx), "negation-density"), [])
+
+    def test_a_short_chapter_is_not_judged_on_a_rate(self):
+        """Same guard `house-style` uses: a rate needs a denominator worth dividing by."""
+        with NovelFixture() as fx:
+            fx.add_chapter(1, "She did not look up. It was not agreement. Nothing was said.\n")
+            self.assertEqual(levels(lint_one(fx), "negation-density"), [])
+
+    def test_it_is_never_a_warn_or_a_defect(self):
+        with NovelFixture() as fx:
+            fx.add_chapter(1, self.DENSE)
+            got = [f.level for f in lint_one(fx).findings if f.check == "negation-density"]
+            self.assertNotIn("warn", got)
+            self.assertNotIn("defect", got)
+
+    def test_speech_is_exempt(self):
+        """A character refusing something is dialogue doing its job, not the narrator's register."""
+        speech = ('"I did not say that. It was not what I meant and it was never the plan. '
+                  'Nothing was agreed, nobody signed, and no one asked me."\n\n') * 12
+        with NovelFixture() as fx:
+            fx.add_chapter(1, speech)
+            self.assertEqual(levels(lint_one(fx), "negation-density"), [])
 
 
 class TestShrinkage(unittest.TestCase):
