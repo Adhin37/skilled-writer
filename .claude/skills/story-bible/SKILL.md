@@ -24,7 +24,7 @@ The failure mode at setup is a 6,000-word gazetteer of nations and calendars, no
 affects a sentence. The failure mode mid-serial is the opposite: facts invented in chapters and
 never recorded, contradicted forty chapters later.
 
-## What lives in `references/`
+## What lives in `roles/`
 
 | file | open it when |
 |---|---|

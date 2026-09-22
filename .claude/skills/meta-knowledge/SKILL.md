@@ -35,7 +35,7 @@ who merely know tropes — that is `voice-separation`, not this.
 
 ---
 
-## Sections that live in `references/`
+## Sections that live in `roles/`
 
 Section numbers are stable — other skills cite them — so the gaps are deliberate.
 

@@ -399,7 +399,7 @@ Then the nine designed in the same session, ordered as they were written:
 Two deviations from the designs as written, both deliberate:
 
 - F9 was specified as *per-file* disjoint pools and was built **per-skill**. A skill's `SKILL.md`
-  and its own `references/` sharing a cast is a worked example, not a collision; what made a name
+  and its own notes sharing a cast is a worked example, not a collision; what made a name
   feel available to run #5's drafter was seeing it in files from seven *different* skills at once.
   Per-skill kills the reinforcement and keeps the examples.
 - F2's denominator was left wrong on purpose. `house_style_rate` divides narration-only hits by
@@ -560,7 +560,7 @@ in the corpus:
 | what the redraft fixed | what it bought |
 |---|---|
 | Turns cut from essay length — a 107-word speech, a 73-word "best liar" essay, a 50-word longest turn | `dialogue-voice` §How it sounds spoken; the ~45-word ceiling in `CLAUDE.md` §5 |
-| A mother and her six-year-old with different declared axes, a clean `sw cast`, and one voice between them | **the cadence test** (`voice-separation` §3), `references/age-register.md`, and the `cadence` axis |
+| A mother and her six-year-old with different declared axes, a clean `sw cast`, and one voice between them | **the cadence test** (`voice-separation` §3), `roles/design/voice-separation.age-register.md`, and the `cadence` axis |
 | `form_locked` applied but decorative — zero limit-that-bites beats in five chapters, every check green | **`CLAUDE.md` hard rule 9's second half**: a prohibition is satisfied by silence, so the form must reach the page twice per chapter |
 | Stray italics used as emphasis | `narrator-voice`'s "nothing else is markup" clause and `lint`'s italic rule |
 | Em-dash density, sentence-rhythm runs, weasel words, a `"A beat."` fragment | `roles/gate/prose-quality.ai-default-tells.md` |
@@ -641,7 +641,7 @@ Three repairs, all from reading the finished chapters rather than from a script.
 
 | | what changed |
 |---|---|
-| **O31 — the gate never re-reads its own edits** | `revision-pass` gains **Pass 9g**, between 9f and 10: re-read only the spans you touched plus a paragraph either side, four questions, no card and nothing to tick. Worked examples of all four — each one shipped in a finished chapter — in `references/fixing-and-reporting.md`. The body was at its size ceiling, so the pass was paid for with cuts: the run #2 anecdote told five times is told twice, and the force table moved to the reference whose trigger already covers it |
+| **O31 — the gate never re-reads its own edits** | `revision-pass` gains **Pass 9g**, between 9f and 10: re-read only the spans you touched plus a paragraph either side, four questions, no card and nothing to tick. Worked examples of all four — each one shipped in a finished chapter — in `roles/gate/revision-pass.fixing-and-reporting.md`. The body was at its size ceiling, so the pass was paid for with cuts: the run #2 anecdote told five times is told twice, and the force table moved to the reference whose trigger already covers it |
 | **`sw trace` counts cards** | a `cards` column in the per-chapter table and a `-- cards` section with the per-card breakdown. Two runs made the card count their headline and both assembled it by hand out of the transcript, which is how a measurement gets done once and estimated thereafter. Same caveat as the hand-count, stated in the output: a Phase A card opened for chapter N+1 before N's file is finished lands in N's row |
 | **The brief is a file** | the brief gains a `cand` line — so the *user* sees the rejected candidates while they can still say *take the second one* — and is written to `state/brief.md` on approval. `sw readset` hands it back when its chapter matches the one being drafted, and says so when it does not. Nothing scores it, nothing is appended to it, and the next chapter overwrites it |
 
@@ -727,7 +727,7 @@ age the same way the moment F1 or F2 lands.
 ## Reproduce it
 
 ```bash
-python3 -m unittest discover tests    # 448 tests
+python3 -m unittest discover tests    # must be green; the count at run #5 was 448
 python3 scripts/sw.py selftest        # the pipeline, plus planted defects that must be caught
 python3 scripts/sw.py health          # wiring only
 python3 scripts/sw.py audit  novels/<slug> --show note

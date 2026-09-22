@@ -47,11 +47,6 @@ def read_text_raw(path):
     return text, newline, ok
 
 
-def read_lines(path):
-    text = read_text(path)
-    return text.split("\n") if text else []
-
-
 # --------------------------------------------------------------- frontmatter + YAML
 
 _FM = re.compile(r"\A---\n(.*?)\n---\n?", re.S)

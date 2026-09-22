@@ -17,7 +17,7 @@ is speaking, the scene is broken.** This skill is how you pass that test cheaply
 
 ---
 
-## What lives in `references/`
+## What lives in `roles/`
 
 | file | open it when |
 |---|---|

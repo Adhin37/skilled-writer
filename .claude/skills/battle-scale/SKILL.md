@@ -26,7 +26,7 @@ reader can follow it, care about it, and be surprised by it.
 
 ---
 
-## What lives in `references/`
+## What lives in `roles/`
 
 | file | open it when |
 |---|---|

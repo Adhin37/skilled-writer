@@ -31,7 +31,7 @@ the two promise the same book; the slug is derived last so it is derived from so
 
 ---
 
-## What lives in `references/`
+## What lives in `roles/`
 
 | file | open it when |
 |---|---|

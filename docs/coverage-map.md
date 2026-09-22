@@ -28,7 +28,7 @@ smaller: a module that is off for this book costs nothing.
 |---|---|
 | **area** | the thing an agent has to know |
 | **owner** | the single skill that owns it. `sw kb owner <slug>` answers this at runtime |
-| **taught in** | where the material actually is — a body section, or a `references/` file |
+| **taught in** | where the material actually is — a body section, or a file in the role trees |
 | **spent in** | the card that makes the decision (Phase A) or checks it (a pass). `—` means design-time only, and it is read during `novel-init` or an arc boundary rather than per chapter |
 | **fires** | the trigger. `always` costs tokens on every chapter; everything else sits on the shelf |
 
@@ -38,15 +38,15 @@ smaller: a module that is off for this book costs nothing.
 
 | area | owner | taught in | spent in | fires |
 |---|---|---|---|---|
-| Premise interview, scaffold | `novel-init` | body · `references/scaffold.md` | — | once |
-| Title, blurb, tags, slug | `title-craft` | body · `references/listing-kit.md` | — | once |
-| The MC: intellect, origin, golden finger | `mc-design` | body · `references/form-ledger.md` | draft card | `form_locked` |
+| Premise interview, scaffold | `novel-init` | body · `roles/design/novel-init.scaffold.md` | — | once |
+| Title, blurb, tags, slug | `title-craft` | body · `roles/design/title-craft.listing-kit.md` | — | once |
+| The MC: intellect, origin, golden finger | `mc-design` | body · `roles/shared/mc-design.form-ledger.md` | draft card | `form_locked` |
 | The love interest, as a counterweight | `lead-interest` | body | — | `content.romance != none` |
-| Person, tense, distance, the four channels | `narrator-voice` | body · `references/filtering.md` | draft card (B) · audit 10 | always |
+| Person, tense, distance, the four channels | `narrator-voice` | body · `roles/draft/narrator-voice.filtering.md` | draft card (B) · audit 10 | always |
 | Whether the book switches viewpoint | `pov-switch` | body | draft card · audit 2 | `pov.mode != single` |
-| What the first chapters owe the reader | `story-opening` | body · `references/chapter-one.md` | draft card · audit 9b | ch ≤ contract+2 |
+| What the first chapters owe the reader | `story-opening` | body · `roles/draft/story-opening.chapter-one.md` | draft card · audit 9b | ch ≤ contract+2 |
 | **The rate those chapters promise — `pace-contract`** | `story-opening` | body §2 | draft card · audit 9b | *new* · ch ≤ contract+2 |
-| What the book argues, and the case against | `revision-pass` | `references/owned-passes.md` §9d | audit 9d | `theme` set |
+| What the book argues, and the case against | `revision-pass` | `roles/gate/revision-pass.owned-passes.md` §9d | audit 9d | `theme` set |
 | The ending contract, and what may never be taken | `timeline-engine` | body §The ending contract | `plot-threads`' card · audit 4 | always |
 
 ## 2. The world
@@ -54,66 +54,66 @@ smaller: a module that is off for this book costs nothing.
 | area | owner | taught in | spent in | fires |
 |---|---|---|---|---|
 | What is true, where things are, factions, names | `story-bible` | body | — | design |
-| **Distances, travel time, what a map is for** | `story-bible` | `references/geography-and-travel.md` | — | *new* · the story moves |
+| **Distances, travel time, what a map is for** | `story-bible` | `roles/gate/story-bible.geography-and-travel.md` | — | *new* · the story moves |
 | Labour, money, law, knowledge, belief, mobility | `social-fabric` | body §1 | — | design |
 | Propagating the central rule into ordinary life | `social-fabric` | body §2 | — | design |
-| **Prices, the anchor wage, debt as a deadline** | `social-fabric` | `references/prices-and-stakes.md` | — | *new* · money is a stake |
-| **Religion, ritual, oaths, taboo** | `social-fabric` | `references/belief-and-ritual.md` | — | *new* · the story enters it |
-| How gender is lived in this society | `social-fabric` | `references/gendered-experience.md` | — | design |
-| How any of it reaches the page, at a budget | `world-texture` | body · `references/overbuilding.md` | draft card · audit 5 | always |
-| **Whether it is handled or only felt — the mode, not the volume** | `world-texture` | body §1 · `references/narrative-space.md` | draft card · audit 5 | *new* · always |
+| **Prices, the anchor wage, debt as a deadline** | `social-fabric` | `roles/shared/social-fabric.prices-and-stakes.md` | — | *new* · money is a stake |
+| **Religion, ritual, oaths, taboo** | `social-fabric` | `roles/design/social-fabric.belief-and-ritual.md` | — | *new* · the story enters it |
+| How gender is lived in this society | `social-fabric` | `roles/design/social-fabric.gendered-experience.md` | — | design |
+| How any of it reaches the page, at a budget | `world-texture` | body · `roles/draft/world-texture.overbuilding.md` | draft card · audit 5 | always |
+| **Whether it is handled or only felt — the mode, not the volume** | `world-texture` | body §1 · `roles/draft/world-texture.narrative-space.md` | draft card · audit 5 | *new* · always |
 | **Which world fact arrives in which of chapters 1–5** | `chapter-plan` | body §Arc 1 | `story-opening`'s cards | *new* · arc 1 |
-| Magic, cultivation, superhuman rules | `power-system` | body · **`references/system-design.md`** | **draft card · audit 5** | fantasy/scifi/progression |
+| Magic, cultivation, superhuman rules | `power-system` | body · **`roles/design/power-system.system-design.md`** | **draft card · audit 5** | fantasy/scifi/progression |
 | Technology, the one speculation, second-order effects | `tech-plausibility` | body | **audit 5** | scifi |
-| Canon facts, the divergence point, the OOC budget | `fanfic-canon` | body · `references/canon-handling.md` | **draft card · audit 5** | fanfic |
-| The world's own clock, and its reaction to the MC | `timeline-engine` | body · `references/reaction-and-governor.md` | `plot-threads`' cards · **audit 4** | always |
+| Canon facts, the divergence point, the OOC budget | `fanfic-canon` | body · `roles/draft/fanfic-canon.canon-handling.md` | **draft card · audit 5** | fanfic |
+| The world's own clock, and its reaction to the MC | `timeline-engine` | body · `roles/shared/timeline-engine.reaction-and-governor.md` | `plot-threads`' cards · **audit 4** | always |
 
 ## 3. The cast
 
 | area | owner | taught in | spent in | fires |
 |---|---|---|---|---|
-| Tiers, debut, the walk-on roster | `character-profile` | body · `references/tier-a-and-b.md` | `competence-map`'s draft card · audit 2 | always |
-| Antagonists, mirrors, canon characters | `character-profile` | `references/special-cases.md` | — | as needed |
-| **Non-human minds — beasts, constructs, gods** | `character-profile` | `references/nonhuman.md` | — | *new* · as needed |
-| Distinctness as minds; the voice matrix | `voice-separation` | body · `references/worked-example.md` | draft card · audit 2 | always |
-| **Children, adolescents, the old — cadence by age** | `voice-separation` | `references/age-register.md` | — | *new* · such a character exists |
-| Clones, avatars, doubles | `voice-separation` | `references/mirror-clause.md` | — | a mirror exists |
-| How intelligent, and how they fail | `mc-intel-meter` | body · `references/writing-intelligence.md` | draft card · audit 3 | always |
-| **Plans, operations, deception on the page** | `mc-intel-meter` | `references/plans-and-lies.md` | — | *new* · a plan or a lie |
-| **How well they read people; emotional signature; the misread** | **`social-perception`** | **body · `references/reading-people.md`** | **`mc-intel-meter`'s cards · audit 3b** | ***new* · always** |
-| Who knows what, where the edge is, who they ask | `competence-map` | body · `references/broad-knowledge.md` | draft card · audit 3 | always |
-| How a skill is actually acquired | `competence-map` | `references/acquisition-ladder.md` | — | a skill advances |
-| Moving an arc, and the voice delta | `character-development` | body · `references/ladders.md` | `voice-separation`'s cards · **audit 2** | always |
-| An MC who knows the future | `meta-knowledge` | body · `references/failure-modes.md` | draft card · audit 9c | `mc.foreknowledge` |
+| Tiers, debut, the walk-on roster | `character-profile` | body · `roles/draft/character-profile.tier-a-and-b.md` | `competence-map`'s draft card · audit 2 | always |
+| Antagonists, mirrors, canon characters | `character-profile` | `roles/shared/character-profile.special-cases.md` | — | as needed |
+| **Non-human minds — beasts, constructs, gods** | `character-profile` | `roles/shared/character-profile.nonhuman.md` | — | *new* · as needed |
+| Distinctness as minds; the voice matrix | `voice-separation` | body · `roles/design/voice-separation.worked-example.md` | draft card · audit 2 | always |
+| **Children, adolescents, the old — cadence by age** | `voice-separation` | `roles/design/voice-separation.age-register.md` | — | *new* · such a character exists |
+| Clones, avatars, doubles | `voice-separation` | `roles/shared/voice-separation.mirror-clause.md` | — | a mirror exists |
+| How intelligent, and how they fail | `mc-intel-meter` | body · `roles/draft/mc-intel-meter.writing-intelligence.md` | draft card · audit 3 | always |
+| **Plans, operations, deception on the page** | `mc-intel-meter` | `roles/draft/mc-intel-meter.plans-and-lies.md` | — | *new* · a plan or a lie |
+| **How well they read people; emotional signature; the misread** | **`social-perception`** | **body · `roles/shared/social-perception.reading-people.md`** | **`mc-intel-meter`'s cards · audit 3b** | ***new* · always** |
+| Who knows what, where the edge is, who they ask | `competence-map` | body · `roles/shared/competence-map.broad-knowledge.md` | draft card · audit 3 | always |
+| How a skill is actually acquired | `competence-map` | `roles/draft/competence-map.acquisition-ladder.md` | — | a skill advances |
+| Moving an arc, and the voice delta | `character-development` | body · `roles/draft/character-development.ladders.md` | `voice-separation`'s cards · **audit 2** | always |
+| An MC who knows the future | `meta-knowledge` | body · `roles/draft/meta-knowledge.failure-modes.md` | draft card · audit 9c | `mc.foreknowledge` |
 | Inherited bias — overrides everything | `bias-guard` | body | audit 6 | always, never rotated |
 
 ## 4. Planning
 
 | area | owner | taught in | spent in | fires |
 |---|---|---|---|---|
-| The arc grid, the chapter list, `event`/`temp`/`hooktype` | `chapter-plan` | body · `references/titles-and-replanning.md` | — | every 8 chapters |
+| The arc grid, the chapter list, `event`/`temp`/`hooktype` | `chapter-plan` | body · `roles/design/chapter-plan.titles-and-replanning.md` | — | every 8 chapters |
 | Scene or summary, and building up before spending | `story-craft` | body · 4 references | draft card **(first, always)** · audit 9f | always |
-| Promises: opened, escalated, paid, aged | `plot-threads` | body · `references/foreshadowing.md` | draft card · **audit 4** | always |
-| **Twists and reveals outside a mystery** | `plot-threads` | `references/reveals-and-reversals.md` | — | *new* · a reversal |
+| Promises: opened, escalated, paid, aged | `plot-threads` | body · `roles/shared/plot-threads.foreshadowing.md` | draft card · **audit 4** | always |
+| **Twists and reveals outside a mystery** | `plot-threads` | `roles/draft/plot-threads.reveals-and-reversals.md` | — | *new* · a reversal |
 | Stakes, cost, the antagonist standard | `conflict-engine` | body | draft card · **audit 4** | always |
-| **Costs that persist — injury, exhaustion, aftermath** | `conflict-engine` | `references/aftermath.md` | — | *new* · something was taken |
+| **Costs that persist — injury, exhaustion, aftermath** | `conflict-engine` | `roles/design/conflict-engine.aftermath.md` | — | *new* · something was taken |
 | The gap between MC and opposition, over the book | `power-scaling` | body · 3 references | draft card · audit 9e | `scaling.shape != none` |
-| Arc rhythm, temperature, release cadence | `hook-and-pacing` | body · `references/arc-rhythm.md` | draft card · **audit 9** | always |
-| **The long middle — chapters 40 to 120** | `hook-and-pacing` | `references/the-long-middle.md` | — | *new* · arc boundary past arc 2 |
+| Arc rhythm, temperature, release cadence | `hook-and-pacing` | body · `roles/shared/hook-and-pacing.arc-rhythm.md` | draft card · **audit 9** | always |
+| **The long middle — chapters 40 to 120** | `hook-and-pacing` | `roles/design/hook-and-pacing.the-long-middle.md` | — | *new* · arc boundary past arc 2 |
 
 ## 5. Drafting a chapter
 
 | area | owner | taught in | spent in | fires |
 |---|---|---|---|---|
 | The three phases, the brief, the report | `write-chapter` | body · 3 references | — | always |
-| The read-set, the CCS block, arc digests | `continuity-summary` | body · `references/block-format.md` | — | always |
+| The read-set, the CCS block, arc digests | `continuity-summary` | body · `roles/shared/continuity-summary.block-format.md` | — | always |
 | Goal, obstacle, turn, exit; the delivery test | `scene-craft` | body | draft card · audit 4+9 | always |
-| **Three or more speakers in one scene** | `scene-craft` | `references/group-scenes.md` | — | *new* · 3+ speakers |
+| **Three or more speakers in one scene** | `scene-craft` | `roles/design/scene-craft.group-scenes.md` | — | *new* · 3+ speakers |
 | Every line of dialogue; density and subtext | `dialogue-voice` | body · 3 references | draft card (B) · **audit 2** | always |
-| Line-level editing, microtension, register range | `prose-quality` | body · `references/ai-default-tells.md` | audit 8 + 8b | always |
-| MTL artifacts and structural cliché | `mtl-detox` | `references/catalogues.md` | audit 7 | always |
-| A fight between people who can see each other | `combat-choreography` | body · **`references/duel-geography.md`** | **draft card · audit 4** | `optional` |
-| **An engagement nobody can see the whole of** | **`battle-scale`** | **body · `references/logistics.md`** | **draft card · audit 4** | ***new* · `optional`** |
+| Line-level editing, microtension, register range | `prose-quality` | body · `roles/gate/prose-quality.ai-default-tells.md` | audit 8 + 8b | always |
+| MTL artifacts and structural cliché | `mtl-detox` | `roles/gate/mtl-detox.catalogues.md` | audit 7 | always |
+| A fight between people who can see each other | `combat-choreography` | body · **`roles/design/combat-choreography.duel-geography.md`** | **draft card · audit 4** | `optional` |
+| **An engagement nobody can see the whole of** | **`battle-scale`** | **body · `roles/shared/battle-scale.logistics.md`** | **draft card · audit 4** | ***new* · `optional`** |
 | A game-like system layer | `litrpg-system` | body | **draft card · audit 10** | `optional` |
 | Fair-play clue mechanics | `mystery-clues` | body | **draft card · audit 3** | `optional` |
 | Where the levity sits, and whose it is | `comedy-levity` | body | **draft card** | `optional` |
@@ -125,7 +125,7 @@ smaller: a module that is off for this book costs nothing.
 ## 6. The gate
 
 `revision-pass` owns the pass order and the story gate. It carries no other skill's checklist: six
-passes have no other owner and live in `references/owned-passes.md`; every other pass opens the
+passes have no other owner and live in `roles/gate/revision-pass.owned-passes.md`; every other pass opens the
 card of the skill that owns the defect. `sw kb passes` resolves the set against this novel,
 modules included.
 

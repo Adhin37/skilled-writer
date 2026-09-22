@@ -123,6 +123,7 @@ def run(repo_root, commands=None):
     _role(repo_root, rep)
     _partition(repo_root, rep)
     _contract(repo_root, rep)
+    _review_split(repo_root, rep)
     _agents(repo_root, rep)
     _settings_hooks(repo_root, rep)
     _card_budget(repo_root, rep)
@@ -832,6 +833,46 @@ DOCS_CITATION = re.compile(r"\bdocs/[A-Za-z0-9._-]+\.md")
 
 def _reached_by(rel, reach):
     return ", ".join(sorted(r for r in reach if rel in reach[r]))
+
+
+REVIEW_PAIR = (os.path.join("roles", "review", "reader-brief.md"),
+               os.path.join("roles", "review", "reader-review.md"))
+
+
+def _review_split(repo_root, rep):
+    """The reader's brief and the maintainer's procedure must not converge.
+
+    `reader-brief.md` is what a reader opens; `reader-review.md` is the procedure around it, and
+    it names what the exercise is for. Splitting them was the fix for a cold read that arrived
+    already knowing the chapters were being measured - and the split is only worth anything while
+    the two files stay different.
+
+    The failure it guards is specific and silent. A maintainer edits the questions *here*, in the
+    file a maintainer naturally opens, and the reader goes on answering the old ones. That is
+    exactly what happened for a day: ten lines of the R1-R7 table and the 0-5 scale existed
+    verbatim in both.
+
+    `_overlap` cannot see this. It compares *skills*, through `owned_files`, and these two carry
+    no `owner:` and are not in the index at all - which is why they are the one pair in the repo
+    worth naming explicitly rather than folding into a general rule.
+    """
+    paths = [os.path.join(repo_root, rel) for rel in REVIEW_PAIR]
+    if not all(os.path.isfile(p) for p in paths):
+        return
+    def longish(path):
+        return set(l.strip() for l in mdio.read_text(path).split("\n")
+                   if len(l.split()) >= 8)
+    shared = sorted(longish(paths[0]) & longish(paths[1]))
+    for line in shared[:3]:
+        rep.defect("review-split",
+                   "this line is verbatim in both %s and %s - the brief is the reader's copy and "
+                   "the procedure must cite it, not restate it: \"%s\""
+                   % (os.path.basename(REVIEW_PAIR[0]), os.path.basename(REVIEW_PAIR[1]),
+                      line[:70]), path=paths[1])
+    if len(shared) > 3:
+        rep.defect("review-split",
+                   "%d lines are verbatim in both reader files; the 3 above are a sample"
+                   % len(shared), path=paths[1])
 
 
 def _contract(repo_root, rep):

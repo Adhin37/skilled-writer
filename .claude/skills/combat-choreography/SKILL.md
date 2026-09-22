@@ -17,7 +17,7 @@ metadata:
 A fight is a scene: goal, obstacle, turn, cost. Choreography without stakes is furniture being
 moved loudly.
 
-## What lives in `references/`
+## What lives in `roles/`
 
 | file | open it when |
 |---|---|

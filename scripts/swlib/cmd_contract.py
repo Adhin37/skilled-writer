@@ -9,7 +9,7 @@ markers is a defect rather than a divergence nobody notices.
 `roles/<bucket>/CLAUDE.md` plus `omitClaudeMd: true`. Claude Code loads a subdirectory's
 `CLAUDE.md` *on demand* - "instead of loading them at launch, they are included when Claude reads
 files in those subdirectories" - and a subagent starts in the main conversation's working
-directory, which is the repo root. So `roles/draft/CLAUDE.md` is always in the on-demand class: a
+directory, which is the repo root. So a `CLAUDE.md` placed in `roles/draft/` would always be in the on-demand class: a
 drafter with `omitClaudeMd: true` would begin Phase A with no contract at all and pick one up
 only after its first card read. An agent file's body is the system prompt and is there at
 startup, which is the property the contract needs.

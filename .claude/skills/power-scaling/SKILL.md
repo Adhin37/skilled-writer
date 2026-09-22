@@ -29,7 +29,7 @@ The fix for both is the same and it is not "make the enemies stronger". Reader i
 
 ---
 
-## What lives in `references/`
+## What lives in `roles/`
 
 Section numbers are stable — other skills cite them — so the gaps are deliberate.
 

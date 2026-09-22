@@ -22,7 +22,7 @@ and a hook pull; it cannot stop a chapter from summarising its own turning point
 
 ---
 
-## What lives in `references/`
+## What lives in `roles/`
 
 | file | open it when |
 |---|---|

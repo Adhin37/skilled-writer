@@ -17,7 +17,7 @@ Genre module — fantasy, scifi, progression. Maintained in `bible/power-system.
 Reader satisfaction in this format comes from **predictable rules broken at a price**, not from
 escalating magnitudes. A reader who can tell what is impossible is a reader who can be surprised.
 
-## What lives in `references/`
+## What lives in `roles/`
 
 | file | open it when |
 |---|---|

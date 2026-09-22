@@ -33,7 +33,7 @@ rate and worst in a chapter's opening sentences — `roles/draft/world-texture.n
 
 ---
 
-## What lives in `references/`
+## What lives in `roles/`
 
 | file | open it when |
 |---|---|

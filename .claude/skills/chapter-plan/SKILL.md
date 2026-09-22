@@ -17,7 +17,7 @@ does). A serial fails at the planning layer long before it fails at the sentence
 
 ---
 
-## What lives in `references/`
+## What lives in `roles/`
 
 | file | open it when |
 |---|---|

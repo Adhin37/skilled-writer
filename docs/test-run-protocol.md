@@ -140,20 +140,24 @@ This is the methodology, not a detail.
 
 ## 5. Before the run
 
-### Start a fresh session, and do not skip this
+### Start a fresh session — and verify, because a fresh session is not proof
 
-**Agent definitions are resolved once per session.** `.claude/agents/*.md` — an agent's `tools`,
-its `skills`, its `omitClaudeMd` flag and its whole prompt body — is read at session start and not
-re-read, so **a session that edited an agent file cannot run against the edit**, and the spawn
-succeeds anyway. Nothing errors; you simply measure the previous version.
+**Whether an edit to an agent file takes effect mid-session is not predictable.** `.claude/agents/*.md`
+— an agent's `tools`, its `skills`, its `omitClaudeMd` flag and its whole prompt body — is
+resolved by the harness on its own schedule, and the same question has now gone **both ways**: on
+2026-09-20 a drafter spawned after an edit carried the *old* body; on 2026-09-22 one spawned
+minutes after an edit carried the *new* one. Neither errored, and both spawns succeeded, so a
+stale definition is indistinguishable from a current one by looking.
 
-`.claude/settings.json` is the opposite: hooks there *are* picked up mid-session. So a run can
-easily sit on a new guard and an old agent at the same time, which is the worst of both and looks
-entirely normal. Measured 2026-09-20, twice.
+`.claude/settings.json` is the reliable half: a hook registered there has been picked up
+mid-session every time it has been tried. So a run can sit on a new guard and an old agent at once
+and look entirely normal.
 
-**So: make every toolkit change, then start a new session, then run the pre-flight below.** If an
-agent file changed at any point during the run, the run is over — finish it, write it up, and note
-that the change landed mid-run.
+**So: make every toolkit change, start a new session, and then confirm by asking.** A fresh
+session removes the uncertainty about *which* version is loaded; it does not by itself tell you,
+and nothing on disk does either. The inventory below is the only instrument. If an agent file
+changed at any point during the run, the run is over — finish it, write it up, and note that the
+change landed mid-run.
 
 ### Pre-flight
 

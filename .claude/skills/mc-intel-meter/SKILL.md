@@ -21,7 +21,7 @@ a slow MC. The reader does not forgive an inconsistent one.**
 
 ---
 
-## What lives in `references/`
+## What lives in `roles/`
 
 | file | open it when |
 |---|---|

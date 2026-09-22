@@ -15,7 +15,7 @@ metadata:
 The rule the whole toolkit rests on: **nothing is free.** A serial that gives without taking runs
 out of tension around chapter 40 and never recovers it, no matter how much happens.
 
-## What lives in `references/`
+## What lives in `roles/`
 
 | file | open it when |
 |---|---|

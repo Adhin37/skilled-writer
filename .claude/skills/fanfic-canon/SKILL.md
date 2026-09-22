@@ -19,7 +19,7 @@ do not forgive a character who would never have said that.
 
 ---
 
-## What lives in `references/`
+## What lives in `roles/`
 
 | file | open it when |
 |---|---|

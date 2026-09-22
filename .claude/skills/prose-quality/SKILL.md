@@ -18,7 +18,7 @@ nothing is pushing back.
 
 ---
 
-## What lives in `references/`
+## What lives in `roles/`
 
 | file | open it when |
 |---|---|

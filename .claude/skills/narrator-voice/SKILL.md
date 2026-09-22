@@ -17,7 +17,7 @@ parameters; this skill turns them into sentences and keeps them stable for 300 c
 
 ---
 
-## What lives in `references/`
+## What lives in `roles/`
 
 | file | open it when |
 |---|---|

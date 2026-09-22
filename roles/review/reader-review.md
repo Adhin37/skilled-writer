@@ -69,37 +69,24 @@ verdict, to check it — never before it, to form it.
 
 ## 1. Phase 1 — the blind read
 
-**Open `novels/<slug>/chapters/` and nothing else.** No `bible/`, no `state/`, no `plan/`, no
-`novel.md`, no lint output, no step reports, no brief log. If a name is unexplained, that is a
-finding, not a gap to go and fill.
+**The instrument is [`roles/review/reader-brief.md`](roles/review/reader-brief.md), and it is not
+restated here.** It holds the blind-read instruction, the seven questions R1–R7 with the way each
+one is answered wrongly, and the two rules on writing the answers — quote the page, and record
+what worked with the same weight. Hand the reader that file; do not hand it this one.
 
-**Read straight through, once, without notes.** Note-taking turns reading into auditing, and
-auditing is what every other instrument here already does. You want the thing a reader has at the
-end of a sitting: an impression, and the reasons for it.
+It was a second copy for exactly one day, which was long enough to see the shape of the problem:
+you would edit the questions *here*, because this is the file a maintainer opens, and the reader
+would go on answering the old ones. `sw health`'s duplication check compares skills and does not
+look at `roles/review/`, so nothing would have said a word.
 
-Then answer these, in order, in writing. Each is a question no script in this repo can answer.
+What belongs to you rather than to the reader:
 
-| | question | answer it wrong by |
-|---|---|---|
-| **R1** | **Name the story in one sentence you would give a friend.** Is one underway? | Naming the *premise* instead. "A man can read objects" is a premise. "A man must prove the evidence was faked before an innocent hangs, against the institution he works for" is a story. If the honest sentence has no antagonist and no move the MC has made, say so — that is the finding |
-| **R2** | **Would you read the next chapter?** One line, and the real reason | Answering as a reviewer. Answer as somebody deciding what to do with the next twenty minutes |
-| **R3** | **Tabulate every scene**: who is in it, where, what tempo | Doing it from memory. Go back and list them. Shape is invisible from inside the read and obvious in a table |
-| **R4** | **Which of the author's own moves repeats?** Across chapters, and across mouths | Listing clichés. Stock phrases are `sw lint`'s job. This is the *signature* — the move that is good once, and is a fingerprint at five |
-| **R5** | **For each named character: what would they do that nobody else in the book would?** | Accepting a label. "Blunt", "officious" and "warm" are labels. If the honest answer is a job title, the character is a function |
-| **R6** | **Can you price the threat?** Could you draw the place, name what the magic costs, say what happens if the MC loses? | Confusing named with known. A world can have forty proper nouns and no prices |
-| **R7** | **Where did the biggest thing happen** — on the page, or in a report of it? | Missing the offstage climax. Look for the turn that arrives in dialogue, in a past-perfect clause, or in somebody's recollection |
-
-Two rules on how to write the answers.
-
-**Quote the page.** Every finding carries at least one verbatim line. A finding without a quote
-cannot be re-verified once the novel is deleted, and `novels/` is gitignored.
-
-**Record what worked with the same weight.** The instrument runs negative by construction — six
-questions about failure and one about whether you would continue. A review with no positive
-findings cannot tell a working mechanism from an unexercised one, which is the same trap protocol
-§8 names for the defect log. Name the best beat in the book and say why it works.
-
----
+- **Check the answers are answers.** R1 resolving to a premise rather than a story, or R5
+  resolving to a job title, is the finding — not a gap in the read.
+- **R1 failing to resolve at all is the headline**, and it is the one result a reader tends to
+  apologise for. Take it at face value.
+- **A review with no positive finding is not a clean book**, it is an unexercised instrument.
+  Send it back rather than recording it.
 
 ## 2. Phase 2 — reconcile
 
@@ -126,34 +113,25 @@ could have caught it.
 
 ## 3. Phase 3 — the verdict
 
-**A score, 0 to 5.** It is anchored to **reader behaviour**, never to craft quality, because craft
-scores drift across genres and readers and behaviour does not.
+**The scale is in [the brief](roles/review/reader-brief.md)** — 0 to 5, anchored to reader
+behaviour rather than craft quality, because craft scores drift between genres and readers and
+behaviour does not. Half points are allowed; the band matters and the decimal does not. The
+brief also asks for the **ranked cost list** and the **three changes that would move it up one
+point**, which is the half of the output that proves the read understood the book rather than
+scored it.
 
-| | |
-|---|---|
-| **0** | would not finish chapter 1 |
-| **1** | finished chapter 1, would not continue |
-| **2** | would continue only out of obligation |
-| **3** | would read chapter 6; problems that would stop me by chapter 10 |
-| **4** | would follow the serial; what is left is taste |
-| **5** | would recommend it unprompted |
+**What the score is for, and what it is not — and this half is yours alone.** It is a run-level
+measurement, read by a human, compared across runs. It is **never** shown to a drafter, never
+written into a skill, never a ship gate, and no chapter is scored on it — `sw arc` refuses to
+score an arc for the same reason, and says so: *a scored arc is an arc the next one gets written
+toward*. If a future run's brief mentions this scale, the run is void.
 
-Half points are allowed. The band matters and the decimal does not.
+That paragraph is the reason the numbers are in the brief and this rule is not. A reader told
+what the score will be compared against is a reader scoring the comparison.
 
-**What the score is for, and what it is not.** It is a run-level measurement, read by a human,
-compared across runs #6, #7, #8. It is **never** shown to a drafter, never written into a skill,
-never a ship gate, and no chapter is scored on it — `sw arc` refuses to score an arc for the same
-reason, and says so: *a scored arc is an arc the next one gets written toward*. If a future run's
-brief mentions this scale, the run is void.
-
-Then two more things, and the second is the one that makes the review worth having.
-
-**The ranked cost list.** The findings in the order they cost the score, with the biggest first.
-Ranking is most of what a review is: `sw audit --show note` emits fifty-odd unranked notes and
-leaves the weighting to whoever reads them, which means the weighting does not happen.
-
-**The three changes that would move it up one point.** Concrete, addressed to the novel, not the
-toolkit. This is the section that proves the review understood the book rather than scored it.
+**Ranking is most of what a review is.** `sw audit --show note` emits fifty-odd unranked notes and
+leaves the weighting to whoever reads them, which means the weighting does not happen. If the
+returned list is not ordered, order it yourself before Phase 4 and say that you did.
 
 ---
 

@@ -28,7 +28,7 @@ ending the author declared.
 
 ---
 
-## What lives in `references/`
+## What lives in `roles/`
 
 | file | open it when |
 |---|---|

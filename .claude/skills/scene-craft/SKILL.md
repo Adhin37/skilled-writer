@@ -23,7 +23,7 @@ at all — rather than a line of summary — belongs to `story-craft`, and it is
 controls pacing. A passage with no want is not a scene and should be a sentence; a *turn* with no
 scene is a skipped chapter.
 
-## What lives in `references/`
+## What lives in `roles/`
 
 | file | open it when |
 |---|---|

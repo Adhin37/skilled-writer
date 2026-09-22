@@ -6,11 +6,13 @@ agent regardless of harness.
 
 ## 30-second orientation
 
-- Skills live in `.claude/skills/<name>/`. `SKILL.md` is the procedure; `references/*.md` holds
-  examples, catalogues and long tables, opened only when the body says to.
-- Two kinds of reference are load-bearing. A **draft card** makes one decision in Phase A; an
-  **audit card** checks one thing in the gate. Modules are reached through their cards, never
-  through their `SKILL.md` — the body is for designing the thing, the card for deciding it.
+- Skills live in `.claude/skills/<name>/SKILL.md` — one file each, the procedure and nothing
+  else. Everything that used to sit beside it in `references/` is now in the role trees under
+  `roles/<bucket>/<owner>.<stem>.md`.
+- Two kinds of file there are load-bearing. A **draft card** makes one decision in Phase A; an
+  **audit card** checks one thing in the gate. Which tree a role opens is stated once in
+  **[CLAUDE.md](CLAUDE.md) §3** and enforced by `role_scope.py`, so it is a fact rather than a
+  rule to keep — the body is for designing the thing, the card for deciding it.
 - Cards are short for **attention**, not for context. The budget that binds is how many rules a
   drafter holds open at once; the window is not the scarce resource, since a bounded read-set
   costs a few thousand tokens against a very large one. Length spent on a worked example is fine
@@ -25,9 +27,10 @@ agent regardless of harness.
 - **A benchmark or test run of the toolkit follows [docs/test-run-protocol.md](docs/test-run-protocol.md)**,
   read before the run starts. It binds the coordinating session — the one that never writes a file
   under `novels/` — and not the agent doing the writing, which is told not to read `docs/` at all.
-  That ban now binds `review` as well: the reader's whole procedure moved out to
-  `roles/review/reader-review.md`, so `docs/` is six maintainer files and the coordinator is the
-  only role that opens any of them. See **[CLAUDE.md](CLAUDE.md) §10**.
+  That ban now binds `review` as well: `docs/` is six maintainer files and the coordinator is
+  the only role that opens any of them. The reader gets `roles/review/reader-brief.md` and
+  nothing else — not `roles/review/reader-review.md`, which is the maintainer's procedure around
+  it. See **[CLAUDE.md](CLAUDE.md) §10**.
 
 ## The one rule that matters most
 
@@ -51,7 +54,7 @@ Afterwards: one CCS block appended to `state/continuity.md`, plus `state/threads
 `state/growth.md`, `state/timeline.md`, and `state/body.md` on a form change. A chapter written
 without this is a bug.
 
-## Three things that surprise people
+## Four things that surprise people
 
 - **The gate is not a command.** `revision-pass` is Phase C of `write-chapter` and runs on every
   chapter before anything is reported. There is no `/novel-revise`, and a chapter is never handed
@@ -75,7 +78,7 @@ without this is a bug.
 ## Before you commit a change to the toolkit
 
 ```bash
-python3 -m unittest discover tests   # 625 tests
+python3 -m unittest discover tests   # must be green before anything else
 python3 scripts/sw.py health         # wiring, scope claims, duplication, the budgets
 python3 scripts/sw.py selftest       # builds a novel in a temp dir; proves every check fires
 ```

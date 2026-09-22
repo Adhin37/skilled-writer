@@ -21,7 +21,7 @@ happened, generate a summary for them separately — do not soften the ledger.
 
 ---
 
-## What lives in `references/`
+## What lives in `roles/`
 
 | file | open it when |
 |---|---|

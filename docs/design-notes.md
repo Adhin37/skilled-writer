@@ -7,21 +7,27 @@ writing a chapter.
 
 ---
 
-## The architecture: procedure in the body, everything else in `references/`
+## The architecture: procedure in the body, everything else in the role trees
 
-Every skill is a directory:
+Every skill is one file, and everything beside it is filed by the role that opens it:
 
 ```
-.claude/skills/<name>/
-  SKILL.md                 the procedure a model executes. Short by design.
-  references/draft-card.md  the decision, for skills write-chapter consults
-  references/audit-card.md  the revision-time check, for skills revision-pass consults
-  references/<topic>.md     worked examples, failure catalogues, genre notes, long tables
+.claude/skills/<name>/SKILL.md        the procedure a model executes. Short by design.
+roles/draft/<owner>.draft-card.md     the decision, for skills write-chapter consults
+roles/gate/<owner>.audit-card.md      the revision-time check, for skills revision-pass consults
+roles/{draft,gate,shared,design}/<owner>.<topic>.md
+                                      worked examples, failure catalogues, genre notes, tables
 ```
 
 The body keeps what the skill owns, the procedure, the hard rules and the pointers. Everything
 else moves out, and each pointer states its trigger — *open this when …* — because a pointer
 without a condition is not read.
+
+**Until 2026-09-20 the second line of each of those paths read `<skill>/references/`**, and the
+bucket is the only thing that changed: the split moved files, never duplicated them, because the
+unit that moves is the card and a skill serving both phases always owned two of them. Which
+bucket a file lands in is not a judgement call — it is whichever roles reach it by citation, and
+`sw health`'s partition check recomputes that on every run.
 
 **This replaces the old self-sufficiency rule, and the reason is measured.** `CLAUDE.md` used to
 require each `SKILL.md` to need no follow-up reads. Benchmark run #1 is what that cost: of 37

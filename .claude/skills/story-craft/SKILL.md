@@ -19,7 +19,7 @@ and the one decision that controls it — whether a beat is played as a scene or
 first 100 words and the last 100". Between them sat nothing, and that gap is where a story goes
 fast to the finish line.
 
-## What lives in `references/`
+## What lives in `roles/`
 
 | file | open it when |
 |---|---|

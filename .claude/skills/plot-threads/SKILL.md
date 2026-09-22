@@ -21,7 +21,7 @@ that the story forgot its own chapter-12 mystery.
 
 ---
 
-## What lives in `references/`
+## What lives in `roles/`
 
 | file | open it when |
 |---|---|

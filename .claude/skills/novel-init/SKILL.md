@@ -21,7 +21,7 @@ than asking the user to supply anything.
 
 ---
 
-## What lives in `references/`
+## What lives in `roles/`
 
 | file | open it when |
 |---|---|

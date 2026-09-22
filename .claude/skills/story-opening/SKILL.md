@@ -32,7 +32,7 @@ ceiling and the promise ledger. After that this skill is done and `hook-and-paci
 
 ---
 
-## Sections that live in `references/`
+## Sections that live in `roles/`
 
 | § | file | open it when |
 |---|---|---|

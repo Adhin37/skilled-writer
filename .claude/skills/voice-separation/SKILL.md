@@ -26,7 +26,7 @@ One exception, and it is deliberate: copies of a person may sound like that pers
 
 ---
 
-## Sections that live in `references/`
+## Sections that live in `roles/`
 
 Section numbers are stable — other skills cite them — so the gaps below are deliberate. Open one
 when its trigger fires, not by default.

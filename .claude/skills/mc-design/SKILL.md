@@ -21,7 +21,7 @@ not start in their final form — `state/body.md`.
 
 ---
 
-## What lives in `references/`
+## What lives in `roles/`
 
 | file | open it when |
 |---|---|

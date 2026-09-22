@@ -26,7 +26,7 @@ Run on every chapter. Not optional.
 
 ---
 
-## What lives in `references/`
+## What lives in `roles/`
 
 | file | open it when |
 |---|---|

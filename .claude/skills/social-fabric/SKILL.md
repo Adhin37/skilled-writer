@@ -25,7 +25,7 @@ it can constrain a scene, be contradicted, or recur. Target **600–1,000 words*
 
 ---
 
-## What lives in `references/`
+## What lives in `roles/`
 
 | file | open it when |
 |---|---|

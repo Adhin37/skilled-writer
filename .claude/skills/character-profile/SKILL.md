@@ -18,7 +18,7 @@ that any chapter, at any point in a 400-chapter serial, produces the same person
 
 ---
 
-## What lives in `references/`
+## What lives in `roles/`
 
 Open one when its trigger fires, not by default.
 

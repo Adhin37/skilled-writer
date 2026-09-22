@@ -14,7 +14,6 @@ from .report import Report
 
 BLANK = ("", "-", "—", "–", "n/a", "tbd", "?", "none")
 MONOTONY_WINDOW = 10
-BANDS = [(2, "hopeless"), (1, "outmatched"), (0, "even"), (-1, "favoured"), (-2, "trivial")]
 
 
 def _blank(val):

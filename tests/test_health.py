@@ -14,6 +14,7 @@ import unittest
 from fixtures import REPO  # noqa: F401  (puts scripts/ on sys.path)
 
 from swlib import cmd_health, kb
+from swlib.report import Report
 
 
 def checks(rep, level="defect"):
@@ -870,6 +871,75 @@ class TestPartition(unittest.TestCase):
                         "Open this when editing the skill. See docs/design-notes.md.\n",
                         bucket="design")
             self.assertEqual(self.messages(f.run()), [])
+
+
+class TestTheReaderSplit(unittest.TestCase):
+    """The reader's brief and the maintainer's procedure must not converge.
+
+    They were one file, and splitting them is what stops a cold read arriving already knowing the
+    chapters are being measured. The failure mode is silent: edit the questions in the procedure -
+    the file a maintainer naturally opens - and the reader goes on answering the old ones. It
+    happened for a day, ten lines deep, and `_overlap` could not see it because that check
+    compares *skills* and these two files declare no owner.
+    """
+
+    BRIEF = "roles/review/reader-brief.md"
+    PROC = "roles/review/reader-review.md"
+
+    def pair(self, d, brief, proc):
+        os.makedirs(os.path.join(d, "roles", "review"))
+        for rel, text in ((self.BRIEF, brief), (self.PROC, proc)):
+            with open(os.path.join(d, rel), "w", encoding="utf-8", newline="\n") as fh:
+                fh.write(text)
+
+    def run_check(self, d):
+        rep = Report()
+        cmd_health._review_split(d, rep)
+        return [f.message for f in rep.findings if f.check == "review-split"]
+
+    def test_a_shared_long_line_is_a_defect(self):
+        with Fake() as f:
+            shared = "Name the story in one sentence you would give a friend, and say so.\n"
+            self.pair(f.dir, "# brief\n\n" + shared, "# procedure\n\n" + shared)
+            found = self.run_check(f.dir)
+            self.assertEqual(len(found), 1, found)
+            self.assertIn("verbatim in both", found[0])
+
+    def test_a_short_shared_line_is_not(self):
+        """A heading or a stock phrase is not a copied instrument, and flagging one would make
+        the check noise within a week."""
+        with Fake() as f:
+            self.pair(f.dir, "# brief\n\nRead it once.\n", "# procedure\n\nRead it once.\n")
+            self.assertEqual(self.run_check(f.dir), [])
+
+    def test_citing_instead_of_restating_is_clean(self):
+        with Fake() as f:
+            self.pair(f.dir,
+                      "# brief\n\nName the story in one sentence you would give a friend here.\n",
+                      "# procedure\n\nThe instrument is the brief and it is not restated in "
+                      "this file at all.\n")
+            self.assertEqual(self.run_check(f.dir), [])
+
+    def test_a_repo_without_the_pair_is_silent(self):
+        with Fake() as f:
+            self.assertEqual(self.run_check(f.dir), [])
+
+    def test_many_shared_lines_are_summarised_rather_than_listed(self):
+        """Twenty defects for one mistake is twenty lines nobody reads to the end of."""
+        with Fake() as f:
+            block = "".join("Shared instrument line number %d of the table here.\n" % i
+                            for i in range(9))
+            self.pair(f.dir, "# brief\n\n" + block, "# procedure\n\n" + block)
+            found = self.run_check(f.dir)
+            self.assertEqual(len(found), 4, found)
+            self.assertIn("9 lines are verbatim", found[-1])
+
+    def test_this_repo_keeps_them_apart(self):
+        rep_paths = [os.path.join(REPO, r) for r in cmd_health.REVIEW_PAIR]
+        for p in rep_paths:
+            self.assertTrue(os.path.isfile(p), p)
+        self.assertEqual(self.run_check(REPO), [])
+
 
 
 if __name__ == "__main__":

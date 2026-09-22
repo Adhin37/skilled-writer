@@ -346,7 +346,8 @@ a role tree to open, and `scripts/hooks/role_scope.py` refuses the rest.
 15. **Load what is relevant, not what fits.** Load the bounded read-set, not the whole novel.
     Never read past chapter files unless the user asks for a specific one — a `draft` rule, not
     the `review` role's, which reads all of them. Cast depth is tiered
-    the same way: a walk-on gets three strokes and one roster line, never a psychology. See §9.
+    the same way: a walk-on gets three strokes and one roster line, never a psychology
+    (`character-profile`, which owns the tiers).
     This stopped being a token rule on 2026-09-13: a bounded read-set costs a few thousand tokens
     against a window measured in hundreds of thousands, so the window is not the scarce resource it
     was when the read-set was drawn. Until 2026-09-20 this paragraph credited a compressing proxy
