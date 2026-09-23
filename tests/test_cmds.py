@@ -569,6 +569,84 @@ class TestSpeechTargetBand(unittest.TestCase):
             self.assertNotIn("speech-share", counts["checks"])
 
 
+class TestGivingLedger(unittest.TestCase):
+    """`gav>` — the reward half of conflict-engine's ledger, counted across the book.
+
+    The rule was added 2026-09-22 and arrived with rule 9's defect built in: soft per chapter,
+    counted nowhere, and therefore satisfied by a drafter who simply never names anything worth
+    keeping. These assert the aggregate exists, and that `none` is a legitimate entry rather than
+    a defect.
+    """
+
+    def _ledger(self, fx, values):
+        """One CCS block per value; a value of None omits the `gav>` line entirely."""
+        fx.add_ledger(list(range(1, len(values) + 1)))
+        with open(fx.path("state", "continuity.md"), encoding="utf-8") as fh:
+            text = fh.read()
+        for n, val in enumerate(values, start=1):
+            if val is None:
+                continue
+            text = text.replace("=C%04d= " % n, "=C%04d= " % n, 1)
+            marker = "dlv> Rin cannot get the permit"
+            idx = text.index(marker, text.index("=C%04d=" % n))
+            cut = idx + len(marker)
+            text = text[:cut] + "\ngav> " + val + text[cut:]
+        fx.write("state/continuity.md", text)
+
+    def test_a_run_of_none_is_a_finding(self):
+        from swlib import cmd_history
+        with NovelFixture() as fx:
+            for n in range(1, 6):
+                fx.add_chapter(n, BODY)
+            self._ledger(fx, ["none"] * 5)
+            rep, _data = cmd_history.run(fx.novel())
+            msgs = [f.message for f in rep.findings if f.check == "history-gives"]
+            self.assertTrue(msgs, "five chapters giving nothing back raised nothing")
+            self.assertIn("5 of 5", msgs[0])
+
+    def test_a_book_that_gives_raises_nothing(self):
+        from swlib import cmd_history
+        with NovelFixture() as fx:
+            for n in range(1, 6):
+                fx.add_chapter(n, BODY)
+            self._ledger(fx, ["Noor walks her home and lets her say none of it"] * 5)
+            rep, _data = cmd_history.run(fx.novel())
+            self.assertEqual([f.check for f in rep.findings if f.check == "history-gives"], [])
+
+    def test_a_book_without_the_line_is_silent(self):
+        """`tone.warmth: cold`, or a novel written before the line existed."""
+        from swlib import cmd_history
+        with NovelFixture() as fx:
+            for n in range(1, 6):
+                fx.add_chapter(n, BODY)
+            self._ledger(fx, [None] * 5)
+            rep, _data = cmd_history.run(fx.novel())
+            self.assertEqual([f.check for f in rep.findings if f.check == "history-gives"], [])
+
+    def test_the_recent_run_reaches_the_next_brief(self):
+        from swlib import cmd_readset
+        with NovelFixture() as fx:
+            for n in range(1, 6):
+                fx.add_chapter(n, BODY)
+            self._ledger(fx, ["none", "none", "none", "none", "none"])
+            rows, nones = cmd_readset.gav_row(fx.novel(), 6)
+            self.assertEqual(nones, 5)
+            self.assertEqual(len(rows), 5)
+            text = cmd_readset.build(fx.novel(), 6)
+            self.assertIn("gav>", text)
+            self.assertIn("gave nothing back", text)
+
+    def test_it_is_never_a_defect(self):
+        from swlib import cmd_history
+        with NovelFixture() as fx:
+            for n in range(1, 6):
+                fx.add_chapter(n, BODY)
+            self._ledger(fx, ["none"] * 5)
+            rep, _data = cmd_history.run(fx.novel())
+            self.assertEqual([f.level for f in rep.findings if f.check == "history-gives"],
+                             ["warn"])
+
+
 class TestHabitNotes(unittest.TestCase):
     """The note tier reaches the two cross-chapter detectors, and never reaches a chapter.
 

@@ -15,10 +15,10 @@ report. You do not write the chapter yourself, and during a test run you write n
 the report — the phases and the gate are unchanged, only the isolation is lost.
 
 **Drafting is three phases, and this command runs all three.** Phase A (step 1) produces a
-twelve-line brief — the event, the temperature, the hook shape, the scenes, the cost, who speaks —
+thirteen-line brief — the event, the temperature, the hook shape, the scenes, the cost, who speaks —
 and then **stops and shows it to the user**. Phase B drafts only after they approve it or change
 it; that is the cheapest gate in the toolkit, because a chapter that was going to be a thousand
-words of somebody quietly feeling something gets caught for twelve lines instead of after the
+words of somebody quietly feeling something gets caught for thirteen lines instead of after the
 draft. The brief comes back to you for that approval. Phase C (step 4) runs `revision-pass` on
 what came out, in the `gate` agent — a context that has not watched the chapter being written.
 

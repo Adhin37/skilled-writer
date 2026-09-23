@@ -42,7 +42,7 @@ prefer `Bash` for reading files, that instruction does not apply to `roles/`, `.
    fetch it from its source and **name that in the report** — a drafter guessing at a field is
    worse than one that opened the file.
 2. **Phase A — the brief. Stop here.** Twelve lines, written to `state/brief.md`, and you wait for
-   approval. This is the cheap place for the answer "that is not a chapter": twelve lines rather
+   approval. This is the cheap place for the answer "that is not a chapter": thirteen lines rather
    than twelve hundred words.
 3. **Phase B — the prose.** Straight through, no self-editing. Phase C is a different context and
    it is better at reading this than you are.
@@ -120,17 +120,17 @@ novel-init -> mc-design -> lead-interest -> character-profile -----------+
         |                     |                         [9c: foreknowledge]  [9e: the curve]
         |                     v
         +-- continuity-summary (write) -- gate> ---> the next brief's GATE block
-                                          + cand> z4>   + WATCH: readset re-lints the last 5
+                                          + cand> z4> gav>  + WATCH: re-lints the last 5
 ```
 
 `write-chapter` is the main loop and the only skill that produces prose. Three orderings are
 load-bearing. `title-craft` before the scaffold, because the slug comes from the title and is
 permanent. Minds → knowledge → lines in the character layer, because eight fingerprint fields
 painted onto minds that all reason at the MC's speed produce a cast of labelled clones. And
-**brief before draft**: Phase A spends the draft cards and produces a twelve-line brief, Phase B
+**brief before draft**: Phase A spends the draft cards and produces a thirteen-line brief, Phase B
 drafts from that brief and four cards. Nineteen cards held open through a draft is what produces
 defensive, eventless prose, and the brief is also where the user gets to say "that is not a
-chapter" for twelve lines instead of after twelve hundred words.
+chapter" for thirteen lines instead of after twelve hundred words.
 
 **The gate is Phase C, not a command.** `revision-pass` runs inside `write-chapter`, every chapter,
 before anything is reported — there is no `/novel-revise` and a chapter is never handed back at
@@ -506,13 +506,20 @@ measured fact that later tools read, never a target.
 
 One CCS block per chapter, appended in order and never rewritten to be tidier — `sw state`
 checks the sequence, because a block in the wrong place is a chapter that happened at the wrong
-time. `roles/shared/continuity-summary.block-format.md` is the line reference. Two of those lines
+time. `roles/shared/continuity-summary.block-format.md` is the line reference. Three of those lines
 exist to make a step falsifiable rather than to carry story state: **`cand>`** records the
-candidates Phase A did not take and why the taken one won, and **`z4>`** records Pass Z4's answer
-— the thing here a competent hack would not have written — or the literal `none`. Both are the
+candidates Phase A did not take and why the taken one won, **`z4>`** records Pass Z4's answer
+— the thing here a competent hack would not have written — and **`gav>`** records what in this
+chapter was worth the price. Each may be the literal `none`. All three are the
 only place their step leaves a trace once the chapter is done — the brief itself is a scratch
-file, written to `state/brief.md` at Phase A and overwritten by the next chapter's. `none` is a legitimate `z4>` entry and counting it is the point: one is a chapter,
+file, written to `state/brief.md` at Phase A and overwritten by the next chapter's. `none` is a legitimate entry and counting it is the point: one is a chapter,
 a run of them is a habit, and `sw history` counts them.
+**`gav>` exists because the rule it records would otherwise be satisfied by silence.** The cost
+half of the ledger has been enforced since this toolkit existed; the giving half was added
+2026-09-22 and arrived with rule 9's defect built in — a drafter who names nothing worth keeping
+never contradicts the rule, exactly as the one who never mentions the body never contradicts the
+form ledger. The line, the `gives` line in the brief it copies from, and `sw history`'s count are
+the aggregate that rule 7's corollary requires. Omitted entirely at `tone.warmth: cold`.
 
 `plan/chapters.md` carries `temp` and `hooktype` per row — the register ledger, decided at plan
 time and checked distributionally by `sw arc` (`hook-and-pacing`).

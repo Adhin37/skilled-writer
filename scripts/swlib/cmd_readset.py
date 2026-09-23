@@ -364,6 +364,28 @@ def watch_row(novel, number):
     return row, notes
 
 
+def gav_row(novel, number):
+    """What the recent chapters named as worth the price, and how many said `none`.
+
+    The reward half of `conflict-engine`'s ledger. It is in front of the drafter for the same
+    reason the `z4>` answers are: the rule is soft per chapter, so the only place it can be seen
+    failing is across five of them. `none` is a legitimate entry and a run of them is the finding.
+    Never a score - an honest `none` is worth more than a generous-sounding line.
+    """
+    lo = max(1, number - WATCH_WINDOW)
+    out, nones = [], 0
+    for b in novel.blocks():
+        if b.number is None or not (lo <= b.number <= number - 1):
+            continue
+        if not b.has("gav"):
+            continue
+        val = b.get("gav").strip()
+        if val.lower() == "none":
+            nones += 1
+        out.append("c%d %s" % (b.number, val))
+    return out, nones
+
+
 def z4_row(novel, number):
     """Pass Z4's recent answers, and how many of them were `none`.
 
@@ -410,7 +432,8 @@ def build(novel, number, chars=None, locs=None, want_society=False):
     stale = novel.ungated_chapters(below=number)
     row, notes = watch_row(novel, number)
     z4s, z4_nones = z4_row(novel, number)
-    if stale or row or notes or z4s:
+    gavs, gav_nones = gav_row(novel, number)
+    if stale or row or notes or z4s or gavs:
         add("\n## GATE (write-chapter phase C - what it left behind)")
     if stale:
         add("DEFECT ch %d is `status: %s` - the phase C gate never ran on it%s."
@@ -434,6 +457,14 @@ def build(novel, number, chars=None, locs=None, want_society=False):
             add("       %d of the last %d answered `none`. Pass Z4's repair is in phase A's"
                 % (z4_nones, len(z4s)))
             add("       three candidates, not in the prose - widen before drafting, not after.")
+    if gavs:
+        add("gav>   " + "\n       ".join(gavs))
+        if gav_nones >= 2:
+            add("       %d of the last %d gave nothing back. The cost has had nothing to be"
+                % (gav_nones, len(gavs)))
+            add("       measured against for %d chapters - name one thing worth the price in"
+                % gav_nones)
+            add("       phase A, small and unearned (conflict-engine, what the chapter gives).")
 
     bnum, btext = novel.brief()
     if bnum == number and btext:

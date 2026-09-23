@@ -36,7 +36,7 @@ never supplies them, because they are what the run is measuring.
 | the agent invents | the coordinator supplies |
 |---|---|
 | every name — characters, places, factions, the title, and therefore the slug | the one-line seed, in the user's genre |
-| the power system, the ladder, the cast, the arc plan, the chapter list | interview answers that are author taste: tone, cadence, rating, the ending contract, the non-negotiables |
+| the power system, the ladder, the cast, the arc plan, the chapter list | interview answers that are author taste: tone (**both** Round D answers — `tone.register` and `tone.warmth`, which are recorded and which the run must state), cadence, rating, the ending contract, the non-negotiables |
 | every craft decision inside a chapter | approval of the Phase A brief |
 
 Parameters the user did not name and the agent should not invent — harness shape, model, proxy

@@ -49,7 +49,7 @@ is cheap, and skipping one is what produces the drift that ruins long serials.
 Phase A spends the cards below and produces **one brief**; Phase B drafts from that brief and four
 cards, nothing else. Why it is split this way: `roles/draft/write-chapter.card-index.md`.
 
-The brief is twelve lines — thirteen when the read-set printed a WATCH row.
+The brief is thirteen lines — fourteen when the read-set printed a WATCH row.
 
 ```
 Ch 12 — "The Second Quarter"
@@ -58,6 +58,7 @@ temp     loud          hooktype  decision
 scene 1  (~35%) goal / obstacle / turn
 scene 2  (~55%) goal / obstacle / turn   <- the event happens HERE, longest scene
 cost     she loses the apprenticeship, and Maro will not look at her
+gives    Noor walks her home the long way and lets her say none of it
 speakers Wren, Hesk, Maro   (Hesk differs from Wren on intel + articulacy)
 world    the levy office charges for its own paperwork
 asks     Wren does not know what a counter-claim costs; she has to ask Noor
@@ -74,7 +75,7 @@ instead of remembering it.
 
 **Then stop and show it to the user.** They approve it, change a line, or throw it out — the
 cheapest gate in the toolkit, because a chapter that was going to be a thousand words of somebody
-quietly feeling something gets caught for twelve lines instead of after the draft. Skip the stop
+quietly feeling something gets caught for thirteen lines instead of after the draft. Skip the stop
 only if told to (`/novel-write --no-confirm`, or "just write the next five"): Phase A still
 happens, you simply do not wait.
 
@@ -92,6 +93,10 @@ decisions.
    retell. It is already in the plan row — check it is a real one rather than an abstract-state
    noun, which `sw lint` rejects outright. **And the event gets the scene**: if the biggest thing
    that happens is not the longest scene, the chapter is not ready.
+The **`gives` line** is the other half of `cost` — the one thing here worth the price, or `none`
+(`conflict-engine` §What the chapter gives back). It carries into the block as `gav>`, where a run
+of `none` is the finding. Omit both at `tone.warmth: cold`.
+
 2. **The cost.** If it is empty, go back to `conflict-engine`. A chapter where the POV character
    only gains is filler regardless of how much happens in it.
 

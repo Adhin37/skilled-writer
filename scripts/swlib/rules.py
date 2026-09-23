@@ -321,11 +321,13 @@ SECTION_LOOKUPS = [
 
 REQUIRED_CCS = ["dlv", "ev", "chg", "kno", "thr", "obj", "hook"]
 
-# Raised 15 -> 17 when `cand>` and `z4>` arrived. Every block of the heaviest live novel sat at
-# exactly 15, so the two new lines needed the room. The cap exists to keep a block compressed
-# enough that five of them are cheap in a read-set, and it still does: a full block is header
-# plus at most sixteen keys, and most chapters write far fewer.
-CCS_MAX_LINES = 17
+# Raised 15 -> 17 when `cand>` and `z4>` arrived, then 17 -> 18 on 2026-09-22 when `gav>` did.
+# Each time for the same reason: the heaviest block sat at exactly the old cap, so a chapter that
+# wrote every optional line AND a `gate>` line tipped over it and was reported as bloated for
+# doing its job. The cap exists to keep a block compressed enough that five of them are cheap in
+# a read-set, and it still does: a full block is header plus at most seventeen keys, and most
+# chapters write far fewer.
+CCS_MAX_LINES = 18
 THOUGHT_FLOOR = 1               # ...and a floor, because only the ceiling was ever checked
 THOUGHT_BUDGET = 3
 SPEECH_FLOOR = 10.0

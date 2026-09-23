@@ -151,15 +151,15 @@ Then, per chapter:
 /novel-write          # brief -> draft -> gate, and all the state written back
 ```
 
-One command, three phases. It stops after the **brief** — twelve lines naming the event, the
-scenes, the cost and who speaks — so you can throw a chapter out for twelve lines instead of
+One command, three phases. It stops after the **brief** — thirteen lines naming the event, the
+scenes, the cost and who speaks — so you can throw a chapter out for thirteen lines instead of
 after twelve hundred words. Then it drafts, then it runs the full QC gate (prose, continuity,
 bias, MTL artifacts, delivery) **before** it reports anything.
 
 ```mermaid
 flowchart LR
     RS[["sw readset -c N<br>the bounded read-set,<br>plus the GATE block"]]
-    RS --> PA["Phase A · the brief<br>three candidates,<br>twelve lines"]
+    RS --> PA["Phase A · the brief<br>three candidates,<br>thirteen lines"]
     PA --> U{"the user<br>reads it"}
     U -- "not a chapter" --> PA
     U -- "approved" --> PB["Phase B · the draft<br>the brief and four cards,<br>nothing else held open"]

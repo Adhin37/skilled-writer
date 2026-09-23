@@ -84,6 +84,7 @@ def run(novel):
             "z4": (block.get("z4").strip() if block is not None and block.has("z4") else ""),
             "cand": (block.get("cand").strip() if block is not None and block.has("cand")
                      else ""),
+            "gav": (block.get("gav").strip() if block is not None and block.has("gav") else ""),
             "defects": defects["defect"],
             "warnings": defects["warn"],
             "checks": defects["checks"],
@@ -98,6 +99,7 @@ def run(novel):
     _length(rep, rows)
     _defects(rep, rows)
     _widening(rep, rows)
+    _giving(rep, rows)
     _threads(novel, rep, rows, data)
     _curve(novel, rep, data)
     _cadence(rep, rows, data)
@@ -277,6 +279,43 @@ def _widening(rep, rows):
                  "Pass Z4 answered `none` on %d of %d answered chapter(s) - that is a habit, "
                  "and the repair is in Phase A's candidates rather than in the prose"
                  % (len(none_rows), len(answered)))
+
+
+def _giving(rep, rows):
+    """The reward half of the ledger, counted across the book.
+
+    `conflict-engine` owns both halves: every chapter takes something, and every chapter names one
+    thing worth the price. The taking half has been enforced since the toolkit existed. The giving
+    half was added 2026-09-22 and arrived with the defect this repo has documented twice - a rule
+    that is soft per instance and counted nowhere is satisfied by silence (`CLAUDE.md` section 4
+    rule 7 corollary, and rule 9's, which is the form ledger going five chapters unmentioned with
+    every check green).
+
+    So `gav> none` is legitimate and counted, exactly as `z4> none` is. One chapter that gives
+    nothing back is a chapter. A run of them is the book run #5 shipped at zero defects and a cold
+    reader scored 3/5. Reports only; nothing ships or fails on it.
+    """
+    blocked = [r for r in rows if r["has_block"]]
+    if not blocked:
+        return
+    named = [r for r in blocked if r["gav"]]
+    if not named:
+        return          # `tone.warmth: cold`, or a book written before the line existed
+    none_rows = [r["number"] for r in named if r["gav"].strip().lower() == "none"]
+    gave = len(named) - len(none_rows)
+
+    lines = ["   %-22s %d of %d block(s)" % ("named something kept", gave, len(blocked))]
+    if none_rows:
+        lines.append("   %-22s %s" % ("...of which `none`", _runs(none_rows)))
+    lines.append("   What the cost was measured against. Printed, never scored - a `gav>` line")
+    lines.append("   written to look generous is worth less than an honest `none`.")
+    rep.info("giving", lines)
+
+    if len(named) >= 5 and len(none_rows) >= max(3, int(len(named) * 0.6)):
+        rep.warn("history-gives",
+                 "%d of %d chapter(s) gave nothing back - a book that only takes is an instalment "
+                 "plan on a thing the reader has never been shown, and it reads as one long before "
+                 "a reader can name why" % (len(none_rows), len(named)))
 
 
 def _threads(novel, rep, rows, data):

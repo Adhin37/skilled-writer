@@ -18,6 +18,7 @@ One block per chapter. Fixed key order. Lowercase keys, `>` separator, ` / ` bet
 ```
 =C0042= pov:Rin | loc:Ashfall Market>Guild undercroft | t:D12 dusk | wc:1840 | arc:2
 dlv> Rin can no longer use the Guild archive, and knows who closed it to him
+gav> Ferran shares the coat without being asked, and says nothing about it after
 ev> buys forged map / spots guild seal is a fake / tails the forger / hides in undercroft
 chg> Rin: wary->suspicious(Guild) ; Ferran: admits debt, -2 trust w/Rin
 pwr> P=+1 vs the Warden's man (T4 vs Rin T3) survived, ribs / Echo-step x2 (nosebleed, 6h lock) / limit shown: fails indoors
@@ -40,6 +41,7 @@ open> who paid the forger / why the Guild tolerates it
 |---|---|---|
 | `=CNNNN=` | header: chapter no, `pov`, `loc` (`>` for movement), `t` in-world time, `wc` (a measured fact, never a target), `arc` | yes |
 | `dlv>` | **what is materially different at the end.** One clause, a difference and not a summary of events. Mirrors the chapter's `delivers:` frontmatter and is what `revision-pass` Pass 9 gated on | yes |
+| `gav>` | **what was worth the price** — the one thing in the chapter a reader would want kept, in a clause they could point at, or the literal `none`. The other half of `dlv>`: `dlv>` is what changed, this is what made the change cost something. `none` is a legitimate entry and counting it is the point — one chapter that gives nothing is a chapter, a run of them is a book nobody finishes, and `sw history` counts them. Omit entirely at `tone.warmth: cold` | no |
 | `ev>` | events, in order, as verb phrases. Max 6. Only what changed the situation. | yes |
 | `chg>` | per-character state change: emotional, positional, relational. `->` for transitions, `±n` for trust/standing deltas | yes |
 | `pwr>` | **`P=±n` first**, with both tiers and the outcome, then abilities used, cost paid, limits demonstrated. The `P` value must match `state/power.md` §3 for this chapter — `sw curve` compares them. Omit only if `scaling.shape` is `none`; a chapter with no confrontation still records the abilities it spent | conditional |
