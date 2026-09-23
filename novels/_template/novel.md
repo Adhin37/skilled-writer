@@ -114,6 +114,18 @@ scaling:
   trivial_per_arc: 2      # max confrontations at P <= -2 per arc
   boost_debt_due: 5       # chapters a boost's debt may go unpaid
 
+# ── MATERIAL PRESSURE ────────────────────────────────────────────────────────
+# What not having enough costs the MC, and when it stops being the problem. The second
+# curve in the book, and it runs the opposite way to scaling above: the MC climbs, and
+# money stops deciding things. Owned by social-fabric. The prices themselves live in
+# bible/society.md §Prices — this is only the MC's position on them and its shape.
+# shape: none turns it all off.
+means:
+  start: scraping         # destitute | scraping | getting-by | comfortable | never-an-issue
+  shape: fades            # fades | flat | inverts | none
+  background_by_arc: 2    # the arc after which money is texture rather than a problem the
+                          # MC solves on the page. null when shape is flat or none.
+
 # ── ROMANCE ──────────────────────────────────────────────────────────────────
 # Filled by lead-interest, AFTER mc-design. Governed by content.romance below.
 romance:

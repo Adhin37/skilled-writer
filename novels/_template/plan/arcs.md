@@ -36,6 +36,10 @@ their own seat. If you cannot argue their case in two sentences, the arc is not 
 gain and where it lands. Copy this into `state/power.md` §6. The ladder above escalates the
 *stake*; this is the *distance*, and the two move independently (`power-scaling` §1).
 
+**Material pressure.** What money can still stop the MC doing this arc — or `—` once past
+`means.background_by_arc`, which is the normal answer late in a book. The second curve, and
+the one designed to close (`social-fabric` §7).
+
 **Midpoint reversal.** The chapter where the MC's understanding of the problem is proven wrong.
 
 **Cost.** What the MC permanently loses. Not "almost loses." Required.

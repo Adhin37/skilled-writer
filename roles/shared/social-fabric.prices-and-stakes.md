@@ -78,8 +78,62 @@ Almost none of this is narrated. It arrives as:
 - **An argument about a small sum**, which is how readers learn what a small sum is.
 - **What somebody does for money** that they would rather not (`character-profile`).
 
-One priced detail per chapter is plenty. The table exists so that the one is consistent with the
-last forty, not so that the reader learns the currency.
+One priced detail per chapter is plenty, and fewer as the book goes on — see §The curve. The
+table exists so that the one is consistent with the last forty, not so that the reader learns
+the currency.
+
+## The curve — money stops deciding things
+
+`means.shape: fades` is the default because it is what the genre does. A protagonist who begins
+with nothing is blocked by prices constantly in the first arc and barely notices them by the
+fifth, and the part worth getting right is that **the prices did not move** — the rule above
+forbids that. What moved is the MC.
+
+So `means.background_by_arc` does not change how often money appears. It changes what money is
+allowed to *do*:
+
+| where | what a price may do | on the page |
+|---|---|---|
+| before the arc named | stop the MC getting what they want | she counted it twice and walked past the door anyway |
+| after it | cost them something they no longer feel | she paid the man at the door without looking at her hand |
+
+The coin has not left the book. It has stopped being the obstacle, and the obstacle has moved up
+the ladder `conflict-engine` owns — what the MC stands to lose is no longer a thing they own. A
+chapter still solving its problem with a purse late in the book owes the reader a climb it never
+wrote.
+
+`flat` is a real answer for a story about staying poor, `inverts` for one where the MC acquires
+enough to be ruined by it, and `none` for a book in which nobody ever counts.
+
+## When money eats the book
+
+The opposite failure, and the likelier one once a writer has been told that money matters. Four
+signatures:
+
+- **Every scene is a transaction.** Somebody buys, sells, haggles or is charged in all of them.
+- **The arc's goal is a number going up.** A target sum is a quest marker wearing a stake's coat.
+- **The narrator converts.** Everything gets valued, including what nobody present would price.
+- **A win is reported as a balance.** The chapter ends richer and that is the news.
+
+Said in the positive, which is the useful direction: **money is what stops a scene, not what
+drives one.** Someone who wants the thing and cannot pay is a scene. Someone who wants money is an
+errand.
+
+Unless the book is about the errand. A merchant story, a heist, a debt-bondage plot — there the
+acquiring *is* the plot, and everything above describes the genre rather than a defect in it.
+
+## Who understands money
+
+Financial sense is a domain like any other and belongs in the grid at `bible/cast/_competence.md`,
+declared with an edge, and absent where the character does not have it — `competence-map` owns
+that grid and the rule that an omission is not a blank cheque. Give the MC a row. An MC who prices
+everything correctly in a world they reached last week has been handed a competence nobody sold
+them.
+
+The viewpoint half is already an axis. `_voices.md` records a `thought unit` per POV character and
+`money` is one of its values (`voice-separation`). A narrator who thinks in prices reaches for
+what a thing cost; one who does not will describe the same object and never raise it. That one
+field does more than a paragraph about where they grew up.
 
 ## When the central rule is the economy
 

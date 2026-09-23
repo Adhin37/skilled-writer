@@ -304,6 +304,7 @@ REQUIRED_FRONTMATTER = ["number", "title", "pov", "arc", "event", "delivers", "w
 # continuity-summary: CCS lines that are required on every block.
 # Every section a parser slices out by heading text. A renamed heading drops it silently.
 SECTION_LOOKUPS = [
+    (("bible", "society.md"),           "Prices"),
     (("bible", "cast", "_voices.md"),    "POV THOUGHT"),
     (("bible", "cast", "_voices.md"),    "MIRROR"),
     (("plan", "timeline.md"),            "SCHEDULED FOR THIS ARC"),

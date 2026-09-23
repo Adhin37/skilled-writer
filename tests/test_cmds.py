@@ -191,6 +191,67 @@ class TestReadsetModules(unittest.TestCase):
 
 
 
+class TestReadsetPrices(unittest.TestCase):
+    """The anchor wage reaches the drafter every chapter, or a sum on the page prices nothing.
+
+    The material was complete in `bible/society.md` and unreachable: the whole file arrives only
+    behind `--society`, and no draft card or audit card cited the prices reference either. So a
+    drafter writing a scene about money had never seen what a day's work is worth. The slice is
+    the fix; `means.shape: none` is the way off it.
+    """
+
+    HEADING = "## 13b. PRICES"
+
+    def tail(self, out):
+        return out[out.index(self.HEADING):].split("## NOT LOADED", 1)[0]
+
+    def test_the_prices_reach_the_read_set_by_default(self):
+        """Default, not opt-in - `means:` is absent from the fixture and it still fires."""
+        with NovelFixture() as fx:
+            fx.add_chapter(1, BODY)
+            code, out, _err = run("readset", fx.root, "-c", "1")
+            self.assertEqual(code, 0)
+            self.assertIn(self.HEADING, out)
+            self.assertIn("Anchor", self.tail(out))
+
+    def test_means_shape_none_turns_it_off(self):
+        with NovelFixture(novel_md=NOVEL_MD.replace(
+                "tone:\n", "means:\n  shape: none\n\ntone:\n", 1)) as fx:
+            fx.add_chapter(1, BODY)
+            code, out, _err = run("readset", fx.root, "-c", "1")
+            self.assertEqual(code, 0)
+            self.assertNotIn(self.HEADING, out)
+
+    def test_the_full_society_dump_carries_it_instead_of_twice(self):
+        """--society already contains the prices; sending both wastes the read-set."""
+        with NovelFixture() as fx:
+            fx.add_chapter(1, BODY)
+            code, out, _err = run("readset", fx.root, "-c", "1", "--society")
+            self.assertEqual(code, 0)
+            self.assertNotIn(self.HEADING, out)
+            self.assertIn("## 14. SOCIETY", out)
+
+    def test_the_not_loaded_note_tracks_whether_the_prices_were_sent(self):
+        """The note and the body must agree, both ways round.
+
+        It said `beyond the prices above` unconditionally at first, which is a lie to the drafter
+        on a novel that switched the prices off - and the drafter is told not to re-open what the
+        note says it already has.
+        """
+        with NovelFixture() as fx:
+            fx.add_chapter(1, BODY)
+            _code, out, _err = run("readset", fx.root, "-c", "1")
+            self.assertIn("bible/society.md beyond the prices above",
+                          out.split("## NOT LOADED", 1)[1])
+        with NovelFixture(novel_md=NOVEL_MD.replace(
+                "tone:\n", "means:\n  shape: none\n\ntone:\n", 1)) as fx:
+            fx.add_chapter(1, BODY)
+            _code, out, _err = run("readset", fx.root, "-c", "1")
+            note = out.split("## NOT LOADED", 1)[1]
+            self.assertIn("bible/society.md - pass --society", note)
+            self.assertNotIn("beyond the prices above", note)
+
+
 class TestReadsetCharacterMatching(unittest.TestCase):
     """Short names in the ledger must still find full names in the tables.
 

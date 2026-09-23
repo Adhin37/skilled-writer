@@ -627,6 +627,13 @@ def build(novel, number, chars=None, locs=None, want_society=False):
                  if r.first().strip().lower() in [l.lower() for l in locations]]
         add(_table_block(novel.location_rows()[0]._headers, lrows) or "(none matched)")
 
+    # The anchor wage and the six prices, every chapter. Without them a drafter writes "two
+    # silver", which prices nothing for a reader and cannot be consistent with the last forty
+    # chapters. Skipped when --society already carries the whole file.
+    if novel.has_means and not want_society:
+        add("\n## 13b. PRICES (bible/society.md - the anchor wage, and what things cost)")
+        add(mdio.section(novel._text("bible", "society.md"), "Prices") or "(missing)")
+
     if want_society:
         add("\n## 14. SOCIETY")
         add(novel._text("bible", "society.md").strip())
@@ -651,7 +658,8 @@ def build(novel, number, chars=None, locs=None, want_society=False):
         "every chapter file - never read past prose unless the user asks for a specific one",
     ]
     if not want_society:
-        missing.insert(1, "bible/society.md - pass --society if the chapter turns on a social rule")
+        missing.insert(1, "bible/society.md%s - pass --society if the chapter turns on a "
+                       "social rule" % (" beyond the prices above" if novel.has_means else ""))
     if novel.has_foreknowledge:
         missing.append("state/foreknowledge.md sections 4-6 (observer paradox, arc, who suspects)")
     if novel.has_scaling:

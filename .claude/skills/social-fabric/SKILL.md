@@ -7,7 +7,7 @@ metadata:
   force: structural
   when: always
   role: [design]
-  owns: [society-layer, rule-propagation]
+  owns: [society-layer, rule-propagation, means-curve]
 ---
 
 # social-fabric
@@ -31,7 +31,7 @@ it can constrain a scene, be contradicted, or recur. Target **600–1,000 words*
 |---|---|
 | `roles/design/social-fabric.genre-notes.md` | the society layer is built and has to reach a chapter, or you want the notes on how the six questions land in fantasy, scifi and fanfic |
 | `roles/design/social-fabric.gendered-experience.md` | building the society layer, or the cast's men and women move through the world identically and read as one another with different names |
-| `roles/shared/social-fabric.prices-and-stakes.md` | a scene turns on what something costs, the MC gains or loses money, or the arc's financial stakes keep coming out vague — the anchor wage, the six prices, and debt as a deadline |
+| `roles/shared/social-fabric.prices-and-stakes.md` | a scene turns on what something costs, the MC gains or loses money, or the arc's financial stakes keep coming out vague — the anchor wage, the six prices, debt as a deadline, and where the curve in §7 has got to |
 | `roles/design/social-fabric.belief-and-ritual.md` | the story enters a temple, a funeral, a wedding, an oath, a festival or a taboo — or question 5 is answered and has reached no scene |
 
 ## 1. The six load-bearing questions
@@ -146,6 +146,26 @@ the single most important rule, and the social layer arc 1 actually enters. Noth
 **Never** write the layers the story will not enter. A novel set entirely in one city does not
 need its neighbours' inheritance law.
 
+## 7. The material curve
+
+Question 2 asks what wealth is made of. This asks **how long it keeps deciding things**, and the
+answer is usually *not for the whole book*. A protagonist who starts with nothing is pressed hard
+by prices early and stops being pressed by them as they rise — not because the prices changed, but
+because the MC did. Three fields in `novel.md` carry it:
+
+| field | what it sets |
+|---|---|
+| `means.start` | where the MC stands against the anchor wage at chapter 1 |
+| `means.shape` | `fades` · `flat` · `inverts` · `none`. `none` deletes the whole concern |
+| `means.background_by_arc` | the arc after which money is texture, not a problem solved on the page |
+
+**It runs opposite to the other curve.** `power-scaling` holds the distance between the MC and the
+opposition open; this one is designed to close. When it closes, the pressure does not vanish — it
+moves up the ladder `conflict-engine` owns, and what the MC can lose stops being a thing they own.
+A book where money still decides the outcome in arc 5 has an MC who never climbed.
+
+Set the three fields at init and let `roles/shared/social-fabric.prices-and-stakes.md` spend them.
+
 ## Self-check
 
 - [ ] Six questions answered, none longer than two sentences
@@ -157,5 +177,6 @@ need its neighbours' inheritance law.
 - [ ] Information speed is explicit
 - [ ] Nothing is symmetrical; somebody is losing
 - [ ] No culture uniform, essentialised, or mapped onto a real-world group (`bias-guard`)
+- [ ] `means.start`, `means.shape` and `means.background_by_arc` are set, and the curve closes
 - [ ] Nothing in this file has been dumped into a chapter as exposition
 - [ ] Under 1,000 words, and every entry could be contradicted by a scene

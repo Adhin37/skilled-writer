@@ -155,6 +155,20 @@ class Novel(object):
     def has_scaling(self):
         return self.scaling_shape != "none"
 
+    @property
+    def means_shape(self):
+        """fades | flat | inverts | none. Default fades - the shape the genre actually has.
+
+        Absent means fades rather than none, so a novel scaffolded before `means:` existed still
+        gets its prices in the read-set. Turning it off is a decision somebody writes down.
+        """
+        s = str(self.get("means.shape", "fades") or "fades").strip().lower()
+        return s if s in ("fades", "flat", "inverts", "none") else "fades"
+
+    @property
+    def has_means(self):
+        return self.means_shape != "none"
+
     def scaling_int(self, key, default):
         n = self.get("scaling.%s" % key, default)
         return n if isinstance(n, int) else default

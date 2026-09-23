@@ -749,6 +749,24 @@ paper and unusually hard to buy.
 Debt is denominated in fathoms of harbour draw. Because the ledger is public, credit in Ashfall
 is a matter of who has been seen to pay, not of who has coin.
 
+## Prices
+
+**Anchor:** a dock labourer earns 6 pence a day. 40 pence = 1 mark; 12 marks = 1 fathom of draw.
+
+**The MC's position:** scraping (`means.start`). What she cannot afford in arc 1: the counter-claim
+fee. Money stops being a problem she solves on the page after arc 2 (`means.background_by_arc`).
+
+| thing | days of work | notes |
+|---|---|---|
+| a day's food | 0.4 | bread and whatever the boats did not sell |
+| a night's lodging | 1 | a bed above the ropewalk |
+| the tool of the MC's trade | 45 | a saltwright's own cutting set, not the guild's |
+| a month's rent or its equivalent | 15 | one room, the lower row |
+| the cheapest thing from the power system | 10 | a private reading of the stone, off the docket |
+| a bribe that works | 120+ | to have a draw cut at the wrong depth and left there |
+
+Prices are stable. If one moves, somebody caused it and somebody profits.
+
 ## Law
 
 The quarter session hears counter-claims. Between the lodging and the hearing the claim stands,

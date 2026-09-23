@@ -455,7 +455,8 @@ novels/<slug>/
     world.md            setting, locations + sensory signatures, distances in days, factions,
                         rules of the world
     society.md          labour, money, law, knowledge, belief, mobility; rule propagation;
-                        the anchor wage and six prices; the oath and the two taboos
+                        the anchor wage and six prices, and the MC's position against them;
+                        the oath and the two taboos
     power-system.md     (genre module) hard rules, costs, progression
     canon.md            (fanfic) canon facts, divergence point, OOC budget
     lexicon.md          spellings, names, terms, honorifics, units

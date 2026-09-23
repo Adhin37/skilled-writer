@@ -36,6 +36,9 @@ Fill these once; do not grow the table. See `roles/shared/social-fabric.prices-a
 | the cheapest thing from the power system | | |
 | a bribe that works | | |
 
+**The MC's position:** ___ (`means.start`). What they cannot afford in arc 1: ___.
+Money stops being a problem they solve on the page after arc ___ (`means.background_by_arc`).
+
 Prices are stable. If one moves, somebody caused it and somebody profits — that is a plot event,
 and it is logged like any other.
 

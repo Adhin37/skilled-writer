@@ -58,6 +58,7 @@ smaller: a module that is off for this book costs nothing.
 | Labour, money, law, knowledge, belief, mobility | `social-fabric` | body §1 | — | design |
 | Propagating the central rule into ordinary life | `social-fabric` | body §2 | — | design |
 | **Prices, the anchor wage, debt as a deadline** | `social-fabric` | `roles/shared/social-fabric.prices-and-stakes.md` | — | *new* · money is a stake |
+| **The material curve — how long money keeps deciding things** | `social-fabric` | body §7 + `roles/shared/social-fabric.prices-and-stakes.md` | `means-curve` | *new* · the MC climbs and money stops mattering |
 | **Religion, ritual, oaths, taboo** | `social-fabric` | `roles/design/social-fabric.belief-and-ritual.md` | — | *new* · the story enters it |
 | How gender is lived in this society | `social-fabric` | `roles/design/social-fabric.gendered-experience.md` | — | design |
 | How any of it reaches the page, at a budget | `world-texture` | body · `roles/draft/world-texture.overbuilding.md` | draft card · audit 5 | always |
@@ -157,7 +158,15 @@ So the next sweep does not re-litigate it.
   is read are the same problem, and splitting them produces two files that both describe a
   clenched jaw.
 - **An economics module.** Prices belong to the society layer that already owns money; a separate
-  skill would be a second place for the same facts to drift.
+  skill would be a second place for the same facts to drift. **Re-examined 2026-09-23 and the
+  rejection stands**, but the pass that re-examined it found the real defect and fixed it: the
+  money material was complete and *unreachable*. `roles/shared/social-fabric.prices-and-stakes.md`
+  was cited by no draft card and no audit card, and `bible/society.md` reached the read-set only
+  behind `--society`, so a drafter had never seen an anchor wage. The fix was wiring, not a
+  module: a `Prices` slice in every read-set, one citation from each side of
+  `conflict-engine`'s pair, and `means-curve` — the one thing genuinely missing, which is that
+  money's salience *declines* as the MC climbs and nothing said so. Do not build the module; do
+  check the wiring first the next time a layer looks absent.
 - **References for `romance-arc` and `litrpg-system`.** Both bodies are dense and now have cards.
   Adding a reference to satisfy a plan would be padding, which §8 exists to prevent.
 - **Any new numeric gate.** The two new `sw cast` checks and everything in `sw lint` stay warns

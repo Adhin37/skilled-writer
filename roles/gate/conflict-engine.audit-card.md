@@ -48,6 +48,7 @@ occupied cannot be skipped to.
 | symptom | what it actually is | go to |
 |---|---|---|
 | The cost is that somebody feels worse | an emotional aftertaste standing in for a price | name what is materially gone |
+| A material cost carries a number and no scale | *two silver* prices nothing for a reader | `roles/shared/social-fabric.prices-and-stakes.md` — convert it to days of ordinary work |
 | Everything was paid by an ally | the POV character risked nothing | `scene-craft` — whose scene is this |
 | The win cost something, but only after it landed | the price was a receipt, not a stake | move the payment before the resolution |
 | Every confrontation is won and costs nothing | the face-slap loop | `mtl-detox` |

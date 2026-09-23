@@ -62,6 +62,11 @@ raises the rung while holding the tier still is usually the better arc.
 A stake only counts if the reader can price it — in the opening arc the ceiling is
 `story-opening` §3, not this ladder.
 
+**If the cost or the block is material** — a sum, a tool, a debt, a thing that has to be sold
+— open `roles/shared/social-fabric.prices-and-stakes.md` and price it in days of ordinary
+work. That file also says how much money should still be deciding things this late in the
+book, which is usually less than it was.
+
 ## Two of these four, minimum
 
 **External** (who is stopping them) · **Interpersonal** (who wants a different outcome and is not

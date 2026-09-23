@@ -29,6 +29,11 @@ above `professional` is paid for by a scene showing how it was acquired.
 surgeon who cannot set a bone, the general who has never handled money — because those are the ones
 a reader assumes the character has.
 
+**Money is a domain, and the MC gets a row for it.** Pricing a thing, reading a contract,
+spotting a swindle — declared here like any other, and a protagonist who reached this world
+last week does not start high. See `roles/shared/social-fabric.prices-and-stakes.md`
+§Who understands money.
+
 ## 2. REFERRALS — who they ask when it runs out
 
 Delegation reads as competence, not weakness. A character who knows their own boundary and hands
