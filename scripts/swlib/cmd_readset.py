@@ -52,11 +52,21 @@ CONFIG_KEYS = [
     "scaling.shape", "scaling.tiers", "scaling.ceiling_tier", "scaling.endgame",
     "scaling.edge_worth", "scaling.edge_price", "scaling.substitute_tension",
     "scaling.first_limit_by_ch", "scaling.trivial_per_arc", "scaling.boost_debt_due",
+    "means.shape", "means.background_by_arc",
     "theme.controlling_idea", "theme.counter_case",
     "timeline.reactivity", "timeline.crisis_cap",
     "content.rating", "content.romance",
     "ending.contract", "ending.tone",
 ]
+
+
+# Keys whose *effective* value governs a block below even when `novel.md` omits them. The loop
+# above prints what is written down; these print what is in force. `means.shape` defaults to
+# `fades`, which emits the PRICES block - so a novel scaffolded before the key existed would
+# otherwise receive prices with nothing in CONFIG explaining why they were sent.
+CONFIG_DEFAULTS = {
+    "means.shape": lambda n: "%s  (default - not set in novel.md)" % n.means_shape,
+}
 
 
 _REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -413,6 +423,8 @@ def build(novel, number, chars=None, locs=None, want_society=False):
     cfg_lines = []
     for key in CONFIG_KEYS:
         val = novel.get(key)
+        if val in (None, "", [], {}) and key in CONFIG_DEFAULTS:
+            val = CONFIG_DEFAULTS[key](novel)
         if val not in (None, "", [], {}):
             cfg_lines.append("%s: %s" % (key, val))
     modules = active_modules(novel)

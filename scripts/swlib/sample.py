@@ -598,6 +598,11 @@ scaling:
   trivial_per_arc: 2
   boost_debt_due: 5
 
+means:
+  start: scraping
+  shape: fades
+  background_by_arc: 2
+
 romance:
   configuration: undecided
   lead: ""

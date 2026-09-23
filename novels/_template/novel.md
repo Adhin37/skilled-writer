@@ -124,7 +124,8 @@ means:
   start: scraping         # destitute | scraping | getting-by | comfortable | never-an-issue
   shape: fades            # fades | flat | inverts | none
   background_by_arc: 2    # the arc after which money is texture rather than a problem the
-                          # MC solves on the page. null when shape is flat or none.
+                          # MC solves on the page. null unless shape is fades - nothing
+                          # goes to background under flat, inverts or none.
 
 # ── ROMANCE ──────────────────────────────────────────────────────────────────
 # Filled by lead-interest, AFTER mc-design. Governed by content.romance below.

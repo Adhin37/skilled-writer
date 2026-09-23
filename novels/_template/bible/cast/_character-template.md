@@ -64,6 +64,9 @@ Levels: `none` `passable` `professional` `exceptional` `best alive`. Anything ab
 `professional` must be paid for with a scene showing how it was acquired, and the budget is
 **two** above `professional` for a tier-A character, three for the MC.
 
+Money is a domain like any other — pricing a thing, reading a contract, spotting a swindle. Give
+the MC a row for it (`roles/shared/social-fabric.prices-and-stakes.md` §Who understands money).
+
 **An unlisted domain is `none`, not "probably fine."** If a scene needs this character to know
 something absent from the table, either they do not know it — which is the scene — or they learn it
 on the page and it is added here.

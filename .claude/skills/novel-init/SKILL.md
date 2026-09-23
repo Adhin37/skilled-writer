@@ -130,6 +130,7 @@ straight to Round D if it is None.
 | How warm is it allowed to be? | Warm — people liking each other is part of it · Measured *(recommended)* · Cold — nobody is safe and nobody is kind |
 | Content ceiling | Teen · Mature (violence and consequence on the page) |
 | How much does the world push back? | Responsive — it notices and adapts *(recommended)* · Ripples — mostly local changes · Adaptive — the opposition plans around you specifically · Predatory — the world reorganises around you |
+| Money stops mattering as they rise? | `fades` by arc 2 *(rec.)* · `flat` · `inverts` · `none` |
 
 **Record the Tone answer** in `tone.register` and the warmth answer in `tone.warmth`. Before
 2026-09-22 this round asked for tone and had nowhere to put the answer, so five benchmark runs

@@ -234,7 +234,8 @@ a role tree to open, and `scripts/hooks/role_scope.py` refuses the rest.
 1. **State before prose.** Never draft without the current read-set and `plan/chapters.md`.
    `python3 scripts/sw.py readset novels/<slug> -c <N>` assembles all of it in one call — config,
    the **active modules** for this novel with the file to open for each, digests, blocks N−5…N−1,
-   plan rows N−1…N+2, open threads, and the cast rows for this chapter's speakers. It is the whole
+   plan rows N−1…N+2, open threads, the anchor wage and the six prices, and the cast rows for
+   this chapter's speakers. It is the whole
    read-set: do not open the source files for anything it contains, and a module it does not list
    is off for this novel. The rule is against re-reading what you already have, not against
    reading — a field that arrives missing or truncated is fetched from its source and named in the
