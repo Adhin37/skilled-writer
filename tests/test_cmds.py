@@ -869,7 +869,7 @@ class TestChaptersAreCountedOnce(unittest.TestCase):
             novel = self._novel(fx)
             row, _gate = cmd_readset.watch_row(novel, 5)
             hits = [item for item in row if item.startswith("house-style")]
-            self.assertEqual(hits, ["house-style (4 of last 4)"], row)
+            self.assertEqual(hits, ["house-style (4 of last 4; last c4; warn)"], row)
 
     def test_no_check_in_the_row_counts_past_its_window(self):
         """Stated as an invariant rather than about one check: N of last M with N > M is
@@ -879,7 +879,7 @@ class TestChaptersAreCountedOnce(unittest.TestCase):
             novel = self._novel(fx)
             row, _gate = cmd_readset.watch_row(novel, 5)
             for item in row:
-                m = re.search(r"\((\d+) of last (\d+)\)", item)
+                m = re.search(r"\((\d+) of last (\d+)[;)]", item)
                 self.assertTrue(m, item)
                 self.assertLessEqual(int(m.group(1)), int(m.group(2)), item)
 

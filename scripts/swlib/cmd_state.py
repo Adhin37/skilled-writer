@@ -109,6 +109,7 @@ def _ledger(novel, rep, chapters, blocks):
             rep.warn("ledger", "block =C%04d= has no chapter file" % n, path=lpath,
                      line=b.line_no)
 
+    cold = str(novel.get("tone.warmth") or "").strip().lower() == "cold"
     for n, b in sorted(by_num.items()):
         keys = b.keys()
         for req in rules.REQUIRED_CCS:
@@ -118,6 +119,15 @@ def _ledger(novel, rep, chapters, blocks):
         if "wld" not in keys:
             rep.warn("ccs", "block =C%04d= has no `wld>` line - omit it only if genuinely "
                      "nothing moved offstage" % n, path=lpath, line=b.line_no)
+        # A rule satisfied by silence, three times over: until 2026-09-24 nothing asked whether
+        # these lines were there at all, so run #5 shipped `cand>` on three blocks of five and
+        # `gav>` on none, and `sw state` said nothing about either.
+        missing = [k for k in rules.STEP_LINES if k not in keys and not (k == "gav" and cold)]
+        if missing:
+            rep.warn("ccs-steps", "block =C%04d= has no %s line - the literal `none` is a "
+                     "legitimate entry; a missing line is a step nobody can prove ran"
+                     % (n, " / ".join("`%s>`" % k for k in missing)),
+                     path=lpath, line=b.line_no)
         # the fix the shell version never made: fk> is required once the MC knows the future
         if novel.has_foreknowledge and "fk" not in keys:
             rep.defect("ccs", "block =C%04d= has no `fk>` line, but mc.foreknowledge is set - "
@@ -197,7 +207,7 @@ def _threads(novel, rep, blocks, last_ch):
         if status not in ("open", "escalated"):
             continue
         seen = last_seen.get(tid)
-        opened = re.sub(r"\D", "", str(r.get("opened", ""))) or "?"
+        opened = rules.first_int(r.get("opened", "")) or "?"
         if opened.isdigit() and int(opened) > last_ch:
             # Benchmark run #5 pre-registered threads as opened at ch 6 and ch 9 before ch 1
             # existed, and every check passed: the "never operated on" warn below was itself
@@ -227,8 +237,8 @@ def _threads(novel, rep, blocks, last_ch):
     for tid, r in sorted(declared.items()):
         if str(r.get("status", "")).strip().lower() not in ("open", "escalated"):
             continue
-        opened = re.sub(r"\D", "", str(r.get("opened", "")))
-        due = re.sub(r"\D", "", str(r.get("due", "")))
+        opened = rules.first_int(r.get("opened", ""))
+        due = rules.first_int(r.get("due", ""))
         # Clamped: a thread opened in the future aged backwards, and a negative age sorted to the
         # top of the oldest-first list, putting the newest promise where the oldest belongs.
         age = max(0, last_ch - int(opened)) if opened.isdigit() else None
@@ -253,7 +263,11 @@ def _threads(novel, rep, blocks, last_ch):
             if b.number is None or not (lo <= b.number <= closed):
                 continue
             for line in b.keys().get("thr", []):
-                paid.update(re.findall(r"v(T\d+)", line))
+                # The shared pattern, not a local `v(T\d+)`: the local copy survived O28's fix
+                # and read `vTH06` as no payment at all, so a `TH`-numbered novel would have been
+                # told at its first arc boundary that the arc paid nothing.
+                paid.update(tid for op, tid in rules.THREAD_OP_IN_TEXT.findall(line)
+                            if op == "v")
         if not paid:
             rep.defect("threads", "arc chapters %d-%d closed without paying a single thread - "
                        "an arc that only defers is how a serial loses readers "

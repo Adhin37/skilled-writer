@@ -648,14 +648,64 @@ Three repairs, all from reading the finished chapters rather than from a script.
 Final state of the toolkit: **448 tests**, `sw health` 0/0/0, `sw selftest` 0/0/0, `sw audit` on the
 finished novel 0 defects.
 
+### Changed before run #6 (2026-09-24/25)
+
+An audit with no run behind it, because run #6 is the first through the role pipeline and **no
+chapter had ever gone drafter → gate → state end to end**. The one attempt (2026-09-19, "draft
+chapter 6 end-to-end") died of a session limit right after `readset`, and its transcript already
+showed the first defect. Every instrument was green — 681 tests, `health`/`selftest` 0/0/0,
+`audit` 0 defects — so the audit read the seams: procedure against hooks, procedure against harness,
+and what a coordinator could observe. Six blockers, all verified before being fixed:
+
+| | what would have broken | fix |
+|---|---|---|
+| B1 | **The read-set did not reach the agent whole.** Chapter 6's was 46.7 KB; the harness shows a Bash result past ~30 KB as a 2 KB preview plus a saved file, and the drafter paged it back with `cat`, told nothing was missing | a size line naming the read-set's last line (`# END READ-SET`), and the procedures say to `Read` the saved file in full |
+| B2 | That saved file was outside every role's read allowlist, so obeying "use `Read`, not `cat`" was refused | `role_scope` allows the harness's `tool-results/` (not the memory beside it) |
+| B3 | **The gate was handed the brief** — `readset -c N` prints it when it matches N, and the gate ran exactly that | `readset --role gate` leaves out the brief, the phase A cards and the drafting nudges |
+| B4 | **The drafter was told to write `bible/` and `plan/`**, and `write_scope` refused both; the architect was told to seed `state/`, and was refused too | the drafter lists facts in a `Bible:` report line and the architect **folds** them (`story-bible` §Folding a chapter's facts); the architect may write `state/` less the brief |
+| B5 | **The drafter could not run Phase C at all.** Its fallback ("run `revision-pass` yourself") is refused by its own read guard, and in a non-interactive harness a background child reports to the main conversation, not its parent — no subagent had ever spawned another here | the **coordinator** summons the gate, in the foreground, between the drafter's two stops (`BRIEF READY`, `READY FOR GATE`); the drafter has no `Agent` tool |
+| B6 | `no-harem` (on by default) and two other card-less modules were routed to a `SKILL.md` the drafter may not open; lint raised a ledger defect on every chapter the gate gated, because the block is written after it | card-less modules print a note, and `sw health` asks the guard about every path the read-set can hand the drafter; no ledger defect at `drafted`/`gated` |
+
+Also changed, and every one a variable run #6 inherits:
+
+- **Every hand-off leaves a mark on disk.** The brief is written at the stop as `status: proposed`
+  and flipped on approval; the gate marks a chapter `status: gated`; `revised` is stamped after
+  the state write, and last, because `--ledger` can only correct a block that exists. `readset`
+  prints a **RESUME** line read off those marks.
+- **Monitoring.** `sw trace` reads each subagent's meta file: cost and cards **by role**, per
+  chapter by the spawn's description (`draft ch N`, `gate ch N`, `fold ch N`), a tail row so chapter
+  rows sum to the total, and a **routing** check that judges every path an agent opened — `cat`
+  included — with the read guard's own `verdict`. `sw state` warns on a missing `cand>`/`z4>`/`gav>`;
+  `history-gives` speaks when no block carries `gav>`; `audit` carries `history-gives`,
+  `history-z4` and the unfinished-chapter warn; the WATCH row prints what falls past its cap
+  instead of dropping it (O23), with each item's last-fired chapter.
+- **Two latent bugs.** A leftover `v(T\d+)` in `cmd_state` would have raised a false "arc paid
+  nothing" defect at chapter 25 on `TH` ids — O28's pattern, one copy missed. And `arc-cast` compared
+  full matrix names against the short names in `chg>` lines: run #5's "only one matrix character
+  appears in the whole arc" was a parse miss, not the partial catch it was credited as above.
+- **Contamination.** `drafter.md` told the drafter it was "the thing a benchmark measures" and
+  `gate.md` named the test-run protocol. Both sentences are gone from the prompts; the rationale is
+  in `AGENTS.md`. The architect may no longer read `docs/`, which lists earlier runs' casts.
+- **Deferred, by decision:** detectors for run #5's unowned cold-read findings — a run of
+  two-handers, a signature line recurring across chapters and speakers, no story underway by the
+  contract chapter. Run #6's reader review says whether they recur on a new novel; `pwr>` lines
+  without a `P`, heading-substring slices in `readset` §10b, and a live `trace --follow` wait too.
+
+On `sw audit novels/grain-beneath-the-lie`, **0 defects, 11 → 17 warnings, 56 notes unchanged** —
+the six new warns are exactly what the new checks were built to say about a novel written before
+them: five `ccs-steps` (no block carries `gav>`, two also lack `cand>`) and one `history-gives` for
+the same silence. Separately, `sw arc -a 1` no longer raises the `arc-cast` false positive: it
+lists all five characters who are on the page.
+
 ### What run #6 must do
 
 In rough order of what each would settle per unit of effort.
 
 | | why it is next |
 |---|---|
+| **Run the role pipeline end to end, and say so first** | the harness itself is the change: four agents under a coordinator, the gate summoned between the drafter's two stops, a fold after each chapter. Nothing earlier is comparable on cost or cards without that caveat. `docs/test-run-protocol.md` §4 *The harness shape* is the procedure, and the **live smoke** — one chapter through the whole loop on a copy of this novel, in a fresh session — belongs before it, not in it |
 | **Run the reader review as a first-class step**, per [`roles/review/reader-review.md`](roles/review/reader-review.md) | new on 2026-09-19 and exercised once, on this run's own output. Two things to measure: whether a second blind reader lands within one point of 3/5 on the same five chapters, and whether the unowned-findings column stays the most useful output. If it reproduces, §8 has a procedure; if it does not, it is a rubric and should be cut back |
-| **Interrupt a chapter on purpose**, mid-Phase C, and count cards on resume | the only cheap way to arbitrate run #4's headline against run #5's. The corpus was already changed on it (P4), which is defensible only while the change stays additive |
+| **Interrupt a chapter on purpose**, mid-Phase C, and count cards on resume | the only cheap way to arbitrate run #4's headline against run #5's. The corpus was already changed on it (P4), which is defensible only while the change stays additive. Procedure: `test-run-protocol.md` §6 *Interrupting on purpose*; it now also tests whether the RESUME line is read |
 | **Run one chapter cold against one warm, same toolkit, same day** | five runs in and the warm/cold contrast is still n=1 a side. The 09-19 session was cold but the toolkit had moved underneath it |
 | **Turn the proxy off for one run** | every token, cost and cache figure since 2026-09-13 is confounded, and no run has a clean one to compare against |
 | ~~**Persist `cand>` when the brief is approved, not at the gate**~~ — **done 2026-09-19** | 3 of 5 blocks carried it; chapter 4's read `unrecorded` because the session holding the brief died. The brief now carries a `cand` line, is written to `state/brief.md` on approval, and step 5 copies that line instead of recalling it. Run #6 measures whether the copy actually happens |
@@ -664,7 +714,7 @@ In rough order of what each would settle per unit of effort.
 | **Set `tone.warmth` deliberately, and say which** | new config, never exercised. `measured` is the default and the one to run; `cold` should make the giving half, the arc note and the same-side card all stand down, and a run that cannot show that has a dial that is decoration. Whichever is chosen, record it beside the config block — five runs of `bittersweet` in a field nothing read is the thing this replaced |
 | **Watch `negation-density` on the WATCH row** | new habit note, calibrated on run #5's own prose (20.9–28.1 per 1000 narration words, threshold 22.0). It fires on four of those five chapters. The question is whether a drafter handed it in the WATCH row writes differently, or whether it becomes the sixth thing on a row capped at four — O23's problem, now with one more claimant |
 | **Go past five chapters** | arc rollup, long-run voice drift, `timeline-engine` at scale and the WATCH cap (O23) are all untestable at five. A cap that fills by chapter 4 is either a row or a wall and nothing here can say which |
-| **Ask `metadata.force:` directly** | sixth run pending, still zero evidence. A run with no deliberate stylistic break is indistinguishable from one where the tiers changed nothing — so watch for a `Gate:` line that names one, and if none ever comes, that is the answer |
+| ~~**Ask `metadata.force:` directly**~~ — **dropped 2026-09-24: unmeasurable by construction** | a stylistic rule is broken "freely, no reason owed, no report line", so a `Gate:` line can never name one, and six runs of silence are what that design produces rather than evidence about it. Measuring it would need the gate to report the breaks it chose, which is the obligation the tier exists to remove |
 | ~~**Decide about the repeated proposition**~~ — **decided 2026-09-19** | chapter 5 shipped the same beat twice in different words, lint 0/0/0. A paraphrase detector would judge prose rather than find it, so it is **a gate question and not a script**: Pass 9g asks it of the spans the gate itself edited, which is where all three instances came from. Run #6 says whether asking is enough |
 | ~~**Teach `sw trace` to count cards**~~ — **done 2026-09-19** | card counts had been the headline of two runs running and were still assembled by hand out of the agent transcript. `trace` now reports them per chapter and per card |
 
@@ -765,3 +815,92 @@ And, new in this run: **subagent usage lives in the per-agent transcript**, not 
 and a scratchpad is not durable — this run's findings file was lost to `/tmp` cleanup and had to be
 reconstructed from the session transcript. Anything a benchmark needs to survive belongs in this
 page.
+
+---
+
+## Run #6 — working log (in progress)
+
+Flushed from the coordinator's scratchpad at each boundary. Restructured into a run write-up when
+the run stops (`test-run-protocol.md` §10); until then this is the durable copy.
+
+Coordinator session: `3a6437ca-1cdf-4eec-80e4-59c3db70df49` (Opus 5.5, VS Code extension, auto mode)
+Opened: 2026-09-25T18:05:08Z
+
+### Pre-flight (2026-09-25T18:05Z)
+
+| check | result |
+|---|---|
+| HEAD | `55b6e07` + 45 modified files and 1 untracked (`tests/test_pipeline.py`) — the uncommitted pre-run-6 audit. `git diff \| sha256sum` = `0f41ae3b577b`; untracked content hash = `2c5b32c78d78` |
+| `python3 -m unittest discover tests` | **Ran 733 tests, OK (skipped=2)** |
+| `sw health` | 0 defect(s), 0 warning(s), 0 note(s) — agents: architect, drafter, gate, reader |
+| `sw selftest` | 0 defect(s), 0 warning(s), 0 note(s) |
+| `sw doctor` | 0 defect(s), 0 warning(s), 0 note(s) — python 3.12.3 |
+| proxy | `ANTHROPIC_BASE_URL` unset — no proxy |
+| `.test-run` | absent at start; armed after the smoke test (see below) |
+| baseline `sw audit novels/grain-beneath-the-lie` | **0 defect(s), 17 warning(s), 56 note(s)** |
+| fresh session | yes — new conversation; no agent file edited since it started |
+
+### Configuration (declared before the run)
+
+| parameter | value | reason |
+|---|---|---|
+| Genre | `fantasy`, original world | user's choice (2026-09-25, "for the genre take fantasy"); held constant with run #5, so the harness is the structural change |
+| Seed | *An apprentice surveyor in a mountain country where the roads shift every winter is hired to chart a pass that the ruling house swears does not exist.* | coordinator's one line; everything else the architect's. Chosen to share nothing with run #5's premise |
+| **Harness** | **role pipeline** — architect / drafter / gate under this coordinator, per `test-run-protocol.md` §4 | **the declared variable this run leads with**; nothing earlier is comparable on cost or cards without it |
+| Model (agents) | **Sonnet 5**, `model: sonnet` passed on every architect/drafter/gate spawn | held constant with run #5; the agent files name no model and would otherwise inherit the coordinator's Opus 5.5 |
+| Model (coordinator) | Opus 5.5 | this session |
+| Model (reader) | `claude-opus-5`, from `reader.md` frontmatter | unchanged agent file |
+| Proxy | none | none since 2026-09-20; verified unset |
+| Drafter per chapter | **cold** (fresh drafter per chapter) by default; **ch 5 warm** — ch 4's drafter continued with `SendMessage` | queue: one warm chapter against a cold one, same toolkit, same day. ch 4 cold is its comparison |
+| Gate | foreground, fresh per chapter — except ch 3 (below) | `/novel-write` step 4 |
+| **Deliberate interruption** | **ch 3, mid-Phase C.** The ch 3 gate is spawned in the **background** (the only way a coordinator can stop it), stopped with `TaskStop` once it has begun editing; the ch 3 drafter is abandoned (never resumed). A fresh drafter is spawned with the usual prompt and description `draft ch 3`, told only "the previous session stopped" | queue item 3; tests the RESUME line and the card count on resume. Background spawn for this one gate is a declared deviation |
+| Stop condition | **8 chapters**, with the `/novel-write` check-in after 5 | queue: go past five (arc rollup, WATCH cap O23, drift) |
+| Toggles | `no-harem`, `mystery-clues`, `slice-of-life-texture` on; rest off | held constant with run #5 |
+| POV / cadence / rating / romance | single close-third past · several a week · teen · background subplot | held constant with run #5 |
+| `tone.register` / `tone.warmth` | **grounded** / **measured** | queue: set warmth deliberately, `measured` is the one to run; `grounded` is the nearest register to run #5's |
+| Style target | Le Guin, *A Wizard of Earthsea*; Robert Jackson Bennett, *The Tainted Cup* — no sample pasted | held constant with run #5's `read_like` |
+| Trace scoping | `sw trace ... --session 3a6437ca-... --since <run start>` | the smoke test runs in this session first; `trace` does not scope by novel (P1) |
+
+### Answer sheet (written before the interview)
+
+Rule for anything not on this sheet: take the option the architect marks *recommended*; where
+nothing is marked, "that is yours to decide".
+
+- **Round A** — Fantasy · Single POV throughout · Several times a week · style: "Ursula K. Le Guin,
+  *A Wizard of Earthsea*, and Robert Jackson Bennett, *The Tainted Cup* — for the voice, not the
+  plot. No paragraphs to paste."
+- **Round B** — gender: Surprise me · appearance: Surprise me · intellect: the recommended tier ·
+  origin: native (no foreknowledge, no form lock) · golden finger: Surprise me · competence domains
+  and blind spots: "yours to propose — I'll take your recommendation".
+- **Round C** — configuration: the recommended option · amount: Background subplot.
+- **Round D** — Tone: Grounded and costly · Warmth: Measured · Content: Teen · World push-back:
+  the recommended option · Money: the recommended option.
+  - Ending (free text, verbatim): "The pass gets charted and the lie about it comes apart, but
+    making the map costs the surveyor the place they belonged. I want them alive at the end, the map
+    finished and in other people's hands, and not everyone grateful for it."
+  - Who must survive: "The surveyor. Nobody else is on the list."
+  - Opening promise read-back: accept as written unless it contradicts the seed.
+  - Scaling: Bottom of the ladder, climbing.
+  - Theme / counter-case: accept as proposed.
+- **Round E** — magic system: the first of the three offered (or the one marked recommended) ·
+  who does the work / who lost out: "that is yours to decide".
+- **Round F** — No harem · Fair-play mystery clue tracking · Slice-of-life texture.
+- **Title** — the architect's recommended candidate.
+
+### Smoke test (before the run, not in it)
+
+Per `benchmark.md` §What run #6 must do, row 1, and memory `pre-run-6-audit`: one chapter through
+the whole `/novel-write` loop on a copy of run #5's novel, same session, before `.test-run`.
+
+(entries below)
+
+### Findings
+
+Format: id · severity · claim · evidence verbatim · expected · status
+
+- **P1** · watch · `sw trace <novel>` does not scope by novel — sessions are filtered only by
+  `--session`/`--since`; the novel argument sets the title and the in-play module list. ·
+  `scripts/swlib/cmd_trace.py` `run()`: `sessions = transcripts.sessions_for(repo_root, root,
+  include_all=include_all, since=since, until=until, session=session)` — `novel` is not passed. ·
+  expected: a positional novel either narrows the sessions or the output says it does not · open;
+  mitigated for this run with `--since`.

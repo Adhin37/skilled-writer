@@ -680,6 +680,13 @@ def _ledger(novel, ch, rep):
         return
     block = novel.block(ch.number)
     if block is None:
+        # The block is written at write-chapter step 5, after the gate. So a chapter still at
+        # `drafted` or `gated` is not missing it yet - it is mid-loop, and `sw readset` already
+        # names every unfinished chapter below the one being drafted. Before 2026-09-24 this
+        # raised a defect on the chapter the gate was gating, every chapter, in Pass 0: a defect
+        # the gate could not fix and was taught to ignore.
+        if str(ch.meta.get("status", "")).strip().lower() in ("drafted", "gated"):
+            return
         rep.defect("ledger", "no `=C%04d=` block in state/continuity.md - a chapter written "
                    "without its CCS block is a bug" % ch.number,
                    path=novel.path("state", "continuity.md"))

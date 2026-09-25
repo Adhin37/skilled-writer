@@ -143,8 +143,33 @@ class TestTheArchitect(unittest.TestCase, Mixin):
         for bucket in ("draft", "gate", "shared", "design"):
             self.allowed("architect", "roles/%s/story-craft.draft-card.md" % bucket)
 
-    def test_it_reads_the_rationale(self):
-        self.allowed("architect", "docs/design-notes.md")
+    def test_it_does_not_read_the_maintainer_notes(self):
+        """`docs/` is addressed to the coordinator. The architect invents every name in the novel,
+        and `docs/benchmark.md` lists earlier runs' casts - a second door to run #5's O1."""
+        for path in ("docs/design-notes.md", "docs/benchmark.md"):
+            self.refused("architect", path, "maintainer notes")
+
+    def test_it_keeps_the_toolkit_and_the_root_contracts(self):
+        self.allowed("architect", "scripts/swlib/cmd_lint.py")
+        self.allowed("architect", "CLAUDE.md")
+
+
+class TestSavedToolOutput(unittest.TestCase, Mixin):
+    """A Bash result past ~30 KB reaches an agent as a preview plus a saved file. The read-set is
+    past that by chapter 6, so refusing the file sent every agent that obeyed "use Read, not cat"
+    onto `cat` - the one road this guard cannot see."""
+
+    SAVED = ("/home/u/.claude/projects/-home-u-repo/0f3a-session/tool-results/b4a1err2u.txt")
+
+    def test_every_scoped_role_reads_its_saved_output(self):
+        for agent in ("drafter", "gate", "architect"):
+            self.allowed(agent, self.SAVED)
+
+    def test_the_memory_beside_it_stays_out_of_reach(self):
+        """Anchored on `tool-results/`, not on `.claude/projects/`: the auto-memory index lives
+        one directory over and names past runs' outcomes."""
+        for agent in ("drafter", "gate"):
+            self.refused(agent, "/home/u/.claude/projects/-home-u-repo/memory/MEMORY.md")
 
 
 class TestTheColdReadRubric(unittest.TestCase, Mixin):

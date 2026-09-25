@@ -13,6 +13,7 @@ import os
 import re
 
 from . import cmd_lint, kb, kbexpr, mdio, rules
+from .novelio import GATED_STATUS
 
 HOT_BLOCK_CAP = 3
 
@@ -35,6 +36,17 @@ WATCH_CAP = 4
 
 # Log rows carried into a read-set: enough to price elapsed time, never the whole calendar.
 TIMELINE_LOG_ROWS = 4
+
+# Who the read-set is for. `draft` is the whole set. `gate` is the same state with the drafting
+# decisions taken out: the brief, the phase A card list and the nudges aimed at phase A. The
+# gate runs `readset -c N` on the chapter it gates, and until 2026-09-24 that handed it the
+# brief - `cand`, `gives` and all - which is the one thing `write-chapter` step 4 keeps from it,
+# because a gate told what the chapter was reaching for grades it on the reach.
+ROLES = ("draft", "gate")
+
+# The read-set's last line. The header names it, so an agent handed a truncated delivery can
+# tell - which it could not before, because the tail of a read-set looks like any other section.
+END_MARK = "# END READ-SET - chapter %d"
 
 CONFIG_KEYS = [
     "genre", "subgenre",
@@ -105,8 +117,24 @@ def active_modules(novel):
     for name, entry, _state in idx.active(novel):
         skill = idx.skills.get(name)
         why = skill.when if skill and skill.tier == "gated" else ""
-        out.append((name, entry, why))
+        out.append((name, _drafter_entry(skill, entry), why))
     return out
+
+
+def _drafter_entry(skill, entry):
+    """What the drafter should open for an active module: a path, or a parenthesised note.
+
+    `kb.entry` falls back to the module's `SKILL.md` when it has no draft card, and `role_scope`
+    refuses the drafter every body but its dispatchers - so `no-harem` (on by default),
+    `lead-interest` and `tech-plausibility` sent every default novel's Phase A into a refusal.
+    Their `metadata.role` never listed `draft`: they are checked at the gate, or decided at
+    design time, and there is nothing for the drafter to open. Say that instead of a path.
+    """
+    if not entry.endswith("/SKILL.md") or skill is None or "draft" in (skill.role or []):
+        return entry
+    if "gate" in (skill.role or []):
+        return "(no draft card - audited at the gate; nothing to open in phase A)"
+    return "(design-time only - nothing to open in phase A)"
 
 
 def _cards_section(add, novel, number, characters):
@@ -319,12 +347,19 @@ def regate_target(numbers):
                                        " and %d more" % (len(nums) - 6))
 
 
-def watch_row(novel, number):
+def watch_row(novel, number, overflow=None):
     """Checks that fired in WATCH_MIN or more of the last WATCH_WINDOW chapters.
 
-    The countable half of what the gate keeps fixing. The judgement half is in the `gate>`
-    lines, which this prints beside the row rather than trying to parse - no script can tell
-    that two differently worded gate notes are the same defect.
+    The countable half: what keeps **surviving** the gate, because it lints the chapters as
+    shipped. What the gate had to fix is the other half, in the `gate>` lines, which this prints
+    beside the row rather than trying to parse - no script can tell that two differently worded
+    gate notes are the same defect.
+
+    Each item carries the last chapter it fired in, so a habit the last two chapters shed does
+    not read exactly like one they kept. Items past WATCH_CAP are appended to `overflow` when a
+    list is passed, rather than dropped: run #5's row filled by chapter 4 and a fifth recurring
+    check vanished without a word (O23). The cap keeps the row a pointer; the overflow keeps it
+    honest.
 
     **Habit notes count here too**, and they are most of the point. A habit check is a note per
     chapter precisely because one instance of it is fine, so a habit was invisible to the one
@@ -353,6 +388,7 @@ def watch_row(novel, number):
     # recurring. `seen` is per chapter for that reason.
     hits = {}
     tier = {}
+    last = {}
     for c in chapters:
         counts = cmd_lint.check_counts(novel, c)
         seen = set()
@@ -364,9 +400,17 @@ def watch_row(novel, number):
             seen.add(check)
         for check in seen:
             hits[check] = hits.get(check, 0) + 1
+            last[check] = max(last.get(check, 0), c.number)
     named = sorted(((v, k) for k, v in hits.items() if v >= WATCH_MIN),
                    key=lambda vk: (tier[vk[1]], -vk[0], vk[1]))
-    row = ["%s (%d of last %d)" % (k, v, len(chapters)) for v, k in named[:WATCH_CAP]]
+
+    def item(v, k):
+        return "%s (%d of last %d; last c%d%s)" % (k, v, len(chapters), last[k],
+                                                  "; warn" if tier[k] == 0 else "")
+
+    row = [item(v, k) for v, k in named[:WATCH_CAP]]
+    if overflow is not None:
+        overflow.extend(item(v, k) for v, k in named[WATCH_CAP:])
     notes = []
     for b in novel.blocks():
         if b.number is not None and lo <= b.number <= number - 1 and b.has("gate"):
@@ -419,7 +463,41 @@ def z4_row(novel, number):
     return out, nones
 
 
-def build(novel, number, chars=None, locs=None, want_society=False):
+def resume_line(novel, number):
+    """Where a drafter picking up chapter `number` starts, read off the disk, or None.
+
+    A resumed chapter used to be told only to "start again at step 0", which for a chapter already
+    drafted is ambiguous - redraft it? Every boundary in the loop now leaves a mark on disk (the
+    brief's `status:`, the chapter's `status:`, the CCS block), so the phase to resume at is a
+    fact about files, not something to reconstruct from a conversation that may be gone.
+    """
+    chapter = next((c for c in novel.chapters() if c.number == number), None)
+    if chapter is not None:
+        status = str(chapter.meta.get("status", "")).strip().lower()
+        if status in GATED_STATUS:
+            if novel.block(number) is None:
+                return ("step 5 - ch %d is stamped `%s` but has no CCS block. Write the state "
+                        "back; do not redraft and do not re-gate." % (number, status))
+            return ("nothing - ch %d is `%s` and its block is written. It is finished; say so "
+                    "rather than drafting over it." % (number, status))
+        if status == "gated":
+            return ("step 5 - the gate passed ch %d (`status: gated`) and its state was never "
+                    "written. Write it back from the gate's hand-back; if the hand-back is not in "
+                    "your context, ask the coordinator for it. Do not re-gate, do not redraft."
+                    % number)
+        return ("phase C - ch %d is drafted (`status: %s`) and has not passed the gate. Stop and "
+                "return READY FOR GATE; the coordinator runs it." % (number, status or "?"))
+    bnum, _btext = novel.brief()
+    if bnum != number:
+        return None
+    if novel.brief_status() == "proposed":
+        return ("the phase A stop - the brief below is waiting for approval. Present it again "
+                "rather than writing a new one.")
+    return ("phase B - the brief below is approved. Re-open the phase B cards, then draft from "
+            "it; do not write a new brief.")
+
+
+def build(novel, number, chars=None, locs=None, want_society=False, role="draft"):
     cfg_lines = []
     for key in CONFIG_KEYS:
         val = novel.get(key)
@@ -432,32 +510,62 @@ def build(novel, number, chars=None, locs=None, want_society=False):
     characters, why = resolve_characters(novel, number, chars)
     locations = resolve_locations(novel, number, locs)
 
+    if role not in ROLES:
+        raise ValueError("role must be one of %s" % ", ".join(ROLES))
+    drafting = role == "draft"
     out = []
     add = out.append
-    add("# READ-SET - %s - chapter %d" % (novel.title, number))
+    add("# READ-SET - %s - chapter %d%s" % (novel.title, number,
+                                           "" if drafting else " - for the gate"))
     add("# Assembled by `sw readset`. This is the whole read-set: do not open the source")
     add("# files for anything listed here. See NOT LOADED at the foot for what is missing")
     add("# on purpose and how to ask for it.")
+    if not drafting:
+        add("# Left out for the gate, on purpose: the brief, the phase A cards and the nudges")
+        add("# aimed at phase A. A gate told what the chapter was reaching for grades it on the")
+        add("# reach. Your cards come from `sw kb passes`.")
     add("# characters resolved: %s  (%s)" % (", ".join(characters) or "none", why))
     add("# locations resolved:  %s" % (", ".join(locations) or "none"))
 
+    resume = resume_line(novel, number) if drafting else None
+    if resume:
+        add("\n## RESUME (what is already on disk for chapter %d)" % number)
+        add("RESUME at " + resume)
+        add("       Read off the files, not remembered: an interruption loses the conversation,")
+        add("       never the disk. Run the cards the phase names again before you continue.")
+
     stale = novel.ungated_chapters(below=number)
-    row, notes = watch_row(novel, number)
-    z4s, z4_nones = z4_row(novel, number)
-    gavs, gav_nones = gav_row(novel, number)
+    overflow = []
+    row, notes = watch_row(novel, number, overflow)
+    z4s, z4_nones = z4_row(novel, number) if drafting else ([], 0)
+    gavs, gav_nones = gav_row(novel, number) if drafting else ([], 0)
     if stale or row or notes or z4s or gavs:
         add("\n## GATE (write-chapter phase C - what it left behind)")
     if stale:
-        add("DEFECT ch %d is `status: %s` - the phase C gate never ran on it%s."
-            % (stale[0].number, str(stale[0].meta.get("status", "")).strip() or "?",
-               "" if len(stale) == 1 else " (%d ungated below %d)" % (len(stale), number)))
-        add("       Re-gate before drafting: %s. A chapter is not finished at `drafted`,"
-            % regate_target(c.number for c in stale))
-        add("       and the defects it kept are the ones this chapter inherits.")
+        top = stale[0]
+        top_status = str(top.meta.get("status", "")).strip().lower() or "?"
+        if top_status == "gated":
+            add("DEFECT ch %d is `status: gated` - the gate passed it and step 5 never wrote its "
+                "state%s." % (top.number, "" if len(stale) == 1 else
+                              " (%d unfinished below %d)" % (len(stale), number)))
+            add("       Write its state back before drafting this one: the ledger this chapter")
+            add("       is written against is missing a chapter.")
+        else:
+            add("DEFECT ch %d is `status: %s` - the phase C gate never ran on it%s."
+                % (top.number, top_status,
+                   "" if len(stale) == 1 else " (%d ungated below %d)" % (len(stale), number)))
+            add("       Re-gate before drafting: %s. A chapter is not finished at `drafted`,"
+                % regate_target(c.number for c in stale))
+            add("       and the defects it kept are the ones this chapter inherits.")
     if row:
         add("WATCH  %s" % " | ".join(row))
-        add("       What the gate keeps having to fix. Write against it in phase B. It is a")
-        add("       pointer at the owning skill, never a phrase ban, and no chapter is scored")
+        if overflow:
+            add("       +%d past the cap of %d: %s" % (len(overflow), WATCH_CAP,
+                                                     " | ".join(overflow)))
+        add("       What keeps surviving the gate: these fired on the chapters as shipped. What")
+        add("       the gate had to fix is the `gate>` echo below. %s It is" % (
+            "Write against both in phase B." if drafting else "Look for these first."))
+        add("       a pointer at the owning skill, never a phrase ban, and no chapter is scored")
         add("       on it - four items at most, and only what recurred. A `warn` that recurred")
         add("       ranks above a habit `note` that recurred; both are habits, and the note")
         add("       tier is where checks live that are fine once and a fingerprint at density.")
@@ -478,19 +586,30 @@ def build(novel, number, chars=None, locs=None, want_society=False):
                 % gav_nones)
             add("       phase A, small and unearned (conflict-engine, what the chapter gives).")
 
-    bnum, btext = novel.brief()
+    bnum, btext = novel.brief() if drafting else (None, "")
     if bnum == number and btext:
         # Phase A already ran for this chapter. Handing the brief back is what makes a resume
         # cost the draft instead of the decisions - and its `cand` line is the one the CCS block
         # copies at step 5, so a session that died between approval and the gate loses neither.
-        add("\n## BRIEF ON FILE (state/brief.md - phase A already ran for this chapter)")
+        status = novel.brief_status()
+        add("\n## BRIEF ON FILE (state/brief.md - phase A already ran for this chapter, "
+            "status: %s)" % status)
         add(btext)
-        add("Drafted from this, not from a new one. Change a line if the chapter has moved on,")
-        add("and write the change back to `state/brief.md` before phase B.")
+        if status == "proposed":
+            add("Not yet approved. Present it for approval rather than writing a new one, and")
+            add("draft nothing from it until it comes back approved.")
+        else:
+            add("Drafted from this, not from a new one. Change a line if the chapter has moved")
+            add("on, and write the change back to `state/brief.md` before phase B.")
     elif bnum is not None and bnum != number:
         add("\n## BRIEF ON FILE")
         add("state/brief.md holds ch %d's brief, not ch %d's - phase A has not run here yet."
             % (bnum, number))
+    elif drafting and novel.brief_unreadable():
+        add("\n## BRIEF ON FILE")
+        add("state/brief.md has content but no brief this tool can read. The brief is the fenced")
+        add("block opening on `Ch <n> - \"<title>\"`; outside a fence it is prose. Rewrite it in")
+        add("that shape, or step 5 has no `cand` line to copy.")
 
     add("\n## 0. CONFIG (novel.md, the fields that gate a chapter)")
     add("\n".join(cfg_lines))
@@ -501,16 +620,18 @@ def build(novel, number, chars=None, locs=None, want_society=False):
         add(str(sample).strip())
         add("(imitation, not transcription: match the density and the variety, not the words)")
 
-    add("\n### active modules - open these and no others")
-    if modules:
-        width = max(len(n) for n, _p, _w in modules)
-        add("\n".join("%-*s -> %s%s" % (width, n, path, ("   [%s]" % why) if why else "")
-                      for n, path, why in modules))
-    else:
-        add("(none - no optional module is on, and neither the genre nor the config "
-            "switches one on)")
+    if drafting:
+        add("\n### active modules - open these and no others")
+        if modules:
+            width = max(len(n) for n, _p, _w in modules)
+            add("\n".join("%-*s %s %s%s" % (width, n, "   " if path.startswith("(") else "->",
+                                            path, ("   [%s]" % why) if why else "")
+                          for n, path, why in modules))
+        else:
+            add("(none - no optional module is on, and neither the genre nor the config "
+                "switches one on)")
 
-    _cards_section(add, novel, number, characters)
+        _cards_section(add, novel, number, characters)
 
     add("\n## 1. BOOK DIGEST")
     add(novel.book_digest() or "(empty)")
@@ -536,7 +657,7 @@ def build(novel, number, chars=None, locs=None, want_society=False):
     hot_cited = []
     for r in novel.threads():
         if str(r.get("tension", "")).lower().strip() == "hot":
-            opened = re.sub(r"\D", "", str(r.get("opened", "")))
+            opened = rules.first_int(r.get("opened", ""))
             if opened and int(opened) < max(1, number - 5):
                 b = novel.block(int(opened))
                 if b:
@@ -678,4 +799,14 @@ def build(novel, number, chars=None, locs=None, want_society=False):
         missing.append("state/power.md section 4 (the gain log) and section 6 (the curve plan) - "
                        "the arc's band is in plan/arcs.md")
     add("\n".join("- " + m for m in missing))
+    add("\n" + END_MARK % number)
+    # The size line goes in the header, where a truncated delivery still shows it. Past ~30 KB
+    # the harness hands an agent a 2 KB preview and a saved file, and the read-set is past that
+    # by chapter 6 - measured 2026-09-24, when a drafter paged it back with `cat` and nothing
+    # told it the set was partial. Rule 1 says a field that arrives short is re-fetched, which
+    # needs the agent to be able to tell. The END line is how.
+    body = "\n".join(out) + "\n"
+    out.insert(1, "# %d lines, %.1f KB. The last line is `%s`. If you cannot see it, this"
+               % (body.count("\n") + 2, len(body.encode("utf-8")) / 1024.0, END_MARK % number))
+    out.insert(2, "# reached you truncated: Read the saved output file in full before anything else.")
     return "\n".join(out) + "\n"

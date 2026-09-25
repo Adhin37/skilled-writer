@@ -16,7 +16,11 @@ brutal — raise it for a world that pushes back harder, lower it for a gentler 
 it is too *punishing*, check the governor first: crisis count over cap, reaction latency under 2,
 or escalations that opened nothing are the usual causes, and those are bugs rather than settings.
 
-If `$ARGUMENTS` names a setting: apply it and report the before/after.
+If `$ARGUMENTS` names a setting: apply it and report the before/after. The change is a design
+decision, so **the `architect` agent** makes it — `novel.md`, and any `state/` or `bible/` file the
+toggle needs (a form lock needs `state/body.md` filled). Before a test run, toggles are interview
+answers the architect writes from the answer sheet; the coordinator writes nothing under
+`novels/`.
 
 Optional skills and their keys:
 

@@ -35,7 +35,7 @@ never supplies them, because they are what the run is measuring.
 
 | the agent invents | the coordinator supplies |
 |---|---|
-| every name — characters, places, factions, the title, and therefore the slug | the one-line seed, in the user's genre |
+| every name — characters, places, factions, the title, and therefore the slug. In the role pipeline that means the **architect runs the interview and `title-craft`** and returns each round as numbered questions (`/novel-new`); the coordinator never proposes a name | the one-line seed, in the user's genre |
 | the power system, the ladder, the cast, the arc plan, the chapter list | interview answers that are author taste: tone (**both** Round D answers — `tone.register` and `tone.warmth`, which are recorded and which the run must state), cadence, rating, the ending contract, the non-negotiables |
 | every craft decision inside a chapter | approval of the Phase A brief |
 
@@ -111,7 +111,7 @@ samples** that are never pooled.
 This is the methodology, not a detail.
 
 - **Approve each Phase A brief as written**, unless it breaks the contract outright — a hard rule
-  in `CLAUDE.md` §4, not a disagreement of taste. Twelve lines you would have written differently
+  in `CLAUDE.md` §4, not a disagreement of taste. Thirteen lines you would have written differently
   is not a contract break.
 - **Interview answers are author taste, freely given.** Hold a written answer sheet *before* the
   run so your answers do not drift across six rounds of questions.
@@ -136,7 +136,32 @@ This is the methodology, not a detail.
 - **It cannot reach the user interactively**, so its brief says to end its turn with numbered
   questions; answer with `SendMessage`, which keeps the whole run in one session.
 - Hold the harness shape constant with whichever run you intend to compare against, and name it in
-  the configuration table.
+  the configuration table. **Run #6 cannot**: it is the first run through the role pipeline, and
+  that change is the declared variable its write-up leads with.
+
+### The harness shape, since run #6
+
+Runs #1–#5 drove one warm general agent through init and every chapter. The role pipeline is four
+agents under one coordinator, and `/novel-write` is the loop:
+
+| step | who | what reaches the coordinator |
+|---|---|---|
+| init | `architect`, spawned with the seed | interview rounds as numbered questions; answer each from the answer sheet with `SendMessage` |
+| Phase A | `drafter`, description `draft ch N` | `BRIEF READY` and the brief — approve it as written (§3) |
+| Phase B | the same drafter, resumed | `READY FOR GATE` |
+| Phase C | `gate`, description `gate ch N`, **foreground** | the hand-back — relay it to the drafter **verbatim**, never summarised |
+| step 5 | the same drafter, resumed | the eight-line report, `Bible:` line included |
+| fold | `architect`, description `fold ch N` — only when `Bible:` is not `none` | what it folded, and what it declined |
+| review | `reader`, after the run stops (§8) | the verdict |
+
+- **The descriptions are part of the measurement.** `sw trace` bills each subagent to the chapter
+  its description names; an agent spawned as "continue" is billed by write times, and a gate that
+  edits nothing then vanishes from its chapter.
+- **One fresh drafter per chapter is the default — the cold harness.** Continuing one drafter across
+  chapters with `SendMessage` is the warm one. Declare which, per chapter, in the configuration
+  table; the benchmark queue asks for one deliberate warm pair against a cold one, same day.
+- **Every relay is an intervention you do not make.** You pass the brief's approval, the gate's
+  hand-back and the `Bible:` line along unchanged. A paraphrased hand-back is craft direction.
 
 ## 5. Before the run
 
@@ -183,9 +208,10 @@ touch .test-run                                  # arms the coordinator write gu
 
 ### Ask the first agent what it was handed
 
-Before the first chapter, spawn the `drafter` on a throwaway question — *list the numbered
-sections of any operating contract you were given, and say whether you received a memory index* —
-and record the answer in the configuration table. It costs one cheap turn and it is the only way
+Before the first chapter, spawn the `drafter` **and the `gate`** — and the `architect`, if it has not
+run the interview yet — each on a throwaway question: *list the numbered sections of any operating
+contract you were given, and say whether you received a memory index*. Record each answer in the
+configuration table. It costs one cheap turn and it is the only way
 to see three things that are invisible to every check in this repo:
 
 | what you are looking for | what it means |
@@ -205,8 +231,29 @@ only instrument.
   *series* of them still exists nowhere but your log, and whether the agent writes the file at all
   is one of the things run #6 is measuring. Run #5's chapter 4 carries `cand> unrecorded` because
   the session holding its brief died.
+- **Log every hand-off** — brief, approval, `READY FOR GATE`, the gate's hand-back, the `Bible:`
+  line, the fold's answer — verbatim, both directions.
 - **Log every interruption**: timestamp, which phase it landed in, and what the agent did on
   resume. Run #5's headline finding came entirely out of these rows.
+- **At each chapter boundary, append the trace** —
+  `sw trace novels/<slug> --session <this session's id> --role drafter,gate,architect` — to the
+  findings file: cost and cards by role, per chapter, and any `trace-routing` finding, which is the
+  only place a `cat` of another role's card shows up.
+
+### Interrupting on purpose
+
+Run #5's headline — the contract is lost at an interruption, not with session age — rests on two
+accidental interruptions against two clean chapters. Repeat it deliberately, once:
+
+1. Choose the chapter and the phase **before the run starts**, and write both into the log.
+   Mid-Phase C is the case the queue names.
+2. When the phase begins, stop that agent (`TaskStop`). Log the timestamp and the last thing it did.
+3. Spawn a fresh drafter with the chapter's usual prompt and description. Say nothing about what
+   happened beyond "the previous session stopped" — its read-set's RESUME line is the mechanism
+   under test, and telling it where to resume measures you.
+4. Record: whether it acted on the RESUME line, the phase it resumed at, whether it re-opened the
+   cards the phase names (`sw trace --role`), and whether the chapter's `cand>`/`gav>` still came
+   from `state/brief.md`.
 - **Write every finding down the moment you see it** — see below. This is the rule that decides
   whether the run produced anything.
 - **Verify every claim against disk.** The agent's step reports paraphrase file contents — five
@@ -269,7 +316,7 @@ output, including every one that no script could see.
   construction, and a run with no positive controls cannot tell a working mechanism from an
   unexercised one.
 
-**The procedure for this step is [`roles/review/reader-review.md`](roles/review/reader-review.md).** Follow it rather than
+**The procedure for this step is [`roles/review/reader-review.md`](../roles/review/reader-review.md).** Follow it rather than
 reading however you happen to read: it fixes the order (blind pass, then reconcile against
 `bible/` and `state/`), the output shape, and the 0–5 scale, which is what makes one run's read
 comparable with the next one's.
@@ -277,7 +324,7 @@ comparable with the next one's.
 **That file is yours, not the reader's.** It names what the exercise is for — numbered runs, this
 protocol, routing findings to owners — so a reader that has read it knows the chapters are being
 measured. What the reader gets is
-[`roles/review/reader-brief.md`](roles/review/reader-brief.md): the same questions and the same
+[`roles/review/reader-brief.md`](../roles/review/reader-brief.md): the same questions and the same
 scale with the framing removed. `reader_guard.py` allows the brief by name and refuses the rest of
 that directory, so this is a file boundary rather than a thing to remember.
 
@@ -285,7 +332,7 @@ that directory, so this is a file boundary rather than a thing to remember.
 verdict, and it is the only reader in the table whose blindness is enforced rather than promised:
 no `Skill` tool, `omitClaudeMd: true` — which keeps out the auto-memory index as well as
 `CLAUDE.md`, measured — and a `PreToolUse` hook that allows `chapters/` and
-[`roles/review/reader-brief.md`](roles/review/reader-brief.md) and refuses everything else,
+[`roles/review/reader-brief.md`](../roles/review/reader-brief.md) and refuses everything else,
 **this file and the worked example included**. **You do §2, §4 and §5 yourself**, with its
 findings in hand; those need `bible/` and `sw kb owner`, and a reader that opens either has
 stopped being one.
@@ -319,16 +366,18 @@ python3 scripts/sw.py arc     novels/<slug> -a 1
 python3 scripts/sw.py cast    novels/<slug>
 python3 scripts/sw.py curve   novels/<slug>
 python3 scripts/sw.py load    novels/<slug> -c <N>
-python3 scripts/sw.py trace   novels/<slug> --session <agent-id>
+python3 scripts/sw.py trace   novels/<slug> --session <coordinator-session-id>   # by role, per chapter, routing
 python3 scripts/sw.py readset novels/<slug> -c <N+1>          # inspect the GATE/WATCH row
-grep -n 'cand>\|z4>\|pwr>' novels/<slug>/state/continuity.md
+python3 scripts/sw.py readset novels/<slug> -c <N> --role gate   # confirm the gate's slice has no brief
+grep -n 'cand>\|z4>\|gav>\|pwr>' novels/<slug>/state/continuity.md
 ```
 
 ### Traps that have cost a run before
 
 | trap | what to do |
 |---|---|
-| **`sw trace` unscoped aggregates every session ever run in this repo** — and a time window is not enough, because the driving session runs in the same repo at the same time | always `--session <agentId>` |
+| **`sw trace` unscoped aggregates every session ever run in this repo** — and a time window is not enough, because the driving session runs in the same repo at the same time | always `--session`: the coordinator's session id takes in every agent it spawned; `--role drafter,gate,architect` then leaves the coordinator's own reads out |
+| **`audit --show note` prints six findings per check**, then "... N more" | read the counts, not the visible rows, and `sw history` for the per-check series |
 | Cards used to need counting by hand | `sw trace` reports them since 2026-09-19 — a `cards` column per chapter, a `-- cards` section per card. A Phase A card opened for chapter N+1 before N's file is finished lands in N's row, so read a boundary-straddling pair as one figure |
 | **Subagent usage is not in the parent transcript** | read the per-agent transcript file |
 | **The toolkit changes under the novels** | compare against the re-linted column, never against run-time numbers |
@@ -395,7 +444,8 @@ before    [ ] test run or normal run — established
           [ ] stop condition declared
           [ ] answer sheet written for the interview
           [ ] `.test-run` created — the write guard is armed, not merely intended
-          [ ] drafter asked what it was handed; contract present, §7/§8/§10 absent (§5)
+          [ ] drafter and gate asked what they were handed; contract present, §7/§8/§10 absent (§5)
+          [ ] harness declared: cold or warm per chapter; the interruption's chapter and phase chosen
 during    [ ] agent brief: authoring only, no mention of measurement, do not read docs/
           [ ] no coordinator write under novels/ — not once
           [ ] toolkit frozen
@@ -403,9 +453,10 @@ during    [ ] agent brief: authoring only, no mention of measurement, do not rea
           [ ] scratchpad findings flushed into docs/benchmark.md at each chapter boundary
           [ ] every Phase A brief logged; every intervention logged verbatim
           [ ] every interruption logged with phase and timestamp
+          [ ] every hand-off relayed verbatim and logged; trace appended at each chapter boundary
           [ ] claims verified against disk, not against the agent's report
 after     [ ] stopped at the declared count
-          [ ] measurement commands run, trace scoped with --session
+          [ ] measurement commands run, trace scoped with --session, per role
           [ ] every chapter read by a human, per roles/review/reader-review.md
           [ ] reader given roles/review/reader-brief.md — never this file, never the example
           [ ] reader asked what it was handed, and the answer recorded as a contaminant

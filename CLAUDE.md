@@ -73,7 +73,9 @@ chapter" for thirteen lines instead of after twelve hundred words.
 before anything is reported — there is no `/novel-revise` and a chapter is never handed back at
 `status: drafted`. It used to sit outside as a step the user remembered to take, which made it a
 step the user *had* to take: a gate that has to be summoned is a gate that is skipped whenever the
-run is long. Two things hold it in place. The step 6 report carries a `Gate:` line naming what was
+run is long. `/novel-write` summons it, between the drafter's two stops — the coordinator spawns the
+`gate` agent in the foreground once the drafter returns `READY FOR GATE`, and relays its hand-back
+for the state write. Two things hold it in place. The step 6 report carries a `Gate:` line naming what was
 fixed and which passes ran without their card, and `sw readset` names any ungated chapter when it
 assembles the next one's read-set. What the gate had to fix goes into the CCS block as `gate>`, and
 the next brief opens on a GATE block carrying **both halves**: a **WATCH row** — the checks that
@@ -158,15 +160,17 @@ The answer to "where does this rule live?" is always one skill, and every other 
 · `romance-arc` · `combat-choreography` · `battle-scale` · `litrpg-system` · `mystery-clues` ·
 `comedy-levity` · `grimdark-consequences` · `slice-of-life-texture`.
 
-**Every module carries cards, not a body.** An active module is opened through its draft card in
-Phase A and its audit card in the pass its frontmatter names — `sw kb cards` and `sw kb passes`
-resolve both against this novel's config. The body is for designing the thing, the card for
-deciding it.
+**A module is opened through its cards, never its body.** An active module is opened through its
+draft card in Phase A and its audit card in the pass its frontmatter names — `sw kb cards` and
+`sw kb passes` resolve both against this novel's config. The body is for designing the thing, the
+card for deciding it. A module with no draft card (`no-harem`, `lead-interest`,
+`tech-plausibility`) is audited at the gate or decided at design time, and the read-set says so
+rather than naming a body the drafter's guard refuses — `sw health` asks the guard.
 
 **Where each role reads, stated once and cited from everywhere else.** `design` opens
 `.claude/skills/`. `draft` opens `roles/draft/` and `roles/shared/`. `gate` opens `roles/gate/`
-and `roles/shared/`. Draft and gate each additionally load exactly one procedure body — their
-dispatcher, preloaded by the harness. Nobody has to remember this: there is no `SKILL.md` inside
+and `roles/shared/`. Draft and gate each additionally load their procedure bodies — the drafter
+`write-chapter` and `continuity-summary`, the gate `revision-pass` — preloaded by the harness. Nobody has to remember this: there is no `SKILL.md` inside
 a role tree to open, and `scripts/hooks/role_scope.py` refuses the rest.
 
 ## 4. Hard rules
@@ -433,15 +437,18 @@ novels/<slug>/
     body.md             form & appearance ledger (only if a character changes form)
     power.md            ladder, pressure log, gain log, boosts, curve plan (unless shape: none)
     foreknowledge.md    grain, inventory, spend log, observer paradox (only if the MC foreknows)
-    brief.md            the approved Phase A brief for the chapter in progress. One, overwritten
-                        each chapter, and the only scratch file here — nothing is appended to it
+    brief.md            the Phase A brief for the chapter in progress, `status: proposed` until
+                        approved. One, overwritten each chapter, and the only scratch file
+                        here — nothing is appended to it
   chapters/NNNN-<slug>.md
 ```
 
 Chapter files carry YAML frontmatter (`number`, `title`, `pov`, `arc`, `event`, `delivers`,
 `wordcount`, `status`). **`event`** is what happens, in one retellable clause — the Pass Z gate.
 **`delivers`** is what is materially different at the end — the Pass 9 gate. `wordcount` is a
-measured fact that later tools read, never a target.
+measured fact that later tools read, never a target. `status` walks `drafted` → `gated` (the gate
+passed it, its last act) → `revised` (the drafter wrote its state and stamped it); anything short
+of `revised` is unfinished, and `sw readset` says which step is missing.
 
 One CCS block per chapter, appended in order and never rewritten to be tidier — `sw state`
 checks the sequence, because a block in the wrong place is a chapter that happened at the wrong
@@ -536,12 +543,12 @@ contradiction waiting for whichever skill gets edited next. Rationale:
 
 | command | use it in |
 |---|---|
-| `readset <novel> -c N` | `write-chapter` step 0 · `continuity-summary` read mode — the whole read-set in one call, including which optional and genre modules are live |
+| `readset <novel> -c N` | `write-chapter` step 0 · `continuity-summary` read mode — the whole read-set in one call, including which optional and genre modules are live, where to RESUME an interrupted chapter, and its own last line so a truncated delivery shows. `--role gate` is the gate's slice, without the brief |
 | `kb owner|show|list|search <slug>` | any skill, to find whose rule a thing is — the craft-side counterpart of `readset`. `kb cards <novel> -c N --phase A` resolves this chapter's card set |
 | `lint <novel> -c N` | `revision-pass` Pass 0 · `mtl-detox` · `prose-quality` · `narrator-voice` |
 | `cast <novel>` | `voice-separation` · `competence-map` · `novel-init` |
 | `curve <novel>` | `revision-pass` Pass 9e · `power-scaling` · the arc-boundary pass |
-| `state <novel>` | `continuity-summary` self-check · `plot-threads` · `chapter-plan` — also block ordering, and the headings every read-set slices by, checked against this novel rather than the template |
+| `state <novel>` | `continuity-summary` self-check · `plot-threads` · `chapter-plan` — also block ordering, the three step-proof lines, and the headings every read-set slices by, checked against this novel rather than the template |
 | `arc <novel> -a N` | the arc-boundary pass — trends, rotation, thread ages |
 | `status <novel>` | `/novel-status` |
 | `stamp <novel> -c N` | `revision-pass` Pass 10 · `write-chapter` step 4 |
@@ -549,7 +556,7 @@ contradiction waiting for whichever skill gets edited next. Rationale:
 | `audit <novel>` | the independent whole-novel gate — every per-chapter check, plus `history`'s cross-chapter habit findings, because a habit is by definition invisible in one chapter |
 | `history <novel>` | the whole book as a series — dialogue and length trends, recurring checks at every level, the `widening` section (Z4's answers and the recorded candidates), thread ages, the pressure series |
 | `load <novel> -c N` | what the toolkit hands the drafter for one chapter — cards, words, checkboxes and negations, per phase. Measures the **instructions**, never the chapter |
-| `trace [novel]` | what a run cost, and **which skill files and cards it actually opened** — the finding-9 check, and the card count two benchmark runs assembled by hand |
+| `trace [novel]` | what a run cost, and **which skill files and cards it actually opened** — by role and by chapter, and every path an agent opened outside its lane, `cat` included |
 | `export <novel> --okf --out <dir>` | project a novel into an Open Knowledge Format bundle — an **export target, never the working format**, because `readset` hands over slices and a bundle hands over whole files |
 | `contract <role> [--write]` | render one role's slice of this file into its agent, and `health` re-renders and diffs it |
 | `health` | the toolkit's own wiring: skills, cards, references, **scope claims and cross-skill duplication**, the **card and word budgets**, the template accessors, the docs |
@@ -615,20 +622,33 @@ resolves the slice — but the axis now describes a tree instead of standing in 
 | role | the decision it owns | writes | agent |
 |---|---|---|---|
 | `coordinate` | which role runs next; approves the brief | nothing under `novels/` in a test run | the main session |
-| `design` | what the story *is* — world, cast, arc grid | `bible/` `plan/` `novel.md` | `architect` |
+| `design` | what the story *is* — world, cast, arc grid; folds each chapter's facts into the bible | `bible/` `plan/` `novel.md`, and `state/` seeds and digests | `architect` |
 | `draft` | Phase A brief, Phase B prose, and the state write | `chapters/` `state/` | `drafter` |
-| `gate` | Phase C — what must change | edits that chapter | `gate` |
+| `gate` | Phase C — what must change | edits that chapter, marks it `gated` | `gate` |
 | `review` | would a reader keep reading | nothing | `reader` |
 
 **The gate is still Phase C.** It runs in its own context so it reads the chapter the way the next
 reader will, rather than remembering why each line seemed worth it — but it is summoned by the
-procedure and never by the user. There is still no `/novel-revise`, and §2 stands unchanged.
+procedure and never by the user. The procedure is `/novel-write`, run by the coordinator: the
+drafter stops at `READY FOR GATE`, the coordinator spawns the gate **in the foreground** and relays
+its hand-back. Not the drafter, because in a non-interactive harness a child spawned in the
+background reports to the main conversation rather than to its parent, and because which role runs
+next is the coordinator's decision. There is still no `/novel-revise`, and §2 stands unchanged.
 
-**The state write stays with the drafter.** `cand>` is the roads not taken, `gav>` is what was
-worth the price, and `z4>` is the thing
-here a competent hack would not have written. No agent re-reading a finished chapter can
-reconstruct any of them, so splitting them out would turn the three lines that make a step
-falsifiable into three lines of invention.
+**The state write stays with the drafter** — because it is the one context holding all three
+things the block copies from: the approved brief, the chapter drafted against it, and the gate's
+hand-back. `cand>` and `gav>` are copied from `state/brief.md` and `z4>` from the hand-back, so none
+is written from memory; what only the drafter brings is the judgement of what the chapter did to
+the threads, the cast and the clock. Every hand-off in the loop leaves a mark on disk — the brief's
+`status:`, the chapter's `status:`, the block — so an interruption costs a step, never a decision,
+and `sw readset` prints where to resume.
+
+**Whatever a chapter establishes, the architect writes down.** The drafter does not write
+`bible/` or `plan/`: it lists every fact the page established, every walk-on and promotion, and
+every design item the gate named, in its report's `Bible:` line, and `/novel-write` hands that
+line to the architect as a **fold** before the next chapter's Phase A (`story-bible` §Folding a
+chapter's facts). A drafter who edits the world to fit the chapter has removed the only signal
+that the world was underspecified; a fold keeps the signal and still records the fact.
 
 **`review` carries no corpus, and that absence is the enforcement.** A cold read is only worth
 having from someone who has not read the rubric, so the reader gets no `Skill` tool,
@@ -640,11 +660,13 @@ that is not there.
 
 **The path hooks are `scripts/hooks/write_scope.py` and `scripts/hooks/role_scope.py`**, one per
 column of the table above. `write_scope` holds `writes`: the architect to `bible/` `plan/`
-`novel.md`, the drafter to `chapters/` `state/`, the gate to the chapter it was handed.
+`novel.md` and `state/` less the brief, the drafter to `chapters/` `state/`, the gate to the
+chapter it was handed.
 `role_scope` holds what each role may **read**: an allowlist for the drafter and the gate — their
-own bucket, `roles/shared/`, their dispatcher body and the novel — and for the architect, which
-reads every bucket and every body, a single denial of `roles/review/`, because a rubric the novel
-gets designed toward is no better than one the drafter writes toward. The reader's half is not
+own bucket, `roles/shared/`, their dispatcher bodies, the novel, and the harness's saved copy of
+their own oversized tool output — and for the architect, which reads every bucket and every body,
+two denials: `roles/review/`, because a rubric the novel gets designed toward is no better than one
+the drafter writes toward, and `docs/`, whose benchmark record names other novels' casts. The reader's half is not
 restated there: `role_scope` calls `reader_guard.verdict()`, so the reader is guarded by the
 settings hook as well as by its own frontmatter one. Both are registered **once**, project-wide
 in `.claude/settings.json`, and dispatch on which agent is calling — because a settings-file hook is the only kind that also
@@ -655,12 +677,15 @@ understand — an unknown agent, an unparseable payload — because a guard that
 never meant to judge is a guard that gets switched off.
 
 **Neither covers `Bash`, and that is why the word above is still routing.** A live probe on
-2026-09-20 established how wide the gap is: a subagent here has no `Grep` and no `Glob` at all,
-so its only search is `grep` through `Bash`; and in auto mode the harness tells every agent to
-prefer `cat`, `head` and `sed -n` over the `Read` tool. Every `Read` an agent makes is judged and
-a deliberate `cat` is not — so an agent that follows its harness instruction is unguarded. What
-the guards are for is the accidental path, and the refusal naming the card that misrouted the
-agent. The structural half is `sw health`'s partition check, which stops such a card existing.
+2026-09-20 established how wide the gap is: the drafter probed that day had no `Grep` and no `Glob`
+(a `reader` the same day used both, so this varies by harness and agent), leaving `grep` through
+`Bash` as its only search; and in auto mode the harness tells every agent to prefer `cat`, `head`
+and `sed -n` over the `Read` tool. Every `Read` an agent makes is judged and a deliberate `cat` is
+not — so an agent that follows its harness instruction is unguarded. What the guards are for is the
+accidental path, and the refusal naming the card that misrouted the agent. The structural half is
+`sw health`'s partition check, which stops such a card existing; the after-the-fact half is
+`sw trace`, which judges every path each agent opened — `cat` included — with the guard's own
+`verdict`.
 
 **The coordinator's half is armed by a marker, not by assumption.** `CLAUDE.md` bans the
 coordinator from writing under `novels/` *in a test run*, and says in as many words that this

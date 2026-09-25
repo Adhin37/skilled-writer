@@ -86,6 +86,9 @@ thr> ~T01(permit-refused)
 obj> get the permit -> next: find who told the clerk
 wld> the guild moves a file
 hook> the clerk locks the door behind her
+cand> 1:she pays the fee 2:she waits -> took 3, it costs her the stall
+z4> none
+gav> the baker leaves the heel of the loaf on her step
 """
 
 

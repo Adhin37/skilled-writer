@@ -538,3 +538,123 @@ class TestCardCounting(unittest.TestCase):
         self.assertEqual(len(pre), 1, "a card opened before the window is still reported")
         self.assertEqual(pre[0]["audit_cards"], 1)
         self.assertEqual([b["audit_cards"] for b in buckets if b["chapter"] == 1], [0])
+
+
+class TestRolePipeline(unittest.TestCase):
+    """A run that is several agents, measured as several agents.
+
+    Until 2026-09-24 `trace` pooled a drafter, its gate and the coordinator into one set of
+    totals and billed each response by chapter-file write times. Once the work split, the
+    drafter's state write came after the gate and was billed to the NEXT chapter, and a gate
+    that edited nothing left no anchor at all. The harness writes a label beside every subagent
+    transcript; these pin reading it - and reading nothing else, because the module reads no
+    prompt text.
+    """
+
+    def _meta(self, root, relpath, **meta):
+        full = os.path.join(root.dir, *relpath.split("/"))
+        with open(full[:-len(".jsonl")] + ".meta.json", "w", encoding="utf-8") as fh:
+            json.dump(meta, fh)
+
+    def _resp(self, ts, rid, read=0, content=None):
+        return row(timestamp=ts, requestId=rid, message={
+            "id": rid, "usage": usage(read=read), "content": content or []})
+
+    def _write(self, ts, rid, ch):
+        return self._resp(ts, rid, content=[{"type": "tool_use", "name": "Write", "input": {
+            "file_path": "/work/repo/novels/b/chapters/%04d-x.md" % ch}}])
+
+    def test_the_label_names_the_role_and_the_chapter(self):
+        with Root() as root:
+            root.write("projects/-work-repo/s1.jsonl", [row()])
+            rel = "projects/-work-repo/s1/subagents/agent-g1.jsonl"
+            root.write(rel, [row()])
+            self._meta(root, rel, agentType="gate", description="gate ch 3", spawnDepth=1)
+            sess = transcripts.sessions_for("/work/repo", root.dir)
+        by = dict((s.is_subagent, s) for s in sess)
+        self.assertEqual(by[False].role, "main")
+        self.assertEqual(by[True].role, "gate")
+        self.assertEqual(by[True].chapter_hint, 3)
+        self.assertEqual(by[True].spawn_depth, 1)
+
+    def test_a_subagent_with_no_label_is_still_a_subagent(self):
+        """Transcripts written before the harness wrote meta files look like this."""
+        with Root() as root:
+            root.write("projects/-work-repo/s1/subagents/agent-x.jsonl", [row()])
+            sess = transcripts.sessions_for("/work/repo", root.dir)
+        self.assertEqual((sess[0].role, sess[0].chapter_hint), ("subagent", None))
+
+    def test_a_grandchild_is_found(self):
+        """A gate spawned by a drafter sits a level deeper; a fixed-depth glob dropped its cost."""
+        with Root() as root:
+            root.write("projects/-work-repo/s1/subagents/agent-a/subagents/agent-b.jsonl",
+                       [self._resp("2026-09-05T10:00:00.000Z", "b", read=70)])
+            agg = transcripts.aggregate(transcripts.sessions_for("/work/repo", root.dir))
+        self.assertEqual(agg["cache_read_input_tokens"], 70)
+
+    def test_a_labelled_agent_is_billed_to_its_chapter_whole(self):
+        """The gate edits nothing and runs after the chapter's last write: under the anchor rule
+        its whole cost left the chapter it gated."""
+        with Root() as root:
+            root.write("projects/-work-repo/s1.jsonl", [])
+            d = "projects/-work-repo/s1/subagents/"
+            root.write(d + "agent-d.jsonl", [
+                self._resp("2026-09-05T10:00:00.000Z", "d1", read=100),
+                self._write("2026-09-05T10:01:00.000Z", "d2", 1),
+                self._resp("2026-09-05T10:05:00.000Z", "d3", read=300)])   # the state write
+            self._meta(root, d + "agent-d.jsonl", agentType="drafter", description="draft ch 1")
+            root.write(d + "agent-g.jsonl", [
+                self._resp("2026-09-05T10:03:00.000Z", "g1", read=500)])
+            self._meta(root, d + "agent-g.jsonl", agentType="gate", description="gate ch 1")
+            buckets = transcripts.by_chapter(transcripts.sessions_for("/work/repo", root.dir))
+        self.assertEqual([b["chapter"] for b in buckets], [1], "no tail: everything is ch 1's")
+        b = buckets[0]
+        self.assertEqual(b["cache_read_input_tokens"], 900)
+        self.assertEqual(b["by_role"]["drafter"]["cache_read_input_tokens"], 400)
+        self.assertEqual(b["by_role"]["gate"]["cache_read_input_tokens"], 500)
+
+    def test_a_warm_drafter_across_chapters_falls_back_to_the_anchor_rule(self):
+        """Continued by `SendMessage`, it keeps its first label; its writes say otherwise."""
+        with Root() as root:
+            rel = "projects/-work-repo/s1/subagents/agent-w.jsonl"
+            root.write(rel, [self._write("2026-09-05T10:01:00.000Z", "w1", 1),
+                             self._resp("2026-09-05T10:02:00.000Z", "w2", read=40),
+                             self._write("2026-09-05T10:03:00.000Z", "w3", 2)])
+            self._meta(root, rel, agentType="drafter", description="draft ch 1")
+            sess = transcripts.sessions_for("/work/repo", root.dir)
+            self.assertIsNone(sess[0].chapter_hint)
+            buckets = transcripts.by_chapter(sess)
+        self.assertEqual([(b["chapter"], b["cache_read_input_tokens"]) for b in buckets],
+                         [(1, 0), (2, 40)])
+
+    def test_work_after_the_last_write_is_kept_in_a_tail_row(self):
+        """It was dropped, so the per-chapter rows never summed to the run total."""
+        with Root() as root:
+            root.write("projects/-work-repo/s1.jsonl", [
+                self._write("2026-09-05T10:01:00.000Z", "a", 1),
+                self._resp("2026-09-05T10:09:00.000Z", "b", read=250)])
+            buckets = transcripts.by_chapter(transcripts.sessions_for("/work/repo", root.dir))
+        self.assertEqual([b["chapter"] for b in buckets], [1, -1])
+        self.assertEqual(buckets[-1]["cache_read_input_tokens"], 250)
+
+    def test_aggregate_splits_by_role(self):
+        with Root() as root:
+            root.write("projects/-work-repo/s1.jsonl",
+                       [self._resp("2026-09-05T10:00:00.000Z", "m", read=1)])
+            rel = "projects/-work-repo/s1/subagents/agent-g.jsonl"
+            root.write(rel, [self._resp("2026-09-05T10:01:00.000Z", "g", read=9)])
+            self._meta(root, rel, agentType="gate", description="gate ch 2")
+            agg = transcripts.aggregate(transcripts.sessions_for("/work/repo", root.dir))
+        self.assertEqual(sorted(agg["by_role"]), ["gate", "main"])
+        self.assertEqual(agg["by_role"]["gate"]["cache_read_input_tokens"], 9)
+
+    def test_a_path_named_in_a_shell_command_is_recorded_as_opened(self):
+        """What the routing check judges; the read guard never sees a `cat`."""
+        with Root() as root:
+            root.write("projects/-work-repo/s1.jsonl", [self._resp(
+                "2026-09-05T10:00:00.000Z", "c", content=[{"type": "tool_use", "name": "Bash",
+                "input": {"command": "cat roles/gate/prose-quality.audit-card.md docs/benchmark.md"}}])])
+            sess = transcripts.sessions_for("/work/repo", root.dir)
+        opened = [p for _ts, tool, p in sess[0].opened if tool == "Bash"]
+        self.assertIn("roles/gate/prose-quality.audit-card.md", opened)
+        self.assertIn("docs/benchmark.md", opened)

@@ -111,13 +111,24 @@ If the read-set exceeds what you can hold, drop items 4 and 3-oldest first. Neve
 
 ## Procedure — after drafting (write mode)
 
+Run by the drafter at `write-chapter` step 5, once the gate has passed the chapter and its
+hand-back is in front of you. Everything below lands in `state/` or in the report; `bible/` and
+`plan/` are the architect's, and what they need from this chapter goes in the `Bible:` line.
+
 1. Append the CCS block to §3 of `state/continuity.md`. If Phase C had to fix something, the
-   block carries a `gate>` line naming it in a dozen words or fewer — and no `gate>` line at all
-   when the gate came back clean. `sw readset` reads the last five back to build the next
-   chapter's WATCH row, so a defect recorded here is one the next draft is written against rather
-   than one the gate fixes again in chapter 43.
+   block carries a `gate>` line **condensed from the gate's `Gate:` line** into a dozen words or
+   fewer — and no `gate>` line at all when the gate came back clean. `sw readset` reads the last
+   five back to build the next chapter's WATCH row, so a defect recorded here is one the next
+   draft is written against rather than one the gate fixes again in chapter 43.
+1b. The three step-proof lines, **copied, never recalled** — each may be the literal `none`, and a
+    missing one is a step nobody can prove ran (`sw state` warns):
+    - `cand>` — the brief's `cand` line, from `state/brief.md`.
+    - `z4>` — the gate's Pass Z4 answer, from its hand-back.
+    - `gav>` — the brief's `gives` line. Omitted at `tone.warmth: cold`.
 2. Update `state/threads.md` for every `thr>` operation.
-3. Update `state/growth.md` for every rung change in `chg>`.
+3. Update `state/growth.md` for every rung change in `chg>`, and log any **skill stage** that
+   advanced in its skill-ladder table, with what caused it (a teacher, a reference, a costly
+   failure) and what the practice is costing.
 4. Append to `state/timeline.md` if in-world time advanced. If time advanced enough to age a
    `form_locked` character, check `state/body.md` §3 — a stage may be due.
 5. If a form changed, update `state/body.md` §1, §2 and §4, and log any masking slip in §5.
@@ -125,22 +136,24 @@ If the read-set exceeds what you can hold, drop items 4 and 3-oldest first. Neve
     its `P` and — at P ≥ +1 — what the win cost; a row in §4 for a tier advance, with all four
     requirements, and §1 moved to match; a row in §5 for any boost, with its expiry, debt and due
     chapter. The `pwr>` line must agree with §3.
-6. Move any `set>` facts that will recur into the right file: location anchors and world rules to
-   `bible/world.md`, social facts (a price, a licence, who may testify, what a custom obliges) to
-   the log at the foot of `bible/society.md`, names and terms to `bible/lexicon.md`. An anchor or
-   a social fact invented on the page and left unrecorded is a contradiction waiting to happen.
-7. Update `bible/cast/_extras.md`: a roster line for each new walk-on — including their one
-   off-default axis — an appended chapter number for each returning one, a row in **Dead** for any
-   who died. Promote anyone at a third appearance or who changed the plot (`character-profile`),
-   and add every named person to `lexicon.md`.
-8. Add a matrix row to `bible/cast/_voices.md` for anyone promoted this chapter, placed against the
-   existing cast (`voice-separation` §1). Nothing else in that file changes per chapter — it is
-   revised at arc rollup, not per chapter.
-9. Log any **skill stage** that advanced in the skill-ladder table of `state/growth.md`, with what
-   caused it (a teacher, a reference, a costly failure) and what the practice is costing. Add a
-   competence row to `bible/cast/_competence.md` for anyone promoted, and for any domain a character
-   genuinely acquired on the page. If the chapter needed an expertise nobody in the cast had, put it
-   in §3 of that file — that is a person the story is missing (`competence-map`).
+5c. If `mc.foreknowledge` is set, `state/foreknowledge.md` §2–§4 and the `fk>` line. A
+    plot-changing spend moves at least one *other* row toward `invalidated` — the observer paradox.
+6. **The `Bible:` line of your report** — `none`, or every item the architect folds before the next
+   chapter's Phase A. `story-bible` §Folding a chapter's facts says where each one lands; your
+   job is only to name it:
+   - the `set>` facts that will recur — one invented on the page and left unrecorded is a
+     contradiction waiting to happen;
+   - walk-ons: new, returning, dead;
+   - a promotion due — a third appearance, or a walk-on who changed the plot;
+   - a domain acquired on the page, or an expertise nobody in the cast had;
+   - `replan`, when the chapter left its row;
+   - every `For design:` item in the gate's hand-back.
+7. **Stamp, last** — `--ledger` can only correct a block that exists:
+
+   ```bash
+   python3 scripts/sw.py stamp novels/<slug> -c <N> --status revised --ledger
+   python3 scripts/sw.py state novels/<slug>
+   ```
 
 ## Procedure — arc rollup
 
@@ -189,6 +202,8 @@ quality. Read those yourself.
 - [ ] `gate>` is present on every chapter Phase C had to change, and absent on every chapter
       it did not — `gate> clean` is not a value, it is a missing line
 - [ ] `dlv>` names a difference, not a summary of events, and matches the chapter's `delivers:`
+- [ ] `cand>`, `z4>` and `gav>` on every block, copied rather than recalled — `none` is a real
+      entry, an absent line is not (`gav>` is omitted at `tone.warmth: cold`)
 - [ ] `fk>` present on every chapter that spent foreknowledge, with what it invalidated
 - [ ] `wc:` matches the chapter file's measured `wordcount:` — a stale number here corrupts
       every share computed from it later

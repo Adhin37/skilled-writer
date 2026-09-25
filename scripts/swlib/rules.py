@@ -255,6 +255,26 @@ THREAD_ID_CANON = re.compile(r"^T\d+$")
 THREAD_ID_IN_TEXT = re.compile(r"[~^vx]?\b(T[A-Z]{0,3}\d+)\b")
 THREAD_OP_IN_TEXT = re.compile(r"([~^vx])(T[A-Z]{0,3}\d+)\b")
 
+# The chapter number in a thread cell - `opened`, `due` - read as the FIRST integer. The cells
+# are hand-written, and `due: ch 20-25` used to have every digit joined into 2025, a thread that
+# could never fall due; nothing said so.
+FIRST_INT = re.compile(r"\d+")
+
+
+def first_int(text):
+    """The first integer in `text` as a string, or "" - never the digits of several joined."""
+    m = FIRST_INT.search(str(text or ""))
+    return m.group(0) if m else ""
+
+
+# The three CCS lines that exist to prove a step ran rather than to carry story state
+# (`continuity-summary.block-format.md`): `cand>` the candidates Phase A did not take, `z4>` the
+# gate's Pass Z4 answer, `gav>` what the chapter gave back. Each may be the literal `none`, so a
+# present line costs nothing and rewards no prose; a MISSING line is a step nobody can prove ran,
+# which is the one thing each was added to make visible. `gav>` stands down at
+# `tone.warmth: cold`, the only setting that declares the giving half off.
+STEP_LINES = ("cand", "z4", "gav")
+
 # prose-quality "Range before polish", and run #5's cold read, which counted 235 of these in
 # 7,700 words and called it a narrator who defines everything by what it isn't: things arriving
 # as "not agreement", "no answer at all", "which was also not the answer". The measure lived as a

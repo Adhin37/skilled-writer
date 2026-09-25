@@ -11,8 +11,13 @@ If `$ARGUMENTS` is non-empty, treat it as the user's premise and skip the openin
 they stay with you: an interview relayed through a subagent loses the thing that makes it an
 interview. Steps 4–5 decide and write what the story is, and those go to the **`architect` agent**,
 which owns `bible/`, `plan/` and `novel.md`. Hand it the interview answers, the chosen title and
-the blurb; it does the scaffold and fills every file. If the agent is unavailable, do it inline and
-say so.
+the blurb; it does the scaffold and fills every file, `state/` seeds included. If the agent is
+unavailable, do it inline and say so.
+
+**In a test run, the architect runs steps 1–3 as well** (`docs/test-run-protocol.md` §1): the
+coordinator is playing the author, so it answers the interview and never proposes a title or a
+name. Hand the architect the premise; it returns each round as numbered questions, and you answer
+from the answer sheet with `SendMessage`.
 
 Invoke the `novel-init` skill and follow it exactly:
 

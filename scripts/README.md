@@ -25,19 +25,19 @@ automatically when only one novel exists.
 
 | command | what it does | writes? |
 |---|---|---|
-| `readset <novel> -c N` | Assembles the bounded read-set for chapter N — the sliced rows, not the whole files, plus the active optional/genre modules and the file to open for each. Also carries the world clock — the recent `state/timeline.md` log rows and the live crises — and, unless `means.shape` is `none`, the anchor wage and six prices out of `bible/society.md`. Opens with a GATE section: any earlier chapter still at `status: drafted`, the WATCH row (checks that fired in 2+ of the last 5 chapters, warns ranked above habit notes, 4 at most), the recent `gate>` lines, and the last five `z4>` answers. `--chars`, `--locs`, `--society`, `--out` | only with `--out` |
+| `readset <novel> -c N` | Assembles the bounded read-set for chapter N — the sliced rows, not the whole files, plus the active optional/genre modules and the file to open for each. Also carries the world clock — the recent `state/timeline.md` log rows and the live crises — and, unless `means.shape` is `none`, the anchor wage and six prices out of `bible/society.md`. Opens with a size line naming its own last line (`# END READ-SET - chapter N`), so an agent handed a truncated delivery can tell; a RESUME line when chapter N is already under way on disk (brief proposed or approved, chapter `drafted`, `gated` or `revised`); and a GATE section: any earlier chapter still unfinished, the WATCH row (checks that fired in 2+ of the last 5 chapters, warns ranked above habit notes, 4 at most, each with the last chapter it fired in, and anything past the cap printed rather than dropped), the recent `gate>` lines, and the last five `z4>` and `gav>` answers. `--role gate` leaves out the brief, the phase A cards and the drafting nudges - a gate told what the chapter was reaching for grades it on the reach. `--chars`, `--locs`, `--society`, `--out`, `--role` | only with `--out` |
 | `lint <novel> [-c N \| --all]` | Sweeps one chapter, or every chapter with `--all`: MTL banned phrases, the AI-default cut list, narration exclamation marks, the four channels, the thought budget and its floor, apostrophe collisions, stray markup, frontmatter, anchor vocabulary, ledger agreement | no |
 | `arc <novel> [-a N]` | The distributional pass over one arc: per-chapter words, dialogue share, anchor count and ledger presence; the dialogue trend; the length spread; hooks; cast rotation; thread operations; foreknowledge. Ends with the judged half it cannot do | no |
 | `load <novel> -c N` | What the toolkit hands the drafter for one chapter: cards, words of procedure, checkboxes and negations, per phase, plus the corpus card budget and the word budget beside it | no |
 | `cast <novel>` | Audits `_voices.md` and `_competence.md` as tables: the straddle rule, the wit cap, the three-way clash, the `eq` axis, turn and hand-habit collisions, the deep-expertise budget, missing rows and referrals | no |
 | `curve <novel>` | The power curve: gain step size and cadence, the four requirements on every gain, unpaid boost debts, a second climax boost, pressure monotony, the trivial budget, the flat stretch, tier rising while pressure falls, and the `pwr>` line's agreement with `state/power.md`. No-ops when `scaling.shape` is `none` | no |
-| `state <novel>` | Ledger against chapters, required CCS lines, block length, **block ordering**, thread tension against last use, plan-row completeness, the promotion trigger, book-digest staleness, and the section headings every read-set slices by — checked against this novel rather than the template | no |
+| `state <novel>` | Ledger against chapters, required CCS lines and the three step-proof lines (`cand>` `z4>` `gav>`, a warn when absent — `none` satisfies each), block length, **block ordering**, thread tension against last use, plan-row completeness, the promotion trigger, book-digest staleness, and the section headings every read-set slices by — checked against this novel rather than the template | no |
 | `status <novel>` | Progress aggregation for `/novel-status`, and a warning for any chapter the phase C gate never ran on | no |
 | `stamp <novel> [-c N]` | Measures the body and writes `wordcount:`. `--status`, `--ledger` | **yes** |
 | `newnovel <slug>` | Copies `novels/_template` to `novels/<slug>` | **yes** |
-| `audit <novel>` | Inventory plus `lint --all`, `cast`, `state` and `curve` in one pass — the independent whole-novel gate | no |
+| `audit <novel>` | Inventory plus `lint --all`, `cast`, `state` and `curve` in one pass, plus the cross-chapter `history` findings (dialogue, habits, giving, Z4) and `status`'s unfinished-chapter warn — the independent whole-novel gate | no |
 | `history <novel>` | The whole book as a series rather than one chapter: per-chapter words, dialogue share, thought and meta counts, the dialogue and length trends, which checks recur across chapters and at what level, the `widening` section (Pass Z4's answers and the recorded candidates), thread ages, the pressure series, and cadence from file mtimes. `--json` | no |
-| `trace [novel]` | What the run cost and **which skill files and draft/audit cards it actually opened**, from Claude Code's own transcripts: API responses, the four token classes, wall clock, cost, per-chapter attribution, cards per chapter and per card, tool counts. `--since`, `--until`, `--transcripts`, `--rates`, `--json` | no |
+| `trace [novel]` | What the run cost and **which skill files and draft/audit cards it actually opened**, from Claude Code's own transcripts: API responses, the four token classes, wall clock, cost, **per role** (drafter, gate, architect, reader, `main`), per-chapter attribution — a subagent whose spawn description names a chapter (`draft ch 6`) is billed to it whole — cards per chapter and per card, **routing** (every path an agent opened, `cat` included, judged by the read guard's own `verdict`), tool counts. `--session`, `--role`, `--since`, `--until`, `--transcripts`, `--rates`, `--json` | no |
 | `kb <action> [args]` | Queries the craft knowledge base, derived from skill and reference frontmatter on every call and never stored. `owner <slug>` names the skill that owns a concept; `show <slug>` adds what teaches it and who cites it; `list [--type T] [--json]` prints the whole index; `search <terms>` finds passages with their heading and owner, unranked; `cards <novel> -c N [--phase A]` and `passes <novel> -c N` resolve the card set for one chapter against `novel.md`; `view <role> [<novel> -c N]` is one agent's whole slice of the corpus - the skills that role may open, plus its cards resolved against this novel - and is what generates `.claude/agents/*.md` rather than a hand-kept list; `validate` runs the structural checks `health` also runs | no |
 | `export <novel> --okf` | Projects a novel into an OKF v0.2 bundle: one document per character, location, thread and chapter, plus the ledgers, an `index.md` carrying `okf_version` and a `log.md`. Knowledge *about* the novel, not the prose — every document carries a `resource:` naming the repo file it came from. `--out` must name a directory that does not yet exist | **yes**, into `--out` only |
 | `contract <role> [--write]` | Renders one role's slice of `CLAUDE.md` into that role's agent file, between markers — the sections it is bound by, and a line naming the ones it is not so an agent knows they exist. The binding table is `rules.CONTRACT_EXCLUDES`, keyed on `## N.` and nothing finer, and lists only what a role does **not** get, so a new section reaches every role until somebody decides otherwise. `review` has no contract on purpose: a reader that has read the rubric is not a reader. Without `--write` it prints. `health` re-renders and diffs | **yes**, `.claude/agents/<agent>.md` with `--write` |
@@ -133,18 +133,20 @@ python3 scripts/sw.py cast  novels/<slug> > before-cast.txt
 defects it is scored on will avoid them, and the skill-loading measurement becomes worthless.
 
 **4. Find the run.** `python3 scripts/sw.py trace` lists every session it can see, with a
-`transcript` column:
+`transcript` column, the agent's `role` and the `label` its spawn gave it:
 
 ```
-transcript                             kind        resp     rows      wall
-<session>/agent-<agentId>              subagent      236     1068   51m 03s
+transcript                             role         resp     rows      wall  label
+<session>/agent-<agentId>              gate           31      145   12m 58s  gate ch 1
 ```
 
 **5. Scope to it.** Any fragment of that column works — the session id, the agent id, or the whole
-path:
+path. A role-pipeline run is several agents under one coordinator session, and every subagent
+carries that session's id, so scope by it and narrow by role:
 
 ```bash
-python3 scripts/sw.py trace novels/<slug> --session <agentId>
+python3 scripts/sw.py trace novels/<slug> --session <coordinator-session-id>
+python3 scripts/sw.py trace novels/<slug> --session <coordinator-session-id> --role drafter,gate
 ```
 
 **Scoping is not optional.** With no window `trace` aggregates every session that ever ran in the
@@ -163,7 +165,8 @@ transcripts Claude Code writes under `$CLAUDE_CONFIG_DIR` (or `~/.claude`), and 
 exactly these fields:
 
 `type` · `timestamp` · `cwd` · `requestId` · `message.id` · `message.model` · `message.usage` ·
-and the **names** and `file_path`s of tool calls.
+the **names** and `file_path`s of tool calls, and — from the `agent-*.meta.json` beside a
+subagent's transcript — its `agentType`, `spawnDepth` and the short `description` its spawn gave it.
 
 It never reads prompt text, tool results, or assistant prose, and it never prints them. It writes
 nothing anywhere. Transcripts are selected by comparing each row's `cwd` against this repo, so a

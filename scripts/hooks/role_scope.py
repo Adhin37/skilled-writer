@@ -10,9 +10,10 @@ sentence in `CLAUDE.md` §3 that a cooperating agent chose to obey.
 **An allowlist for the drafter and the gate, a denylist for the architect**, and the difference
 is not stylistic. The set of things a drafter legitimately opens is small and closed - its own
 bucket, `shared/`, its dispatcher body, the novel - so an allowlist states it exactly. The set an
-architect opens is open-ended by design: `design` reads every bucket, every body and the
-rationale behind them, and enumerating that would produce a list that rots in the direction that
-gets guards switched off. One thing is out of its reach, so one thing is written down.
+architect opens is open-ended by design: `design` reads every bucket and every body, and
+enumerating that would produce a list that rots in the direction that gets guards switched off.
+Two things are out of its reach - the cold-read rubric and the maintainer notes in `docs/` - so
+two things are written down.
 
 **ALLOW is consulted before DENIED, and that ordering is load-bearing.** `roles/draft/` matches
 the "that belongs to another role" pattern, so a drafter reading its own bucket would be refused
@@ -62,7 +63,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import reader_guard  # noqa: E402  (the reader's scope has one owner; see `verdict`)
 
 # What each scoped role may open beyond COMMON. The architect is deliberately absent: it has no
-# allowlist, only the one denial below.
+# allowlist, only `ARCHITECT_DENIED` below.
 ALLOW = {
     "drafter": (r"(^|/)roles/(draft|shared)(/|$)",
                 r"(^|/)novels(/|$)",
@@ -85,7 +86,15 @@ ALLOW = {
 #                      hits it to switch the guard off.
 #   the root contracts already in the agent's context by preload. Refusing a file the harness
 #                      handed it would be incoherent.
-COMMON = (r"(^|/)scripts(/|$)", r"(^|/)tests(/|$)", r"(^|/)(CLAUDE|AGENTS|README)\.md$")
+#   tool-results/      the harness's own copy of a tool output too long to show inline. Past
+#                      ~30 KB a Bash result arrives as a 2 KB preview plus this path, and the
+#                      read-set is past that by chapter 6 (46.7 KB, measured 2026-09-24). Refusing
+#                      it pushed an agent that obeyed "use Read, not cat" straight onto `cat`, the
+#                      one road this guard cannot see. It is the agent's own output, so reading it
+#                      grants nothing - and the pattern is anchored on `tool-results/` so the
+#                      auto-memory beside it under `.claude/projects/` stays out of reach.
+COMMON = (r"(^|/)scripts(/|$)", r"(^|/)tests(/|$)", r"(^|/)(CLAUDE|AGENTS|README)\.md$",
+          r"(^|/)\.claude/projects/.+/tool-results/[^/]+$")
 
 # The cold-read rubric, denied to every role that is not the reader. It binds the architect too,
 # and that is the point: a rubric the *novel* gets designed toward is no better than one the
@@ -94,13 +103,23 @@ REVIEW = (r"(^|/)roles/review(/|$)",
           "that is the cold-read rubric, and a rubric anybody here can see is a rubric the book "
           "gets written toward. Its whole value is that the reader has not read it")
 
+# `docs/` is six maintainer files addressed to the coordinator (`AGENTS.md`). It binds the
+# architect as well as the drafter and gate: the architect invents every name in the novel, and
+# `docs/benchmark.md` lists earlier runs' casts - which is how run #5's O1 house cast happened,
+# through the corpus rather than through docs, and there is no reason to leave the second door.
+DOCS = (r"(^|/)docs(/|$)",
+        "those are maintainer notes about the toolkit, addressed to whoever edits it rather than "
+        "to you. If a card sent you here, the card is the defect and reporting it is the fix")
+
+# What the architect may not open. It has no allowlist - `design` reads every bucket and every
+# body - so its whole scope is this short list of denials.
+ARCHITECT_DENIED = (REVIEW, DOCS)
+
 # Why a denial exists, so the role is told rather than merely stopped. Consulted only after
 # ALLOW, so these never fire on a role's own tree.
 DENIED = (
     REVIEW,
-    (r"(^|/)docs(/|$)",
-     "those are maintainer notes about the toolkit, addressed to whoever edits it rather than to "
-     "you. If a card sent you here, the card is the defect and reporting it is the fix"),
+    DOCS,
     (r"(^|/)roles/(draft|gate|design)(/|$)",
      "that bucket belongs to another role. Yours is the one the read-set named, plus shared/"),
     (r"(^|/)\.claude/skills/[^/]+/SKILL\.md$",
@@ -163,7 +182,12 @@ def verdict(payload, path):
         return None                          # an agent this guard was not written for
     norm = os.path.normpath(path).replace(os.sep, "/")
     if agent == "architect":
-        return REVIEW[1] if re.search(REVIEW[0], norm) else None
+        if any(re.search(rx, norm) for rx in COMMON):
+            return None
+        for rx, why in ARCHITECT_DENIED:
+            if re.search(rx, norm):
+                return why
+        return None
     if any(re.search(rx, norm) for rx in ALLOW[agent] + COMMON):
         return None                          # FIRST, and the docstring says why
     for rx, why in DENIED:

@@ -19,13 +19,15 @@ reader a book the blurb did not describe.
 
 - [ ] Nothing was known at a precision `foreknowledge_grain` does not license
 - [ ] Every fact stated from foreknowledge passes the provenance test
-- [ ] Any spend is recorded in `state/foreknowledge.md`, with its cost and what it invalidated
+- [ ] Any spend on the page has a cost and an invalidation you can name - the drafter records both
+      in `state/foreknowledge.md` after you, so name them in your hand-back
 - [ ] A plot-changing spend moved at least one other row toward `invalidated` — the observer
       paradox: the MC changed the world they remember
 - [ ] `foreknowledge_first_win_ch` < `foreknowledge_fails_ch`, **and the win is on the page
       first**. Check the ledger, not the plan
 - [ ] Foreknowledge did not stand in for a skill the MC has not learned
-- [ ] The `fk>` CCS line is written
+- [ ] Your hand-back says what the `fk>` line must record, `nothing spent` included - the block is
+      written after you, and `sw state` checks the line is there
 
 **Across the arc, not the chapter.** The shape the ledger has to show is inventory, then a legible
 **first win**, then a **first crack** the MC notices, then the **first failure**, then a reckoning

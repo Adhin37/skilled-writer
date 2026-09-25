@@ -2,7 +2,7 @@
 """PreToolUse guard: which role may write where under `novels/`.
 
 The role table in `CLAUDE.md` §10 gives each role exactly one thing it writes - the architect
-`bible/` `plan/` `novel.md`, the drafter `chapters/` `state/`, the gate edits that chapter, the
+`bible/` `plan/` `novel.md` and the state seeds, the drafter `chapters/` `state/`, the gate edits that chapter, the
 coordinator nothing during a test run. Until now every one of those was a sentence in a document
 and held by goodwill, and `docs/test-run-protocol.md` §2 is the one whose violation voids a run:
 a benchmark where the coordinator repaired the output measures the coordinator.
@@ -31,10 +31,18 @@ import sys
 NOVELS = re.compile(r"(^|/)novels/")
 
 # What each role may write, and the sentence that says why it is the wrong hand for the rest.
+#
+# The architect also writes `state/`, except the brief. Its own procedures put it there and were
+# refused until 2026-09-24: `novel-init` step 9 seeds the ledger, threads, growth, calendar, body
+# and foreknowledge files before chapter 1 exists; `chapter-plan` sets the arc's band in
+# `power.md` §6; the arc rollup writes digests into `continuity.md`. A design decision that
+# happens to live in a state file is still a design decision. `state/brief.md` stays the
+# drafter's: it is the approved plan for the chapter in progress, and the loop's only scratch file.
 SCOPE = {
-    "architect": ((r"(^|/)novels/[^/]+/(bible|plan)(/|$)", r"(^|/)novels/[^/]+/novel\.md$"),
-                  "the architect decides what the story is. Chapters and state are written by the "
-                  "drafter, from the plan you leave it"),
+    "architect": ((r"(^|/)novels/[^/]+/(bible|plan)(/|$)", r"(^|/)novels/[^/]+/novel\.md$",
+                   r"(^|/)novels/[^/]+/state/(?!brief\.md$)[^/]+$"),
+                  "the architect decides what the story is. Chapters and the brief are written by "
+                  "the drafter, from the plan you leave it"),
     "drafter": ((r"(^|/)novels/[^/]+/(chapters|state)(/|$)",),
                 "the drafter writes the chapter and the state. A bible fact you need and cannot "
                 "find is a thing to report, not to add mid-draft"),

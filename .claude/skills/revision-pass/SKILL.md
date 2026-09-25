@@ -14,15 +14,16 @@ metadata:
 
 A chapter is not finished when it is drafted. This is the gate, and it is **Phase C of
 `write-chapter`** — not a later step, not a command the user types. Every chapter arrives here
-before it is reported, and does not leave until it is `status: revised`.
+before it is reported, and does not leave until it passes — `status: gated`, set by the gate as
+its last act. `revised` comes after, when the drafter has written the chapter's state.
 
 Run the passes **in this order** — structural fixes invalidate line edits, so line editing goes
 last. Each pass is a search-and-decide, not a re-read.
 
 ## Pass Z — the story gate. Run this first, and be willing to stop here.
 
-Sixteen passes in a fixed order is the right shape for *fixing* a chapter and the wrong shape for
-deciding whether it is worth fixing. Run #2 ran all sixteen and shipped five `status: revised`
+Twenty passes in a fixed order is the right shape for *fixing* a chapter and the wrong shape for
+deciding whether it is worth fixing. Run #2 ran all sixteen it had then and shipped five `status: revised`
 chapters a reader flagged as machine-written on page one. Four questions that do ask, gating all
 of it:
 
@@ -45,10 +46,10 @@ who had not thought about this world · a beat that costs the story something it
 What does not: a stylistic flourish, a withheld reveal, an ironic last line, or the chapter being
 well written.
 
-A failed Z4 is **not** a stop. **Write the answer to the block's `z4>` line, `none` included** —
-the only trace this pass leaves, and one written to flatter the chapter defeats the point of
-asking. Name the one place it could have taken the riskier option and carry that into the next
-brief. Three failures in five is the finding, and the
+A failed Z4 is **not** a stop. **Return the answer as the hand-back's `z4>`, `none` included** —
+the drafter copies it into the block, it is the only trace this pass leaves, and one written to
+flatter the chapter defeats the point of asking. Name the one place it could have taken the
+riskier option, in the hand-back, so the next brief can take it. Three failures in five is the finding, and the
 repair is in Phase A's three candidates (`story-craft`'s card), not in the prose.
 
 If Z1 or Z2 fails, **stop**. Do not run passes 0–10. A chapter whose central event never got
@@ -283,7 +284,8 @@ Whatever this pass has to undo is still a gate fix and belongs in the `Gate:` li
 
 Frontmatter, scene breaks, the POV label, and the measured word count — **`roles/gate/revision-pass.owned-passes.md`
 §Pass 10**, which also says who stamps. A pass that changes the body changes the count, so the
-count is measured here and stamped by `write-chapter` step 4, after this pass returns.
+count is measured after this pass and stamped by the drafter, last in its state write — the stamp
+also corrects the CCS block's `wc:`, which does not exist until then.
 
 **The four channels** are `narrator-voice`'s to enforce — open that skill's audit card.
 
@@ -291,10 +293,11 @@ count is measured here and stamped by `write-chapter` step 4, after this pass re
 
 ## When something fails
 
-Open **`roles/gate/revision-pass.fixing-and-reporting.md`** — the repair order, what to do when a fix
-contradicts the plan or reveals a bible gap, the report format, and re-gating a chapter that was
-drafted earlier.
+Open **`roles/gate/revision-pass.fixing-and-reporting.md`** — the repair order, what to hand to
+design when a fix contradicts the plan or reveals a bible gap, the report format, and re-gating a
+chapter that was drafted earlier.
 
-Set `status: revised` when every pass is clean. **Lead the report with what the chapter delivers**,
-and never quote a word count. Inside `write-chapter` this pass reports as the step 6 `Gate:` line,
-and the block's `gate>` line records what it fixed — which builds the next chapter's WATCH row.
+Set `status: gated` when every pass is clean; the drafter stamps `revised` after the state write.
+**Lead the report with what the chapter delivers**, and never quote a word count. This pass
+reports as the hand-back's `Gate:` line, which the drafter condenses into the block's `gate>` —
+the next chapter's WATCH row. You edit the chapter only; the rest goes under `For design:`.

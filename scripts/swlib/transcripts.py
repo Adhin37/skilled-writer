@@ -14,8 +14,10 @@ early rows holding partials - is taken as the group's maximum.
 
 **Privacy.** Nothing here reads prompt text, tool results, or assistant prose. The extracted
 fields are exactly: type, timestamp, cwd, requestId, message.id, message.model, message.usage,
-and the *names* and `file_path`s of tool calls. A reader pointed at somebody's own transcripts
-should be able to say precisely that, so it does.
+the *names* and `file_path`s of tool calls, and - beside a subagent's transcript - the
+`agentType`, `spawnDepth` and short `description` in its `agent-*.meta.json`, which is the label
+the spawning call gave it rather than anything it was told. A reader pointed at somebody's own
+transcripts should be able to say precisely that, so it does.
 
 **Portability.** Claude Code escapes a project's path into its own directory name, and the
 escaping differs between platforms. That name is never reconstructed here. Every `*.jsonl` under
@@ -55,6 +57,16 @@ ROLE_PATH = re.compile(
 ROLE_IN_TEXT = re.compile(
     r"(?<![\w-])" + _ROLE_ALT + r"/[a-z]+/([a-z0-9][a-z0-9-]*)\.([A-Za-z0-9._-]+\.md)")
 CHAPTER_PATH = re.compile(r"(?:^|/)novels/([^/]+)/chapters/(\d+)[^/]*$")
+# A maintainer note named inside a shell command, so a `cat docs/benchmark.md` is judged too.
+DOCS_IN_TEXT = re.compile(r"(?<![\w/.-])docs/[A-Za-z0-9._-]+\.md")
+
+# The chapter a subagent was spawned for, read from its spawn `description` - the short label in
+# `agent-*.meta.json`, never the prompt. `/novel-write` fixes that label as "<phase> ch <N>", so a
+# drafter, its gate and its fold each land on the chapter they worked on. The write-anchor rule
+# below could not do that once the work split across agents: the drafter's state write happens
+# after the gate, so all of it was billed to the NEXT chapter, and a gate that edited nothing
+# left no anchor at all.
+CHAPTER_IN_LABEL = re.compile(r"\bch(?:apter)?\.?\s*(\d+)\b", re.I)
 
 # A card open, which is a skill open with a phase attached. Counted separately from the skill
 # because the two answer different questions: a skill file says the drafter reached for the
@@ -183,10 +195,45 @@ class Session(object):
         self.agent_id = ""
         self.session_id = ""
         self.cwds = set()
+        # (timestamp, tool name, path) for every repo file this transcript opened by argument or
+        # named in a shell command - what `sw trace` judges against the role read guard.
+        self.opened = []
+        # From `agent-*.meta.json`, when the harness wrote one beside the transcript.
+        self.agent_type = ""
+        self.spawn_depth = 0
+        self.description = ""
 
     @property
     def is_subagent(self):
         return "/subagents/" in self.path.replace(os.sep, "/")
+
+    @property
+    def role(self):
+        """Who did this work: the subagent's declared type, or `main` for a top-level session.
+
+        `main` rather than `coordinator`, because a top-level session in this repo is as often a
+        maintainer at work as a run's coordinator, and the label should not claim to know which.
+        """
+        if not self.is_subagent:
+            return "main"
+        return self.agent_type or "subagent"
+
+    @property
+    def chapter_hint(self):
+        """The one chapter this subagent's spawn label names, or None.
+
+        None when the label names no chapter or several, and when the transcript wrote chapter
+        files for any other chapter - a warm drafter continued across chapters by `SendMessage`
+        keeps its first label, and the write-anchor rule is the honest measure for it.
+        """
+        if not self.is_subagent:
+            return None
+        found = set(int(n) for n in CHAPTER_IN_LABEL.findall(self.description or ""))
+        if len(found) != 1:
+            return None
+        n = found.pop()
+        written = set(num for _ts, _slug, num in self.artifacts)
+        return n if written <= set([n]) else None
 
     @property
     def label(self):
@@ -285,7 +332,33 @@ def read_session(path, root):
         groups[key].absorb(row, usage)
 
     sess.responses = [groups[k] for k in order]
+    _read_meta(sess, path)
     return sess
+
+
+def _read_meta(sess, path):
+    """The harness's own label for a subagent: `agent-<id>.meta.json` beside its transcript.
+
+    Metadata only - the type the spawning call named, how deep it sits, and the short
+    description the caller gave it. A missing or unreadable file leaves the defaults, which is
+    what every transcript written before the harness began writing these looks like.
+    """
+    if not path.endswith(".jsonl"):
+        return
+    meta = path[:-len(".jsonl")] + ".meta.json"
+    try:
+        with open(meta, encoding="utf-8") as fh:
+            data = json.load(fh)
+    except (IOError, OSError, ValueError):
+        return
+    if not isinstance(data, dict):
+        return
+    sess.agent_type = str(data.get("agentType") or "")
+    try:
+        sess.spawn_depth = int(data.get("spawnDepth") or 0)
+    except (TypeError, ValueError):
+        sess.spawn_depth = 0
+    sess.description = str(data.get("description") or "")
 
 
 def _scan_tools(sess, message, stamp):
@@ -317,15 +390,21 @@ def _scan_tools(sess, message, stamp):
                     seen = set()
                     unix = text.replace("\\", "/")
                     for pattern in (SKILL_IN_TEXT, ROLE_IN_TEXT):
-                        for skill, rest in pattern.findall(unix):
+                        for m in pattern.finditer(unix):
+                            skill, rest = m.group(1), m.group(2)
                             if (skill, rest) in seen:
                                 continue
                             seen.add((skill, rest))
                             _bump(sess.skills, skill)
                             _bump(sess.skill_files, "%s/%s" % (skill, rest))
                             _note_card(sess, stamp, skill, rest)
+                            sess.opened.append((stamp, name, m.group(0)))
+                    for m in DOCS_IN_TEXT.finditer(unix):
+                        sess.opened.append((stamp, name, m.group(0)))
             continue
         unix = path.replace("\\", "/")
+        if name not in ("Write", "Edit", "NotebookEdit"):
+            sess.opened.append((stamp, name, unix))
         m = SKILL_PATH.search(unix) or ROLE_PATH.search(unix)
         if m:
             _bump(sess.skills, m.group(1))
@@ -349,7 +428,10 @@ def transcript_files(root):
     """Every transcript under a config root: main sessions first, then subagent files."""
     projects = os.path.join(root, "projects")
     found = sorted(glob.glob(os.path.join(projects, "*", "*.jsonl")))
-    found += sorted(glob.glob(os.path.join(projects, "*", "*", "subagents", "*.jsonl")))
+    # Recursive below `subagents/`: a subagent may spawn its own, and wherever the harness files
+    # the grandchild, a fixed-depth glob that misses it drops that agent's whole cost silently.
+    found += sorted(glob.glob(os.path.join(projects, "*", "*", "subagents", "**", "*.jsonl"),
+                              recursive=True))
     return found
 
 
@@ -412,9 +494,17 @@ def aggregate(sessions):
         "models": {},
         "first_ts": "",
         "last_ts": "",
+        "by_role": {},
     }
     for s in sessions:
         t = s.totals()
+        role = agg["by_role"].setdefault(s.role, dict(_new_acc(), sessions=0, duration_s=0))
+        role["sessions"] += 1
+        role["duration_s"] += s.duration_s
+        for r in s.responses:
+            _tally(role, r)
+        for _stamp, _skill, kind in s.card_opens:
+            role[kind + "_cards"] += 1
         agg["responses"] += len(s.responses)
         agg["rows"] += s.rows
         for field in ("input_tokens", "cache_creation_input_tokens",
@@ -439,12 +529,22 @@ def aggregate(sessions):
 
 
 def by_chapter(sessions, since=None):
-    """Attribute each response to the chapter whose last write follows it.
+    """Attribute each response and card to a chapter, and say how.
 
-    Anchored on the **last** write of a chapter file rather than the first: a revision step
-    rewrites the same file, and anchoring on the first pushes revision cost into the next
-    chapter's bucket. The first chapter's bucket therefore absorbs all preceding setup, which is
-    a property of the measurement and is printed as such.
+    Two rules, applied per transcript:
+
+    - **A subagent whose spawn label names one chapter** (`chapter_hint`) is billed to that
+      chapter whole. That is the role pipeline's normal case - a drafter, its gate and its fold
+      each spawned for "ch N" - and the only rule that stays right once the work is split
+      across agents.
+    - **Everything else** - the main session, an unlabelled or warm subagent - goes to the
+      chapter whose LAST write follows it. Anchored on the last write rather than the first: a
+      revision step rewrites the same file, and anchoring on the first pushes revision cost into
+      the next chapter's bucket. The first chapter's bucket therefore absorbs all preceding
+      setup, which is a property of the measurement and is printed as such.
+
+    Work after the last write is kept in a tail row rather than dropped, so the rows sum to the
+    totals. Each bucket also carries `by_role`, the same figures split by who did the work.
     """
     marks = {}
     for sess in sessions:
@@ -454,93 +554,96 @@ def by_chapter(sessions, since=None):
             key = (slug, number)
             if stamp > marks.get(key, ""):
                 marks[key] = stamp
-    if not marks:
+    hinted = dict((id(sess), sess.chapter_hint) for sess in sessions
+                  if sess.chapter_hint is not None)
+    if not marks and not hinted:
         return []
 
-    ordered = sorted(marks.items(), key=lambda kv: kv[1])
-    buckets = [{"slug": k[0], "chapter": k[1], "until": ts, "responses": 0,
-                "input_tokens": 0, "cache_write_5m": 0, "cache_write_1h": 0,
-                "cache_read_input_tokens": 0, "output_tokens": 0, "first_ts": "", "last_ts": "",
-                "draft_cards": 0, "audit_cards": 0, "by_model": {}}
-               for k, ts in ordered]
+    slug_of = {}
+    for (slug, number), _ts in sorted(marks.items(), key=lambda kv: kv[1]):
+        slug_of.setdefault(number, slug)
+    slugs = set(k[0] for k in marks)
+    default_slug = next(iter(slugs)) if len(slugs) == 1 else "?"
 
-    responses = []
+    def key_for(number):
+        return (slug_of.get(number, default_slug), number)
+
+    until = dict(marks)
     for sess in sessions:
-        responses.extend(sess.responses)
-    responses.sort(key=lambda r: r.timestamp or "")
+        n = hinted.get(id(sess))
+        if n is not None:
+            k = key_for(n)
+            until[k] = max(until.get(k, ""), sess.last_ts or "")
+    ordered = sorted(until.items(), key=lambda kv: kv[1])
+    buckets = [dict(_new_acc(), slug=k[0], chapter=k[1], until=ts, first_ts="", last_ts="",
+                    by_role={})
+               for k, ts in ordered]
+    by_key = dict(((b["slug"], b["chapter"]), b) for b in buckets)
+    anchors = sorted(((ts, by_key[k]) for k, ts in marks.items()), key=lambda x: x[0])
 
-    # There was a guard for responses after the last chapter write and none for those before the
-    # first, so on an unscoped root every prior session in the repo landed in chapter 1's bucket.
-    # Benchmark run #2, F5.
-    #
     # The head boundary is `since` and nothing else. Guessing one from the first bucket would
     # strip that chapter of the setup it is documented to absorb - the cure being worse than the
     # disease. With no `since`, cmd_trace reports the unscoped span instead of moving cost.
     head = since or ""
-    pre = {"responses": 0, "input_tokens": 0, "cache_write_5m": 0, "cache_write_1h": 0,
-           "cache_read_input_tokens": 0, "output_tokens": 0,
-           "draft_cards": 0, "audit_cards": 0, "by_model": {}}
+    pre = dict(_new_acc(), by_role={})
+    tail = dict(_new_acc(), by_role={}, first_ts="", last_ts="")
 
-    idx = 0
-    for r in responses:
-        stamp = r.timestamp or ""
-        if head and stamp and stamp < head:
-            _tally(pre, r)
-            continue
-        while idx < len(buckets) and stamp > buckets[idx]["until"]:
-            idx += 1
-        if idx >= len(buckets):
-            break                      # after the last chapter write: unattributed
-        b = buckets[idx]
-        b["responses"] += 1
-        b["input_tokens"] += r.input_tokens
-        b["cache_write_5m"] += r.cache_write_5m
-        b["cache_write_1h"] += r.cache_write_1h
-        b["cache_read_input_tokens"] += r.cache_read
-        b["output_tokens"] += r.output_tokens
-        # Kept per model so the bucket can be priced rather than blended: a run that switched
-        # models mid-chapter is exactly the case a single blended rate gets wrong.
-        m = b["by_model"].setdefault(r.model or "(unknown)", {
-            "responses": 0, "input_tokens": 0, "cache_write_5m": 0, "cache_write_1h": 0,
-            "cache_read_input_tokens": 0, "output_tokens": 0})
-        m["responses"] += 1
-        m["input_tokens"] += r.input_tokens
-        m["cache_write_5m"] += r.cache_write_5m
-        m["cache_write_1h"] += r.cache_write_1h
-        m["cache_read_input_tokens"] += r.cache_read
-        m["output_tokens"] += r.output_tokens
-        if stamp and (not b["first_ts"] or stamp < b["first_ts"]):
-            b["first_ts"] = stamp
-        if stamp > b["last_ts"]:
-            b["last_ts"] = stamp
-    # Cards ride the same boundaries as responses, and inherit the same weakness: a Phase A
-    # card opened for chapter N+1 before chapter N's file is finished lands in N's bucket. That
-    # is stated in the report rather than corrected, because the alternative is guessing which
-    # chapter a card was "really" for.
-    cards = []
+    def anchored(stamp):
+        for ts, b in anchors:
+            if stamp <= ts:
+                return b
+        return tail
+
     for sess in sessions:
-        cards.extend(sess.card_opens)
-    cards.sort(key=lambda c: c[0] or "")
-    idx = 0
-    for stamp, _skill, kind in cards:
-        stamp = stamp or ""
-        if head and stamp and stamp < head:
-            pre[kind + "_cards"] += 1
-            continue
-        while idx < len(buckets) and stamp > buckets[idx]["until"]:
-            idx += 1
-        if idx >= len(buckets):
-            break
-        buckets[idx][kind + "_cards"] += 1
+        n = hinted.get(id(sess))
+        fixed = by_key[key_for(n)] if n is not None else None
+        for r in sess.responses:
+            stamp = r.timestamp or ""
+            if head and stamp and stamp < head:
+                _add(pre, r, sess.role)
+                continue
+            b = fixed if fixed is not None else anchored(stamp)
+            _add(b, r, sess.role)
+            if stamp and (not b["first_ts"] or stamp < b["first_ts"]):
+                b["first_ts"] = stamp
+            if stamp > b["last_ts"]:
+                b["last_ts"] = stamp
+        # Cards ride the same boundaries as responses and inherit the same weakness under the
+        # anchor rule: a Phase A card opened for chapter N+1 before chapter N's file is finished
+        # lands in N's bucket. Stated in the report rather than corrected, because the
+        # alternative is guessing which chapter a card was "really" for.
+        for stamp, _skill, kind in sess.card_opens:
+            stamp = stamp or ""
+            if head and stamp and stamp < head:
+                target = pre
+            else:
+                target = fixed if fixed is not None else anchored(stamp)
+            target[kind + "_cards"] += 1
+            role = target["by_role"].setdefault(sess.role, _new_acc())
+            role[kind + "_cards"] += 1
 
-    for b in buckets:
+    for b in buckets + [tail]:
         b["duration_s"] = _span_seconds(b["first_ts"], b["last_ts"])
         b["cache_creation_input_tokens"] = b["cache_write_5m"] + b["cache_write_1h"]
     if pre["responses"] or pre["draft_cards"] or pre["audit_cards"]:
         pre["cache_creation_input_tokens"] = pre["cache_write_5m"] + pre["cache_write_1h"]
         buckets.insert(0, dict(pre, slug="(before --since)", chapter=0, until=head,
                                first_ts="", last_ts="", duration_s=0))
+    if tail["responses"] or tail["draft_cards"] or tail["audit_cards"]:
+        buckets.append(dict(tail, slug="(after the last write)", chapter=-1, until=""))
     return buckets
+
+
+def _new_acc():
+    return {"responses": 0, "input_tokens": 0, "cache_write_5m": 0, "cache_write_1h": 0,
+            "cache_read_input_tokens": 0, "output_tokens": 0,
+            "draft_cards": 0, "audit_cards": 0, "by_model": {}}
+
+
+def _add(acc, r, role):
+    """Tally one response into a bucket and into that bucket's per-role split."""
+    _tally(acc, r)
+    _tally(acc["by_role"].setdefault(role, _new_acc()), r)
 
 
 def _tally(acc, r):

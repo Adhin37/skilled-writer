@@ -58,7 +58,11 @@ without this is a bug.
 
 - **The gate is not a command.** `revision-pass` is Phase C of `write-chapter` and runs on every
   chapter before anything is reported. There is no `/novel-revise`, and a chapter is never handed
-  back at `status: drafted`.
+  back at `status: drafted`. In the agent pipeline the *coordinator* summons it, between the
+  drafter's two stops (`BRIEF READY`, `READY FOR GATE`), and relays its hand-back for the state
+  write; the drafter never spawns it, because a background child in a non-interactive harness
+  reports to the main conversation, not to its parent. A chapter's own facts reach `bible/`
+  through the architect's **fold**, from the drafter's `Bible:` line.
 - **Nothing scores a chapter by a number.** Word count and dialogue share were both tried as ship
   gates and both were optimised rather than satisfied. Every measurement is reported and gates
   nothing; findings that are only meaningful in aggregate are counted across chapters and raised
@@ -74,6 +78,14 @@ without this is a bug.
   is exclusive. State the rules you own; for everything else, cite the owner by name and stop.
   `python3 scripts/sw.py kb owner <slug>` answers "whose rule is this?" without opening anything.
   `sw health` fails a skill that copies or paraphrases another's rule instead of citing it.
+
+## Why no agent pins a model, and why its prompt never says why
+
+`drafter`, `gate` and `architect` carry no `model:`: the model is a run parameter a benchmark
+records, and pinning it in an agent file would fix it silently for every run. The `reader` pins one
+because it is the instrument, not the subject. That reasoning lives here and not in the agent
+files, because an agent file is the agent's system prompt, and a drafter told it is "the thing a
+benchmark measures" is a drafter writing for the measurement (`docs/test-run-protocol.md` §4).
 
 ## Before you commit a change to the toolkit
 

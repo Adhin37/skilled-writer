@@ -6,7 +6,7 @@ arc: 0
 event: ""              # what HAPPENS, in one clause a reader could retell. Concrete verb + target. No abstract nouns.
 delivers: ""           # what is materially different at the end. One clause. THE gate — see revision-pass Pass 9.
 wordcount: 0           # measured, never estimated; re-measure after any revision. A fact, not a target.
-status: drafted        # drafted | revised | published
+status: drafted        # drafted -> gated (the gate passed it) -> revised (state written, stamped) | published
 in_world_day: ""
 threads: []            # ids touched, e.g. ["^T03", "~T11", "vT07"]
 ---

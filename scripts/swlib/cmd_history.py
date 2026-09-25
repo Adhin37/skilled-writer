@@ -99,7 +99,7 @@ def run(novel):
     _length(rep, rows)
     _defects(rep, rows)
     _widening(rep, rows)
-    _giving(rep, rows)
+    _giving(novel, rep, rows)
     _threads(novel, rep, rows, data)
     _curve(novel, rep, data)
     _cadence(rep, rows, data)
@@ -281,7 +281,7 @@ def _widening(rep, rows):
                  % (len(none_rows), len(answered)))
 
 
-def _giving(rep, rows):
+def _giving(novel, rep, rows):
     """The reward half of the ledger, counted across the book.
 
     `conflict-engine` owns both halves: every chapter takes something, and every chapter names one
@@ -300,7 +300,18 @@ def _giving(rep, rows):
         return
     named = [r for r in blocked if r["gav"]]
     if not named:
-        return          # `tone.warmth: cold`, or a book written before the line existed
+        # `tone.warmth: cold` declares the giving half off, and that is the only silence that is
+        # an answer. On any other setting a book with no `gav>` line anywhere is the rule this
+        # function exists for, satisfied by silence one level up - it used to return here and
+        # say nothing, so a drafter that never wrote the line was never asked about it.
+        if str(novel.get("tone.warmth") or "").strip().lower() == "cold":
+            return
+        if len(blocked) >= 3:
+            rep.warn("history-gives",
+                     "none of %d block(s) carries a `gav>` line - nothing records what any chapter "
+                     "gave back, so nothing can say whether one did. `none` is a legitimate entry; "
+                     "an absent line is a step nobody can prove ran" % len(blocked))
+        return
     none_rows = [r["number"] for r in named if r["gav"].strip().lower() == "none"]
     gave = len(named) - len(none_rows)
 
@@ -331,7 +342,7 @@ def _threads(novel, rep, rows, data):
         status = str(r.get("status", "")).strip().lower()
         if status not in ("open", "escalated"):
             continue
-        tid = r.first().strip()
+        tid = r.first().strip().strip("*")      # a bold id is the same id - as in cmd_state
         touched = seen.get(tid)
         age = (last - touched) if touched else None
         out.append({"id": tid, "status": status, "age": age,

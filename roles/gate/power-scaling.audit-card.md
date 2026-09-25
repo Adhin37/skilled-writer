@@ -17,12 +17,13 @@ finds the countable half — step size, cadence, unpaid debts, monotony, the tri
 pressure value that disagrees with the ledger. It cannot tell whether a gain was *earned on the
 page*, whether an opponent is a person or a number, or whether a win felt free, so those stay here.
 
-- [ ] Every confrontation has a pressure value in `state/power.md` §3, and the CCS `pwr>` line
-      agrees with it
-- [ ] **A chapter with no confrontation still has a `pwr>` line.** It is not a combat field: it
-      records what the chapter spent, and a quiet chapter spends something. Write
-      `pwr> P=n/a no contest / <abilities used, or none> / <cost paid>`. Run #4's drafter read
-      this as a fight-only line, missed it for four chapters and had to backfill every block
+- [ ] Every confrontation on the page has a pressure you can state against `state/power.md` §1–§2.
+      The §3 row and the CCS `pwr>` line are written after you, at the state write, and `sw curve`
+      checks they agree - so put the value in your hand-back for the drafter to record
+- [ ] **A chapter with no confrontation still spends something**, and the drafter will record it as
+      `pwr> P=n/a no contest / <abilities used, or none> / <cost paid>`. Name the abilities and the
+      cost in your hand-back when the page makes them easy to miss. Run #4's drafter read the line
+      as fight-only, missed it for four chapters and had to backfill every block
 - [ ] The pressure was decided **before** the opponent — no opponent invented at the strength the
       scene needed and priced afterwards
 - [ ] The chapter sits inside its arc's planned band (`state/power.md` §6), or the deviation is

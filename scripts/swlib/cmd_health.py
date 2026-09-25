@@ -128,6 +128,7 @@ def run(repo_root, commands=None):
     _settings_hooks(repo_root, rep)
     _card_budget(repo_root, rep)
     _card_scope(repo_root, rep)
+    _drafter_reach(repo_root, rep)
     rep.info("scope", [
         "   %d skills, %d roles, %d template accessors, %d template sections, %d template "
         "axes checked"
@@ -1116,6 +1117,48 @@ def _norm_when(value):
     """`when:` as a comparable string. Absent and `always` are the same condition."""
     text = str(value or "").strip()
     return "always" if not text or text.lower() == "always" else text
+
+
+def _drafter_reach(repo_root, rep):
+    """Every file the read-set can send the drafter to is one its read guard lets it open.
+
+    Judged by `role_scope.verdict` itself, loaded from the hook file, so the check and the guard
+    cannot disagree by construction. Before 2026-09-24 they did: `kb.entry` fell back to a
+    module's `SKILL.md` when it had no draft card, the guard refuses every body but the
+    drafter's two dispatchers, and so `no-harem` - on by default - sent every default novel's
+    Phase A into a refusal. No test failed, because nothing asked the two halves the same
+    question.
+    """
+    hook = os.path.join(repo_root, "scripts", "hooks", "role_scope.py")
+    if not os.path.isfile(hook):
+        return
+    import importlib.util
+    from . import cmd_readset
+    spec = importlib.util.spec_from_file_location("_sw_health_role_scope", hook)
+    guard = importlib.util.module_from_spec(spec)
+    try:
+        spec.loader.exec_module(guard)
+    except Exception as exc:                          # a broken hook is its own finding
+        rep.defect("drafter-reach", "scripts/hooks/role_scope.py does not load: %s" % exc,
+                   path=hook)
+        return
+    payload = {"agent_id": "sw-health", "agent_type": "drafter"}
+    idx = kb.index(repo_root)
+    sent = []
+    for name, skill in sorted(idx.skills.items()):
+        if not skill.when or skill.when == "always":
+            continue                                  # not a module; never listed as one
+        entry = cmd_readset._drafter_entry(skill, idx.entry(name))
+        if not entry.startswith("("):
+            sent.append(("module %s" % name, entry))
+    sent.extend(("draft card", f.rel) for f in idx.by_type("draft-card"))
+    for what, rel in sent:
+        why = guard.verdict(payload, rel)
+        if why:
+            rep.defect("drafter-reach",
+                       "the read-set can send the drafter to `%s` (%s), and its read guard "
+                       "refuses it: %s" % (rel, what, why),
+                       path=os.path.join(repo_root, rel))
 
 
 def _card_scope(repo_root, rep):

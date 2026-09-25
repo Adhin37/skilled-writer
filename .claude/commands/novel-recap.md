@@ -5,7 +5,11 @@ argument-hint: "[optional: 'for readers' | 'arc 2' | 'audit' | 'review']"
 
 Maintain or read out the continuity ledger, and run the arc-boundary pass.
 
-Resolve the active novel, then invoke the `continuity-summary` skill.
+Resolve the active novel, then **invoke the `architect` agent** (description `recap arc N`) to run
+`continuity-summary`'s arc rollup. It is the one role that can do the whole job: the digests land
+in `state/continuity.md` and the drift and competence audits in `bible/cast/`, and the architect
+writes both. The review and "for readers" modes only read, so you may run those yourself. If the
+agent is unavailable, run it inline and say so — in a test run, stop and log it instead.
 
 Interpret `$ARGUMENTS`:
 
@@ -39,9 +43,9 @@ Interpret `$ARGUMENTS`:
 - "for readers" → write a human-facing recap of the story so far, in prose, spoiler-safe to the
   latest published chapter. This is a *separate output* — never edit the ledger into prose.
 - "arc N" → rewrite that arc's digest from its chapter blocks.
-- "audit" → check the ledger's integrity: every chapter has a block, every block has `kno>` and
-  `hook>`, no block exceeds 12 lines, thread ids all exist in `threads.md`, names match
-  `lexicon.md`, timeline is monotonic. Report defects and fix them.
+- "audit" → check the ledger's integrity against `continuity-summary` §Self-check — its list, not
+  a copy of it: `python3 scripts/sw.py state novels/<slug>` runs the countable half. Report
+  defects; the fixes go to the role that owns each file, never to you in a test run.
 
 Keep the ledger machine-only and compressed. Do not prettify it, do not expand it, and do not
 apologise for its unreadability — that is the design.

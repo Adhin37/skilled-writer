@@ -33,11 +33,13 @@ def run(novel):
 
     stale = novel.ungated_chapters()
     if stale:
-        rep.warn("gate", "%d chapter(s) never passed the phase C gate - newest is ch %d at "
-                 "`status: %s`. Re-gate with %s."
-                 % (len(stale), stale[0].number,
-                    str(stale[0].meta.get("status", "")).strip() or "?",
-                    cmd_readset.regate_target(c.number for c in stale)),
+        top = str(stale[0].meta.get("status", "")).strip() or "?"
+        rep.warn("gate", "%d chapter(s) unfinished - newest is ch %d at `status: %s`. %s"
+                 % (len(stale), stale[0].number, top,
+                    "The gate passed it and step 5 never wrote its state; write it back."
+                    if top == "gated" else
+                    "The phase C gate never ran on it; re-gate with %s."
+                    % cmd_readset.regate_target(c.number for c in stale)),
                  path=stale[0].path)
 
     rep.info("last three chapters (dlv> - translate for the user, do not paste)", [
@@ -53,7 +55,7 @@ def run(novel):
         status = str(r.get("status", "")).strip().lower()
         if status not in ("open", "escalated"):
             continue
-        tid = r.first().strip()
+        tid = r.first().strip().strip("*")      # a bold id is the same id - as in cmd_state
         seen = last_seen.get(tid)
         age = ("last touched ch %d (%d ago)" % (seen, last - seen)) if seen else "never touched"
         trows.append("   %-5s %-8s %-6s %s | due: %s | %s"

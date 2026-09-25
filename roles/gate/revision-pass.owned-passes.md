@@ -21,14 +21,15 @@ again.
 ## Pass 1 — Continuity
 
 Against the read-set. The read-set is the authority: where the chapter and the ledger disagree,
-**the ledger wins unless the chapter is better**, and if the chapter is better the ledger is
-amended and the amendment is reported.
+**the ledger wins unless the chapter is better**, and if the chapter is better the amendment is
+reported — under `For design:` when it is a bible or plan fact, and for the drafter when it is
+state. You edit the chapter and nothing else.
 
 | check | fails when | cheapest repair |
 |---|---|---|
 | No contradiction with the last five CCS blocks | a fact quietly changed between chapters — a door that was locked is open, a debt that was owed is forgotten | change this chapter. The ledger records what shipped, and a reader has already read it |
 | Nobody knows what their `kno>` history does not support | a character acts on information no scene gave them | give them the moment they learned it, in a clause — or let them be *guessing*, which is usually the better scene |
-| Names, terms, titles and spellings match `bible/lexicon.md` exactly | two spellings of one name across forty chapters | fix the chapter. Change the lexicon only if the new form is genuinely better, and then say so — a silent lexicon edit orphans every earlier chapter |
+| Names, terms, titles and spellings match `bible/lexicon.md` exactly | two spellings of one name across forty chapters | fix the chapter. Propose a lexicon change under `For design:` only if the new form is genuinely better — a silent lexicon edit orphans every earlier chapter |
 | In-world time agrees with `state/timeline.md`; travel is plausible | a three-day journey happens overnight because the plot needed it | move the scene, not the map. Distances are load-bearing once a reader has priced them |
 | Objects, injuries and possessions persist | the coat, the scar, the debt vanish when inconvenient | one clause restores it. An injury that stops mattering is a stake the reader learns to discount |
 | Nothing contradicts `bible/world.md`, `society.md` or `power-system.md` | the world bends for one scene | bend the scene. A rule broken once is a rule the reader stops believing |
@@ -47,7 +48,8 @@ Read `state/body.md` §1–§2 first; the CURRENT FORM row is the only descripti
 - [ ] No capability exceeded the stage's absolute limits: reach, strength, stamina, voice
 - [ ] Others reacted to the **body**, not to the mind inside it
 - [ ] Adult diction out of a child's body was noticed by somebody, or deliberately masked
-- [ ] A stage transition, if one fired, is logged in §4 with what it enables and what it costs
+- [ ] A stage transition, if one fired, is named for the drafter to log in `state/body.md` §4,
+      with what it enables and what it costs
 
 The common failure is not a wrong sentence but an *absent* one: nobody in the scene registers the
 body at all, and the form stops being a constraint and becomes a costume.
@@ -138,13 +140,14 @@ scene, and the scene is better without it.
 A wrong count propagates into `state/continuity.md` and corrupts every share computed from it, so
 stamping runs **last** — and it is not this pass's to run. `wordcount:` in the frontmatter and
 `wc:` in the CCS block are one write landing in two files, and the gate is held to `chapters/`,
-so it could do half of it. Half a paired write is how the two get out of step. Measure the body,
-**report the number**, and let `write-chapter` step 4 stamp both:
+so it could do half of it. Half a paired write is how the two get out of step. Leave both to the
+drafter, which stamps last in its state write, once the block the `--ledger` half corrects exists:
 
 ```bash
-wc -w novels/<slug>/chapters/<file>.md      # the gate measures
-python3 scripts/sw.py stamp novels/<slug> -c <n> --status revised --ledger   # step 4 stamps
+python3 scripts/sw.py stamp novels/<slug> -c <n> --status revised --ledger   # the drafter, last
 ```
+
+The count is a measured fact, never a finding: it does not go in your hand-back.
 
 **The four channels** are `narrator-voice`'s to enforce, not this file's — open
 `roles/gate/narrator-voice.audit-card.md`.

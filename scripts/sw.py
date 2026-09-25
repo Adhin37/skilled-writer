@@ -113,7 +113,8 @@ def do_readset(args):
     novel = _novel(args)
     chars = args.chars.split(",") if args.chars else None
     locs = args.locs.split(",") if args.locs else None
-    text = cmd_readset.build(novel, args.chapter, chars, locs, want_society=args.society)
+    text = cmd_readset.build(novel, args.chapter, chars, locs, want_society=args.society,
+                             role=args.role)
     if args.out:
         dest = _checked_out_path(args.out)
         with open(dest, "w", encoding="utf-8", newline="\n") as fh:
@@ -209,9 +210,17 @@ def do_audit(args):
     # visible in one chapter - so the gate people actually run could not see the one class of
     # defect that most needs a whole-novel view. Only the cross-chapter findings are added;
     # history's per-chapter trends come from the same `lint` already run above.
+    #
+    # `history-gives` and `history-z4` joined on 2026-09-24: they are the cross-chapter halves of
+    # the giving ledger and the widening step, both added after this list was written, and a warn
+    # that never reaches the audit is read by nobody who runs only the audit. The ungated warn
+    # comes from `status`, its one owner: an audit that exits clean over an unfinished chapter
+    # is the gate people run telling them the gate ran.
     hist, _data = cmd_history.run(novel)
     rep.findings.extend(f for f in hist.findings
-                        if f.check in ("history-dialogue", "history-habit"))
+                        if f.check in ("history-dialogue", "history-habit", "history-gives",
+                                       "history-z4"))
+    rep.findings.extend(f for f in cmd_status.run(novel).findings if f.check == "gate")
     return _emit(rep, args)
 
 
@@ -233,7 +242,7 @@ def do_trace(args):
     rep, data = cmd_trace.run(REPO_ROOT, novel=novel, rates=rates,
                               transcript_root=args.transcripts,
                               since=args.since, until=args.until,
-                              session=args.session)
+                              session=args.session, roles=args.role)
     if args.json:
         _json_dump(data, args)
         return 0
@@ -366,6 +375,8 @@ def build_parser():
     sp.add_argument("--society", action="store_true",
                     help="include bible/society.md (chapter turns on a social rule)")
     sp.add_argument("--out", help="write to a file instead of stdout")
+    sp.add_argument("--role", choices=cmd_readset.ROLES, default="draft",
+                    help="who it is for: `gate` leaves out the brief and the phase A cards")
     sp.set_defaults(func=do_readset)
 
     sp = novel_arg(sub.add_parser("lint", help="mechanical sweep over a chapter's prose"))
@@ -439,6 +450,8 @@ def build_parser():
     sp.add_argument("--session", help="one transcript only, by session id, agent id or path "
                                       "fragment - a time window alone still includes the "
                                       "session that drove the agent")
+    sp.add_argument("--role", help="comma-separated roles to keep: drafter, gate, architect, "
+                                   "reader, main, ... - `main` is a top-level session")
     sp.add_argument("--json", action="store_true", help="emit the measurements as JSON")
     sp.set_defaults(func=do_trace)
 

@@ -30,16 +30,21 @@ the latitude they give you (`prose-quality` §Range before polish and §When to 
 - **Fix in the file.** Do not report a defect and leave it.
 - **Structural defects can require a rewrite of a scene.** Do it. A chapter with no cost or no
   turn cannot be repaired at the sentence level.
-- **When a fix contradicts the plan**, change the plan row and re-check the next three rows.
+- **You edit the chapter and nothing else.** Everything below that belongs in another file goes
+  under **`For design:`** in your hand-back; the drafter carries it into its `Bible:` line and the
+  architect makes the change (`story-bible` §Folding a chapter's facts).
+- **When a fix contradicts the plan**, fix the chapter to what it should be, and name the plan
+  row under `For design:` — the architect amends it and re-checks the next three.
 - **When a fix reveals a bible gap** — an unnamed thing, an undefined rule, a social fact the
-  scene assumed — add it to `bible/world.md`, `bible/society.md` or `bible/lexicon.md` in the same
-  pass, and say so.
+  scene assumed — name it under `For design:`, with the page's wording, so the fold records it
+  the way the reader met it.
 - **When Pass 3 finds a knowledge gap**, prefer the cheap fix in this order: give the line to
   someone whose map covers it · have the character ask their referral · let them be *wrong* about
-  it, which usually improves the scene · and only last, add the domain to their map, which is a
-  permanent change to who they are.
+  it, which usually improves the scene · and only last, name under `For design:` that their map
+  gains the domain, which is a permanent change to who they are.
 
-Set `status: revised` in the frontmatter when every pass is clean.
+Set `status: gated` in the frontmatter when every pass is clean — your last act. `revised` is the
+drafter's, stamped after the chapter's state is written.
 
 ## Read what you changed
 
@@ -87,8 +92,9 @@ Whatever this pass undoes is still a gate fix, and goes in the `Gate:` line like
 
 ## Reporting
 
-**Inside `write-chapter`, this pass does not get a report of its own.** It gets one `Gate:` line
-in the step 6 report, and one `gate>` line in the CCS block:
+**Inside `write-chapter`, this pass does not get a report of its own.** It returns one `Gate:`
+line in its hand-back; the drafter carries it into the step 6 report and condenses it into the
+CCS block's `gate>` line:
 
 ```
 Gate: passed — cut a crowd-reaction block, replaced the ending. Pass 8b ran without its
@@ -121,7 +127,8 @@ gate> campaign-clause x2, speech-share 11%, Pass Z redraft of scene 2
 ```
 
 The field is `continuity-summary`'s — `roles/shared/continuity-summary.block-format.md` states when
-the line is present and when it is omitted, and `write-chapter` step 5 writes it.
+the line is present and when it is omitted, and the drafter writes it at step 5, condensed from
+your `Gate:` line.
 
 ## Re-gating an existing chapter
 
@@ -143,8 +150,8 @@ and the profiles of everyone in it. Then run all the passes.
 ## Re-gating a range
 
 `/novel-write 1-5` over existing chapters is large enough to hit a session limit partway through.
-Expect to resume, and finish one chapter completely — including its `stamp` and its `gate>` line —
-before starting the next, so a partial run leaves whole chapters behind it rather than a
+Expect to resume, and finish one chapter completely — including the drafter's stamp and its
+`gate>` update — before starting the next, so a partial run leaves whole chapters behind it rather than a
 half-revised one.
 
 `sw readset` names ungated chapters when it assembles the next chapter's read-set, so the backlog

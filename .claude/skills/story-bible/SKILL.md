@@ -140,13 +140,39 @@ the reader about a constraint before anything has made them want to know. `world
 
 ## Maintenance
 
-- After every chapter, `continuity-summary` moves durable `set>` facts into the bible. Do not
+- After every chapter that established something, the architect folds it in — see below. Do not
   defer this; an unrecorded fact is a future contradiction.
 - When a chapter contradicts the bible: decide which is right. Usually the chapter (it is on the
   page and the reader has seen it) — then amend the bible and check whether earlier chapters need
   a note. Record the decision; do not silently keep both.
 - When a bible section has never been referenced in 50 chapters, it is either dead weight or
   material you have forgotten to use. Decide which.
+
+## Folding a chapter's facts
+
+The drafter does not write `bible/`: a drafter who edits the world to fit the chapter has removed
+the only signal that the world was underspecified. It records what the page established in the
+block's `set>` line and lists it in its report's `Bible:` line, and `/novel-write` hands that line
+to the architect as a **fold**, spawned `fold ch N`, before the next chapter's Phase A.
+
+1. Read the `Bible:` line you were handed and the chapter's CCS block (`=CNNNN=` in
+   `state/continuity.md`), its `set>` line above all. Open the chapter only to settle a detail.
+2. Each fact that will recur goes to its one home: a location anchor or world rule to
+   `bible/world.md`, a social fact — a price, a licence, who may testify, what a custom obliges —
+   to the log at the foot of `bible/society.md`, a name or term to `bible/lexicon.md`. Spell it
+   the way the page did; if the page contradicts the bible, the Maintenance rule above decides.
+3. Walk-ons: a roster line in `bible/cast/_extras.md` for each new one, with their one
+   off-default axis; an appended chapter number for each returning one; a row in **Dead** for any
+   who died. Every named person goes into the lexicon.
+4. Promotions are `character-profile`'s rule, and the trigger is its own: write the profile,
+   then place the character in `bible/cast/_voices.md` against the existing cast
+   (`voice-separation` §1) and give them a row in `bible/cast/_competence.md`.
+5. Competence the story gained — someone learned a domain, or the chapter reached for a skill
+   no current character holds — is recorded in `bible/cast/_competence.md` (`competence-map`).
+6. `replan` means the chapter left its row: amend that row in `plan/chapters.md` to what the
+   chapter became, and check the next three rows still follow (`chapter-plan`).
+7. Report what you changed, file by file, and anything you declined to add and why — a fact the
+   page used once and will never need again is not a bible fact (the inclusion test above).
 
 ## Genre notes
 

@@ -16,7 +16,7 @@ Two things it prints and never judges: word counts, and the delivery of any indi
 
 import re
 
-from . import mdio, rules
+from . import cmd_readset, mdio, rules
 from .report import Report
 
 # Two `delivers:` this similar in one arc usually means the second chapter re-delivered the
@@ -289,10 +289,15 @@ def _cast(novel, rep, blocks):
     rows = novel.voice_rows()
     if not rows:
         return
+    # Matched the way the read-set matches them, not by whole-cell equality: `chg>` lines use the
+    # short name a chapter uses (`Ada`), the matrix the full one (`Ada Renwick`). Equality called
+    # run #5's arc a one-hander with four other matrix characters demonstrably on the page, and
+    # the benchmark credited the warn as a partial catch of a real finding - it was a parse miss.
+    on_page = set(id(r) for r in cmd_readset._match(rows, list(seen)))
     absent, present = [], []
     for r in rows:
         name = r.first().strip().strip("*")
-        (present if name.lower() in seen else absent).append(name)
+        (present if id(r) in on_page else absent).append(name)
     rep.info("cast rotation", [
         "   on the page this arc: %s" % (", ".join(sorted(present)) or "nobody"),
         "   matrix rows absent:   %s" % (", ".join(sorted(absent)) or "none"),

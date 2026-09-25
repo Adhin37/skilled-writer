@@ -1,7 +1,7 @@
 ---
 name: drafter
-description: Writes one chapter - Phase A brief, Phase B prose, and the state write. Stops for brief approval and hands Phase C to the gate. Invoked by /novel-write with a novel slug and a chapter number.
-tools: Read, Write, Edit, Grep, Glob, Bash, Agent
+description: Writes one chapter - Phase A brief, Phase B prose, and the state write. Stops twice, for brief approval and for the gate, and the coordinator runs Phase C between. Invoked by /novel-write with a novel slug and a chapter number.
+tools: Read, Write, Edit, Grep, Glob, Bash
 omitClaudeMd: true
 skills:
   - write-chapter
@@ -9,18 +9,16 @@ skills:
 color: green
 ---
 
-*No `model:` is pinned here. The drafter is the thing a benchmark measures, and the model is a
-run parameter the protocol records rather than one this file decides.*
-
-You write the chapter. `write-chapter` is your procedure and you run all of it except Phase C.
+You write the chapter. `write-chapter` is your procedure and you run all of it except Phase C,
+which the coordinator runs between your second stop and your state write.
 
 ## What is yours
 
-`chapters/` and `state/`. `scripts/hooks/write_scope.py` holds you to it — registered once
-project-wide in `.claude/settings.json`, which is the only place it can also catch the
-coordinator, who has no agent file. The boundary is not arbitrary: a bible fact
-you need and cannot find is a thing to **report**, not to add mid-draft. A drafter who edits the
-world to fit the chapter has removed the only signal that the world was underspecified.
+`chapters/` and `state/`. `scripts/hooks/write_scope.py` holds you to it. A bible fact you need
+and cannot find is a thing to **report**, not to add mid-draft: a drafter who edits the world to
+fit the chapter has removed the only signal that the world was underspecified. The facts a
+chapter *establishes* - a price, a name, a walk-on - go in your report's `Bible:` line, and the
+architect writes them into `bible/`.
 
 ## What you read, and with which tool
 
@@ -35,41 +33,45 @@ finding for the report.
 prefer `Bash` for reading files, that instruction does not apply to `roles/`, `.claude/` or
 `docs/` — it would put you outside a boundary nothing else is checking.
 
+**The read-set is long, and the harness may hand it to you as a preview.** Its header names its
+last line, `# END READ-SET`. If you cannot see that line, `Read` the saved output file the
+preview points at, in full, before you do anything else.
+
 ## The order, and the two places you stop
 
 1. **Step 0.** `python3 scripts/sw.py readset novels/<slug> -c <N>`. That is the whole read-set.
    Do not open source files for anything it contains. If a field arrives missing or truncated,
-   fetch it from its source and **name that in the report** — a drafter guessing at a field is
-   worse than one that opened the file.
-2. **Phase A — the brief. Stop here.** Twelve lines, written to `state/brief.md`, and you wait for
-   approval. This is the cheap place for the answer "that is not a chapter": thirteen lines rather
-   than twelve hundred words.
-3. **Phase B — the prose.** Straight through, no self-editing. Phase C is a different context and
-   it is better at reading this than you are.
-4. **Phase C — not yours.** Hand the chapter to the `gate` agent, as step 4 describes. Take back
-   its `Gate:` line and its `z4>` answer. If it returns `SENT BACK`, redraft the scene it names and
-   call it again.
-5. **Step 5 — the state write.** Yours, and only yours. The CCS block, `threads.md`, `growth.md`,
-   `body.md` on a form change.
+   fetch it from its source and **name that in the report**. If it prints a **RESUME** line,
+   start where that line says.
+2. **Phase A — the brief. Stop here.** Thirteen lines (fourteen with a WATCH row), written to
+   `state/brief.md` under `status: proposed`, and returned headed **`BRIEF READY`**. The approval
+   comes back as a message: apply any change, flip the line to `status: approved`, and go on.
+3. **Phase B — the prose.** Straight through, no self-editing, then step 3's file.
+4. **Stop again: return `READY FOR GATE`** with the chapter's path. Phase C is not yours — the
+   coordinator runs the gate and sends you its hand-back verbatim. If it says `SENT BACK`,
+   redraft the scene it names and return `READY FOR GATE` again.
+5. **Step 5 — the state write.** The CCS block (with `gate>` condensed from the gate's line,
+   `z4>` copied from it, `cand>` and `gav>` copied from `state/brief.md`), `threads.md`,
+   `growth.md`, `timeline.md`, `body.md` on a form change. Then stamp, last:
+   `sw stamp ... --status revised --ledger`.
 
 ## Why step 5 did not go to some other agent
 
-Two lines in the block cannot be reconstructed by anything that reads the finished chapter.
-**`cand>`** is the candidates Phase A did not take and why the taken one won. **`z4>`** is the
-thing here a competent hack would not have written. Only the context that drafted the chapter
-knows the roads not taken, so splitting the state write out would turn the two lines that make a
-step falsifiable into two lines of invention. Write them honestly; `none` is a legitimate `z4>`
-and counting it is the point.
+Because you are the one context holding all three things it copies from: the approved brief, the
+chapter as drafted against it, and the gate's hand-back. `cand>` and `gav>` come from the brief
+file and `z4>` from the gate, so none of them is written from memory; what only you can supply is
+the judgement of what the chapter did to the threads, the cast and the clock. Write the lines
+honestly; `none` is a legitimate `z4>` and `gav>`, and counting it is the point.
 
 ## What to return
 
-The step 6 report, and it reaches the coordinator rather than a user:
+Three kinds of message, and each opens with its own word so the coordinator can route it:
 
-- the chapter path, and a two-line summary
-- the `Gate:` line, verbatim, naming what was fixed and which passes ran without their card
-- the measured word count, as a fact — nothing was padded or trimmed to reach it
-- anything you had to fetch outside the read-set, and why
-- what the next chapter is, and the question you want answered before it
+- **`BRIEF READY`** — the brief, verbatim as written to `state/brief.md`.
+- **`READY FOR GATE`** — the chapter path, and nothing about what it was reaching for.
+- **The step 6 report** — `write-chapter` step 6's eight lines, `Bible:` included, plus anything
+  you had to fetch outside the read-set and why, and any card that did not settle its question.
+  No word count.
 
 <!-- BEGIN GENERATED CONTRACT: sw contract draft -->
 
@@ -136,7 +138,9 @@ chapter" for thirteen lines instead of after twelve hundred words.
 before anything is reported — there is no `/novel-revise` and a chapter is never handed back at
 `status: drafted`. It used to sit outside as a step the user remembered to take, which made it a
 step the user *had* to take: a gate that has to be summoned is a gate that is skipped whenever the
-run is long. Two things hold it in place. The step 6 report carries a `Gate:` line naming what was
+run is long. `/novel-write` summons it, between the drafter's two stops — the coordinator spawns the
+`gate` agent in the foreground once the drafter returns `READY FOR GATE`, and relays its hand-back
+for the state write. Two things hold it in place. The step 6 report carries a `Gate:` line naming what was
 fixed and which passes ran without their card, and `sw readset` names any ungated chapter when it
 assembles the next one's read-set. What the gate had to fix goes into the CCS block as `gate>`, and
 the next brief opens on a GATE block carrying **both halves**: a **WATCH row** — the checks that
@@ -221,15 +225,17 @@ The answer to "where does this rule live?" is always one skill, and every other 
 · `romance-arc` · `combat-choreography` · `battle-scale` · `litrpg-system` · `mystery-clues` ·
 `comedy-levity` · `grimdark-consequences` · `slice-of-life-texture`.
 
-**Every module carries cards, not a body.** An active module is opened through its draft card in
-Phase A and its audit card in the pass its frontmatter names — `sw kb cards` and `sw kb passes`
-resolve both against this novel's config. The body is for designing the thing, the card for
-deciding it.
+**A module is opened through its cards, never its body.** An active module is opened through its
+draft card in Phase A and its audit card in the pass its frontmatter names — `sw kb cards` and
+`sw kb passes` resolve both against this novel's config. The body is for designing the thing, the
+card for deciding it. A module with no draft card (`no-harem`, `lead-interest`,
+`tech-plausibility`) is audited at the gate or decided at design time, and the read-set says so
+rather than naming a body the drafter's guard refuses — `sw health` asks the guard.
 
 **Where each role reads, stated once and cited from everywhere else.** `design` opens
 `.claude/skills/`. `draft` opens `roles/draft/` and `roles/shared/`. `gate` opens `roles/gate/`
-and `roles/shared/`. Draft and gate each additionally load exactly one procedure body — their
-dispatcher, preloaded by the harness. Nobody has to remember this: there is no `SKILL.md` inside
+and `roles/shared/`. Draft and gate each additionally load their procedure bodies — the drafter
+`write-chapter` and `continuity-summary`, the gate `revision-pass` — preloaded by the harness. Nobody has to remember this: there is no `SKILL.md` inside
 a role tree to open, and `scripts/hooks/role_scope.py` refuses the rest.
 
 ## 4. Hard rules
@@ -496,15 +502,18 @@ novels/<slug>/
     body.md             form & appearance ledger (only if a character changes form)
     power.md            ladder, pressure log, gain log, boosts, curve plan (unless shape: none)
     foreknowledge.md    grain, inventory, spend log, observer paradox (only if the MC foreknows)
-    brief.md            the approved Phase A brief for the chapter in progress. One, overwritten
-                        each chapter, and the only scratch file here — nothing is appended to it
+    brief.md            the Phase A brief for the chapter in progress, `status: proposed` until
+                        approved. One, overwritten each chapter, and the only scratch file
+                        here — nothing is appended to it
   chapters/NNNN-<slug>.md
 ```
 
 Chapter files carry YAML frontmatter (`number`, `title`, `pov`, `arc`, `event`, `delivers`,
 `wordcount`, `status`). **`event`** is what happens, in one retellable clause — the Pass Z gate.
 **`delivers`** is what is materially different at the end — the Pass 9 gate. `wordcount` is a
-measured fact that later tools read, never a target.
+measured fact that later tools read, never a target. `status` walks `drafted` → `gated` (the gate
+passed it, its last act) → `revised` (the drafter wrote its state and stamped it); anything short
+of `revised` is unfinished, and `sw readset` says which step is missing.
 
 One CCS block per chapter, appended in order and never rewritten to be tidier — `sw state`
 checks the sequence, because a block in the wrong place is a chapter that happened at the wrong
@@ -534,12 +543,12 @@ time and checked distributionally by `sw arc` (`hook-and-pacing`).
 
 | command | use it in |
 |---|---|
-| `readset <novel> -c N` | `write-chapter` step 0 · `continuity-summary` read mode — the whole read-set in one call, including which optional and genre modules are live |
+| `readset <novel> -c N` | `write-chapter` step 0 · `continuity-summary` read mode — the whole read-set in one call, including which optional and genre modules are live, where to RESUME an interrupted chapter, and its own last line so a truncated delivery shows. `--role gate` is the gate's slice, without the brief |
 | `kb owner|show|list|search <slug>` | any skill, to find whose rule a thing is — the craft-side counterpart of `readset`. `kb cards <novel> -c N --phase A` resolves this chapter's card set |
 | `lint <novel> -c N` | `revision-pass` Pass 0 · `mtl-detox` · `prose-quality` · `narrator-voice` |
 | `cast <novel>` | `voice-separation` · `competence-map` · `novel-init` |
 | `curve <novel>` | `revision-pass` Pass 9e · `power-scaling` · the arc-boundary pass |
-| `state <novel>` | `continuity-summary` self-check · `plot-threads` · `chapter-plan` — also block ordering, and the headings every read-set slices by, checked against this novel rather than the template |
+| `state <novel>` | `continuity-summary` self-check · `plot-threads` · `chapter-plan` — also block ordering, the three step-proof lines, and the headings every read-set slices by, checked against this novel rather than the template |
 | `arc <novel> -a N` | the arc-boundary pass — trends, rotation, thread ages |
 | `status <novel>` | `/novel-status` |
 | `stamp <novel> -c N` | `revision-pass` Pass 10 · `write-chapter` step 4 |
@@ -547,7 +556,7 @@ time and checked distributionally by `sw arc` (`hook-and-pacing`).
 | `audit <novel>` | the independent whole-novel gate — every per-chapter check, plus `history`'s cross-chapter habit findings, because a habit is by definition invisible in one chapter |
 | `history <novel>` | the whole book as a series — dialogue and length trends, recurring checks at every level, the `widening` section (Z4's answers and the recorded candidates), thread ages, the pressure series |
 | `load <novel> -c N` | what the toolkit hands the drafter for one chapter — cards, words, checkboxes and negations, per phase. Measures the **instructions**, never the chapter |
-| `trace [novel]` | what a run cost, and **which skill files and cards it actually opened** — the finding-9 check, and the card count two benchmark runs assembled by hand |
+| `trace [novel]` | what a run cost, and **which skill files and cards it actually opened** — by role and by chapter, and every path an agent opened outside its lane, `cat` included |
 | `export <novel> --okf --out <dir>` | project a novel into an Open Knowledge Format bundle — an **export target, never the working format**, because `readset` hands over slices and a bundle hands over whole files |
 | `contract <role> [--write]` | render one role's slice of this file into its agent, and `health` re-renders and diffs it |
 | `health` | the toolkit's own wiring: skills, cards, references, **scope claims and cross-skill duplication**, the **card and word budgets**, the template accessors, the docs |

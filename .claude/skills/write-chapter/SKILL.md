@@ -38,9 +38,15 @@ is cheap, and skipping one is what produces the drift that ruins long serials.
    assembles it in one call, sliced rather than whole-file. You now have the read-set and the
    entry note. Steps 1 and 2 above are in its CONFIG block, so `novel.md` needs no separate
    read. Without Python, load the list in `continuity-summary` by hand.
-5. Read the target row in `plan/chapters.md`. If it is missing or any of
-   goal/obstacle/turn/cost/hook is blank, run `chapter-plan` for this row first. Do not draft
-   from an incomplete row.
+
+   Its header names its own last line, `# END READ-SET`. If you cannot see that line, it reached
+   you truncated - the harness shows a long output as a preview plus a saved file - so `Read`
+   the saved file in full before anything else. If it prints a **RESUME** line, the disk says
+   this chapter is already under way: start where that line says, not at Phase A.
+5. Read the target row in `plan/chapters.md`. If it is missing, or any of `event`, `temp`,
+   `hooktype`, goal/obstacle/turn/cost/hook is blank, stop and say so in your return - the
+   architect completes the row (`chapter-plan`). Do not draft from an incomplete row, and do
+   not fill it in yourself: `plan/` is design's.
 
 ## Step 1 — Phase A: the brief (and stop)
 
@@ -73,19 +79,23 @@ card numbers them, and why the taken one won. It is in the brief rather than onl
 because this is where the user can still say *take the second one*, and because step 5 copies it
 instead of remembering it.
 
-**Then stop and show it to the user.** They approve it, change a line, or throw it out — the
-cheapest gate in the toolkit, because a chapter that was going to be a thousand words of somebody
-quietly feeling something gets caught for thirteen lines instead of after the draft. Skip the stop
-only if told to (`/novel-write --no-confirm`, or "just write the next five"): Phase A still
-happens, you simply do not wait.
+The **`gives` line** is the other half of `cost` — the one thing here worth the price, or `none`
+(`conflict-engine` §What the chapter gives back). It carries into the block as `gav>`, where a run
+of `none` is the finding. Omit both at `tone.warmth: cold`.
 
-**Then write the approved brief to `novels/<slug>/state/brief.md`**, verbatim, replacing whatever
-is there. One file, overwritten every chapter, holding the brief the draft is actually being
-written from. It is the only thing in the loop that exists solely in the conversation, and a
-conversation is the one place state does not survive: run #5 lost a chapter's candidates outright
-when the session holding them died, and `cand> unrecorded` is what the ledger got. On a resume
-`sw readset` hands the brief straight back, so a dead session costs the draft and not the
-decisions.
+**Write it to `novels/<slug>/state/brief.md` before you stop**, as the fenced block the template
+shows, opening on `Ch <n> —`, under a first line `status: proposed`. One file, overwritten every
+chapter. It is the only decision in the loop that otherwise exists solely in the conversation, and
+a conversation is the one place state does not survive: run #5 lost a chapter's candidates outright
+when the session holding them died, and `cand> unrecorded` is what the ledger got.
+
+**Then stop and return it, headed `BRIEF READY`.** The approval comes back through the
+coordinator: approved, a line changed, or thrown out — the cheapest gate in the toolkit, because a
+chapter that was going to be a thousand words of somebody quietly feeling something gets caught
+for thirteen lines instead of after the draft. On approval, apply any change and flip the first
+line to `status: approved`; that file is what Phase B drafts from and what step 5 copies. Skip the
+stop only if told to (`/novel-write --no-confirm`, or "just write the next five"): write the brief
+as `approved` and go on.
 
 **Two gates, both before drafting.**
 
@@ -93,10 +103,6 @@ decisions.
    retell. It is already in the plan row — check it is a real one rather than an abstract-state
    noun, which `sw lint` rejects outright. **And the event gets the scene**: if the biggest thing
    that happens is not the longest scene, the chapter is not ready.
-The **`gives` line** is the other half of `cost` — the one thing here worth the price, or `none`
-(`conflict-engine` §What the chapter gives back). It carries into the block as `gav>`, where a run
-of `none` is the finding. Omit both at `tone.warmth: cold`.
-
 2. **The cost.** If it is empty, go back to `conflict-engine`. A chapter where the POV character
    only gains is filler regardless of how much happens in it.
 
@@ -115,11 +121,12 @@ It also prints **CARDS NOT OPENED** and why. If a condition there looks wrong fo
 say so before drafting rather than opening the card anyway: a trigger nobody questions is how a
 card silently stops applying.
 
-Without Python: every draft card under `.claude/skills/` declares its own `phase`, `order` and
+Without Python: every draft card under `roles/draft/` declares its own `phase`, `order` and
 `when` in frontmatter. Open every phase-A card in `order`, skipping any whose `when`
 is false for this novel, and say in the report that you resolved it by hand.
 
-A card that does not settle its question is the one case for opening its owner's `SKILL.md`.
+A card that does not settle its question is a finding, not a door: decide from the brief and name
+the card in your report. The owner's `SKILL.md` is design's to open, and your read guard refuses it.
 
 ## Step 2 — Phase B: draft
 
@@ -175,76 +182,70 @@ is different afterwards. A chapter with a strong `delivers:` and a vague `event:
 this pair exists to catch. Prose only in the body — the four channels and nothing else. No headings,
 no author notes.
 
-Leave `wordcount:` as the template holds it; Step 4 stamps it from the measured body after
-revision. It is a recorded fact, not a target.
+Leave `wordcount:` as the template holds it; step 5 stamps it from the measured body, after the
+gate and the state write. It is a recorded fact, not a target.
 
 ## Step 4 — Phase C: the gate
 
-**Drafting is three phases and this is the last one. The chapter is not written until this passes.**
+**Drafting is three phases and this is the last one. The chapter is not written until this passes
+— and it is not yours to run.**
 
-**Hand the chapter to the `gate` agent** — invoke it with the novel slug and the chapter number,
-and nothing else. It runs `revision-pass` in full, in a context that has not watched this chapter
-being written, which is the whole point of it: a gate that remembers why each line seemed worth it
-is not reading the chapter, it is remembering it. The brief and the Phase A candidates stay with
-you, because a gate told what the chapter was reaching for grades it on the reach.
+**Stop and return `READY FOR GATE`** with the chapter's path. The coordinator hands the chapter to
+the `gate` agent, a context that has not watched this chapter being written, which is the whole
+point of it: a gate that remembers why each line seemed worth it is not reading the chapter, it is
+remembering it. The brief and the Phase A candidates stay with you, because a gate told what the
+chapter was reaching for grades it on the reach. The coordinator summons it rather than you
+because it decides which role runs next (`CLAUDE.md` §10), and because a gate you spawned in the
+background would report to the coordinator, not to you, in a non-interactive harness.
 
-This is still Phase C. There is no revise command, the gate is summoned by this procedure and
+This is still Phase C. There is no revise command, the gate is summoned by the procedure and
 never by the user, and it is not deferrable: a chapter reported at `status: drafted` is the same
 bug as one with no CCS block, and the next read-set says so.
 
-| the gate returns | you do |
+The gate's hand-back comes back to you verbatim:
+
+| the hand-back carries | you do |
 |---|---|
-| a `Gate:` line | carry it to the CCS block's `gate>` at step 5, verbatim |
-| a `z4>` answer | carry it to the block's `z4>`, the literal `none` included |
-| `SENT BACK` | redraft the scene it names — back to Phase B — then call the gate again on the new text, and say in the report that it happened |
+| a `Gate:` line | condense it into the block's `gate>` - a dozen words, and no `gate>` line at all when the gate changed nothing (`continuity-summary`) |
+| a `z4>` answer | copy it to the block's `z4>`, the literal `none` included |
+| `SENT BACK` | redraft the scene it names — back to Phase B — write the file, return `READY FOR GATE` again, and say in the report that it happened |
+| `For design:` items | carry every one into your report's `Bible:` line |
 | passes that ran without their card | name them in the step 6 report |
 
-If the gate agent is unavailable, run `revision-pass` yourself, in full, and **say so in the
-report**. An inline gate is a weaker gate, not an absent one; what makes it weaker is that you
-already know what the chapter meant, and the report is where that is recorded rather than hidden.
+On a pass the gate sets the chapter's `status: gated` as its last act. That is not finished:
+`revised` is stamped after step 5, and a chapter left at `gated` is named by the next read-set.
 
-When every pass is clean, stamp the measured count and the status:
-
-```bash
-python3 scripts/sw.py stamp novels/<slug> -c <N> --status revised --ledger
-```
+If no gate agent can be summoned, the coordinator runs `revision-pass` inline and says so in the
+report — never you: your read guard refuses the gate's cards, and an inline gate is weaker
+exactly because its runner already knows what the chapter meant.
 
 ## Step 5 — Write state back
 
-Run `continuity-summary` in **write mode**. That skill owns the procedure; the table is the list
-it covers, so a glance says whether anything was missed. This step is not optional and not
-deferrable to "later". When the block is written,
-`python3 scripts/sw.py state novels/<slug>` verifies it against the chapter on disk.
-
-| written | when |
-|---|---|
-| the CCS block, plus a `gate>` line naming what Phase C had to fix | always. `continuity-summary` owns when the line is present and when it is absent |
-| a `cand>` line: the Phase A candidates you did not take, and why the taken one won | always, when the three-candidate step ran. **Copy the brief's `cand` line from `state/brief.md`** rather than recalling it — the ledger is where that step's output survives the run, and a remembered candidate is a candidate nobody can check |
-| a `z4>` line: Pass Z4's answer, or the literal `none` | always. `none` is a real answer and the reason the line exists — one is a chapter, a run of them is a habit |
-| `state/threads.md`, `state/growth.md`, `state/timeline.md` | always |
-| `set>` facts into `bible/world.md`, `bible/society.md`, `bible/lexicon.md` | a location anchor, price, custom or name reached the page. One never recorded drifts by its third appearance |
-| a roster line in `bible/cast/_extras.md` | any walk-on. A third appearance or a changed plot promotes them **now**, earning rows in `_voices.md` and `_competence.md`, placed against the existing cast |
-| `state/body.md` §1, §2, §4 | a `form_locked` character changed stage |
-| `state/power.md` §3–§5, and the `pwr>` line | unless `scaling.shape` is `none`. `sw curve` checks the line agrees with §3 |
-| `state/foreknowledge.md` §2–§4, and the `fk>` line | `mc.foreknowledge` is set. A plot-changing spend moves at least one *other* row toward `invalidated` — the observer paradox |
-| the skill-ladder table in `state/growth.md` | a stage advanced, with what caused it |
-
-If the chapter had to invent an expertise nobody in the cast had, record it **and say so in the
-report** — it usually means the cast is missing a person.
+Run `continuity-summary` in **write mode**. It owns the list: the CCS block and its three
+step-proof lines — `cand>` and `gav>` **copied** from `state/brief.md`, `z4>` copied from the
+gate's hand-back, never recalled — the state files, what goes in your report's `Bible:` line
+rather than into `bible/`, and the stamp, which comes last. This step is not optional and not
+deferrable to "later".
 
 ## Step 6 — Report
 
-Seven lines to the user, no more:
+Eight lines, no more:
 
 ```
 Ch 42 — "The Ledger Room" → novels/<slug>/chapters/0042-the-ledger-room.md
 Event: Sarel is refused at the archive door and takes the ledger anyway.
 Delivers: Sarel can no longer use the Guild's archive, and knows who closed it to him.
 Cost: Sarel loses Tibbe's trust; Echo-step now known to the Guild.
-Gate: passed — cut a crowd-reaction block, replaced the ending. Every pass had its card.
+Gate: passed — cut a crowd-reaction block, replaced the ending. Pass 6 clean. Every pass had its card.
 Threads: opened T14 (forged seal), paid T09 (oath to Mira).
+Bible: set> the archive seals at the second bell; walk-on the door-warden (first appearance).
 Next: ch 43 is planned — he reads the ledger. Say go, or tell me what to change.
 ```
+
+**`Bible:` is `none` or a list**, and a list goes to the architect before the next chapter's
+Phase A: every fact the page established, every walk-on and promotion, every design gap the gate
+named, and `replan` when the chapter left its row. The coordinator dispatches the fold; you name
+what it is.
 
 **Lead with the delivery, and do not report a word count.** Reporting length is what taught the
 drafting model to aim at it; the number lives in the frontmatter, where tools can read it.
@@ -262,4 +263,5 @@ Do not paste the chapter into chat unless asked.
   the repair.
 - **The user asked for several chapters, or the draft left the plan behind** — open
   `roles/draft/write-chapter.batch-and-replan.md`. The per-chapter loop rule, the 5-chapter check-in, the
-  fresh-session rule for cost, and how to amend a plan row without abandoning the arc.
+  fresh-session rule for cost, how to resume a chapter an interruption stopped, and how a draft
+  that left its row gets the plan amended without abandoning the arc.

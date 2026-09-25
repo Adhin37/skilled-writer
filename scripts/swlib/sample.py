@@ -1144,8 +1144,26 @@ SAMPLE_GATE = {
 }
 
 
+# The three step-proof lines (`rules.STEP_LINES`), on every block, because `sw state` warns when
+# one is missing. Each may be the literal `none`, and one of each is, so the sample shows the
+# honest answer as well as the substantive one without tipping `history` into a habit finding.
+SAMPLE_STEPS = [
+    ("1:she pays the fee 2:she waits for the clerk to relent -> took 3, the only one that costs "
+     "her the stall",
+     "the clerk is kind to her, and the kindness costs her more than a refusal would",
+     "the baker leaves the heel of the loaf on her step and does not mention it"),
+    ("1:she asks her brother 2:she forges the seal -> took 3, the other two end the book early",
+     "none",
+     "a stranger holds the gate for her cart in the rain"),
+    ("1:she confronts the magistrate 2:she runs -> took 3, it keeps her in the city",
+     "she wins the argument and loses the room, and knows it before she stops talking",
+     "none"),
+]
+
+
 def _block(index, entry, wordcount):
     gate = SAMPLE_GATE.get(index)
+    cand, z4, gav = SAMPLE_STEPS[(index - 1) % len(SAMPLE_STEPS)]
     return (
         "=C%04d= pov:Wren | loc:Ashfall | t:D%d | wc:%d | arc:1\n"
         "dlv> %s\n"
@@ -1157,8 +1175,12 @@ def _block(index, entry, wordcount):
         "wld> %s\n"
         "pwr> %s\n"
         "hook> %s\n"
+        "cand> %s\n"
+        "z4> %s\n"
+        "gav> %s\n"
         % (index, index, wordcount, entry["delivers"], entry["ev"], entry["chg"], entry["kno"],
-           entry["thr"], entry["obj"], entry["wld"], entry["pwr"], entry["hook"])
+           entry["thr"], entry["obj"], entry["wld"], entry["pwr"], entry["hook"],
+           cand, z4, gav)
         + ("gate> %s\n" % gate if gate else ""))
 
 

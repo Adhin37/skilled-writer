@@ -130,3 +130,76 @@ class TestTraceScoresNoChapter(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def _agent(agent_type, opened):
+    """A subagent transcript as `trace` sees it, without a file behind it."""
+    from swlib import transcripts
+    s = transcripts.Session("/cfg/projects/-r/s1/subagents/agent-%s.jsonl" % agent_type, "/cfg")
+    s.agent_type = agent_type
+    s.opened = [("2026-09-05T10:00:00.000Z", tool, path) for tool, path in opened]
+    return s
+
+
+class TestRouting(unittest.TestCase):
+    """What each agent opened that its read guard refuses, judged by the guard's own `verdict`.
+
+    The guard sees `Read`; the harness tells agents to prefer `cat`. So a denied path in a shell
+    command is the road nothing else watches - a warn - and a denied `Read` was refused as it
+    happened, which means a card misrouted the agent - a note.
+    """
+
+    def _routing(self, sessions):
+        from swlib.report import Report
+        rep, data = Report("t"), {}
+        cmd_trace._routing_section(rep, REPO, sessions, data)
+        return rep, data
+
+    def test_a_bash_read_of_another_role_s_card_is_a_warn(self):
+        rep, data = self._routing([_agent("drafter", [
+            ("Bash", "roles/gate/prose-quality.audit-card.md")])])
+        warns = [f for f in rep.findings if f.check == "trace-routing" and f.level == "warn"]
+        self.assertEqual(len(warns), 1)
+        self.assertIn("drafter", warns[0].message)
+        self.assertEqual(data["routing"][0]["tool"], "Bash")
+
+    def test_a_refused_read_is_a_note(self):
+        rep, _data = self._routing([_agent("gate", [
+            ("Read", "/work/repo/roles/draft/story-craft.draft-card.md")])])
+        levels = [f.level for f in rep.findings if f.check == "trace-routing"]
+        self.assertEqual(levels, ["note"])
+
+    def test_an_agent_in_its_own_lane_raises_nothing(self):
+        rep, data = self._routing([_agent("gate", [
+            ("Read", "roles/gate/prose-quality.audit-card.md"),
+            ("Bash", "roles/shared/voice-separation.mirror-clause.md")])])
+        self.assertEqual([f for f in rep.findings if f.check == "trace-routing"], [])
+        self.assertEqual(data["routing"], [])
+
+    def test_the_main_session_is_never_judged(self):
+        """The coordinator reads everything, by design."""
+        from swlib import transcripts
+        main = transcripts.Session("/cfg/projects/-r/s1.jsonl", "/cfg")
+        main.opened = [("t", "Bash", "roles/gate/prose-quality.audit-card.md")]
+        rep, _data = self._routing([main])
+        self.assertEqual([f for f in rep.findings if f.check == "trace-routing"], [])
+
+
+class TestSkillsARoleRunCannotOpen(unittest.TestCase):
+    """A preloaded body arrives without a tool call, and a skill with no role file has nothing
+    a drafter or gate may open. Reporting either as missed teaches the reader to skip the
+    section."""
+
+    def test_preloaded_and_card_less_skills_are_not_counted_as_missed(self):
+        _rep, data = TestSkillSection()._report({"bias-guard": 1})
+        never = data["skills"]["in_play_never_opened"]
+        for quiet in ("write-chapter", "revision-pass", "continuity-summary"):
+            self.assertIn(quiet, data["skills"]["preloaded"])
+            self.assertNotIn(quiet, never)
+
+    def test_a_narrowed_run_raises_no_never_opened_warn(self):
+        from swlib.report import Report
+        rep, data = Report("t"), {}
+        cmd_trace._skill_section(rep, REPO, None, {"skills": {"bias-guard": 1}}, data,
+                                 narrowed=True)
+        self.assertEqual([f for f in rep.findings if f.level == "warn"], [])

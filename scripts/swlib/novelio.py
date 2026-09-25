@@ -10,9 +10,15 @@ import re
 from . import mdio
 from .textstats import Channels, Chapter, load_chapters
 
-# A chapter is "gated" once write-chapter phase C has passed it. `published` counts because a
-# chapter cannot reach it without having been revised first.
+# A chapter is finished once phase C has passed it AND step 5 has written its state - which is
+# when the drafter stamps `revised`. `published` counts because a chapter cannot reach it without
+# having been revised first. `gated` - the gate's own mark, set as its last act on a pass - is
+# deliberately NOT here: a chapter the gate passed whose state was never written is unfinished.
 GATED_STATUS = ("revised", "published")
+
+# The Phase A brief in `state/brief.md`: a fenced block whose first line names the chapter.
+BRIEF_FENCE = re.compile(r"^```[^\n]*\n(.*?)^```", re.M | re.S)
+BRIEF_HEAD = re.compile(r"^(?:Ch|Chapter)\.?\s+(\d+)", re.M)
 
 
 class CCSBlock(object):
@@ -236,14 +242,43 @@ class Novel(object):
         if not text:
             return None, ""
         body = None
-        for block in re.findall(r"^```[^\n]*\n(.*?)^```", text, re.M | re.S):
-            if re.search(r"^Ch\s+\d+", block, re.M):
+        for block in BRIEF_FENCE.findall(text):
+            if BRIEF_HEAD.search(block):
                 body = block
                 break
         if body is None:
             return None, ""
-        m = re.search(r"^Ch\s+(\d+)", body, re.M)
+        m = BRIEF_HEAD.search(body)
         return int(m.group(1)), body.strip("\n")
+
+    def brief_status(self):
+        """`proposed` or `approved` - where the brief on file is in the Phase A stop.
+
+        The drafter writes the brief when it stops for approval, not after: a brief that exists
+        only in the conversation while the user reads it is exactly what a dead session takes. So
+        the file has to say whether it has been approved yet, or a resume would draft from a
+        brief nobody agreed to. A file with no `status:` line predates the line and was written
+        on approval, so it reads as approved.
+        """
+        m = re.search(r"^status:\s*(proposed|approved)\b", self._text("state", "brief.md"),
+                      re.M | re.I)
+        return m.group(1).lower() if m else "approved"
+
+    def brief_unreadable(self):
+        """True when `state/brief.md` holds a brief `brief()` cannot find.
+
+        The same species as the `TH01` thread ids: a format drift that makes a check go quiet,
+        which reads exactly like a check that passed. An unfenced brief, or a fence that does not
+        open on `Ch <n>`, used to be indistinguishable from no brief at all - and a resume then
+        re-ran Phase A and step 5 had no `cand` line to copy.
+        """
+        text = self._text("state", "brief.md")
+        if not text.strip() or self.brief()[0] is not None:
+            return False
+        blocks = [b.strip() for b in BRIEF_FENCE.findall(text)]
+        if any(b and not b.startswith("(no brief on file") for b in blocks):
+            return True
+        return bool(BRIEF_HEAD.search(BRIEF_FENCE.sub("", text)))
 
     @property
     def ledger_text(self):

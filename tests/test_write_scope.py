@@ -52,7 +52,7 @@ def write(agent, path, **extra):
 
 
 class TestTheArchitect(unittest.TestCase):
-    """Writes what the story is: `bible/`, `plan/`, `novel.md`."""
+    """Writes what the story is: `bible/`, `plan/`, `novel.md`, and the state seeds."""
 
     def test_the_bible_is_its_own(self):
         self.assertEqual(write("architect", "novels/a-book/bible/world.md")[0], 0)
@@ -71,8 +71,17 @@ class TestTheArchitect(unittest.TestCase):
         self.assertEqual(code, 2)
         self.assertIn("drafter", err)
 
-    def test_it_may_not_move_state(self):
-        self.assertEqual(write("architect", "novels/a-book/state/continuity.md")[0], 2)
+    def test_it_seeds_the_state_its_procedures_name(self):
+        """`novel-init` step 9 seeds the ledger and the state files before chapter 1 exists,
+        `chapter-plan` sets `power.md` §6, and the arc rollup writes digests. Refused until
+        2026-09-24, which left `/novel-new` unable to finish its own scaffold."""
+        for name in ("continuity.md", "threads.md", "power.md", "body.md", "growth.md"):
+            self.assertEqual(write("architect", "novels/a-book/state/%s" % name)[0], 0, name)
+
+    def test_the_brief_stays_the_drafter_s(self):
+        code, err = write("architect", "novels/a-book/state/brief.md")
+        self.assertEqual(code, 2)
+        self.assertIn("brief", err)
 
 
 class TestTheDrafter(unittest.TestCase):

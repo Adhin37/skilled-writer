@@ -5,7 +5,8 @@ argument-hint: "<name> [or: <name> — what changed]"
 
 Work on a character.
 
-Resolve the active novel, then invoke the `character-profile` skill — with `voice-separation` and
+Resolve the active novel, then **invoke the `architect` agent**, which owns `bible/` and the state
+seeds, to run the `character-profile` skill — with `voice-separation` and
 `competence-map` alongside it, which place this person on the two cast-wide tables. Do both
 placements **before** writing the profile: a character designed in isolation comes out as quick, as
 articulate and as wry as the MC, and able to answer any question, because the MC is the calibration
