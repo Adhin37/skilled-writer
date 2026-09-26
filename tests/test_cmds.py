@@ -483,6 +483,14 @@ class TestDialogueStarvation(unittest.TestCase):
             rep = cmd_lint.run(novel, None)
             return {(f.check, f.level) for f in rep.findings}
 
+    def _arc_findings(self, shares):
+        """And through `arc`, the last command that made one quiet chapter a defect (run #6)."""
+        from swlib import cmd_arc
+        with NovelFixture() as fx:
+            for n, kind in enumerate(shares, start=1):
+                fx.add_chapter(n, self.QUIET if kind == "quiet" else self.LOUD)
+            return {(f.check, f.level) for f in cmd_arc.run(fx.novel(), 1).findings}
+
     def _history_findings(self, shares):
         """The same fixture, put through `history` instead of `lint`.
 
@@ -511,8 +519,12 @@ class TestDialogueStarvation(unittest.TestCase):
         metric."""
         for cmd, found in (("lint", self._findings(["loud", "loud", "quiet", "loud", "loud"])),
                            ("history",
-                            self._history_findings(["loud", "loud", "quiet", "loud", "loud"]))):
+                            self._history_findings(["loud", "loud", "quiet", "loud", "loud"])),
+                           ("arc",
+                            self._arc_findings(["loud", "loud", "quiet", "loud", "loud"]))):
             defects = {check for check, level in found if level == "defect"}
+            self.assertNotIn("arc-dialogue", defects,
+                             "%s raised a defect for a single quiet chapter" % cmd)
             self.assertNotIn("history-dialogue", defects,
                              "%s raised a defect for a single quiet chapter" % cmd)
             self.assertNotIn("speech-share", defects,
@@ -931,6 +943,9 @@ class TestNoteTierRegistry(unittest.TestCase):
                   encoding="utf-8") as fh:
             source = fh.read()
         names = set(re.findall(r'rep\.note\("([a-z0-9-]+)"', source))
+        # `level("echo", ...)` picks note or warn at run time and slipped past the line above
+        # until 2026-09-26 - a note check nobody had classified.
+        names |= set(re.findall(r'\blevel\(\s*"([a-z0-9-]+)"', source))
         self.assertTrue(names, "no note-level checks found - did the call shape change?")
         known = rules.HABIT_NOTE_CHECKS | rules.SITUATION_NOTE_CHECKS
         self.assertEqual(sorted(names - known), [],
@@ -1141,3 +1156,118 @@ class TestReadsetBriefOnFile(unittest.TestCase):
             fx.write("state/brief.md",
                      "Ch 9 is discussed here in prose and must not count.\n\n" + BRIEF)
             self.assertEqual(fx.novel().brief()[0], 2)
+
+
+class TestSectionLengths(unittest.TestCase):
+    """Pass Z2 compares the event's scene against the others, and nothing used to measure one."""
+
+    def test_lint_prints_each_scene_s_words_break_lines_left_out(self):
+        body = "One two three four.\n\n* * *\n\nFive six.\n\n* * *\n\nSeven.\n"
+        with NovelFixture() as fx:
+            fx.add_chapter(1, body)
+            self.assertEqual(fx.novel().chapters()[0].section_words(), [4, 2, 1])
+            _code, out, _err = run("lint", fx.root, "-c", "1")
+        self.assertIn("sections 4/2/1", out)
+
+    def test_a_chapter_with_no_break_is_one_section(self):
+        with NovelFixture() as fx:
+            fx.add_chapter(1, BODY)
+            self.assertEqual(fx.novel().chapters()[0].section_words(), [len(BODY.split())])
+
+
+class TestTheWatchRowSaysWhatEachCheckIs(unittest.TestCase):
+    """Run #6: a bare `ledger` in the WATCH row was read as a prose habit, and the footer's
+    "write against both in phase B" turned one chapter's phase B into a lint-and-edit loop."""
+
+    def test_every_check_lint_can_raise_has_a_gloss(self):
+        from swlib import rules
+        with open(os.path.join(REPO, "scripts", "swlib", "cmd_lint.py"),
+                  encoding="utf-8") as fh:
+            source = fh.read()
+        names = set(re.findall(r'rep\.(?:defect|warn|note)\(\s*"([a-z0-9-]+)"', source))
+        names |= set(re.findall(r'\blevel\(\s*"([a-z0-9-]+)"', source))
+        self.assertTrue(len(names) > 20, "the call shape changed - update this scan")
+        self.assertEqual(sorted(names - set(rules.CHECK_GLOSS)), [],
+                         "add a gloss to rules.CHECK_GLOSS")
+
+    def test_the_drafting_footer_does_not_ask_for_a_lint_loop(self):
+        from swlib import cmd_readset
+        with NovelFixture() as fx:
+            for n in (1, 2, 3):
+                fx.add_chapter(n, "He saw it. He heard it. He noticed it. She saw it too.\n")
+            text = cmd_readset.build(fx.novel(), 4)
+            gate = cmd_readset.build(fx.novel(), 4, role="gate")
+        self.assertIn("WATCH", text)
+        self.assertNotIn("Write against both in phase B", text)
+        self.assertIn("do not lint and re-edit", text)
+        self.assertIn("filter-verb - perception filtered", text)
+        self.assertIn("Look for these first", gate)
+
+
+class TestCrossChapterShapes(unittest.TestCase):
+    """The two cold-read findings that recurred on a new novel: a book of two-handers, and a
+    phrase the author reaches for across chapters or mouths. Warns in `history`, never gates."""
+
+    ROSTER = ("# Extras roster\n\n## Roster\n\n"
+              "Tamsin Vey — ferry keeper — ch 1 — alive\n  wants: the fare\n\n"
+              "Orrin Pask — porter — ch 2 — alive\n  wants: sleep\n")
+
+    def _history(self, bodies, roster=True):
+        from swlib import cmd_history
+        with NovelFixture() as fx:
+            if roster:
+                fx.write("bible/cast/_extras.md", self.ROSTER)
+            for n, body in enumerate(bodies, start=1):
+                fx.add_chapter(n, body)
+            rep, _data = cmd_history.run(fx.novel())
+            return [(f.check, f.message) for f in rep.findings]
+
+    def test_a_run_of_two_handers_is_named(self):
+        turn = ('"Pay first," Tamsin said.\n\n"Later," Orrin said.\n\n'
+                '"Now," Tamsin said.\n\n"No," Orrin said.\n\n')
+        found = self._history([turn + "* * *\n\n" + turn] * 5)
+        self.assertTrue(any(c == "history-two-hander" for c, _m in found), found)
+
+    def test_too_few_conversations_say_nothing(self):
+        found = self._history(["He walked the ridge alone.\n"] * 5)
+        self.assertFalse(any(c == "history-two-hander" for c, _m in found))
+
+    def test_a_phrase_across_chapters_is_named(self):
+        tic = "The door stayed shut, which was its own kind of answer.\n\n"
+        found = self._history([tic, "Rain.\n\n" + tic + tic, "Snow fell on the yard.\n"],
+                              roster=False)
+        sig = [m for c, m in found if c == "history-signature"]
+        self.assertTrue(sig and "was its own kind of" in sig[0], found)
+
+    def test_one_chapter_s_repetition_is_echo_s_not_this(self):
+        tic = "The door stayed shut, which was its own kind of answer.\n\n"
+        found = self._history([tic * 3, "Rain.\n", "Snow.\n"], roster=False)
+        self.assertFalse(any(c == "history-signature" for c, _m in found))
+
+
+class TestTheTicsTheGateFoundByReading(unittest.TestCase):
+    """Run #6: two tics the gate caught by hand, chapter after chapter, with lint silent."""
+
+    def _findings(self, body):
+        from swlib import cmd_lint
+        with NovelFixture() as fx:
+            fx.add_chapter(1, body)
+            return [(f.check, f.level, f.message) for f in cmd_lint.run(fx.novel(), [1]).findings]
+
+    def test_a_thought_tagged_after_its_marks_is_named(self):
+        found = self._findings("She waited.\n\n'I should go,' she thought, and did not.\n")
+        self.assertTrue(any(c == "thought-tag" and lv == "warn" for c, lv, _m in found), found)
+
+    def test_a_thought_tagged_before_its_marks_is_named(self):
+        found = self._findings("She waited. She thought, 'I should go.'\n")
+        self.assertTrue(any(c == "thought-tag" for c, _lv, _m in found), found)
+
+    def test_a_bare_thought_is_not(self):
+        found = self._findings("She waited.\n\n'I should go.' She did not.\n")
+        self.assertFalse(any(c == "thought-tag" for c, _lv, _m in found), found)
+
+    def test_the_retrospective_closer_is_house_style(self):
+        found = self._findings("Nobody came, which was exactly why she stayed. The door held, "
+                               "which was its own kind of answer.\n")
+        labels = [m for c, _lv, m in found if c == "house-style"]
+        self.assertTrue(any("retrospective closer" in m for m in labels), found)

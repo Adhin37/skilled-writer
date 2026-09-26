@@ -1,7 +1,7 @@
 ---
 name: gate
-description: Phase C of write-chapter - the revision gate, run cold on a chapter it did not write. Summoned by the /novel-write coordinator between the draft and the state write, never by a user. Edits the chapter in place, marks it gated, and returns the hand-back.
-tools: Read, Edit, Grep, Glob, Bash
+description: Phase C of write-chapter - the revision gate, run cold on a chapter it did not write. Summoned by the /novel-write coordinator between the draft and the state write, never by a user. Edits the chapter in place, marks it gated, writes the hand-back to state/gate.md and returns it.
+tools: Read, Edit, Write, Grep, Glob, Bash
 omitClaudeMd: true
 skills:
   - revision-pass
@@ -26,22 +26,29 @@ only for the facts the passes check against, which is what `sw readset --role ga
    line, `# END READ-SET`; if you cannot see that line, `Read` the saved output file the harness
    points at, in full, before any pass.
 2. `python3 scripts/sw.py kb passes novels/<slug> -c <N>` — this novel's audit cards, resolved.
-   Open those card files **with the `Read` tool**, not with `cat` — the guard below is a
+   Open them **all at once, as parallel `Read` calls in one turn**: every turn re-reads the whole
+   context, and a gate that opens twenty cards three at a time pays for it seven times over. Use
+   the `Read` tool, not `cat` — the guard below is a
    `PreToolUse` hook on `Read` and a `Bash` read is invisible to it, so if your harness tells you
    to prefer `Bash` for reading, that does not apply here. `roles/gate/` and `roles/shared/` are
    yours, plus `revision-pass`'s own body; `scripts/hooks/role_scope.py` refuses the rest, so
    this is a fact rather than a rule to keep.
-3. Run `revision-pass` in full, in its order, and **fix what you find, in the file**. You have
-   `Edit`. You do not have `Write`: the chapter exists, and a gate that can create files is a gate
-   that can replace a chapter instead of repairing it. `scripts/hooks/write_scope.py` holds those
-   edits to `chapters/`.
-4. Stop where `revision-pass` says to stop. If Pass Z1 or Z2 fails, do not run passes 0–10 — say
-   so and hand it back. A chapter whose central event never got played does not have prose
-   problems.
-5. **On a pass, set the chapter's frontmatter `status: gated`** — your last act, and the only
-   frontmatter you change. It is how a resumed drafter, and the next read-set, can tell a chapter
-   you passed from one you never saw. `revised` is not yours: the drafter stamps it after the
-   state write.
+3. **Before your first edit, set the chapter's frontmatter `status: gating`.** If you are stopped
+   part-way, that is the only sign the next gate gets that the text is partly yours.
+4. Run `revision-pass` in full, in its order, and **fix what you find, in the file**, with `Edit`.
+   Your `Write` is for one file, `state/gate.md`: the chapter exists, and a gate that can
+   rewrite it whole is a gate that can replace a chapter instead of repairing it.
+   `scripts/hooks/write_scope.py` refuses a `Write` anywhere else.
+5. Stop where `revision-pass` says to stop. If Pass Z1 or Z2 fails, do not run passes 0–10 — say
+   so, set `status: drafted`, and hand it back. A chapter whose central event never got played
+   does not have prose problems.
+6. **On a pass, set the chapter's frontmatter `status: gated`** — your last edit to it, and with
+   `gating` the only frontmatter you change. It is how a resumed drafter, and the next read-set,
+   can tell a chapter you passed from one you never saw. `revised` is not yours: the drafter
+   stamps it after the state write.
+7. **Write your hand-back to `state/gate.md`** — replace the fenced block at its foot (or write
+   the file, if there is none) with a block whose first line is `Ch <N> — gate hand-back`,
+   followed by the hand-back below, verbatim. Then return the same text.
 
 Two rules from the procedure that survive being in a separate context, because they are the ones
 a fresh reader is most likely to drop:
@@ -53,7 +60,8 @@ a fresh reader is most likely to drop:
 
 ## What to return
 
-Your final message goes to the coordinator, who relays it to the drafter verbatim. It must carry,
+Your final message goes to the coordinator, who relays it to the drafter verbatim; the same text
+is in `state/gate.md`, which is what the drafter copies from if the relay is lost. It must carry,
 in this order:
 
 - **`Gate:`** — one line, the report contract. What you fixed; what Pass 6 found; which passes
@@ -69,7 +77,8 @@ in this order:
   competence or body-ledger entry that has to move. You do not write any of them — the drafter
   carries them into its `Bible:` line and the architect makes the change.
 
-Do not stamp the chapter, do not write state, and do not report a word count. The drafter owns
+Do not stamp the chapter, do not write any state file but `state/gate.md`, and do not report a
+word count. The drafter owns
 the state write because it holds the brief, the chapter and your hand-back together, and the
 stamp - `wordcount:` and the CCS `wc:` field, one write in two places - comes after it.
 
@@ -236,7 +245,9 @@ rather than naming a body the drafter's guard refuses — `sw health` asks the g
 `.claude/skills/`. `draft` opens `roles/draft/` and `roles/shared/`. `gate` opens `roles/gate/`
 and `roles/shared/`. Draft and gate each additionally load their procedure bodies — the drafter
 `write-chapter` and `continuity-summary`, the gate `revision-pass` — preloaded by the harness. Nobody has to remember this: there is no `SKILL.md` inside
-a role tree to open, and `scripts/hooks/role_scope.py` refuses the rest.
+a role tree to open, and `scripts/hooks/role_scope.py` refuses the rest. **Every path a file cites
+— `roles/…`, `.claude/…`, `novels/…` — is relative to the repository root**, never to the file
+citing it: benchmark run #6's architect looked for a card under `.claude/skills/roles/` first.
 
 ## 4. Hard rules
 
@@ -466,7 +477,7 @@ A stylistic rule is a default, not a gate, and every stylistic skill states the 
 its own rules. That clause exists because the corpus previously contained **no statement anywhere
 of when any rule should be broken** — 130,000 words without one, which is the difference between a
 craft guide and a style guide. The measurement, and the plan this came from:
-[docs/creative-latitude.md](docs/creative-latitude.md).
+a maintainer note (not yours to open).
 
 ## 6. File conventions
 
@@ -503,17 +514,19 @@ novels/<slug>/
     power.md            ladder, pressure log, gain log, boosts, curve plan (unless shape: none)
     foreknowledge.md    grain, inventory, spend log, observer paradox (only if the MC foreknows)
     brief.md            the Phase A brief for the chapter in progress, `status: proposed` until
-                        approved. One, overwritten each chapter, and the only scratch file
-                        here — nothing is appended to it
+                        approved. One, overwritten each chapter — nothing is appended to it
+    gate.md             the gate's hand-back for the chapter it last passed. The gate's alone,
+                        overwritten each chapter; step 5 copies `z4>` and `For design:` from it
   chapters/NNNN-<slug>.md
 ```
 
 Chapter files carry YAML frontmatter (`number`, `title`, `pov`, `arc`, `event`, `delivers`,
 `wordcount`, `status`). **`event`** is what happens, in one retellable clause — the Pass Z gate.
 **`delivers`** is what is materially different at the end — the Pass 9 gate. `wordcount` is a
-measured fact that later tools read, never a target. `status` walks `drafted` → `gated` (the gate
-passed it, its last act) → `revised` (the drafter wrote its state and stamped it); anything short
-of `revised` is unfinished, and `sw readset` says which step is missing.
+measured fact that later tools read, never a target. `status` walks `drafted` → `gating` (the
+gate's first act) → `gated` (the gate passed it, its last act) → `revised` (the drafter wrote its
+state and stamped it); anything short of `revised` is unfinished, and `sw readset` says which step
+is missing.
 
 One CCS block per chapter, appended in order and never rewritten to be tidier — `sw state`
 checks the sequence, because a block in the wrong place is a chapter that happened at the wrong
@@ -554,9 +567,9 @@ time and checked distributionally by `sw arc` (`hook-and-pacing`).
 | `stamp <novel> -c N` | `revision-pass` Pass 10 · `write-chapter` step 4 |
 | `newnovel <slug>` | `novel-init` step 3 |
 | `audit <novel>` | the independent whole-novel gate — every per-chapter check, plus `history`'s cross-chapter habit findings, because a habit is by definition invisible in one chapter |
-| `history <novel>` | the whole book as a series — dialogue and length trends, recurring checks at every level, the `widening` section (Z4's answers and the recorded candidates), thread ages, the pressure series |
+| `history <novel>` | the whole book as a series — dialogue and length trends, recurring checks at every level, the `widening` section (Z4's answers and the recorded candidates), thread ages, the pressure series, a run of two-person scenes, and phrases that recur across chapters or mouths |
 | `load <novel> -c N` | what the toolkit hands the drafter for one chapter — cards, words, checkboxes and negations, per phase. Measures the **instructions**, never the chapter |
-| `trace [novel]` | what a run cost, and **which skill files and cards it actually opened** — by role and by chapter, and every path an agent opened outside its lane, `cat` included |
+| `trace [novel]` | what a run cost, how much of its time was the model and how much the tools, and **which skill files and cards it actually opened** — by role and by chapter, and every path an agent opened outside its lane, `cat` included |
 | `export <novel> --okf --out <dir>` | project a novel into an Open Knowledge Format bundle — an **export target, never the working format**, because `readset` hands over slices and a bundle hands over whole files |
 | `contract <role> [--write]` | render one role's slice of this file into its agent, and `health` re-renders and diffs it |
 | `health` | the toolkit's own wiring: skills, cards, references, **scope claims and cross-skill duplication**, the **card and word budgets**, the template accessors, the docs |
@@ -579,7 +592,7 @@ budget** and the **word budget** beside it, both binding the corpus rather than 
 the first a new rule merges into the card that already owns its neighbourhood instead of opening a
 file, and past the second an addition is paid for with a cut, or the ceiling is raised on purpose
 in `rules.CARD_WORD_BUDGET` with the reason written beside it
-([docs/creative-latitude.md](docs/creative-latitude.md)), `trace`
+(a maintainer note (not yours to open)), `trace`
 measures a run and scores nothing, `history` prints trends and raises no defect of its own — its
 cross-chapter findings are warns, and `audit` is where they are meant to be read — `health` checks
 wiring and says nothing about whether a skill's advice is good, and `selftest` proves the pipeline

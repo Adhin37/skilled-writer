@@ -516,3 +516,34 @@ class TestSpeechFingerprint(unittest.TestCase):
             fx.add_chapter(1, self.CONTRACTS)
             rep = cmd_cast.run(fx.novel())
         self.assertEqual([c for c, lv in findings(rep) if c == "fingerprint"], [])
+
+
+class TestNamesTwoBooksShare(unittest.TestCase):
+    """Runs #5 and #6 were unrelated original fantasies and shared three names - `Voss`, `Corin`,
+    `Mira` - with no source in the corpus: the model's defaults, reaching two casts."""
+
+    ROSTER = "# Extras roster\n\n## Roster\n\n%s — ferry keeper — ch 1 — alive\n  wants: the fare\n"
+
+    def _notes(self, mine, theirs):
+        import os
+        from swlib import cmd_cast
+        from swlib.report import Report
+        with NovelFixture() as fx:
+            fx.write("bible/cast/_extras.md", self.ROSTER % mine)
+            other = os.path.join(os.path.dirname(fx.root), "other-book", "bible", "cast")
+            os.makedirs(other)
+            with open(os.path.join(other, "_extras.md"), "w", encoding="utf-8") as fh:
+                fh.write(self.ROSTER % theirs)
+            rep = Report()
+            cmd_cast._names_elsewhere(fx.novel(), rep)
+            return [f.message for f in rep.findings if f.check == "cast-names"]
+
+    def test_a_shared_surname_is_noted_with_the_other_book(self):
+        notes = self._notes("Tamsin Vey", "Orrin Vey")
+        self.assertTrue(notes and "`Vey`" in notes[0] and "other-book" in notes[0], notes)
+
+    def test_no_shared_name_no_note(self):
+        self.assertEqual(self._notes("Tamsin Vey", "Orrin Pask"), [])
+
+    def test_a_shared_institution_is_not_a_name(self):
+        self.assertEqual(self._notes("Guild Tamsin", "Guild Orrin"), [])

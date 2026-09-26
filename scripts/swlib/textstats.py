@@ -678,6 +678,16 @@ class Chapter(object):
         edges.append(len(self.body))
         return [(edges[i], edges[i + 1]) for i in range(len(edges) - 1)]
 
+    def section_words(self):
+        """Words per scene, in order, the break lines left out.
+
+        Pass Z2 asks whether the event got the longest scene, and until 2026-09-26 nothing
+        printed a scene's length: a run's gate reported Z2 passed on a chapter split 869 / 512 /
+        261 with the event in the middle. This counts; which scene is the event stays the gate's.
+        """
+        brk = re.compile(r"^\s*\*\s\*\s\*\s*$", re.M)
+        return [len(brk.sub("", self.body[a:b]).split()) for a, b in self.scene_bounds()]
+
 
 def load_chapters(chapters_dir, channels=None):
     """Every NNNN-*.md chapter in a directory, ordered by number."""

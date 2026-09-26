@@ -5,10 +5,13 @@ implementation re-serialised the whole chapter, which converted CRLF prose to LF
 U+FFFD over any byte it could not decode.
 """
 
+import os
+import subprocess
+import sys
 import unittest
 
-from fixtures import NovelFixture
-from swlib import cmd_write
+from fixtures import REPO, NovelFixture
+from swlib import cmd_lint, cmd_write
 
 BODY = "The room was cold.\n\n\"Shut it,\" she said.\n\nHe shut it.\n"
 
@@ -56,6 +59,21 @@ class TestStamp(unittest.TestCase):
             _rep, wrote = cmd_write.stamp(fx.novel(), 1)
             self.assertFalse(wrote)
             self.assertEqual(before, fx.read_bytes("chapters/0001-chapter.md"))
+
+    def test_the_gate_statuses_are_statuses(self):
+        """`gating` is the gate's first act and `gated` its last. Until 2026-09-26 the CLI refused
+        both and lint warned on every chapter the gate had passed."""
+        for status in ("gating", "gated"):
+            self.assertIn(status, cmd_lint.VALID_STATUS)
+            with NovelFixture() as fx:
+                fx.add_chapter(1, BODY)
+                proc = subprocess.run(
+                    [sys.executable, os.path.join(REPO, "scripts", "sw.py"), "stamp", fx.root,
+                     "-c", "1", "--status", status], capture_output=True, text=True)
+                self.assertEqual(proc.returncode, 0, proc.stderr)
+                self.assertEqual(fx.novel().chapters()[0].meta["status"], status)
+                msgs = [f.message for f in cmd_lint.run(fx.novel(), [1]).findings]
+                self.assertFalse(any("is not one of" in m for m in msgs), msgs)
 
     def test_undecodable_bytes_are_refused_not_replaced(self):
         """Was: the bad byte came back as U+FFFD, permanently, inside the author's prose."""

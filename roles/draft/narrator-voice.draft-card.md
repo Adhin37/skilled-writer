@@ -37,6 +37,18 @@ narration, in the character's idiom:
 That is thought. Marked thought is emphatic *because* it is rare — past three, the narrator becomes
 a comic strip with thought bubbles. Never tag one with *he thought*; the mark already said it.
 
+**A marked thought is the character in the moment, not the scene's thesis.** The scene has just
+shown the reader that the hearing was settled before anyone spoke; a thought that says so again
+is a footnote:
+
+> *'They'd decided before I walked in.'* — the scene's point, restated
+>
+> *'Three signatures. He wants three, and I have one.'* — the character, now
+
+The first explains; the second is a person doing arithmetic under pressure, and the reader draws
+the conclusion. A reader of a run that used the channel every chapter found every thought was the
+first kind.
+
 **Three collisions, all of which break a draft:**
 
 1. **An apostrophe is not a thought mark.** `don't`, `she'd`, `the boys' room` are never thought —

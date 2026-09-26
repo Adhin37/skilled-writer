@@ -7,7 +7,7 @@ metadata:
   force: structural
   when: always
   role: [draft, gate]
-  owns: [scene-or-summary, build-up, payoff-size]
+  owns: [scene-or-summary, build-up, payoff-size, promised-beat]
 ---
 
 # story-craft

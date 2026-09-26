@@ -196,6 +196,21 @@ def _threads(novel, rep, blocks, last_ch):
             for tid in rules.THREAD_ID_IN_TEXT.findall(line):
                 last_seen[tid] = max(last_seen.get(tid, 0), b.number)
 
+    # Benchmark run #6 (D2): the plan named `~T1`...`~T8` and no file mapped an id to a thread -
+    # the drafter inferred the mapping from the order of names in a paragraph of threads.md, and
+    # one later brief gave a reserved id to a different thread. An id a plan row uses has a row,
+    # `planned` until the chapter that opens it.
+    plan_missing = {}
+    for pr in novel.plan_rows():
+        for tid in rules.THREAD_ID_IN_TEXT.findall(str(pr.get("threads", ""))):
+            if tid not in declared and tid not in plan_missing:
+                plan_missing[tid] = re.sub(r"\D", "", pr.first()) or "?"
+    for tid, rownum in sorted(plan_missing.items()):
+        rep.warn("threads", "plan row %s names %s, which has no row in state/threads.md - declare "
+                 "it there as `planned`, opened at the chapter that opens it" % (rownum, tid),
+                 path=tpath)
+    last_block = max([b.number for b in blocks if b.number is not None] or [0])
+
     for tid in sorted(last_seen):
         if tid not in declared:
             rep.defect("threads", "%s is operated on in the ledger but has no row in "
@@ -204,6 +219,19 @@ def _threads(novel, rep, blocks, last_ch):
     for tid, r in sorted(declared.items()):
         status = str(r.get("status", "")).strip().lower()
         tension = str(r.get("tension", "")).strip().lower()
+        if status == "planned":
+            # A plan written down, not a promise yet - the ageing and tension checks skip it.
+            # Two things are still worth saying: a chapter already opened it and the row was not
+            # flipped, or its chapter came and went without opening it.
+            opened = rules.first_int(r.get("opened", ""))
+            if tid in last_seen:
+                rep.warn("threads", "%s is still `planned`, but ch %d operated on it - flip it "
+                         "to `open`" % (tid, last_seen[tid]), path=tpath, line=r.line_no)
+            elif opened.isdigit() and int(opened) <= last_block:
+                rep.warn("threads", "%s was planned to open at ch %s and no block has opened it "
+                         "- open it on the page, re-plan it, or retire it" % (tid, opened),
+                         path=tpath, line=r.line_no)
+            continue
         if status not in ("open", "escalated"):
             continue
         seen = last_seen.get(tid)
@@ -216,8 +244,8 @@ def _threads(novel, rep, blocks, last_ch):
             # came out negative. A plan is a fine thing to write down; it is not an open promise,
             # and a ledger that counts it as one is counting a debt nobody has taken on yet.
             rep.warn("threads", "%s is declared open at ch %s, but the book is only %d chapters "
-                     "long - a thread planned ahead is not an open promise. Plan it in "
-                     "plan/arcs.md, or open it when the chapter opens it"
+                     "long - a thread planned ahead is not an open promise. Mark it `planned` "
+                     "until the chapter that opens it"
                      % (tid, opened, last_ch), path=tpath, line=r.line_no)
             continue
         if seen is None:
@@ -321,26 +349,31 @@ def _plan(novel, rep, chapters, last_ch):
         if pstatus and cstatus and pstatus != cstatus:
             rep.warn("plan", "row %d says `%s`, the chapter file says `%s`"
                      % (c.number, pstatus, cstatus), path=ppath, line=r.line_no)
+        # Benchmark run #6 (I4): the gate asked for `^T8` on row 5, the item was lost when the
+        # drafter died, and the plan and the ledger have disagreed about chapter 5 since - with
+        # this command reporting 0/0/0. Only a finished chapter is compared: the block is what
+        # happened, the row what was planned, and one of them is out of date.
+        block = novel.block(c.number) if cstatus in ("revised", "published") else None
+        if block is None:
+            continue
+        planned = set(rules.THREAD_ID_IN_TEXT.findall(str(r.get("threads", ""))))
+        done = set()
+        for line in block.keys().get("thr", []):
+            done.update(rules.THREAD_ID_IN_TEXT.findall(line))
+        if planned != done and (planned or done):
+            rep.warn("plan", "row %d plans thread(s) %s and ch %d's `thr>` operates on %s - "
+                     "the row or the ledger is out of date"
+                     % (c.number, ", ".join(sorted(planned)) or "none", c.number,
+                        ", ".join(sorted(done)) or "none"), path=ppath, line=r.line_no)
 
 
 def _roster(novel, rep, last_ch):
     """character-profile: a third appearance triggers a real profile."""
     epath = novel.path("bible", "cast", "_extras.md")
-    text = novel._text("bible", "cast", "_extras.md")
-    if not text:
-        return
     have_files = set(k.lower() for k in novel.cast_files())
-    for i, line in enumerate(text.split("\n"), 1):
-        m = re.match(r"^([^—\n|#]{2,60}?)\s+—.*?—\s*ch\s+([0-9,\s~–\-()a-z]+?)\s*—", line)
-        if not m:
-            continue
-        name = m.group(1).strip()
-        appearances = []
-        for part in m.group(2).split(","):
-            nums = re.findall(r"\d+", part)
-            if nums:
-                appearances.append(int(nums[0]))
-        actual = [a for a in appearances if a <= last_ch]
+    for entry in novel.roster():
+        name, i = entry["name"], entry["line"]
+        actual = [a for a in entry["appearances"] if a <= last_ch]
         if len(actual) >= 3:
             slug = re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
             if slug not in have_files and name.lower() not in have_files:

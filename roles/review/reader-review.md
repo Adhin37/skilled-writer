@@ -49,7 +49,11 @@ Found 2026-09-20 by asking a live `reader` to inventory its own context, which i
 this class of leak is visible at all — no check in this repo can see what a prompt implies.
 
 **Both are now structural.** A denial reason justifies itself *without describing what is behind
-the door*, in the agent file and in `scripts/hooks/reader_guard.py` alike. And the reader no
+the door*, in the agent file and in `scripts/hooks/reader_guard.py` alike. (Not quite, until run
+#6: two rows of the agent's do-not-open table still named "any file or output that already
+reports on these chapters" and "any count or score", and the run's reader said so when asked —
+"reports and scores of these chapters already exist somewhere". Both rows went on 2026-09-26; the
+first two rows already cover every such file.) And the reader no
 longer opens this file: §1 and §3 were rewritten free of framing as
 [`roles/review/reader-brief.md`](roles/review/reader-brief.md), which is the only thing
 `reader_guard.py` allows in this directory and the only procedure the agent is pointed at. §7

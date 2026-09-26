@@ -14,7 +14,10 @@ early rows holding partials - is taken as the group's maximum.
 
 **Privacy.** Nothing here reads prompt text, tool results, or assistant prose. The extracted
 fields are exactly: type, timestamp, cwd, requestId, message.id, message.model, message.usage,
-the *names* and `file_path`s of tool calls, and - beside a subagent's transcript - the
+the *names* and `file_path`s of tool calls, the ids that pair a tool call with its result (for
+timing - never the result itself), the *size* of an extended-thinking block (its type
+and length - Claude Code stores the thinking itself empty, beside an opaque signature), and -
+beside a subagent's transcript - the
 `agentType`, `spawnDepth` and short `description` in its `agent-*.meta.json`, which is the label
 the spawning call gave it rather than anything it was told. A reader pointed at somebody's own
 transcripts should be able to say precisely that, so it does.
@@ -128,11 +131,17 @@ def iter_rows(path):
                 yield row
 
 
+# Characters of a stored thinking block per output token - one calibration, benchmark run #6: a
+# 119,001-character block against a recorded 30,720 tokens. Used only to flag, never to bill.
+THINKING_CHARS_PER_TOKEN = 3.87
+
+
 class Response(object):
     """One billable API request, assembled from every row that shares its id."""
 
     __slots__ = ("key", "model", "timestamp", "rows", "input_tokens",
-                 "cache_write_5m", "cache_write_1h", "cache_read", "output_tokens")
+                 "cache_write_5m", "cache_write_1h", "cache_read", "output_tokens",
+                 "thinking_chars", "model_s")
 
     def __init__(self, key):
         self.key = key
@@ -144,10 +153,26 @@ class Response(object):
         self.cache_write_1h = 0
         self.cache_read = 0
         self.output_tokens = 0
+        self.thinking_chars = 0
+        # Seconds from the row before this response (a tool result, or the message it answers)
+        # to the response's first row: the time the model spent on it, thinking included.
+        self.model_s = 0.0
 
     @property
     def cache_write(self):
         return self.cache_write_5m + self.cache_write_1h
+
+    @property
+    def thinking_unrecorded(self):
+        """True when this response's thinking is far larger than the output it records.
+
+        Benchmark run #6 (T2): a gate turn carried a 56,597-character thinking block and a final
+        `output_tokens: 5`, so its output - and cost - were billed at almost nothing. The size is
+        a floor-grade estimate (about 3.9 characters a token, calibrated on one response that did
+        record its count), so this only flags; it never rewrites the recorded number.
+        """
+        implied = self.thinking_chars / THINKING_CHARS_PER_TOKEN
+        return implied > 2000 and self.output_tokens < implied / 10.0
 
     def absorb(self, row, usage):
         """Fold one row in. Input-side fields are set, not added; output takes the maximum."""
@@ -198,6 +223,11 @@ class Session(object):
         # (timestamp, tool name, path) for every repo file this transcript opened by argument or
         # named in a shell command - what `sw trace` judges against the role read guard.
         self.opened = []
+        # Seconds between a tool call and its result, summed - the half of the wall clock that is
+        # not the model. Benchmark run #6 (T1): tools were ~4% of a drafter's time and ~17% of a
+        # gate's; the rest was the model, most of it extended thinking.
+        self.tool_s = 0.0
+        self.tool_calls = 0
         # From `agent-*.meta.json`, when the harness wrote one beside the transcript.
         self.agent_type = ""
         self.spawn_depth = 0
@@ -289,11 +319,53 @@ def _bump(counter, key, n=1):
     counter[key] = counter.get(key, 0) + n
 
 
+def _ts_precise(stamp):
+    """`_ts_seconds` plus the fraction, for summing short intervals."""
+    whole = _ts_seconds(stamp)
+    if whole is None:
+        return None
+    m = re.match(r"^[^.]*\.(\d+)", str(stamp))
+    return whole + (float("0." + m.group(1)) if m else 0.0)
+
+
+def _timing(sess, events, keys):
+    """Model and tool seconds from timestamps and ids alone - no content is read.
+
+    `events` is one `(stamp, kind, message id, tool_use ids, tool_result ids)` per row. A
+    response's model time runs from the last user-side row before it to its own first row; a
+    tool's time runs from its call to its result.
+    """
+    events.sort(key=lambda e: e[0])
+    last_user = None
+    seen = set()
+    pending = {}
+    for stamp, kind, mid, uses, results in events:
+        t = _ts_precise(stamp)
+        if t is None:
+            continue
+        if kind == "assistant":
+            if mid and mid not in seen:
+                seen.add(mid)
+                if last_user is not None and mid in keys:
+                    keys[mid].model_s += max(0.0, t - last_user)
+                last_user = None
+            for tid in uses:
+                pending[tid] = t
+        else:
+            for tid in results:
+                if tid in pending:
+                    sess.tool_s += max(0.0, t - pending.pop(tid))
+                    sess.tool_calls += 1
+            last_user = t
+
+
 def read_session(path, root):
     """Parse one transcript into a Session. Reads only the fields named in the module docstring."""
     sess = Session(path, root)
     groups = {}
     order = []
+    events = []
+    by_msg = {}
     for row in iter_rows(path):
         sess.rows += 1
         stamp = row.get("timestamp") or ""
@@ -309,6 +381,13 @@ def read_session(path, root):
 
         message = row.get("message") or {}
         _scan_tools(sess, message, stamp)
+        content = message.get("content") if isinstance(message.get("content"), list) else []
+        if stamp and row.get("type") in ("assistant", "user"):
+            events.append((stamp, row.get("type"), message.get("id") or "",
+                           [b.get("id") for b in content
+                            if isinstance(b, dict) and b.get("type") == "tool_use"],
+                           [b.get("tool_use_id") for b in content
+                            if isinstance(b, dict) and b.get("type") == "tool_result"]))
 
         if row.get("type") != "assistant":
             continue
@@ -329,9 +408,17 @@ def read_session(path, root):
         if key not in groups:
             groups[key] = Response(key)
             order.append(key)
+            if message.get("id"):
+                by_msg[message.get("id")] = groups[key]
         groups[key].absorb(row, usage)
+        for block in message.get("content") or []:
+            if isinstance(block, dict) and block.get("type") == "thinking":
+                # Length only - the text is stored empty and the signature is opaque.
+                groups[key].thinking_chars += (len(block.get("thinking") or "")
+                                               + len(block.get("signature") or ""))
 
     sess.responses = [groups[k] for k in order]
+    _timing(sess, events, by_msg)
     _read_meta(sess, path)
     return sess
 
@@ -495,17 +582,21 @@ def aggregate(sessions):
         "first_ts": "",
         "last_ts": "",
         "by_role": {},
+        "thinking_unrecorded": 0,
     }
     for s in sessions:
         t = s.totals()
-        role = agg["by_role"].setdefault(s.role, dict(_new_acc(), sessions=0, duration_s=0))
+        role = agg["by_role"].setdefault(s.role, dict(_new_acc(), sessions=0, duration_s=0,
+                                                      tool_s=0.0))
         role["sessions"] += 1
         role["duration_s"] += s.duration_s
+        role["tool_s"] += s.tool_s
         for r in s.responses:
             _tally(role, r)
         for _stamp, _skill, kind in s.card_opens:
             role[kind + "_cards"] += 1
         agg["responses"] += len(s.responses)
+        agg["thinking_unrecorded"] += sum(1 for r in s.responses if r.thinking_unrecorded)
         agg["rows"] += s.rows
         for field in ("input_tokens", "cache_creation_input_tokens",
                       "cache_read_input_tokens", "output_tokens",
@@ -636,7 +727,7 @@ def by_chapter(sessions, since=None):
 
 def _new_acc():
     return {"responses": 0, "input_tokens": 0, "cache_write_5m": 0, "cache_write_1h": 0,
-            "cache_read_input_tokens": 0, "output_tokens": 0,
+            "cache_read_input_tokens": 0, "output_tokens": 0, "model_s": 0.0,
             "draft_cards": 0, "audit_cards": 0, "by_model": {}}
 
 
@@ -648,6 +739,7 @@ def _add(acc, r, role):
 
 def _tally(acc, r):
     acc["responses"] += 1
+    acc["model_s"] = acc.get("model_s", 0.0) + r.model_s
     acc["input_tokens"] += r.input_tokens
     acc["cache_write_5m"] += r.cache_write_5m
     acc["cache_write_1h"] += r.cache_write_1h

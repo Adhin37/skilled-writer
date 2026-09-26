@@ -106,9 +106,16 @@ def render(repo_root, role):
                   % (", ".join("§%s" % n for n, _b in left), SOURCE), ""]
     lines += ["---", ""]
     for _number, body in kept:
-        lines.append(body)
+        lines.append(DOC_LINK.sub(DOC_LINK_TEXT, body))
     lines += [END, ""]
     return "\n".join(lines)
+
+
+# A markdown link into `docs/`. Every role this renders for is refused `docs/` by `role_scope`, so
+# a link there is a door drawn on a wall - and benchmark run #6 found the drafter and gate slices
+# each carrying two, beside a spawn prompt that says not to read `docs/` at all (P3).
+DOC_LINK = re.compile(r"\[[^\]]*\]\(docs/[^)]*\)")
+DOC_LINK_TEXT = "a maintainer note (not yours to open)"
 
 
 # A `§N` pointer inside the contract body. Named sections (`§How hard each of these binds`,

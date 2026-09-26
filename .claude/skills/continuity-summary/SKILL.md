@@ -117,15 +117,18 @@ hand-back is in front of you. Everything below lands in `state/` or in the repor
 
 1. Append the CCS block to §3 of `state/continuity.md`. If Phase C had to fix something, the
    block carries a `gate>` line **condensed from the gate's `Gate:` line** into a dozen words or
-   fewer — and no `gate>` line at all when the gate came back clean. `sw readset` reads the last
-   five back to build the next chapter's WATCH row, so a defect recorded here is one the next
-   draft is written against rather than one the gate fixes again in chapter 43.
+   fewer, naming what the page did rather than its category (the block format's `gate>` row, in
+   `roles/shared/continuity-summary.block-format.md`) — and no `gate>` line at all when the gate
+   came back clean. `sw readset` reads the last five back to build the next chapter's WATCH row,
+   so a defect recorded here is one the next draft is written against rather than one the gate
+   fixes again in chapter 43.
 1b. The three step-proof lines, **copied, never recalled** — each may be the literal `none`, and a
     missing one is a step nobody can prove ran (`sw state` warns):
     - `cand>` — the brief's `cand` line, from `state/brief.md`.
-    - `z4>` — the gate's Pass Z4 answer, from its hand-back.
+    - `z4>` — the gate's Pass Z4 answer, copied from its hand-back in `state/gate.md`.
     - `gav>` — the brief's `gives` line. Omitted at `tone.warmth: cold`.
-2. Update `state/threads.md` for every `thr>` operation.
+2. Update `state/threads.md` for every `thr>` operation — a `~` on a `planned` row flips it to
+   `open`.
 3. Update `state/growth.md` for every rung change in `chg>`, and log any **skill stage** that
    advanced in its skill-ladder table, with what caused it (a teacher, a reference, a costly
    failure) and what the practice is costing.

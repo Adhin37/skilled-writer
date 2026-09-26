@@ -75,6 +75,15 @@ four hold: the signal was on the page this chapter · the reading is the one the
 would produce · the true cause is also visible in something the reader saw · and it costs
 something. Somebody with a higher `eq` than the POV is reading *them*, and may act on it first.
 
+The cost is the condition a draft drops first, and the narrator is how it drops it:
+
+> *She read his silence as agreement. A breath later she understood he had only been counting.*
+
+That is a misread corrected in the same breath, for free — the character learns the truth one
+sentence after the error, and nothing happens because of it. A run's cold reader found the move
+four times in four chapters and read it as the narrator overruling the MC. Let the wrong reading
+stand into the next scene, and let finding out cost something there.
+
 Technique rather than rule — the intelligence / knowledge / wisdom distinction:
 `roles/draft/mc-intel-meter.writing-intelligence.md`. Plans, operations and lies: `roles/draft/mc-intel-meter.plans-and-lies.md`.
 The observation ladder and how a misread is written so the reader can see past it:

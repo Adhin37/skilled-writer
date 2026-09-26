@@ -36,8 +36,11 @@ class TestArcPass(unittest.TestCase):
         """Run #1 shipped five chapters at 2-5% spoken. No single chapter looked wrong."""
         with NovelFixture() as fx:
             build(fx, 6, body=QUIET, pay=True)
-            msgs = messages(cmd_arc.run(fx.novel(), 1))
+            rep = cmd_arc.run(fx.novel(), 1)
+            msgs = messages(rep)
             self.assertTrue(any("under 10% spoken" in m for m in msgs))
+            # A silent arc is still the defect run #1 shipped; one quiet chapter is not.
+            self.assertIn(("arc-dialogue", "defect"), {(f.check, f.level) for f in rep.findings})
 
     def test_a_healthy_arc_raises_no_dialogue_finding(self):
         with NovelFixture() as fx:
@@ -153,3 +156,28 @@ class TestArcDivergence(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestTheOppositionHasAFace(unittest.TestCase):
+    """Run #6's cold read, ranked first: five chapters, three hostile documents, no person."""
+
+    ARCS = ("# Arcs\n\n**Antagonistic force.** Veyra Stall, acting on the Board's authority. "
+            "Her case: the levy keeps the bridges up.\n")
+
+    def _checks(self, early_mentions):
+        with NovelFixture() as fx:
+            fx.write("plan/arcs.md", self.ARCS)
+            build(fx, 5, body=lambda i: QUIET + ("Veyra Stall signed it herself.\n"
+                                                 if i in early_mentions else ""))
+            return {(f.check, f.level) for f in cmd_arc.run(fx.novel(), 1).findings}
+
+    def test_an_antagonist_absent_by_the_contract_chapter_is_named(self):
+        self.assertIn(("arc-antagonist", "warn"), self._checks(early_mentions=(4, 5)))
+
+    def test_one_on_the_page_in_time_is_not(self):
+        self.assertNotIn(("arc-antagonist", "warn"), self._checks(early_mentions=(2,)))
+
+    def test_the_template_placeholder_names_nobody(self):
+        with NovelFixture() as fx:
+            build(fx, 5, body=QUIET)
+            self.assertEqual(cmd_arc.antagonist_names(fx.novel()), [])

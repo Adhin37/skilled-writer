@@ -38,7 +38,7 @@ that the story forgot its own chapter-12 mystery.
 | `type` | `mystery` `promise` `debt` `threat` `relationship` `setup` `oath` `secret` |
 | `tension` | `hot` (touched in last 5 ch) · `warm` (last 15) · `cold` (dormant) |
 | `due` | the chapter by which it must be advanced or paid |
-| `status` | `open` `escalated` `paid` `subverted` `abandoned` |
+| `status` | `planned` `open` `escalated` `paid` `subverted` `abandoned` — `planned` is a thread the plan names and no chapter has opened yet: it has an id the plan rows can use, and no age. The chapter that opens it flips it to `open` |
 | `payoff` | how it landed, filled in on payoff |
 
 ## Thread hygiene

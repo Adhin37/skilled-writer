@@ -38,6 +38,8 @@ def run(novel):
                  % (len(stale), stale[0].number, top,
                     "The gate passed it and step 5 never wrote its state; write it back."
                     if top == "gated" else
+                    "A gate began on it and was stopped; its edits are unmarked - re-gate it."
+                    if top == "gating" else
                     "The phase C gate never ran on it; re-gate with %s."
                     % cmd_readset.regate_target(c.number for c in stale)),
                  path=stale[0].path)

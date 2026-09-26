@@ -3,10 +3,10 @@
 The working grid. `chapter-plan` maintains it; `write-chapter` reads one row and writes it.
 Keep 10–15 rows planned ahead of the draft line, never the whole book — later rows go stale.
 
-**status**: `planned` · `drafted` · `revised` · `published`
+**status**: `planned` · `drafted` · `gated` · `revised` · `published`
 
-| # | title | pov | arc | temp | hooktype | goal | obstacle | turn | event | delivers | cost | threads | hook | status |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| # | title | pov | arc | temp | hooktype | goal | obstacle | turn | event | delivers | cost | threads | hook | world entry | status |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 
 Column meanings — every middle column is mandatory before a row may be drafted:
 
@@ -37,6 +37,10 @@ Column meanings — every middle column is mandatory before a row may be drafted
   but never zero. See `conflict-engine`.
 - **threads** — ids from `state/threads.md`: `^` advance, `~` open, `v` pay.
 - **hook** — the final beat, in five words. See `hook-and-pacing`.
+- **world entry** — in the opening arc, the one world fact this chapter delivers and the channel
+  carrying it (a consequence, a friction, an assumed reference); `—` once the opening arc is
+  done. Filled at plan time, never left for the drafter to choose. See `chapter-plan` §Arc 1 is
+  different and `story-opening`.
 
 ---
 

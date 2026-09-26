@@ -216,10 +216,14 @@ def do_audit(args):
     # that never reaches the audit is read by nobody who runs only the audit. The ungated warn
     # comes from `status`, its one owner: an audit that exits clean over an unfinished chapter
     # is the gate people run telling them the gate ran.
+    #
+    # `history-two-hander` and `history-signature` joined on 2026-09-26: the two cold-read
+    # findings that recurred on a new novel after run #5, and that no per-chapter check can see.
     hist, _data = cmd_history.run(novel)
     rep.findings.extend(f for f in hist.findings
                         if f.check in ("history-dialogue", "history-habit", "history-gives",
-                                       "history-z4"))
+                                       "history-z4", "history-two-hander",
+                                       "history-signature"))
     rep.findings.extend(f for f in cmd_status.run(novel).findings if f.check == "gate")
     return _emit(rep, args)
 

@@ -126,6 +126,14 @@ def run(repo_root, novel=None, rates=None, transcript_root=None, include_all=Fal
     data["cost_usd"] = round(cost, 4)
     data["per_model"] = per_model
 
+    if novel is not None:
+        # Run #6, P1: `sw trace <novel>` read as though it narrowed to that novel, and it never
+        # did - a run in a repo holding several novels was only ever scoped by the flags.
+        rep.info("scope", [
+            "   the novel names the title and which modules are in play; it does not narrow the",
+            "   sessions. Those are every transcript with a cwd in this repo, narrowed only by",
+            "   --session, --since, --until and --role.",
+        ])
     _run_section(rep, sessions, agg)
     _token_section(rep, agg)
     _cost_section(rep, rates, per_model, cost, agg)
@@ -187,6 +195,11 @@ def _token_section(rep, agg):
     lines.append("   Claude Code writes one row per content block and repeats `usage` on each,")
     lines.append("   so the naive column is what summing rows would have reported. It is shown")
     lines.append("   because benchmark run #1 was counted that way.")
+    if agg.get("thinking_unrecorded"):
+        lines.append("   %d response(s) carry a thinking block far larger than the output they"
+                     % agg["thinking_unrecorded"])
+        lines.append("   record - the transcript kept a partial count, so output and cost are")
+        lines.append("   lower bounds.")
     rep.info("tokens (one entry per API response)", lines)
 
     if agg["responses"] and agg["rows"]:
@@ -224,19 +237,26 @@ def _role_section(rep, rates, agg, data):
     data["by_role"] = {}
     if not roles:
         return
-    lines = ["   %-12s %4s %6s %9s %9s %7s" % ("role", "sess", "resp", "wall", "cost", "cards")]
+    lines = ["   %-12s %4s %6s %9s %9s %9s %9s %7s"
+             % ("role", "sess", "resp", "wall", "model", "tools", "cost", "cards")]
     for name in sorted(roles, key=lambda n: (n == "main", n)):
         r = roles[name]
         cost = total_cost(rates, r["by_model"])
         data["by_role"][name] = {"sessions": r["sessions"], "responses": r["responses"],
                                  "duration_s": r["duration_s"], "cost_usd": round(cost, 4),
+                                 "model_s": round(r.get("model_s", 0.0), 1),
+                                 "tool_s": round(r.get("tool_s", 0.0), 1),
                                  "draft_cards": r["draft_cards"],
                                  "audit_cards": r["audit_cards"]}
-        lines.append("   %-12s %4d %6d %9s %9s %7s"
+        lines.append("   %-12s %4d %6d %9s %9s %9s %9s %7s"
                      % (name[:12], r["sessions"], r["responses"], _hms(r["duration_s"]),
+                        _hms(r.get("model_s", 0.0)), _hms(r.get("tool_s", 0.0)),
                         "$%.2f" % cost, "%d/%d" % (r["draft_cards"], r["audit_cards"])))
     lines.append("   `main` is a top-level session - the coordinator in a run, or a maintainer.")
     lines.append("   A role's wall time is summed across its agents, which may have overlapped.")
+    lines.append("   `model` is the time the model spent producing responses, thinking included;")
+    lines.append("   `tools` the time between a call and its result. The rest of the wall clock")
+    lines.append("   is waiting - on the user, a hand-off, or an agent that had already finished.")
     rep.info("by role", lines)
 
 
@@ -245,17 +265,17 @@ def _chapter_section(rep, sessions, rates, data, since=None):
     data["by_chapter"] = buckets
     if not buckets:
         return
-    lines = ["   %-20s %4s %6s %9s %13s %10s %9s %7s  %s"
-             % ("novel", "ch", "resp", "wall", "cache read", "output", "cost", "cards",
+    lines = ["   %-20s %4s %6s %9s %9s %13s %10s %9s %7s  %s"
+             % ("novel", "ch", "resp", "wall", "model", "cache read", "output", "cost", "cards",
                 "last write")]
     quick = []
     split = []
     for b in buckets:
         b["cost_usd"] = round(total_cost(rates, b["by_model"]), 4)
         pre = b["chapter"] <= 0
-        lines.append("   %-20s %4s %6d %9s %13s %10s %9s %7s  %s"
+        lines.append("   %-20s %4s %6d %9s %9s %13s %10s %9s %7s  %s"
                      % (b["slug"][:20], "-" if pre else b["chapter"], b["responses"],
-                        _hms(b["duration_s"]),
+                        _hms(b["duration_s"]), _hms(b.get("model_s", 0.0)),
                         "{:,}".format(b["cache_read_input_tokens"]),
                         "{:,}".format(b["output_tokens"]),
                         "$%.2f" % b["cost_usd"],

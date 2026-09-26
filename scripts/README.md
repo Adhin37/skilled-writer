@@ -35,9 +35,9 @@ automatically when only one novel exists.
 | `status <novel>` | Progress aggregation for `/novel-status`, and a warning for any chapter the phase C gate never ran on | no |
 | `stamp <novel> [-c N]` | Measures the body and writes `wordcount:`. `--status`, `--ledger` | **yes** |
 | `newnovel <slug>` | Copies `novels/_template` to `novels/<slug>` | **yes** |
-| `audit <novel>` | Inventory plus `lint --all`, `cast`, `state` and `curve` in one pass, plus the cross-chapter `history` findings (dialogue, habits, giving, Z4) and `status`'s unfinished-chapter warn — the independent whole-novel gate | no |
-| `history <novel>` | The whole book as a series rather than one chapter: per-chapter words, dialogue share, thought and meta counts, the dialogue and length trends, which checks recur across chapters and at what level, the `widening` section (Pass Z4's answers and the recorded candidates), thread ages, the pressure series, and cadence from file mtimes. `--json` | no |
-| `trace [novel]` | What the run cost and **which skill files and draft/audit cards it actually opened**, from Claude Code's own transcripts: API responses, the four token classes, wall clock, cost, **per role** (drafter, gate, architect, reader, `main`), per-chapter attribution — a subagent whose spawn description names a chapter (`draft ch 6`) is billed to it whole — cards per chapter and per card, **routing** (every path an agent opened, `cat` included, judged by the read guard's own `verdict`), tool counts. `--session`, `--role`, `--since`, `--until`, `--transcripts`, `--rates`, `--json` | no |
+| `audit <novel>` | Inventory plus `lint --all`, `cast`, `state` and `curve` in one pass, plus the cross-chapter `history` findings (dialogue, habits, giving, Z4, two-handers, signature phrases) and `status`'s unfinished-chapter warn — the independent whole-novel gate | no |
+| `history <novel>` | The whole book as a series rather than one chapter: per-chapter words, dialogue share, thought and meta counts, the dialogue and length trends, which checks recur across chapters and at what level, the `widening` section (Pass Z4's answers and the recorded candidates), thread ages, the pressure series, cadence from file mtimes, the share of recent conversations two people carry, and the phrases that recur across chapters or mouths. `--json` | no |
+| `trace [novel]` | What the run cost and **which skill files and draft/audit cards it actually opened**, from Claude Code's own transcripts: API responses, the four token classes, wall clock, cost, **per role** (drafter, gate, architect, reader, `main`) with **model time and tool time** beside the wall clock, per-chapter attribution with model time per chapter — a subagent whose spawn description names a chapter (`draft ch 6`) is billed to it whole — cards per chapter and per card, **routing** (every path an agent opened, `cat` included, judged by the read guard's own `verdict`), tool counts. `--session`, `--role`, `--since`, `--until`, `--transcripts`, `--rates`, `--json` | no |
 | `kb <action> [args]` | Queries the craft knowledge base, derived from skill and reference frontmatter on every call and never stored. `owner <slug>` names the skill that owns a concept; `show <slug>` adds what teaches it and who cites it; `list [--type T] [--json]` prints the whole index; `search <terms>` finds passages with their heading and owner, unranked; `cards <novel> -c N [--phase A]` and `passes <novel> -c N` resolve the card set for one chapter against `novel.md`; `view <role> [<novel> -c N]` is one agent's whole slice of the corpus - the skills that role may open, plus its cards resolved against this novel - and is what generates `.claude/agents/*.md` rather than a hand-kept list; `validate` runs the structural checks `health` also runs | no |
 | `export <novel> --okf` | Projects a novel into an OKF v0.2 bundle: one document per character, location, thread and chapter, plus the ledgers, an `index.md` carrying `okf_version` and a `log.md`. Knowledge *about* the novel, not the prose — every document carries a `resource:` naming the repo file it came from. `--out` must name a directory that does not yet exist | **yes**, into `--out` only |
 | `contract <role> [--write]` | Renders one role's slice of `CLAUDE.md` into that role's agent file, between markers — the sections it is bound by, and a line naming the ones it is not so an agent knows they exist. The binding table is `rules.CONTRACT_EXCLUDES`, keyed on `## N.` and nothing finer, and lists only what a role does **not** get, so a new section reaches every role until somebody decides otherwise. `review` has no contract on purpose: a reader that has read the rubric is not a reader. Without `--write` it prints. `health` re-renders and diffs | **yes**, `.claude/agents/<agent>.md` with `--write` |
@@ -165,8 +165,15 @@ transcripts Claude Code writes under `$CLAUDE_CONFIG_DIR` (or `~/.claude`), and 
 exactly these fields:
 
 `type` · `timestamp` · `cwd` · `requestId` · `message.id` · `message.model` · `message.usage` ·
-the **names** and `file_path`s of tool calls, and — from the `agent-*.meta.json` beside a
-subagent's transcript — its `agentType`, `spawnDepth` and the short `description` its spawn gave it.
+the **names** and `file_path`s of tool calls, the ids that pair a call with its result (for
+timing), the **length** of an extended-thinking block (Claude Code stores the thinking itself
+empty, beside an opaque signature), and — from the `agent-*.meta.json` beside a subagent's
+transcript — its `agentType`, `spawnDepth` and the short `description` its spawn gave it.
+
+The novel argument names the report and decides which modules count as in play; **it does not
+narrow the sessions** — `--session`, `--since`, `--until` and `--role` do, and the output says so.
+A response whose thinking block is far larger than the output it records is counted and flagged:
+its transcript kept a partial count, so output and cost are lower bounds.
 
 It never reads prompt text, tool results, or assistant prose, and it never prints them. It writes
 nothing anywhere. Transcripts are selected by comparing each row's `cwd` against this repo, so a

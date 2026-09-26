@@ -95,6 +95,48 @@ class TestResponseGrouping(unittest.TestCase):
             sess = transcripts.sessions_for("/work/repo", root.dir)
         self.assertEqual(sess[0].totals()["output_tokens"], 289)
 
+    def test_thinking_far_larger_than_the_recorded_output_is_flagged_not_rebilled(self):
+        """Run #6, T2: a 56,597-character thinking block beside a final `output_tokens: 5`.
+        The count is kept as recorded; the response is only flagged as a lower bound."""
+        think = {"type": "thinking", "thinking": "", "signature": "x" * 40000}
+        rows = [row(apiBlockIndex=0, message={"usage": usage(out=5), "content": [think]}),
+                row(apiBlockIndex=1, message={"usage": usage(out=5)})]
+        with Root() as root:
+            root.write("projects/-work-repo/s1.jsonl", rows)
+            sess = transcripts.sessions_for("/work/repo", root.dir)
+        resp = sess[0].responses[0]
+        self.assertEqual(resp.output_tokens, 5, "never rewritten")
+        self.assertTrue(resp.thinking_unrecorded)
+        self.assertEqual(transcripts.aggregate(sess)["thinking_unrecorded"], 1)
+
+    def test_thinking_the_output_accounts_for_is_not_flagged(self):
+        think = {"type": "thinking", "thinking": "", "signature": "x" * 40000}
+        rows = [row(message={"usage": usage(out=9000), "content": [think]})]
+        with Root() as root:
+            root.write("projects/-work-repo/s1.jsonl", rows)
+            sess = transcripts.sessions_for("/work/repo", root.dir)
+        self.assertFalse(sess[0].responses[0].thinking_unrecorded)
+
+    def test_model_and_tool_time_come_from_timestamps_alone(self):
+        """Run #6, T1: where a chapter's time goes. The model's share is measured from the row
+        before a response to its first row; a tool's from its call to its result."""
+        user = {"type": "user", "timestamp": "2026-09-05T17:00:00.000Z", "cwd": "/work/repo",
+                "message": {"role": "user", "content": "go"}}
+        call = row(timestamp="2026-09-05T17:00:10.000Z", requestId="req_1",
+                   message={"id": "msg_1", "usage": usage(out=5),
+                            "content": [{"type": "tool_use", "id": "tu_1", "name": "Read"}]})
+        result = {"type": "user", "timestamp": "2026-09-05T17:00:12.500Z", "cwd": "/work/repo",
+                  "message": {"role": "user", "content": [
+                      {"type": "tool_result", "tool_use_id": "tu_1", "content": "..."}]}}
+        answer = row(timestamp="2026-09-05T17:00:20.500Z", requestId="req_2",
+                     message={"id": "msg_2", "usage": usage(out=9)})
+        with Root() as root:
+            root.write("projects/-work-repo/s1.jsonl", [user, call, result, answer])
+            sess = transcripts.sessions_for("/work/repo", root.dir)[0]
+        self.assertAlmostEqual(sum(r.model_s for r in sess.responses), 18.0, places=3)
+        self.assertAlmostEqual(sess.tool_s, 2.5, places=3)
+        self.assertEqual(sess.tool_calls, 1)
+
     def test_separate_requests_are_separate_responses(self):
         rows = [row(requestId="req_1", message={"id": "msg_1", "usage": usage(read=10)}),
                 row(requestId="req_2", message={"id": "msg_2", "usage": usage(read=20)})]

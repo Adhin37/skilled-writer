@@ -1013,6 +1013,7 @@ THREADS_MD = '''# Thread ledger
 | T02 | who signed the manifest that authorised the draw | 2 | mystery | warm | 20 | | open | the signature is read out in the long room |
 | T03 | Bel's oven licence has lapsed and Hesk is sitting on it | 3 | promise | cold | 24 | | open | the row gets its licence or loses the oven |
 | T04 | which barge the four fathoms actually went onto | 2 | mystery | hot | 8 | | paid | Bel reads the painted-out name at the waterline: the Corun |
+| T05 | what Maro is owed, and by whom | 13 | debt | cold | 24 | | planned | |
 '''
 
 GROWTH_MD = '''# Growth ledger

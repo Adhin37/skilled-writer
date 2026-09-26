@@ -109,7 +109,14 @@ class TestTheGate(unittest.TestCase):
     """Repairs the chapter it was handed. Narrower than the drafter on purpose."""
 
     def test_the_chapter_is_its_own(self):
-        self.assertEqual(write("gate", "novels/a-book/chapters/0004-x.md")[0], 0)
+        self.assertEqual(write("gate", "novels/a-book/chapters/0004-x.md",
+                               tool_name="Edit")[0], 0)
+
+    def test_it_repairs_a_chapter_and_never_rewrites_it_whole(self):
+        # It gained `Write` for its hand-back on 2026-09-26; the chapter stays Edit-only.
+        code, err = write("gate", "novels/a-book/chapters/0004-x.md")
+        self.assertEqual(code, 2)
+        self.assertIn("Edit", err)
 
     def test_it_may_not_move_the_state_it_checks_against(self):
         code, err = write("gate", "novels/a-book/state/continuity.md")
@@ -118,6 +125,21 @@ class TestTheGate(unittest.TestCase):
 
     def test_it_may_not_edit_the_bible_to_make_the_chapter_consistent(self):
         self.assertEqual(write("gate", "novels/a-book/bible/world.md")[0], 2)
+
+    def test_its_hand_back_is_its_own(self):
+        # Run #6, I4: the hand-back was the one hand-off with no file, and a dead drafter took
+        # the gate's design item with it. The gate writes it to state/gate.md, and only there.
+        self.assertEqual(write("gate", "novels/a-book/state/gate.md")[0], 0)
+        self.assertEqual(write("gate", "novels/a-book/state/threads.md")[0], 2)
+
+    def test_nobody_else_writes_the_hand_back(self):
+        # A drafter that could edit it could rewrite what the gate said about its own chapter.
+        code, err = write("drafter", "novels/a-book/state/gate.md")
+        self.assertEqual(code, 2)
+        self.assertIn("hand-back", err)
+        self.assertEqual(write("architect", "novels/a-book/state/gate.md")[0], 2)
+        self.assertEqual(write("drafter", "novels/a-book/state/threads.md")[0], 0)
+        self.assertEqual(write("drafter", "novels/a-book/state/brief.md")[0], 0)
 
 
 class TestTheCoordinator(unittest.TestCase):

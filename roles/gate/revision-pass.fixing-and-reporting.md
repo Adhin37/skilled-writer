@@ -20,6 +20,14 @@ The card's owner declares a `force`, and `sw kb passes` marks it. It decides the
 | **structural** | fix it, or keep it and say why in the `Gate:` line | one clause |
 | **stylistic** | **decide.** Keep it whenever the sentence does something the plain version would not | nothing |
 
+**Pass Z2 is structural, and the one most easily passed by assertion.** A run's gate reported
+"Z1/Z2/Z3 all pass" on a chapter whose sections ran 869 / 512 / 261 words with the event in the
+second, and said in the same hand-back that the event scene was "not the single longest". So the
+`Gate:` line names the event's section and quotes `sw lint`'s `sections` line: `Z2: event in
+section 2 of 3, 512 of 1,642 words`. If it is not the longest, play it and re-measure, send it
+back, or keep it and say why in one clause — a break stated is a decision, a break unstated is a
+miss.
+
 A stylistic card that comes back with findings you deliberately kept is a card that worked. Those
 rules exist to catch a *habit* rather than a sentence, so read them across the chapter and spend
 the latitude they give you (`prose-quality` §Range before polish and §When to break these;
@@ -37,14 +45,20 @@ the latitude they give you (`prose-quality` §Range before polish and §When to 
   row under `For design:` — the architect amends it and re-checks the next three.
 - **When a fix reveals a bible gap** — an unnamed thing, an undefined rule, a social fact the
   scene assumed — name it under `For design:`, with the page's wording, so the fold records it
-  the way the reader met it.
+  the way the reader met it. **A gap is a claim of absence, so name where you looked**: "no
+  roster line (searched `bible/cast/_extras.md`)". A run's gate reported a walk-on missing from a
+  roster that had carried its line since the scaffold, and the claim travelled two hand-offs
+  before the fold checked it.
 - **When Pass 3 finds a knowledge gap**, prefer the cheap fix in this order: give the line to
   someone whose map covers it · have the character ask their referral · let them be *wrong* about
   it, which usually improves the scene · and only last, name under `For design:` that their map
   gains the domain, which is a permanent change to who they are.
 
-Set `status: gated` in the frontmatter when every pass is clean — your last act. `revised` is the
-drafter's, stamped after the chapter's state is written.
+Set `status: gating` in the frontmatter before your first edit, and `status: gated` when every
+pass is clean — your last act. A chapter you send back goes to `status: drafted`. `revised` is the
+drafter's, stamped after the chapter's state is written. `gating` exists because a gate killed
+mid-pass used to leave `drafted` behind, and the next gate read its predecessor's half-made fix
+as the drafter's prose and shipped it.
 
 ## Read what you changed
 
@@ -94,7 +108,9 @@ Whatever this pass undoes is still a gate fix, and goes in the `Gate:` line like
 
 **Inside `write-chapter`, this pass does not get a report of its own.** It returns one `Gate:`
 line in its hand-back; the drafter carries it into the step 6 report and condenses it into the
-CCS block's `gate>` line:
+CCS block's `gate>` line. The whole hand-back is also written to `state/gate.md`, as a fenced block
+opening on `Ch <n> — gate hand-back`, replacing the last one: it was the one hand-off in the loop
+with no file, and a drafter that died mid-state-write took a `For design:` item with it.
 
 ```
 Gate: passed — cut a crowd-reaction block, replaced the ending. Pass 8b ran without its

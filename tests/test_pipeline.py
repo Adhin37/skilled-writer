@@ -32,6 +32,16 @@ next     the quarter answers in nine days
 ```
 '''
 
+HANDBACK = '''# Gate hand-back
+
+```
+Ch 2 — gate hand-back
+Gate: thinned two filter verbs; Pass 6 clean; every pass ran with its card.
+z4> she pays the fine in the one coin nobody else would take
+For design: the ferry toll in the bible disagrees with the page - flagging, not fixing
+```
+'''
+
 
 def _status(fx, number, status):
     """Rewrite a fixture chapter's `status:`; the fixture writes `drafted`."""
@@ -178,6 +188,74 @@ class TestResumeIsReadOffTheDisk(unittest.TestCase):
             gate = _section(cmd_readset.build(fx.novel(), 2), "## GATE")
         self.assertIn("step 5 never wrote its state", gate)
         self.assertNotIn("never ran on it", gate)
+
+    def test_a_gated_chapter_with_its_block_is_told_not_to_append_another(self):
+        """Run #6, chapter 5: the drafter died after appending `=C0005=` and before the other
+        state files, and the line told its successor the state 'was never written'."""
+        with NovelFixture() as fx:
+            fx.add_chapter(2, BODY)
+            _status(fx, 2, "gated")
+            fx.add_ledger([2])
+            resume = self._resume(fx)
+        self.assertIn("RESUME at step 5, part-written", resume)
+        self.assertIn("Do not append another block", resume)
+        self.assertNotIn("never written", resume)
+
+    def test_a_part_written_chapter_below_is_named_as_such(self):
+        with NovelFixture() as fx:
+            fx.add_chapter(1, BODY)
+            _status(fx, 1, "gated")
+            fx.add_ledger([1])
+            gate = _section(cmd_readset.build(fx.novel(), 2), "## GATE")
+        self.assertIn("stopped part-way", gate)
+        self.assertIn("Do not append a second block", gate)
+
+    def test_the_hand_back_on_file_is_named_at_step_5(self):
+        with NovelFixture() as fx:
+            fx.add_chapter(2, BODY)
+            _status(fx, 2, "gated")
+            fx.write("state/gate.md", HANDBACK)
+            resume = self._resume(fx)
+        self.assertIn("state/gate.md", resume)
+        self.assertNotIn("ask the coordinator", resume)
+
+    def test_a_hand_back_for_another_chapter_is_not_this_one(self):
+        with NovelFixture() as fx:
+            fx.add_chapter(2, BODY)
+            _status(fx, 2, "gated")
+            fx.write("state/gate.md", HANDBACK.replace("Ch 2 —", "Ch 1 —"))
+            self.assertIn("ask the coordinator", self._resume(fx))
+
+    def test_a_gate_stopped_mid_pass_leaves_a_mark(self):
+        """Run #6, chapter 3: a killed gate's edit read as the drafter's prose and shipped."""
+        with NovelFixture() as fx:
+            fx.add_chapter(2, BODY)
+            _status(fx, 2, "gating")
+            resume = self._resume(fx)
+            for_gate = cmd_readset.build(fx.novel(), 2, role="gate")
+        self.assertIn("RESUME at phase C, interrupted", resume)
+        self.assertIn("READY FOR GATE", resume)
+        self.assertIn("PARTLY GATED", for_gate)
+
+    def test_a_clean_gate_slice_says_nothing_about_a_partial_pass(self):
+        with NovelFixture() as fx:
+            fx.add_chapter(2, BODY)
+            self.assertNotIn("PARTLY GATED", cmd_readset.build(fx.novel(), 2, role="gate"))
+
+
+class TestTheHandBackFile(unittest.TestCase):
+    """`state/gate.md`, in the brief's shape: the one hand-off that used to leave no file."""
+
+    def test_it_reads_the_chapter_and_the_text(self):
+        with NovelFixture() as fx:
+            fx.write("state/gate.md", HANDBACK)
+            num, text = fx.novel().handback()
+        self.assertEqual(num, 2)
+        self.assertIn("For design:", text)
+
+    def test_a_missing_file_is_no_hand_back(self):
+        with NovelFixture() as fx:
+            self.assertEqual(fx.novel().handback(), (None, ""))
 
 
 class TestTheBriefFileSaysWhatItIs(unittest.TestCase):
@@ -432,3 +510,44 @@ class TestArcCastMatchesShortNames(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestWalkOnsReachTheDrafter(unittest.TestCase):
+    """Run #6, D3: `_extras.md` was never loaded, so a designed walk-on's first appearance was
+    written from scratch and the design then overwritten to match the page."""
+
+    ROSTER = ("# Extras roster\n\n## Roster\n\n<!-- Example — delete it.\n\n"
+              "Marek Oss — toll clerk, east gate — ch 2 — alive\n"
+              "  wants: to close early | tic: stamps twice\n\n-->\n\n"
+              "Tamsin Vey — ferry keeper, lower crossing — ch 2 — alive\n"
+              "  wants: the fare before the rope | tic: counts coins twice | voice: three words\n\n"
+              "Orrin Pask — night porter — ch 9 — alive\n"
+              "  wants: sleep | tic: whistles\n")
+
+    def test_a_walk_on_listed_for_the_chapter_arrives_with_its_strokes(self):
+        with NovelFixture() as fx:
+            fx.write("bible/cast/_extras.md", self.ROSTER)
+            text = cmd_readset.build(fx.novel(), 2)
+        section = _section(text, "## 7b. WALK-ONS")
+        self.assertIn("Tamsin Vey", section)
+        self.assertIn("counts coins twice", section)
+        self.assertNotIn("Orrin Pask", section)
+        self.assertNotIn("Marek Oss", section, "the template's commented example is not a walk-on")
+
+    def test_no_walk_on_no_section(self):
+        with NovelFixture() as fx:
+            fx.write("bible/cast/_extras.md", self.ROSTER)
+            self.assertNotIn("## 7b. WALK-ONS", cmd_readset.build(fx.novel(), 5))
+
+    def test_a_walk_on_the_plan_row_names_arrives_too(self):
+        head = ("| # | title | pov | arc | temp | hooktype | goal | obstacle | turn | event | "
+                "delivers | cost | threads | hook | status |\n"
+                "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|\n")
+        row = ("| 3 | T | Rin | 1 | tense | threat | cross | Pask will not open the door | t | "
+               "Rin gets past the porter | d | c | ~T01 | h | planned |\n")
+        with NovelFixture() as fx:
+            fx.write("bible/cast/_extras.md", self.ROSTER)
+            fx.write("plan/chapters.md", head + row)
+            section = _section(cmd_readset.build(fx.novel(), 3), "## 7b. WALK-ONS")
+        self.assertIn("Orrin Pask", section)
+        self.assertNotIn("Tamsin Vey", section)

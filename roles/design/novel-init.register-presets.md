@@ -1,13 +1,14 @@
 ---
 type: reference
 owner: novel-init
-description: "Round A: the user cannot name a style target, or names one and writes nothing. Five original sample paragraphs to pick from and edit into style.sample"
+description: "the end of Round D, when Round A's style question came back thin: no style target, or one named and nothing written. Five original sample paragraphs to pick from and edit into style.sample"
 ---
 
 # novel-init — register presets
 
-Open this in **Round A**, when the style question comes back thin: the user shrugs, or names two
-books and leaves `style.sample` empty. Do not open it when they paste their own paragraphs — theirs
+Open this at the **end of Round D**, when Round A's style question came back thin: the user
+shrugged, or named two books and left `style.sample` empty. Not in Round A itself, because the pair
+you show is chosen by `tone.register`, which Round D asks. Do not open it when they paste their own paragraphs — theirs
 are better than these by definition, because they are what that person actually wants to read.
 
 `style.sample` is the cheapest lever on register in the whole toolkit and the only one that works

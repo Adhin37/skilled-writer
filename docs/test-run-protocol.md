@@ -184,6 +184,21 @@ and nothing on disk does either. The inventory below is the only instrument. If 
 changed at any point during the run, the run is over — finish it, write it up, and note that the
 change landed mid-run.
 
+### No rehearsal chapter
+
+**The run is the test, so the coordinator runs no chapter before it** — no smoke test, no
+rehearsal, not on a copy of an earlier novel and not "just to see the loop work". Drafting is the
+drafter's job and never the coordinator's, and that includes deciding to have one drafted. When the
+user says *start the run*, the pre-flight below and the §5 probes are everything that happens
+before the architect is spawned. If the loop is broken, chapter 1 finds out, and that is a finding
+the run exists to collect.
+
+This holds when a memory, a plan file or a `benchmark.md` queue row names a smoke test as
+outstanding: an item in a queue is not the user asking for it. Run #6 opened with one anyway —
+chapter 6 of a copy of run #5's novel, from a memory that listed it as "left to do" — and the user
+stopped it mid-draft: *"it's not your job"*. If you believe a rehearsal is needed, ask; do not run
+one.
+
 ### Pre-flight
 
 ```bash
@@ -202,7 +217,12 @@ touch .test-run                                  # arms the coordinator write gu
 - **Record the proxy state, the model, and the harness shape** in the configuration table. No
   proxy has sat in front of the harness since 2026-09-20; if one is put back, every token and cost
   figure it touches is confounded, and that has to be written down, not remembered.
-- **Declare the stop condition in advance** — N chapters — and write it into the log.
+- **Declare the stop condition in advance** — N chapters — and write it into the log. **N is the
+  user's: five, the `/novel-write` check-in, unless they set another number.** A row in
+  `benchmark.md`'s queue asking for more chapters is a proposal for the user, not the coordinator's
+  to adopt — ask. Run #6's coordinator wrote "8 chapters" into its configuration table from the
+  queue row *Go past five chapters* and nobody had asked for it (M3, the same mechanism as the smoke
+  test above).
 - **`novels/` is gitignored and there is no undo.** Anything you want to survive the run goes to
   the scratchpad *and* into the write-up.
 
@@ -239,6 +259,18 @@ only instrument.
   `sw trace novels/<slug> --session <this session's id> --role drafter,gate,architect` — to the
   findings file: cost and cards by role, per chapter, and any `trace-routing` finding, which is the
   only place a `cat` of another role's card shows up.
+- **Say which agent is writing when a phase starts** — "the drafter is editing now", "the gate is
+  editing the chapter". In the VS Code extension a subagent's edits show under the main
+  conversation, and twice in run #6 the user read an agent's edit as the coordinator's. One line
+  per phase settles it; the guard's silence does not, because the user cannot see it.
+- **Relay the fold's report to the user** at the next check-in — what it changed, what it declined,
+  and any story decision it made. It is the author's to overrule, not yours; run #6's fold decided
+  who a thread's culprits were and when the arc's gain and loss land, and it reached nobody.
+- **Before the reader runs, write your own impression of the prose** — a short paragraph, at the
+  stop, in the log. Reader-review §5 compares three instruments, and run #6 arrived there with two:
+  its coordinator had logged five chapters of process, cost and contract fidelity and not one
+  sentence about whether the book was any good. An impression written after the cold read is not
+  one — it has read the verdict.
 
 ### Interrupting on purpose
 
@@ -276,12 +308,13 @@ of budget to produce.
 
 - **Write it in the same turn you see it, before doing anything else.** Not at the chapter boundary,
   not once you have confirmed it — an unconfirmed observation is written down *as* unconfirmed.
-- **Two files, and both matter.** The working log is a findings file in the scratchpad, appended to
-  all run long. The durable record is `docs/benchmark.md` in the repo, which survives `/tmp`
-  cleanup, session death and compaction alike. **Flush the scratchpad into the repo at every chapter
-  boundary.** Run #5 lost its findings file to `/tmp` cleanup mid-run and had to rebuild it from the
-  session transcript; chapter 4's `cand>` line reads `unrecorded` because the session holding it
-  died first. Both were avoidable by one append.
+- **Two files, and both matter.** The working log is a findings file appended to all run long —
+  **outside the scratchpad**, which the harness wiped at run #6's session restart; the project's
+  memory directory survived it. The durable record is `docs/benchmark.md` in the repo, which
+  survives `/tmp` cleanup, session death and compaction alike. **Flush the working log into the
+  repo at every chapter boundary.** Run #5 lost its findings file to `/tmp` cleanup mid-run and had
+  to rebuild it from the session transcript; chapter 4's `cand>` line reads `unrecorded` because
+  the session holding it died first. Both were avoidable by one append.
 - **Improvement ideas count, not only defects.** *This could be clearer*, *this cap may be a wall*,
   *nothing measures this* — watch items are the cheapest thing to lose and the hardest to recover,
   because unlike a defect they leave no artifact on disk to be rediscovered from.
@@ -437,11 +470,12 @@ Nothing is committed unless the user asks.
 
 ```
 before    [ ] test run or normal run — established
+          [ ] no smoke test or rehearsal chapter — the run's chapter 1 is the test (§5)
           [ ] **fresh session** — no agent file edited since it started (§5)
           [ ] configuration table written, every declared variable has a reason
           [ ] tests + health + selftest green; SHA, UTC start, proxy state recorded
           [ ] baseline audit/lint column captured
-          [ ] stop condition declared
+          [ ] stop condition declared — the user's N, five unless they set another (§5)
           [ ] answer sheet written for the interview
           [ ] `.test-run` created — the write guard is armed, not merely intended
           [ ] drafter and gate asked what they were handed; contract present, §7/§8/§10 absent (§5)
@@ -450,12 +484,14 @@ during    [ ] agent brief: authoring only, no mention of measurement, do not rea
           [ ] no coordinator write under novels/ — not once
           [ ] toolkit frozen
           [ ] every finding + improvement idea written to disk in the turn it was seen
-          [ ] scratchpad findings flushed into docs/benchmark.md at each chapter boundary
+          [ ] working-log findings flushed into docs/benchmark.md at each chapter boundary
           [ ] every Phase A brief logged; every intervention logged verbatim
           [ ] every interruption logged with phase and timestamp
           [ ] every hand-off relayed verbatim and logged; trace appended at each chapter boundary
           [ ] claims verified against disk, not against the agent's report
+          [ ] the agent writing named at each phase start; the fold's report relayed to the user
 after     [ ] stopped at the declared count
+          [ ] your own impression of the prose written down before the reader runs
           [ ] measurement commands run, trace scoped with --session, per role
           [ ] every chapter read by a human, per roles/review/reader-review.md
           [ ] reader given roles/review/reader-brief.md — never this file, never the example

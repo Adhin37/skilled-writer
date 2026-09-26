@@ -103,7 +103,141 @@ def run(novel):
     _threads(novel, rep, rows, data)
     _curve(novel, rep, data)
     _cadence(rep, rows, data)
+    _two_handers(novel, rep, chapters)
+    _signatures(novel, rep, chapters)
     return rep, data
+
+
+# Two cold-read findings that recurred on a new novel with a new cast (runs #5 and #6), and that
+# no per-chapter instrument can see because each chapter, alone, is fine. Both are warns in this
+# command and nowhere else: they reach `sw audit`, never the WATCH row, and no chapter is scored.
+TWO_HANDER_WINDOW = 5      # chapters looked back over
+TWO_HANDER_MIN_TURNS = 4   # a scene with fewer spoken turns is not a conversation
+TWO_HANDER_MIN_SCENES = 6  # below this there is not enough to call a shape (run #6 had 8,
+                           # run #5 9; the selftest sample's 4 of 5 is too few to be a book)
+TWO_HANDER_SHARE = 0.7     # run #5 read 7 of 9, run #6 6 of 8 - both readers named it
+
+
+def _two_handers(novel, rep, chapters):
+    """Most of the book's conversations are two people talking.
+
+    Run #5's reader: five consecutive two-person scenes. Run #6's: "eight of eleven scenes are two
+    people talking indoors or in an enclosed pocket of ground, at the same tempo". `group-scene`
+    is the inverse and is a situation note by design; this is the run of them, which nothing
+    measured. Owner: `scene-craft`. Speakers are a floor (untagged turns name nobody), so a scene
+    this calls a two-hander may hold a silent third - which is still a scene two people carry.
+    """
+    recent = chapters[-TWO_HANDER_WINDOW:]
+    talk, pairs = [], []
+    for ch in recent:
+        for index, (turns, speakers) in enumerate(cmd_lint.scene_speakers(novel, ch), start=1):
+            if turns < TWO_HANDER_MIN_TURNS:
+                continue
+            talk.append((ch.number, index))
+            if len(speakers) <= 2:
+                pairs.append((ch.number, index))
+    if len(talk) < TWO_HANDER_MIN_SCENES or not pairs:
+        return
+    share = len(pairs) / float(len(talk))
+    rep.info("scene shape", [
+        "   %d of %d conversations in ch %d-%d have at most two named speakers: %s"
+        % (len(pairs), len(talk), recent[0].number, recent[-1].number,
+           ", ".join("c%d s%d" % p for p in pairs)),
+    ])
+    if share >= TWO_HANDER_SHARE:
+        rep.warn("history-two-hander",
+                 "%d of %d conversations in ch %d-%d are two people talking - a book of "
+                 "two-handers reads at one tempo however the plan rotates `temp`. Put a third "
+                 "body in a scene that needs one (scene-craft)"
+                 % (len(pairs), len(talk), recent[0].number, recent[-1].number))
+
+
+# Words too common to make a phrase anybody's. A phrase needs content words to be a signature.
+_COMMON = frozenset(
+    "a an the of to in on at by for with and or but not no nor is was were be been being it its "
+    "his her hers their he she they i you we us that this these those there then than as so if "
+    "when what which who whom whose from into out up down over under about after before just "
+    "only very too also had has have do did does would could should will can may might must one "
+    "him them me my your our said says say that's it's he'd she'd i'm don't didn't wasn't isn't "
+    "s t d ll re ve m".split())
+_SENTENCE_END = set(".!?\"'\u201c\u201d\u2018\u2019\u2014:\n")
+SIGNATURE_SHOWN = 6
+
+
+def _signatures(novel, rep, chapters):
+    """A phrase the author keeps reaching for, across chapters or across mouths.
+
+    Run #5's reader: "That's not an answer", four times, three chapters, two mouths. Run #6's:
+    "its own kind of answer" in two chapters about two people - and run #3's redraft had already
+    grown "its own kind of" while removing another tic. `echo` sees one chapter; this is the
+    same tic seen across the book. Owner: `voice-separation` §The cadence test - repetition
+    inside one character is a verbal tic, across characters it is the author's.
+
+    Two ways to qualify, both on 3-5 word phrases with no proper noun and no lexicon word in them
+    (a world term recurs because the world does), and never a three-word phrase that opens on an
+    article - "the counting room" is a place the book keeps going back to, not a voice. Either two
+    or more content words, used in three chapters or three times across two; or spoken only,
+    across two chapters, three times - four when a single content word carries it, as run #5's
+    "not an answer" did.
+    """
+    setting = set()
+    for term in novel.lexicon_names():
+        setting.update(w.lower() for w in re.findall(r"[A-Za-z']{4,}", term))
+    uses = {}
+    for ch in chapters:
+        body = ch.body.replace("\u2019", "'")
+        ranges = ch.speech_ranges
+        tokens = []
+        for m in re.finditer(r"[A-Za-z][A-Za-z']*", body):
+            word = m.group(0)
+            before = body[:m.start()].rstrip()[-1:]
+            proper = word[:1].isupper() and before not in _SENTENCE_END and bool(before)
+            spoken = any(s <= m.start() < e for s, e in ranges)
+            tokens.append((word.lower(), proper, spoken))
+        for n in (3, 4, 5):
+            for i in range(len(tokens) - n + 1):
+                gram = tokens[i:i + n]
+                if any(p for _w, p, _s in gram):
+                    continue
+                words = tuple(w for w, _p, _s in gram)
+                if n == 3 and words[0] in ("the", "a", "an"):
+                    continue
+                if setting.intersection(words):
+                    continue
+                if not any(w not in _COMMON for w in words):
+                    continue
+                uses.setdefault(words, []).append((ch.number, gram[0][2]))
+    hits = []
+    for words, where in uses.items():
+        chs = sorted(set(c for c, _s in where))
+        content = sum(1 for w in words if w not in _COMMON)
+        spoken_only = all(s for _c, s in where)
+        wide = content >= 2 and (len(chs) >= 3 or (len(chs) >= 2 and len(where) >= 3))
+        mouths = spoken_only and len(chs) >= 2 and len(where) >= (3 if content >= 2 else 4)
+        if wide or mouths:
+            hits.append((" ".join(words), chs, len(where), spoken_only))
+    # A shorter phrase inside a longer hit over the same chapters is the same tic.
+    hits.sort(key=lambda h: -len(h[0]))
+    kept = []
+    for h in hits:
+        if any(h[0] in k[0] and set(h[1]) <= set(k[1]) for k in kept):
+            continue
+        kept.append(h)
+    if not kept:
+        return
+    # Spoken-only first - the same line in more than one mouth is the strongest case - then the
+    # longer phrase, which is less likely to be ordinary English than a three-word one.
+    kept.sort(key=lambda h: (not h[3], -len(h[0].split()), -len(h[1]), -h[2], h[0]))
+    shown = ["\"%s\" x%d in ch %s%s" % (p, n, ", ".join(str(c) for c in chs),
+                                        " (spoken only)" if sp else "")
+             for p, chs, n, sp in kept[:SIGNATURE_SHOWN]]
+    rep.warn("history-signature",
+             "%d phrase(s) recur across chapters: %s%s - a phrase in several chapters, or in "
+             "several mouths, is the author's rather than a character's. Read them: some will be "
+             "setting, and the rest are the book's fingerprint (voice-separation, the cadence "
+             "test)" % (len(kept), "; ".join(shown),
+                        "; +%d more" % (len(kept) - SIGNATURE_SHOWN)
+                        if len(kept) > SIGNATURE_SHOWN else ""))
 
 
 def _mtime(path):

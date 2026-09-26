@@ -60,6 +60,13 @@ is arithmetic, and it is the one to run first:
 If not, the chapter is not ready. Not "add words to it" — find out why the drafting is avoiding
 it, because that is almost always the real problem.
 
+**The same rule holds across the chapter break.** When the last chapter closed by promising a beat
+on the page — *"I'll tell him I'm out on the east road"*, said to the one person the lie will
+cost — this chapter plays that beat, lands its consequence, or its brief names the chapter that
+will. Opening two days later with the beat stepped over is the past-perfect skip at the scale of
+the book, and a cold reader named exactly that scene as the loss they felt most. Read the previous
+block's `hook>` and `open>` lines at Phase A for anything spoken aloud as a next move.
+
 Benchmark run #2 is what this test exists to catch. Its plan was strong: chapter 2 walks into a
 massacre and carries out a survivor, chapter 4 is the governor personally probing a lie. Those
 chapters ran 1,457 and 1,213 words and were pitched exactly like the chapter about persuading a

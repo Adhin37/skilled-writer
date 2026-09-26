@@ -16,6 +16,10 @@ from .textstats import Channels, Chapter, load_chapters
 # deliberately NOT here: a chapter the gate passed whose state was never written is unfinished.
 GATED_STATUS = ("revised", "published")
 
+# A walk-on's roster line in `bible/cast/_extras.md`:
+# `<Name> — <what> — ch <appearances> — <status>`.
+ROSTER_LINE = re.compile(r"^([^—\n|#<]{2,60}?)\s+—.*?—\s*ch\s+([0-9,\s~–\-()a-z]+?)\s*—")
+
 # The Phase A brief in `state/brief.md`: a fenced block whose first line names the chapter.
 BRIEF_FENCE = re.compile(r"^```[^\n]*\n(.*?)^```", re.M | re.S)
 BRIEF_HEAD = re.compile(r"^(?:Ch|Chapter)\.?\s+(\d+)", re.M)
@@ -251,6 +255,24 @@ class Novel(object):
         m = BRIEF_HEAD.search(body)
         return int(m.group(1)), body.strip("\n")
 
+    def handback(self):
+        """The gate's hand-back on file, as `(chapter number, text)`, or `(None, "")`.
+
+        The one hand-off in the loop that used to leave no file. Benchmark run #6's chapter 5
+        drafter died mid-state-write; its successor rebuilt the block from the ledger and lost the
+        gate's `For design:` item, because the hand-back had only ever lived in two conversations.
+        The gate now writes it to `state/gate.md` in the brief's shape - a fenced block opening on
+        `Ch <n> — gate hand-back` - and step 5 copies `z4>` and `For design:` from the file.
+        """
+        text = self._text("state", "gate.md")
+        if not text:
+            return None, ""
+        for block in BRIEF_FENCE.findall(text):
+            m = BRIEF_HEAD.search(block)
+            if m:
+                return int(m.group(1)), block.strip("\n")
+        return None, ""
+
     def brief_status(self):
         """`proposed` or `approved` - where the brief on file is in the Phase A stop.
 
@@ -426,6 +448,47 @@ class Novel(object):
 
     def plan_row(self, number):
         return self._plan_index().get(number)
+
+    def roster(self):
+        """The tier-C walk-on roster in `bible/cast/_extras.md`, as a list of dicts.
+
+        Each entry: `name`, `appearances` (chapter numbers, the first number of each comma part),
+        `line` (the file line number), `text` (the entry line plus its indented strokes line).
+        Lines inside an HTML comment are the template's example and are skipped.
+
+        One parser for two readers: `sw state`'s promotion check, and `sw readset`, which since
+        2026-09-26 hands the drafter the roster line of every walk-on its chapter names. Before
+        that the line reached nobody - run #6 had three designed walk-ons written from scratch on
+        the page, and each design was then overwritten to match what the page invented.
+        """
+        text = self._text("bible", "cast", "_extras.md")
+        if not text:
+            return []
+        lines = text.split("\n")
+        out = []
+        in_comment = False
+        for i, line in enumerate(lines):
+            if "<!--" in line and "-->" not in line.split("<!--", 1)[1]:
+                in_comment = True
+                continue
+            if in_comment:
+                if "-->" in line:
+                    in_comment = False
+                continue
+            m = ROSTER_LINE.match(line)
+            if not m:
+                continue
+            appearances = []
+            for part in m.group(2).split(","):
+                nums = re.findall(r"\d+", part)
+                if nums:
+                    appearances.append(int(nums[0]))
+            entry = [line.rstrip()]
+            if i + 1 < len(lines) and re.match(r"^\s+\S", lines[i + 1]):
+                entry.append(lines[i + 1].rstrip())
+            out.append({"name": m.group(1).strip(), "appearances": appearances,
+                        "line": i + 1, "text": "\n".join(entry)})
+        return out
 
     @_memo
     def voice_rows(self):

@@ -148,6 +148,12 @@ _FRAGMENT_NEGATION = (
 )
 
 CLAUDE_REGISTER = _compile([
+    # Benchmark run #6 (G1): the gate found "which was X" closers by reading - eight in one chapter
+    # - and a killed gate's half-made fix added one more. "its own kind of" is the same move and
+    # recurs across runs: run #3's redraft grew it, run #6 shipped it in two chapters.
+    (r",\s+which was\s+(?:exactly\b|its own\b|not (?:an?|the)\b)",
+     "`, which was X` - the retrospective closer"),
+    (r"\bits own kind of\b", "`its own kind of X`"),
     (r",\s+not\s+(?!to\b|be\b|have\b|only\b|just\b|yet\b)\w+", "X, not Y antithesis"),
     (r",\s+never\s+(?:a|an|the)\b", ", never a - antithesis"),
     (_FRAGMENT_NEGATION, "`Not X.` fragment negation"),
@@ -165,6 +171,14 @@ CLAUDE_REGISTER = _compile([
      r"silence|grief|doubt|history|guilt|memory|arithmetic)\b[^.]{0,25}\bin (?:his|her|their) "
      r"hands\b", "an abstract noun handled as an object"),
 ])
+
+# A direct thought tagged with a thinking verb, after its marks or before them. The marks are the
+# attribution (`narrator-voice`); run #6's gates found the tag twice by reading.
+THOUGHT_TAG_AFTER = re.compile(
+    r"^\s*,?\s*(?:he|she|they|I|we|[A-Z][a-z]+)\s+(?:thought|wondered|told (?:himself|herself|"
+    r"themselves|myself))\b")
+THOUGHT_TAG_BEFORE = re.compile(
+    r"\b(?:thought|wondered|told (?:himself|herself|themselves|myself))[,:]?\s*$")
 
 # The abstract-state nouns that turn `event:` back into `delivers:`. An event is something a
 # reader could retell; "trust deepens" is not an event, it is a description of an event's effect.
@@ -217,10 +231,58 @@ HABIT_NOTE_CHECKS = frozenset((
                         # drafter using the channel as emphasis
     "negation-density", # the density only - one negative construction is a good sentence, and
                         # a narrator who defines everything by what it isn't is a habit
+    "echo",             # a word or phrase repeated inside one chapter - good once, a
+                        # fingerprint at density. Unclassified until 2026-09-26: it is raised
+                        # through `level(...)` and the classification test only read `rep.note(`
 ))
 SITUATION_NOTE_CHECKS = frozenset((
     "group-scene",      # three or more speakers present - a category, not a defect
 ))
+
+# What each lint check measures, and which step of the loop it binds - printed as the WATCH row's
+# key. Benchmark run #6 (W5): the row named checks by bare id, a drafter transcribed `ledger` as
+# "ledger-metaphor" in a novel about registries, and wrote against a prose habit that did not
+# exist - while `ledger` is a step 5 check that no phase B sentence can move. Keep each gloss to
+# a few words; `tests/test_cmds.py` fails if a check lint can raise has none.
+CHECK_GLOSS = {
+    "ai-default": "stock cut-list phrases (the prose)",
+    "anchor": "anchor vocabulary in the opening arc (the prose)",
+    "campaign-clause": "a turn reported in a past-perfect clause (the prose)",
+    "channel-collision": "a thought mark that never closes (the prose)",
+    "closer-sameness": "chapters ending on the same withheld beat (the book)",
+    "echo": "one word or phrase repeated in the chapter (the prose)",
+    "em-dash": "em-dashes per 1000 words of narration (the prose)",
+    "event": "the `event:` field as one concrete clause (phase A)",
+    "filter-verb": "perception filtered through saw / heard / noticed (the prose)",
+    "frontmatter": "the chapter's frontmatter fields (the file, not the prose)",
+    "gesture": "the default gesture set - nod, shrug, sigh (the prose)",
+    "group-scene": "a scene with three or more speakers (a situation, not a habit)",
+    "house-style": "the loaded house sentence shapes at density (the prose)",
+    "ledger": "the CCS block against its chapter - wc, and `ev>`/`dlv>` copied from the "
+              "frontmatter (step 5, not the prose)",
+    "markup": "markup outside the four channels (the prose)",
+    "meta-channel": "`[...]` meta blocks placed wrong (the prose)",
+    "mtl": "machine-translation phrases (the prose)",
+    "narration-bang": "an exclamation mark in narration (the prose)",
+    "negation-density": "narration defined by what things are not (the prose)",
+    "pacing": "summary where a scene belongs (the prose)",
+    "para-opening": "neighbouring paragraphs opening on the same word (the prose)",
+    "phone-legibility": "a paragraph too long for a phone screen (the prose)",
+    "register": "the plan row's `temp` and `hooktype` (the plan)",
+    "rhetorical-q": "questions asked in narration (the prose)",
+    "scene-break": "a malformed scene break (the prose)",
+    "sentence-rhythm": "a run of sentences of one length (the prose)",
+    "speech-share": "the share of the chapter spoken aloud (the prose)",
+    "speech-starvation": "speech under the floor across a window of chapters (the book)",
+    "texture": "how the dialogue sounds spoken - fragments, contractions, cut-offs, turn "
+               "length (the prose)",
+    "thought-budget": "direct `'...'` thoughts, one to three a chapter (the prose)",
+    "thought-person": "thought marks around narration rather than a thought (the prose)",
+    "thought-tag": "a direct thought tagged with a thinking verb (the prose)",
+    "usage": "how the command was called",
+    "weasel": "hedges and intensifiers (the prose)",
+    "wordcount": "`wordcount:` against the body (the stamp, step 5)",
+}
 
 # narrator-voice, the four channels. A direct thought is the POV character's own voice in their
 # own present tense; free indirect discourse is the narrator's voice carrying the character's

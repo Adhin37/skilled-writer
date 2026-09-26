@@ -11,7 +11,11 @@ import re
 from . import rules
 from .report import Report
 
-VALID_STATUS = ("planned", "drafted", "revised", "published")
+# `gated` is the gate's last act on a pass and `gating` its first - a chapter left at `gating` is
+# one a gate began and did not finish (run #6, I1). Both are mid-loop, never finished: a chapter
+# is finished at `revised` (`novelio.GATED_STATUS`). Until 2026-09-26 this tuple predated the gate
+# statuses, so `sw stamp --status gated` was refused and lint warned on every gated chapter.
+VALID_STATUS = ("planned", "drafted", "gating", "gated", "revised", "published")
 SCENE_BREAK = re.compile(r"^\*(\s+\*)+$")
 # Benchmark run #2, F3: the old check enumerated the wrong forms (`***`, `---`, `~~~`, `===`,
 # `* * * *`) and so missed a lone `*` - the malformation the writing agent actually produced,
@@ -290,6 +294,19 @@ def _channels(novel, ch, rep):
                  % (rules.THOUGHT_FLOOR, rules.THOUGHT_BUDGET,
                     novel.get("narration.interiority")), path=p)
 
+    # The thought mark IS the attribution; a speech verb after it says it twice (`narrator-voice`:
+    # "never tagged with he thought"). Benchmark run #6's gate found `'...,' he thought` by reading,
+    # in two chapters running, while lint saw nothing - so the next drafter was never told.
+    after = ch.outside_speech
+    for m in thoughts:
+        tail = after[m.end():m.end() + 40]
+        head = after[max(0, m.start() - 30):m.start()]
+        if rules.THOUGHT_TAG_AFTER.match(tail) or rules.THOUGHT_TAG_BEFORE.search(head):
+            rep.warn("thought-tag",
+                     "a direct thought tagged with a thinking verb - the marks already say whose "
+                     "thought it is (narrator-voice, the four channels)",
+                     path=p, line=ch.line_of(m.start()), detail=(m.group(0) + tail)[:110])
+
     # Rule 7 on PERSON as well as count. A thought mark says "this is the character's own voice,
     # now"; a span with no first or second person in it, in the narrator's past tense, is free
     # indirect discourse wearing the marks - which is the channel doing nothing except emphasis,
@@ -417,6 +434,39 @@ def _group_scenes(novel, ch, rep):
                  % (index + 1, len(speakers), ", ".join(sorted(speakers)), attributed,
                     len(turns), len(named)),
                  path=ch.path, line=ch.line_of(start))
+
+
+def scene_speakers(novel, ch):
+    """`(turns, speakers)` for each scene - speakers attributed by name, matrix and roster alike.
+
+    `sw history`'s two-hander count. The attribution is `_group_scenes`' - a turn counts when
+    exactly one cast name appears in the narration around it, shared tokens dropped - widened to
+    the walk-on roster, because a scene between the MC and a walk-on is a two-hander too and the
+    matrix never sees the walk-on. The count is a floor: an untagged turn names nobody.
+    """
+    names = [r.first() for r in novel.voice_rows()] + [e["name"] for e in novel.roster()]
+    shared = {}
+    for name in names:
+        for t in set(t for t in re.split(r"[^\w']+", name) if len(t) >= 2):
+            shared[t] = shared.get(t, 0) + 1
+    tokens = {}
+    for name in names:
+        toks = [t for t in re.split(r"[^\w']+", name)
+                if len(t) >= 3 and t[:1].isupper() and shared.get(t, 0) == 1]
+        if toks:
+            tokens[name] = toks
+    paragraphs = ch.speech_paragraphs()
+    out = []
+    for start, end in ch.scene_bounds():
+        turns = [p for p in paragraphs if p[0] >= start and p[1] <= end]
+        speakers = set()
+        for _pstart, _pend, _spans, around in turns:
+            hits = [n for n, toks in tokens.items()
+                    if any(re.search(r"\b%s\b" % re.escape(t), around) for t in toks)]
+            if len(hits) == 1:
+                speakers.add(hits[0])
+        out.append((len(turns), speakers))
+    return out
 
 
 def _scene_breaks(ch, rep):
@@ -681,11 +731,11 @@ def _ledger(novel, ch, rep):
     block = novel.block(ch.number)
     if block is None:
         # The block is written at write-chapter step 5, after the gate. So a chapter still at
-        # `drafted` or `gated` is not missing it yet - it is mid-loop, and `sw readset` already
-        # names every unfinished chapter below the one being drafted. Before 2026-09-24 this
-        # raised a defect on the chapter the gate was gating, every chapter, in Pass 0: a defect
-        # the gate could not fix and was taught to ignore.
-        if str(ch.meta.get("status", "")).strip().lower() in ("drafted", "gated"):
+        # `drafted`, `gating` or `gated` is not missing it yet - it is mid-loop, and `sw readset`
+        # already names every unfinished chapter below the one being drafted. Before 2026-09-24
+        # this raised a defect on the chapter the gate was gating, every chapter, in Pass 0: a
+        # defect the gate could not fix and was taught to ignore.
+        if str(ch.meta.get("status", "")).strip().lower() in ("drafted", "gating", "gated"):
             return
         rep.defect("ledger", "no `=C%04d=` block in state/continuity.md - a chapter written "
                    "without its CCS block is a bug" % ch.number,
@@ -730,9 +780,10 @@ def run(novel, numbers=None):
     for ch in chapters:
         runs, longest = ch.speech_exchange_runs
         rep.info(ch.name, [
-            "   %d words | speech %.0f%% | thought %d/%d | meta %d | breaks %d"
+            "   %d words | speech %.0f%% | thought %d/%d | meta %d | breaks %d | sections %s"
             % (ch.words, ch.speech_share, len(ch.thoughts()), rules.THOUGHT_BUDGET,
-               len(ch.metas()), ch.scene_breaks()),
+               len(ch.metas()), ch.scene_breaks(),
+               "/".join(str(n) for n in ch.section_words())),
             "   dialogue texture: %d turns, mean %.1f words (spread %.1f, longest turn %d) | "
             "contractions %.1f/100 | fragments %.0f%% | cut off %d | exchanges %d, longest %d | "
             "narration between %.0f words"

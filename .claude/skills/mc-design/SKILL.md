@@ -80,7 +80,8 @@ A note for the ambitious build: **parallel minds, accelerated thought and clone-
 throughput, not breadth.** A mind that runs six trains of thought still had to learn all six
 subjects, one at a time, and a thousand copies of an ignorant person are a thousand ignorant
 people. If the advantage is meant to confer knowledge as well as speed, that is a different and
-much more expensive golden finger, and §"the cost" applies with force.
+much more expensive golden finger, and `power-system` §The four hard rules — every use takes
+something measurable — applies with force.
 
 ### 4. Origin
 
@@ -130,7 +131,10 @@ What the MC has that others do not. Offer these, plus "Surprise me" and "None".
 For whichever is chosen, fill in and record in `novel.md` and `bible/power-system.md`:
 
 - `golden_finger` — one sentence a reader could repeat
-- `gf_cost` — what each use takes, measurable
+- `gf_cost` — what each use takes, measurable, and derived from how *this* gift works
+  (`power-system` §The four hard rules). Test it: would the same cost fit any other gift? Then it
+  is the model's default rather than this book's — two original-fantasy runs in a row paid theirs
+  in nosebleeds and disorientation, with nothing in either premise asking for it
 - `gf_limit` — two sentences beginning "this can never…"
 - **what it is worth in tiers** — `scaling.edge_worth`, `0` or `1` and never 2, with
   `scaling.edge_price` for what closing that gap costs every time. An advantage closes at most one

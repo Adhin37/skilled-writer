@@ -9,6 +9,7 @@ What it cannot do: decide whether the drafted dialogue honours the row. The scri
 matrix is well-formed; the model still says the chapter is.
 """
 
+import os
 import re
 
 from . import textstats
@@ -76,7 +77,58 @@ def run(novel):
     _clash(rep, rows, vpath)
     _turns_and_hands(rep, rows, vpath)
     _competence(rep, novel, rows, comps, cpath)
+    _names_elsewhere(novel, rep)
     return rep
+
+
+def _name_tokens(novel):
+    """Capitalised words of three letters or more in every name the novel declares - the voice
+    matrix, the walk-on roster, the profile files, and the lexicon, which names the absent and
+    the dead that no matrix row carries."""
+    names = [r.first() for r in novel.voice_rows()] + [e["name"] for e in novel.roster()]
+    names += [re.sub(r"[-_]+", " ", k).title() for k in novel.cast_files()]
+    names += novel.lexicon_names()
+    out = {}
+    for name in names:
+        for t in re.findall(r"\b[A-Z][a-z'\-]{2,}\b", name):
+            if t.lower() not in _NOT_NAMES:
+                out.setdefault(t, name)
+    return out
+
+
+# Institutions and titles every fantasy has: two books sharing a guild share nothing.
+_NOT_NAMES = frozenset(
+    "the guild house order council crown church temple court hall office city river lord lady "
+    "king queen prince princess master mistress warden captain deputy sir dame elder high".split())
+
+
+def _names_elsewhere(novel, rep):
+    """A name this cast shares with another novel in the same repo.
+
+    Benchmark runs #5 and #6 were two original fantasies with nothing in common but the model:
+    the first's MC and the second's vanished mentor shared a surname, and three names in all sat
+    on both sides of the two casts. Nothing in the corpus names any of them, so it is the model's
+    default reaching the page. A note - two novels may share a name on purpose - and
+    `character-profile`'s to decide. The other novel's name is printed, never its cast.
+    """
+    from .novelio import Novel
+    parent = os.path.dirname(novel.root)
+    mine = _name_tokens(novel)
+    if not mine or not os.path.isdir(parent):
+        return
+    for slug in sorted(os.listdir(parent)):
+        other_root = os.path.join(parent, slug)
+        if slug.startswith("_") or other_root == novel.root or not os.path.isdir(other_root):
+            continue
+        theirs = _name_tokens(Novel(other_root))
+        shared = sorted(set(mine) & set(theirs))
+        if shared:
+            rep.note("cast-names",
+                     "%s also name%s a character in `%s` - a name two unrelated books share is "
+                     "usually the model's default rather than either book's choice "
+                     "(character-profile)" % (", ".join("`%s`" % t for t in shared),
+                                             "" if len(shared) > 1 else "s", slug),
+                     path=novel.path("bible", "cast", "_voices.md"))
 
 
 def _mc_row(rep, rows, mc_name, mc_tier, vpath):

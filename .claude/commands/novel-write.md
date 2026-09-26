@@ -31,7 +31,7 @@ and that is the only way a run split across agents can be measured per chapter.
 3. The drafter drafts and returns **`READY FOR GATE`** with the chapter path.
 4. **Spawn the `gate`** (`gate ch N`) with **`run_in_background: false`** — your next step depends
    on it. It returns a hand-back: the `Gate:` line, a `z4>` answer, `SENT BACK` or a pass, what it
-   changed, and `For design:` items.
+   changed, and `For design:` items — and writes the same text to `state/gate.md`.
 5. **Relay the hand-back verbatim** to the drafter with `SendMessage`.
    - `SENT BACK`: the drafter redrafts the scene, returns `READY FOR GATE`, and you go back to 4.
    - A pass: the drafter writes state back (step 5), stamps the chapter `revised`, and returns the
@@ -40,14 +40,26 @@ and that is the only way a run split across agents can be measured per chapter.
    line verbatim. It folds the facts into `bible/`, promotes walk-ons, and amends plan rows. Do it
    before the next chapter's Phase A, which reads what it writes.
 7. Relay the report. Do not paste the chapter into the conversation. Lead with the event, never a
-   word count.
+   word count. **Relay the fold's report too** — what it changed, what it declined, and any story
+   decision it made that nobody asked for. Those are the user's to overrule, and a fold that
+   answers to nobody decides the book in silence (benchmark run #6: a fold resolved who a thread's
+   culprits were and when the arc's gain and loss land, and the decisions reached no one).
 
 **When a message goes astray.** If a gate result lands in your conversation instead of the
 drafter's, relay it with `SendMessage` — do not act on it yourself. If the drafter is gone (a
 session limit, an error), spawn a new one with the same prompt and description. Its read-set prints
-a **RESUME** line read off the disk — brief proposed or approved, chapter `drafted`, `gated` or
-`revised` — and it restarts from there. If it resumes at step 5 and asks for the gate's hand-back,
-send it; if you no longer have it, run the gate again.
+a **RESUME** line read off the disk — brief proposed or approved, chapter `drafted`, `gating`,
+`gated` or `revised`, block written or not — and it restarts from there. At step 5 the hand-back is
+on file in `state/gate.md`, and the RESUME line says whether it is this chapter's; if it is not
+and the drafter asks, send it, and if you no longer have it either, run the gate again. A chapter
+at `gating` is one a gate began and did not finish: run the gate again.
+
+**Warm or cold.** Every chapter spawns a fresh drafter by default. Continuing the last chapter's
+drafter with `SendMessage` (the same spawn prompt, the next chapter number) is an option, not the
+default. Benchmark run #6 measured one warm chapter against one cold: drafter model time 755 s
+against 1,531 s, zero draft cards re-opened, and a gate that changed nothing. That is one chapter,
+and run #4's five warm chapters opened five cards between them, so it stays an option until a run
+measures more than one.
 
 **If an agent is unavailable.** In a normal run, run the phase inline and say so in the report —
 the phases and the gate are unchanged, only the isolation is lost. In a test run, stop and log it:
@@ -72,5 +84,6 @@ Interpret `$ARGUMENTS`:
   does not skip Phase C.
 
 Before step 1, confirm the plan row for the target chapter is complete — `event`, `temp`,
-`hooktype`, goal/obstacle/turn/cost/hook. Those are decided at plan time, not after. If any is
+`hooktype`, goal/obstacle/turn/cost/hook, and for the opening arc its `world entry`. Those are
+decided at plan time, not after. If any is
 missing, have the architect run `chapter-plan` for that row first.

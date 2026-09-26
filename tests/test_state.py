@@ -173,6 +173,79 @@ class TestThreadOpenedInTheFuture(unittest.TestCase):
             self.assertNotIn("-", oldest[0].split("oldest open")[1])
 
 
+PLANNED_LEDGER = """# Thread ledger
+
+| id | thread | opened | type | tension | due | carried | status | payoff |
+|---|---|---|---|---|---|---|---|---|
+| T01 | the permit refusal | 1 | mystery | hot | 10 |  | open |  |
+| T02 | the second audit | 6 | threat | cold | 20 |  | planned |  |
+| T03 | the ferry debt | 2 | debt | warm | 12 |  | planned |  |
+"""
+
+PLAN_HEAD = ("| # | title | pov | arc | temp | hooktype | goal | obstacle | turn | event | "
+             "delivers | cost | threads | hook | status |\n"
+             "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|\n")
+
+
+class TestPlannedThreads(unittest.TestCase):
+    """Benchmark run #6, D2/A2: the plan used `~T1`...`~T8`, no file mapped an id to a thread, and
+    the scaffold was told to seed threads that `sw state` then warned about. A `planned` row is
+    the id declared without the promise opened."""
+
+    def _msgs(self, ledger, plan_ids=""):
+        with NovelFixture() as fx:
+            for i in range(1, 5):
+                fx.add_chapter(i, BODY)
+            fx.add_ledger([1, 2, 3, 4])
+            fx.write("state/threads.md", ledger)
+            if plan_ids:
+                fx.write("plan/chapters.md", PLAN_HEAD + "| 5 | T | Rin | 1 | tense | threat | g "
+                         "| o | t | Rin takes it | d | c | %s | h | planned |\n" % plan_ids)
+            return [f.message for f in cmd_state.run(fx.novel()).findings]
+
+    def test_a_planned_thread_ahead_of_the_draft_is_not_an_open_promise_warn(self):
+        msgs = self._msgs(PLANNED_LEDGER)
+        self.assertFalse(any("T02" in m for m in msgs), msgs)
+
+    def test_a_planned_thread_whose_chapter_passed_unopened_is_named(self):
+        msgs = self._msgs(PLANNED_LEDGER)
+        self.assertTrue(any("T03 was planned to open at ch 2" in m for m in msgs), msgs)
+
+    def test_a_planned_thread_a_chapter_opened_must_be_flipped(self):
+        msgs = self._msgs(PLANNED_LEDGER.replace("| hot | 10 |  | open |",
+                                                 "| hot | 10 |  | planned |"))
+        self.assertTrue(any("T01 is still `planned`" in m for m in msgs), msgs)
+
+    def test_a_plan_row_id_with_no_thread_row_is_named(self):
+        msgs = self._msgs(PLANNED_LEDGER, plan_ids="~T02 ^T01 ~T09")
+        self.assertTrue(any("plan row 5 names T09" in m for m in msgs), msgs)
+        self.assertFalse(any("names T02" in m for m in msgs), msgs)
+
+
+class TestPlanAndLedgerAgreeOnThreads(unittest.TestCase):
+    """Run #6, I4: a design item lost with a dead drafter left plan row 5 and the ledger
+    disagreeing about which threads chapter 5 moved - and `sw state` said 0/0/0."""
+
+    def _msgs(self, plan_threads):
+        with NovelFixture() as fx:
+            fx.add_chapter(1, BODY)
+            path = fx.path("chapters", "0001-chapter.md")
+            with io.open(path, encoding="utf-8") as fh:
+                text = fh.read()
+            fx.write("chapters/0001-chapter.md", text.replace("status: drafted", "status: revised"))
+            fx.add_ledger([1])
+            fx.write("plan/chapters.md", PLAN_HEAD + "| 1 | T | Rin | 1 | tense | threat | g | o "
+                     "| t | Rin takes it | d | c | %s | h | revised |\n" % plan_threads)
+            return [f.message for f in cmd_state.run(fx.novel()).findings]
+
+    def test_a_row_that_matches_its_block_is_quiet(self):
+        self.assertFalse(any("plans thread" in m for m in self._msgs("~T01")))
+
+    def test_a_row_the_block_went_past_is_named(self):
+        msgs = self._msgs("~T01 ^T02")
+        self.assertTrue(any("row 1 plans thread(s) T01, T02" in m for m in msgs), msgs)
+
+
 class TestThreadIdDrift(unittest.TestCase):
     """The id pattern was `^T\\d+`, copied into five commands. Run #5's novel numbered its
     threads `TH01`, so `sw state` matched nothing and skipped every thread check in silence

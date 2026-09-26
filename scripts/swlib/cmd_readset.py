@@ -463,6 +463,27 @@ def z4_row(novel, number):
     return out, nones
 
 
+def walk_ons(novel, number):
+    """Roster entries for the walk-ons chapter `number` brings on, in roster order.
+
+    A walk-on is this chapter's when its roster line lists the chapter among its appearances, or
+    when plan row `number` names it - the whole name, or any capitalised word of it four letters
+    or longer. Benchmark run #6 (D3): the read-set said to load a roster line "when a walk-on
+    returns", a designed walk-on's first appearance is not a return, and three designs in five
+    chapters were rewritten by the page and then overwritten to match it.
+    """
+    row = novel.plan_row(number)
+    text = " ".join(row.cells) if row else ""
+    out = []
+    for entry in novel.roster():
+        tokens = [t for t in re.findall(r"[A-Z][\w'\-]+", entry["name"]) if len(t) >= 4]
+        named = bool(text) and (entry["name"] in text or any(
+            re.search(r"\b%s\b" % re.escape(t), text) for t in tokens))
+        if number in entry["appearances"] or named:
+            out.append(entry)
+    return out
+
+
 def resume_line(novel, number):
     """Where a drafter picking up chapter `number` starts, read off the disk, or None.
 
@@ -481,10 +502,27 @@ def resume_line(novel, number):
             return ("nothing - ch %d is `%s` and its block is written. It is finished; say so "
                     "rather than drafting over it." % (number, status))
         if status == "gated":
+            hb_num, _hb = novel.handback()
+            source = ("its hand-back is on file in `state/gate.md` - copy `z4>` and `For design:` "
+                      "from there" if hb_num == number else
+                      "if the gate's hand-back is not in your context, ask the coordinator for it")
+            if novel.block(number) is not None:
+                # Run #6, chapter 5: the drafter died between appending the block and the other
+                # state files, and this line told its successor the state "was never written".
+                # Only the file saying otherwise kept a second block out of the ledger.
+                return ("step 5, part-written - the gate passed ch %d and `=C%04d=` is already in "
+                        "state/continuity.md. Do not append another block: check threads, growth "
+                        "and timeline against it, finish what is missing, then stamp `revised`; "
+                        "%s. Do not re-gate, do not redraft." % (number, number, source))
             return ("step 5 - the gate passed ch %d (`status: gated`) and its state was never "
-                    "written. Write it back from the gate's hand-back; if the hand-back is not in "
-                    "your context, ask the coordinator for it. Do not re-gate, do not redraft."
-                    % number)
+                    "written. Write it back from the gate's hand-back; %s. Do not re-gate, do not "
+                    "redraft." % (number, source))
+        if status == "gating":
+            # Run #6, chapter 3: a gate killed mid-pass left `drafted` on disk, and the next gate
+            # read its predecessor's half-finished edit as the drafter's prose and shipped it.
+            return ("phase C, interrupted - a gate began on ch %d (`status: gating`) and was "
+                    "stopped; whatever it changed is in the text, unmarked. Stop and return READY "
+                    "FOR GATE, and say the last gate did not finish." % number)
         return ("phase C - ch %d is drafted (`status: %s`) and has not passed the gate. Stop and "
                 "return READY FOR GATE; the coordinator runs it." % (number, status or "?"))
     bnum, _btext = novel.brief()
@@ -524,6 +562,12 @@ def build(novel, number, chars=None, locs=None, want_society=False, role="draft"
         add("# Left out for the gate, on purpose: the brief, the phase A cards and the nudges")
         add("# aimed at phase A. A gate told what the chapter was reaching for grades it on the")
         add("# reach. Your cards come from `sw kb passes`.")
+        this = next((c for c in novel.chapters() if c.number == number), None)
+        if this is not None and str(this.meta.get("status", "")).strip().lower() == "gating":
+            add("# PARTLY GATED: a gate began on this chapter (`status: gating`) and was stopped.")
+            add("# Whatever it changed is in the text and unmarked, so read every line as")
+            add("# unchecked - and look first for what a half-made fix leaves behind, such as one")
+            add("# tic swapped for another.")
     add("# characters resolved: %s  (%s)" % (", ".join(characters) or "none", why))
     add("# locations resolved:  %s" % (", ".join(locations) or "none"))
 
@@ -544,10 +588,15 @@ def build(novel, number, chars=None, locs=None, want_society=False, role="draft"
     if stale:
         top = stale[0]
         top_status = str(top.meta.get("status", "")).strip().lower() or "?"
-        if top_status == "gated":
+        more = "" if len(stale) == 1 else " (%d unfinished below %d)" % (len(stale), number)
+        if top_status == "gated" and novel.block(top.number) is not None:
+            add("DEFECT ch %d is `status: gated` and its `=C%04d=` block is written - step 5 "
+                "stopped part-way%s." % (top.number, top.number, more))
+            add("       Finish its threads, growth and timeline against that block and stamp it")
+            add("       `revised` before drafting this one. Do not append a second block.")
+        elif top_status == "gated":
             add("DEFECT ch %d is `status: gated` - the gate passed it and step 5 never wrote its "
-                "state%s." % (top.number, "" if len(stale) == 1 else
-                              " (%d unfinished below %d)" % (len(stale), number)))
+                "state%s." % (top.number, more))
             add("       Write its state back before drafting this one: the ledger this chapter")
             add("       is written against is missing a chapter.")
         else:
@@ -562,13 +611,26 @@ def build(novel, number, chars=None, locs=None, want_society=False, role="draft"
         if overflow:
             add("       +%d past the cap of %d: %s" % (len(overflow), WATCH_CAP,
                                                      " | ".join(overflow)))
+        # Each item glossed with what it measures and the step it binds (run #6, W5: a bare
+        # `ledger` was read as a prose habit, and it is a step 5 check).
+        for i, item in enumerate(row):
+            name = item.split(" ", 1)[0]
+            add("%s%s - %s" % ("key    " if i == 0 else "       ", name,
+                               rules.CHECK_GLOSS.get(name, "see `sw lint`")))
         add("       What keeps surviving the gate: these fired on the chapters as shipped. What")
-        add("       the gate had to fix is the `gate>` echo below. %s It is" % (
-            "Write against both in phase B." if drafting else "Look for these first."))
-        add("       a pointer at the owning skill, never a phrase ban, and no chapter is scored")
-        add("       on it - four items at most, and only what recurred. A `warn` that recurred")
-        add("       ranks above a habit `note` that recurred; both are habits, and the note")
-        add("       tier is where checks live that are fine once and a fingerprint at density.")
+        add("       the gate had to fix is the `gate>` echo below.")
+        if drafting:
+            # Run #6, T3: "write against both in phase B" beside "straight through, no
+            # self-editing" became a 54-edit lint-and-fix loop in one chapter's phase B.
+            add("       Draft with both in mind, straight through: do not lint and re-edit in")
+            add("       phase B - the gate checks them.")
+        else:
+            add("       Look for these first.")
+        add("       The row is a pointer at the owning skill, never a phrase ban, and no chapter")
+        add("       is scored on it - four items at most, and only what recurred. A `warn`")
+        add("       that recurred ranks above a habit `note` that recurred; both are habits, and")
+        add("       the note tier is where checks live that are fine once and a fingerprint at")
+        add("       density.")
     if notes:
         add("gate>  " + "\n       ".join(notes))
     if z4s:
@@ -706,6 +768,14 @@ def build(novel, number, chars=None, locs=None, want_society=False, role="draft"
     if mirrors and not re.search(r"\bnone\b|\(delete", mirrors, re.I):
         add("\n" + mirrors)
 
+    walk = walk_ons(novel, number)
+    if walk:
+        add("\n## 7b. WALK-ONS (bible/cast/_extras.md - every walk-on this chapter names)")
+        add("\n".join(e["text"] for e in walk))
+        add("A walk-on already on the roster is written from its line - its tic, its want, its")
+        add("voice - not reinvented. A line the page cannot keep is reported for design, and the")
+        add("page is not rewritten to match it either.")
+
     add("\n## 8. COMPETENCE (this chapter's characters)")
     crows = _match(novel.competence_rows(), characters)
     add(_table_block(novel.competence_rows()[0]._headers if novel.competence_rows() else [],
@@ -783,7 +853,8 @@ def build(novel, number, chars=None, locs=None, want_society=False, role="draft"
     missing = [
         "bible/world.md beyond the location rows above",
         "bible/cast/<char>.md full profiles - the matrix and competence rows are the summary",
-        "bible/cast/_extras.md - load the roster line when a walk-on returns",
+        "bible/cast/_extras.md - the walk-ons this chapter does not name (7b carries the ones it "
+        "does)",
         "CCS blocks before %d, and arc digests older than the previous arc" % max(1, number - 5),
         "plan/arcs.md, plan/timeline.md sections 1-3 and 5-6",
         "state/timeline.md beyond the last %d log rows and the crisis board - the divergence "

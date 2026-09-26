@@ -178,13 +178,25 @@ to give. That reads as front-loading at the time and as a thin world by chapter 
 row, each named with the channel that delivers it; `world-texture` owns the channel ladder and the
 budget. The entries above are defaults, not a schema — replace them with this book's facts. And a
 fact that arrives only as mood has not arrived: the row is kept when somebody handles something.
-The pace those five rows set is the one the book is then held to (`story-opening` §2).
+**The central rule arrives as what it is, not only as what it does**: a reader who can list its
+effects on five people and cannot say whether it is a ritual, a law or a machine has been handed
+consequences with nothing to hang them on. The pace those five rows set is the one the book is
+then held to (`story-opening` §2).
 
 **The frame rule.** *An escalation rung may not be scheduled before the frame it depends on.*
 Before planning a chapter in which being noticed is dangerous, find the earlier row where the
 reader learned what being noticed costs here. If there is no such row, insert one — usually a
 bystander losing to the machinery — or move the escalation later. A threat the reader cannot price
 does not read as tension; it reads as an adult being strict.
+
+**The opposition has a face by the contract chapter.** Somebody who acts for the arc's
+antagonistic force — in person, or as a named agent the MC can argue with and who could choose
+otherwise — is on the page by `opening.contract_by_ch`, wanting something legible
+(`conflict-engine` §The antagonist standard). Opposition that arrives only as orders, rulings and
+consequences is an adversary with no antagonist: the reader learns to fear a filing cabinet, and
+nobody fears a filing cabinet for twelve chapters. The clerk who reads the order out is not it; the
+one who wrote it, or the one enforcing it who could have chosen otherwise, is. `sw arc` names an
+antagonist `plan/arcs.md` lists who has not reached a chapter by then.
 
 **The pressure follows the plan, not the draft.** A chapter's opposition is derived from the arc's
 band in `state/power.md` §6, never invented at the strength the scene turned out to need. That

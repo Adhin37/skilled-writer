@@ -19,7 +19,10 @@ the chapter itself for those three**, and when one is close, decide it as a stra
 reader who has read this page and nothing else, with no bible behind them.
 
 - [ ] **The anchor test.** Could a stranger reading only this chapter say what kind of story this
-      is, where and when it happens, and what the POV character wants? Three shrugs is a fail
+      is, where and when it happens, and what the POV character wants? Three shrugs is a fail.
+      By `anchor_by_ch`, "what kind of story" includes the central rule as what it *is* — a
+      ritual, a law, a machine — and not only what it does to people. A run's cold reader could
+      list the rule's effects on five characters and could not say whether it was magic
 - [ ] For fanfic or transmigration: does the reader know **which** story they are in, and roughly
       **when** in it?
 - [ ] Anchor-vocabulary count for this chapter is not zero — the `anchor? yes` terms in

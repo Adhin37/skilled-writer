@@ -2,10 +2,11 @@
 """PreToolUse guard: which role may write where under `novels/`.
 
 The role table in `CLAUDE.md` §10 gives each role exactly one thing it writes - the architect
-`bible/` `plan/` `novel.md` and the state seeds, the drafter `chapters/` `state/`, the gate edits that chapter, the
-coordinator nothing during a test run. Until now every one of those was a sentence in a document
-and held by goodwill, and `docs/test-run-protocol.md` §2 is the one whose violation voids a run:
-a benchmark where the coordinator repaired the output measures the coordinator.
+`bible/` `plan/` `novel.md` and the state seeds, the drafter `chapters/` `state/`, the gate edits
+that chapter and writes its hand-back, the coordinator nothing during a test run. Until now every
+one of those was a sentence in a document and held by goodwill, and `docs/test-run-protocol.md` §2
+is the one whose violation voids a run: a benchmark where the coordinator repaired the output
+measures the coordinator.
 
 **Why this is a hook and not a `permissions.deny` rule.** Deny rules are global - they apply to
 the main conversation *and* to subagents, and a subagent's `tools:` can only narrow what it
@@ -37,19 +38,28 @@ NOVELS = re.compile(r"(^|/)novels/")
 # and foreknowledge files before chapter 1 exists; `chapter-plan` sets the arc's band in
 # `power.md` §6; the arc rollup writes digests into `continuity.md`. A design decision that
 # happens to live in a state file is still a design decision. `state/brief.md` stays the
-# drafter's: it is the approved plan for the chapter in progress, and the loop's only scratch file.
+# drafter's: it is the approved plan for the chapter in progress. `state/gate.md` is the gate's
+# hand-back, written once per chapter and copied from at step 5 (run #6, I4: the one hand-off that
+# had no file lost a design item when the drafter died), so it is the gate's alone - a drafter
+# that could edit it could rewrite what the gate said about its chapter.
 SCOPE = {
     "architect": ((r"(^|/)novels/[^/]+/(bible|plan)(/|$)", r"(^|/)novels/[^/]+/novel\.md$",
-                   r"(^|/)novels/[^/]+/state/(?!brief\.md$)[^/]+$"),
+                   r"(^|/)novels/[^/]+/state/(?!brief\.md$|gate\.md$)[^/]+$"),
                   "the architect decides what the story is. Chapters and the brief are written by "
-                  "the drafter, from the plan you leave it"),
-    "drafter": ((r"(^|/)novels/[^/]+/(chapters|state)(/|$)",),
+                  "the drafter, from the plan you leave it, and the hand-back by the gate"),
+    "drafter": ((r"(^|/)novels/[^/]+/chapters(/|$)",
+                 r"(^|/)novels/[^/]+/state/(?!gate\.md$)"),
                 "the drafter writes the chapter and the state. A bible fact you need and cannot "
-                "find is a thing to report, not to add mid-draft"),
-    "gate": ((r"(^|/)novels/[^/]+/chapters(/|$)",),
-             "the gate repairs the chapter it was given. It does not move the state the chapter "
-             "is checked against"),
+                "find is a thing to report, not to add mid-draft, and the gate's hand-back is "
+                "copied from, never edited"),
+    "gate": ((r"(^|/)novels/[^/]+/chapters(/|$)", r"(^|/)novels/[^/]+/state/gate\.md$"),
+             "the gate repairs the chapter it was given and writes its hand-back to "
+             "state/gate.md. It does not move the state the chapter is checked against"),
 }
+
+# The gate has `Write` for its hand-back and nothing else: every chapter it touches already exists,
+# and repairing one is an `Edit`. Keyed on the tool name, which the payload carries.
+GATE_HANDBACK = r"(^|/)novels/[^/]+/state/gate\.md$"
 
 # The coordinator's marker. Present -> a test run is under way and the main session writes no
 # file under `novels/`. Absent -> an ordinary run, where editing a chapter on request is the job
@@ -90,9 +100,13 @@ def verdict(payload, path):
     allowed = SCOPE.get(agent)
     if allowed is None:
         return None                      # an agent this guard was not written for
-    if any(re.search(rx, norm) for rx in allowed[0]):
-        return None
-    return allowed[1]
+    if not any(re.search(rx, norm) for rx in allowed[0]):
+        return allowed[1]
+    if (agent == "gate" and payload.get("tool_name") == "Write"
+            and not re.search(GATE_HANDBACK, norm)):
+        return ("the gate repairs a chapter with Edit and uses Write for its hand-back only. A "
+                "gate that can rewrite a chapter whole can replace it instead of repairing it")
+    return None
 
 
 def main():

@@ -89,6 +89,14 @@ class TestWhatIsRendered(unittest.TestCase):
             self.assertNotIn("## 7. Dropped", out)
             self.assertNotIn("the user's interface", out)
 
+    def test_no_rendered_slice_links_into_docs(self):
+        """Run #6, P3: every rendered role is refused `docs/`, and the real slices each carried
+        two links into it. The link goes; the sentence around it stays."""
+        for role in sorted(cmd_contract.ROLE_AGENT):
+            out = cmd_contract.render(REPO, role)
+            self.assertNotIn("](docs/", out, role)
+            self.assertIn(cmd_contract.DOC_LINK_TEXT, out, role)
+
     def test_the_excluded_sections_are_named_rather_than_silently_missing(self):
         """An agent that does not know §7 exists cannot tell you the contract was cut.
 

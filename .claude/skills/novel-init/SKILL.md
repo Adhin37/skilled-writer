@@ -25,7 +25,7 @@ than asking the user to supply anything.
 
 | file | open it when |
 |---|---|
-| `roles/design/novel-init.register-presets.md` | Round A: the user cannot name a style target, or names one and leaves `style.sample` empty. Five original sample paragraphs to pick a pair from and edit with them |
+| `roles/design/novel-init.register-presets.md` | end of Round D, when Round A's style answer came back thin. Five original sample paragraphs to pick a pair from and edit with them |
 | `roles/design/novel-init.scaffold.md` | Step 3: the interview is done and the workspace is about to be written. Also holds the defaults table and the failure modes |
 
 ## Step 1 — Get the premise in the user's words
@@ -83,13 +83,13 @@ Offering the number as a setup question is what makes it read as a target.
 > *Name a book or two whose **writing** you want this to feel like — not the plot, the voice. And
 > if you have a few paragraphs you love, paste them.*
 
-Write the answer to `style.read_like` and `style.sample` in `novel.md`. This is the cheapest lever
-in the whole toolkit and the only one that works by imitation instead of prohibition: a model
-matches an example far more reliably than it obeys a rule. Without it the narrator defaults to
+Write the answer to `style.read_like` and `style.sample` in `novel.md`. It is the cheapest lever in
+the toolkit, and works by imitation: a model matches an example far more reliably than it obeys a
+rule. Without it the narrator defaults to
 this model's own literary register — every sentence loaded, every scene closed on a small ironic
 aphorism, one temperature for the whole book — which is a *more* recognisable fingerprint than
-the clichés `mtl-detox` removes. If the user has no answer, say you will draft three sample
-paragraphs after chapter 1 and have them pick; do not leave it empty and hope.
+the clichés `mtl-detox` removes. No answer: offer the register presets at the end of Round D. Never
+promise samples later — nothing owns that — or leave it empty.
 
 **Round B — the main character** → run `mc-design` for this round
 
@@ -198,7 +198,8 @@ sentence is enough — `social-fabric` derives the rest at step 3.
 
 **Round F — optional mechanics** (multi-select)
 
-Present the optional skills as reader-facing features, not filenames:
+**Always ask it** — the toggles are the user's; defaults apply only if they decline. Present the
+optional skills as reader-facing features, not filenames:
 
 - No harem — love interests are people with their own goals *(on by default)*
 - Romance arc structure — beats, obstacles, payoff scheduling

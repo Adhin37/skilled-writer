@@ -85,7 +85,9 @@ Then fill in, in this order:
 7. **`plan/arcs.md`** via `chapter-plan` — arc 1 in full, arcs 2–3 in one line each.
 8. **`plan/chapters.md`** via `chapter-plan` — the first 12 rows, fully specified.
 9. **`state/`** — initialise `continuity.md` book digest, seed `threads.md` with the threads
-   arc 1 opens (including the romance thread if there is one), seed `growth.md` with every tier-A
+   arc 1 opens (including the romance thread if there is one) — one row each, with the id the plan
+   rows use, `status: planned` and `opened` at the chapter planned to open it, so no id in
+   `plan/chapters.md` is left for a drafter to guess at; seed `growth.md` with every tier-A
    character at rung 1 and every tier-B at `B1`, set the calendar in `timeline.md`. If `mc.form_locked` is true, fill in
    `body.md` completely — every stage, its limits and its transition chapter — before chapter 1 is
    written. If nothing in the novel changes form, delete `body.md`. If `mc.foreknowledge` is set,

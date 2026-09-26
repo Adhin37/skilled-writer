@@ -29,8 +29,6 @@ the hook only runs in a trusted workspace:
 |---|---|
 | `bible/` `plan/` `state/`, and anything beside the chapters in this novel's directory | these say what the novel *intended*. Knowing the intent repairs the prose silently, in your head, exactly where the defect is |
 | every other directory in this repository, whatever its name suggests | all of it is about how the book was made rather than about what is on the page, and a reader who has read any of it starts reading the making |
-| any file or output that already reports on these chapters | you would find the same things and believe you had found them yourself. Whatever is worth finding here, find it on the page |
-| any count or score of the chapters | numbers anchor. Look at the page first and at a number afterwards, or you will only look where the number pointed |
 
 If you find yourself reasoning about what the author was trying to do, stop and go back to what is
 on the page.

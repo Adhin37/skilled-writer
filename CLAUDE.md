@@ -171,7 +171,9 @@ rather than naming a body the drafter's guard refuses — `sw health` asks the g
 `.claude/skills/`. `draft` opens `roles/draft/` and `roles/shared/`. `gate` opens `roles/gate/`
 and `roles/shared/`. Draft and gate each additionally load their procedure bodies — the drafter
 `write-chapter` and `continuity-summary`, the gate `revision-pass` — preloaded by the harness. Nobody has to remember this: there is no `SKILL.md` inside
-a role tree to open, and `scripts/hooks/role_scope.py` refuses the rest.
+a role tree to open, and `scripts/hooks/role_scope.py` refuses the rest. **Every path a file cites
+— `roles/…`, `.claude/…`, `novels/…` — is relative to the repository root**, never to the file
+citing it: benchmark run #6's architect looked for a card under `.claude/skills/roles/` first.
 
 ## 4. Hard rules
 
@@ -438,17 +440,19 @@ novels/<slug>/
     power.md            ladder, pressure log, gain log, boosts, curve plan (unless shape: none)
     foreknowledge.md    grain, inventory, spend log, observer paradox (only if the MC foreknows)
     brief.md            the Phase A brief for the chapter in progress, `status: proposed` until
-                        approved. One, overwritten each chapter, and the only scratch file
-                        here — nothing is appended to it
+                        approved. One, overwritten each chapter — nothing is appended to it
+    gate.md             the gate's hand-back for the chapter it last passed. The gate's alone,
+                        overwritten each chapter; step 5 copies `z4>` and `For design:` from it
   chapters/NNNN-<slug>.md
 ```
 
 Chapter files carry YAML frontmatter (`number`, `title`, `pov`, `arc`, `event`, `delivers`,
 `wordcount`, `status`). **`event`** is what happens, in one retellable clause — the Pass Z gate.
 **`delivers`** is what is materially different at the end — the Pass 9 gate. `wordcount` is a
-measured fact that later tools read, never a target. `status` walks `drafted` → `gated` (the gate
-passed it, its last act) → `revised` (the drafter wrote its state and stamped it); anything short
-of `revised` is unfinished, and `sw readset` says which step is missing.
+measured fact that later tools read, never a target. `status` walks `drafted` → `gating` (the
+gate's first act) → `gated` (the gate passed it, its last act) → `revised` (the drafter wrote its
+state and stamped it); anything short of `revised` is unfinished, and `sw readset` says which step
+is missing.
 
 One CCS block per chapter, appended in order and never rewritten to be tidier — `sw state`
 checks the sequence, because a block in the wrong place is a chapter that happened at the wrong
@@ -554,9 +558,9 @@ contradiction waiting for whichever skill gets edited next. Rationale:
 | `stamp <novel> -c N` | `revision-pass` Pass 10 · `write-chapter` step 4 |
 | `newnovel <slug>` | `novel-init` step 3 |
 | `audit <novel>` | the independent whole-novel gate — every per-chapter check, plus `history`'s cross-chapter habit findings, because a habit is by definition invisible in one chapter |
-| `history <novel>` | the whole book as a series — dialogue and length trends, recurring checks at every level, the `widening` section (Z4's answers and the recorded candidates), thread ages, the pressure series |
+| `history <novel>` | the whole book as a series — dialogue and length trends, recurring checks at every level, the `widening` section (Z4's answers and the recorded candidates), thread ages, the pressure series, a run of two-person scenes, and phrases that recur across chapters or mouths |
 | `load <novel> -c N` | what the toolkit hands the drafter for one chapter — cards, words, checkboxes and negations, per phase. Measures the **instructions**, never the chapter |
-| `trace [novel]` | what a run cost, and **which skill files and cards it actually opened** — by role and by chapter, and every path an agent opened outside its lane, `cat` included |
+| `trace [novel]` | what a run cost, how much of its time was the model and how much the tools, and **which skill files and cards it actually opened** — by role and by chapter, and every path an agent opened outside its lane, `cat` included |
 | `export <novel> --okf --out <dir>` | project a novel into an Open Knowledge Format bundle — an **export target, never the working format**, because `readset` hands over slices and a bundle hands over whole files |
 | `contract <role> [--write]` | render one role's slice of this file into its agent, and `health` re-renders and diffs it |
 | `health` | the toolkit's own wiring: skills, cards, references, **scope claims and cross-skill duplication**, the **card and word budgets**, the template accessors, the docs |
@@ -637,11 +641,12 @@ next is the coordinator's decision. There is still no `/novel-revise`, and §2 s
 
 **The state write stays with the drafter** — because it is the one context holding all three
 things the block copies from: the approved brief, the chapter drafted against it, and the gate's
-hand-back. `cand>` and `gav>` are copied from `state/brief.md` and `z4>` from the hand-back, so none
-is written from memory; what only the drafter brings is the judgement of what the chapter did to
-the threads, the cast and the clock. Every hand-off in the loop leaves a mark on disk — the brief's
-`status:`, the chapter's `status:`, the block — so an interruption costs a step, never a decision,
-and `sw readset` prints where to resume.
+hand-back. `cand>` and `gav>` are copied from `state/brief.md` and `z4>` from the hand-back in
+`state/gate.md`, so none is written from memory; what only the drafter brings is the judgement of
+what the chapter did to the threads, the cast and the clock. Every hand-off in the loop leaves a
+mark on disk — the brief's `status:`, the chapter's `status:` (`gating` while a gate works on it),
+the hand-back, the block — so an interruption costs a step, never a decision, and `sw readset`
+prints where to resume.
 
 **Whatever a chapter establishes, the architect writes down.** The drafter does not write
 `bible/` or `plan/`: it lists every fact the page established, every walk-on and promotion, and

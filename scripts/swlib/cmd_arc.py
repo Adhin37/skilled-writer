@@ -102,7 +102,52 @@ def run(novel, arc=None):
     _foreknowledge(novel, rep, blocks)
     _curve(novel, rep, lo, hi)
     _judged(novel, rep, arc)
+    if arc == 1:
+        _antagonist(novel, rep, chapters)
     return rep
+
+
+# Words that open the template's placeholder, or name a kind of thing rather than somebody.
+_NOT_A_NAME = frozenset(("Who", "What", "The", "House", "Lord", "Lady", "Warden", "Captain"))
+
+
+def antagonist_names(novel):
+    """Name tokens for the opening arc's antagonistic force, read off `plan/arcs.md`.
+
+    The first `**Antagonistic force.**` paragraph, up to its first comma or full stop - the form
+    `chapter-plan` writes ("Name, acting on X's authority. Their case: ..."). Capitalised words of
+    three letters or more, less titles and the placeholder's opening. Empty when there is nothing
+    that reads as a name, which is the template's case and says nothing.
+    """
+    text = novel._text("plan", "arcs.md")
+    m = re.search(r"\*\*Antagonistic force\.?\*\*\.?\s*([^,.;\n]*)", text)
+    if not m:
+        return []
+    return [t for t in re.findall(r"\b[A-Z][a-z'\-]{2,}\b", m.group(1)) if t not in _NOT_A_NAME]
+
+
+def _antagonist(novel, rep, chapters):
+    """The opening arc's opposition has a face by the contract chapter.
+
+    Benchmark run #6's cold read ranked this first: five chapters, three hostile documents and
+    not one person - "the antagonist is a letterhead". The bible had designed him and the plan
+    scheduled him for chapter 10. A name check is all a script can do; whether the person on the
+    page can be argued with is `chapter-plan`'s and `conflict-engine`'s.
+    """
+    names = antagonist_names(novel)
+    by = rules.first_int(str(novel.get("opening.contract_by_ch") or ""))
+    if not names or not by.isdigit():
+        return
+    by = int(by)
+    early = [c for c in chapters if c.number <= by]
+    if not early or max(c.number for c in early) < by:
+        return
+    if any(re.search(r"\b%s\b" % re.escape(n), c.body) for c in early for n in names):
+        return
+    rep.warn("arc-antagonist",
+             "the arc's antagonistic force (%s, plan/arcs.md) has not reached the page by ch %d, "
+             "the contract chapter - opposition that arrives only as orders and consequences is "
+             "an adversary with no face (chapter-plan, Arc 1)" % (" ".join(names), by))
 
 
 def _shape(novel, rep, arc, chapters, blocks):
@@ -128,19 +173,27 @@ def _shape(novel, rep, arc, chapters, blocks):
 
     if shares:
         lo_s, hi_s = min(shares), max(shares)
-        starved = [c.number for c, s in zip(chapters, shares) if s < 10.0]
+        mean = sum(shares) / len(shares)
+        starved = [c.number for c, s in zip(chapters, shares) if s < rules.SPEECH_FLOOR]
         rep.info("dialogue", [
-            "   share across the arc: %.1f%% - %.1f%% (mean %.1f%%)"
-            % (lo_s, hi_s, sum(shares) / len(shares)),
+            "   share across the arc: %.1f%% - %.1f%% (mean %.1f%%)" % (lo_s, hi_s, mean),
             "   a whole arc under 25% is the defect run #1 shipped five times",
         ])
-        if starved:
-            rep.defect("arc-dialogue", "chapter(s) %s are under 10%% spoken - on a silent cast "
-                       "every voice check in the toolkit silently no-ops"
-                       % ", ".join(str(s) for s in starved))
-        elif sum(shares) / len(shares) < 25.0:
-            rep.warn("arc-dialogue", "arc mean dialogue share is %.1f%%, under the 25-40%% band"
-                     % (sum(shares) / len(shares)))
+        # One quiet chapter is a choice, and lint and history both say so; until 2026-09-26 this
+        # was the one command that made it a defect (run #6: a solo chapter at 1.2%, kept by the
+        # gate with its reason, came out of `sw arc` as the arc's only defect). The defect is an
+        # arc that is silent on average, which is what run #1 shipped.
+        if starved and mean < rules.SPEECH_FLOOR:
+            rep.defect("arc-dialogue", "chapter(s) %s are under %.0f%% spoken and the arc averages "
+                       "%.1f%% - on a silent cast every voice check in the toolkit silently no-ops"
+                       % (", ".join(str(s) for s in starved), rules.SPEECH_FLOOR, mean))
+        elif starved:
+            rep.warn("arc-dialogue", "chapter(s) %s are under %.0f%% spoken - allowed as a "
+                     "deliberate, occasional chapter; the defect is an arc silent on average"
+                     % (", ".join(str(s) for s in starved), rules.SPEECH_FLOOR))
+        elif mean < rules.SPEECH_TARGET_LOW:
+            rep.warn("arc-dialogue", "arc mean dialogue share is %.1f%%, under the %.0f-%.0f%% band"
+                     % (mean, rules.SPEECH_TARGET_LOW, rules.SPEECH_TARGET_HIGH))
 
     words = sorted(c.words for c in chapters)
     if len(words) >= 5:

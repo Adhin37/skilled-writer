@@ -10,7 +10,9 @@ A thread left `open` past its `due` chapter is a defect the next planning pass m
 **tension**: `hot` (referenced within last 5 ch) · `warm` (last 15) · `cold` (dormant, still owed)
 **carried**: empty, or the reason this thread passed its `due` and moved — one clause, and the
 new `due`. A thread carried twice is escalated into something visibly moving, or abandoned.
-**status**: `open` · `escalated` · `paid` · `subverted` · `abandoned` (requires a note saying why)
+**status**: `planned` · `open` · `escalated` · `paid` · `subverted` · `abandoned` (requires a note
+saying why). `planned` is a thread the plan names that no chapter has opened yet — it has an id the
+plan rows use and no age; the chapter that opens it flips it to `open`.
 
 ---
 

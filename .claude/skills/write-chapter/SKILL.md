@@ -44,9 +44,9 @@ is cheap, and skipping one is what produces the drift that ruins long serials.
    the saved file in full before anything else. If it prints a **RESUME** line, the disk says
    this chapter is already under way: start where that line says, not at Phase A.
 5. Read the target row in `plan/chapters.md`. If it is missing, or any of `event`, `temp`,
-   `hooktype`, goal/obstacle/turn/cost/hook is blank, stop and say so in your return - the
-   architect completes the row (`chapter-plan`). Do not draft from an incomplete row, and do
-   not fill it in yourself: `plan/` is design's.
+   `hooktype`, goal/obstacle/turn/cost/hook - or in the opening arc `world entry` - is blank,
+   stop and say so in your return - the architect completes the row (`chapter-plan`). Do not
+   draft from an incomplete row, and do not fill it in yourself: `plan/` is design's.
 
 ## Step 1 — Phase A: the brief (and stop)
 
@@ -202,18 +202,18 @@ This is still Phase C. There is no revise command, the gate is summoned by the p
 never by the user, and it is not deferrable: a chapter reported at `status: drafted` is the same
 bug as one with no CCS block, and the next read-set says so.
 
-The gate's hand-back comes back to you verbatim:
+The gate's hand-back comes back to you verbatim, and is on file in `state/gate.md`:
 
 | the hand-back carries | you do |
 |---|---|
 | a `Gate:` line | condense it into the block's `gate>` - a dozen words, and no `gate>` line at all when the gate changed nothing (`continuity-summary`) |
-| a `z4>` answer | copy it to the block's `z4>`, the literal `none` included |
+| a `z4>` answer | copy it to the block's `z4>` from `state/gate.md`, the literal `none` included |
 | `SENT BACK` | redraft the scene it names — back to Phase B — write the file, return `READY FOR GATE` again, and say in the report that it happened |
 | `For design:` items | carry every one into your report's `Bible:` line |
 | passes that ran without their card | name them in the step 6 report |
 
-On a pass the gate sets the chapter's `status: gated` as its last act. That is not finished:
-`revised` is stamped after step 5, and a chapter left at `gated` is named by the next read-set.
+The gate sets `status: gating` as its first act and `gated` as its last, on a pass. Neither is
+finished: `revised` is stamped after step 5, and the next read-set names a chapter left at either.
 
 If no gate agent can be summoned, the coordinator runs `revision-pass` inline and says so in the
 report — never you: your read guard refuses the gate's cards, and an inline gate is weaker
@@ -223,8 +223,8 @@ exactly because its runner already knows what the chapter meant.
 
 Run `continuity-summary` in **write mode**. It owns the list: the CCS block and its three
 step-proof lines — `cand>` and `gav>` **copied** from `state/brief.md`, `z4>` copied from the
-gate's hand-back, never recalled — the state files, what goes in your report's `Bible:` line
-rather than into `bible/`, and the stamp, which comes last. This step is not optional and not
+gate's hand-back in `state/gate.md`, never recalled — the state files, what goes in your report's
+`Bible:` line rather than into `bible/`, and the stamp, which comes last. This step is not optional and not
 deferrable to "later".
 
 ## Step 6 — Report

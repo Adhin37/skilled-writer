@@ -14,8 +14,8 @@ metadata:
 
 A chapter is not finished when it is drafted. This is the gate, and it is **Phase C of
 `write-chapter`** — not a later step, not a command the user types. Every chapter arrives here
-before it is reported, and does not leave until it passes — `status: gated`, set by the gate as
-its last act. `revised` comes after, when the drafter has written the chapter's state.
+before it is reported, and does not leave until it passes — `status: gating` as the gate's first
+act, `gated` as its last. `revised` comes after, when the drafter has written the chapter's state.
 
 Run the passes **in this order** — structural fixes invalidate line edits, so line editing goes
 last. Each pass is a search-and-decide, not a re-read.
@@ -23,8 +23,8 @@ last. Each pass is a search-and-decide, not a re-read.
 ## Pass Z — the story gate. Run this first, and be willing to stop here.
 
 Twenty passes in a fixed order is the right shape for *fixing* a chapter and the wrong shape for
-deciding whether it is worth fixing. Run #2 ran all sixteen it had then and shipped five `status: revised`
-chapters a reader flagged as machine-written on page one. Four questions that do ask, gating all
+deciding whether it is worth fixing. Run #2 ran them all and shipped five chapters a reader
+flagged as machine-written on page one. Four questions that do ask, gating all
 of it:
 
 | | question | fails when |
@@ -37,8 +37,7 @@ of it:
 **Z4 is the one that can fail a chapter for being safe**, and the only question in the gate that
 can: Z1 to Z3 are structural, and a chapter can satisfy all three and still be entirely
 predictable — which is a fair description of what run #2 shipped. A hundred prohibitions cannot
-produce a surprise; they only remove the bad ways of failing to have one (`CLAUDE.md` §5, and
-`docs/creative-latitude.md` for the measurement).
+produce a surprise; they only remove the bad ways of failing to have one (`CLAUDE.md` §5).
 
 What counts as an answer: a choice the reader did not see coming and believes afterwards · a
 character who wanted the opposite of what the scene needed · a detail nobody would have invented
@@ -54,11 +53,11 @@ repair is in Phase A's three candidates (`story-craft`'s card), not in the prose
 
 If Z1 or Z2 fails, **stop**. Do not run passes 0–10. A chapter whose central event never got
 played does not have prose problems, and polishing it yields a well-written chapter nobody wants
-to read. `sw lint` reports the countable half:
-`event` for Z1, `closer-sameness` for Z3. Z2 is yours.
+to read. `sw lint` reports the countable half: `event` for Z1, `closer-sameness` for Z3, and
+section lengths (`sections`) for Z2. Which section holds the event is yours to name, with its
+count, in the `Gate:` line (`roles/gate/revision-pass.fixing-and-reporting.md`).
 
-Stopping here means **going back to Phase B** and playing the scene, then gating the new text. It
-is the loop working, and the report says it happened.
+Stopping here sends it **back to Phase B** to play the scene, and the report says so.
 
 ---
 
@@ -297,7 +296,7 @@ Open **`roles/gate/revision-pass.fixing-and-reporting.md`** — the repair order
 design when a fix contradicts the plan or reveals a bible gap, the report format, and re-gating a
 chapter that was drafted earlier.
 
-Set `status: gated` when every pass is clean; the drafter stamps `revised` after the state write.
+Set `status: gated` when every pass is clean, and write the hand-back to `state/gate.md`.
 **Lead the report with what the chapter delivers**, and never quote a word count. This pass
 reports as the hand-back's `Gate:` line, which the drafter condenses into the block's `gate>` —
 the next chapter's WATCH row. You edit the chapter only; the rest goes under `For design:`.
